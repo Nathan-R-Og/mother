@@ -51,11 +51,12 @@
 .charmap $77, $F7 ;w == $F7
 .charmap $78, $F8 ;x == $F8
 .charmap $79, $F9 ;y == $F9
+.charmap $7A, $FA ;z == $FA
 
 ;symbols
 .charmap $20, $A0 ;" " == $A0
 .charmap $21, $A1 ;!
-.charmap $22, $A2 ;?
+.charmap $3F, $A2 ;?
 .charmap $23, $A3 ;..
 .charmap $24, $A4 ;$
 .charmap $25, $A5 ;.
@@ -63,7 +64,7 @@
 .charmap $27, $A7 ;' == $A7
 .charmap $28, $A8 ;(
 .charmap $29, $A9 ;)
-.charmap $2A, $AA ;:
+.charmap $3A, $AA ;:
 .charmap $2B, $AB ;;
 .charmap $2C, $AC ;, == $AC
 .charmap $2D, $AD ;-
@@ -82,11 +83,66 @@
 .charmap $38, $B8 ;8 == $B8
 .charmap $39, $B9 ;9 == $B9
 
-.DEFINE stopText 0
-.DEFINE newLine 1
+stopText := 0
+newLine := 1
 
 
-.incbin "../split/prg/bankc.bin", 0, $3CD0
+.incbin "../split/prg/bankc.bin", 0, $3b03
+
+;above here are variables or smth????? cursor control and whatever
+NintenQuestion:
+.byte   "What is this",newLine
+.byte   "boy's name?",stopText
+AnaQuestion:
+.byte   "What is this",newLine
+.byte   "girl's name?",stopText
+LloydQuestion:
+.byte   "This other",newLine
+.byte   "boy's name?",stopText
+TeddyQuestion:
+.byte   "This last",newLine
+.byte   "boy's name?",stopText
+FoodQuestion:
+.byte   "What is your",newLine
+.byte   "favorite food?",stopText
+ChangeName:
+.byte   "Please change",newLine
+.byte   "this name.",stopText
+CharExists:
+.byte   "A character in ",newLine
+.byte   "this game has  ",newLine
+.byte   "that name. Try ",newLine
+.byte   "again, and use ",newLine
+.byte   "only capital   ",newLine
+.byte   "letters.       ",stopText
+ExistEntries:
+.byte   "Mary?",newLine
+.byte   "Suzy?",newLine
+.byte   "George?",newLine
+.byte   "Maria?",newLine
+.byte   "Mimmie?",newLine
+.byte   "Minnie?",newLine
+.byte   "Pippi?",newLine
+.byte   "Duncan?",newLine
+.byte   "Laura?",newLine
+.byte   "Giegue?",newLine
+.byte   "Abbott?",newLine
+.byte   "Nancy?",newLine
+.byte   "Ullrich",newLine
+.byte   "Wally?",newLine
+.byte   "Kelly?",newLine
+.byte   "Juana?",newLine
+.byte   " ",newLine
+.byte   stopText
+
+NameCharacters:
+.byte   "ABCDEFG HIJKLMN",0
+.byte   "OPQRSTU VWXYZ.'",0
+.byte   "abcdefg hijklmn",0
+.byte   "opqrstu vwxyz-:",0
+;choicers
+.byte   0,0,$A1,0,0,0,0,0,0,$A2,0,0,0,0,0,0
+.byte   0,0,0,$A3,0,0,0,0,0,0,0,0,0,0,0,0
 
 ;LA2A2 in bank c loads everything from $B800 to $FFFF into $6000 in ram to $6800
 ;L9AA2 in bank a loads this specifically, in ram at $64D0
