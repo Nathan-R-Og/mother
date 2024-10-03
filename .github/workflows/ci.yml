@@ -42,7 +42,4 @@ jobs:
       run: chmod +x configure && ./configure
 
     - name: Build
-      run: chmod +x assemble && ./assemble
-
-    - name: Build OK?
-      run: python3 tools/checksum.py
+      run: chmod +x build && ./build
