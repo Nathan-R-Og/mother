@@ -1,0 +1,4 @@
+[submodule "cc65"]
+	path = cc65
+	url = https://github.com/cc65/cc65
+	branch = master

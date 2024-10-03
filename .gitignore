@@ -1,0 +1,6 @@
+disasm.asm
+*.nes
+*.deb
+split/
+disasm/
+map.txt

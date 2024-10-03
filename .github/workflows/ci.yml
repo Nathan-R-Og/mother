@@ -1,0 +1,48 @@
+name: Build
+
+on: 
+  push:
+    branches:
+      - main
+  pull_request_target:
+    branches:
+      - main
+
+jobs:
+  build_repo:
+    name: Build repo
+    runs-on: ubuntu-latest
+
+    strategy:
+        fail-fast: false
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        submodules: 'recursive'
+        ref: ${{ github.event.pull_request.head.sha }}
+
+    - name: fix submodule repos
+      run: git submodule update --remote
+
+    - name: Install package requirements
+      run: chmod +x install && ./install
+
+    - name: Get extra deps
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ secrets.SECRETREPO }}
+        token: ${{ secrets.SECRETREPOKEY }}
+        path: ci_repo
+    - name: Get the dep
+      run: cp ci_repo/mother/* .
+
+    - name: Setup
+      run: chmod +x configure && ./configure
+
+    - name: Build
+      run: chmod +x assemble && ./assemble
+
+    - name: Build OK?
+      run: python3 tools/checksum.py

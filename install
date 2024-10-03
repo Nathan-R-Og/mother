@@ -1,0 +1,12 @@
+#!/bin/bash
+if cat /etc/os-release | grep -E 'ID=debian|ID_LIKE=(.*)debian' &> /dev/null; then
+    supported=true
+    echo "Installing packages for Debian or derivative (apt)"
+    sudo apt update && sudo apt upgrade
+    sudo apt-get install make gcc git
+
+    #make subfolder
+    git submodule update --remote
+    #go in and install cc65
+    cd cc65 && make && sudo make unavail && sudo make avail && cd - 
+fi
