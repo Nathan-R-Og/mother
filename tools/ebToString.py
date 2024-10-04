@@ -1,7 +1,3 @@
-input = "37 0F 0F 12 37 A9 04 99 00 03 A5 64 99 01 03 A5 62 99 02 03 A5 63 99 03 03 A9 00 99 04 03 99 05 03 A5 60 99 06 03 A5 61 99 07 03 A9 01 85 E5 60 A9 50 85 62 A9 08 85 63 A9 00 85 64 A9 10 85 60 A9 80 85 61 60 18 A5 60 69 20 85 60 A5 61 69 00 85 61 18 A5 63 69 18 85 63 18 98 69 08 A8 60 18 A5 64 69 10 85 64 A5 65 69 00 85 65 18 A5 63 69 02 85 63 60 10 80 03 63 78 74 30 80 1C 63 B8 74 50 80 36 63 F8 74 70 80 4D 63 38 75 00 00 63 63 89 76 10 06 01 02 D0 01 08 0E 02 01 04 00 80 3A 0C 18 FA 62 01 01 01 08 40 23 C0 FF 00"
-
-
-
 #$41 - $5A == A - Z (bold)
 #$61 - $7A == a - z (bold)
 #$b0 - $b9 == 0 - 9
@@ -42,35 +38,159 @@ table = {
     0xAD: "-",
     0xAE: ".",
     0xAF: "/",
+    0xC0: "*",
 }
 
-input = input.replace(" ", "")
 
 
-string = ""
-i = 0
-while i < len(input):
-    val = int("0x"+input[i:i+2], 16)
-    alphabet_C_B = range(0x41, 0x5A+1)
-    alphabet_l_B = range(0x61, 0x7A+1)
-    numbers = range(0xb0, 0xb9+1)
-    alphabet_C = range(0xc1, 0xdA+1)
-    alphabet_l = range(0xe1, 0xfA+1)
-    if val in alphabet_C_B:
-        string += chr(ord("A")+(val-0x41))
-    elif val in alphabet_C:
-        string += chr(ord("A")+(val-0xc1))
-    elif val in alphabet_l_B:
-        string += chr(ord("a")+(val-0x61))
-    elif val in alphabet_l:
-        string += chr(ord("a")+(val-0xe1))
-    elif val in numbers:
-        string += chr(ord("0")+(val-0xb0))
-    elif val in list(table.keys()):
-        string += table[val]
+def ebToString(input, asm=False):
+    lines = []
+
+    input = input.replace(" ", "")
+
+    string = ""
+    i = 0
+    while i < len(input):
+        val = int("0x"+input[i:i+2], 16)
+        alphabet_C_B = range(0x41, 0x5A+1)
+        alphabet_l_B = range(0x61, 0x7A+1)
+        numbers = range(0xb0, 0xb9+1)
+        alphabet_C = range(0xc1, 0xdA+1)
+        alphabet_l = range(0xe1, 0xfA+1)
+        if val in alphabet_C_B:
+            string += chr(ord("A")+(val-0x41))
+        elif val in alphabet_C:
+            string += chr(ord("A")+(val-0xc1))
+        elif val in alphabet_l_B:
+            string += chr(ord("a")+(val-0x61))
+        elif val in alphabet_l:
+            string += chr(ord("a")+(val-0xe1))
+        elif val in numbers:
+            string += chr(ord("0")+(val-0xb0))
+        elif val in [0, 1, 3, 0x23, 0x21] and asm:
+            if val == 0:
+                lines.append(".byte   stopText")
+                lines.append("")
+            elif val == 1:
+                content = string.split("|")
+                x = 0
+                while x < len(content):
+                    if content[x].find("`") != -1:
+                        content[x] = content[x].replace("`", "")
+                    elif content[x] == "":
+                        content.pop(x)
+                        x -= 1
+                    else:
+                        if content[x].find('"') != -1:
+                            content[x] = "'"+content[x]+"'"
+                        else:
+                            content[x] = '"'+content[x]+'"'
+                    
+                    x += 1
+                lines.append(f'.byte   {",".join(content)},newLine')
+                string = ""
+            elif val == 3:
+                lines.append(".byte   pauseText")
+            elif val in range(0x20, 0x23+1):
+                i += 2
+                if input[i:i+8] == "15740300":
+                    string+="|`cashDeposit"
+                    i += 4
+                elif input[i:i+8] == "12740300":
+                    string+="|`currentCash"
+                    i += 4
+                elif input[i:i+8] == "2A000200":
+                    string+="|`price"
+                    i += 4
+                elif input[i:i+8] == "90050200":
+                    string+="|`damageAmount"
+                    i += 4
+                elif input[i:i+8] == "92050200":
+                    string+="|`defenseStat"
+                    i += 4
+                elif input[i:i+8] == "5D000100":
+                    string+="|`lvHPPPinc"
+                    i += 4
+                elif input[i:i+8] == "58000100":
+                    string+="|`lvFIGinc"
+                    i += 4
+                elif input[i:i+8] == "59000100":
+                    string+="|`lvSPDinc"
+                    i += 4
+                elif input[i:i+8] == "5A000100":
+                    string+="|`lvWISinc"
+                    i += 4
+                elif input[i:i+8] == "5B000100":
+                    string+="|`lvSTRinc"
+                    i += 4
+                elif input[i:i+8] == "5C000100":
+                    string+="|`lvFORinc"
+                    i += 4
+                elif input[i:i+18] == "9798999A9B9C9D9E9F":
+                    string+="|`SMAAAAASH"
+                    i += 4
+                elif input[i:i+4] == "206D":
+                    string+="|`user"
+                elif input[i:i+4] == "246D":
+                    string+="|`recipient"
+                elif input[i:i+4] == "006D":
+                    string+="|`result"
+                elif input[i:i+4] == "8976":
+                    string+="|`favFood"
+                elif input[i:i+4] == "7874":
+                    string+="|`nintenName"
+                elif input[i:i+4] == "F874":
+                    string+="|`lloydName"
+                elif input[i:i+4] == "B874":
+                    string+="|`anaName"
+                elif input[i:i+4] == "3875":
+                    string+="|`teddyName"
+                elif input[i:i+4] == "0A67":
+                    string+="|`partyLead"
+                elif input[i:i+4] == "046D":
+                    string+="|`item"
+                elif input[i:i+4] == "2074":
+                    string+="|`playerName"
+                elif input[i:i+4] == "8005":
+                    string+="|`attacker"
+                elif input[i:i+4] == "8805":
+                    string+="|`beingAttacked"
+                elif input[i:i+4] == "9005":
+                    string+="|`attackResult"
+                elif input[i:i+4] == "0806":
+                    string+="|`unk"
+                elif input[i:i+4] == "0807":
+                    string+="|`unk2"
+                elif input[i:i+4] == "a010":
+                    string+="|`unk3"
+                else:
+                    string+"|`unk"+input[i:i+4]
+                    print("VARERR")
+                string += "|"
+                i += 2
+
+
+
+
+        elif val in list(table.keys()):
+            string += table[val]
+        else:
+            #unsupported
+            print(hex(val))
+        i += 2
+
+    if asm:
+        for line in lines:
+            print(line)
     else:
-        #unsupported
-        print(hex(val))
-    i += 2
+        print(string)
 
-print(string)
+def stringToEb(string):
+    output = ""
+    i = 0
+    while i < len(string):
+        output += hex(ord(string[i]) + 0x80).replace("0x","")
+        i += 1
+    output += "00"
+    print(output)
+
