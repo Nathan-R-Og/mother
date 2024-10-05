@@ -4,7 +4,25 @@
 
 .include "../fontmap.asm"
 
-.incbin "../split/prg/bankc.bin", 0, $3AE8
+MSG_pointerList:
+.word 0
+.byte 0
+.word MSG_MYHOME_MINNIE_INVASION
+.byte 0
+.word MSG_MYHOME_MINNIE_INVASION_FIGHT
+.byte 0
+.word MSG_MYHOME_MINNIE_INVASION_FIGHT_2
+.byte 0
+.word MSG_MYHOME_JUICE
+.byte 0
+.word MSG_MYHOME_MIMMIE_INVASION
+.byte 0
+.word MSG_MYHOME_MIMMIE_INVASION_FIGHT
+.byte 0
+.word 0
+.byte 0
+
+.incbin "../split/prg/bankc.bin", $18, $3AD0;$3AE8
 
 ;ramOffset := $5800
 gridWidth: .byte 16
@@ -112,7 +130,11 @@ IntroText2:
 
 .else
 
-.incbin "../split/prg/bankc.bin"
+.byte 0
+
+.include "../dialogue1.asm"
+
+.incbin "../split/prg/bankc.bin", $2000, $4000-$2000
 
 .endif
 

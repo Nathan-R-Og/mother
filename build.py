@@ -29,7 +29,7 @@ if __name__ == "__main__":
         linker = "linker-j.cfg"
 
     subprocess.run(f"ca65 {DEFINES} -o example.o -g src/main.asm".strip(), shell = True, executable="/bin/bash")
-    subprocess.run(f"ld65 -C {linker} -o mother_rebuilt.nes example.o", shell = True, executable="/bin/bash")
+    subprocess.run(f"ld65 -Ln linked.txt -C {linker} -o mother_rebuilt.nes example.o", shell = True, executable="/bin/bash")
 
     
     

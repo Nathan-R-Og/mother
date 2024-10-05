@@ -1,3 +1,7 @@
+;this helps us even use quotes in the first place.
+;if a better method if found (escapes dont work), deprecate this.
+.FEATURE loose_string_term
+
 .ifndef VER_JP
 
 .charmap $41, $C1 ;A == $C1
@@ -55,10 +59,6 @@
 .charmap $7A, $FA ;z == $FA
 
 ;symbols
-
-;this helps us even use quotes in the first place.
-;if a better method if found (escapes dont work), deprecate this.
-.FEATURE loose_string_term
 
 .charmap $20, $A0 ;" " == $A0
 .charmap $21, $A1 ;!
@@ -141,8 +141,35 @@ omega = $BF ; Ω
 .else
 
 
-;for the kanji that have accents/circles, insert a tile that goes in $00-$3F.
-;there, it will be offset and the accent tile will be put above.
+.charmap $24, $40 ;$
+;these are actually 100% accurate. thanks ape!
+;.charmap $41, $41 ;A == $41
+;.charmap $42, $42 ;B == $42
+;.charmap $43, $43 ;C == $43
+;.charmap $44, $44 ;D == $44
+;.charmap $45, $45 ;E == $45
+;.charmap $46, $46 ;F == $46
+;.charmap $47, $47 ;G == $47
+;.charmap $48, $48 ;H == $48
+;.charmap $49, $49 ;I == $49
+;.charmap $4A, $4A ;J == $4A
+;.charmap $4B, $4B ;K == $4B
+;.charmap $4C, $4C ;L == $4C
+;.charmap $4D, $4D ;M == $4D
+;.charmap $4E, $4E ;N == $4E
+;.charmap $4F, $4F ;O == $4F
+;.charmap $50, $50 ;P == $50
+;.charmap $51, $51 ;Q == $51
+;.charmap $52, $52 ;R == $52
+;.charmap $53, $53 ;S == $53
+;.charmap $54, $54 ;T == $54
+;.charmap $55, $55 ;U == $55
+;.charmap $56, $56 ;V == $56
+;.charmap $57, $57 ;W == $57
+;.charmap $58, $58 ;X == $58
+;.charmap $59, $59 ;Y == $59
+;.charmap $5A, $5A ;Z == $5A
+
 .charmap $30, $5B ;0 == $B0
 .charmap $31, $5C ;1 == $B1
 .charmap $32, $5D ;2 == $B2
@@ -157,9 +184,13 @@ omega = $BF ; Ω
 ;these are most likely the actual japanese variants but i cannot be fucked
 .charmap $2D, $D0 ;- == $D0
 .charmap $2E, $70 ;. == $70
+.charmap $21, $C1 ;!
+.charmap $3F, $C2 ;?
 .charmap $2C, $60 ;, == $60
 .charmap $2A, $90 ;* == $C0 (is technically ◆, but can't be typed/is too big)
 
+.charmap $28, $74 ;(
+.charmap $29, $75 ;)
 
 ;basically .charmap for kanji
 ;technically can be for any symbol, though i only really made it for japanese
@@ -172,7 +203,7 @@ stopText = 0
 newLine = 1
 waitThenOverwrite = 2
 pauseText = 3
-.define cashDeposit $23,$15,$74,pauseText,stopText
+.define cashDeposit $23,$15,$74,pauseText,stopText;DIFFERENT
 .define currentCash $23,$12,$74,pauseText,stopText
 .define price $23,$2A,stopText,waitThenOverwrite,stopText
 .define damageAmount $23,$90,$05,waitThenOverwrite,stopText
@@ -192,7 +223,7 @@ pauseText = 3
 .define lloydName $21,$F8,$74
 .define anaName $21,$B8,$74
 .define teddyName $21,$38,$75
-.define partyLead $21,$0A,$67
+.define partyLead $21,$0A,$6D;DIFFERENT
 .define item $21,$04,$6D
 .define playerName $21,$20,$74
 .define attacker $21,$80,$05
@@ -220,11 +251,24 @@ omega = $BF ; Ω
     .repeat .strlen(Arg), I
         .if ((I < .strlen(Arg) - 2) && skipInc = 0)
             skipInc .set 2
-            .if (.strat(Arg, I) = $E3)
+            .if (.strat(Arg, I) = $E2)
+                .if (.strat(Arg, I+1) = $80)
+                    ;‥
+                    .if ((.strat(Arg, I+2) = $A5))
+                        .byte   $71
+                    .endif
+                .endif
+            .elseif (.strat(Arg, I) = $E3)
                 .if (.strat(Arg, I+1) = $80)
                     ;。
                     .if ((.strat(Arg, I+2) = $82))
                         .byte   $ff
+                    ;「
+                    .elseif ((.strat(Arg, I+2) = $8C))
+                        .byte   $72
+                    ;」
+                    .elseif ((.strat(Arg, I+2) = $8D))
+                        .byte   $73
                     .endif
                 .elseif (.strat(Arg, I+1) = $81)
                     ;.if ((.strat(Arg, I+2) >= $81) && (.strat(Arg, I+2) <= $8A))
@@ -731,6 +775,9 @@ omega = $BF ; Ω
                     ;ン
                     .elseif ((.strat(Arg, I+2) = $B3))
                         .byte   $FD
+                    ;ヴ
+                    .elseif ((.strat(Arg, I+2) = $B4))
+                        .byte   $3F
                     .endif
                 .endif
             .else

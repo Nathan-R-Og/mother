@@ -3,4 +3,5 @@ disasm.asm
 *.deb
 split/
 disasm/
-map.txt
+linked.txt
+*.o
