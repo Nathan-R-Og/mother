@@ -2,6 +2,15 @@
 
 .include "header.asm"
 
+PAD_A := 1 << 7
+PAD_B := 1 << 6
+PAD_SELECT := 1 << 5
+PAD_START := 1 << 4
+PAD_UP := 1 << 3
+PAD_DOWN := 1 << 2
+PAD_LEFT := 1 << 1
+PAD_RIGHT := 1 << 0
+
 ;prg
 .include "prg/bank0.asm"
 .include "prg/bank1.asm"
@@ -37,6 +46,10 @@
 .include "chr/bank1d.asm"
 .include "chr/bank1e.asm"
 .include "chr/bank1f.asm"
+
+;jp doesnt have 16 extra chr banks
+.ifndef VER_JP
+
 .include "chr/bank20.asm"
 .include "chr/bank21.asm"
 .include "chr/bank22.asm"
@@ -55,4 +68,6 @@
 .segment        "CHR1D": absolute
 .segment        "CHR1E": absolute
 .segment        "CHR1F": absolute
+
+.endif
     

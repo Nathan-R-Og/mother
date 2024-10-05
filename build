@@ -1,7 +1,5 @@
 #!/bin/bash
-ca65 -o example.o src/main.asm
-ld65 -C linker.cfg -o mother_rebuilt.nes example.o
+python3 build.py "$@"
 rm -rf example.o
 rm -rf mother_rebuilt.nes.deb
-rm -rf eb0.nes.deb
-python3 tools/checksum.py
+python3 tools/checksum.py "$@"

@@ -1,5 +1,7 @@
 .segment        "PRG0": absolute
 
+.ifndef VER_JP
+
 .include "../fontmap.asm"
 
 .byte 0
@@ -303,8 +305,11 @@
 
 .incbin "../split/prg/bank0.bin", $C00, $3400
 
+.else
 
+.incbin "../split/prg/bank0.bin"
 
+.endif
 
 .code
 

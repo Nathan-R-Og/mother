@@ -1,4 +1,7 @@
 .segment        "PRGA": absolute
+
+.ifndef VER_JP
+
 ramOffset := $5800
         .incbin "../split/prg/banka.bin", 0, $1ab5
         ldx     #.LOBYTE(IntroText1-ramOffset)
@@ -29,5 +32,11 @@ L9CAF:  lda     ExistEntries-ramOffset,x
 L9CBF:  lda     ExistEntries-ramOffset,x
         .incbin "../split/prg/banka.bin", $1CC2, $233E
         
+.else
+
+.incbin "../split/prg/banka.bin"
+
+.endif
+
 .code
 

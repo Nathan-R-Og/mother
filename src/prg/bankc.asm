@@ -1,16 +1,8 @@
 .segment        "PRGC": absolute
 
+.ifndef VER_JP
+
 .include "../fontmap.asm"
-
-
-PAD_A := 1 << 7
-PAD_B := 1 << 6
-PAD_SELECT := 1 << 5
-PAD_START := 1 << 4
-PAD_UP := 1 << 3
-PAD_DOWN := 1 << 2
-PAD_LEFT := 1 << 1
-PAD_RIGHT := 1 << 0
 
 .incbin "../split/prg/bankc.bin", 0, $3AE8
 
@@ -117,5 +109,11 @@ IntroText2:
 .byte   "80 years have passed",newLine
 .byte   " ",newLine
 .byte   "since then.",stopText
+
+.else
+
+.incbin "../split/prg/bankc.bin"
+
+.endif
 
 .code
