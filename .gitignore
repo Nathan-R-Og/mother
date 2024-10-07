@@ -1,7 +1,9 @@
-disasm.asm
 *.nes
 *.deb
 split/
 disasm/
+global/
+build_artifacts/
 linked.txt
 *.o
+tools/__pycache__

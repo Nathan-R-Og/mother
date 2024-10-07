@@ -38,14 +38,11 @@ jobs:
     - name: Get the dep
       run: cp ci_repo/mother/* .
 
-    - name: Setup US
+    - name: Setup
       run: chmod +x configure && ./configure
 
     - name: Build US
       run: chmod +x build && ./build
-
-    - name: Setup JP
-      run: ./configure -j
 
     - name: Build JP
       run: ./build -j
