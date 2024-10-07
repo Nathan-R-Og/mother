@@ -2,7 +2,6 @@
 *.deb
 split/
 disasm/
-global/
 build_artifacts/
 linked.txt
 *.o

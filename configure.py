@@ -45,13 +45,19 @@ def splitMerger():
         os.makedirs(f"split/global/prg")
         os.makedirs(f"split/global/chr")
 
-    shutil.copyfile("split/jp/chr/bank13.bin", "split/global/chr/bank13.bin")
-    shutil.copyfile("split/jp/chr/bank14.bin", "split/global/chr/bank14.bin")
-    shutil.copyfile("split/jp/chr/bank15.bin", "split/global/chr/bank15.bin")
-    shutil.copyfile("split/jp/chr/bank16.bin", "split/global/chr/bank16.bin") #minor diffs
+    #make sure the user has either split
+    usedir = []
+    for lang in ["jp", "us"]:
+        if os.path.exists(f"split/{lang}/"):
+            usedir.append(lang)
+
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank13.bin", "split/global/chr/bank13.bin")
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank14.bin", "split/global/chr/bank14.bin")
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank15.bin", "split/global/chr/bank15.bin")
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank16.bin", "split/global/chr/bank16.bin") #minor diffs
 
 
-    shutil.copyfile("split/jp/chr/bank1a.bin", "split/global/chr/bank1a.bin")
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank1a.bin", "split/global/chr/bank1a.bin")
 
 
 
