@@ -2,8 +2,15 @@
 
 .include "../fontmap.asm"
 
-.incbin "../../split/jp/chr/bank1f.bin", 0, $c51
+;random battle sprite pieces
+incbinRange "../../split/jp/chr/bank1f.bin", 0, $800
 
+
+incbinRange "../../split/jp/chr/bank1f.bin", $800, $C51
+
+
+
+NameCharacters:
 kanjifix "あいうえお"
 .byte 0
 kanjifix "アイウエオ"
@@ -95,7 +102,13 @@ kanjifix "パピプペポ"
 .byte 0
 
 
-.incbin "../../split/jp/chr/bank1f.bin", $D4B, $12B5
+;padding
+.repeat $2B5
+.byte $FF
+.endrepeat
+
+;text gfx
+.incbin "../../split/jp/chr/bank1f.bin", $1000
 
 
 .code

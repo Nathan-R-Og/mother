@@ -39,6 +39,7 @@ table = {
     0xAE: ".",
     0xAF: "/",
     0xC0: "*",
+    0xFF: ">",
 }
 
 
@@ -252,104 +253,110 @@ def ebToString(input:str, asm=False, english=True):
             elif val in numbers:
                 string += chr(ord("0")+(val-0xb0))
             elif val in [0, 1, 3] + list(range(0x20, 0x23+1))and asm:
-                if val == 0:
-                    lines.append(".byte   stopText")
-                    lines.append("")
-                elif val == 1:
-                    content = string.split("|")
-                    x = 0
-                    while x < len(content):
-                        if content[x].find("`") != -1:
-                            content[x] = content[x].replace("`", "")
-                        elif content[x] == "":
-                            content.pop(x)
-                            x -= 1
-                        else:
-                            if content[x].find('"') != -1:
-                                content[x] = "'"+content[x]+"'"
+                if val == 1 or val == 0:
+                    if string != "":
+                        content = string.split("|")
+                        x = 0
+                        while x < len(content):
+                            if content[x].find("`") != -1:
+                                content[x] = content[x].replace("`", "")
+                            elif content[x] == "":
+                                content.pop(x)
+                                x -= 1
                             else:
-                                content[x] = '"'+content[x]+'"'
-                        
-                        x += 1
-                    lines.append(f'.byte   {",".join(content)},newLine')
+                                if content[x].find('"') != -1:
+                                    content[x] = "'"+content[x]+"'"
+                                else:
+                                    content[x] = '"'+content[x]+'"'
+                            x += 1
+                        if val == 1:
+                            lines.append(f'.byte   {",".join(content)},newLine')
+                        else:
+                            lines.append(f'.byte   {",".join(content)}')
+                    #stopTexts dont depend on text and are usually singled if null
+                    if val == 0:
+                        lines.append(".byte   stopText")
+                        lines.append("")
+
                     string = ""
                 elif val == 3:
                     lines.append(".byte   pauseText")
                 elif val in range(0x20, 0x23+1):
                     i += 2
-                    if input[i:i+8] == "15740300":
+                    if input[i:i+8].upper() == "15740300":
                         string+="|`cashDeposit"
                         i += 4
-                    elif input[i:i+8] == "12740300":
+                    elif input[i:i+8].upper() == "12740300":
                         string+="|`currentCash"
                         i += 4
-                    elif input[i:i+8] == "2A000200":
+                    elif input[i:i+8].upper() == "2A000200":
                         string+="|`price"
                         i += 4
-                    elif input[i:i+8] == "90050200":
+                    elif input[i:i+8].upper() == "90050200":
                         string+="|`damageAmount"
                         i += 4
-                    elif input[i:i+8] == "92050200":
+                    elif input[i:i+8].upper() == "92050200":
                         string+="|`defenseStat"
                         i += 4
-                    elif input[i:i+8] == "5D000100":
+                    elif input[i:i+8].upper() == "5D000100":
                         string+="|`lvHPPPinc"
                         i += 4
-                    elif input[i:i+8] == "58000100":
+                    elif input[i:i+8].upper() == "58000100":
                         string+="|`lvFIGinc"
                         i += 4
-                    elif input[i:i+8] == "59000100":
+                    elif input[i:i+8].upper() == "59000100":
                         string+="|`lvSPDinc"
                         i += 4
-                    elif input[i:i+8] == "5A000100":
+                    elif input[i:i+8].upper() == "5A000100":
                         string+="|`lvWISinc"
                         i += 4
-                    elif input[i:i+8] == "5B000100":
+                    elif input[i:i+8].upper() == "5B000100":
                         string+="|`lvSTRinc"
                         i += 4
-                    elif input[i:i+8] == "5C000100":
+                    elif input[i:i+8].upper() == "5C000100":
                         string+="|`lvFORinc"
                         i += 4
-                    elif input[i:i+18] == "9798999A9B9C9D9E9F":
+                    elif input[i:i+18].upper() == "9798999A9B9C9D9E9F":
                         string+="|`SMAAAAASH"
                         i += 4
-                    elif input[i:i+4] == "206D":
+                    elif input[i:i+4].upper() == "206D":
                         string+="|`user"
-                    elif input[i:i+4] == "246D":
+                    elif input[i:i+4].upper() == "246D":
                         string+="|`recipient"
-                    elif input[i:i+4] == "006D":
+                    elif input[i:i+4].upper() == "006D":
                         string+="|`result"
-                    elif input[i:i+4] == "8976":
+                    elif input[i:i+4].upper() == "8976":
                         string+="|`favFood"
-                    elif input[i:i+4] == "7874":
+                    elif input[i:i+4].upper() == "7874":
                         string+="|`nintenName"
-                    elif input[i:i+4] == "F874":
+                    elif input[i:i+4].upper() == "F874":
                         string+="|`lloydName"
-                    elif input[i:i+4] == "B874":
+                    elif input[i:i+4].upper() == "B874":
                         string+="|`anaName"
-                    elif input[i:i+4] == "3875":
+                    elif input[i:i+4].upper() == "3875":
                         string+="|`teddyName"
-                    elif input[i:i+4] == "0A67":
+                    elif input[i:i+4].upper() == "0A67":
                         string+="|`partyLead"
-                    elif input[i:i+4] == "046D":
+                    elif input[i:i+4].upper() == "046D":
                         string+="|`item"
-                    elif input[i:i+4] == "2074":
+                    elif input[i:i+4].upper() == "2074":
                         string+="|`playerName"
-                    elif input[i:i+4] == "8005":
+                    elif input[i:i+4].upper() == "8005":
                         string+="|`attacker"
-                    elif input[i:i+4] == "8805":
+                    elif input[i:i+4].upper() == "8805":
                         string+="|`beingAttacked"
-                    elif input[i:i+4] == "9005":
+                    elif input[i:i+4].upper() == "9005":
                         string+="|`attackResult"
-                    elif input[i:i+4] == "0806":
+                    elif input[i:i+4].upper() == "0806":
                         string+="|`unk"
-                    elif input[i:i+4] == "0807":
+                    elif input[i:i+4].upper() == "0807":
                         string+="|`unk2"
-                    elif input[i:i+4] == "a010":
+                    elif input[i:i+4].upper() == "A010":
                         string+="|`unk3"
                     else:
-                        string+"|`unk"+input[i:i+4]
-                        print("VARERR")
+                        cmd = input[i-2:i+4]
+                        string+="|`unk"+cmd
+                        print("VARERR "+cmd)
                     string += "|"
                     i += 2
 
@@ -392,75 +399,75 @@ def ebToString(input:str, asm=False, english=True):
                     lines.append(".byte   pauseText")
                 elif val in range(0x20, 0x23+1):
                     i += 2
-                    if input[i:i+8] == "15740300":
+                    if input[i:i+8].upper() == "15740300":
                         lines.append(".byte   cashDeposit")
                         i += 4
-                    elif input[i:i+8] == "12740300":
+                    elif input[i:i+8].upper() == "12740300":
                         lines.append(".byte   currentCash")
                         i += 4
-                    elif input[i:i+8] == "2A000200":
+                    elif input[i:i+8].upper() == "2A000200":
                         lines.append(".byte   price")
                         i += 4
-                    elif input[i:i+8] == "90050200":
+                    elif input[i:i+8].upper() == "90050200":
                         lines.append(".byte   damageAmount")
                         i += 4
-                    elif input[i:i+8] == "92050200":
+                    elif input[i:i+8].upper() == "92050200":
                         lines.append(".byte   defenseStat")
                         i += 4
-                    elif input[i:i+8] == "5D000100":
+                    elif input[i:i+8].upper() == "5D000100":
                         lines.append(".byte   lvHPPPinc")
                         i += 4
-                    elif input[i:i+8] == "58000100":
+                    elif input[i:i+8].upper() == "58000100":
                         lines.append(".byte   lvFIGinc")
                         i += 4
-                    elif input[i:i+8] == "59000100":
+                    elif input[i:i+8].upper() == "59000100":
                         lines.append(".byte   lvSPDinc")
                         i += 4
-                    elif input[i:i+8] == "5A000100":
+                    elif input[i:i+8].upper() == "5A000100":
                         lines.append(".byte   lvWISinc")
                         i += 4
-                    elif input[i:i+8] == "5B000100":
+                    elif input[i:i+8].upper() == "5B000100":
                         lines.append(".byte   lvSTRinc")
                         i += 4
-                    elif input[i:i+8] == "5C000100":
+                    elif input[i:i+8].upper() == "5C000100":
                         lines.append(".byte   lvFORinc")
                         i += 4
-                    elif input[i:i+18] == "6768696A6B6C6D6E6F":
+                    elif input[i:i+18].upper() == "6768696A6B6C6D6E6F":
                         lines.append(".byte   SMAAAAASH")
                         i += 4
-                    elif input[i:i+4] == "206D":
+                    elif input[i:i+4].upper() == "206D":
                         lines.append(".byte   user")
-                    elif input[i:i+4] == "246D":
+                    elif input[i:i+4].upper() == "246D":
                         lines.append(".byte   recipient")
-                    elif input[i:i+4] == "006D":
+                    elif input[i:i+4].upper() == "006D":
                         lines.append(".byte   result")
-                    elif input[i:i+4] == "8976":
+                    elif input[i:i+4].upper() == "8976":
                         lines.append(".byte   favFood")
-                    elif input[i:i+4] == "7874":
+                    elif input[i:i+4].upper() == "7874":
                         lines.append(".byte   nintenName")
-                    elif input[i:i+4] == "F874":
+                    elif input[i:i+4].upper() == "F874":
                         lines.append(".byte   lloydName")
-                    elif input[i:i+4] == "B874":
+                    elif input[i:i+4].upper() == "B874":
                         lines.append(".byte   anaName")
-                    elif input[i:i+4] == "3875":
+                    elif input[i:i+4].upper() == "3875":
                         lines.append(".byte   teddyName")
-                    elif input[i:i+4] == "0A6D":
+                    elif input[i:i+4].upper() == "0A6D":
                         lines.append(".byte   partyLead")
-                    elif input[i:i+4] == "046D":
+                    elif input[i:i+4].upper() == "046D":
                         lines.append(".byte   item")
-                    elif input[i:i+4] == "2074":
+                    elif input[i:i+4].upper() == "2074":
                         lines.append(".byte   playerName")
-                    elif input[i:i+4] == "8005":
+                    elif input[i:i+4].upper() == "8005":
                         lines.append(".byte   attacker")
-                    elif input[i:i+4] == "8805":
+                    elif input[i:i+4].upper() == "8805":
                         lines.append(".byte   beingAttacked")
-                    elif input[i:i+4] == "9005":
+                    elif input[i:i+4].upper() == "9005":
                         lines.append(".byte   attackResult")
-                    elif input[i:i+4] == "0806":
+                    elif input[i:i+4].upper() == "0806":
                         lines.append(".byte   unk")
-                    elif input[i:i+4] == "0807":
+                    elif input[i:i+4].upper() == "0807":
                         lines.append(".byte   unk2")
-                    elif input[i:i+4] == "a010":
+                    elif input[i:i+4].upper() == "A010":
                         lines.append(".byte   unk3")
                     else:
                         cmd = input[i-2:i+4]
@@ -472,8 +479,10 @@ def ebToString(input:str, asm=False, english=True):
             i += 2
 
     if asm:
+        result = ""
         for line in lines:
-            return line
+            result += line+"\n"
+        return result
     else:
         return string
 

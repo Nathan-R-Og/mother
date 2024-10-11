@@ -19,7 +19,11 @@ PAD_RIGHT := 1 << 0
     .endif
 .endmacro
 
-.include "prg/bank0.asm"
+.macro incbinRange path, start, end
+        .incbin path, start, end-start
+.endmacro
+
+binclude "prg/bank0.asm"
 .include "prg/bank1.asm"
 .include "prg/bank2.asm"
 .include "prg/bank3.asm"
@@ -36,20 +40,20 @@ binclude "prg/bankd.asm"
 .include "prg/banke.asm"
 .include "prg/bankf.asm"
 
-.include "chr/bank10.asm"
-.include "chr/bank11.asm"
-.include "chr/bank12.asm"
+.include "../global/chr/bank10.asm"
+.include "../global/chr/bank11.asm"
+.include "../global/chr/bank12.asm"
 .include "../global/chr/bank13.asm"
 .include "../global/chr/bank14.asm"
 .include "../global/chr/bank15.asm"
 .include "../global/chr/bank16.asm"
-.include "chr/bank17.asm"
-.include "chr/bank18.asm"
-.include "chr/bank19.asm"
+.include "../global/chr/bank17.asm"
+.include "../global/chr/bank18.asm"
+.include "../global/chr/bank19.asm"
 .include "../global/chr/bank1a.asm"
 binclude "chr/bank1b.asm"
-.include "chr/bank1c.asm"
-.include "chr/bank1d.asm"
-.include "chr/bank1e.asm"
+.include "../global/chr/bank1c.asm"
+.include "../global/chr/bank1d.asm"
+.include "../global/chr/bank1e.asm"
 binclude "chr/bank1f.asm"
     

@@ -2,25 +2,28 @@
 
 .include "../fontmap.asm"
 
-MSG_pointerList:
-.word 0
-.byte 0
-.word MSG_MYHOME_MINNIE_INVASION
-.byte 0
-.word MSG_MYHOME_MINNIE_INVASION_FIGHT
-.byte 0
-.word MSG_MYHOME_MINNIE_INVASION_FIGHT_2
-.byte 0
-.word MSG_MYHOME_JUICE
-.byte 0
-.word MSG_MYHOME_MIMMIE_INVASION
-.byte 0
-.word MSG_MYHOME_MIMMIE_INVASION_FIGHT
-.byte 0
-.word 0
-.byte 0
+.include "../text_pointers.asm"
 
-.incbin "../../split/us/prg/bankc.bin", $18, $3AD0;$3AE8
+;???? padding??
+.repeat $690
+.byte $FF
+.endrepeat
+
+;intial sram
+incbinRange "../../split/us/prg/bankc.bin", $1e00, $1e40
+;initial character data
+incbinRange "../../split/us/prg/bankc.bin", $1e40, $2000
+;anti-piracy
+incbinRange "../../split/us/prg/bankc.bin", $2000, $28A4
+
+;???? padding??
+.repeat $F5C
+.byte $FF
+.endrepeat
+
+;intro stuff
+incbinRange "../../split/us/prg/bankc.bin", $3800, $3ae8
+
 
 ;ramOffset := $5800
 gridWidth: .byte 16
@@ -95,8 +98,8 @@ NameCharacters:
 .byte   "abcdefg hijklmn",0
 .byte   "opqrstu vwxyz-:",0
 ;choicers
-.byte   0,0,$A1,0,0,0,0,0,0,$A2,0,0,0,0,0,0
-.byte   0,0,0,$A3,0,0,0,0,0,0,0,0,0,0,0,0
+.byte   0,0,$A1,  0,0,0,0,0,0,$A2,0,0,0,0,0,0
+.byte   0,0,  0,$A3,0,0,0,0,0,  0,0,0,0,0,0,0
 
 ;LA2A2 in bank c loads everything from $B800 to $FFFF into $6000 in ram to $6800
 ;L9AA2 in bank a loads this specifically, in ram at $64D0

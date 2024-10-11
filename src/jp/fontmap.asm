@@ -4,32 +4,32 @@
 
 .charmap $24, $40 ;$
 ;these are actually 100% accurate. thanks ape!
-;.charmap $41, $41 ;A == $41
-;.charmap $42, $42 ;B == $42
-;.charmap $43, $43 ;C == $43
-;.charmap $44, $44 ;D == $44
-;.charmap $45, $45 ;E == $45
-;.charmap $46, $46 ;F == $46
-;.charmap $47, $47 ;G == $47
-;.charmap $48, $48 ;H == $48
-;.charmap $49, $49 ;I == $49
-;.charmap $4A, $4A ;J == $4A
-;.charmap $4B, $4B ;K == $4B
-;.charmap $4C, $4C ;L == $4C
-;.charmap $4D, $4D ;M == $4D
-;.charmap $4E, $4E ;N == $4E
-;.charmap $4F, $4F ;O == $4F
-;.charmap $50, $50 ;P == $50
-;.charmap $51, $51 ;Q == $51
-;.charmap $52, $52 ;R == $52
-;.charmap $53, $53 ;S == $53
-;.charmap $54, $54 ;T == $54
-;.charmap $55, $55 ;U == $55
-;.charmap $56, $56 ;V == $56
-;.charmap $57, $57 ;W == $57
-;.charmap $58, $58 ;X == $58
-;.charmap $59, $59 ;Y == $59
-;.charmap $5A, $5A ;Z == $5A
+.charmap $41, $41 ;A == $41
+.charmap $42, $42 ;B == $42
+.charmap $43, $43 ;C == $43
+.charmap $44, $44 ;D == $44
+.charmap $45, $45 ;E == $45
+.charmap $46, $46 ;F == $46
+.charmap $47, $47 ;G == $47
+.charmap $48, $48 ;H == $48
+.charmap $49, $49 ;I == $49
+.charmap $4A, $4A ;J == $4A
+.charmap $4B, $4B ;K == $4B
+.charmap $4C, $4C ;L == $4C
+.charmap $4D, $4D ;M == $4D
+.charmap $4E, $4E ;N == $4E
+.charmap $4F, $4F ;O == $4F
+.charmap $50, $50 ;P == $50
+.charmap $51, $51 ;Q == $51
+.charmap $52, $52 ;R == $52
+.charmap $53, $53 ;S == $53
+.charmap $54, $54 ;T == $54
+.charmap $55, $55 ;U == $55
+.charmap $56, $56 ;V == $56
+.charmap $57, $57 ;W == $57
+.charmap $58, $58 ;X == $58
+.charmap $59, $59 ;Y == $59
+.charmap $5A, $5A ;Z == $5A
 
 .charmap $30, $5B ;0 == $B0
 .charmap $31, $5C ;1 == $B1
@@ -95,11 +95,11 @@ pauseText = 3
 .define unk3 $22,$A0,$10
 
 ;i cant charmap these :(
-alpha = $BB ; α
-beta  = $BC ; β
-gamma = $BD ; γ
-pi    = $BE ; π
-omega = $BF ; Ω
+alpha = $61 ; α
+beta  = $62 ; β
+gamma = $63 ; γ
+pi    = $64 ; π
+omega = $65 ; Ω
 
 .ifndef kanjiMacro
 .macro  kanjifix Arg

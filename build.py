@@ -66,7 +66,7 @@ def ca65HasNoUnicodeSupport(dir:str):
                 lines[i] = f'.include "{dots}src/jp/{"/".join(newpath)}"\n'
             #because ca65 absolute hates anything but english for some reason
             elif line.find("kanjifix") != -1:
-                kanji = line.split("kanjifix ")[-1]
+                kanji = line.split("kanjifix ")[-1].split(";")[0].strip()
                 result = stringToEb(kanji, False)
                 result = "$"+result.replace(" ",",$")
                 lines[i] = f".byte   {result}\n"

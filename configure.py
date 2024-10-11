@@ -51,13 +51,21 @@ def splitMerger():
         if os.path.exists(f"split/{lang}/"):
             usedir.append(lang)
 
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank10.bin", "split/global/chr/bank10.bin") #minor diffs
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank11.bin", "split/global/chr/bank11.bin") #minor diffs
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank12.bin", "split/global/chr/bank12.bin") #minor diffs
     shutil.copyfile(f"split/{usedir[0]}/chr/bank13.bin", "split/global/chr/bank13.bin")
     shutil.copyfile(f"split/{usedir[0]}/chr/bank14.bin", "split/global/chr/bank14.bin")
     shutil.copyfile(f"split/{usedir[0]}/chr/bank15.bin", "split/global/chr/bank15.bin")
     shutil.copyfile(f"split/{usedir[0]}/chr/bank16.bin", "split/global/chr/bank16.bin") #minor diffs
-
-
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank17.bin", "split/global/chr/bank17.bin") #minor diffs
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank18.bin", "split/global/chr/bank18.bin") #shared portions
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank19.bin", "split/global/chr/bank19.bin") #last half in both versions is the same
     shutil.copyfile(f"split/{usedir[0]}/chr/bank1a.bin", "split/global/chr/bank1a.bin")
+
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank1c.bin", "split/global/chr/bank1c.bin") #minor diffs
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank1d.bin", "split/global/chr/bank1d.bin") #minor diffs
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank1e.bin", "split/global/chr/bank1e.bin") #minor diffs
 
 
 
@@ -110,7 +118,7 @@ if __name__ == "__main__":
 
         infos = glob("infos/**/*.cfg")
         for info in infos:
-            file = info.replace("infos", "split").replace(".cfg", ".bin")
-            if not os.path.exists("file"): continue
+            file = info.replace("infos", "split/us").replace(".cfg", ".bin")
+            if not os.path.exists(file): continue
             print(f"disasm {file}")
             subprocess.run(f"da65 -i {info} {file}", shell = True, executable="/bin/bash")

@@ -75,6 +75,8 @@
 .charmap $2E, $AE ;. == $AE
 .charmap $2F, $AF ;/
 .charmap $2A, $C0 ;* == $C0 (is technically ◆, but can't be typed/is too big)
+.charmap $3E, $FF ;> == $FF (is technically ▶, but can't be typed/is too big)
+;also, > is specifically hardcoded for enemy CHECK listings. otherwise i wouldnt have put it here
 
 ;numbers
 .charmap $30, $B0 ;0 == $B0

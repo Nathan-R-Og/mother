@@ -5,4 +5,5 @@ disasm/
 build_artifacts/
 linked.txt
 *.o
-tools/__pycache__
+__pycache__
+tools/outputs
