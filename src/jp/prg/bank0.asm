@@ -361,7 +361,12 @@ kanjifix "ラストスタ-マン"
 .byte 0
 .endrepeat
 
-.incbin "../../split/jp/prg/bank0.bin", $300
+incbinRange "../../split/jp/prg/bank0.bin", $300, $1e00
+
+.include "../../global/psi_data.asm"
+
+;map data
+.incbin "../../split/jp/prg/bank0.bin", $2000
 
 .code
 

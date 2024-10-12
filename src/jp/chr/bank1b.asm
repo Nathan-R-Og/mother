@@ -476,32 +476,40 @@ kanjifix "ざひょう" ;coordinate???? probably debug
 CHOICER_NULL:
 .byte   stopText
 
-CHOICER_FLIGHTPLANS:
+CHOICER_FLIGHTPLANSA:
 kanjifix "Aコ-ス"
 .byte   stopText
+CHOICER_FLIGHTPLANSB:
 kanjifix "Bコ-ス"
 .byte   stopText
+CHOICER_FLIGHTPLANSC:
 kanjifix "Cコ-ス"
 .byte   stopText
-CHOICER_HINTS:
+CHOICER_HINTS1:
 kanjifix "ヒント1"
 .byte   stopText
+CHOICER_HINTS2:
 kanjifix "ヒント2"
 .byte   stopText
+CHOICER_HINTS3:
 kanjifix "ヒント3"
 .byte   stopText
-CHOICER_UNK:
+CHOICER_UNK1:
 kanjifix "どくけし"
 .byte   stopText
+CHOICER_UNK2:
 kanjifix "どくけし"
 .byte   stopText
+CHOICER_UNK3:
 kanjifix "どくけし"
 .byte   stopText
+CHOICER_UNK4:
 kanjifix "どくけし"
 .byte   stopText
-CHOICER_SCIENTIST:
+CHOICER_SCIENTIST1:
 kanjifix "ロケット(ほんもの)"
 .byte   stopText
+CHOICER_SCIENTIST2:
 kanjifix "タイムマシン"
 .byte   stopText
 
@@ -547,17 +555,16 @@ kanjifix "テレパシ-"
 PSI_TELEPORT:
 kanjifix "テレポ-テ-ション"
 .byte   stopText
-
+PSI_UNK3:
 .byte   stopText
-
+PSI_UNK4:
 .byte   stopText
-
+PSI_UNK5:
 .byte   stopText
-
+PSI_UNK6:
 .byte   stopText
-
+PSI_UNK7:
 .byte   stopText
-
 PSI_LIFEUP_ALPHA:
 kanjifix "ライフアップ"
 .byte   alpha
@@ -578,13 +585,12 @@ PSI_LIFEUP_OMEGA:
 kanjifix "ライフアップ"
 .byte   omega
 .byte   stopText
-
+PSI_UNKD:
 .byte   stopText
-
+PSI_UNKE:
 .byte   stopText
-
+PSI_UNKF:
 .byte   stopText
-
 PSI_HEALING_ALPHA:
 kanjifix "ヒ-リング"
 .byte   alpha
@@ -664,9 +670,8 @@ kanjifix "ディフェンスダウン"
 PSI_4TH_D_SLIP:
 kanjifix "じげんスリップ"
 .byte   stopText
-
+PSI_UNK27:
 .byte   stopText
-
 PSI_PK_FREEZE_ALPHA:
 kanjifix "PKフリ-ズ"
 .byte   alpha
@@ -727,24 +732,25 @@ PSI_PK_THUNDERGAMMA:
 kanjifix "PKサンダ-"
 .byte   gamma
 .byte   stopText
-
+PSI_UNK37:
 .byte   stopText
-
+PSI_UNK38:
 .byte   stopText
-
+PSI_UNK39:
 .byte   stopText
-
+PSI_UNK3A:
 .byte   stopText
-
+PSI_UNK3B:
 .byte   stopText
-
+PSI_UNK3C:
 .byte   stopText
-
+PSI_UNK3D:
 .byte   stopText
-
+PSI_UNK3E:
 .byte   stopText
-
+PSI_UNK3F:
 .byte   stopText
+PSI_STOP:
 
 ;status
 STATUS_FAINTD:

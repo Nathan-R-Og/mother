@@ -184,16 +184,21 @@ INAME_DEBUG:
 ;choicers
 CHOICER_NULL:
 .byte 0
-CHOICER_FLIGHTPLANS:
+CHOICER_FLIGHTPLANSA:
 .byte   "FlightplanA",stopText
+CHOICER_FLIGHTPLANSB:
 .byte   "FlightplanB",stopText
+CHOICER_FLIGHTPLANSC:
 .byte   "FlightplanC",stopText
-CHOICER_HINTS:
+CHOICER_HINTS1:
 .byte   "Hint 1",stopText
+CHOICER_HINTS2:
 .byte   "Hint 2",stopText
+CHOICER_HINTS3:
 .byte   "Hint 3",stopText
-CHOICER_SCIENTIST:
+CHOICER_SCIENTIST1:
 .byte   "Real Rocket",stopText
+CHOICER_SCIENTIST2:
 .byte   "TimeMachine",stopText
 
 ;teleport locales
@@ -546,15 +551,15 @@ ENAME_LASTSTARMAN:
 ;???????
 .repeat $82
 .byte   0
-.endrep
+.endrepeat
 .byte   $48, $59
 .repeat $FD
 .byte   0
-.endrep
+.endrepeat
 .byte   $48, $59
 .repeat $b1
 .byte   0
-.endrep
+.endrepeat
 
 ;battle ui stuff
 incbinRange "../../split/us/prg/bank0.bin", $C00, $E81
@@ -565,106 +570,240 @@ incbinRange "../../split/us/prg/bank0.bin", $E81, $1081
 ;naming screen (???)
 incbinRange "../../split/us/prg/bank0.bin", $1081, $1800
 
-;item data
-incbinRange "../../split/us/prg/bank0.bin", $1800, $1c00
+ITEMUSE_NITNEN = 1
+ITEMUSE_ANA = 1 << 1
+ITEMUSE_LLOYD = 1 << 2
+ITEMUSE_TEDDY = 1 << 3
+;guesses????
+ITEMUSE_EVE = 1 << 4
+ITEMUSE_FLYINGMAN = 1 << 5
+;
+ITEMUSE_ALL = $3F
 
-;teleport targets (?)
-incbinRange "../../split/us/prg/bank0.bin", $1c00, $1dc0
-
-;character levelup table
-;TODO: decipher
-;i imagine its like: exp,force,fight,speed, etc
-.byte $C8,$00,$00,$04,$04,$04,$04,$04
-.byte $D6,$00,$02,$04,$04,$04,$04,$04
-.byte $CB,$00,$03,$00,$02,$06,$02,$07
-.byte $C0,$00,$00,$03,$01,$07,$03,$02
-.byte $96,$00,$00,$08,$08,$01,$05,$03
-.byte $96,$00,$00,$08,$08,$01,$05,$03
-.byte $C8,$00,$00,$05,$03,$05,$07,$01
-.byte $C8,$00,$00,$06,$00,$00,$08,$05
-
-
-;psi data
-;TODO: what does arg5 do???????
-;NOTE- battleEffect both use BATTLE_ACTION_POINTERS as an array.
-;(or at least i think it does)
-;what table overworldEffect uses is probably an item table of sorts, where idk
-;also i only made a macro out of this because i dont wanna seperate one word and six bytes
-.macro psiDef name, nintenLevel, anaLevel, overworldEffect, battleEffect, arg5, cost
+.macro itemDef name, usableBy, edible, keyitem, type1, type2, overworldAction, battleAction, msgPrice
     .word name
+    .byte (keyitem << 7) | (edible << 6) | usableBy
+    .byte (type2 << 6) | type1
+    .byte overworldAction,battleAction
+    .word msgPrice
+.endmacro
+itemDef INAME_NULL, 0, 0, 0, 0, 0, 0, 0, 0
+itemDef INAME_BIG_BAG, ITEMUSE_ALL, 0, 0, 0, 0, $10, $75, 0
+itemDef INAME_PHONE_CARD, ITEMUSE_ALL, 0, 0, 0, 0, $07, $00, 50
+itemDef INAME_CRUMBS, ITEMUSE_ALL, 0, 0, 0, 0, $1F, $00, 0
+itemDef INAME_REPEL_RING, ITEMUSE_ALL, 0, 0, 0, 0, $08, $00, 160
+itemDef INAME_BUTTERKNIFE, 0, 0, 0, 0, 0, $00, $00, 50
+itemDef INAME_BUTTERKNIFE, 0, 0, 0, 0, 0, $00, $00, 60
+itemDef INAME_BUTTERKNIFE, 0, 0, 0, 0, 0, $00, $00, 70
+itemDef INAME_BUTTERKNIFE, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_BUTTERKNIFE, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_BUTTERKNIFE, ITEMUSE_TEDDY, 0, 0, 15, 0, $02, $00, 580
+itemDef INAME_SURV_KNIFE, ITEMUSE_TEDDY, 0, 0, 38, 0, $02, $00, 1200
+itemDef INAME_SWORD, ITEMUSE_TEDDY, 0, 0, 46, 0, $02, $00, 1280
+itemDef INAME_KATANA, ITEMUSE_TEDDY, 0, 0, 58, 0, $02, $00, 1360
+itemDef INAME_STUN_GUN, ITEMUSE_LLOYD, 0, 0, 15, 0, $02, $00, 300
+itemDef INAME_AIR_GUN, ITEMUSE_LLOYD, 0, 0, 42, 0, $02, $00, 1400
+itemDef INAME_PLASTIC_BAT, ITEMUSE_NITNEN, 0, 0, 3, 0, $02, $00, 80
+itemDef INAME_WOODEN_BAT, ITEMUSE_NITNEN, 0, 0, 12, 0, $02, $00, 500
+itemDef INAME_ALUMINUMBAT, ITEMUSE_NITNEN, 0, 0, 30, 0, $02, $00, 1000
+itemDef INAME_HANKS_BAT, ITEMUSE_NITNEN, 0, 0, 48, 0, $02, $00, 1400
+itemDef INAME_FRYING_PAN, ITEMUSE_ANA, 0, 0, 8, 0, $02, $00, 300
+itemDef INAME_NONSTICKPAN, ITEMUSE_ANA, 0, 0, 16, 0, $02, $00, 700
+itemDef INAME_IRONSKILLET, ITEMUSE_ANA, 0, 0, 36, 0, $02, $00, 1120
+itemDef INAME_SLINGSHOT, ITEMUSE_ALL, 0, 0, 7, 0, $02, $00, 120
+itemDef INAME_BOOMERANG, ITEMUSE_ALL, 0, 0, 32, 0, $02, $00, 1100
+itemDef INAME_INSECTICIDE, ITEMUSE_ALL, 0, 0, 0, 0, $00, $16, 300
+itemDef INAME_SUPER_SPRAY, ITEMUSE_ALL, 0, 0, 0, 0, $00, $77, 1500
+itemDef INAME_FLEA_BAG, ITEMUSE_ALL, 0, 0, 0, 0, $00, $60, 0
+itemDef INAME_WORDSOLOVE, ITEMUSE_ALL, 0, 0, 0, 0, $00, $78, 0
+itemDef INAME_SWEAR_WORDS, ITEMUSE_ALL, 0, 0, 0, 0, $00, $79, 0
+itemDef INAME_STKYMACHINE, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $6E, 3200
+itemDef INAME_FLASHDARK, ITEMUSE_ALL, 0, 0, 0, 0, $00, $6D, 0
+itemDef INAME_STONEORIGIN, ITEMUSE_ALL, 0, 0, 0, 0, $00, $3E, 0
+itemDef INAME_POISNNEEDLE, ITEMUSE_ALL, 0, 0, 0, 0, $00, $3D, 0
+itemDef INAME_FL_THROWER, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $67, 0
+itemDef INAME_BOMB, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $10, 280
+itemDef INAME_SUPER_BOMB, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $11, 1800
+itemDef INAME_LASER_BEAM, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $69, 760
+itemDef INAME_PLASMA_BEAM, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $6A, 1300
+itemDef INAME_ROPE, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_ROPE, ITEMUSE_ALL, 0, 0, 0, 0, $00, $47, 600
+itemDef INAME_PEACE_COIN, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_PEACE_COIN, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_PEACE_COIN, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_PEACE_COIN, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_PEACE_COIN, ITEMUSE_ALL, 0, 0, 5, 1, $02, $00, 260
+itemDef INAME_PROTECTCOIN, ITEMUSE_ALL, 0, 0, 11, 1, $02, $00, 648
+itemDef INAME_MAGIC_COIN, ITEMUSE_ALL, 0, 0, 20, 1, $02, $00, 1200
+itemDef INAME_BRASS_RING, ITEMUSE_ALL, 0, 0, 8, 2, $02, $00, 460
+itemDef INAME_SILVER_RING, ITEMUSE_ALL, 0, 0, 14, 2, $02, $00, 825
+itemDef INAME_GOLD_RING, ITEMUSE_ALL, 0, 0, 28, 2, $02, $00, 1510
+itemDef INAME_H2O_PENDANT, ITEMUSE_ALL, 0, 0, 32, 3, $02, $00, 700
+itemDef INAME_FIREPENDANT, ITEMUSE_ALL, 0, 0, 16, 3, $02, $00, 700
+itemDef INAME_EARTHPENDNT, ITEMUSE_ALL, 0, 0, 8, 3, $02, $00, 700
+itemDef INAME_SEA_PENDANT, ITEMUSE_ALL, 0, 0, 56, 3, $02, $00, 2860
+itemDef INAME_ORANGEJUICE, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_ORANGEJUICE, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_ORANGEJUICE, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_ORANGEJUICE, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_ORANGEJUICE, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_ORANGEJUICE, ITEMUSE_ALL, 1, 0, 0, 0, $0A, $71, 5
+itemDef INAME_FRENCHFRIES, ITEMUSE_ALL, 1, 0, 0, 0, $0B, $72, 15
+itemDef INAME_MAGIC_HERB, ITEMUSE_ALL, 1, 0, 0, 0, $0C, $73, 30
+itemDef INAME_HAMBURGER, ITEMUSE_ALL, 1, 0, 0, 0, $0D, $7A, 25
+itemDef INAME_SPROTSDRINK, ITEMUSE_ALL, 1, 0, 0, 0, $0E, $74, 75
+itemDef INAME_LIFEUPCREAM, ITEMUSE_ALL, 0, 0, 0, 0, $0F, $7B, 194
+itemDef INAME_ASTHMASPRAY, ITEMUSE_NITNEN, 0, 0, 0, 0, $00, $76, 148
+itemDef INAME_ANTIDOTE, ITEMUSE_ALL, 1, 0, 0, 0, $11, $7C, 20
+itemDef INAME_MOUTHWASH, ITEMUSE_ALL, 0, 0, 0, 0, $12, $00, 175
+itemDef INAME_BERRY_TOFU, ITEMUSE_ALL, 1, 0, 0, 0, $06, $00, 975
+itemDef INAME_BREAD, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_BREAD, ITEMUSE_ALL, 1, 0, 0, 0, $05, $84, 30
+itemDef INAME_NOBLE_SEED, ITEMUSE_ALL, 0, 0, 0, 0, $00, $5F, 0
+itemDef INAME_PSI_STONE, ITEMUSE_NITNEN | ITEMUSE_ANA, 0, 0, 0, 0, $13, $2F, 0
+itemDef INAME_MAGICRIBBON, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_MAGICRIBBON, ITEMUSE_ANA, 0, 0, 0, 0, $14, $00, 0
+itemDef INAME_MAGIC_CANDY, ITEMUSE_LLOYD, 1, 0, 0, 0, $15, $00, 0
+itemDef INAME_QUICKCAPSUL, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_QUICKCAPSUL, ITEMUSE_ALL, 1, 0, 0, 0, $16, $00, 0
+itemDef INAME_WISDOM_CAPS, ITEMUSE_ALL, 1, 0, 0, 0, $17, $00, 0
+itemDef INAME_PHYSICALCAP, ITEMUSE_ALL, 1, 0, 0, 0, $18, $00, 0
+itemDef INAME_FORCECAPSUL, ITEMUSE_ALL, 1, 0, 0, 0, $19, $00, 0
+itemDef INAME_FIGHTCAPSUL, ITEMUSE_ALL, 1, 0, 0, 0, $1A, $00, 0
+itemDef INAME_BASEMENTKEY, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_BASEMENTKEY, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_BASEMENTKEY, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 0
+itemDef INAME_ZOO_KEY, ITEMUSE_ALL, 0, 0, 0, 0, $01, $00, 0
+itemDef INAME_GHOST_KEY, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 0
+itemDef INAME_GGFS_DIARY, ITEMUSE_ALL, 0, 1, 0, 0, $1B, $00, 0
+itemDef INAME_PASS, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 0
+itemDef INAME_TICKET, ITEMUSE_ALL, 0, 0, 0, 0, $01, $00, 350
+itemDef INAME_CANARYCHICK, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_CANARYCHICK, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_CANARYCHICK, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_CANARYCHICK, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_CANARYCHICK, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 85
+itemDef INAME_BOTTLROCKET, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_BOTTLROCKET, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $7D, 0
+itemDef INAME_HAT, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 0
+itemDef INAME_DENTURES, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 0
+itemDef INAME_TICKET_STUB, ITEMUSE_ALL, 0, 0, 0, 0, $01, $00, 0
+itemDef INAME_IC_CHIP, ITEMUSE_LLOYD, 0, 1, 0, 0, $01, $00, 0
+itemDef INAME_OCARINA, ITEMUSE_ALL, 0, 1, 0, 0, $23, $00, 0
+itemDef INAME_FRANKLNBDGE, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_FRANKLNBDGE, ITEMUSE_ALL, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_FRNDSHPRING, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_ONYX_HOOK, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_ONYX_HOOK, ITEMUSE_ALL, 0, 1, 0, 0, $1E, $00, 0
+itemDef INAME_LAST_WEAPON, ITEMUSE_ALL, 0, 0, 0, 0, $20, $00, 1048
+itemDef INAME_RULER, ITEMUSE_ALL, 0, 0, 0, 0, $21, $00, 22
+itemDef INAME_CASH_CARD, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 0
+itemDef INAME_RED_WEED, ITEMUSE_ALL, 0, 0, 0, 0, $01, $00, 0
+itemDef INAME_BULLHORN, ITEMUSE_ALL, 0, 0, 0, 0, $00, $3C, 0
+itemDef INAME_MAP, ITEMUSE_ALL, 0, 1, 0, 0, $22, $00, 0
+itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
+itemDef INAME_DEBUG, ITEMUSE_ALL, 0, 1, 0, 0, $09, $00, 0
 
-    ;the levels have to be PASSED to gain the psi, specifically
-    .ifblank nintenLevel
-    .byte $FF
-    .else
-    .byte nintenLevel
-    .endif
-
-    .ifblank anaLevel
-    .byte $FF
-    .else
-    .byte anaLevel
-    .endif
-
-    .byte overworldEffect, battleEffect, arg5, cost
+;not JUST teleport defs, by the way!
+;name, (posX << 6)| music, (posY << 6)| startDirection, msgPrice
+.macro choicerDef name, music, posX, direction, posY, msgPrice
+    .word name
+    .word (posX << 6) | music
+    .word (posY << 6) | direction
+    .word msgPrice
 .endmacro
 
-psiDef            PSI_NULL,  ,  ,$00,$00,$00,0
-psiDef       PSI_TELEPATHY, 0, 0,$25,$00,$00,1
-psiDef        PSI_TELEPORT,  ,  ,$26,$00,$00,3
-.repeat 5
-psiDef    PSI_LIFEUP_ALPHA,  ,  ,$00,$00,$00,0
+;ACTUAL teleport defs
+choicerDef TELEPORT_MYHOME,6,$CE,6,$145,0
+choicerDef TELEPORT_PODUNK,6,$AB,2,$1A7,0
+choicerDef TELEPORT_MERRYSVILLE,6,$14B,2,$1CF,0
+choicerDef TELEPORT_REINDEER,6,$1CA,6,$3BF,0
+choicerDef TELEPORT_SPOOKANE,6,$2DD,2,$364,0
+choicerDef TELEPORT_SNOWMAN,10,$398,4,$3BE,0
+choicerDef TELEPORT_YOUNGTOWN,$30,$2E2,6,$1D3,0
+choicerDef TELEPORT_ELLAY,6,$32A,6,$12E,0
+
+.repeat 8
+choicerDef INAME_NULL,0,0,0,0,0
 .endrepeat
-psiDef    PSI_LIFEUP_ALPHA, 2,  ,$27,$29,$00,3
-psiDef     PSI_LIFEUP_BETA,28, 0,$28,$2A,$00,5
-psiDef    PSI_LIFEUP_GAMMA,32,11,$29,$2B,$00,9
-psiDef       PSI_LIFEUP_PI,37,21,$00,$2C,$00,17
-psiDef    PSI_LIFEUP_OMEGA,  ,33,$00,$2D,$00,48
-.repeat 3
-psiDef   PSI_HEALING_ALPHA,  ,  ,$00,$00,$00,0
+
+;union station
+choicerDef TELEPORT_REINDEER,$14,$13E,5,$14F,16
+choicerDef TELEPORT_SPOOKANE,$14,$13E,5,$14F,25
+choicerDef TELEPORT_SNOWMAN,$14,$13E,5,$14F,36
+;reindeer station
+choicerDef TELEPORT_UNION,$14,$205,6,$33F,16
+;spookane station
+choicerDef TELEPORT_UNION,$14,$2AD,6,$33F,25
+;snowman station
+choicerDef TELEPORT_UNION,$14,$35B,6,$3DF,36
+;reindeer station 2
+choicerDef TELEPORT_SPOOKANE,$14,$206,2,$33F,9
+choicerDef TELEPORT_SNOWMAN,$14,$206,2,$33F,20
+;spookane station 2
+choicerDef TELEPORT_REINDEER,$14,$2AD,6,$33F,9
+choicerDef TELEPORT_SNOWMAN,$14,$2AE,2,$33F,11
+;snowman station 2
+choicerDef TELEPORT_REINDEER,$14,$35B,6,$3DF,20
+choicerDef TELEPORT_SPOOKANE,$14,$35B,6,$3DF,11
+
+;flight plan choicers
+choicerDef CHOICER_FLIGHTPLANSA,0,0,0,0,5
+choicerDef CHOICER_FLIGHTPLANSB,0,0,0,0,10
+choicerDef CHOICER_FLIGHTPLANSC,0,0,0,0,15
+
+;hint choicers
+choicerDef CHOICER_HINTS1,0,0,0,0,0
+choicerDef CHOICER_HINTS2,0,0,0,0,0
+choicerDef CHOICER_HINTS3,0,0,0,0,0
+
+.repeat 4
+choicerDef CHOICER_SCIENTIST1,0,0,0,0,0
 .endrepeat
-psiDef   PSI_HEALING_ALPHA, 4, 5,$2C,$5B,$00,3
-psiDef    PSI_HEALING_BETA,15,12,$00,$63,$00,6
-psiDef   PSI_HEALING_GAMMA,18,13,$2A,$86,$00,6
-psiDef      PSI_HEALING_PI,21,14,$00,$64,$00,6
-psiDef     PSI_SUPRHEALING,34,17,$2D,$65,$00,36
-psiDef PSI_PSISHIELD_ALPHA,12, 3,$00,$38,$00,4
-psiDef  PSI_PSISHIELD_BETA,29, 8,$00,$39,$00,9
-psiDef     PSI_POWERSHIELD,33,23,$00,$37,$00,9
-psiDef      PSI_BRAINSHOCK,  , 1,$00,$42,$00,5
-psiDef     PSI_BRAINCYCLON,  ,25,$00,$43,$00,12
-psiDef        PSI_HYPNOSIS,  , 8,$00,$44,$00,5
-psiDef       PSI_PARALYSIS,  ,14,$00,$45,$00,8
-psiDef        PSI_DARKNESS,  ,19,$00,$31,$00,10
-psiDef      PSI_PSI_MAGNET,  , 6,$00,$30,$00,0
-psiDef      PSI_SHIELD_OFF,  ,18,$00,$66,$00,8
-psiDef       PSI_PSI_BLOCK,  , 7,$00,$36,$00,7
-psiDef       PSI_OFFENSEUP,17,  ,$00,$1B,$00,6
-psiDef PSI_DEFENSEUP_ALPHA, 6,  ,$00,$1D,$00,3
-psiDef  PSI_DEFENSEUP_BETA,23,  ,$00,$1E,$00,8
-psiDef         PSI_QUICKUP,13,  ,$00,$1F,$00,3
-psiDef  PSI_DEF_DOWN_ALPHA, 8,  ,$00,$25,$00,3
-psiDef   PSI_DEF_DOWN_BETA,26,  ,$00,$82,$00,9
-psiDef      PSI_4TH_D_SLIP,10,  ,$00,$5C,$00,16
-psiDef        PSI_HYPNOSIS, 3,  ,$00,$44,$00,5
-psiDef PSI_PK_FREEZE_ALPHA,  , 0,$00,$0C,$00,3
-psiDef  PSI_PK_FREEZE_BETA,  , 6,$00,$0D,$00,5
-psiDef PSI_PK_FREEZE_GAMMA,  ,20,$00,$0F,$00,8
-psiDef PSI_PK_FREEZE_OMEGA,  ,28,$00,$0E,$00,13
-psiDef   PSI_PK_FIRE_ALPHA,  ,16,$00,$09,$00,8
-psiDef    PSI_PK_FIRE_BETA,  ,26,$00,$0A,$00,12
-psiDef   PSI_PK_FIRE_GAMMA,  ,30,$00,$0B,$00,14
-psiDef   PSI_PK_FIRE_OMEGA,  ,34,$00,$85,$00,30
-psiDef   PSI_PK_BEAM_ALPHA,  , 4,$00,$12,$00,4
-psiDef    PSI_PK_BEAM_BETA,  ,10,$00,$13,$00,7
-psiDef   PSI_PK_BEAM_GAMMA,  ,24,$00,$15,$00,12
-psiDef   PSI_PK_BEAM_OMEGA,  ,32,$00,$14,$00,24
-psiDef PSI_PK_THUNDERALPHA,  , 2,$00,$17,$00,3
-psiDef  PSI_PK_THUNDERBETA,  , 8,$00,$18,$00,6
-psiDef PSI_PK_THUNDERGAMMA,  ,27,$00,$83,$00,12
-.repeat 9
-psiDef            PSI_STOP,  ,  ,$00,$00,$00,0
+
+;scientist gag choicers
+choicerDef CHOICER_SCIENTIST1,0,0,0,0,3485
+choicerDef CHOICER_SCIENTIST2,0,0,0,0,2775
+
+.repeat $10
+choicerDef INAME_NULL,0,0,0,0,0
 .endrepeat
+
+
+
+;character defs
+;exp,arg1,ppLevel,fight,speed,wisdom,strength,force
+;exp rate == 256/exp (inversely proportional)
+;????/null
+.byte 200,$00,0,4,4,4,4,4
+;ninten
+.byte 214,$00,2,4,4,4,4,4
+;ana
+.byte 203,$00,3,0,2,6,2,7
+;lloyd
+.byte 192,$00,0,3,1,7,3,2
+;teddy
+.byte 150,$00,0,8,8,1,5,3
+;pippi
+.byte 150,$00,0,8,8,1,5,3
+;eye
+.byte 200,$00,0,5,3,5,7,1
+;flying man
+.byte 200,$00,0,6,0,0,8,5
+
+.include "../../global/psi_data.asm"
 
 ;map data 1
 .incbin "../../split/us/prg/bank0.bin", $2000
