@@ -1,7 +1,5 @@
 .segment        "CHRF": absolute
 
-.include "../fontmap.asm"
-
 ;random battle sprite pieces
 incbinRange "../../split/us/chr/bank1f.bin", 0, $800
 
@@ -10,6 +8,8 @@ incbinRange "../../split/us/chr/bank1f.bin", 0, $800
 ;the same
 incbinRange "../../split/us/chr/bank1f.bin", $800, $b03
 ;incbinRange "../../split/us/prg/bankc.bin", $3800, $3b03
+
+.include "../fontmap.asm"
 
 .byte   "What is this",newLine
 .byte   "boy's name?"
@@ -97,9 +97,7 @@ incbinRange "../../split/us/chr/bank1f.bin", $800, $b03
 .byte   "since then."
 .byte   stopText
 
-.repeat $160
-.byte $ff
-.endrepeat
+.res $160, $FF
 
 ;text gfx
 .incbin "../../split/us/chr/bank1f.bin", $1000

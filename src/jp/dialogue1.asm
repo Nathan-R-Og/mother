@@ -1781,6 +1781,4 @@ kanjifix "いのちは しんでもまもりたいもの」"
 .byte   newLine
 .byte   stopText
 
-.repeat $5A
-.byte $FF
-.endrepeat
+.res $5A, $FF

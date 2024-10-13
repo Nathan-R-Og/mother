@@ -1,7 +1,5 @@
 .segment        "CHRB": absolute
 
-.include "../fontmap.asm"
-
 ;map gfx
 incbinRange "../../split/jp/chr/bank1b.bin", 0, $C00
 
@@ -83,6 +81,8 @@ incbinRange "../../split/jp/chr/bank1b.bin", $1000, $1400
 ;some weird ui tile commands???? not JUST a tiledef.
 incbinRange "../../split/jp/chr/bank1b.bin", $1800, $1913
 
+.include "../fontmap.asm"
+
 kanjifix "1900ねんだいの はじめ"
 .byte   newLine
 kanjifix "アメリカのいなかまちに くろくものようなかげがおち"
@@ -125,19 +125,18 @@ kanjifix "テレホンカ-ド"
 INAME_CRUMBS:
 kanjifix "パンくず"
 .byte   stopText
-
+INAME_UNKITEM4:
 .byte   stopText
-
+INAME_UNKITEM5:
 .byte   stopText
-
+INAME_UNKITEM6:
 .byte   stopText
-
+INAME_UNKITEM7:
 .byte   stopText
-
+INAME_UNKITEM8:
 .byte   stopText
-
+INAME_UNKITEM9:
 .byte   stopText
-
 INAME_BUTTERKNIFE:
 kanjifix "ナイフ"
 .byte   stopText
@@ -225,21 +224,20 @@ kanjifix "レ-ザ-ビ-ム"
 INAME_PLASMA_BEAM:
 kanjifix "デスビ-ム"
 .byte   stopText
-;????
+INAME_UNKITEM27: ;???? 39 is actually its decimal index. neat!
 kanjifix "ITEM39"
 .byte   stopText
 INAME_ROPE:
 kanjifix "ロ-プ"
 .byte   stopText
-
+INAME_UNKITEM29:
 .byte   stopText
-
+INAME_UNKITEM2A:
 .byte   stopText
-
+INAME_UNKITEM2B:
 .byte   stopText
-
+INAME_UNKITEM2C:
 .byte   stopText
-
 INAME_PEACE_COIN:
 kanjifix "やすらぎのコイン"
 .byte   stopText
@@ -270,17 +268,16 @@ kanjifix "だいちのペンダント"
 INAME_SEA_PENDANT:
 kanjifix "うみのペンダント"
 .byte   stopText
-
+INAME_UNKITEM37:
 .byte   stopText
-
+INAME_UNKITEM38:
 .byte   stopText
-
+INAME_UNKITEM39:
 .byte   stopText
-
+INAME_UNKITEM3A:
 .byte   stopText
-
+INAME_UNKITEM3B:
 .byte   stopText
-
 INAME_ORANGEJUICE:
 kanjifix "オレンジジュ-ス"
 .byte   stopText
@@ -311,10 +308,9 @@ kanjifix "うがいぐすり"
 INAME_BERRY_TOFU:
 kanjifix "いちごとうふ"
 .byte   stopText
-
+INAME_UNKITEM46:
 kanjifix "ITEM70"
 .byte   stopText
-
 INAME_BREAD:
 kanjifix "パン"
 .byte   stopText
@@ -324,7 +320,7 @@ kanjifix "エンジェルシ-ド"
 INAME_PSI_STONE:
 kanjifix "サイパワ-スト-ン"
 .byte   stopText
-
+INAME_UNKITEM4A:
 .byte   stopText
 INAME_MAGICRIBBON:
 kanjifix "ふしぎなリボン"
@@ -332,7 +328,7 @@ kanjifix "ふしぎなリボン"
 INAME_MAGIC_CANDY:
 kanjifix "ふしぎなキャンディ"
 .byte   stopText
-
+INAME_UNKITEM4D:
 kanjifix "ITEM77"
 .byte   stopText
 INAME_QUICKCAPSUL:
@@ -350,11 +346,10 @@ kanjifix "フォ-スカプセル"
 INAME_FIGHTCAPSUL:
 kanjifix "ファイトカプセル"
 .byte   stopText
-
+INAME_UNKITEM53:
 .byte   stopText
-
+INAME_UNKITEM54:
 .byte   stopText
-
 INAME_BASEMENTKEY:
 kanjifix "ちかしつのカギ"
 .byte   stopText
@@ -373,22 +368,20 @@ kanjifix "つうこうきょかしょう"
 INAME_TICKET:
 kanjifix "ライブのチケット"
 .byte   stopText
-
+INAME_UNKITEM5B:
 .byte   stopText
-
+INAME_UNKITEM5C:
 .byte   stopText
-
+INAME_UNKITEM5D:
 .byte   stopText
-
+INAME_UNKITEM5E:
 .byte   stopText
-
 INAME_CANARYCHICK:
 kanjifix "カナリアのこども"
 .byte   stopText
-
+INAME_UNKITEM60:
 kanjifix "ITEM96"
 .byte   stopText
-
 INAME_BOTTLROCKET:
 kanjifix "ペンシルロケット"
 .byte   stopText
@@ -407,17 +400,16 @@ kanjifix "ICチップ"
 INAME_OCARINA:
 kanjifix "きぼうのオカリナ"
 .byte   stopText
-
+INAME_UNKITEM67:
 kanjifix "ITEM103"
 .byte   stopText
-
 INAME_FRANKLNBDGE:
 kanjifix "フランクリンバッヂ"
 .byte   stopText
 INAME_FRNDSHPRING:
 kanjifix "ゆうじょうのゆびわ"
 .byte   stopText
-
+INAME_UNKITEM6A:
 kanjifix "ITEM106"
 .byte   stopText
 INAME_ONYX_HOOK:
@@ -441,38 +433,37 @@ kanjifix "ふしぎなメガホン"
 INAME_MAP:
 kanjifix "ちず"
 .byte   stopText
-
+INAME_UNKITEM72:
 .byte   stopText
-
+INAME_UNKITEM73:
 .byte   stopText
-
+INAME_UNKITEM74:
 .byte   stopText
-
+INAME_UNKITEM75:
 .byte   stopText
-
+INAME_UNKITEM76:
 .byte   stopText
-
+INAME_UNKITEM77:
 .byte   stopText
-
+INAME_UNKITEM78:
 .byte   stopText
-
+INAME_UNKITEM79:
 .byte   stopText
-
+INAME_UNKITEM7A:
 .byte   stopText
-
+INAME_UNKITEM7B:
 .byte   stopText
-
+INAME_UNKITEM7C:
 .byte   stopText
-
+INAME_UNKITEM7D:
 .byte   stopText
-
+INAME_UNKITEM7E:
 .byte   stopText
-
 INAME_DEBUG:
 kanjifix "ざひょう" ;coordinate???? probably debug
 .byte   stopText
 
-;choicers 
+;choicers
 CHOICER_NULL:
 .byte   stopText
 

@@ -1,25 +1,18 @@
 .segment        "PRGC": absolute
 
-.include "../fontmap.asm"
-
 .include "../text_pointers.asm"
 
 ;???? padding??
-.repeat $690
-.byte $FF
-.endrepeat
+.res $690, $FF
 
-;intial sram
-incbinRange "../../split/us/prg/bankc.bin", $1e00, $1e40
-;initial character data
-incbinRange "../../split/us/prg/bankc.bin", $1e40, $2000
+.include "../../global/starting_sram.asm"
+.include "../../global/starting_characters.asm"
+
 ;anti-piracy
 incbinRange "../../split/us/prg/bankc.bin", $2000, $28A4
 
 ;???? padding??
-.repeat $F5C
-.byte $FF
-.endrepeat
+.res $F5C, $FF
 
 ;intro stuff
 incbinRange "../../split/us/prg/bankc.bin", $3800, $3ae8
@@ -47,6 +40,8 @@ finalcontrollerBits2: .byte $62
     .byte   $01,$01,$01,$08,$40,$23
 LBB00:  .byte   $C0,$FF,$00
 ;above here are variables or smth????? cursor control and whatever
+.include "../fontmap.asm"
+
 NintenQuestion:
 .byte   "What is this",newLine
 .byte   "boy's name?",stopText

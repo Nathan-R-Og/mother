@@ -56,4 +56,3 @@ binclude "chr/bank1b.asm"
 .include "../global/chr/bank1d.asm"
 .include "../global/chr/bank1e.asm"
 binclude "chr/bank1f.asm"
-    

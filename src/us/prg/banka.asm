@@ -178,7 +178,10 @@ ramOffset := $5800
 
         .incbin "../../split/us/prg/banka.bin", 0, $1200
 
-
+        ;format seems to be $10 per area, though why they sometimes pad with
+        ;the same groups is questionable
+        ;it SEEMS to use the duplicated parts??????? are they to 'increase'
+        ;spawn rates????? i dont know man.
         .byte $01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01
 
         SPAWNS_PODUNK:
@@ -267,6 +270,7 @@ ramOffset := $5800
 
         .byte $01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01
 
+        ;?????
         .incbin "../../split/us/prg/banka.bin", $1400, $158B-$1400
 
         .byte $20,$15,$10,$0D,$0A,$08,$06,$05
@@ -308,6 +312,6 @@ L9CAF:  lda     ExistEntries-ramOffset,x
         .incbin "../../split/us/prg/banka.bin", $1CB2, $D
 L9CBF:  lda     ExistEntries-ramOffset,x
         .incbin "../../split/us/prg/banka.bin", $1CC2, $233E
-        
+
 .code
 

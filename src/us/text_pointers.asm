@@ -2256,11 +2256,11 @@ MSG_pointerList:
 .word $131E
 .byte 1
 
-.repeat $AC
-.word $0000
-.byte 0
-.endrepeat
-
+.res $AC*3, 0
+;TODO: find out how these specifically are indexed
+;obviously probably part of the same list
+;but find out how the offset is calculated, if a static list
+;or just through enemy id
 .word CHECK_UNKENEMY0
 .byte 1
 .word CHECK_BIGWOODOH

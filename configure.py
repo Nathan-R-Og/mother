@@ -34,12 +34,13 @@ def split(rom:str, dir:str):
         result = hex(i).replace("0x", "")
         open(f"split/{dir}/chr/bank"+result+".bin", "wb").write(bank)
         i += 1
-    
+
 #TODO: make this into a yaml-like format, or some other kinda indexing
 #this is manually coded for now
 #the aim is to retrieve all same binary assets between versions
 #namely chr, since a ton of graphics in all releases of this game are the same
 #prg will come too, just later
+#specifically the same kind of prg that is split into global/**.asm, for easier chunking
 def splitMerger():
     if not os.path.exists("split/global"):
         os.makedirs(f"split/global/prg")
@@ -87,7 +88,7 @@ if __name__ == "__main__":
 
     if os.path.exists("split/"):
         shutil.rmtree("split/")
-    
+
     valids = {
         "218503a880999363ac83945096040492": "jp",
         "5bacf7ba94c539a1caf623dbe12059a3": "us",

@@ -2,6 +2,7 @@
 
 .byte   0
 
+.include "../fontmap.asm"
 ENAME_NULL:
 .byte   stopText
 ENAME_BIGWOODOH:
@@ -351,18 +352,15 @@ ENAME_LASTSTARMAN:
 kanjifix "ラストスタ-マン"
 .byte   stopText
 
-.repeat $1B
-.byte 0
-.endrepeat
-
+.res $1B, 0
 .byte $29,$29,$29,$29
+.res $3C, 0
 
-.repeat $3C
-.byte 0
-.endrepeat
+incbinRange "../../split/jp/prg/bank0.bin", $300, $1800
 
-incbinRange "../../split/jp/prg/bank0.bin", $300, $1e00
-
+.include "../../global/items.asm"
+.include "../../global/choicers.asm"
+.include "../../global/character_rates.asm"
 .include "../../global/psi_data.asm"
 
 ;map data

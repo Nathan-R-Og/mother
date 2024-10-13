@@ -103,9 +103,7 @@ kanjifix "パピプペポ"
 
 
 ;padding
-.repeat $2B5
-.byte $FF
-.endrepeat
+.res $2B5, $FF
 
 ;text gfx
 .incbin "../../split/jp/chr/bank1f.bin", $1000

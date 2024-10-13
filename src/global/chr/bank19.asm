@@ -9,277 +9,118 @@
         ;leftover from JP, the tiles needed to construct the credits
         ;you can tell because it uses straight ascii for the (english) names, like JP
         ;for the localization, it seems like this half went untouched in favor of the end of bank27
-        
+
         .include "../../src/jp/fontmap.asm"
 
-        .repeat $288
-        .byte 0
-        .endrepeat
-
+        .res $288, 0
         ;DIRECTION
         .byte $5B,$5C,$5D,$5E,$5F
-
-        .repeat $3B
-        .byte 0
-        .endrepeat
-
+        .res $3B, 0
         .byte "SHIGESATO",0,"ITOI"
-
-        .repeat $52
-        .byte 0
-        .endrepeat
-
+        .res $52, 0
         ;GAME DESIGN
         .byte $89,$8A,$8B,$8C,$8D,$8E
-
-        .repeat $3A
-        .byte 0
-        .endrepeat
-
+        .res $3A, 0
         .byte "SHIGESATO",0,"ITOI"
-        .repeat $32
-        .byte 0
-        .endrepeat
+        .res $32, 0
         .byte "MIYUKI",0,"KURE"
-
-        .repeat $37
-        .byte 0
-        .endrepeat
-
+        .res $37, 0
         ;?
         .byte $0A,02
-
-        .repeat 6
-        .byte 0
-        .endrepeat
-
+        .res 6, 0
         ;?
         .byte $0A,02
-
-        .repeat $54
-        .byte 0
-        .endrepeat
-
+        .res $54, 0
         ;MUSIC PRODUCE
         .byte $99,$9A,$9B,$9C,$9D,$9E,$9F
-
-        .repeat $39
-        .byte 0
-        .endrepeat
-
+        .res $39, 0
         .byte "AKIO",0,"OHMORI"
-        .repeat $35
-        .byte 0
-        .endrepeat
+        .res $35, 0
         .byte "RITSUO",0,"KAMIMURA"
-
-        .repeat $51
-        .byte 0
-        .endrepeat
-
+        .res $51, 0
         ;MUSIC EFFECTS
         .byte $99,$9A,$9B,$AC,$AD,$AE,$AF
-
-        .repeat $39
-        .byte 0
-        .endrepeat
-
+        .res $39, 0
         .byte "KEIICHI",0,"SUZUKI"
-        .repeat $32
-        .byte 0
-        .endrepeat
+        .res $32, 0
         .byte "HIROKAZU",0,"TANAKA"
-
-        .repeat $51
-        .byte 0
-        .endrepeat
-
+        .res $51, 0
         ;CHARACTER DESIGN
         .byte $A0,$A1,$A2,$A3,$A4,$A5,$A6,$A7,$A8
-
-        .repeat $37
-        .byte 0
-        .endrepeat
-
+        .res $37, 0
         .byte "SHINBO",0,"MINAMI"
-        .repeat $33
-        .byte 0
-        .endrepeat
+        .res $33, 0
         .byte "TATSUYA",0,"ISHII"
-
-        .repeat $53
-        .byte 0
-        .endrepeat
-
+        .res $53, 0
         ;FIGURE MODELING
         .byte $B0,$B1,$B2,$B3,$B4,$B5,$B6,$B7,$B8
-
-        .repeat $37
-        .byte 0
-        .endrepeat
-
+        .res $37, 0
         .byte "TOTTORI"
-
-        .repeat $59
-        .byte 0
-        .endrepeat
-
+        .res $59, 0
         ;PROGRAM
         .byte $BA,$BB,$BC,$BD,$BE
-
-        .repeat $35
-        .byte 0
-        .endrepeat
-
+        .res $35, 0
         ;? what is this stuff
-        .byte $A0,$A0 
-        
-        .repeat $E
-        .byte 0
-        .endrepeat
+        .byte $A0,$A0
+        .res $E, 0
         .byte $0A,$0A
-        
-        .repeat $E
-        .byte 0
-        .endrepeat
+        .res $E, 0
         .byte $0A,$0A,$02
-        
-        .repeat $5
-        .byte 0
-        .endrepeat
-        
+        .res 5, 0
         .byte $A0,$A0,$20
-        
-        .repeat $D
-        .byte 0
-        .endrepeat
-
+        .res $D, 0
         .byte $0A,$0A
-        
-        .repeat $C
-        .byte 0
-        .endrepeat
-
+        .res $C, 0
         .byte "KAZUYA",0,"NAKATANI"
-        .repeat $31
-        .byte 0
-        .endrepeat
+        .res $31, 0
         .byte "TAKAYUKI",0,"ONODERA"
-        .repeat $30
-        .byte 0
-        .endrepeat
+        .res $30, 0
         .byte "MOTOO",0,"YASUMA"
-
-        .repeat $54
-        .byte 0
-        .endrepeat
-
+        .res $54, 0
         ;SCENARIO ASSIST
         .byte $C1,$C2,$C3,$C4,$C5,$C6,$C7,$C8
-
-        .repeat $38
-        .byte 0
-        .endrepeat
-
+        .res $38, 0
         .byte "MASAYUKI",0,"KAMEYAMA"
-        .repeat $2F
-        .byte 0
-        .endrepeat
+        .res $2F, 0
         .byte "HIDEO",0,"KON"
-        .repeat $37
-        .byte 0
-        .endrepeat
+        .res $37, 0
         .byte "KATSUTOMO",0,"MAEIWA"
-        .repeat $30
-        .byte 0
-        .endrepeat
+        .res $30, 0
         .byte "KUNIKO",0,"SAKURAI"
-
-        .repeat $52
-        .byte 0
-        .endrepeat
-
+        .res $52, 0
         ;CO-ORDINATE
         .byte $C9,$CA,$CB,$CC,$CD,$CE
-
-        .repeat $3A
-        .byte 0
-        .endrepeat
-
+        .res $3A, 0
         .byte "MASAHIRO",0,"TATEMOTO"
-        .repeat $2F
-        .byte 0
-        .endrepeat
+        .res $2F, 0
         .byte "TAKASHI",0,"KAWAGUCHI"
-        .repeat $2F
-        .byte 0
-        .endrepeat
+        .res $2F, 0
         .byte "KEIZOH",0,"KATOH"
-        .repeat $34
-        .byte 0
-        .endrepeat
+        .res $34, 0
         .byte "MOTOHIRO",0,"ISHII"
-        .repeat $32
-        .byte 0
-        .endrepeat
+        .res $32, 0
         .byte "AKIHITO",0,"TODA"
-
-        .repeat $36
-        .byte 0
-        .endrepeat
-
+        .res $36, 0
         ;????????? please
         .byte $A0,$A0
-
-        .repeat $16
-        .byte 0
-        .endrepeat
-
+        .res $16, 0
         .byte $A0,$20
-
-        .repeat $24
-        .byte 0
-        .endrepeat
-
+        .res $24, 0
         .byte "YUKARI",0,"SAITOH"
-
-        .repeat $53
-        .byte 0
-        .endrepeat
-
+        .res $53, 0
         ;PRODUCE
         .byte $D0,$D1,$D2,$D3
-        
-        .repeat $3C
-        .byte 0
-        .endrepeat
-
+        .res $3C, 0
         .byte "SHIGERU",0,"MIYAMOTO"
-        
-        .repeat $50
-        .byte 0
-        .endrepeat
-
+        .res $50, 0
         ;EXECUTIVE PRODUCE
         .byte $90,$91,$92,$93,$94,$95,$96,$97,$98
-        
-        .repeat $37
-        .byte 0
-        .endrepeat
-
+        .res $37, 0
         .byte "HIROSHI",0,"YAMAUCHI"
-        
-        .repeat $AF
-        .byte 0
-        .endrepeat
-
+        .res $AF, 0
         ;"PLAYER" (specifically with proper quote angling)
         .byte $1E,$83,$84,$85,$86,$87,$88,$1F
-        
-        .repeat $9C
-        .byte 0
-        .endrepeat
-
+        .res $9C, 0
         ;the nintendo logo
         .repeat 2, ArgX
                 .repeat $a, ArgI
@@ -291,9 +132,7 @@
         .endrepeat
         .byte $00,$F2,$F3,$F3,$F3,$F3,$F3,$F3,$F4,$00
 
-        .repeat $12
-        .byte 0
-        .endrepeat
+        .res $12, 0
 
         ;TOKYO RESEARCH & DEVELOPMENT PRODUCTS
         .repeat $10, ArgX
@@ -301,11 +140,7 @@
         .endrepeat
         .byte $7E, $7F
 
-
-        .repeat $34
-        .byte 0
-        .endrepeat
-
+        .res $34, 0
 
         ;APE
         .repeat 7, ArgI
@@ -324,51 +159,21 @@
         .byte $26 + ArgI
         .endrepeat
 
-        .repeat $2D
-        .byte 0
-        .endrepeat
-
+        .res $2D, 0
         ;cant even end without garbage. cool man
         .byte $A0,$20
-
-        .repeat $E
-        .byte 0
-        .endrepeat
-
+        .res $E, 0
         .byte $0A,$0A,$02
-
-        .repeat 4
-        .byte 0
-        .endrepeat
-
+        .res 4, 0
         .byte $08,$0A,$0A
-
-        .repeat 5
-        .byte 0
-        .endrepeat
-
+        .res 5, 0
         .byte $08,$0A,$0A
-
-        .repeat 5
-        .byte 0
-        .endrepeat
-
+        .res 5, 0
         .byte $80
-
-        .repeat 7
-        .byte 0
-        .endrepeat
-
+        .res 7, 0
         .byte $08,$0A,$FA,$FA,$3A,$02
-
-        .repeat 4
-        .byte 0
-        .endrepeat
-
+        .res 4, 0
         .byte $0F,$0F,$03
-
-        .repeat 2
-        .byte 0
-        .endrepeat
+        .res 2, 0
 .code
 

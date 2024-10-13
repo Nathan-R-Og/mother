@@ -13,7 +13,7 @@ def ca65HasNoUnicodeSupport(dir:str):
 
     from glob import glob
     kanjiToBytes = []
-    for file in glob(f"src/{dir}/**/*.asm", recursive=True):
+    for file in glob(f"src/{dir}/**/*.asm", recursive=True) + glob(f"src/global/**/*.asm", recursive=True):
         blacklist = [
             "fontmap.asm",
             "header.asm",
@@ -35,7 +35,7 @@ def ca65HasNoUnicodeSupport(dir:str):
     if len(kanjiToBytes) == 0: return
 
     os.makedirs("build_artifacts/")
-    
+
     from tools.ebToString import stringToEb
     for file in kanjiToBytes:
         outfile = file.replace("src/", "build_artifacts/")
@@ -49,7 +49,7 @@ def ca65HasNoUnicodeSupport(dir:str):
         dots = ""
         for i in range(len(justdir.split("/"))):
             dots += "../"
-            
+
 
         i = 0
         while i < len(lines):
@@ -95,20 +95,21 @@ if __name__ == "__main__":
     )
 
     DEFINES = ""
-    
+
     args = parser.parse_args()
 
     if os.path.exists("build_artifacts/"):
         import shutil
         shutil.rmtree("build_artifacts/")
-    
+
     dir = "us"
     if args.japanese:
         dir = "jp"
         addDefine("VER_JP")
-    
+
     if not args.kanjifix:
-        ca65HasNoUnicodeSupport(dir)
+        if args.japanese: #remove this if we need kanji on us
+            ca65HasNoUnicodeSupport(dir)
     else:
         print("have fun !")
         addDefine("kanjiMacro")
@@ -120,5 +121,4 @@ if __name__ == "__main__":
     subprocess.run(f"ca65 {DEFINES} -o example.o -g src/{dir}/main.asm -t none".strip(), shell = True, executable="/bin/bash")
     subprocess.run(f"ld65 -Ln linked.txt -C {linker} -o mother_rebuilt.nes example.o", shell = True, executable="/bin/bash")
 
-    
-    
+

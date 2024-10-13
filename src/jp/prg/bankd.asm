@@ -1,9 +1,8 @@
 .segment        "PRGD": absolute
 
-.include "../fontmap.asm"
-
 .byte 0
 
+.include "../fontmap.asm"
 kanjifix "*おまえのつれてた おんなのこ"
 .byte   newLine
 kanjifix "かわいかったなぁ。"

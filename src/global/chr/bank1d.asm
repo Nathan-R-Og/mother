@@ -29,9 +29,7 @@
         ;exists!
         ;2 tiles
         .ifdef VER_JP
-        .repeat $20
-        .byte 0
-        .endrepeat
+        .res $20, $0
         .else
         incbinRange "../../split/us/chr/bank1d.bin",$ea0,$ec0
         .endif
@@ -42,9 +40,7 @@
         ;now with a sparkle!
         ;4 tiles
         .ifdef VER_JP
-        .repeat $40
-        .byte 0
-        .endrepeat
+        .res $40, $0
         .else
         incbinRange "../../split/us/chr/bank1d.bin",$f80,$fc0
         .endif
@@ -71,6 +67,6 @@
         .endif
 
         .incbin "../../split/global/chr/bank1d.bin",$1cA0
-        
+
 .code
 
