@@ -777,6 +777,7 @@
 .byte   " rest of the Goods.",newLine
 .byte   stopText
 
+MSG_PODUNK_PIPPI_FRIEND: ;is this used?
 .byte   "*Are you ",nintenName,"'s",newLine
 .byte   " friend?",newLine
 .byte   pauseText

@@ -1,16 +1,23 @@
 MSG_pointerList:
+UMSG_NONE:
 .word 0
 .byte 0
+UMSG_MYHOME_MINNIE_INVASION:
 .word MSG_MYHOME_MINNIE_INVASION
 .byte 0
+UMSG_MYHOME_MINNIE_INVASION_FIGHT:
 .word MSG_MYHOME_MINNIE_INVASION_FIGHT
 .byte 0
+UMSG_MYHOME_MINNIE_INVASION_FIGHT_2:
 .word MSG_MYHOME_MINNIE_INVASION_FIGHT_2
 .byte 0
+UMSG_MYHOME_JUICE:
 .word MSG_MYHOME_JUICE
 .byte 0
+UMSG_MYHOME_MIMMIE_INVASION:
 .word MSG_MYHOME_MIMMIE_INVASION
 .byte 0
+UMSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .word MSG_MYHOME_MIMMIE_INVASION_FIGHT
 .byte 0
 .word 0
@@ -23,7 +30,8 @@ MSG_pointerList:
 .byte 0
 .word $023C
 .byte 0
-.word $025A
+UMSG_PHONE_NEXTLVL:
+.word MSG_PHONE_NEXTLVL
 .byte 0
 .word $027F
 .byte 0
@@ -37,11 +45,14 @@ MSG_pointerList:
 .byte 0
 .word $0000
 .byte 0
-.word $0507
+UMSG_PHONE_END:
+.word MSG_PHONE_END
 .byte 0
-.word $050F
+UMSG_PHONE_INTRO:
+.word MSG_PHONE_INTRO
 .byte 0
-.word $0523
+UMSG_PHONE_NEWMONEY:
+.word MSG_PHONE_NEWMONEY
 .byte 0
 .word $05AA
 .byte 0
@@ -53,23 +64,29 @@ MSG_pointerList:
 .byte 0
 .word $0000
 .byte 0
-.word $0631
+UMSG_PHONE_SAVED_RESETPROMPT:
+.word MSG_PHONE_SAVED_RESETPROMPT
 .byte 0
-.word $0698
+UMSG_PHONE_RESET_YES:
+.word MSG_PHONE_RESET_YES
 .byte 0
-.word $06F2
+UMSG_PHONE_RESET_NO:
+.word MSG_PHONE_RESET_NO
 .byte 0
-.word $0749
-.byte 0
-.word $0000
-.byte 0
-.word $0000
-.byte 0
-.word $076D
+UMSG_PHONE_SAVEPROMPT:
+.word MSG_PHONE_SAVEPROMPT
 .byte 0
 .word $0000
 .byte 0
-.word $077A
+.word $0000
+.byte 0
+UMSG_PHONE_GOODLUCK:
+.word MSG_PHONE_GOODLUCK
+.byte 0
+.word $0000
+.byte 0
+UMSG_PODUNK_PIPPIMOM_THANKS:
+.word MSG_PODUNK_PIPPIMOM_THANKS
 .byte 0
 .word $07BD
 .byte 0
@@ -171,7 +188,8 @@ MSG_pointerList:
 .byte 0
 .word $120A
 .byte 0
-.word $122A
+UMSG_PODUNK_PIPPI_MEET_NOYES:
+.word MSG_PODUNK_PIPPI_MEET_NOYES
 .byte 0
 .word $1232
 .byte 0
@@ -187,29 +205,40 @@ MSG_pointerList:
 .byte 0
 .word $0000
 .byte 0
-.word $1362
+UMSG_CANARY_MAN:
+.word MSG_CANARY_MAN
 .byte 0
-.word $1392
+UMSG_CANARY_MAN_BABY:
+.word MSG_CANARY_MAN_BABY
 .byte 0
-.word $13E9
+UMSG_CANARY_MAN_BABY_NO:
+.word MSG_CANARY_MAN_BABY_NO
 .byte 0
-.word $1421
+UMSG_CANARY_MAN_BABY_YES:
+.word MSG_CANARY_MAN_BABY_YES
 .byte 0
-.word $1436
+UMSG_CANARY_MAN_MELODY:
+.word MSG_CANARY_MAN_MELODY
 .byte 0
-.word $148F
+UMSG_CANARY_MAN_MELODY_NO:
+.word MSG_CANARY_MAN_MELODY_NO
 .byte 0
-.word $14A1
+UMSG_CANARY_MAN_MELODY_YES:
+.word MSG_CANARY_MAN_MELODY_YES
 .byte 0
 .word $14CD
 .byte 0
-.word $151D
+UMSG_PODUNK_PIPPI_BRAVE_YES:
+.word MSG_PODUNK_PIPPI_BRAVE_YES
 .byte 0
-.word $1546
+UMSG_PODUNK_PIPPI_BRAVE_NO:
+.word MSG_PODUNK_PIPPI_BRAVE_NO
 .byte 0
-.word $157B
+UMSG_PODUNK_PIPPI_MEET_YES:
+.word MSG_PODUNK_PIPPI_MEET_YES
 .byte 0
-.word $15DF
+UMSG_PODUNK_PIPPI_MEET_NO:
+.word MSG_PODUNK_PIPPI_MEET_NO
 .byte 0
 .word $160E
 .byte 0
@@ -351,9 +380,11 @@ MSG_pointerList:
 .byte 0
 .word $0000
 .byte 0
-.word $2720
+UMSG_MTITOI_HEALERFAIL:
+.word MSG_MTITOI_HEALERFAIL
 .byte 0
-.word $2799
+UMSG_MTITOI_HEALER:
+.word MSG_MTITOI_HEALER
 .byte 0
 .word $27F4
 .byte 0
@@ -381,7 +412,8 @@ MSG_pointerList:
 .byte 0
 .word $2E46
 .byte 0
-.word $2E64
+UMSG_MTITOI_TEDDY_SLEEP:
+.word MSG_MTITOI_TEDDY_SLEEP
 .byte 0
 .word $0000
 .byte 0
@@ -403,7 +435,8 @@ MSG_pointerList:
 .byte 0
 .word $0000
 .byte 0
-.word $30C8
+UMSG_CANARY_GENERIC:
+.word MSG_CANARY_GENERIC
 .byte 0
 .word $30D1
 .byte 0
@@ -495,9 +528,11 @@ MSG_pointerList:
 .byte 0
 .word $3BFF
 .byte 0
-.word $3C32
+UMSG_DUNCANFACTORY_DOG:
+.word MSG_DUNCANFACTORY_DOG
 .byte 0
-.word $3C7D
+UMSG_DUNCANFACTORY_DOG_PASS:
+.word MSG_DUNCANFACTORY_DOG_PASS
 .byte 0
 .word $0000
 .byte 0
@@ -1063,7 +1098,8 @@ MSG_pointerList:
 .byte 0
 .word $7D43
 .byte 0
-.word $7D7B
+UMSG_PODUNK_PIPPI_FRIEND:
+.word MSG_PODUNK_PIPPI_FRIEND
 .byte 0
 .word $7DC3
 .byte 0
@@ -1103,7 +1139,8 @@ MSG_pointerList:
 .byte 0
 .word $0000
 .byte 0
-.word $80D0
+UMSG_PODUNK_PIPPIMOM:
+.word MSG_PODUNK_PIPPIMOM
 .byte 0
 .word $81A7
 .byte 0
@@ -1155,7 +1192,8 @@ MSG_pointerList:
 .byte 0
 .word $0000
 .byte 0
-.word $85BD
+UMSG_PODUNK_PIPPI_NOROOM:
+.word MSG_PODUNK_PIPPI_NOROOM
 .byte 0
 .word $85F2
 .byte 0
@@ -1169,7 +1207,8 @@ MSG_pointerList:
 .byte 0
 .word $8673
 .byte 0
-.word $8692
+UMSG_PODUNK_PIPPI_NOROOM2:
+.word MSG_PODUNK_PIPPI_NOROOM2
 .byte 0
 .word $86CA
 .byte 0
@@ -1201,7 +1240,8 @@ MSG_pointerList:
 .byte 0
 .word $8799
 .byte 0
-.word $87C2
+UMSG_PODUNK_PIPPI_GOODBYE:
+.word MSG_PODUNK_PIPPI_GOODBYE
 .byte 0
 .word $87CF
 .byte 0
@@ -1239,7 +1279,8 @@ MSG_pointerList:
 .byte 0
 .word $8BF0
 .byte 0
-.word $8C47
+UMSG_CANARY_LAURA:
+.word MSG_CANARY_LAURA
 .byte 0
 .word $0000
 .byte 0
@@ -1373,7 +1414,8 @@ MSG_pointerList:
 .byte 0
 .word $9A70
 .byte 0
-.word $9AA9
+UMSG_MYHOME_DOG:
+.word MSG_MYHOME_DOG
 .byte 0
 .word $9B09
 .byte 0
@@ -1415,7 +1457,8 @@ MSG_pointerList:
 .byte 0
 .word $9EB7
 .byte 0
-.word $9F15
+UMSG_PODUNK_PIPPI_BRAVE:
+.word MSG_PODUNK_PIPPI_BRAVE
 .byte 0
 .word $9F66
 .byte 0
@@ -1625,7 +1668,8 @@ MSG_pointerList:
 .byte 0
 .word $B9C3
 .byte 0
-.word $BA35
+UMSG_CANARY_PILLAR:
+.word MSG_CANARY_PILLAR
 .byte 0
 .word $BA39
 .byte 0
@@ -1645,11 +1689,14 @@ MSG_pointerList:
 .byte 0
 .word $BB58
 .byte 0
-.word $BB83
+UMSG_MENU_YES_NO:
+.word MENU_YES_NO
 .byte 0
-.word $BB91
+UMSG_MENU_CONTINUE_REST:
+.word MENU_CONTINUE_REST
 .byte 0
-.word $BBA1
+UMSG_PHONE_GRAB:
+.word MSG_PHONE_GRAB
 .byte 0
 .word $BBBF
 .byte 0
@@ -1661,11 +1708,14 @@ MSG_pointerList:
 .byte 0
 .word $BCBA
 .byte 0
-.word $BCE3
+UMSG_CANARY_LAURA_SING:
+.word MSG_CANARY_LAURA_SING
 .byte 0
-.word $BD18
+UMSG_REMEMBER_MELODY:
+.word MSG_REMEMBER_MELODY
 .byte 0
-.word $BD34
+UMSG_CANARY_SING:
+.word MSG_CANARY_SING
 .byte 0
 .word $BD4F
 .byte 0
@@ -1673,7 +1723,8 @@ MSG_pointerList:
 .byte 0
 .word $BD95
 .byte 0
-.word $BDCE
+UMSG_PHONE_EXPLVL:
+.word MSG_PHONE_EXPLVL
 .byte 0
 .word $BDE0
 .byte 0
@@ -1683,7 +1734,8 @@ MSG_pointerList:
 .byte 0
 .word $0000
 .byte 0
-.word $BE3D
+UMSG_PODUNK_PIPPIMOM_RETURN:
+.word MSG_PODUNK_PIPPIMOM_RETURN
 .byte 0
 .word $BEFC
 .byte 0
@@ -1719,7 +1771,8 @@ MSG_pointerList:
 .byte 0
 .word $C3B7
 .byte 0
-.word $C465
+UMSG_MYHOME_DOG_ADVICE:
+.word MSG_MYHOME_DOG_ADVICE
 .byte 0
 .word $C4B2
 .byte 0
@@ -1737,7 +1790,8 @@ MSG_pointerList:
 .byte 0
 .word $C683
 .byte 0
-.word $C6CA
+UMSG_PHONE_PAYPHONE:
+.word MSG_PHONE_PAYPHONE
 .byte 0
 .word $C6DE
 .byte 0
@@ -1845,11 +1899,13 @@ MSG_pointerList:
 .byte 0
 .word $D1BA
 .byte 0
-.word $D1CC
+UMSG_GET_ITEM:
+.word MSG_GET_ITEM
 .byte 0
 .word $0000
 .byte 0
-.word $D1DC
+UMSG_INVENTORY_FULL:
+.word MSG_INVENTORY_FULL
 .byte 0
 .word $0000
 .byte 0
@@ -1861,7 +1917,8 @@ MSG_pointerList:
 .byte 0
 .word $D20A
 .byte 0
-.word $D221
+UMSG_CANARY_SIGN:
+.word MSG_CANARY_SIGN
 .byte 0
 .word $D25A
 .byte 0
@@ -1883,7 +1940,8 @@ MSG_pointerList:
 .byte 0
 .word $D44E
 .byte 0
-.word $D47E
+UMSG_MYHOME_SIGN:
+.word MSG_MYHOME_SIGN
 .byte 0
 .word $D48C
 .byte 0
@@ -1909,15 +1967,18 @@ MSG_pointerList:
 .byte 0
 .word $D7B5
 .byte 0
-.word $D7CA
+UMSG_PODUNK_PIPPI_GOODS:
+.word MSG_PODUNK_PIPPI_GOODS
 .byte 0
-.word $D7F8
+UMSG_PODUNK_PIPPI_NOGOODS:
+.word MSG_PODUNK_PIPPI_NOGOODS
 .byte 0
 .word $D82D
 .byte 0
 .word $D83C
 .byte 0
-.word $D84E
+UMSG_MTITOI_TEDDY_CALL:
+.word MSG_MTITOI_TEDDY_CALL
 .byte 0
 .word $D8B4
 .byte 0
@@ -1949,9 +2010,11 @@ MSG_pointerList:
 .byte 0
 .word $DBC5
 .byte 0
-.word $DBFD
+UMSG_MYHOME_DOG_CHECK:
+.word MSG_MYHOME_DOG_CHECK
 .byte 0
-.word $DC33
+UMSG_PODUNK_NOISYMOUSE:
+.word MSG_PODUNK_NOISYMOUSE
 .byte 0
 .word $0000
 .byte 0
@@ -2255,8 +2318,351 @@ MSG_pointerList:
 .byte 1
 .word $131E
 .byte 1
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
 
-.res $AC*3, 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
+.word $0000
+.byte 0
 ;TODO: find out how these specifically are indexed
 ;obviously probably part of the same list
 ;but find out how the offset is calculated, if a static list
@@ -2461,50 +2867,50 @@ MSG_pointerList:
 .byte 1
 .word CHECK_SKY_YDDET
 .byte 1
-;does bank29 start at $2000? verify.
-.word CHECK_UNKENEMY10+$2000
+;bank29 starts at $2000
+.word CHECK_UNKENEMY10
 .byte 1
-.word CHECK_GIGA_BORG+$2000
+.word CHECK_GIGA_BORG
 .byte 1
-.word CHECK_OMEGA_BORG+$2000
+.word CHECK_OMEGA_BORG
 .byte 1
-.word CHECK_SCRAPPER+$2000
+.word CHECK_SCRAPPER
 .byte 1
-.word CHECK_ULTRABARBOT+$2000
+.word CHECK_ULTRABARBOT
 .byte 1
-.word CHECK_OMEGASAUCER+$2000
+.word CHECK_OMEGASAUCER
 .byte 1
-.word CHECK_KELLY+$2000
+.word CHECK_KELLY
 .byte 1
-.word CHECK_STAR_MINER+$2000
+.word CHECK_STAR_MINER
 .byte 1
-.word CHECK_SUPERENERGY+$2000
+.word CHECK_SUPERENERGY
 .byte 1
-.word CHECK_JUANA+$2000
+.word CHECK_JUANA
 .byte 1
-.word CHECK_BLUESTARMAN+$2000
+.word CHECK_BLUESTARMAN
 .byte 1
-.word CHECK_ROCKOYLE+$2000
+.word CHECK_ROCKOYLE
 .byte 1
-.word CHECK_TITANIAN+$2000
+.word CHECK_TITANIAN
 .byte 1
-.word CHECK_OH_MOOK+$2000
+.word CHECK_OH_MOOK
 .byte 1
-.word CHECK_UNKENEMY11+$2000
+.word CHECK_UNKENEMY11
 .byte 1
-.word CHECK_ZOMBIE+$2000
+.word CHECK_ZOMBIE
 .byte 1
-.word CHECK_NASTYZOMBIE+$2000
+.word CHECK_NASTYZOMBIE
 .byte 1
-.word CHECK_SILVER_WOLF+$2000
+.word CHECK_SILVER_WOLF
 .byte 1
-.word CHECK_R7037+$2000
+.word CHECK_R7037
 .byte 1
-.word CHECK_GRIZZLYBEAR+$2000
+.word CHECK_GRIZZLYBEAR
 .byte 1
-.word CHECK_R7038XX+$2000
+.word CHECK_R7038XX
 .byte 1
-.word CHECK_LASTSTARMAN+$2000
+.word CHECK_LASTSTARMAN
 .byte 1
 .word $0000
 .byte 0

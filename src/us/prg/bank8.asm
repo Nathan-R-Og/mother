@@ -1,9 +1,11 @@
 .segment        "PRG8": absolute
 
+.include "../../global/objects/include.asm"
+
 OBJ_BANK_POINTERS1:
 .word OBJ_BANK_0
 .word OBJ_BANK_1
-.word $83F6
+.word OBJ_BANK_2
 .word $8609
 .word $8831
 .word $8BA9
@@ -32,91 +34,47 @@ OBJ_BANK_0:
 .word 0
 .word 0
 
-OBJ_BANK_1:
-.word OBJ_BANK_1_OBJ1
-.word $8084
-.word $808C
-.word $8094
-.word $809A
-.word $80A0
-.word $80D0
-.word $80ED
-.word $8158
-.word $8184
-.word $8190
-.word $81C3
-.word $81DD
-.word $81E8
-.word $81F3
-.word $81FE
-.word $8209
-.word $8214
-.word $821F
-.word $822A
-.word $825C
-.word $8265
-.word $8270
-.word $827C
-.word $8288
-.word $8290
-.word $82BF
-.word $82E8
-.word $8357
-.word $837F
-.word $838D
-.word $83E2
-.word $83EA
+.include "../../global/objects/bank1.asm"
+
+OBJ_BANK_2:
+.word $843C
+.word $8444
+.word $844C
+.word $8454
+.word $845C
+.word $8464
+.word $846C
+.word $847F
+.word $84A9
+.word $84BC
+.word $84CF
+.word $84F0
+.word $84FC
+.word $8508
+.word $8520
+.word $8533
+.word $8546
+.word $8559
+.word $8565
+.word $8571
+.word $8583
+.word $8595
+.word $85A1
+.word $85AD
+.word $85B9
+.word $85C1
+.word $85CD
+.word $85D9
+.word $85E5
+.word $85EB
+.word $85F1
+.word $85F7
+.word $85FD
+.word $8603
 .word 0
 
-.enum OBJ_TYPE
-        NULL = 0
-        DOOR = 1
-        DOOR_UNK = 2
-        STAIRS = 3
-        HOLE = 4
-        WANDERING_NPC = $15
-.endenum
 
-.enum DIRECTIONS
-        UP = 0
-        UP_RIGHT ;1
-        RIGHT ;2
-        DOWN_RIGHT ;3
-        DOWN ;4
-        DOWN_LEFT ;5
-        LEFT ;6
-        UP_LEFT ;7
-        IN_PLACE ;8
-.endenum
-
-.enum SCRIPTS
-        F_DISAPPEAR = 5 ;disappear if f == 1
-        DIALOGUE = 8 ;display dialogue from msg_pointerlist
-        J_TALK = 10 ;jump to j if not talking
-        RESET = 15 ;reset the nes
-        FJ_JUMP = 18 ;jump to j if f == 0
-        I_PICKITEM = $25 ;load i into selected item
-        IJ_HASITEM = $27 ;jump to j if i not in inventory
-        J_GIVEITEM = $2D ;jump to j if inventory full. else give selected item
-        S_PLAYSOUND = $5C ;play s
-.endenum
-
-.macro objectDef type, posX, direction, posY
-        .word (posX << 6) | type
-        .word (posY << 6) | direction
-.endmacro
-
-.macro doorArgDef music, targetPosX, targetDirection, targetPosY
-        .word (targetPosX << 6) | music
-        .word (targetPosY << 6) | targetDirection
-.endmacro
-
-OBJ_BANK_1_OBJ1:
-objectDef OBJ_TYPE::DOOR, $B1, DIRECTIONS::UP, $13B
-doorArgDef $12, $2D, DIRECTIONS::LEFT, $86
-
-
-incbinRange "../../split/us/prg/bank8.bin",$84,$2000
+incbinRange "../../split/us/prg/bank8.bin",$43c,$2000
 
 OBJ_BANK_POINTERS2:
 .word OBJB_BANK_UNK-$2000
@@ -205,7 +163,6 @@ OBJB_MYHOME:
 OBJ_MYHOME_HOUSEDOOR:
 objectDef OBJ_TYPE::DOOR, $2E, DIRECTIONS::RIGHT, $86
 doorArgDef 6, $B1, DIRECTIONS::DOWN, $13C
-
 OBJ_MYHOME_HOUSESTAIRS:
 objectDef OBJ_TYPE::STAIRS, $22, DIRECTIONS::LEFT, $85
 doorArgDef 0, $22, DIRECTIONS::RIGHT, $E6
@@ -243,7 +200,7 @@ objectDef OBJ_TYPE::WANDERING_NPC, $274, DIRECTIONS::RIGHT, $3F6
 .byte 0
         OBJ_MYHOME_MINNIEROOM_MINNIE_J_NOFLAGX25:
 .byte SCRIPTS::DIALOGUE
-.word 1 ;MSG_MYHOME_MINNIE_INVASION
+.word UMSG::MYHOME_MINNIE_INVASION
         OBJ_MYHOME_MINNIEROOM_MINNIE_J_NOTTALKING:
 .byte 0
 

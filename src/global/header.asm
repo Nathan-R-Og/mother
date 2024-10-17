@@ -14,11 +14,10 @@
 
 ;----------------------------------------------------------------------------------------------------
 
-.ifdef VER_JP
 ;Byte 5.
+.ifdef VER_JP
 .byte 16                       ;CHR ROM size: 16 banks * 8KB = 128KB.
 .else
-;Byte 5.
 .byte 32                       ;CHR ROM size: 32 banks * 8KB = 256KB.
 .endif
 
@@ -74,7 +73,7 @@
 ;  ||  ++- TV system (0: NTSC; 2: PAL; 1/3: dual compatible)
 ;  |+----- PRG RAM ($6000-$7FFF) (0: present; 1: not present)
 ;  +------ 0: Board has no bus conflicts; 1: Board has bus conflicts
-;  
+;
 ;Byte 10.
 .byte $00                       ;NTSC, no PRG RAM, no bus conflicts.
 

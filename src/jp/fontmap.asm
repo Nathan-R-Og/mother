@@ -76,23 +76,25 @@ pauseText = 3
 .define lvSTRinc $23,$5B,stopText,newLine,stopText
 .define lvFORinc $23,$5C,stopText,newLine,stopText
 .define SMAAAAASH $67,$68,$69,$6A,$6B,$6C,$6D,$6E,$6F ; this isnt a command per se but this is helpful enough
-.define user $21,$20,$6D
-.define recipient $21,$24,$6D
-.define result $21,$00,$6d
+.define user $21,$90,$6d;DIFFERENT
+.define recipient $21,$94,$6D;DIFFERENT
+.define result $21,$80,$6d;DIFFERENT
 .define favFood $21,$89,$76
 .define nintenName $21,$78,$74
 .define lloydName $21,$F8,$74
 .define anaName $21,$B8,$74
 .define teddyName $21,$38,$75
 .define partyLead $21,$0A,$6D;DIFFERENT
-.define item $21,$04,$6D
+.define item $21,$84,$6D;DIFFERENT
 .define playerName $21,$20,$74
 .define attacker $21,$80,$05
 .define beingAttacked $21,$88,$05
+.define beingAttacked2 $21,$07,$94;????? what
 .define attackResult $21,$90,$05
 .define unk $20,$08,$06
 .define unk2 $20,$08,$07
 .define unk3 $22,$A0,$10
+.define unk4 $21,$0D,$6D ;what is this and why is it everywhere in jp
 
 ;i cant charmap these :(
 alpha = $61 ; α
@@ -100,6 +102,7 @@ beta  = $62 ; β
 gamma = $63 ; γ
 pi    = $64 ; π
 omega = $65 ; Ω
+c00 = $7a ; 00. even if i could i dont know how to do it
 
 .ifndef kanjiMacro
 .macro  kanjifix Arg
@@ -138,7 +141,7 @@ omega = $65 ; Ω
                 .elseif (.strat(Arg, I+1) = $81)
                     ;.if ((.strat(Arg, I+2) >= $81) && (.strat(Arg, I+2) <= $8A))
                     ;    .scope
-                    ;    tile .set .strat(Arg, I+2) 
+                    ;    tile .set .strat(Arg, I+2)
                     ;    small = tile & 1
                     ;    .if (small)
                     ;        .byte (tile + 6) - ((tile-$81) / 2)
@@ -178,7 +181,7 @@ omega = $65 ; Ω
                             .byte   $95
                     ;.elseif ((.strat(Arg, I+2) >= $8B) && (.strat(Arg, I+2) <= $A2))
                     ;    .scope
-                    ;    tile .set .strat(Arg, I+2) 
+                    ;    tile .set .strat(Arg, I+2)
                     ;    dakuten = !(tile & 1)
                     ;    .if (dakuten)
                     ;        .byte ((tile + $b) - ((tile-$8B) / 2)) - $91

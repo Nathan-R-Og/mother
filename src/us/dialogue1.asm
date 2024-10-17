@@ -72,6 +72,7 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   " wounded.",newLine
 .byte   stopText
 
+MSG_PHONE_NEXTLVL:
 .byte   "*Well, the next",newLine
 .byte   " level",newLine
 .byte   " requires...",newLine
@@ -136,12 +137,13 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   " you want.",newLine
 .byte   stopText
 
+MSG_PHONE_END:
 .byte   "*Slam.",newLine
 .byte   stopText
-
+MSG_PHONE_INTRO:
 .byte   "*This is your Dad.",newLine
 .byte   stopText
-
+MSG_PHONE_NEWMONEY:
 .byte   "*I've transferred",newLine
 .byte   " $",cashDeposit,newLine
 .byte   " into your account.",newLine
@@ -155,22 +157,22 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   "*Spend your money",newLine
 .byte   " wisely.",newLine
 .byte   stopText
-
+MSG_PHONE_RESETPROMPT:
 .byte   "*Now son, it's not",newLine
 .byte   " my business, but",newLine
 .byte   " why not rest?",newLine
 .byte   stopText
-
+MSG_PHONE_SAVE_YES:
 .byte   "*I see. ",newLine
 .byte   " I'll SAVE your",newLine
 .byte   " progress.",newLine
 .byte   stopText
-
+MSG_PHONE_SAVE_NO:
 .byte   "*I see.",newLine
 .byte   " I know, the Earth",newLine
 .byte   " faces a crisis.",newLine
 .byte   stopText
-
+MSG_PHONE_SAVED_RESETPROMPT:
 .byte   "*OK...But, I was",newLine
 .byte   " thinking of going",newLine
 .byte   " to sleep now.",newLine
@@ -180,8 +182,7 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   pauseText
 .byte   "*Good night.",newLine
 .byte   stopText
-
-;yes
+MSG_PHONE_RESET_YES:
 .byte   "*See you later!",newLine
 .byte   pauseText
 .byte   "*Remember, push in",newLine
@@ -190,8 +191,7 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   "*while turning the",newLine
 .byte   " POWER off. OK?",newLine
 .byte   stopText
-
-;no
+MSG_PHONE_RESET_NO:
 .byte   "*Just like your",newLine
 .byte   " Mom, you never",newLine
 .byte   " want to stop.",newLine
@@ -199,14 +199,15 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   "*Please don't push",newLine
 .byte   " yourself so hard.",newLine
 .byte   stopText
-
+MSG_PHONE_SAVEPROMPT:
 .byte   "*By the way, do",newLine
 .byte   " you want to SAVE?",newLine
 .byte   stopText
-
+MSG_PHONE_GOODLUCK:
 .byte   "*Good luck.",newLine
 .byte   stopText
 
+MSG_PODUNK_PIPPIMOM_THANKS:
 .byte   "*I want to thank",newLine
 .byte   " you again for your",newLine
 .byte   " help.",newLine
@@ -495,6 +496,7 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   " aren't they?",newLine
 .byte   stopText
 
+MSG_PODUNK_PIPPI_MEET_NOYES:
 .byte   "*Hmmm.",newLine
 .byte   stopText
 
@@ -530,11 +532,12 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   " card for it.",newLine
 .byte   stopText
 
+MSG_CANARY_MAN:
 .byte   "*It's fine weather",newLine
 .byte   " today.",newLine
 .byte   " But, I don't care.",newLine
 .byte   stopText
-
+MSG_CANARY_MAN_BABY:
 .byte   "*Wow! That Canary",newLine
 .byte   " is the baby of",newLine
 .byte   " singing Laura.",newLine
@@ -542,17 +545,17 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   "*Will you return her",newLine
 .byte   " baby to her.",newLine
 .byte   stopText
-
+MSG_CANARY_MAN_BABY_NO:
 .byte   "*Wait...",newLine
 .byte   pauseText
 .byte   "*You just missed",newLine
 .byte   " something very",newLine
 .byte   " important.",newLine
 .byte   stopText
-
+MSG_CANARY_MAN_BABY_YES:
 .byte   "*Where is Laura?...",newLine
 .byte   stopText
-
+MSG_CANARY_MAN_MELODY:
 .byte   "*Laura remembered",newLine
 .byte   " her song, and began",newLine
 .byte   " to sing once more.",newLine
@@ -560,10 +563,10 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   "*Did you learn",newLine
 .byte   " the melody?",newLine
 .byte   stopText
-
+MSG_CANARY_MAN_MELODY_NO:
 .byte   "*That's no good.",newLine
 .byte   stopText
-
+MSG_CANARY_MAN_MELODY_YES:
 .byte   "*The truth is...",newLine
 .byte   " There is power in",newLine
 .byte   " song.",newLine
@@ -577,16 +580,17 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   " have found me.",newLine
 .byte   stopText
 
+MSG_PODUNK_PIPPI_BRAVE_YES:
 .byte   "*Don't get so",newLine
 .byte   " swell headed.",newLine
 .byte   " Ha-ha-ha.",newLine
 .byte   stopText
-
+MSG_PODUNK_PIPPI_BRAVE_NO:
 .byte   "*You're brave. I",newLine
 .byte   " hope we can meet",newLine
 .byte   " again sometime.",newLine
 .byte   stopText
-
+MSG_PODUNK_PIPPI_MEET_YES:
 .byte   "*I'm so happy!  To",newLine
 .byte   " show my gratitude",newLine
 .byte   " take my gift.",newLine
@@ -595,7 +599,7 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   " will guard you.",newLine
 .byte   " Keep it!",newLine
 .byte   stopText
-
+MSG_PODUNK_PIPPI_MEET_NO:
 .byte   "*You probably",newLine
 .byte   " already have",newLine
 .byte   " someone special,",newLine

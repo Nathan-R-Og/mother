@@ -99,7 +99,7 @@ table_jp = {
 0xAC: "ふ",
 0x1C: "ぶ",
 0x17: "ぷ",
-0xAD: "へ",
+0xAD: "へ",#hirigana
 0x1D: "べ",
 0x18: "ぺ",
 0xAE: "ほ",
@@ -179,7 +179,7 @@ table_jp = {
 0xEC: "フ",
 0x3C: "ブ",
 0x37: "プ",
-0xED: "ヘ",
+0xED: "ヘ",#katakana
 0x3D: "ベ",
 0x38: "ペ",
 0xEE: "ホ",
@@ -224,6 +224,8 @@ table_jp = {
 
 0x74: "(",
 0x75: ")",
+0x7a: "c00",
+0xc5: ">"
 
 }
 
@@ -435,11 +437,11 @@ def ebToString(input:str, asm=False, english=True):
                     elif input[i:i+18].upper() == "6768696A6B6C6D6E6F":
                         lines.append(".byte   SMAAAAASH")
                         i += 4
-                    elif input[i:i+4].upper() == "206D":
+                    elif input[i:i+4].upper() == "906D":
                         lines.append(".byte   user")
-                    elif input[i:i+4].upper() == "246D":
+                    elif input[i:i+4].upper() == "946D":
                         lines.append(".byte   recipient")
-                    elif input[i:i+4].upper() == "006D":
+                    elif input[i:i+4].upper() == "806D":
                         lines.append(".byte   result")
                     elif input[i:i+4].upper() == "8976":
                         lines.append(".byte   favFood")
@@ -453,7 +455,7 @@ def ebToString(input:str, asm=False, english=True):
                         lines.append(".byte   teddyName")
                     elif input[i:i+4].upper() == "0A6D":
                         lines.append(".byte   partyLead")
-                    elif input[i:i+4].upper() == "046D":
+                    elif input[i:i+4].upper() == "846D":
                         lines.append(".byte   item")
                     elif input[i:i+4].upper() == "2074":
                         lines.append(".byte   playerName")
@@ -461,6 +463,8 @@ def ebToString(input:str, asm=False, english=True):
                         lines.append(".byte   attacker")
                     elif input[i:i+4].upper() == "8805":
                         lines.append(".byte   beingAttacked")
+                    elif input[i:i+4].upper() == "0794":
+                        lines.append(".byte   beingAttacked2")
                     elif input[i:i+4].upper() == "9005":
                         lines.append(".byte   attackResult")
                     elif input[i:i+4].upper() == "0806":
@@ -469,6 +473,8 @@ def ebToString(input:str, asm=False, english=True):
                         lines.append(".byte   unk2")
                     elif input[i:i+4].upper() == "A010":
                         lines.append(".byte   unk3")
+                    elif input[i:i+4].upper() == "0D6D": #jp only?????
+                        lines.append(".byte   unk4")
                     else:
                         cmd = input[i-2:i+4]
                         lines.append(".byte   unk"+cmd)

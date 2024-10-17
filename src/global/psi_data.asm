@@ -7,10 +7,7 @@
 .macro psiDef name, nintenLevel, anaLevel, overworldEffect, battleEffect, arg5, cost
 
     .ifdef VER_JP
-        .scope
-        ramoffset = $5400
-        .word name+ramoffset
-        .endscope
+        .word name+$5400
     .else
         .word name
     .endif

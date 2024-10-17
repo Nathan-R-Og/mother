@@ -36,7 +36,7 @@ binclude "prg/bank0.asm"
 .include "prg/banka.asm"
 .include "prg/bankb.asm"
 .include "prg/bankc.asm"
-binclude "prg/bankd.asm"
+.include "prg/bankd.asm"
 .include "prg/banke.asm"
 .include "prg/bankf.asm"
 

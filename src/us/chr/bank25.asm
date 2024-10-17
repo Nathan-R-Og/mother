@@ -659,6 +659,7 @@
 .byte   " play.",newLine
 .byte   stopText
 
+MSG_CANARY_PILLAR:
 .byte   "*?",newLine
 .byte   stopText
 
@@ -700,13 +701,14 @@
 .byte   " inside.",newLine
 .byte   stopText
 
+MENU_YES_NO:
 .byte   "  Yes      No"
 .byte   stopText
-
+MENU_CONTINUE_REST:
 .byte   "  Continue Rest"
 .byte   stopText
 
-
+MSG_PHONE_GRAB:
 .byte   "*",partyLead," grabbed the",newLine
 .byte   " telephone.",newLine
 .byte   stopText
@@ -739,15 +741,18 @@
 .byte   " you.",newLine
 .byte   stopText
 
+MSG_CANARY_LAURA_SING:
 .byte   "*Overjoyed with her",newLine
 .byte   " reunion, Laura",newLine
 .byte   " began singing.",newLine
 .byte   stopText
 
+MSG_REMEMBER_MELODY:
 .byte   "*",partyLead," remembered",newLine
 .byte   " the tune.",newLine
 .byte   stopText
 
+MSG_CANARY_SING:
 .byte   "*This canary is",newLine
 .byte   " singing.",newLine
 .byte   stopText
@@ -765,6 +770,7 @@
 .byte   " came back to life.",newLine
 .byte   stopText
 
+MSG_PHONE_EXPLVL:
 .byte   "*",price," for",newLine
 .byte   " ",result,".",newLine
 .byte   stopText
@@ -779,6 +785,7 @@
 .byte   " mysterious water.",newLine
 .byte   stopText
 
+MSG_PODUNK_PIPPIMOM_RETURN:
 .byte   "*Oh my, little",newLine
 .byte   " Pippi!  You're",newLine
 .byte   " back and safe!",newLine

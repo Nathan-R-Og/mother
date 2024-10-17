@@ -186,6 +186,7 @@
 .byte   " I forget.",newLine
 .byte   stopText
 
+MSG_MTITOI_HEALERFAIL:
 .byte   "*You tried to",newLine
 .byte   " ignore me, didn't",newLine
 .byte   " you?",newLine
@@ -198,7 +199,7 @@
 .byte   " anything I can.",newLine
 .byte   " Here!",newLine
 .byte   stopText
-
+MSG_MTITOI_HEALER:
 .byte   "*How happy I am",newLine
 .byte   " that you came to",newLine
 .byte   " see me.",newLine
@@ -358,6 +359,8 @@
 .byte   " to girls.",newLine
 .byte   stopText
 
+;this is also probably for others, find out
+MSG_MTITOI_TEDDY_SLEEP: ;basically unused
 .byte   "*Zzzzzzzzzzzz...",newLine
 .byte   stopText
 
@@ -414,6 +417,7 @@
 .byte   " hear that song...",newLine
 .byte   stopText
 
+MSG_CANARY_GENERIC:
 .byte   "*......",newLine
 .byte   stopText
 
@@ -704,6 +708,7 @@
 .byte   " in the north.",newLine
 .byte   stopText
 
+MSG_DUNCANFACTORY_DOG:
 .byte   "*This factory is",newLine
 .byte   " Mr. Duncan's",newLine
 .byte   " private property.",newLine
@@ -711,7 +716,7 @@
 .byte   "*Let's see your",newLine
 .byte   " Pass!",newLine
 .byte   stopText
-
+MSG_DUNCANFACTORY_DOG_PASS:
 .byte   "*This Pass has",newLine
 .byte   " expired. You must",newLine
 .byte   " have stolen it!",newLine

@@ -1,4 +1,6 @@
-.segment        "PRGC": absolute
+.segment        "PRGC_1": absolute
+
+.byte 0
 
 .ifndef kanjiMacro
     binclude "dialogue1.asm"
@@ -6,6 +8,15 @@
     .include "../dialogue1.asm"
 .endif
 
-.incbin "../../split/jp/prg/bankc.bin", $2000, $4000-$2000
+.code
+.segment        "PRGC_2": absolute
+
+.byte 0
+
+.ifndef kanjiMacro
+    binclude "dialogue2.asm"
+.else
+    .include "../dialogue2.asm"
+.endif
 
 .code

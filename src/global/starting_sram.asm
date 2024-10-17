@@ -1,5 +1,6 @@
 ;intial sram
 ;jp has minor diffs
+
 .include "../fontmap.asm"
 
 ;checksum
@@ -26,15 +27,15 @@
 .endif
 
 .byte $00,$00,$6B,$84,$1C,$42,$1E
-;player name. a whopping 17 characters!!!!! wow!!!
 
+;player name. a whopping 17 characters!!!!! wow!!!
 .ifdef VER_JP
 .byte "NO NAME"
 .else
 .byte "......."
 .endif
-
 .byte 0,0,0,0,0,0,0,0,0,0
+
 ;?
 .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 

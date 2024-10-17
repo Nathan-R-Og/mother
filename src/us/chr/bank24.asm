@@ -24,6 +24,7 @@
 .byte   " night.",newLine
 .byte   stopText
 
+MSG_PODUNK_PIPPIMOM:
 .byte   "*Oh, what can I do?",newLine
 .byte   " What should I do?",newLine
 .byte   pauseText
@@ -156,6 +157,7 @@
 .byte   " Be careful.",newLine
 .byte   stopText
 
+MSG_PODUNK_PIPPI_NOROOM:
 .byte   "*You can't carry",newLine
 .byte   " anything more. ",newLine
 .byte   " See you later...",newLine
@@ -181,6 +183,7 @@
 .byte   " to town.",newLine
 .byte   stopText
 
+MSG_PODUNK_PIPPI_NOROOM2:
 .byte   "*Sorry, but I am",newLine
 .byte   " afraid you can't",newLine
 .byte   " carry all of them.",newLine
@@ -213,6 +216,7 @@
 .byte   " I'm so worried.",newLine
 .byte   stopText
 
+MSG_PODUNK_PIPPI_GOODBYE:
 .byte   "*Good luck!",newLine
 .byte   stopText
 
@@ -333,6 +337,7 @@
 .byte   " your success.",newLine
 .byte   stopText
 
+MSG_CANARY_LAURA:
 .byte   "*I am Laura.",newLine
 .byte   stopText
 
@@ -701,6 +706,7 @@
 .byte   " train cannot pass.",newLine
 .byte   stopText
 
+MSG_MYHOME_DOG:
 .byte   "*You can converse",newLine
 .byte   " with animals.",newLine
 .byte   pauseText
@@ -812,6 +818,7 @@
 .byte   " what you've done.",newLine
 .byte   stopText
 
+MSG_PODUNK_PIPPI_BRAVE:
 .byte   "*I've heard about",newLine
 .byte   " your wonderful",newLine
 .byte   " adventures.",newLine

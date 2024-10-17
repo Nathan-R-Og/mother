@@ -103,6 +103,7 @@
 .byte   " player.",newLine
 .byte   stopText
 
+MSG_MYHOME_DOG_ADVICE:
 .byte   "*When you find some-",newLine
 .byte   " thing strange,",newLine
 .byte   pauseText
@@ -161,6 +162,7 @@
 .byte   "*Please take care...",newLine
 .byte   stopText
 
+MSG_PHONE_PAYPHONE:
 .byte   "*Not enough money.",newLine
 .byte   stopText
 
@@ -457,10 +459,12 @@
 .byte   " ",item,".",newLine
 .byte   stopText
 
+MSG_GET_ITEM:
 .byte   "*",partyLead," got",newLine
 .byte   " ",item,".",newLine
 .byte   stopText
 
+MSG_INVENTORY_FULL:
 .byte   "*Can't carry",newLine
 .byte   " anything else.",newLine
 .byte   stopText
@@ -472,6 +476,7 @@
 .byte   " Soften",newLine
 .byte   stopText
 
+MSG_CANARY_SIGN:
 .byte   "*     City Zoo",newLine
 .byte   "       NORTH",newLine
 .byte   pauseText
@@ -539,6 +544,7 @@
 .byte   "       SOUTH",newLine
 .byte   stopText
 
+MSG_MYHOME_SIGN:
 .byte   "*",nintenName,"'s house",newLine
 .byte   stopText
 
@@ -626,11 +632,12 @@
 .byte   "*Old, rusty rocket.",newLine
 .byte   stopText
 
+MSG_PODUNK_PIPPI_GOODS:
 .byte   "*Did you come for",newLine
 .byte   " your Goods? Here",newLine
 .byte   " you go.",newLine
 .byte   stopText
-
+MSG_PODUNK_PIPPI_NOGOODS:
 .byte   "*I've given you all",newLine
 .byte   " the Goods. Please",newLine
 .byte   " come again.",newLine
@@ -642,6 +649,7 @@
 .byte   "  Refresh  Soften"
 .byte   stopText
 
+MSG_MTITOI_TEDDY_CALL:
 .byte   "*(",teddyName,") I'm",newLine
 .byte   " sure you two would",newLine
 .byte   " like to be alone.",newLine
@@ -713,7 +721,6 @@
 .byte   "* Sweet's Little",newLine
 .byte   "      Factory",newLine
 .byte   stopText
-
 .byte   "*I was kidnapped by",newLine
 .byte   " the Mother Ship.",newLine
 .byte   " Please help me!",newLine
@@ -738,11 +745,13 @@
 .byte   " prized possession.",newLine
 .byte   stopText
 
+MSG_MYHOME_DOG_CHECK:
 .byte   "*There, on the dog's",newLine
 .byte   " collar, was the",newLine
 .byte   " Basement Key.",newLine
 .byte   stopText
 
+MSG_PODUNK_NOISYMOUSE:
 .byte   "*Hee Hee Hee...",newLine
 .byte   " I am the noisy",newLine
 .byte   " mouse.",newLine

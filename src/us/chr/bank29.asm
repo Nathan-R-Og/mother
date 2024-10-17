@@ -808,6 +808,7 @@ CHECK_LASTSTARMAN:
 .byte   "Picked up ",item,"!",newLine
 .byte   pauseText,waitThenOverwrite
 
+MSG_GIEGUE_CHECK_REAL:
 .byte   "(",partyLead," hears the",newLine
 .byte   "voice of Queen Mary)",newLine
 .byte   pauseText

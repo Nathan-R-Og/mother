@@ -1,15 +1,21 @@
-.segment        "PRGD": absolute
+.segment        "PRGD_1": absolute
 
 .byte 0
 
-.include "../fontmap.asm"
-kanjifix "*おまえのつれてた おんなのこ"
-.byte   newLine
-kanjifix "かわいかったなぁ。"
-.byte   newLine
-.byte   stopText
+.ifndef kanjiMacro
+    binclude "dialogue3.asm"
+.else
+    .include "../dialogue3.asm"
+.endif
 
-        .incbin "../../split/jp/prg/bankd.bin", $1c
+.code
+
+.segment        "PRGD_2": absolute
+.ifndef kanjiMacro
+    binclude "dialogue4.asm"
+.else
+    .include "../dialogue4.asm"
+.endif
 
 .code
 
