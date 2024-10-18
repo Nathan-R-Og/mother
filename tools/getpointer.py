@@ -1,4 +1,4 @@
-#a simple python script to get the value at index toGet of the massive Earthbound Beginnings pointer list.
+#a simple python script to get the value at index toGet of the massive Earthbound Beginnings dialogue pointer list.
 #mostly made for me since it's actually awful trying to do calculations with a growing organism like that
 #also helps for checking if a pointer has already been fixed without doing pointer searching itself
 

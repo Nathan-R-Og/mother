@@ -791,6 +791,7 @@ MSG_PODUNK_PIPPI_FRIEND: ;is this used?
 .byte   " from you?",newLine
 .byte   stopText
 
+MSG_PODUNK_SIGN:
 .byte   "*  Welcome to",newLine
 .byte   "     Podunk",newLine
 .byte   stopText

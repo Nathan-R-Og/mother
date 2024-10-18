@@ -35,46 +35,9 @@ OBJ_BANK_0:
 .word 0
 
 .include "../../global/objects/bank1.asm"
+.include "../../global/objects/bank2.asm"
 
-OBJ_BANK_2:
-.word $843C
-.word $8444
-.word $844C
-.word $8454
-.word $845C
-.word $8464
-.word $846C
-.word $847F
-.word $84A9
-.word $84BC
-.word $84CF
-.word $84F0
-.word $84FC
-.word $8508
-.word $8520
-.word $8533
-.word $8546
-.word $8559
-.word $8565
-.word $8571
-.word $8583
-.word $8595
-.word $85A1
-.word $85AD
-.word $85B9
-.word $85C1
-.word $85CD
-.word $85D9
-.word $85E5
-.word $85EB
-.word $85F1
-.word $85F7
-.word $85FD
-.word $8603
-.word 0
-
-
-incbinRange "../../split/us/prg/bank8.bin",$43c,$2000
+incbinRange "../../split/us/prg/bank8.bin",$609,$2000
 
 OBJ_BANK_POINTERS2:
 .word OBJB_BANK_UNK-$2000

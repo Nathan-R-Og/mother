@@ -827,6 +827,7 @@ MSG_PODUNK_PIPPI_BRAVE:
 .byte   " aren't you?",newLine
 .byte   stopText
 
+MSG_PODUNK_CANARYGUY:
 .byte   "*The Canary Village",newLine
 .byte   " is northwest from",newLine
 .byte   " here.",newLine

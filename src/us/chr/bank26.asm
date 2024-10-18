@@ -484,6 +484,7 @@ MSG_CANARY_SIGN:
 .byte   "       SOUTH",newLine
 .byte   stopText
 
+MSG_PODUNK_CANARYSIGN:
 .byte   "*No Hunting -",newLine
 .byte   " Approaching",newLine
 .byte   pauseText
@@ -491,6 +492,7 @@ MSG_CANARY_SIGN:
 .byte   " Wildlife Refuge",newLine
 .byte   stopText
 
+MSG_PODUNK_CITYHALLSIGN:
 .byte   "*  City Hall",newLine
 .byte   "     City of Podunk",newLine
 .byte   stopText

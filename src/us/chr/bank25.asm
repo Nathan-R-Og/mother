@@ -2,11 +2,13 @@
 
 .include "../fontmap.asm"
 
+MSG_PODUNK_SHYGUY:
 .byte   "*The receptionist at",newLine
 .byte   " City Hall is so",newLine
 .byte   " gorgeous.",newLine
 .byte   stopText
 
+MSG_PODUNK_ASTHMAGIRL:
 .byte   "*Hey ",nintenName,", how's",newLine
 .byte   " your asthma?",newLine
 .byte   pauseText
@@ -701,10 +703,10 @@ MSG_CANARY_PILLAR:
 .byte   " inside.",newLine
 .byte   stopText
 
-MENU_YES_NO:
+MSG_MENU_YES_NO:
 .byte   "  Yes      No"
 .byte   stopText
-MENU_CONTINUE_REST:
+MSG_MENU_CONTINUE_REST:
 .byte   "  Continue Rest"
 .byte   stopText
 

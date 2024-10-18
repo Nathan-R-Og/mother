@@ -3,7 +3,7 @@
 ;(since it's basically an array, anyways)
 ;specifically to aid in shifting and general reordering.
 .define BATTLEID(ta) .LOBYTE((ta-BATTLES_START)/$A)
-.enum BATTLES
+.scope BATTLES
         NULL = BATTLEID(BATTLE_NULL)
         MYHOUSE_RAT1 = BATTLEID(BATTLE_MYHOUSE_RAT1)
         B_BATTLE_2 = BATTLEID(BATTLE_2)
@@ -169,7 +169,7 @@
         B_BATTLE_A2 = BATTLEID(BATTLE_A2)
         B_BATTLE_A3 = BATTLEID(BATTLE_A3)
         B_BATTLE_A4 = BATTLEID(BATTLE_A4)
-.endenum
+.endscope
 
 ramOffset := $5800
 .segment        "PRGA": absolute

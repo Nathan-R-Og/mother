@@ -1248,12 +1248,14 @@ kanjifix "        どうぶつえん」"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_CANARYSIGN:
 kanjifix "「このおく カナリアむら。"
 .byte   newLine
 kanjifix " しぜんを たいせつにしよう!」"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_CITYHALLSIGN:
 kanjifix "「マザ-ズデイ まちやくば」"
 .byte   newLine
 .byte   stopText

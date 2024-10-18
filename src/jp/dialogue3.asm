@@ -336,6 +336,7 @@ kanjifix "くたばっちまったのかい。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_SIGN:
 kanjifix "「ウェルカム トゥ マザ-ズデイ」"
 .byte   newLine
 .byte   stopText
@@ -1423,6 +1424,7 @@ kanjifix "やっぱり ゆうきあるのね。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_CANARYGUY:
 kanjifix "*カナリアむらは"
 .byte   newLine
 kanjifix "きたにのぼって にしのほうがくだ。"
@@ -1436,6 +1438,7 @@ kanjifix "いくといいぞ。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_SHYGUY:
 kanjifix "*まちやくばに"
 .byte   newLine
 kanjifix "びじんのひしょが いるんだよな。"
@@ -1444,6 +1447,7 @@ kanjifix "1かいの うけつけさ。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_ASTHMAGIRL:
 kanjifix "*は-ら へった-。"
 .byte   newLine
 .byte   stopText

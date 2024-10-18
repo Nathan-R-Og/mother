@@ -35,9 +35,9 @@ OBJ_BANK_0:
 .word 0
 
 .include "../../global/objects/bank1.asm"
+.include "../../global/objects/bank2.asm"
 
-OBJ_BANK_2:
-incbinRange "../../split/jp/prg/bank8.bin", $3f5, $1f7d
+incbinRange "../../split/jp/prg/bank8.bin", $608, $1f7d
 
 .res $83, $FF
 incbinRange "../../split/jp/prg/bank8.bin", $2000, $2322

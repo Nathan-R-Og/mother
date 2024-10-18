@@ -249,6 +249,7 @@ kanjifix "すっごく げんきよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_CEMETERYGUY1:
 kanjifix "*おまえ まさか"
 .byte   newLine
 kanjifix "みなみの はかばから"
@@ -256,11 +257,12 @@ kanjifix "みなみの はかばから"
 kanjifix "きたんじゃないだろうな。"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_CEMETERYGUY2:
 kanjifix "*おまえ すごいな。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_SCAREDGUY1:
 kanjifix "*おまえ まさか"
 .byte   newLine
 kanjifix "ゾンビじゃないだろうな。"
@@ -268,71 +270,75 @@ kanjifix "ゾンビじゃないだろうな。"
 kanjifix "ゾンビか?"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_SCAREDGUY2:
 kanjifix "*ゾ ゾ ゾンビの‥‥"
 .byte   newLine
 kanjifix "バカッ! ヒャ--"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_SCAREDGUY3:
 kanjifix "*ほんとに にんげんか?"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_SCAREDGUY4:
 kanjifix "*よく ここまで こられたな。"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_SCAREDGUY5:
 kanjifix "*やっぱりな‥‥"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_SCAREDGUY6:
 kanjifix "*おれ  こわくて"
 .byte   newLine
 kanjifix "おもらししそうだよ。"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_SCAREDGUY7:
 kanjifix "*こわかったよなぁ。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_ZOMBIE:
 kanjifix "*ゾンビ-!"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_ZOMBIE2:
 kanjifix "*フフフフフ‥‥"
 .byte   newLine
 kanjifix "おまえも ゾンビに なれ!"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_NECROMANCERWOMAN1:
 kanjifix "*ししゃたちを うごかしている"
 .byte   newLine
 kanjifix "なにものかが いるらしい。"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_NECROMANCERWOMAN2:
 kanjifix "*おわかいの やるではないか。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_WARYGUY:
 kanjifix "*このまちも ゾンビに"
 .byte   newLine
 kanjifix "せんりょうされてしまうのか。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_CANARYGIRL1:
 kanjifix "*あら カナリアのヒナね。"
 .byte   newLine
 kanjifix "カナリアむらで てにいれたの?"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_CANARYGIRL2:
 kanjifix "*へ-え。"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_CANARYGIRL3:
 kanjifix "*カナリアむらの ことりなら"
 .byte   newLine
 kanjifix "きれいなうたを"
@@ -340,13 +346,14 @@ kanjifix "きれいなうたを"
 kanjifix "うたうはずだものね。"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_CANARYGIRL4:
 kanjifix "*わたし カナリアむらの"
 .byte   newLine
 kanjifix "おじさんに あこがれてるのよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_MAYORGUY:
 kanjifix "*ちょうちょうさんは"
 .byte   newLine
 kanjifix "ゆうきのある すけっとを"
@@ -355,6 +362,7 @@ kanjifix "さがしておられる。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_CONCERNEDGUY:
 kanjifix "*はかばに こどもが"
 .byte   newLine
 kanjifix "まよいこんだっていうけど"
@@ -363,18 +371,20 @@ kanjifix "たすかったのかなぁ。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_SENSIBLEGUY1:
 kanjifix "*おまえ‥‥"
 .byte   newLine
 kanjifix "ほんとに はかばに いくつもりか?"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_SENSIBLEGUY2:
 kanjifix "*じょうしきを わきまえた"
 .byte   newLine
 kanjifix "こどもだと おもったな オレは。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_EVENTGIRL1:
 kanjifix "*どうぶつたちは"
 .byte   newLine
 kanjifix "くるって あばれだすし"
@@ -390,11 +400,12 @@ kanjifix "*どうすればいいのよ。"
 kanjifix "ヒ-ヒ-‥‥"
 .byte   newLine
 .byte   stopText
-
+MSG_PODUNK_EVENTGIRL2:
 kanjifix "*あなたって スゴイ!"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_POLTERGUY:
 kanjifix "*おまえんち ポルタ-ガイストに"
 .byte   newLine
 kanjifix "みまわれなかったか?"
@@ -403,6 +414,7 @@ kanjifix "おれんちなんか たいへんだったぜ。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_ZOOGUY:
 kanjifix "*どうぶつえんは"
 .byte   newLine
 kanjifix "くるったどうぶつが これいじょう"
@@ -413,6 +425,7 @@ kanjifix "かんぜんに へいさしたそうだぜ。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_BREADGIRL:
 kanjifix "*パンは たべることもできるけれど"
 .byte   newLine
 kanjifix "ちぎって パンくずにすると"
@@ -651,6 +664,7 @@ kanjifix "うっふん。"
 .byte   newLine
 .byte   stopText
 
+MSG_PODUNK_CASHCARDWOMAN:
 kanjifix "*デパ-トの 1かいに"
 .byte   newLine
 kanjifix "ちょきんを おろせる きかいが"

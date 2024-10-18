@@ -216,89 +216,96 @@ MSG_PODUNK_PIPPIMOM_THANKS:
 .byte   " fine now.",newLine
 .byte   stopText
 
+MSG_PODUNK_CEMETERYGUY1:
 .byte   "*Don't tell me",newLine
 .byte   " you've been south",newLine
 .byte   " to the cemetery!",newLine
 .byte   stopText
-
+MSG_PODUNK_CEMETERYGUY2:
 .byte   "*You are terrific.",newLine
 .byte   stopText
-
+MSG_PODUNK_SCAREDGUY1:
 .byte   "*Be honest,",newLine
 .byte   " you're a zombie.",newLine
 .byte   pauseText
 .byte   "*Aren't you?",newLine
 .byte   stopText
-
+MSG_PODUNK_SCAREDGUY2:
 .byte   "*There is no cure",newLine
 .byte   " for zombies!",newLine
 .byte   " AAAAAAAHHH!",newLine
 .byte   stopText
-
+MSG_PODUNK_SCAREDGUY3:
 .byte   "*Are you really",newLine
 .byte   " a human?",newLine
 .byte   stopText
-
+MSG_PODUNK_SCAREDGUY4:
 .byte   "*It's amazing",newLine
 .byte   " you came here.",newLine
 .byte   stopText
-
+MSG_PODUNK_SCAREDGUY5:
 .byte   "*You see...",newLine
 .byte   stopText
-
+MSG_PODUNK_SCAREDGUY6:
 .byte   "*Don't tell anyone,",newLine
 .byte   " but I'm so scared,",newLine
 .byte   " I wet my pants.",newLine
 .byte   stopText
-
+MSG_PODUNK_SCAREDGUY7:
 .byte   "*It was dreadful...",newLine
 .byte   stopText
 
+MSG_PODUNK_ZOMBIE:
 .byte   "*Zombie!",newLine
 .byte   stopText
-
+MSG_PODUNK_ZOMBIE2:
 .byte   "*Ha-ha...",newLine
 .byte   " You shall become",newLine
 .byte   " a Zombieeee!",newLine
 .byte   stopText
 
+MSG_PODUNK_NECROMANCERWOMAN1:
 .byte   "*Someone must be",newLine
 .byte   " controlling the",newLine
 .byte   " dead.",newLine
 .byte   stopText
-
+MSG_PODUNK_NECROMANCERWOMAN2:
 .byte   "*Young man,",newLine
 .byte   " you did well.",newLine
 .byte   stopText
 
+MSG_PODUNK_WARYGUY:
 .byte   "*Zombies may be",newLine
 .byte   " anywhere in this",newLine
 .byte   " town.",newLine
 .byte   stopText
 
+MSG_PODUNK_CANARYGIRL1:
 .byte   "*Did that Canary",newLine
 .byte   " Chick come from",newLine
 .byte   " Canary Village?",newLine
 .byte   stopText
-
+MSG_PODUNK_CANARYGIRL2:
 .byte   "*Hum.",newLine
 .byte   stopText
-
+MSG_PODUNK_CANARYGIRL3:
 .byte   "*The chicks at the",newLine
 .byte   " Canary Village",newLine
 .byte   " have lovely voices.",newLine
 .byte   stopText
-
+MSG_PODUNK_CANARYGIRL4:
 .byte   "*The gentleman in",newLine
 .byte   " Canary Village",newLine
 .byte   " is my idol.",newLine
 .byte   stopText
 
+MSG_PODUNK_MAYORGUY:
 .byte   "*The Town Mayor is",newLine
 .byte   " looking for a",newLine
 .byte   " brave man.",newLine
 .byte   stopText
 
+MSG_PODUNK_CONCERNEDGUY:
 .byte   "*Has the little",newLine
 .byte   " girl who strayed",newLine
 .byte   pauseText
@@ -306,15 +313,17 @@ MSG_PODUNK_PIPPIMOM_THANKS:
 .byte   " been rescued?",newLine
 .byte   stopText
 
+MSG_PODUNK_SENSIBLEGUY1:
 .byte   "*You...",newLine
 .byte   " Are you really going",newLine
 .byte   " to the cemetery?",newLine
 .byte   stopText
-
+MSG_PODUNK_SENSIBLEGUY2:
 .byte   "*I thought you were",newLine
 .byte   " a sensible child.",newLine
 .byte   stopText
 
+MSG_PODUNK_EVENTGIRL1:
 .byte   "*The animals went",newLine
 .byte   " mad and out of",newLine
 .byte   " control.",newLine
@@ -325,16 +334,18 @@ MSG_PODUNK_PIPPIMOM_THANKS:
 .byte   pauseText
 .byte   "*What can be done?",newLine
 .byte   stopText
-
+MSG_PODUNK_EVENTGIRL2:
 .byte   "*You are super!",newLine
 .byte   stopText
 
+MSG_PODUNK_POLTERGUY:
 .byte   "*Did a poltergeist",newLine
 .byte   " visit your house?",newLine
 .byte   pauseText
 .byte   "*It tore mine apart.",newLine
 .byte   stopText
 
+MSG_PODUNK_ZOOGUY:
 .byte   "*The animals went",newLine
 .byte   " mad and began to",newLine
 .byte   " escape,",newLine
@@ -343,6 +354,7 @@ MSG_PODUNK_PIPPIMOM_THANKS:
 .byte   " locked.",newLine
 .byte   stopText
 
+MSG_PODUNK_BREADGIRL:
 .byte   "*To EAT, you'll",newLine
 .byte   " find Bread stale,",newLine
 .byte   pauseText
@@ -521,6 +533,7 @@ MSG_PODUNK_PIPPI_MEET_NOYES:
 .byte   " today.",newLine
 .byte   stopText
 
+MSG_PODUNK_CASHCARDWOMAN:
 .byte   "*It's convenient that",newLine
 .byte   " the cash machine is",newLine
 .byte   pauseText

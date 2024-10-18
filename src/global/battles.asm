@@ -5,7 +5,7 @@
 ;(since it's basically an array, anyways)
 ;specifically to aid in shifting and general reordering.
 .define ENEMYID(ta) .LOBYTE((ta-STATS_START)/$20)
-.enum   ENEMIES
+.scope   ENEMIES
         NONE = $FF
         UNKENEMY0 = ENEMYID(STATS_UNKENEMY0) ;$0
         BIGWOODOH = ENEMYID(STATS_BIGWOODOH) ;$1
@@ -129,7 +129,7 @@
         GRIZZLYBEAR = ENEMYID(STATS_GRIZZLYBEAR) ;$77
         R7038XX = ENEMYID(STATS_R7038XX) ;$78
         LASTSTARMAN = ENEMYID(STATS_LASTSTARMAN) ;$79
-.endenum
+.endscope
 
 .enum   MUSIC
         BATTLE_FLIPPANT = 2
