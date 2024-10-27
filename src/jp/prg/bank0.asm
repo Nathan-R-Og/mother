@@ -1354,6 +1354,3 @@ incbinRange "../../split/jp/prg/bank0.bin", $14c8, $1800
 .include "../../global/choicers.asm"
 .include "../../global/character_rates.asm"
 .include "../../global/psi_data.asm"
-
-;map data
-.incbin "../../split/jp/prg/bank0.bin", $2000

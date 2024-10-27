@@ -4,22 +4,50 @@ from glob import glob
 import os
 import shutil
 
+romMap = {
+    "map.bin": ["prg/bank1",
+                "prg/bank2", "prg/bank3", "prg/bank4", "prg/bank5", "prg/bank6", "prg/bank7", "prg/bank8",
+                "prg/bank9", "prg/banka", "prg/bankb", "prg/bankc", "prg/bankd", "prg/banke", "prg/bankf"]
+}
+
+romMap_j = {
+    "map.bin": ["prg/bank1",
+                "prg/bank2", "prg/bank3", "prg/bank4", "prg/bank5", "prg/bank6", "prg/bank7", "prg/bank8",
+                "prg/bank9", "prg/banka", "prg/bankb", "prg/bankc", "prg/bankd", "prg/banke", "prg/bankf"]
+}
+
+def groupSplit(ver:str):
+    import os
+    usemap = {}
+    if ver == "us":
+        usemap = romMap
+    elif ver == "jp":
+        usemap = romMap_j
+    for key in list(usemap.keys()):
+        file = f"split/{ver}/{key}"
+        data = bytearray()
+        for entry in usemap[key]:
+            if type(entry) is str:
+                path = f"split/{ver}/{entry}.bin"
+                data += open(path, "rb").read()
+                os.remove(path)
+        open(file, "wb").write(data)
+
+
+
+
 def split(rom:str, dir:str):
     #split into banks
     data = open(rom, "rb").read()
-    header = data[0:0x10]
     prg = []
     chr = []
     i = 0x10
-    mode = 0
     while i < len(data):
-        if i == 0x40010: mode = 1
-        lener = 0x4000 if mode == 0 else 0x2000
-        if mode == 0:
-            prg.append(data[i:i+lener])
+        if i < 0x40010:
+            prg.append(data[i:i+0x2000])
         else:
-            chr.append(data[i:i+lener])
-        i += lener
+            chr.append(data[i:i+0x2000])
+        i += 0x2000
 
     if not os.path.exists("split/"+dir):
         os.makedirs(f"split/{dir}/prg")
@@ -30,10 +58,12 @@ def split(rom:str, dir:str):
         result = hex(i).replace("0x", "")
         open(f"split/{dir}/prg/bank"+result+".bin", "wb").write(bank)
         i += 1
+    i = 0
     for bank in chr:
         result = hex(i).replace("0x", "")
         open(f"split/{dir}/chr/bank"+result+".bin", "wb").write(bank)
         i += 1
+    groupSplit(dir)
 
 #TODO: make this into a yaml-like format, or some other kinda indexing
 #this is manually coded for now
@@ -52,21 +82,21 @@ def splitMerger():
         if os.path.exists(f"split/{lang}/"):
             usedir.append(lang)
 
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank10.bin", "split/global/chr/bank10.bin") #minor diffs
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank11.bin", "split/global/chr/bank11.bin") #minor diffs
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank12.bin", "split/global/chr/bank12.bin") #minor diffs
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank13.bin", "split/global/chr/bank13.bin")
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank14.bin", "split/global/chr/bank14.bin")
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank15.bin", "split/global/chr/bank15.bin")
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank16.bin", "split/global/chr/bank16.bin") #minor diffs
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank17.bin", "split/global/chr/bank17.bin") #minor diffs
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank18.bin", "split/global/chr/bank18.bin") #shared portions
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank19.bin", "split/global/chr/bank19.bin") #last half in both versions is the same
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank1a.bin", "split/global/chr/bank1a.bin")
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank0.bin", "split/global/chr/bank0.bin") #minor diffs
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank1.bin", "split/global/chr/bank1.bin") #minor diffs
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank2.bin", "split/global/chr/bank2.bin") #minor diffs
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank3.bin", "split/global/chr/bank3.bin")
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank4.bin", "split/global/chr/bank4.bin")
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank5.bin", "split/global/chr/bank5.bin")
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank6.bin", "split/global/chr/bank6.bin") #minor diffs
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank7.bin", "split/global/chr/bank7.bin") #minor diffs
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank8.bin", "split/global/chr/bank8.bin") #shared portions
+    shutil.copyfile(f"split/{usedir[0]}/chr/bank9.bin", "split/global/chr/bank9.bin") #last half in both versions is the same
+    shutil.copyfile(f"split/{usedir[0]}/chr/banka.bin", "split/global/chr/banka.bin")
 
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank1c.bin", "split/global/chr/bank1c.bin") #minor diffs
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank1d.bin", "split/global/chr/bank1d.bin") #minor diffs
-    shutil.copyfile(f"split/{usedir[0]}/chr/bank1e.bin", "split/global/chr/bank1e.bin") #minor diffs
+    shutil.copyfile(f"split/{usedir[0]}/chr/bankc.bin", "split/global/chr/bankc.bin") #minor diffs
+    shutil.copyfile(f"split/{usedir[0]}/chr/bankd.bin", "split/global/chr/bankd.bin") #minor diffs
+    shutil.copyfile(f"split/{usedir[0]}/chr/banke.bin", "split/global/chr/banke.bin") #minor diffs
 
 
 

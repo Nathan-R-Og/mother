@@ -1,3 +1,6 @@
+.ifndef obj_incs
+obj_incs = 0
+
 ;jp uses the raw pointers for messages, and has no pointer list
 
 ;depending on version...
@@ -151,3 +154,4 @@
 .macro teleportFlagDef flag, byte
     .byte (byte << 3) | flag
 .endmacro
+.endif

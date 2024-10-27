@@ -1,4 +1,4 @@
-.segment        "PRGD_1": absolute
+.segment        "PRG1A": absolute
 
 .byte 0
 

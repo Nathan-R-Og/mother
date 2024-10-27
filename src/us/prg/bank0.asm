@@ -1,7 +1,5 @@
 .segment        "PRG0": absolute
 
-.include "../fontmap.asm"
-
 ;items
 INAME_NULL:
 .byte 0
@@ -568,6 +566,3 @@ incbinRange "../../split/us/prg/bank0.bin", $1081, $1800
 .include "../../global/choicers.asm"
 .include "../../global/character_rates.asm"
 .include "../../global/psi_data.asm"
-
-;map data 1
-.incbin "../../split/us/prg/bank0.bin", $2000

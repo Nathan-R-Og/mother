@@ -1,4 +1,5 @@
-.segment        "PRG8_1": absolute
+.include "include.asm"
+.segment        "PRG10": absolute
 
 OBJ_BANK_POINTERS1:
 .word OBJ_BANK_0
