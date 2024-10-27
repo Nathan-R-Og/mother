@@ -102,6 +102,3 @@ incbinRange "../../split/us/chr/bank1f.bin", $800, $b03
 ;text gfx
 .incbin "../../split/us/chr/bank1f.bin", $1000
 
-
-.code
-

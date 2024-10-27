@@ -48,17 +48,20 @@ PAD_RIGHT := 1 << 0
 .include "../global/chr/bank1d.asm"
 .include "../global/chr/bank1e.asm"
 .include "chr/bank1f.asm"
-    
-.include "chr/bank20.asm"
-.include "chr/bank21.asm"
-.include "chr/bank22.asm"
-.include "chr/bank23.asm"
-.include "chr/bank24.asm"
-.include "chr/bank25.asm"
-.include "chr/bank26.asm"
-.include "chr/bank27.asm"
-.include "chr/bank28.asm"
-.include "chr/bank29.asm"
+
+.include "fontmap.asm"
+
+.include "text/dialogue1.asm"
+.include "text/dialogue2.asm"
+.include "text/dialogue3.asm"
+.include "text/dialogue4.asm"
+.include "text/dialogue5.asm"
+.include "text/dialogue6.asm"
+.include "text/dialogue7.asm"
+.include "text/dialogue8.asm"
+.include "text/dialogue9.asm"
+.include "text/dialogue10.asm"
+
 .include "chr/bank2a.asm"
 .include "chr/bank2b.asm"
 

@@ -1,4 +1,4 @@
-.include "../fontmap.asm"
+.segment        "CHR10": absolute
 
 MSG_SYS_SYSERROR:
 .byte   "System Error!!!",newLine
@@ -520,6 +520,7 @@ MSG_PODUNK_PIPPI_MEET_NOYES:
 .byte   " thing to return?",newLine
 .byte   stopText
 
+MSG_REINDEER_DRAGONGIRL_CHECK:
 .byte   "*Wait.. A voice is",newLine
 .byte   " speaking into",newLine
 .byte   " ",partyLead,"'s mind.",newLine
@@ -585,6 +586,7 @@ MSG_CANARY_MAN_MELODY_YES:
 .byte   " song.",newLine
 .byte   stopText
 
+MSG_GRAVEYARD_PIPPI:
 .byte   "*Hi! I am Pippi,",newLine
 .byte   " and I'm lost.",newLine
 .byte   pauseText
@@ -637,6 +639,7 @@ MSG_PODUNK_PIPPI_MEET_NO:
 .byte   " answer, cutie.",newLine
 .byte   stopText
 
+MSG_ZOO_GATEMONKEY:
 .byte   "*EEE, EE EEK,",newLine
 .byte   " EEK EEK!",newLine
 .byte   stopText

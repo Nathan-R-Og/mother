@@ -1,47 +1,11 @@
-.segment        "PRG8": absolute
-
 .include "../../global/objects/include.asm"
+.include "../../global/objects/1.asm"
 
-OBJ_BANK_POINTERS1:
-.word OBJ_BANK_0
-.word OBJ_BANK_1
-.word OBJ_BANK_2
-.word $8609
-.word $8831
-.word $8BA9
-.word $8D92
-.word $8EE7
-.word $9003
-.word $920C
-.word $9361
-.word $9628
-.word $9674
-.word $9764
-.word $98C2
-.word $9950
-.word $99B0
-.word $99CA
-.word $9A10
-.word $9A1C
-.word $9A54
-.word $9B10
-.word $9B12
-.word $9B2C
-.word $9CF9
-.word $9E73
-
-OBJ_BANK_0:
-.word 0
-.word 0
-
-.include "../../global/objects/bank1.asm"
-.include "../../global/objects/bank2.asm"
-
-incbinRange "../../split/us/prg/bank8.bin",$609,$2000
+.segment        "PRG8_2": absolute
 
 OBJ_BANK_POINTERS2:
-.word OBJB_BANK_UNK-$2000
-.word OBJB_MYHOME-$2000
+.word OBJ_BANK_1A
+.word OBJ_BANK_1B
 .word $8675
 .word $872F
 .word $87E9
@@ -58,43 +22,12 @@ OBJ_BANK_POINTERS2:
 .word $9B86
 .word $9C96
 
-OBJB_BANK_UNK:
-.word OBJ_BANK_UNK_OBJ1-$2000
-.word $8064
-.word $806C
-.word $8074
-.word $807C
-.word $8084
-.word $808C
-.word $80B2
-.word $80BA
-.word $80C2
-.word $80CA
-.word $80D2
-.word $80DA
-.word $80E2
-.word $80EA
-.word $80F2
-.word $811A
-.word $8122
-.word $812A
-.word $8132
-.word $813A
-.word $8146
-.word $8160
-.word $8173
-.word $8188
-.word $819D
-.word $81D2
-.word $81EE
-.word 0
+;twinkle elementary
+.include "../../global/objects/2/bank1a.asm"
 
-OBJ_BANK_UNK_OBJ1:
-incbinRange "../../split/us/prg/bank8.bin",$205C,$2208
-
-OBJB_MYHOME:
-.word OBJ_MYHOME_HOUSEDOOR-$2000
-.word OBJ_MYHOME_HOUSESTAIRS-$2000
+OBJ_BANK_1B:
+.word OBJ_MYHOME_HOUSEDOOR
+.word OBJ_MYHOME_HOUSESTAIRS
 .word $8252
 .word $8277
 .word $827F
@@ -104,7 +37,7 @@ OBJB_MYHOME:
 .word $829F
 .word $82A7
 .word $82CC
-.word OBJ_MYHOME_MINNIEROOM_MINNIE-$2000
+.word OBJ_MYHOME_MINNIEROOM_MINNIE
 .word $8325
 .word $838A
 .word $83B8
@@ -168,7 +101,4 @@ objectDef OBJ_TYPE::WANDERING_NPC, $274, DIRECTIONS::RIGHT, $3F6
 .byte 0
 
 .incbin "../../split/us/prg/bank8.bin",$2325
-
-
-.code
 

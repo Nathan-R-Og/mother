@@ -1,7 +1,5 @@
 .segment        "CHR18": absolute
 
-.include "../fontmap.asm"
-
 .byte   stopText
 
 .byte   '"Big Bag"',newLine
@@ -1056,6 +1054,3 @@ CHECK_UNKENEMYF:
 CHECK_SKY_YDDET:
 .byte   "It has friends!"
 .byte   stopText
-
-.code
-

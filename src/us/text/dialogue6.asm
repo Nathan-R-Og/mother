@@ -1,7 +1,5 @@
 .segment        "CHR15": absolute
 
-.include "../fontmap.asm"
-
 MSG_PODUNK_SHYGUY:
 .byte   "*The receptionist at",newLine
 .byte   " City Hall is so",newLine
@@ -19,6 +17,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " still sets it off.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_NINTENDOGIRL:
 .byte   "*I told my kid to",newLine
 .byte   " study, then play",newLine
 .byte   " Nintendo games.",newLine
@@ -28,10 +27,12 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " house!",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_HAPPYGUY:
 .byte   "*You look so happy",newLine
 .byte   " all of the time!",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_STRIPGIRL:
 .byte   "*Duncan Enterprises",newLine
 .byte   " plans to build a",newLine
 .byte   " strip-joint here.",newLine
@@ -41,6 +42,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " that at all!",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_DOCTORGUY:
 .byte   "*I'd like to be a",newLine
 .byte   " doctor, and help",newLine
 .byte   " sick people...",newLine
@@ -49,16 +51,19 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " money doing it.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_QUESTIONNAIRE_DECLINE:
 .byte   "*Really? This is",newLine
 .byte   " a respectable",newLine
 .byte   " survey...",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_SCHOOLGUY:
 .byte   "*Get to school!",newLine
 .byte   " You are a school",newLine
 .byte   " boy, aren't you?",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_MAYORGUY:
 .byte   "*How can we get the",newLine
 .byte   " big rocks off the",newLine
 .byte   " railroad tracks?",newLine
@@ -68,6 +73,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " 'til election time.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_ROCKETGUY:
 .byte   "*I've heard that in",newLine
 .byte   " Duncan's",newLine
 .byte   " Factory up north,",newLine
@@ -77,6 +83,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " rockets.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_ORDINARYGUY:
 .byte   "*Don't take me for",newLine
 .byte   " an ordinary man.",newLine
 .byte   pauseText
@@ -84,6 +91,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " ordinary man.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_THINKINGGUY:
 .byte   "*I think...",newLine
 .byte   " I think...",newLine
 .byte   pauseText
@@ -96,6 +104,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " Factory Rocket.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_HUSBANDGIRL:
 .byte   "*My husband is an",newLine
 .byte   " important man at",newLine
 .byte   " Twinkle School.",newLine
@@ -104,11 +113,13 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " lunch.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_SWEETSGUY:
 .byte   "*Have you been to",newLine
 .byte   " Sweet's Little",newLine
 .byte   " Factory?",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_MONSTERGIRL:
 .byte   "*I've heard many",newLine
 .byte   " scary monsters",newLine
 .byte   " lurk outside town.",newLine
@@ -135,6 +146,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " give it to me.",newLine
 .byte   stopText
 
+MSG_REINDEER_RUMORMWGIRL:
 .byte   "*The old man on",newLine
 .byte   " the mountain is so",newLine
 .byte   " generous...",newLine
@@ -144,6 +156,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " possibly carry.",newLine
 .byte   stopText
 
+MSG_REINDEER_TUNNELGUY:
 .byte   "*I remember walking",newLine
 .byte   " through the tunnel",newLine
 .byte   " when I was young.",newLine
@@ -153,11 +166,13 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " side.",newLine
 .byte   stopText
 
+MSG_REINDEER_QUIETWOMAN:
 .byte   "*This is a",newLine
 .byte   " residential area,",newLine
 .byte   " please keep quiet.",newLine
 .byte   stopText
 
+MSG_REINDEER_FOODGIRL:
 .byte   "*Have you ever",newLine
 .byte   " thrown food out",newLine
 .byte   " into the field?",newLine
@@ -167,6 +182,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " wasteful.",newLine
 .byte   stopText
 
+MSG_REINDEER_PEEPINGGUY:
 .byte   "*Gasp!! You",newLine
 .byte   " startled me.",newLine
 .byte   pauseText
@@ -179,10 +195,12 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " but the truth!!",newLine
 .byte   stopText
 
+MSG_REINDEER_BICYCLEGUY:
 .byte   "*I wish that I had",newLine
 .byte   " a bicycle.",newLine
 .byte   stopText
 
+MSG_REINDEER_BEGGIRL:
 .byte   "*You thought I was",newLine
 .byte   " going to beg for",newLine
 .byte   " food, didn't you?",newLine
@@ -192,6 +210,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " ever so hungry.",newLine
 .byte   stopText
 
+MSG_REINDEER_BEAUTYGIRL:
 .byte   "*I love life in the",newLine
 .byte   " city!",newLine
 .byte   pauseText
@@ -199,10 +218,12 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " cute dresses!",newLine
 .byte   stopText
 
+MSG_REINDEER_NONBELIEVERGUY:
 .byte   "*I don't believe in",newLine
 .byte   " Psychic Powers.",newLine
 .byte   stopText
 
+MSG_REINDEER_NIHILISTICGUY:
 .byte   "*I am a man whose",newLine
 .byte   " existence does not",newLine
 .byte   " matter.",newLine
@@ -215,6 +236,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " I disappear.",newLine
 .byte   stopText
 
+MSG_REINDEER_SPOOKANEGIRL2:
 .byte   "*I love this town!",newLine
 .byte   " I wouldn't be",newLine
 .byte   " caught dead in",newLine
@@ -222,16 +244,19 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   "*Spookane! Ha ha!",newLine
 .byte   stopText
 
+MSG_REINDEER_CHARITYWOMAN:
 .byte   "*Would you like to",newLine
 .byte   " make a donation to",newLine
 .byte   " my charitable fund?",newLine
 .byte   stopText
 
+MSG_REINDEER_MEDICINEGUY:
 .byte   "*The store will buy",newLine
 .byte   " good medicine for",newLine
 .byte   " good money.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_POSTMAN:
 .byte   "*I'm the jolly",newLine
 .byte   " postman,",newLine
 .byte   " laa laaa, la la.",newLine
@@ -243,6 +268,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   "*La la la laaa.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_POSTMANGIRL:
 .byte   "*Tell the postman",newLine
 .byte   " who seeks the",newLine
 .byte   " forwarding address,",newLine
@@ -254,11 +280,13 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   "*La la la laaa.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_HATERGIRL:
 .byte   "*I don't like the",newLine
 .byte   " little Rosemary",newLine
 .byte   " girl!",newLine
 .byte   stopText
 
+MSG_SPOOKANE_STREETSGIRL:
 .byte   "*The streets are",newLine
 .byte   " filled with",newLine
 .byte   " monsters,",newLine
@@ -267,9 +295,11 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " run away.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_WHATGUY:
 .byte   "*What do you want?",newLine
 .byte   stopText
 
+MSG_SNOWMAN_PSYCHICGUY:
 .byte   "*I am a clairvoyant",newLine
 .byte   " still in training.",newLine
 .byte   pauseText
@@ -284,6 +314,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " completely sure.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_CHATEAUWOMAN:
 .byte   "*",anaName,"'s house is",newLine
 .byte   " a chateau, not a",newLine
 .byte   " mansion.",newLine
@@ -292,6 +323,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " already knew that.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_CHATEAUGUY:
 .byte   "*There is a chateau",newLine
 .byte   " in the mountains",newLine
 .byte   " to the east.",newLine
@@ -300,6 +332,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " cough cough...",newLine
 .byte   stopText
 
+MSG_SNOWMAN_TSHIRTGUY:
 .byte   "*You kids are crazy.",newLine
 .byte   " Running around with",newLine
 .byte   " just T-shirts on.",newLine
@@ -308,6 +341,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " cough cough...",newLine
 .byte   stopText
 
+MSG_SNOWMAN_CAMELGUY:
 .byte   "*Please say hello to",newLine
 .byte   " the camel's bones in",newLine
 .byte   " Yucca Desert.",newLine
@@ -336,6 +370,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   "*Ahh--choo!!",newLine
 .byte   stopText
 
+MSG_ELLAY_FISHER:
 .byte   "*You think I'm the",newLine
 .byte   " world's greatest",newLine
 .byte   " fisherman?",newLine
@@ -349,30 +384,31 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " stories.",newLine
 .byte   stopText
 
+MSG_ELLAY_BBGANG1:
 .byte   "*You're in the way,",newLine
 .byte   " kid!",newLine
 .byte   stopText
-
+MSG_ELLAY_BBGANG2:
 .byte   "*Hey!",newLine
 .byte   stopText
-
+MSG_ELLAY_BBGANG3:
 .byte   "*I may have low HP,",newLine
 .byte   " but I'm gonna do",newLine
 .byte   " my best!",newLine
 .byte   stopText
-
+MSG_ELLAY_BBGANG4:
 .byte   "*If I fight with",newLine
 .byte   " you....",newLine
 .byte   pauseText
 .byte   "*I will surely be a",newLine
 .byte   " loser.",newLine
 .byte   stopText
-
+MSG_ELLAY_BBGANG5:
 .byte   "*I am a strong man.",newLine
 .byte   " That's what I say.",newLine
 .byte   " I insist this.",newLine
 .byte   stopText
-
+MSG_ELLAY_BBGANG6:
 .byte   "*You are no match",newLine
 .byte   " for ",teddyName,".",newLine
 .byte   pauseText
@@ -380,10 +416,12 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " with his pinkie.",newLine
 .byte   stopText
 
+MSG_ELLAY_SIGNGUY:
 .byte   "*Did you read",newLine
 .byte   " the sign?",newLine
 .byte   stopText
 
+MSG_ELLAY_CACTUSGIRL:
 .byte   "*While walking in",newLine
 .byte   " the desert, I saw a",newLine
 .byte   " cactus with a face,",newLine
@@ -393,6 +431,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " loud as I could.",newLine
 .byte   stopText
 
+MSG_ELLAY_FISHERGUY:
 .byte   "*When you talk to",newLine
 .byte   " a fisherman, you",newLine
 .byte   " can never get away.",newLine
@@ -498,30 +537,32 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " Well, come again.",newLine
 .byte   stopText
 
+MSG_HOSPITAL_NURSE_REVIVE:
 .byte   "*",result,", glad to",newLine
 .byte   " see you are fine",newLine
 .byte   " now. See us again!",newLine
 .byte   stopText
-
+MSG_HOSPITAL_NURSE_NOREVIVE:
 .byte   "*You would leave",newLine
 .byte   " your best friend",newLine
 .byte   " on their deathbed?",newLine
 .byte   stopText
 
+MSG_PODUNK_HOSPITALDOCTOR:
 .byte   "*Well well, I'll",newLine
 .byte   " treat each of you",newLine
 .byte   " for ",price," each.",newLine
 .byte   stopText
-
+MSG_PODUNK_HOSPITALDOCTOR_DECLINE:
 .byte   "*You really don't",newLine
 .byte   " need treatment?",newLine
 .byte   " Oh, well...",newLine
 .byte   stopText
-
+MSG_PODUNK_HOSPITALDOCTOR_NORMAL:
 .byte   "*I see everything",newLine
 .byte   " with you is fine.",newLine
 .byte   stopText
-
+MSG_PODUNK_HOSPITALDOCTOR_ACCEPT:
 .byte   "*Well,",newLine
 .byte   " you are fine",newLine
 .byte   " once again.",newLine
@@ -540,26 +581,28 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " for that.",newLine
 .byte   stopText
 
+MSG_HOTELBELLHOP:
 .byte   "*Welcome!",newLine
 .byte   " $",price," for a night.",newLine
 .byte   " Care to stay?",newLine
 .byte   stopText
-
+MSG_HOTELBELLHOP_DECLINE:
 .byte   "*Sorry to hear that.",newLine
 .byte   " Please visit us",newLine
 .byte   " again.",newLine
 .byte   stopText
-
+MSG_HOTELBELLHOP_ACCEPT:
 .byte   "*Sleep tight...",newLine
 .byte   " and don't let the",newLine
 .byte   " bed bugs bite.",newLine
 .byte   stopText
-
+MSG_HOTELBELLHOP_GOODMORNING:
 .byte   "*Good morning!",newLine
 .byte   " Please come back",newLine
 .byte   " and see us again.",newLine
 .byte   stopText
 
+MSG_HOSPITAL_NURSE_SELECT:
 .byte   "*They just brought",newLine
 .byte   " ",result," here,",newLine
 .byte   " still unconscious.",newLine
@@ -568,11 +611,12 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " for those injuries",newLine
 .byte   " totals $",price,".",newLine
 .byte   stopText
-
+MSG_HOSPITAL_NURSE:
 .byte   "*Who are you here",newLine
 .byte   " to visit?",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_HOTELBELLHOP:
 .byte   "*Well, Dad isn't",newLine
 .byte   " home and I don't",newLine
 .byte   " care about money.",newLine
@@ -583,7 +627,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   "*feel free to stay",newLine
 .byte   " here tonight.",newLine
 .byte   stopText
-
+MSG_YOUNGTOWN_HOTELBELLHOP_GOODMORNING:
 .byte   "*Good morning!",newLine
 .byte   " Please come back",newLine
 .byte   " again someday.",newLine
@@ -592,7 +636,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " not get quite so",newLine
 .byte   " lonely here.",newLine
 .byte   stopText
-
+MSG_YOUNGTOWN_HOTELBELLHOP_DECLINE:
 .byte   "*Why aren't you",newLine
 .byte   " going to spend",newLine
 .byte   " the night here?",newLine
@@ -602,6 +646,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " alright, trust me.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHBOUNCERGIRL_TICKET:
 .byte   "*Tickets please,",newLine
 .byte   " you must have a",newLine
 .byte   " Ticket to get in.",newLine
@@ -646,6 +691,7 @@ MSG_PODUNK_ASTHMAGIRL:
 .byte   " exceeds your limit.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_HOTELBELLHOP_THANKS:
 .byte   "*Thank you very",newLine
 .byte   " much.",newLine
 .byte   stopText
@@ -668,6 +714,7 @@ MSG_CANARY_PILLAR:
 .byte   "*Thank you.",newLine
 .byte   stopText
 
+MSG_ELLAY_JAILCOP:
 .byte   "*I have a fantastic",newLine
 .byte   " source for weapons.",newLine
 .byte   pauseText
@@ -691,13 +738,16 @@ MSG_CANARY_PILLAR:
 .byte   " $",currentCash,".",newLine
 .byte   stopText
 
+MSG_DOOR_LOCKED:
 .byte   "*The door is locked.",newLine
 .byte   stopText
 
+MSG_DOOR_KEYFAIL:
 .byte   "*That Key does not",newLine
 .byte   " fit this lock.",newLine
 .byte   stopText
 
+MSG_DOOR_UNLOCKED:
 .byte   "*",partyLead," unlocked",newLine
 .byte   " the door and went",newLine
 .byte   " inside.",newLine
@@ -715,6 +765,7 @@ MSG_PHONE_GRAB:
 .byte   " telephone.",newLine
 .byte   stopText
 
+MSG_HOSPITAL_NURSE_NOMONEY:
 .byte   "*I'm sorry, but you",newLine
 .byte   " just don't have",newLine
 .byte   " enough money.",newLine
@@ -759,6 +810,7 @@ MSG_CANARY_SING:
 .byte   " singing.",newLine
 .byte   stopText
 
+MSG_ZOO_GATEMONKEY_KEY:
 .byte   "*The monkey stole",newLine
 .byte   " the Zoo Key.",newLine
 .byte   stopText
@@ -824,6 +876,3 @@ MSG_PODUNK_PIPPIMOM_RETURN:
 .byte   "*You haven't been",newLine
 .byte   " poisoned!",newLine
 .byte   stopText
-
-.code
-

@@ -571,6 +571,3 @@ incbinRange "../../split/us/prg/bank0.bin", $1081, $1800
 
 ;map data 1
 .incbin "../../split/us/prg/bank0.bin", $2000
-
-.code
-

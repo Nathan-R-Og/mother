@@ -1,7 +1,5 @@
 .segment        "CHR19": absolute
 
-.include "../fontmap.asm"
-
 CHECK_UNKENEMY10:
 .byte   stopText
 
@@ -829,7 +827,3 @@ MSG_GIEGUE_CHECK_REAL:
 .byte   "heart.",newLine
 .byte   pauseText,waitThenOverwrite
 .byte   stopText
-
-
-
-.code

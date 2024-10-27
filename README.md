@@ -8,9 +8,11 @@ For WSL2 Ubuntu. Probably also works on actual Linux.
 Run `./install` to download and set up cc65
 
 Run `./configure` to generate disassembly and split banks
+
 Supports Mother (J) and Earthbound Beginnings (U)
 
 Run `./build` to make a new rom from src files
+
 Run `./build -j` to make a new japanese rom
 
 Still incredibly wip, i do not have enough knowledge to know why parts do and dont work

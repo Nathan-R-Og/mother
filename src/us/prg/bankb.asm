@@ -620,6 +620,3 @@ incbinRange "../../split/us/prg/bankb.bin",$1ec7,$1ee9
 incbinRange "../../split/us/prg/bankb.bin",$1ee9,$2000
 ;battle engine
 .incbin "../../split/us/prg/bankb.bin",$2000
-
-.code
-

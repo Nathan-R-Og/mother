@@ -1,7 +1,5 @@
 .segment        "CHR12": absolute
 
-.include "../fontmap.asm"
-
 .byte   "*The gym teacher",newLine
 .byte   " made me do extra",newLine
 .byte   " push-ups again.",newLine
@@ -110,6 +108,7 @@
 .byte   " run in the hall.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHCOP_SEEWEAPON:
 .byte   "*Show me what",newLine
 .byte   " you have.",newLine
 .byte   pauseText
@@ -228,6 +227,7 @@
 .byte   " Care to buy one?",newLine
 .byte   stopText
 
+MSG_ELLAY_LHCOP_TAKEWEAPON:
 .byte   "*(",partyLead,"'s weapon",newLine
 .byte   " was confiscated.)",newLine
 .byte   stopText
@@ -237,6 +237,7 @@
 .byte   " dollars.",newLine
 .byte   stopText
 
+MSG_REINDEER_NOSEYGUY_HAT:
 .byte   "*Hey, that Hat",newLine
 .byte   " you're carrying",newLine
 .byte   " looks just like",newLine
@@ -263,6 +264,7 @@
 .byte   " can I get there?",newLine
 .byte   stopText
 
+MSG_REINDEER_NOSEYGUY:
 .byte   "*Go ahead, poke",newLine
 .byte   " your nose into",newLine
 .byte   " other people's",newLine
@@ -275,11 +277,12 @@
 .byte   "*Here it is!",newLine
 .byte   stopText
 
+MSG_REINDEER_COP1:
 .byte   "*Did you see the",newLine
 .byte   " man with the slick",newLine
 .byte   " mustache?",newLine
 .byte   stopText
-
+MSG_REINDEER_COP1_ACCEPT:
 .byte   "*Must have lost",newLine
 .byte   " him. Couldn't help",newLine
 .byte   " it...",newLine
@@ -288,12 +291,13 @@
 .byte   " check for parking",newLine
 .byte   " violations now.",newLine
 .byte   stopText
-
+MSG_REINDEER_COP1_DECLINE:
 .byte   "*He's a swindler!",newLine
 .byte   " Please let me know",newLine
 .byte   " if you see him.",newLine
 .byte   stopText
 
+MSG_REINDEER_MONEYGUY:
 .byte   "*Hey Kid!",newLine
 .byte   " Just hold onto",newLine
 .byte   " this money for me.",newLine
@@ -302,25 +306,26 @@
 .byte   " cops or anyone",newLine
 .byte   " about it!",newLine
 .byte   stopText
-
+MSG_REINDEER_MONEYGUY_ACCEPT:
 .byte   "*Don't run away",newLine
 .byte   " with it!",newLine
 .byte   stopText
-
+MSG_REINDEER_MONEYGUY_DECLINE:
 .byte   "*Just do what I",newLine
 .byte   " tell you!",newLine
 .byte   stopText
-
+MSG_REINDEER_MONEYGUY_AFTER:
 .byte   "*Leave me alone!",newLine
 .byte   " Can't you see I'm",newLine
 .byte   " incognito?",newLine
 .byte   stopText
 
+MSG_REINDEER_COP2:
 .byte   "*Have you seen the",newLine
 .byte   " woman with a big",newLine
 .byte   " belly?",newLine
 .byte   stopText
-
+MSG_REINDEER_COP2_ACCEPT:
 .byte   "*Must have lost",newLine
 .byte   " her. Couldn't",newLine
 .byte   " help it...",newLine
@@ -329,7 +334,7 @@
 .byte   " to check for",newLine
 .byte   " speeders instead.",newLine
 .byte   stopText
-
+MSG_REINDEER_COP2_DECLINE:
 .byte   "*She ate",newLine
 .byte   " 5 ",favFood,"s,",newLine
 .byte   pauseText
@@ -340,9 +345,11 @@
 .byte   " let me know!",newLine
 .byte   stopText
 
+MSG_REINDEER_FULLGIRL:
 .byte   "*Oh, I'm so full!!",newLine
 .byte   stopText
 
+MSG_REINDEER_ELLAYGUY:
 .byte   "*This town has",newLine
 .byte   " become dangerous!",newLine
 .byte   pauseText
@@ -351,27 +358,30 @@
 .byte   " than Ellay.",newLine
 .byte   stopText
 
+MSG_REINDEER_SINGINGGUY:
 .byte   "*Oh yeah?",newLine
 .byte   " Are you ready?",newLine
 .byte   " All-right!!",newLine
 .byte   stopText
-
+MSG_REINDEER_SINGINGGUY_ACCEPT:
 .byte   "*Hey!!",newLine
 .byte   " Wanna hear my",newLine
 .byte   " song!?",newLine
 .byte   stopText
-
+MSG_REINDEER_SINGINGGUY_DECLINE:
 .byte   "*Fine, be that way.",newLine
 .byte   stopText
-
+MSG_REINDEER_SINGINGGUY_DECLINE2:
 .byte   "*It's time to say",newLine
 .byte   " good-bye...",newLine
 .byte   stopText
 
+MSG_REINDEER_DRAGONGIRL:
 .byte   "*Did you hear the",newLine
 .byte   " Dragon's lullaby?",newLine
 .byte   stopText
 
+MSG_REINDEER_SPOOKANEGIRL:
 .byte   "*Somewhere in the",newLine
 .byte   " town of",newLine
 .byte   " Spookane...",newLine
@@ -390,6 +400,7 @@
 .byte   " dare to go there!!",newLine
 .byte   stopText
 
+MSG_REINDEER_FLEABAGGIRL:
 .byte   "*Give me something.",newLine
 .byte   " Whatever it is,",newLine
 .byte   " just give it to me.",newLine
@@ -402,21 +413,21 @@
 .byte   " it to me? I said",newLine
 .byte   " please?",newLine
 .byte   stopText
-
+MSG_REINDEER_FLEABAGGIRL2:
 .byte   "*I promise, I'll",newLine
 .byte   " give you something",newLine
 .byte   " in return.",newLine
 .byte   stopText
-
+MSG_REINDEER_FLEABAGGIRL_DECLINE:
 .byte   "*I'm thinking of",newLine
 .byte   " something nice",newLine
 .byte   " to give you.",newLine
 .byte   stopText
-
+MSG_REINDEER_FLEABAGGIRL_ACCEPT:
 .byte   "*What are you going",newLine
 .byte   " to give me?",newLine
 .byte   stopText
-
+MSG_REINDEER_FLEABAGGIRL_GIVE:
 .byte   "*Thanks a lot.",newLine
 .byte   " To show my",newLine
 .byte   " gratitude I'll",newLine
@@ -426,11 +437,13 @@
 .byte   " Please take it.",newLine
 .byte   stopText
 
+MSG_REINDEER_FLUGUY:
 .byte   "*There's a flu going",newLine
 .byte   " around here.",newLine
 .byte   " Cough, cough.",newLine
 .byte   stopText
 
+MSG_REINDEER_RUMORMWGUY:
 .byte   "*High in the",newLine
 .byte   " mountains, lives",newLine
 .byte   " an old man.",newLine
@@ -483,17 +496,19 @@
 .byte   " gargle... Splash!",newLine
 .byte   stopText
 
+MSG_REINDEER_COLDGUY:
 .byte   "*I heard someone",newLine
 .byte   " died from a cold.",newLine
 .byte   " Just a cold!",newLine
 .byte   stopText
 
+MSG_SPOOKANE_RUMORGUY:
 .byte   "*Have you heard",newLine
 .byte   " that their is",newLine
 .byte   " a ghost house",newLine
 .byte   " in Spookane?",newLine
 .byte   stopText
-
+MSG_SPOOKANE_RUMORGUY_ACCEPT:
 .byte   "*I heard a spooky",newLine
 .byte   " tale about that",newLine
 .byte   " vacant house...",newLine
@@ -502,12 +517,13 @@
 .byte   " piano still plays",newLine
 .byte   " a haunting melody.",newLine
 .byte   stopText
-
+MSG_SPOOKANE_RUMORGUY_DECLINE:
 .byte   "*Hey kid, what you",newLine
 .byte   " don't know will",newLine
 .byte   " never hurt you!",newLine
 .byte   stopText
 
+MSG_SPOOKANE_HOTELBELLHOP:
 .byte   "*Ahh - Ha ha ha...",newLine
 .byte   stopText
 
@@ -541,11 +557,13 @@
 .byte   " Hee hee hee...",newLine
 .byte   stopText
 
+MSG_SPOOKANE_ROSEMARYGUY:
 .byte   "*The owners of the",newLine
 .byte   " ghost house were the",newLine
 .byte   " Rosemarys.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_SMALLGUY:
 .byte   "*A ghost appeared",newLine
 .byte   " at my house too.",newLine
 .byte   pauseText
@@ -556,6 +574,7 @@
 .byte   " was too small.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_HINTGIRL:
 .byte   "*I'm not a resident",newLine
 .byte   " of this town. I",newLine
 .byte   " am your assistant.",newLine
@@ -568,7 +587,7 @@
 .byte   " hint for only",newLine
 .byte   " ",price," dollars?",newLine
 .byte   stopText
-
+MSG_SPOOKANE_HINTGIRL_DECLINE:
 .byte   "*Oh, you don't need",newLine
 .byte   " anyone's help, do",newLine
 .byte   " you?",newLine
@@ -577,12 +596,13 @@
 .byte   " you can color me",newLine
 .byte   " gone.",newLine
 .byte   stopText
-
+MSG_SPOOKANE_HINTGIRL_ACCEPT:
 .byte   "*I can sell only 3",newLine
 .byte   " hints. Discover",newLine
 .byte   " the rest youself.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_CLOWN:
 .byte   "*I am the only",newLine
 .byte   " clown in",newLine
 .byte   " Spookane.",newLine
@@ -590,18 +610,19 @@
 .byte   "*Everyone else is",newLine
 .byte   " so serious.",newLine
 .byte   stopText
-
+MSG_SPOOKANE_CLOWN_ACCEPT:
 .byte   "*Truth is, by",newLine
 .byte   " nature I'm not a",newLine
 .byte   " jolly guy.",newLine
 .byte   stopText
-
+MSG_SPOOKANE_CLOWN_DECLINE:
 .byte   "*Is that right?",newLine
 .byte   pauseText
 .byte   "*I may be the true",newLine
 .byte   " pessimist myself.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_MRSROSEMARY:
 .byte   "*My house is filled",newLine
 .byte   " with monsters,",newLine
 .byte   " mostly ghosts.",newLine
@@ -654,6 +675,7 @@
 .byte   "*sort of.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_MRSROSEMARY_KEY:
 .byte   "*Oh, you are such",newLine
 .byte   " a charming boy...",newLine
 .byte   pauseText
@@ -669,6 +691,7 @@
 .byte   " it.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_NINTENROSEMARY:
 .byte   "*Hi there, my name",newLine
 .byte   " is ",nintenName,".",newLine
 .byte   pauseText
@@ -677,6 +700,7 @@
 .byte   " Rosemary.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_MRSROSEMARY1:
 .byte   "*",nintenName,"!",newLine
 .byte   " Get your grubby",newLine
 .byte   " little...",newLine
@@ -685,6 +709,7 @@
 .byte   " talking to my boy.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_MRSROSEMARY2:
 .byte   "*The ghosts aren't",newLine
 .byte   " gone yet, but...",newLine
 .byte   pauseText
@@ -700,6 +725,7 @@
 .byte   " Terminal.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_YOUNGTOWNGUY:
 .byte   "*I heard everyone",newLine
 .byte   " in Youngtown has",newLine
 .byte   " disappeared.",newLine
@@ -717,11 +743,12 @@
 .byte   " look for her.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_SPOOKANEGUY:
 .byte   "*Have you been to",newLine
 .byte   " the ghost house",newLine
 .byte   " in Spookane?",newLine
 .byte   stopText
-
+MSG_SNOWMAN_SPOOKANEGUY_ACCEPT:
 .byte   "*Later you can tell",newLine
 .byte   " me the whole",newLine
 .byte   " story...",newLine
@@ -729,12 +756,13 @@
 .byte   "*I love to listen",newLine
 .byte   " to horror stories.",newLine
 .byte   stopText
-
+MSG_SNOWMAN_SPOOKANEGUY_DECLINE:
 .byte   "*I don't want you to",newLine
 .byte   " go, but do so if you",newLine
 .byte   " must.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_COLDGUY:
 .byte   "*It's freezing here",newLine
 .byte   " in Snowman.",newLine
 .byte   pauseText
@@ -747,16 +775,18 @@
 .byte   "*Hack hack wheez...",newLine
 .byte   stopText
 
+MSG_SNOWMAN_LIFEGIRL:
 .byte   "*Life is a game.",newLine
 .byte   " But sometimes you",newLine
 .byte   " have to rest.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_SCHOOLGUY:
 .byte   "*",anaName," hasn't been",newLine
 .byte   " to school lately,",newLine
 .byte   " I'm so worried.",newLine
 .byte   stopText
-
+MSG_SNOWMAN_SCHOOLGUY2:
 .byte   "*I'm concerned",newLine
 .byte   " about ",anaName,".",newLine
 .byte   pauseText
@@ -764,10 +794,12 @@
 .byte   " can't sleep.",newLine
 .byte   stopText
 
+MSG_ELLAY_JAILCOP_NOMONEY:
 .byte   "*You don't have",newLine
 .byte   " enough money.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_NOSEGIRL:
 .byte   "*Oh my, your nose",newLine
 .byte   " is running.",newLine
 .byte   stopText
@@ -814,6 +846,3 @@
 .byte   "*Don't get silly on",newLine
 .byte   " me now.",newLine
 .byte   stopText
-
-.code
-

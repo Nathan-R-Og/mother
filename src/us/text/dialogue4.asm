@@ -1,7 +1,5 @@
 .segment        "CHR13": absolute
 
-.include "../fontmap.asm"
-
 .byte   "*I must go on a",newLine
 .byte   " trip to find my Mom,",newLine
 .byte   " and...",newLine
@@ -92,6 +90,7 @@
 .byte   " a peaceful sleep.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_PASSTRIGGER:
 .byte   "*",partyLead," found a",newLine
 .byte   " Pass that someone",newLine
 .byte   " had left behind.",newLine
@@ -101,6 +100,7 @@
 .byte   " into the rocket.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_YUCCAGIRL:
 .byte   "*My grandfather",newLine
 .byte   " lives in Yucca",newLine
 .byte   " Desert.",newLine
@@ -110,6 +110,7 @@
 .byte   " for me.",newLine
 .byte   stopText
 
+MSG_YUCCA_NICEBONES:
 .byte   "*I am just a pile",newLine
 .byte   " of bones now.",newLine
 .byte   pauseText
@@ -120,16 +121,19 @@
 .byte   " won't attack you.",newLine
 .byte   stopText
 
+MSG_YUCCA_SIGNBONES:
 .byte   "*I could make a",newLine
 .byte   " good signpost,",newLine
 .byte   " don't you think?",newLine
 .byte   stopText
 
+MSG_YUCCA_BRAVEBONES:
 .byte   "*Conversing with a",newLine
 .byte   " corpse? What a",newLine
 .byte   " brave kid!",newLine
 .byte   stopText
 
+MSG_YUCCA_CAMELBONES:
 .byte   "*I'm the bones of a",newLine
 .byte   " camel.",newLine
 .byte   pauseText
@@ -137,7 +141,7 @@
 .byte   " walk when in the",newLine
 .byte   " desert?",newLine
 .byte   stopText
-
+MSG_YUCCA_CAMELBONES_ACCEPT:
 .byte   "*Move your left",newLine
 .byte   " foot before your",newLine
 .byte   " right foot sinks.",newLine
@@ -150,7 +154,7 @@
 .byte   " years to figure",newLine
 .byte   " that out.",newLine
 .byte   stopText
-
+MSG_YUCCA_CAMELBONES_DECLINE:
 .byte   "*I'd very much like",newLine
 .byte   " to tell you.",newLine
 .byte   pauseText
@@ -158,6 +162,7 @@
 .byte   " to know?",newLine
 .byte   stopText
 
+MSG_YUCCA_GAMEBONES:
 .byte   "*Yucca Desert is",newLine
 .byte   " the most boring",newLine
 .byte   " part of this game.",newLine
@@ -167,6 +172,7 @@
 .byte   " has been mined.",newLine
 .byte   stopText
 
+MSG_YUCCA_SIGN:
 .byte   "*See the Yucca",newLine
 .byte   " Desert.",newLine
 .byte   pauseText
@@ -175,6 +181,7 @@
 .byte   " arrangement.",newLine
 .byte   stopText
 
+MSG_YUCCA_PILOT_MINE:
 .byte   "*During the last",newLine
 .byte   " war, I laid mines",newLine
 .byte   " in this desert.",newLine
@@ -183,11 +190,11 @@
 .byte   " one of them, so",newLine
 .byte   " watch your step.",newLine
 .byte   stopText
-
+MSG_YUCCA_PILOT_RIDE:
 .byte   "*Oh, you want a",newLine
 .byte   " ride on the plane?",newLine
 .byte   stopText
-
+MSG_YUCCA_PILOT_RIDE_ACCEPT:
 .byte   "*The airfare is",newLine
 .byte   " $",price," for that",newLine
 .byte   " flight.",newLine
@@ -203,12 +210,12 @@
 .byte   " about that.",newLine
 .byte   " Ha ha ha...",newLine
 .byte   stopText
-
+MSG_YUCCA_PILOT_RIDE_DECLINE:
 .byte   "*Well, it is quite",newLine
 .byte   " expensive...",newLine
 .byte   " I don't blame you.",newLine
 .byte   stopText
-
+MSG_YUCCA_PILOT_TANK:
 .byte   "*Great! I see you",newLine
 .byte   " saved 10 stubs.",newLine
 .byte   " Take my tank.",newLine
@@ -218,6 +225,7 @@
 .byte   " Ha ha ha...",newLine
 .byte   stopText
 
+MSG_ELLAY_PILOT:
 .byte   "*You broke my tank,",newLine
 .byte   " it was my most",newLine
 .byte   " prized possession.",newLine
@@ -230,28 +238,32 @@
 .byte   " restitution right",newLine
 .byte   " now?",newLine
 .byte   stopText
-
+MSG_ELLAY_PILOT_ACCEPT:
 .byte   "*Thank you,",newLine
 .byte   " and good-bye.",newLine
 .byte   stopText
-
+MSG_ELLAY_PILOT_DECLINE:
 .byte   "*I am so angry.",newLine
 .byte   " Arrrrrrrrr!!",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_PARENTGIRL:
 .byte   "*Where is my Mommy?",newLine
 .byte   " Where is my Daddy?",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_GUARD:
 .byte   "*Halt, who goes",newLine
 .byte   " there?",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_GUARD2:
 .byte   "*Suspicious guys.",newLine
 .byte   " I will stop you.",newLine
 .byte   " Arrghh!",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_BABYGIRL:
 .byte   "*Something's very",newLine
 .byte   " strange with the",newLine
 .byte   " Garrickson baby.",newLine
@@ -260,6 +272,7 @@
 .byte   " strange indeed.",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_MATHGUY:
 .byte   "*Well...",newLine
 .byte   " 2 plus 3 equals 5,",newLine
 .byte   " 8 minus 4 equals 4.",newLine
@@ -268,19 +281,23 @@
 .byte   " all the time.",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_MOMGIRL:
 .byte   "*Mom!!",newLine
 .byte   " I miss you!!!",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_DADGUY:
 .byte   "*Dad!!",newLine
 .byte   " I miss you!!!",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_SHIPGIRL:
 .byte   "*A big ship from",newLine
 .byte   " the sky took Mom",newLine
 .byte   " and Dad away.",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_GROWNUPGUY:
 .byte   "*I like it without",newLine
 .byte   " the grown-ups",newLine
 .byte   " around.",newLine
@@ -289,15 +306,19 @@
 .byte   " Sob, sob...",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_HOLDMEGIRL:
 .byte   "*Please hold me!",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_HOLDMEGUY:
 .byte   "*Hold me, too!",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_HOLDMEGUY2:
 .byte   "*Hold me!",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_PLEASEGIRL:
 .byte   "*Please bring back",newLine
 .byte   " our Mom and Dad.",newLine
 .byte   " Please, I beg you.",newLine
@@ -339,6 +360,7 @@
 .byte   " Teleportation)",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_VOICEGUY:
 .byte   "*I heard my Dad's",newLine
 .byte   " voice coming from",newLine
 .byte   " the mountains.",newLine
@@ -352,11 +374,13 @@
 .byte   " journey.",newLine
 .byte   stopText
 
+MSG_ELLAY_JAILCOP_NOROOM:
 .byte   "*Wait a minute...",newLine
 .byte   " You can't carry it,",newLine
 .byte   " so you can't have it.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHCOP_JAIL:
 .byte   "*Time has passed,",newLine
 .byte   " you are more",newLine
 .byte   " experienced and",newLine
@@ -366,26 +390,29 @@
 .byte   " still just a kid.",newLine
 .byte   stopText
 
+MSG_ELLAY_BBGANGFAKE:
 .byte   "*You must watch out",newLine
 .byte   " around here.",newLine
 .byte   " Hee....",newLine
 .byte   stopText
 
+MSG_ELLAY_BBGANGWOMAN:
 .byte   "*The B.B. Gang",newLine
 .byte   " members are really",newLine
 .byte   " terrible...",newLine
 .byte   stopText
-
+MSG_ELLAY_BBGANGGIRL:
 .byte   "*We call Bla-Bla",newLine
 .byte   " Gang members, B.B.",newLine
 .byte   " Gangs for short.",newLine
 .byte   stopText
-
+MSG_ELLAY_BBGANGWOMAN2:
 .byte   "*Hey you! You are",newLine
 .byte   " not a Bla-Bla, are",newLine
 .byte   " you?",newLine
 .byte   stopText
 
+MSG_ELLAY_CLOUDGUY:
 .byte   "*The black clouds",newLine
 .byte   " that hang over",newLine
 .byte   " the mountains...",newLine
@@ -395,18 +422,20 @@
 .byte   " people crazy.",newLine
 .byte   stopText
 
+MSG_ELLAY_PEACEGUY:
 .byte   "*Hey, you two there.",newLine
 .byte   " Sweethearts, huh!?",newLine
 .byte   stopText
-
+MSG_ELLAY_PEACEGUY_DEFAULT:
 .byte   "*Love and peace,",newLine
 .byte   " yeah!",newLine
 .byte   stopText
-
+MSG_ELLAY_PEACEGUY_DECLINE:
 .byte   "*Love burns deep in",newLine
 .byte   " your heart, right?",newLine
 .byte   stopText
 
+MSG_ELLAY_TICKETGUY:
 .byte   "*I've got a Ticket",newLine
 .byte   " to the Live-Show.",newLine
 .byte   pauseText
@@ -418,19 +447,21 @@
 .byte   " only $",price,"?",newLine
 .byte   stopText
 
+MSG_ELLAY_JAILCOP_HASWEAPON_ACCEPT:
 .byte   "*Here it is! No,",newLine
 .byte   " don't go to the",newLine
 .byte   " Store now.",newLine
 .byte   stopText
-
+MSG_ELLAY_JAILCOP_HASWEAPON_DECLINE:
 .byte   "*Stingy kids...",newLine
 .byte   stopText
 
+MSG_ELLAY_SECRETGIRL:
 .byte   "*It's a secret...",newLine
 .byte   " Promise not to say",newLine
 .byte   " that I told you?",newLine
 .byte   stopText
-
+MSG_ELLAY_SECRETGIRL_ACCEPT:
 .byte   "*The Bla-Bla Boss,",newLine
 .byte   " ",teddyName,"'s real name",newLine
 .byte   " is...",newLine
@@ -442,35 +473,40 @@
 .byte   "*But, it's only a",newLine
 .byte   " rumor, though.",newLine
 .byte   stopText
-
+MSG_ELLAY_SECRETGIRL_DECLINE:
 .byte   "*You'll be the one",newLine
 .byte   " who regrets it for",newLine
 .byte   " sure.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHBACKROOMGUY:
 .byte   "*Don't peek in the",newLine
 .byte   " back room. You'll",newLine
 .byte   " catch it for sure.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHDRINKGIRL_OFFER:
 .byte   "*Wow, you're so",newLine
 .byte   " cute. Can I buy",newLine
 .byte   " you a drink?",newLine
 .byte   stopText
 
+MSG_ELLAY_LHDRINKGIRL_OFFER_REFUSE:
 .byte   "*You afraid of the",newLine
 .byte   " cops?",newLine
 .byte   " Come on!",newLine
 .byte   stopText
 
+MSG_ELLAY_LHDRINKGIRL:
 .byte   "*No more drinks on my",newLine
 .byte   " bill.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHCOP_JAILSHAME:
 .byte   "*Now you know you",newLine
 .byte   " did a bad thing?",newLine
 .byte   stopText
-
+MSG_ELLAY_LHCOP_JAILSHAME_YES:
 .byte   "*If you promise you",newLine
 .byte   " won't do it again,",newLine
 .byte   " you can go home.",newLine
@@ -479,12 +515,13 @@
 .byte   " dangerous weapon",newLine
 .byte   " here though.",newLine
 .byte   stopText
-
+MSG_ELLAY_LHCOP_JAILSHAME_NO:
 .byte   "*Sorry, you must",newLine
 .byte   " stay another night",newLine
 .byte   " and cool your jets.",newLine
 .byte   stopText
 
+MSG_ELLAY_JAILCOP_HASWEAPON:
 .byte   "*Hee hee hee...",newLine
 .byte   " I finally got a",newLine
 .byte   " ",item,"!",newLine
@@ -493,11 +530,13 @@
 .byte   " only $",price,"?",newLine
 .byte   stopText
 
+MSG_ELLAY_PILOT_NOMONEY:
 .byte   "*Not enough money.",newLine
 .byte   " Boo hoo hoo.",newLine
 .byte   " Ha, ha, ha...",newLine
 .byte   stopText
 
+MSG_ELLAY_LHTEDDYGIRL:
 .byte   "*",teddyName,"'s parents",newLine
 .byte   " were killed by",newLine
 .byte   " mountain creatures.",newLine
@@ -505,32 +544,35 @@
 .byte   "*Before that, he",newLine
 .byte   " was a gentle kid.",newLine
 .byte   stopText
-
+MSG_ELLAY_LHTEDDYGIRL2:
 .byte   "*I wish ",teddyName,newLine
 .byte   " would go back to",newLine
 .byte   " the way he was.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHBOUNCERGUY_OFFER:
 .byte   "*You want to sing",newLine
 .byte   " too?",newLine
 .byte   stopText
-
+MSG_ELLAY_LHBOUNCERGUY_OFFER_YES:
 .byte   "*Then go ahead",newLine
 .byte   " and jam, dudes!",newLine
 .byte   stopText
-
+MSG_ELLAY_LHBOUNCERGUY_OFFER_NO:
 .byte   "*You're shy!",newLine
 .byte   stopText
 
+MSG_ELLAY_LHCUTEGUY2:
 .byte   "*",anaName," girl!!",newLine
 .byte   " Well, I saw your",newLine
 .byte   " name on your hat.",newLine
 .byte   stopText
-
+MSG_ELLAY_LHCUTEGUY:
 .byte   "*The girl was so",newLine
 .byte   " cute.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHTEDDY_INTRO:
 .byte   "*Thank you for",newLine
 .byte   " your nice song.",newLine
 .byte   pauseText
@@ -538,13 +580,13 @@
 .byte   " guys beat up on my",newLine
 .byte   " friends.",newLine
 .byte   stopText
-
+MSG_ELLAY_LHTEDDY_INTRO_YES:
 .byte   "*I'll smash you!",newLine
 .byte   stopText
-
+MSG_ELLAY_LHTEDDY_INTRO_NO:
 .byte   "*I know you did it!",newLine
 .byte   stopText
-
+MSG_ELLAY_LHTEDDY_POSTFIGHT:
 .byte   "*Aha ha ha... ",newLine
 .byte   " You are quite a",newLine
 .byte   " guy.",newLine
@@ -569,16 +611,17 @@
 .byte   " Telephone Card.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHTEDDY_TEAMUP_AGREE:
 .byte   "*I'm sure we'll",newLine
 .byte   " make a good team.",newLine
 .byte   " Let's get going!",newLine
 .byte   stopText
-
+MSG_ELLAY_LHTEDDY_TEAMUP_DECLINE2:
 .byte   "*Please...",newLine
 .byte   " I'll be a great",newLine
 .byte   " help to you.",newLine
 .byte   stopText
-
+MSG_ELLAY_LHTEDDY_TEAMUP_DECLINE3:
 .byte   "*Hello...",newLine
 .byte   " It's Dad.",newLine
 .byte   pauseText
@@ -592,7 +635,7 @@
 .byte   "*Push the 'A'",newLine
 .byte   " button at once!",newLine
 .byte   stopText
-
+MSG_ELLAY_LHTEDDY_REPLACELLOYD:
 .byte   "*You there,",newLine
 .byte   " the one with the",newLine
 .byte   " glasses...",newLine
@@ -626,6 +669,7 @@
 .byte   " here!",newLine
 .byte   stopText
 
+MSG_ELLAY_LHSIDEGUY:
 .byte   "*This is my dressing",newLine
 .byte   " room, please get",newLine
 .byte   " out!!",newLine
@@ -653,6 +697,7 @@
 .byte   " more.",newLine
 .byte   stopText
 
+MSG_ELLAY_HARBORGUY:
 .byte   "*To the Harbor",newLine
 .byte   " before Mt. Itoi.",newLine
 .byte   pauseText
@@ -796,15 +841,18 @@ MSG_PODUNK_SIGN:
 .byte   "     Podunk",newLine
 .byte   stopText
 
+MSG_ZOO_OFFICESIGN:
 .byte   "*     City Zoo",newLine
 .byte   "  Superintendent's",newLine
 .byte   "       Office",newLine
 .byte   stopText
 
+MSG_ELLAY_LOOKOUTTOWERSIGN:
 .byte   "*    Ocean View",newLine
 .byte   "  Tourists Welcome",newLine
 .byte   stopText
 
+MSG_HOSPITAL_NOPERSON:
 .byte   "*There is no one",newLine
 .byte   " here by that",newLine
 .byte   " description, but...",newLine
@@ -827,11 +875,12 @@ MSG_PODUNK_SIGN:
 .byte   " It's a big help.",newLine
 .byte   stopText
 
+MSG_REINDEER_MISLAYSIGN:
 .byte   "*Now entering the",newLine
 .byte   " Mislay Triangle.",newLine
 .byte   " Watch out!",newLine
 .byte   stopText
-
+MSG_REINDEER_MISLAYSIGN2:
 .byte   "*Someone lost his",newLine
 .byte   " Dentures right",newLine
 .byte   " under the sign!",newLine
@@ -845,6 +894,3 @@ MSG_PODUNK_SIGN:
 .byte   "*Please come to",newLine
 .byte   " my lab.",newLine
 .byte   stopText
-
-.code
-

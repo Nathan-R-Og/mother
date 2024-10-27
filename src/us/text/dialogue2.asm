@@ -1,7 +1,5 @@
 .segment        "CHR11": absolute
 
-.include "../fontmap.asm"
-
 .byte   "*Please feel free",newLine
 .byte   " to use our bed",newLine
 .byte   " anytime.",newLine
@@ -318,6 +316,7 @@ MSG_MTITOI_HEALER:
 .byte   "*I wonder why?",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_TRAINWOMAN:
 .byte   "*I just had to tell",newLine
 .byte   " you about it as",newLine
 .byte   " soon as I saw you.",newLine
@@ -507,6 +506,7 @@ MSG_CANARY_GENERIC:
 .byte   " soulful cry!",newLine
 .byte   stopText
 
+MSG_ELLAY_LHBOUNCERGUY_STONE:
 .byte   "*(The crowd becomes",newLine
 .byte   " restless and",newLine
 .byte   " upset.)",newLine
@@ -619,11 +619,12 @@ MSG_CANARY_GENERIC:
 .byte   " Why not come back?",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_RUMORGUY1:
 .byte   "*I heard about some",newLine
 .byte   " weird things over",newLine
 .byte   " in Podunk.",newLine
 .byte   stopText
-
+MSG_MERRYSVILLE_RUMORGUY2:
 .byte   "*Heard a zombie was",newLine
 .byte   " kidnapped...",newLine
 .byte   pauseText
@@ -634,6 +635,7 @@ MSG_CANARY_GENERIC:
 .byte   " stuff.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_HOSPITALSIGN:
 .byte   "*Welcome to",newLine
 .byte   " Merrysville!!",newLine
 .byte   pauseText
@@ -653,6 +655,7 @@ MSG_CANARY_GENERIC:
 .byte   " your life.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_HOSPITALDOCTOR:
 .byte   "*First show",newLine
 .byte   " me your money. Then",newLine
 .byte   " I'll treat you.",newLine
@@ -667,7 +670,7 @@ MSG_CANARY_GENERIC:
 .byte   "*This special price",newLine
 .byte   " was set just for you.",newLine
 .byte   stopText
-
+MSG_MERRYSVILLE_HOSPITALDOCTOR_ACCEPT:
 .byte   "*Thanks for the",newLine
 .byte   " $",price,".",newLine
 .byte   pauseText
@@ -677,12 +680,13 @@ MSG_CANARY_GENERIC:
 .byte   " and come back",newLine
 .byte   " soon.  He-he-hee!",newLine
 .byte   stopText
-
+MSG_MERRYSVILLE_HOSPITALDOCTOR_DECLINE:
 .byte   "*Fine, die all on",newLine
 .byte   " your own. I'll",newLine
 .byte   " phone a mortician.",newLine
 .byte   stopText
 
+MSG_PODUNK_MERRYCOP:
 .byte   "*Until the curfew",newLine
 .byte   " is lifted, no one",newLine
 .byte   " can cross.",newLine
@@ -698,11 +702,13 @@ MSG_CANARY_GENERIC:
 .byte   " northeast of The Zoo.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_COP:
 .byte   "*What happened to",newLine
 .byte   " school? You have",newLine
 .byte   " school, don't you?",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_DUNCANGUY:
 .byte   "*I got this from",newLine
 .byte   " Duncan's factory",newLine
 .byte   " in the north.",newLine
@@ -728,6 +734,7 @@ MSG_DUNCANFACTORY_DOG_PASS:
 .byte   " in the eye!!",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_BEATUPGUY:
 .byte   "*An awful creature",newLine
 .byte   " beat me up.",newLine
 .byte   pauseText
@@ -736,6 +743,7 @@ MSG_DUNCANFACTORY_DOG_PASS:
 .byte   " out!",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_CURFEWGUY:
 .byte   "*I heard the curfew",newLine
 .byte   " in Podunk has been",newLine
 .byte   " lifted.",newLine
@@ -808,6 +816,3 @@ MSG_DUNCANFACTORY_DOG_PASS:
 .byte   "*You don't talk",newLine
 .byte   " very much, do you?",newLine
 .byte   stopText
-
-.code
-

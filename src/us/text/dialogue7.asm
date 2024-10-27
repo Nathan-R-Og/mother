@@ -1,11 +1,10 @@
 .segment        "CHR16": absolute
 
-.include "../fontmap.asm"
-
 .byte   "*You have not been",newLine
 .byte   " turned to stone.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_SWEETSGUY_YES:
 .byte   "*They manufacture",newLine
 .byte   " Bottle Rockets",newLine
 .byte   " there.",newLine
@@ -42,6 +41,7 @@
 .byte   " you've heard them.",newLine
 .byte   stopText
 
+MSG_ELLAY_FISHER2:
 .byte   "*In the mean time,",newLine
 .byte   " dawn breaks over",newLine
 .byte   " the harbor...",newLine
@@ -80,6 +80,7 @@
 .byte   " by its title.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_HINTGIRL_HINT2:
 .byte   "*A lady at Reindeer",newLine
 .byte   " Station has some-",newLine
 .byte   " thing for you...",newLine
@@ -88,6 +89,7 @@
 .byte   " and met her yet?",newLine
 .byte   stopText
 
+MSG_SPOOKANE_HINTGIRL_HINT3:
 .byte   "*The most important",newLine
 .byte   " hint to remember",newLine
 .byte   " though is...",newLine
@@ -111,10 +113,12 @@ MSG_MYHOME_DOG_ADVICE:
 .byte   " out every time.",newLine
 .byte   stopText
 
+MSG_ZOO_MONKEY:
 .byte   "*The Singing Monkey",newLine
 .byte   " sang with passion.",newLine
 .byte   stopText
 
+MSG_YUCCA_SINGINGCACTUS:
 .byte   "*The Cactus sang...",newLine
 .byte   pauseText
 .byte   "*and for whatever",newLine
@@ -145,6 +149,7 @@ MSG_MYHOME_DOG_ADVICE:
 .byte   " music to start...",newLine
 .byte   stopText
 
+MSG_ZOO_MONKEYSIGN:
 .byte   "*One of a kind!",newLine
 .byte   " See the amazing",newLine
 .byte   " Singing Monkey!",newLine
@@ -166,20 +171,23 @@ MSG_PHONE_PAYPHONE:
 .byte   "*Not enough money.",newLine
 .byte   stopText
 
+MSG_GRAVEYARD_PIPPI_AFRAID:
 .byte   "*",nintenName,", please go",newLine
 .byte   " first. I am so",newLine
 .byte   " afraid.",newLine
 .byte   stopText
 
+MSG_ZOO_GATE:
 .byte   "*The lock was",newLine
 .byte   " broken. ",partyLead,newLine
 .byte   " opened the door.",newLine
 .byte   stopText
 
+MSG_ELLAY_BBGANG1_TEDDY:
 .byte   "*Hi! ",teddyName,"!",newLine
 .byte   " How are you doin'?",newLine
 .byte   stopText
-
+MSG_ELLAY_BBGANG1_TEDDY2:
 .byte   "*Let ",teddyName," come",newLine
 .byte   " back fast!",newLine
 .byte   stopText
@@ -233,6 +241,7 @@ MSG_PHONE_PAYPHONE:
 .byte   " in peace here.",newLine
 .byte   stopText
 
+MSG_PODUNK_MAGICOP:
 .byte   "*Proclamation by",newLine
 .byte   " the Town's Mayor",newLine
 .byte   " says...",newLine
@@ -249,7 +258,7 @@ MSG_PHONE_PAYPHONE:
 .byte   " like it, just",newLine
 .byte   " enforce it.",newLine
 .byte   stopText
-
+MSG_PODUNK_MAGICOP_LIFTED:
 .byte   "*Deep in a cave,",newLine
 .byte   " there is a strange",newLine
 .byte   " rock-like thing.",newLine
@@ -258,7 +267,7 @@ MSG_PHONE_PAYPHONE:
 .byte   " you definitely",newLine
 .byte   " should take a look.",newLine
 .byte   stopText
-
+MSG_PODUNK_MAGICOP2_LIFTED:
 .byte   "*I heard that you",newLine
 .byte   " can communicate",newLine
 .byte   " with Telepathy.",newLine
@@ -290,6 +299,7 @@ MSG_PHONE_PAYPHONE:
 .byte   " you.",newLine
 .byte   stopText
 
+MSG_REINDEER_SINGINGGUY_ACCEPT2:
 .byte   "*The good-looking",newLine
 .byte   " boy sang a quite a",newLine
 .byte   " unique song.",newLine
@@ -299,20 +309,24 @@ MSG_PHONE_PAYPHONE:
 .byte   " this strange melody.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_QUESTIONNAIRE:
 .byte   "*Excuse me...",newLine
 .byte   " could you answer",newLine
 .byte   " this questionnaire?",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_QUESTIONNAIRE_Q1:
 .byte   "*Do you think the",newLine
 .byte   " train tickets are",newLine
 .byte   " too expensive?",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_QUESTIONNAIRE_Q2:
 .byte   "*Have you USEd",newLine
 .byte   " the Bullhorn?",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_QUESTIONNAIRE_FINISH:
 .byte   "*Thank you for",newLine
 .byte   " your cooperation.",newLine
 .byte   " In exchange...",newLine
@@ -322,6 +336,7 @@ MSG_PHONE_PAYPHONE:
 .byte   " is for you.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_QUESTIONNAIRE_DONE:
 .byte   "*Excuse me, but",newLine
 .byte   " could you answer",newLine
 .byte   " this questionnaire?",newLine
@@ -336,6 +351,7 @@ MSG_PHONE_PAYPHONE:
 .byte   " Old Man showed up.",newLine
 .byte   stopText
 
+MSG_GRAVEYARD_CASKET_GENERIC:
 .byte   "*",partyLead," pried up",newLine
 .byte   " the lid. Out from",newLine
 .byte   " the casket...!!",newLine
@@ -497,11 +513,12 @@ MSG_PODUNK_CITYHALLSIGN:
 .byte   "     City of Podunk",newLine
 .byte   stopText
 
+MSG_ELLAY_RESIDENTIALSIGN:
 .byte   "*  Look-Out Tower",newLine
 .byte   "        WEST",newLine
 .byte   "   Harbor   NORTH",newLine
 .byte   stopText
-
+MSG_ELLAY_RESIDENTIALSIGN2:
 .byte   "*      Ellay",newLine
 .byte   "        WEST",newLine
 .byte   pauseText
@@ -509,6 +526,7 @@ MSG_PODUNK_CITYHALLSIGN:
 .byte   "        EAST",newLine
 .byte   stopText
 
+MSG_PODUNK_GRAVESIGN:
 .byte   "*   Healer's House",newLine
 .byte   "        WEST",newLine
 .byte   "   Beyond Bridge...",newLine
@@ -518,6 +536,7 @@ MSG_PODUNK_CITYHALLSIGN:
 .byte   " ye who enter!",newLine
 .byte   stopText
 
+MSG_PODUNK_MERRYSIGN:
 .byte   "*      Podunk",newLine
 .byte   "        WEST",newLine
 .byte   pauseText
@@ -525,15 +544,18 @@ MSG_PODUNK_CITYHALLSIGN:
 .byte   "        EAST",newLine
 .byte   stopText
 
+MSG_PODUNK_ZOOSIGN:
 .byte   "*     City Zoo",newLine
 .byte   "     700 meters",newLine
 .byte   "        WEST",newLine
 .byte   stopText
 
+MSG_SNOWMAN_SIGN:
 .byte   "*Snowman Chateau",newLine
 .byte   " Straight Ahead",newLine
 .byte   stopText
 
+MSG_ELLAY_INTROSIGN:
 .byte   "*      Ellay",newLine
 .byte   "        WEST",newLine
 .byte   pauseText
@@ -541,6 +563,7 @@ MSG_PODUNK_CITYHALLSIGN:
 .byte   "       SOUTH",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_SCHOOLSIGN:
 .byte   "*     Twinkle",newLine
 .byte   "  Elementary School",newLine
 .byte   "       SOUTH",newLine
@@ -550,6 +573,7 @@ MSG_MYHOME_SIGN:
 .byte   "*",nintenName,"'s house",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_SIGN:
 .byte   "*Welcome to",newLine
 .byte   " Merrysville!",newLine
 .byte   pauseText
@@ -560,6 +584,7 @@ MSG_MYHOME_SIGN:
 .byte   "       NORTH",newLine
 .byte   stopText
 
+MSG_REINDEER_SIGN:
 .byte   "*  Healer's House",newLine
 .byte   "        WEST",newLine
 .byte   pauseText
@@ -570,6 +595,7 @@ MSG_MYHOME_SIGN:
 .byte   "        SOUTH",newLine
 .byte   stopText
 
+MSG_SPOOKANE_SIGN:
 .byte   "* Spookane Downtown",newLine
 .byte   "        WEST",newLine
 .byte   pauseText
@@ -577,18 +603,22 @@ MSG_MYHOME_SIGN:
 .byte   "        EAST",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_SIGN:
 .byte   "*   Swamp - EAST",newLine
 .byte   stopText
 
+MSG_SPOOKANE_MANSIONSIGN:
 .byte   "*PRIVATE PROPERTY",newLine
 .byte   " (signed)-",newLine
 .byte   " The Rosemarys",newLine
 .byte   stopText
 
+MSG_ELLAY_JAILSIGN:
 .byte   "*Police Station",newLine
 .byte   " City of Ellay",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_DUNCANSIGN:
 .byte   "*Coming this fall-",newLine
 .byte   " Duncan's",newLine
 .byte   " Debutantery",newLine
@@ -623,6 +653,7 @@ MSG_MYHOME_SIGN:
 .byte   " is to help you.",newLine
 .byte   stopText
 
+MSG_PODUNK_MAGICOP2_LIFTED2:
 .byte   "*The curfew has",newLine
 .byte   " been lifted.",newLine
 .byte   pauseText
@@ -720,9 +751,11 @@ MSG_MTITOI_TEDDY_CALL:
 .byte   " spaces!",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_SWEETSSIGN:
 .byte   "* Sweet's Little",newLine
 .byte   "      Factory",newLine
 .byte   stopText
+
 .byte   "*I was kidnapped by",newLine
 .byte   " the Mother Ship.",newLine
 .byte   " Please help me!",newLine
@@ -742,6 +775,7 @@ MSG_MTITOI_TEDDY_CALL:
 .byte   " place.",newLine
 .byte   stopText
 
+MSG_YUCCA_PILOT_TANKRIDE:
 .byte   "*Be careful, that",newLine
 .byte   " tank is my most",newLine
 .byte   " prized possession.",newLine
@@ -838,6 +872,3 @@ MSG_PODUNK_NOISYMOUSE:
 .byte   " else you'd like",newLine
 .byte   " to take?",newLine
 .byte   stopText
-
-.code
-

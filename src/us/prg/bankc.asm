@@ -123,5 +123,3 @@ IntroText2:
 .byte   "80 years have passed",newLine
 .byte   " ",newLine
 .byte   "since then.",stopText
-
-.code

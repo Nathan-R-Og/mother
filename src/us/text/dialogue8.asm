@@ -1,7 +1,5 @@
 .segment        "CHR17": absolute
 
-.include "../fontmap.asm"
-
 .byte   "*Can't someone else",newLine
 .byte   " carry that? Your",newLine
 .byte   " load is too great!",newLine
@@ -56,6 +54,7 @@
 .byte   "*Hee Hee Hee.",newLine
 .byte   stopText
 
+MSG_MR_RAILROADCORPSE:
 .byte   "*Get on the train,",newLine
 .byte   " or you will have a",newLine
 .byte   " hard time like me.",newLine
@@ -474,5 +473,3 @@
 .byte   stopText
 
 .byte 0
-.code
-

@@ -1,6 +1,2 @@
 .segment        "PRGA": absolute
-
-.incbin "../../split/jp/prg/banka.bin"
-
-.code
-
+    .incbin "../../split/jp/prg/banka.bin"

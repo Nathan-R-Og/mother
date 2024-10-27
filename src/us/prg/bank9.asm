@@ -402,5 +402,4 @@ OVERWORLD_ACTION24:
 .byte $02,$0A,$0F,$21,$21,$21,$0F,$21,$21,$21,$0F,$21,$21,$21
 
 .incbin "../../split/us/prg/bank9.bin",$2909
-.code
 

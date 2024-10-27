@@ -1,4 +1,6 @@
-.include "../fontmap.asm"
+.segment        "PRGC_1": absolute
+
+.byte 0
 
 MSG_MYHOME_MINNIE_INVASION:
 kanjifix "*おにいちゃん こわい。"
@@ -644,6 +646,7 @@ kanjifix "また ごへんぴんですね。"
 .byte   newLine
 .byte   stopText
 
+MSG_REINDEER_DRAGONGIRL_CHECK:
 kanjifix "*"
 .byte   partyLead
 kanjifix "の こころに"
@@ -721,6 +724,7 @@ kanjifix "まことに そのとおりじゃ。"
 .byte   newLine
 .byte   stopText
 
+MSG_GRAVEYARD_PIPPI:
 kanjifix "*わたしは まいごのピッピだよ。"
 .byte   newLine
 kanjifix "あなたって ゆうき あるね。"
@@ -776,6 +780,7 @@ kanjifix "かわいいひと‥‥"
 .byte   newLine
 .byte   stopText
 
+MSG_ZOO_GATEMONKEY:
 kanjifix "*キャッキャッキャッ"
 .byte   newLine
 kanjifix "(おまえの かあさんでべそ!)"
@@ -1388,6 +1393,7 @@ kanjifix "*どうしてだろ。"
 .byte   newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_TRAINWOMAN:
 kanjifix "*あんた"
 .byte   unk4
 kanjifix "に あったら"
@@ -1626,6 +1632,7 @@ kanjifix "こころの さけびだ!"
 .byte   newLine
 .byte   stopText
 
+MSG_ELLAY_LHBOUNCERGUY_STONE:
 kanjifix "*(おきゃくは さわいだ。)"
 .byte   newLine
 .byte   pauseText
@@ -1764,6 +1771,7 @@ kanjifix "また でなおしておいで。"
 .byte   newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_RUMORGUY1:
 kanjifix "*マザ-ズデイのあたりは なんか"
 .byte   newLine
 kanjifix "とんでもない じけんが"
@@ -1771,7 +1779,7 @@ kanjifix "とんでもない じけんが"
 kanjifix "おこってるらしいな。"
 .byte   newLine
 .byte   stopText
-
+MSG_MERRYSVILLE_RUMORGUY2:
 kanjifix "*ゾンビが ゆうかいされて"
 .byte   newLine
 kanjifix "どうぶつが どうしたとか‥‥"
@@ -1780,6 +1788,7 @@ kanjifix "めちゃくちゃらしいな。"
 .byte   newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_HOSPITALSIGN:
 kanjifix "「サンクスギビングのまちに"
 .byte   newLine
 kanjifix "          ようこそ!!"

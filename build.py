@@ -88,14 +88,7 @@ def simplifyPointers(dir:str):
         baseLines = open("src/us/text_pointers.asm", "r").readlines()
         fixLines = baseLines.copy()
         while i < len(fixLines):
-            invalid = fixLines[i].find("$") != -1 or\
-                    fixLines[i].startswith(".word 0") or\
-                    fixLines[i].startswith(".byte")
-            remove = fixLines[i].find(":") != -1 or\
-                    fixLines[i].startswith(";") or\
-                    fixLines[i] == "\n"
-            if invalid:
-                fixLines[i] = ""
+            remove = fixLines[i].find("MSG_") == -1 or fixLines[i].find("UMSG") != -1
             if remove:
                 fixLines.pop(i)
                 i -= 1
@@ -104,8 +97,8 @@ def simplifyPointers(dir:str):
         i = 0
         array = []
         while i < len(fixLines):
-            if i % 2 == 0 and fixLines[i].strip() != "":
-                array.append(fixLines[i].strip().split("word ")[-1])
+            if fixLines[i].find(".faraddr") != -1:
+                array.append(fixLines[i].strip().split("faraddr ")[-1])
             i += 1
 
         #might as well fix the list itself while we're at it
@@ -113,7 +106,7 @@ def simplifyPointers(dir:str):
         for entry in array:
             i = 0
             while i < len(fixLines):
-                if fixLines[i] == f".word {entry}\n" != -1 and fixLines[i].find(":") == -1:
+                if fixLines[i] == f".faraddr {entry}\n" != -1 and fixLines[i].find(":") == -1:
                     if entry.startswith("MSG_"):
                         convert = entry.replace("MSG_","UMSG_",1)
                         #if one doesnt exist, add
@@ -123,8 +116,8 @@ def simplifyPointers(dir:str):
                         #otherwise regen anyways
                         else:
                             fixLines[i-1] = f"{convert}:\n"
-
                 i += 1
+
         print("text_pointers fixed!")
         open("src/us/text_pointers.asm", "w").writelines(fixLines)
 
@@ -147,13 +140,8 @@ def simplifyPointers(dir:str):
     elif dir == "jp":
         #if other files in jp are referenced using the same
         #system as objects, add them here
-        #i was gonna glob them but i feel like thats super dangerous LOL
-        dFiles = [
-            "src/jp/dialogue1.asm",
-            "src/jp/dialogue2.asm",
-            "src/jp/dialogue3.asm",
-            "src/jp/dialogue4.asm"
-            ]
+        from glob import glob
+        dFiles = glob("src/jp/text/*.asm", recursive=True)
 
         array = []
         for file in dFiles:

@@ -1357,6 +1357,3 @@ incbinRange "../../split/jp/prg/bank0.bin", $14c8, $1800
 
 ;map data
 .incbin "../../split/jp/prg/bank0.bin", $2000
-
-.code
-

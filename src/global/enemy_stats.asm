@@ -1,5 +1,5 @@
 ;the only difference between jp and us stats is whether or not
-;the unused slots have blank names or not
+;unused slots have blank names
 
 .enum   ENEMY_GRAPHICS
         BIGWOODOH = $20
@@ -42,7 +42,7 @@
 
 STATS_START:
 
-STATS_UNKENEMY0:  
+STATS_UNKENEMY0:
         .byte $0
         ;init status
         .byte $0

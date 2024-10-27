@@ -35,8 +35,13 @@ binclude "prg/bank0.asm"
 .include "prg/bank9.asm"
 .include "prg/banka.asm"
 .include "prg/bankb.asm"
-.include "prg/bankc.asm"
-.include "prg/bankd.asm"
+
+.include "fontmap.asm"
+binclude "text/dialogue1.asm"
+binclude "text/dialogue2.asm"
+binclude "text/dialogue3.asm"
+binclude "text/dialogue4.asm"
+
 .include "prg/banke.asm"
 .include "prg/bankf.asm"
 

@@ -2,7 +2,6 @@
 ;TODO: what does arg5 do???????
 ;NOTE- battleEffect uses BATTLE_ACTION_POINTERS as an array.
 ;(or at least i think it does)
-;what table overworldEffect uses is probably an item table of sorts, where idk
 ;also i only made a macro out of this because i dont wanna seperate one word and six bytes
 .macro psiDef name, nintenLevel, anaLevel, overworldEffect, battleEffect, arg5, cost
 

@@ -1,7 +1,5 @@
 .segment        "CHR14": absolute
 
-.include "../fontmap.asm"
-
 .byte   "*The phenomenon has",newLine
 .byte   " stopped.",newLine
 .byte   " For the moment...",newLine
@@ -73,6 +71,7 @@ MSG_PODUNK_PIPPIMOM:
 .byte   " right through you.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHBOUNCERGUY_TRIO:
 .byte   "*(A dull roar begins",newLine
 .byte   " to rise from the",newLine
 .byte   " crowd)",newLine
@@ -95,6 +94,7 @@ MSG_PODUNK_PIPPIMOM:
 .byte   " sleep.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHBOUNCERGIRL:
 .byte   "*What can I do",newLine
 .byte   " for you?",newLine
 .byte   stopText
@@ -143,11 +143,12 @@ MSG_PODUNK_PIPPIMOM:
 .byte   " enough money.",newLine
 .byte   stopText
 
+MSG_YUCCA_PILOT_NOROOM:
 .byte   "*Oh?  You seem to",newLine
 .byte   " have too much to",newLine
 .byte   " carry.",newLine
 .byte   stopText
-
+MSG_YUCCA_PILOT_NOMONEY:
 .byte   "*You don't have",newLine
 .byte   " enough money. Come",newLine
 .byte   " back when you do.",newLine
@@ -179,6 +180,7 @@ MSG_PODUNK_PIPPI_NOROOM:
 .byte   " like to deposit?",newLine
 .byte   stopText
 
+MSG_GRAVEYARD_PIPPI_LEAVE:
 .byte   "*Now, let's go back",newLine
 .byte   " to town.",newLine
 .byte   stopText
@@ -198,6 +200,7 @@ MSG_PODUNK_PIPPI_NOROOM2:
 .byte   " other time.",newLine
 .byte   stopText
 
+MSG_YUCCA_PILOT_CHOOSEPLAN:
 .byte   "*Which flightplan",newLine
 .byte   " would you like?",newLine
 .byte   stopText
@@ -207,10 +210,12 @@ MSG_PODUNK_PIPPI_NOROOM2:
 .byte   " Dentures.",newLine
 .byte   stopText
 
+MSG_YUCCA_PILOT_NOMONEY2:
 .byte   "*No, that's not",newLine
 .byte   " quite enough.",newLine
 .byte   stopText
 
+MSG_SPOOKANE_MRSROSEMARY3:
 .byte   "*Having a tough",newLine
 .byte   " time?",newLine
 .byte   " I'm so worried.",newLine
@@ -219,21 +224,24 @@ MSG_PODUNK_PIPPI_NOROOM2:
 MSG_PODUNK_PIPPI_GOODBYE:
 .byte   "*Good luck!",newLine
 .byte   stopText
-
+MSG_ELLAY_LHTEDDY_CHALLENGE:
 .byte   "*Who's the boss?",newLine
 .byte   " I'll teach him",newLine
 .byte   " a lesson!",newLine
 .byte   stopText
 
+MSG_ELLAY_SECRETGIRL_TEDDY:
 .byte   "*The Bla-Bla Gang",newLine
 .byte   " members are doing",newLine
 .byte   " just fine.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHTEDDY_TEAMUP_DECLINE:
 .byte   "*Don't try to make",newLine
 .byte   " me mad.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_PASSTRIGGER2:
 .byte   "*",partyLead," picked up",newLine
 .byte   " the Pass.",newLine
 .byte   stopText
@@ -243,6 +251,7 @@ MSG_PODUNK_PIPPI_GOODBYE:
 .byte   " enough money.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_QUESTIONNAIRE_NOROOM:
 .byte   "*Let's see... ",newLine
 .byte   " It seems that your",newLine
 .byte   " load is too heavy.",newLine
@@ -563,6 +572,7 @@ MSG_CANARY_LAURA:
 .byte   "*Oh, traveller!",newLine
 .byte   stopText
 
+MSG_SPOOKANE_HINTGIRL_HINT1:
 .byte   "*The ghost house is",newLine
 .byte   " not a place for",newLine
 .byte   " slaying monsters.",newLine
@@ -579,11 +589,13 @@ MSG_CANARY_LAURA:
 .byte   " be found somewhere.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHCOP_ARREST:
 .byte   "*You're under age.",newLine
 .byte   " I have to take you",newLine
 .byte   " in to headquarters.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHBACKROOMGUY_MINE:
 .byte   "*I heard you",newLine
 .byte   " stepped on the",newLine
 .byte   " landmine.",newLine
@@ -598,6 +610,7 @@ MSG_CANARY_LAURA:
 .byte   " very much either!",newLine
 .byte   stopText
 
+MSG_ELLAY_LHSIDEGUY_MINE:
 .byte   "*I heard that you",newLine
 .byte   " stepped in dog",newLine
 .byte   " crap in Yucca?",newLine
@@ -606,6 +619,7 @@ MSG_CANARY_LAURA:
 .byte   " cool buddy.",newLine
 .byte   stopText
 
+MSG_YUCCA_MINE:
 .byte   '*"Certificate"',newLine
 .byte   pauseText
 .byte   "*",playerName,newLine
@@ -628,6 +642,7 @@ MSG_CANARY_LAURA:
 .byte   " Have a nice trip!",newLine
 .byte   stopText
 
+MSG_HOSPITAL_NURSE_DECLINE:
 .byte   "*Oh! not visiting a",newLine
 .byte   " patient?",newLine
 .byte   pauseText
@@ -635,16 +650,18 @@ MSG_CANARY_LAURA:
 .byte   " patient, please go",newLine
 .byte   " to the back room.",newLine
 .byte   stopText
-
+MSG_HOSPITAL_NURSE_NOONE:
 .byte   "*Sorry, no patient",newLine
 .byte   " here by that name.",newLine
 .byte   stopText
 
+MSG_REINDEER_HOSPITALWEIGHTGUY:
 .byte   "*This year's flu is",newLine
 .byte   " go bad. I lost so",newLine
 .byte   " much weight.",newLine
 .byte   stopText
 
+MSG_REINDEER_HOSPITALCOLDGUY:
 .byte   "*I don't have a",newLine
 .byte   " cold.",newLine
 .byte   " Cough, cough, hack.",newLine
@@ -654,11 +671,13 @@ MSG_CANARY_LAURA:
 .byte   " Cough, hack hack.",newLine
 .byte   stopText
 
+MSG_PODUNK_HOTELWOMAN:
 .byte   "*Whenever you get",newLine
 .byte   " tired, just drop",newLine
 .byte   " by our Inn.",newLine
 .byte   stopText
 
+MSG_REINDEER_HOTELGUY:
 .byte   "*Hi ",partyLead,", I'll",newLine
 .byte   " catch you later,",newLine
 .byte   pauseText
@@ -666,6 +685,7 @@ MSG_CANARY_LAURA:
 .byte   " right now.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_HOTELWAITER:
 .byte   "*A restaurant, rant,",newLine
 .byte   " rant, rant...",newLine
 .byte   " Happy restaurant,",newLine
@@ -674,15 +694,18 @@ MSG_CANARY_LAURA:
 .byte   " Are you happy?",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_HOTELMUSCIALGIRL:
 .byte   "*All restaurant",newLine
 .byte   " owners love",newLine
 .byte   " musicals!",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_HOTELFAVFOODGUY:
 .byte   "*I think ",favFood,newLine
 .byte   " is delicious, too.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_HOTELGUY:
 .byte   "*The Hotel in this",newLine
 .byte   " town isn't any ",newLine
 .byte   " better than the",newLine
@@ -692,6 +715,7 @@ MSG_CANARY_LAURA:
 .byte   " is so expensive...",newLine
 .byte   stopText
 
+MSG_PODUNK_HOTELGUY:
 .byte   "*The room rate at",newLine
 .byte   " this Hotel is so",newLine
 .byte   " inexpensive...",newLine
@@ -701,6 +725,7 @@ MSG_CANARY_LAURA:
 .byte   " being cheap either.",newLine
 .byte   stopText
 
+MSG_MERRYSVILLE_TRAINWOMAN2:
 .byte   "*Big rocks block",newLine
 .byte   " the railroad. The",newLine
 .byte   " train cannot pass.",newLine
@@ -717,6 +742,7 @@ MSG_MYHOME_DOG:
 .byte   "*Bow wow!",newLine
 .byte   stopText
 
+MSG_SPOOKANE_HINTGIRL_NOMONEY:
 .byte   "*You don't have",newLine
 .byte   " enough money.",newLine
 .byte   " Sorry, come again.",newLine
@@ -736,6 +762,7 @@ MSG_MYHOME_DOG:
 .byte   " again...",newLine
 .byte   stopText
 
+MSG_ELLAY_LHBOUNCERGIRL2:
 .byte   "*Hope you enjoy",newLine
 .byte   " yourself here.",newLine
 .byte   stopText
@@ -806,10 +833,11 @@ MSG_MYHOME_DOG:
 .byte   " I'll start to cry.",newLine
 .byte   stopText
 
+MSG_ELLAY_LHCOP_JAILSCENE1:
 .byte   "*Don't stop...",newLine
 .byte   " Keep on walking!",newLine
 .byte   stopText
-
+MSG_ELLAY_LHCOP_JAILSCENE2:
 .byte   "*You look like you've",newLine
 .byte   " been through a lot.",newLine
 .byte   pauseText
@@ -836,6 +864,3 @@ MSG_PODUNK_CANARYGUY:
 .byte   " to visit and",newLine
 .byte   " admission is free!",newLine
 .byte   stopText
-
-.code
-

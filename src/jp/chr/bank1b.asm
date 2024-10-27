@@ -768,6 +768,3 @@ kanjifix "どくをうけた"
 STATUS_COLD:
 kanjifix "かぜをひいた"
 .byte   stopText
-
-.code
-
