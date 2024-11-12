@@ -111,16 +111,20 @@ CHECK_LASTSTARMAN:
 
 .byte   stopText
 
+BSG_UNK:
 .byte   unk,unk3,unk2,unk3
 .byte   stopText
 
+BSG_APPROACH:
 .byte   attacker,newLine
 .byte   "draws near!"
 .byte   stopText
 
+BSG_ATTACK:
 .byte   attacker,"'s attack!"
 .byte   stopText
 
+BSG_TANKGUN:
 .byte   attacker," fired the",newLine
 .byte   "tank gun!"
 .byte   stopText
@@ -243,6 +247,7 @@ CHECK_LASTSTARMAN:
 .byte   "meditating."
 .byte   stopText
 
+BSG_GROUCHOFUNNY:
 .byte   attacker," said",newLine
 .byte   '"Hello", then just',newLine
 .byte   "walked away."
@@ -482,6 +487,7 @@ CHECK_LASTSTARMAN:
 .byte   " swiftly."
 .byte   stopText
 
+BSG_SMAAAAASH:
 .byte   "  ",SMAAAAASH
 .byte   stopText
 
@@ -570,6 +576,7 @@ CHECK_LASTSTARMAN:
 .byte   " decreased by ",damageAmount,"."
 .byte   stopText
 
+BSG_GROUCHOFUNNY2:
 .byte   " Don't know why, but",newLine
 .byte   " ",beingAttacked,"'s EXP",newLine
 .byte   " increased."

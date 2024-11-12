@@ -7,7 +7,6 @@ incbinRange "../../split/us/chr/bankf.bin", 0, $800
 
 ;the same
 incbinRange "../../split/us/chr/bankf.bin", $800, $b03
-;incbinRange "../../split/us/prg/bankc.bin", $3800, $3b03
 
 .include "../fontmap.asm"
 

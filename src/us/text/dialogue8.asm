@@ -292,6 +292,7 @@ MSG_MR_RAILROADCORPSE:
 .byte   " mysterious power.",newLine
 .byte   stopText
 
+MSG_ANTIPIRACY:
 .byte   '"This software is an illegal',newLine
 .byte   "copy of a Nintendo game. The",newLine
 .byte   "use, possession or sale of",newLine

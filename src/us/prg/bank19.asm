@@ -1,4 +1,5 @@
 .segment        "PRG19": absolute
+
 ;anti-piracy
 incbinRange "../../split/us/prg/bank19.bin", 0, $8A4
 
@@ -58,6 +59,10 @@ CharExists:
 .byte   "again, and use ",newLine
 .byte   "only capital   ",newLine
 .byte   "letters.       ",stopText
+;newLine decides the end of the entry
+;the question marks arent actually needed, but if you
+;remove it it does a search within the text from the start
+
 ExistEntries:
 .byte   "Mary?",newLine
 .byte   "Suzy?",newLine

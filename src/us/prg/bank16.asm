@@ -276,7 +276,7 @@ BATTLE_ACTION_POINTERS:
 .word BATTLE_ACTION5B ;run away
 .word BATTLE_ACTION6A ;cry out for help
 .word BATTLE_ACTION6B ;sow your seed
-.word BATTLE_ACTION6C ;ready for an attack 2
+.word BATTLE_ACTION6C ;steal item / ready for an attack if none
 .word BATTLE_ACTION61 ;start laughing
 .word BATTLE_ACTION71 ;NOTHING
 .word BATTLE_ACTION71 ;NOTHING
@@ -339,14 +339,292 @@ BATTLE_ACTION_POINTERS:
 .word BATTLE_ACTION71 ;NOTHING
 .word BATTLE_ACTION67 ;explode 2
 
+.enum BATTLE_ACTIONS
+    E_DRAWNEAR = $10
+    E_RUN = $11
+    E_FLASH = $12
+    E_LONG = $13
+    E_HELP = $14
+    E_SEEDS = $15
+    ESCAPE = $16
+    ANIM_FIRE = $17
+    ANIM_FREEZE = $18
+    ANIM_THUNDER = $19
+    ANIM_BEAM = $1a
+    SMASH_FLASH = $1b
+    ;these take 4 bits (condition) and 1 byte arg
+    USE_ITEM = $30
+    USE_FOOD = $31
+    USE_LIMITED = $32
+    USE_BIGBAG = $33
+    ;
+    TARGET_NOTHING = $50
+    TARGET_CHOOSE = $51
+    TARGET_ELEAD = $52
+    TARGET_PLEAD = $53
+    TARGET_SELF = $54
+    TARGET_MYLEAD = $55
+    TARGET_NEXT = $56
+    ;these take 1 byte of arg
+    DAMAGECALC = $60
+    DAMAGECALC_CRIT = $61
+    DAMAGESET = $62 ;should be value set
+    GIEGUE_SPEECH = $63
+    CHECK = $65
+    SOUND2 = $66
+    ANIMATE = $67;?
+    DISPTEXT = $68
+    SOUND = $69
+.endenum
+
+.enum BA_CON
+    BOTHLIVE = 0
+    IS_DODGE = 1
+    IS_CRIT = 2
+    IS_BLINDED = 3
+    IS_TANK = 4
+    HAS_FBADGE = 5
+    T_ALIVE = 6
+    BUG_SPRAY = 7
+    D2 = 8
+    UNK9 = 9
+    UNKA = $A
+    SCRIPTED = $B
+    IS_SHIELD = $C
+    IS_GIEGUE = $D
+.endenum
+
+;********** 00 series (END) **********
+;00~0F   - END
+
+;********** 10 series (???) **********
+;10 - Do something with the attacker
+;11 - Enemy run away (set $47 to 1 if not enemy?)
+;12 - Enemy flash
+;13 - Enemy fade
+;14 - Call for help
+;15 - Sow seeds (plant-type call for help)
+;16 - Escape battle (set $47 to 2)
+;17 - Fire animation (red flash)
+;18 - Freeze animation (dark blue flash)
+;19 - Thunder animation (light blue flash)
+;1A - Beam animation (yellow flash)
+;1B - Smash animation (green flash)
+;(1C through 1F execute invalid code, crash yadda yadda)
+
+;********** 20 series (PSI) **********
+;2X YY - Use PSI YY
+
+;********** 30 series (items) **********
+;3X YY - Use item YY. If X is 1, extra unknown code is run
+
+.macro ba_series series, condition, value
+.byte (series << 4) | condition, value
+.endmacro
+.macro ba_effect condition, effect
+    ba_series 4, condition, effect
+.endmacro
+.enum BA_EFFECT
+    HEAL = 0
+    HEALPP = 1
+    SPDUP = 2
+    OFFUP = 3
+    DEFUP = 4
+    MAXHP = 5
+    DAMAGE = 6
+    DEFDOWN_PSI = 7
+    FIGDOWN = 8
+    ONESHOT = 9
+    FREEZE = $A
+    OFFDOWN = $B
+    DEFDOWN = $C
+    EXPBONUS = $D
+    DIE = $E ;self?
+    RECOIL = $F
+    EDGE_CLOSER = $10
+    RAGE = $11
+    BLIND = $12
+    POISON = $13
+    CONFUSION = $14
+    SLEEP = $15
+    PARALYSIS = $16
+    BLOCK = $17
+    GUARD = $18
+    SHIELD = $19
+    POWERSHIELD = $1a
+    BIND = $1b
+    STONE = $1C
+    ASTHMA = $1D
+    PUZZLE = $1E
+    CURE_POISON = $1F
+    CURE_SLEEP = $20
+    CURE_PARALYSIS = $21
+    CURE_ASTHMA = $22
+    CURE_CONFUSION = $23
+    SHIELDOFF = $24
+    REVIVE = $25
+    CURE_STONE = $26
+    PSIMAGNET = $27
+    STEAL_FOOD = $28
+    SING = $29
+    SELF_CONFUSE = $2a
+.endenum
+
+;********** 40 series (???) **********
+;4X 00 - ???
+;4X 01 - ???
+;4X 02 - Speed up
+;4X 03 - Offense up
+;4X 04 - ???
+;4X 05 - ???
+;4X 06 - ???
+;4X 07 - Defense down
+;4X 08 - Fight down
+;4X 09 - ???
+;4X 0A - May freeze the target
+;4X 0B - Offense down
+;4X 0C - Defense down
+;4X 0D - Increase EXP (???????????)
+;4X 0E - ???
+;4X 0F - ???
+;4X 10 - Edge closer (offense up)
+;4X 11 - Offense up
+;4X 12 - Blind target (may fail)
+;4X 13 - Poison target (may fail)
+;4X 14 - Confuse target (may fail)
+;4X 15 - Put target to sleep (may fail)
+;4X 16 - Paralyze target (may fail)
+;4X 17 - Block target (PSI block? may fail)
+;4X 18 - ???
+;4X 19 - Shield target
+;4X 1A - Barrier target (Power Shield?)
+;4X 1B - Rope target
+;4X 1C - Petrify target (may fail)
+;4X 1D - Induce an asthma attack (only works on Ninten)
+;4X 1E - Do something strange (inflict Puzzled)
+;4X 1F - Cure target
+;4X 20 - Wake up target
+;4X 21 - Unparalyze target
+;4X 22 - Cure target's asthma attack
+;4X 23 - Unpetrify target
+;4X 24 - Destroy target's shield
+;4X 25 - Revive (may fail)
+;4X 26 - Unparalyze? target
+;4X 27 - Possibly PSI Magnet (target loses PP, may have no effect)
+;4X 28 - Guard (acts as steal item for enemies?)
+;4X 29 - Possibly sing (displays Giegue's defeat text at some point)
+;4X 2A - Inflict Confuse
+;4X 2B through 4X FF - Executes invalid code, crash
+
+;********** 50 series (targeting) **********
+;50 - NOP
+;51 - Complete random retarget if confused
+;52 - Target first opponent. 50% chance to target first ally if confused
+;53 - Target first ally. 50% chance to target first opponent if confused
+;54 - Target self
+;55 - Target first ally
+;56 - Target next battler
+;(57 through 5F execute invalid code and will probably just crash the game)
+
+;********** 60 series (misc) **********
+;60 XX - Calculate damage based on attacker's offense and target's defense. Exact formula still needs to be figured out (XX ignored)
+;61 XX - Set damage to attacker's offense. Damage will be set to a random number between 8 and 15 if ($56 == 1) (XX ignored)
+;62 XX - Set damage to XX
+;63 XX - Giegue's speech (increment values for next line, etc. Still needs to be looked into)
+;64 XX - $57 |= XX
+;65 XX - Check (aka Spy)
+;66 XX - ??? (XX ignored)
+;67 XX - Play sound effect ($58 = XX)
+;68 XX - Display text XX
+;69 XX - Display text 0xFF
+;(6A through 6F execute invalid code and might just crash the game)
+
+;********** 70 and 80 series (conditional jumps) **********
+;7X YYYY - Jump if condition
+;8X YYYY - Jump if NOT condition
+
+
+
+.macro ba_conditional conditional, condition, pointer
+.byte (conditional << 4) | condition
+.word pointer
+.endmacro
+.macro ba_jumpif condition, pointer
+ba_conditional 7, condition, pointer
+.endmacro
+.macro ba_jumpifnot condition, pointer
+ba_conditional 8, condition, pointer
+.endmacro
+
+;Conditions (X):
+;0 - Attacker AND target are alive
+;1 - Checks target status ailments and other stuff?
+;2 - ??? Checks FIGHT stat at some point
+;3 - ??? Checks battler struct offset 0x1E
+;4 - Attacker is enemy OR ($23 == 0)
+;5 - Attacker is enemy OR unknown condition
+;6 - Target is alive
+;7 - Unknown check against target
+;8 - 50% chance
+;9 - Unknown check against target
+;A - Unknown check against target
+;B - ??? $21 != 0
+;C - Unknown check against target
+;D - ??? $56 == 5 || $56 == 6
+;E - Invalid code executed, crash
+;F - Invalid code executed, crash
+
+;********** 90 series (subroutine call) **********
+;9X YYYY - Subroutine call. X is ignored, probably best to leave it at 0 for uniformity
+
+;********** A0 series (Unconditional jump) **********
+;AX YYYY - Unconditional jump. X is ignored, probably best to leave it at 0 for uniformity
+
+;********** B0 series (repeat) **********
+;BX - repeat X times until END byte (00~0F)???
+
+;********** C0 series (item depletion) **********
+;   XX is an item ID
+;C0 XX - 1/8 chance to "break" item XX
+;C1 XX - 1/8 chance to make the item "turn into an ordinary stone" (deplete PSI Stone)
+;C2 XX - Decrement $741F, and if reached zero, remove item and display "the [item] was fully emptied..." (possibly bag of herbs?)
+;C3~CF - Invalid code is called, crash
+
 ;battle actions
 BATTLE_ACTION0:
-.byte $00
+.byte $00 ;END
+
 BATTLE_ACTION1:
-.byte $51,$80,$1B,$99,$73,$1B,$99,$74,$3A,$99,$72,$2E,$99,$66,$00,$68
-.byte $04,$80,$B7,$9E,$81,$BA,$9E,$73,$BF,$9E,$12,$60,$00,$40,$06,$00
-.byte $69,$03,$68,$04,$1B,$68,$0B,$61,$00,$40,$06,$00,$69,$08,$68,$05
-.byte $1B,$62,$3C,$40,$06,$00
+.byte BATTLE_ACTIONS::TARGET_CHOOSE
+ba_jumpifnot BA_CON::BOTHLIVE, @BA1_NORMAL
+ba_jumpif BA_CON::IS_BLINDED, @BA1_NORMAL
+ba_jumpif BA_CON::IS_TANK, @BA1_TANK
+ba_jumpif BA_CON::IS_CRIT, @BA1_CRIT
+    @BA1_NORMAL:
+.byte BATTLE_ACTIONS::SOUND2,0
+.byte BATTLE_ACTIONS::DISPTEXT,$04 ;'s attack!
+ba_jumpifnot BA_CON::BOTHLIVE, BATTLE_ACTION72
+ba_jumpifnot BA_CON::IS_DODGE, BATTLE_ACTION73
+ba_jumpif BA_CON::IS_BLINDED, BATTLE_ACTION74
+.byte BATTLE_ACTIONS::E_FLASH
+.byte BATTLE_ACTIONS::DAMAGECALC,0
+ba_effect BA_CON::BOTHLIVE, BA_EFFECT::DAMAGE
+.byte $00;END
+    @BA1_CRIT:
+.byte BATTLE_ACTIONS::SOUND,$03 ;screen shake
+.byte BATTLE_ACTIONS::DISPTEXT,$04 ;'s attack!
+.byte BATTLE_ACTIONS::SMASH_FLASH
+.byte BATTLE_ACTIONS::DISPTEXT,$0B ;SMAAAASH
+.byte BATTLE_ACTIONS::DAMAGECALC_CRIT,0
+ba_effect BA_CON::BOTHLIVE, BA_EFFECT::DAMAGE
+.byte $00;END
+    @BA1_TANK:
+.byte BATTLE_ACTIONS::SOUND,$08 ; tank
+.byte BATTLE_ACTIONS::DISPTEXT,$05 ;fired the tank gun!
+.byte BATTLE_ACTIONS::SMASH_FLASH
+.byte BATTLE_ACTIONS::DAMAGESET,60
+ba_effect BA_CON::BOTHLIVE, BA_EFFECT::DAMAGE
+.byte $00;END
 BATTLE_ACTION2:
 .byte $51,$66,$00,$68,$04,$90,$1F,$99,$80,$56,$99,$66,$00,$68,$07,$90
 .byte $1F,$99,$00
@@ -497,7 +775,14 @@ BATTLE_ACTION3E:
 BATTLE_ACTION3F:
 .byte $67,$00,$31,$28,$51,$80,$B7,$9E,$12,$40,$1B,$00
 BATTLE_ACTION40:
-.byte $67,$00,$20,$08,$62,$1E,$51,$80,$B7,$9E,$40,$00,$00
+.byte BATTLE_ACTIONS::ANIMATE,$00
+ba_series 2, 0, 8 ;use psi
+.byte BATTLE_ACTIONS::DAMAGESET,30
+    BA_HEALACTION:
+.byte BATTLE_ACTIONS::TARGET_CHOOSE
+ba_jumpifnot BA_CON::BOTHLIVE, BATTLE_ACTION72
+ba_effect BA_CON::BOTHLIVE, BA_EFFECT::HEAL
+.byte $00
 BATTLE_ACTION41:
 .byte $67,$00,$20,$09,$62,$50,$A0,$D9,$9C
 BATTLE_ACTION42:
@@ -513,13 +798,25 @@ BATTLE_ACTION45:
 BATTLE_ACTION46:
 .byte $67,$00,$32,$49,$62,$14,$54,$80,$B7,$9E,$40,$01,$C1,$49,$00
 BATTLE_ACTION47:
-.byte $67,$00,$31,$3C,$62,$0A,$A0,$D9,$9C
+.byte BATTLE_ACTIONS::ANIMATE,$00
+.byte BATTLE_ACTIONS::USE_FOOD,$3C
+.byte BATTLE_ACTIONS::DAMAGESET,10
+ba_conditional $A, BA_CON::BOTHLIVE, BA_HEALACTION
 BATTLE_ACTION48:
-.byte $67,$00,$31,$3D,$62,$14,$A0,$D9,$9C
+.byte BATTLE_ACTIONS::ANIMATE,$00
+.byte BATTLE_ACTIONS::USE_FOOD,$3D
+.byte BATTLE_ACTIONS::DAMAGESET,20
+ba_conditional $A, BA_CON::BOTHLIVE, BA_HEALACTION
 BATTLE_ACTION49:
-.byte $67,$00,$31,$3E,$62,$1E,$A0,$D9,$9C
+.byte BATTLE_ACTIONS::ANIMATE,$00
+.byte BATTLE_ACTIONS::USE_FOOD,$3E
+.byte BATTLE_ACTIONS::DAMAGESET,30
+ba_conditional $A, BA_CON::BOTHLIVE, BA_HEALACTION
 BATTLE_ACTION4A:
-.byte $67,$00,$31,$40,$62,$64,$A0,$D9,$9C
+.byte BATTLE_ACTIONS::ANIMATE,$00
+.byte BATTLE_ACTIONS::USE_FOOD,$40
+.byte BATTLE_ACTIONS::DAMAGESET,100
+ba_conditional $A, BA_CON::BOTHLIVE, BA_HEALACTION
 BATTLE_ACTION4B:
 .byte $67,$00,$33,$01,$90,$43,$9D,$C2,$01,$00
 BATTLE_ACTION4C:
@@ -584,35 +881,71 @@ BATTLE_ACTION67:
 BATTLE_ACTION68:
 .byte $69,$05,$68,$1F,$62,$1E,$90,$D3,$99,$40,$0E,$00
 BATTLE_ACTION69:
-.byte $67,$0D,$20,$1D,$51,$80,$B7,$9E,$78,$83,$9E,$78,$C4,$9E,$13,$40
-.byte $27,$00
+.byte BATTLE_ACTIONS::ANIMATE,$0D
+ba_series 2,BA_CON::BOTHLIVE,$1D
+.byte BATTLE_ACTIONS::TARGET_CHOOSE
+ba_jumpifnot BA_CON::BOTHLIVE, BATTLE_ACTION72
+ba_jumpif BA_CON::D2, $9E83
+ba_jumpif BA_CON::D2, BATTLE_ACTION75
+.byte BATTLE_ACTIONS::E_LONG
+ba_effect BA_CON::BOTHLIVE, BA_EFFECT::PSIMAGNET
+.byte $00
 BATTLE_ACTION6A:
-.byte $14,$00
+.byte BATTLE_ACTIONS::E_HELP
+.byte $00
 BATTLE_ACTION6B:
-.byte $15,$00
+.byte BATTLE_ACTIONS::E_SEEDS
+.byte $00
 BATTLE_ACTION6C:
-.byte $51,$80,$0E,$99,$73,$0E,$99,$69,$0B,$40,$28,$00
+.byte BATTLE_ACTIONS::TARGET_CHOOSE
+ba_jumpifnot BA_CON::BOTHLIVE, BATTLE_ACTION1
+ba_jumpif BA_CON::IS_BLINDED, BATTLE_ACTION1
+.byte BATTLE_ACTIONS::SOUND,$0B
+ba_effect BA_CON::BOTHLIVE, BA_EFFECT::STEAL_FOOD
+.byte $00
 BATTLE_ACTION6D:
-.byte $68,$58,$54,$69,$11,$11,$51,$62,$46,$40,$0D,$00
+.byte BATTLE_ACTIONS::DISPTEXT,$58
+.byte BATTLE_ACTIONS::TARGET_SELF
+.byte BATTLE_ACTIONS::SOUND,$11
+.byte BATTLE_ACTIONS::E_RUN
+.byte BATTLE_ACTIONS::TARGET_CHOOSE
+.byte BATTLE_ACTIONS::DAMAGESET,70
+ba_effect BA_CON::BOTHLIVE, BA_EFFECT::EXPBONUS
+.byte $00
 BATTLE_ACTION6E:
-.byte $66,$00,$68,$66,$54,$40,$2A,$00
+.byte BATTLE_ACTIONS::SOUND2,$00
+.byte BATTLE_ACTIONS::DISPTEXT,$66
+.byte BATTLE_ACTIONS::TARGET_SELF
+ba_effect BA_CON::BOTHLIVE, BA_EFFECT::SELF_CONFUSE
+.byte $00
 BATTLE_ACTION6F:
-.byte $10,$68,$03,$00
+.byte BATTLE_ACTIONS::E_DRAWNEAR
+.byte BATTLE_ACTIONS::DISPTEXT,$03
+.byte $00
 BATTLE_ACTION70:
-.byte $51,$80,$B7,$9E,$65,$00,$00
+.byte BATTLE_ACTIONS::TARGET_CHOOSE
+ba_jumpifnot BA_CON::BOTHLIVE, BATTLE_ACTION72
+.byte BATTLE_ACTIONS::CHECK,$00
+.byte $00
 BATTLE_ACTION71:
 .byte $00
 
 ;these are all just messages integrated into the same system
 ;these only normally pop up after one of the ones above have been executed
 BATTLE_ACTION72: ;was already gone.
-.byte $68,$11,$00
+.byte BATTLE_ACTIONS::DISPTEXT, $11
+.byte $00
 BATTLE_ACTION73: ;dodged swiftly
-.byte $69,$0B,$68,$06,$00
+.byte BATTLE_ACTIONS::SOUND,$0B
+.byte BATTLE_ACTIONS::DISPTEXT,$06
+.byte $00
 BATTLE_ACTION74: ;miss!
-.byte $69,$13,$68,$50,$00
-BATTLE_ACTION75: ;there was no affect on
-.byte $68,$12,$00
+.byte BATTLE_ACTIONS::SOUND,$13
+.byte BATTLE_ACTIONS::DISPTEXT,$50
+.byte $00
+BATTLE_ACTION75: ;there was no effect on
+.byte BATTLE_ACTIONS::DISPTEXT,$12
+.byte $00
 
 ;battle action targeting (???)
 incbinRange "../../split/us/prg/bank16.bin",$1ec7,$1ee9
