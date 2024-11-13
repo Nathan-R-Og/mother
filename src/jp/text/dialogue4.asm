@@ -613,6 +613,7 @@ kanjifix "いってきてちょうだい。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_F1_ROOM6ENTRANCE_NOJANITOR:
 kanjifix "*はいってます!"
 .byte   newLine
 kanjifix "って ここはトイレじゃないけどな。"
@@ -649,6 +650,7 @@ kanjifix "じゃんじゃん つくってたんだよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_F2JANITOR:
 kanjifix "*うちの にょうぼうは"
 .byte   newLine
 kanjifix "しょだいの ミスいなかまち"
@@ -656,13 +658,14 @@ kanjifix "しょだいの ミスいなかまち"
 kanjifix "だったんだ。"
 .byte   newLine
 .byte   stopText
-
+MSG_TWINKLE_F2JANITOR2:
 kanjifix "*カギは あけたよ。"
 .byte   newLine
 kanjifix "おくじょうは けしきがいいぞ。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_F2LLOYD:
 kanjifix "*あとで ダンカンのだいこうじょうに"
 .byte   newLine
 kanjifix "いこう。"
@@ -673,7 +676,7 @@ kanjifix "*あそこには すっごいロケットが"
 kanjifix "あるらしいんだ。"
 .byte   newLine
 .byte   stopText
-
+MSG_TWINKLE_F1LLOYD:
 kanjifix "*みんなが ぼくのことを"
 .byte   newLine
 kanjifix "よわむしとか けむしとか"
@@ -796,6 +799,7 @@ kanjifix "しか おりません。」"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_F2_UPSTAIRS_PADLOCK:
 kanjifix "*かいだんの うえの とびらには"
 .byte   newLine
 kanjifix "おおきな じょうまえが"

@@ -636,6 +636,7 @@ kanjifix "*うふっ。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_LLOYDBULLY2_LLOYD:
 kanjifix "*バ-カ!"
 .byte   newLine
 .byte   stopText

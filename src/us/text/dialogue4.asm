@@ -603,6 +603,7 @@ MSG_ELLAY_LHTEDDY_POSTFIGHT:
 .byte   " the mountains!!",newLine
 .byte   stopText
 
+MSG_MYHOME_MOM_HELP:
 .byte   "*",nintenName,", please",newLine
 .byte   " accept my help.",newLine
 .byte   stopText
@@ -831,6 +832,7 @@ MSG_PODUNK_PIPPI_FRIEND: ;is this used?
 .byte   " you ",nintenName,"'s Goods.",newLine
 .byte   stopText
 
+MSG_TWINKLE_LLOYDBULLY_DEADLLOYD:
 .byte   "*Did that weakling",newLine
 .byte   " ",lloydName," run away",newLine
 .byte   " from you?",newLine

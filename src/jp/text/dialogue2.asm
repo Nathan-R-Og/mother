@@ -139,6 +139,7 @@ kanjifix "ドゥ ユ- アンダスタン?"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_LLOYDBULLY:
 kanjifix "*よわむし"
 .byte   lloydName
 kanjifix "のやつを"
@@ -149,6 +150,7 @@ kanjifix "にげられちまった。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_LLOYDBULLY_LLOYD:
 kanjifix "*おい "
 .byte   lloydName
 kanjifix "‥‥"
@@ -157,6 +159,7 @@ kanjifix "よわむしけむし!"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_LLOYDBULLY2:
 kanjifix "*よわむし"
 .byte   lloydName
 kanjifix "のやつを"
@@ -313,18 +316,21 @@ kanjifix "なッ。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_HALLMONITOR:
 kanjifix "*ろうかを はしるんじゃ"
 .byte   newLine
 kanjifix "ありませんよ!"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_HALLMONITOR2:
 kanjifix "*コラッ みかけないこどもだな。"
 .byte   newLine
 kanjifix "このがっこうの せいとか?"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_HALLMONITOR2_YES:
 kanjifix "*そうか ろうかをはしるなよ。"
 .byte   newLine
 .byte   stopText

@@ -91,10 +91,12 @@
 .byte   " have some tea.",newLine
 .byte   stopText
 
+MSG_TWINKLE_HALLMONITOR:
 .byte   "*Don't run in",newLine
 .byte   " the hall!",newLine
 .byte   stopText
 
+MSG_TWINKLE_HALLMONITOR2:
 .byte   "*Wait a minute, I",newLine
 .byte   " don't belive I've",newLine
 .byte   " seen you before.",newLine
@@ -103,7 +105,7 @@
 .byte   " from around here,",newLine
 .byte   " are you?",newLine
 .byte   stopText
-
+MSG_TWINKLE_HALLMONITOR2_YES:
 .byte   "*I see. Just don't",newLine
 .byte   " run in the hall.",newLine
 .byte   stopText

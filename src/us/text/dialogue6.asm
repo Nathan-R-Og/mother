@@ -857,6 +857,7 @@ MSG_PODUNK_PIPPIMOM_RETURN:
 .byte   " straighten this out.",newLine
 .byte   stopText
 
+MSG_TWINKLE_F1_ROOM6ENTRANCE_NOJANITOR:
 .byte   "*I'm busy, So I",newLine
 .byte   " can't help you",newLine
 .byte   " right now.",newLine

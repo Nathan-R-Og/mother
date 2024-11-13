@@ -554,12 +554,545 @@ ENAME_LASTSTARMAN:
 .res $b1, 0
 
 ;battle ui stuff
-incbinRange "../../split/us/prg/bank0.bin", $C00, $E81
+.word ui_battlelog
+.word ui_partybox
+.word ui_actionbox
+.word ui_thing_6
+.word ui_thing_20
+.word ui_thing_11
+.word ui_thing_12
+.word ui_thing_2
+.word ui_thing_14
+.word ui_thing_20
+.word ui_thing_7
+.word ui_thing_8
+.word ui_thing_13
+.word ui_thing_16
+.word ui_thing_9
+.word ui_thing_15
+.word ui_thing_17
+.word ui_thing_18
+.word ui_thing_10
+.word ui_actionbox_melodies
+.word ui_thing_19
+
+ui_battlelog:
+;yspacing, xoffset, yoffset, draw mode
+.byte 1, 0, 1, $FE
+.byte 1 ;amount?
+.word ui_battlelog_top
+.byte $FD
+.byte 3 ;amount?
+.word ui_battlelog_middle
+.byte $FE
+.byte 1 ;amount?
+.word ui_battlelog_bottom
+.byte $FF
+ui_thing_2:
+.byte $FF,0,9,$FD
+.byte 4
+.word ui_nothing
+.byte $FF
+ui_partybox:
+.byte 1,0,19,$FE
+.byte 1
+.word ui_partybox_top
+.byte $FD
+.byte 3
+.word ui_partybox_middle
+.byte $FE
+.byte 1
+.word ui_partybox_bottom
+.byte $FF
+ui_actionbox:
+.byte $01,11,17,$FE
+.byte 1
+.word ui_actionbox_top
+.byte $FD
+.byte 1
+.word ui_actionbox_line1
+.byte 1
+.word ui_actionbox_line2
+.byte 1
+.word ui_actionbox_line3
+.byte 1
+.word ui_actionbox_line4
+.byte $FE
+.byte 1
+.word ui_actionbox_bottom
+.byte $FF
+ui_actionbox_melodies:
+.byte $01,$0B,$11,$FE
+.byte 1
+.word ui_actionbox_top
+.byte $FD
+.byte 1
+.word ui_actionbox_line1
+.byte 1
+.word ui_actionbox_line2
+.byte 1
+.word ui_actionbox_line3
+.byte 1
+.word ui_actionbox_line4_melodies
+.byte $FE
+.byte 1
+.word ui_actionbox_bottom
+.byte $FF
+ui_thing_6:
+.byte $FF,0,27,$FD
+.byte 5
+.word ui_nothing
+.byte $FF
+ui_thing_7:
+.byte $01,1,17,$FE
+.byte 1
+.word ui_thing_top
+.byte $FD
+.byte 1
+.word ui_thing_middle
+.byte $FE
+.byte 1
+.word ui_thing_bottom
+.byte $FD
+.byte 3
+.word ui_thing_bottom_padding
+.byte $FF
+ui_thing_8:
+.byte $01,15,17,$FE
+.byte 1
+.word ui_thing_tiles1
+.byte $FD
+.byte 4
+.word ui_thing_tiles2
+.byte $FE
+.byte 1
+.word ui_thing_tiles3
+.byte $FF
+ui_thing_9:
+.byte $01,5,17,$FE
+.byte 1
+.word ui_thing_tiles4
+.byte $FD
+.byte 4
+.word ui_thing_tiles5
+.byte $FE
+.byte 1
+.word ui_thing_tiles6
+.byte $FF
+ui_thing_10:
+.byte $01,7,17,$FE
+.byte 1
+.word ui_thing_tiles7
+.byte $FF
+ui_thing_11:
+.byte $01,7,6,$FE
+.byte 1
+.word ui_thing_tilesA
+.byte $FF
+ui_thing_12:
+.byte $01,7,7,$FE
+.byte 1
+.word ui_thing_tilesA
+.byte $FF
+ui_thing_13:
+.byte $01,17,$FF,$FD
+.byte 1
+.word ui_thing_tiles8
+.byte $FF
+ui_thing_14:
+.byte $01,3,$FF,$FD
+.byte 1
+.word ui_thing_tiles8
+.byte $FF
+ui_thing_15:
+.byte $01,$FF,$FF,$FD
+.byte 1
+.word ui_thing_tiles8
+.byte $FF
+ui_thing_16:
+.byte $01,$FF,$FF,$FE
+.byte 1
+.word ui_thing_tiles9
+.byte $FF
+ui_thing_17:
+.byte $01,11,23,$FE
+.byte 1
+.word ui_thing_tilesB
+.byte $FD
+.byte 1
+.word ui_thing_tilesC
+.byte $FE
+.byte 1
+.word ui_thing_tilesD
+.byte $FC
+.byte 1
+.word ui_thing_tilesE
+.byte $FF
+ui_thing_18:
+.byte $01,11,23,$FE
+.byte 1
+.word ui_thing_tilesB
+.byte $FD
+.byte 1
+.word ui_thing_tilesC
+.byte $FE
+.byte 1
+.word ui_thing_tilesD
+.byte $FC
+.byte 1
+.word ui_thing_tilesF
+.byte $FF
+ui_thing_19:
+.byte $01,11,23,$FE
+.byte 1
+.word ui_thing_tilesB
+.byte $FD
+.byte 1
+.word ui_thing_tilesC
+.byte $FE
+.byte 1
+.word ui_thing_tilesD
+.byte $FC
+.byte 1
+.word ui_thing_tiles10
+.byte $FF
+
+ui_thing_20:
+.byte repeatTile 0, 32
+.byte 0
+
+ui_nothing:
+.byte repeatTile $A0, 32
+.byte $00
+
+ui_battlelog_top:
+.byte repeatTile $A0, 4
+.byte $DB
+.byte repeatTile $DC, 22
+.byte $DD
+.byte repeatTile $A0, 4
+.byte 0
+ui_battlelog_middle:
+.byte repeatTile $A0, 4
+.byte $24
+.byte repeatTile $A0, 22
+.byte $25
+.byte repeatTile $A0, 4
+.byte 0
+ui_battlelog_bottom:
+.byte repeatTile $A0, 4
+.byte $FB
+.byte repeatTile $FC, 22
+.byte $FD
+.byte repeatTile $A0, 4
+.byte 0
+
+;jp leftovers?
+ui_partybox_top:
+.byte $A0,$DB,$DC,"NAME"
+.byte repeatTile $DC, 4
+.byte "HP",$DC,$DC,"PP",$DC,$DC,"LV"
+.byte repeatTile $DC, 6
+.byte "EX",$DC,$DD,$A0
+.byte 0
+;why does $24 and $25 make the side tiles???? that doesnt make sense unless there's some override
+ui_partybox_middle:
+.byte $A0,$24
+.byte repeatTile $A0, 28
+.byte $25,$A0
+.byte 0
+ui_partybox_bottom:
+.byte $A0,$FB
+.byte repeatTile $FC, 28
+.byte $FD,$A0
+.byte 0
+
+ui_actionbox_top:
+.byte $DB
+.byte repeatTile $DC, 18
+.byte $DD
+.byte 0
+ui_actionbox_line1:
+.byte $24,$A0,"Fight"
+.byte repeatTile $A0, 4
+.byte "Auto"
+.byte repeatTile $A0, 4
+.byte $25
+.byte 0
+ui_actionbox_line2:
+.byte $24,$A0,"PSI"
+.byte repeatTile $A0, 6
+.byte "Guard"
+.byte repeatTile $A0, 3
+.byte $25
+.byte 0
+ui_actionbox_line3:
+.byte $24,$A0,"Goods"
+.byte repeatTile $A0, 4
+.byte "Run"
+.byte repeatTile $A0, 5
+.byte $25
+.byte 0
+ui_actionbox_line4:
+.byte $24,$A0,"Check"
+.byte repeatTile $A0, 12
+.byte $25
+.byte 0
+ui_actionbox_bottom:
+.byte $FB
+.byte repeatTile $FC, 18
+.byte $FD
+.byte 0
+ui_actionbox_line4_melodies:
+.byte $24,$A0,"Check"
+.byte repeatTile $A0, 4
+.byte "Sing"
+.byte repeatTile $A0, 4
+.byte $25
+.byte 0
+;namebox?
+ui_thing_top:
+.byte $DB
+.byte repeatTile $DC, 8
+.byte $DD
+.byte 0
+ui_thing_middle:
+.byte $24
+.byte repeatTile $A0, 8
+.byte $25
+.byte 0
+ui_thing_bottom:
+.byte $FB
+.byte repeatTile $FC, 8
+.byte $FD
+.byte 0
+ui_thing_bottom_padding:
+.byte repeatTile $A0, 10
+.byte 0
+
+ui_thing_tiles1:
+.byte $DB
+.byte repeatTile $DC, 14
+.byte $DD
+.byte 0
+ui_thing_tiles2:
+.byte $24
+.byte repeatTile $A0, 14
+.byte $25
+.byte 0
+ui_thing_tiles3:
+.byte $FB
+.byte repeatTile $FC, 14
+.byte $FD
+.byte 0
+ui_thing_tiles4:
+.byte $DB
+.byte repeatTile $DC, 24
+.byte $DD
+.byte 0
+ui_thing_tiles5:
+.byte $24
+.byte repeatTile $A0, 24
+.byte $25
+.byte 0
+ui_thing_tiles6:
+.byte $FB
+.byte repeatTile $FC, 24
+.byte $FD
+.byte 0
+ui_thing_tiles7:
+.byte $A0,$E0
+.byte 0
+ui_thing_tiles8:
+.byte print_string $0588
+.byte 0
+ui_thing_tiles9:
+.byte $FF
+.byte 0
+ui_thing_tilesA:
+.byte repeatTile $A0, 22
+.byte 0
+ui_thing_tilesB:
+.byte $DB
+.byte repeatTile $DC, 18
+.byte $DD
+.byte 0
+ui_thing_tilesC:
+.byte $24
+.byte repeatTile $A0, 18
+.byte $25
+.byte 0
+ui_thing_tilesD:
+.byte $FB
+.byte repeatTile $FC, 18
+.byte $FD
+.byte 0
+ui_thing_tilesE:
+.byte set_pos 13, 25
+.byte "You can't now."
+.byte 0
+ui_thing_tilesF:
+.byte set_pos 13, 25
+.byte "You can't now."
+.byte 0
+ui_thing_tiles10:
+.byte set_pos 13, 25
+.byte print_string $0580
+.byte "cannot."
+.byte 0
+ui_thing_tiles11:
+.byte set_pos 3, 19
+.byte print_string $0580
+.byte 0
+
 
 ;battle palettes
-incbinRange "../../split/us/prg/bank0.bin", $E81, $1081
+.byte $0F,$10,$30,$00
+.byte $0F,$16,$30,$00
+.byte $0F,$28,$30,$18
+.byte $0F,$2B,$30,$1A
+.byte $0F,$11,$30,$16
+.byte $0F,$00,$16,$30
+.byte $0F,$2A,$00,$00
+.byte $0F,$00,$30,$0F
+
+.byte $0F,$12,$30,$00
+.byte $0F,$16,$30,$06
+.byte $0F,$2A,$30,$1A
+.byte $0F,$30,$30,$21
+.byte $0F,$11,$30,$16
+.byte $0F,$1A,$30,$0F
+.byte $0F,$00,$30,$11
+.byte $0F,$10,$30,$20
+
+.byte $0F,$00,$10,$02
+.byte $0F,$12,$30,$16
+.byte $0F,$28,$30,$18
+.byte $0F,$16,$30,$07
+.byte $0F,$11,$30,$16
+.byte $0F,$0F,$30,$07
+.byte $0F,$0F,$30,$16
+.byte $0F,$10,$30,$20
+
+.byte $0F,$00,$10,$02
+.byte $0F,$12,$30,$16
+.byte $0F,$34,$30,$16
+.byte $0F,$18,$30,$16
+.byte $0F,$11,$30,$16
+.byte $0F,$10,$12,$0F
+.byte $0F,$10,$16,$0F
+.byte $0F,$10,$30,$20
+
+.byte $0F,$10,$30,$00
+.byte $0F,$24,$30,$13
+.byte $0F,$3B,$1A,$15
+.byte $0F,$0F,$30,$12
+.byte $0F,$11,$30,$16
+.byte $0F,$18,$30,$06
+.byte $0F,$10,$30,$20
+.byte $0F,$10,$30,$20
+
+.byte $0F,$1A,$30,$2A
+.byte $0F,$38,$30,$18
+.byte $0F,$28,$30,$18
+.byte $0F,$0F,$30,$12
+.byte $0F,$11,$30,$16
+.byte $0F,$10,$30,$20
+.byte $0F,$10,$30,$20
+.byte $0F,$10,$30,$20
+
+.byte $0F,$18,$30,$06
+.byte $0F,$21,$30,$11
+.byte $0F,$10,$37,$00
+.byte $0F,$16,$30,$38
+.byte $0F,$11,$30,$16
+.byte $0F,$11,$30,$0F
+.byte $0F,$17,$2A,$0F
+.byte $0F,$28,$30,$0F
+
+.byte $0F,$16,$30,$28
+.byte $0F,$12,$30,$2A
+.byte $0F,$18,$38,$06
+.byte $0F,$04,$30,$14
+.byte $0F,$11,$30,$16
+.byte $0F,$10,$30,$20
+.byte $0F,$10,$30,$20
+.byte $0F,$10,$30,$20
+
+.byte $0F,$10,$30,$00
+.byte $0F,$28,$35,$16
+.byte $0F,$34,$30,$16
+.byte $0F,$1C,$30,$16
+.byte $0F,$11,$30,$16
+.byte $0F,$10,$30,$20
+.byte $0F,$10,$30,$20
+.byte $0F,$10,$30,$20
+
+.byte $0F,$27,$30,$18
+.byte $0F,$29,$30,$1A
+.byte $0F,$21,$30,$12
+.byte $0F,$02,$30,$00
+.byte $0F,$11,$30,$16
+.byte $0F,$16,$34,$07
+.byte $0F,$21,$30,$12
+.byte $0F,$10,$30,$20
+
+.byte $0F,$2B,$30,$1A
+.byte $0F,$18,$30,$17
+.byte $0F,$18,$35,$12
+.byte $0F,$18,$30,$08
+.byte $0F,$11,$30,$16
+.byte $0F,$10,$30,$20
+.byte $0F,$10,$30,$20
+.byte $0F,$10,$30,$20
+
+.byte $0F,$12,$35,$16
+.byte $0F,$28,$30,$16
+.byte $0F,$03,$39,$16
+.byte $0F,$03,$30,$16
+.byte $0F,$11,$30,$16
+.byte $0F,$13,$30,$0F
+.byte $0F,$1A,$30,$0F
+.byte $0F,$1A,$30,$0F
+
+.byte $0F,$25,$30,$05
+.byte $0F,$18,$36,$16
+.byte $0F,$06,$30,$00
+.byte $0F,$28,$30,$17
+.byte $0F,$11,$30,$16
+.byte $0F,$10,$30,$20
+.byte $0F,$10,$30,$20
+.byte $0F,$10,$30,$20
+
+.byte $0F,$18,$30,$07
+.byte $0F,$30,$36,$00
+.byte $0F,$00,$30,$08
+.byte $0F,$28,$30,$12
+.byte $0F,$11,$30,$16
+.byte $0F,$10,$30,$20
+.byte $0F,$10,$30,$20
+.byte $0F,$10,$30,$20
+
+.byte $0F,$24,$35,$16
+.byte $0F,$00,$30,$07
+.byte $0F,$30,$36,$00
+.byte $0F,$17,$30,$07
+.byte $0F,$11,$30,$16
+.byte $0F,$10,$12,$0F
+.byte $0F,$17,$0F,$07
+.byte $0F,$10,$30,$20
+
+.byte $0F,$0C,$38,$0A
+.byte $0F,$30,$37,$16
+.byte $0F,$2B,$30,$16
+.byte $0F,$34,$30,$16
+.byte $0F,$11,$30,$16
+.byte $0F,$16,$30,$0F
+.byte $0F,$1A,$30,$0F
+.byte $0F,$13,$30,$30
 
 ;naming screen (???)
+;the first half at least definitely isnt
 incbinRange "../../split/us/prg/bank0.bin", $1081, $1800
 
 .include "../../global/items.asm"

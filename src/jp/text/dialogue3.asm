@@ -335,6 +335,7 @@ kanjifix "わたすわけには いかないわ。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_LLOYDBULLY_DEADLLOYD:
 kanjifix "*よわむし"
 .byte   lloydName
 kanjifix "は"

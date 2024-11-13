@@ -14,6 +14,7 @@
 .byte   " mistake!",newLine
 .byte   stopText
 
+MSG_MYHOME_MOM_COOK:
 .byte   "*I'll cook",newLine
 .byte   " ",favFood,".",newLine
 .byte   pauseText
@@ -547,6 +548,7 @@ MSG_CANARY_LAURA:
 .byte   "*Help me!",newLine
 .byte   stopText
 
+MSG_MYHOME_MOM_INVASION2:
 .byte   "*Telephone!",newLine
 .byte   " ",nintenName,", please get",newLine
 .byte   " it!",newLine

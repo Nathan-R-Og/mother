@@ -755,17 +755,18 @@ MSG_MERRYSVILLE_CURFEWGUY:
 .byte   " bridge once more!",newLine
 .byte   stopText
 
+MSG_TWINKLE_LLOYDBULLY:
 .byte   "*I was picking",newLine
 .byte   " on that weakling,",newLine
 .byte   " ",lloydName,".",newLine
 .byte   pauseText
 .byte   "*But he got away.",newLine
 .byte   stopText
-
+MSG_TWINKLE_LLOYDBULLY_LLOYD:
 .byte   "*Hey, ",lloydName,"!",newLine
 .byte   " You weakling!",newLine
 .byte   stopText
-
+MSG_TWINKLE_LLOYDBULLY2:
 .byte   "*We've been picking",newLine
 .byte   " on that weakling",newLine
 .byte   " ",lloydName,", right?",newLine

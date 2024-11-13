@@ -99,35 +99,42 @@ stopText = 0
 newLine = 1
 waitThenOverwrite = 2
 pauseText = 3
-.define cashDeposit $23,$15,$74,pauseText,stopText
-.define currentCash $23,$12,$74,pauseText,stopText
-.define price $23,$2A,stopText,waitThenOverwrite,stopText
-.define damageAmount $23,$90,$05,waitThenOverwrite,stopText
-.define defenseStat $23,$92,$05,waitThenOverwrite,stopText
-.define lvHPPPinc $23,$5D,stopText,newLine,stopText
-.define lvFIGinc $23,$58,stopText,newLine,stopText
-.define lvSPDinc $23,$59,stopText,newLine,stopText
-.define lvWISinc $23,$5A,stopText,newLine,stopText
-.define lvSTRinc $23,$5B,stopText,newLine,stopText
-.define lvFORinc $23,$5C,stopText,newLine,stopText
+t_nop = 5
+
+.define set_pos(tx,ty) $20,tx,ty
+.define print_string(ta) $21,.LOBYTE(ta),.HIBYTE(ta)
+.define repeatTile(ta,tb) $22,ta,tb
+.define print_number(ta, tb) $23,.LOBYTE(ta),.HIBYTE(ta),tb
+
+.define cashDeposit print_number $7415, 3, stopText
+.define currentCash print_number $7412, 3, stopText
+.define price print_number $002A, 2, stopText
+.define damageAmount print_number $0590, 2, stopText
+.define defenseStat print_number $0592, 2, stopText
+.define lvHPPPinc print_number $005D, 1, stopText
+.define lvFIGinc print_number $0058, 1, stopText
+.define lvSPDinc print_number $0059, 1, stopText
+.define lvWISinc print_number $005A, 1, stopText
+.define lvSTRinc print_number $005B, 1, stopText
+.define lvFORinc print_number $005C, 1, stopText
 .define SMAAAAASH $97,$98,$99,$9A,$9B,$9C,$9D,$9E,$9F ; this isnt a command per se but this is helpful enough
-.define user $21,$20,$6D
-.define recipient $21,$24,$6D
-.define result $21,$00,$6d
-.define favFood $21,$89,$76
-.define nintenName $21,$78,$74
-.define lloydName $21,$F8,$74
-.define anaName $21,$B8,$74
-.define teddyName $21,$38,$75
-.define partyLead $21,$0A,$67
-.define item $21,$04,$6D
-.define playerName $21,$20,$74
-.define attacker $21,$80,$05
-.define beingAttacked $21,$88,$05
-.define attackResult $21,$90,$05
-.define unk $20,$08,$06
-.define unk2 $20,$08,$07
-.define unk3 $22,$A0,$10
+.define user print_string $6D20
+.define recipient print_string $6D24
+.define result print_string $6d00
+.define favFood print_string $7689
+.define nintenName print_string $7478
+.define lloydName print_string $74F8
+.define anaName print_string $74B8
+.define teddyName print_string $7538
+.define partyLead print_string $670A
+.define item print_string $6D04
+.define playerName print_string $7420
+.define attacker print_string $0580
+.define beingAttacked print_string $0588
+.define attackResult print_string $0590
+.define unk set_pos $08, $06
+.define unk2 set_pos $08, $07
+.define unk3 repeatTile $A0, 16
 
 ;i cant charmap these :(
 alpha = $BB ; α

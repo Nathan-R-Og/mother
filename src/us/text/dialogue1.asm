@@ -47,6 +47,7 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   " with Minnie.",newLine
 .byte   stopText
 
+MSG_MYHOME_MOM_INVASION:
 .byte   "*",nintenName,"." ,newLine
 .byte   " Are you alright?",newLine
 .byte   pauseText
@@ -59,6 +60,7 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   " Maybe...",newLine
 .byte   stopText
 
+MSG_MYHOME_MOM:
 .byte   "*Son of mine,",newLine
 .byte   " you are braver",newLine
 .byte   " than I thought.",newLine
@@ -68,6 +70,7 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   " so famished.",newLine
 .byte   stopText
 
+MSG_MYHOME_MOM_HURT:
 .byte   "*Oh, you have been",newLine
 .byte   " wounded.",newLine
 .byte   stopText
@@ -78,6 +81,7 @@ MSG_PHONE_NEXTLVL:
 .byte   " requires...",newLine
 .byte   stopText
 
+MSG_MYHOME_MOM_EAT:
 .byte   "*When you want to",newLine
 .byte   " eat ",favFood,newLine
 .byte   " again, just come",newLine
@@ -512,6 +516,7 @@ MSG_PODUNK_PIPPI_MEET_NOYES:
 .byte   "*Hmmm.",newLine
 .byte   stopText
 
+MSG_TWINKLE_LLOYDBULLY2_LLOYD:
 .byte   "*You stupid jerk!",newLine
 .byte   stopText
 

@@ -36,29 +36,36 @@ LBB00:  .byte   $C0,$FF,$00
 
 NintenQuestion:
 .byte   "What is this",newLine
-.byte   "boy's name?",stopText
+.byte   "boy's name?"
+.byte   stopText
 AnaQuestion:
 .byte   "What is this",newLine
-.byte   "girl's name?",stopText
+.byte   "girl's name?"
+.byte   stopText
 LloydQuestion:
 .byte   "This other",newLine
-.byte   "boy's name?",stopText
+.byte   "boy's name?"
+.byte   stopText
 TeddyQuestion:
 .byte   "This last",newLine
-.byte   "boy's name?",stopText
+.byte   "boy's name?"
+.byte   stopText
 FoodQuestion:
 .byte   "What is your",newLine
-.byte   "favorite food?",stopText
+.byte   "favorite food?"
+.byte   stopText
 ChangeName:
 .byte   "Please change",newLine
-.byte   "this name.",stopText
+.byte   "this name."
+.byte   stopText
 CharExists:
 .byte   "A character in ",newLine
 .byte   "this game has  ",newLine
 .byte   "that name. Try ",newLine
 .byte   "again, and use ",newLine
 .byte   "only capital   ",newLine
-.byte   "letters.       ",stopText
+.byte   "letters.       "
+.byte   stopText
 ;newLine decides the end of the entry
 ;the question marks arent actually needed, but if you
 ;remove it it does a search within the text from the start
@@ -114,8 +121,10 @@ IntroText1:
 .byte   "study, all by himself.",newLine
 .byte   " ",newLine
 .byte   "As for Maria, his wife...",newLine
-.byte   "She never returned.",stopText
+.byte   "She never returned."
+.byte   stopText
 IntroText2:
 .byte   "80 years have passed",newLine
 .byte   " ",newLine
-.byte   "since then.",stopText
+.byte   "since then."
+.byte   stopText

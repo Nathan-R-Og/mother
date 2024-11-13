@@ -1,6 +1,6 @@
-file = "src/jp/prg/bank8.asm"
+file = "src/jp/prg/bank11.asm"
 lines = open(file, "r").readlines()
-bank = "OBJ_BANK_19"
+bank = "OBJ_BANK_1A"
 i = 0
 pointers = []
 reading = False
@@ -11,9 +11,9 @@ while i < len(lines):
     if not reading:
         if lines[i].find(f".word {bank}") != -1:
             if lines[i+1] == "\n":
-                endof = 0x1f7d
+                endof = 0x1f7d if file.find("us") != -1 else 0x1d96
             else:
-                endof = int(lines[i+1].split(".word $")[-1].strip(), 16)
+                endof = int(lines[i+1].split(".word $")[-1].strip(), 16)-0x8000
 
         if lines[i].find(bank+":") != -1:
             reading = True
@@ -29,7 +29,7 @@ while i < len(lines):
         pointers.append(fix)
     i += 1
 binaryFile = file.replace("src","split").replace(".asm",".bin")
-bytes = open(binaryFile, "rb").read()#[0x2000:]
+bytes = open(binaryFile, "rb").read()
 pointerDatas = []
 i = 0
 address = -1
@@ -105,6 +105,7 @@ SCRIPTS = {
     0x1D: "N_LOADNUMBER", #load number ????
     0x1F: "SHOWMONEY", #yeah
     0x20: "J_CHOOSEITEM", #jump to j if declined
+    0x21: "J_CHOOSEITEMCLOSET", #jump to j if declined
     0x22: "IIIIJ_LIST", #jump if b pressed
     0x25: "I_PICKITEM", #load i into selected item
     0x26: "IJ_SELECTEDITEM", #jump to j if i isnt selected
@@ -114,12 +115,16 @@ SCRIPTS = {
     0x2C: "J_UNSELLABLE", #jump to j if item cannot be sold
     0x2D: "J_GIVEITEM", #jump to j if inventory full. else give selected item
     0x2E: "J_REMOVEITEM", #remove item, jump if doesn't have
+    0x2F: "J_ADDITEMCLOSET", #add item to closet, jump to j if closet full
+    0x30: "J_TAKEITEMCLOSET", #remove item to closet, jump to j if not available
     0x31: "IJ_PICKCHARITEM", #pick character's I'th item, jump if empty (0)
     0x32: "N_MULNUMBER", #$multiply number by n / 100
     0x33: "CJ_PRESENT", #jump to j if character is not in party
     0x35: "J_TOUCH", #jump to j if not touching
     0x36: "J_UNK", #jump to j if ??????
     0x37: "JJ_CUSTOMMENU", #display menu pointer, jump to j1 if option 2, jump to j2 if b pressed
+    0x38: "J_NOITEMS", #jump to j if no items
+    0x39: "J_NOITEMSCLOSET", #jump to j if no items in closet
     0x3A: "CJ_SELECTPARTY", #select character c in party, jump to j if not present
     0x3B: "T_CHANGETYPE", #change object type to t
     0x3D: "DA_TELEPORT", #teleport player to doorArgDef (basically, runs a door command)
@@ -140,12 +145,14 @@ SCRIPTS = {
     0x51: "N_HEAL", #heal hp n
     0x52: "SJ_PRESENT", #jump to j if character has status s
     0x53: "S_REMOVEBUT", #remove all statuses but s
+    0x54: "NJ_BELOWLEVEL", #jump to j if character < n
     0x55: "SLEEP", #sleep
     0x56: "SAVE", #self explanatory
     0x57: "GETCHARNEXTEXP", #get selected characters' needed exp
     0x58: "GETCASH", #get money
     0x59: "S_GIVESTATUS", #inflict s status
     0x5A: "M_MUSIC", #play m song
+    0x5B: "S_PLAYSOUND2", #play s
     0x5C: "S_PLAYSOUND", #play s
     0x60: "J_NOTMAXPP", #jump to j if < max pp
     0x61: "N_HEALPP", #heal pp n
@@ -153,10 +160,13 @@ SCRIPTS = {
     0x63: "J_CONFISC", #get confiscated weapon, jump to j if none
     0x64: "LIVESHOW", #in ellay
     0x65: "J_MELODIES", #jump to j if not all melodies learnt
+    0x66: "REGNAME", #register name
     0x68: "LANDMINE", #in yucca desert
 }
 
 objectLabels = []
+outsideObjectlabels = []
+outsideObjectlabels2 = []
 
 parsedObjects = []
 fakeI = 0
@@ -378,7 +388,8 @@ for pointerData in pointerDatas:
                     customhandle = True
                     #arg1: object to use
                     #arg2: subroutine to jump to in said object
-                    pointer = hex(int.from_bytes(pointerData[i+1:i+3], "little")).replace("0x","$").upper()
+                    pval = int.from_bytes(pointerData[i+1:i+3], "little")
+                    pointer = hex(pval).replace("0x","$").upper()
                     while len(pointer) < 5:
                         pointer = pointer.replace("$", "$0")
                     label_position = pointerData[i+3]
@@ -390,6 +401,17 @@ for pointerData in pointerDatas:
                             useobjectName = f"OBJ_THING{nameConver}"
                             break
                         pnumber += 1
+                    if pnumber == len(pointers) and pval-0x8000 > endof:
+                        founder = False
+                        for label in outsideObjectlabels:
+                            if label[1] == pval:
+                                useobjectName = label[0]
+                                founder = True
+                                break
+                        if not founder:
+                            useobjectName = f"OBJ_UNK{len(objectLabels)}"
+                            outsideObjectlabels.append([useobjectName, pval])
+                            parsedObjects.insert(0, f"{useobjectName} := {pointer}")
                     args.append(useobjectName)
 
                     useName = f"{useobjectName}_OJSUBROUTINE{len(objectLabels)}"
@@ -401,12 +423,67 @@ for pointerData in pointerDatas:
                             useobjectName = label[3]
                             break
                     if not exists:
-                        objectLabels.append([label_position, useName, pointer, useobjectName])
+                        if pval-0x8000 > endof:
+                            founder = False
+                            for label in outsideObjectlabels2:
+                                if label[0] == label_position:
+                                    useName = label[1]
+                                    useobjectName = label[3]
+                                    founder = True
+                                    break
+                            if not founder:
+                                outsideObjectlabels2.append([label_position, useName, pointer, useobjectName])
+                                dohexer = hex(pval+label_position).upper().replace("0X","$")
+                                parsedObjects.insert(0, f"{useName} := {dohexer}")
+                        else:
+                            objectLabels.append([label_position, useName, pointer, useobjectName])
                     args.insert(0, "SCRIPTS::"+name)
                     newObject.append(f".byte {args[0]}\n")
                     newObject.append(f".word {args[1]}\n")
                     newObject.append(f".byte {useName}-{useobjectName}\n")
                     inc += 3
+
+
+                elif name == "JJ_CUSTOMMENU":
+                    customhandle = True
+                    #arg1 : custom menu
+                    #arg2 : label for 2
+                    #arg3 : label for b
+                    pointer = hex(int.from_bytes(pointerData[i+1:i+3], "little")).replace("0x","$").upper()
+                    while len(pointer) < 5:
+                        pointer = pointer.replace("$", "$0")
+                    args.append(pointer)
+
+                    label_position = pointerData[i+3]
+                    useName = f"{newObjectName}_JJCUSTOMMENU_2{len(internalLabels)}"
+                    exists = False
+                    for label in internalLabels:
+                        if label[0] == label_position:
+                            exists = True
+                            useName = label[1]
+                            break
+                    if not exists:
+                        internalLabels.append([label_position, useName])
+                    args.append(f"{useName}-{newObjectName}")
+
+                    label_position = pointerData[i+4]
+                    useName = f"{newObjectName}_JJCUSTOMMENU_B{len(internalLabels)}"
+                    exists = False
+                    for label in internalLabels:
+                        if label[0] == label_position:
+                            exists = True
+                            useName = label[1]
+                            break
+                    if not exists:
+                        internalLabels.append([label_position, useName])
+                    args.append(f"{useName}-{newObjectName}")
+
+                    args.insert(0, "SCRIPTS::"+name)
+                    newObject.append(f".byte {args[0]}\n")
+                    newObject.append(f".word {args[1]}\n")
+                    newObject.append(f".byte {args[2]},{args[3]}\n")
+                    inc += 4
+
                 elif name == "J_TALK":
                     #arg1: label (inside object) to jump to if not currently talking
                     goodFormat = 0
@@ -427,6 +504,7 @@ for pointerData in pointerDatas:
                         internalLabels.append([label_position, useName])
                     args.append(f"{useName}-{newObjectName}")
                     inc += 2
+                #JUMPS
                 elif name == "J_YESNO":
                     #arg1: label (inside object) to jump to if say no or press b
                     goodFormat = 0
@@ -467,10 +545,30 @@ for pointerData in pointerDatas:
                     #arg1: label to jump to if hp is not max
                     goodFormat = 0
                     arg1 = "_JNOTMAX"
+                elif name == "J_NOITEMS":
+                    #arg1: label to jump to if no items in inventory
+                    goodFormat = 0
+                    arg1 = "_JNOITEMS"
+                elif name == "J_NOITEMSCLOSET":
+                    #arg1: label to jump to if no items in closet
+                    goodFormat = 0
+                    arg1 = "_JNOITEMSCLOSET"
+                elif name == "J_NONEWMONEY":
+                    #arg1: label to jump to if no new money
+                    goodFormat = 0
+                    arg1 = "_JNONEWMONEY"
                 elif name == "J_REMOVEITEM":
                     #arg1: label to jump to if player doesnt have item
                     goodFormat = 0
                     arg1 = "_JREMOVEITEM"
+                elif name == "J_ADDITEMCLOSET":
+                    #arg1: label to jump to if player doesnt have room
+                    goodFormat = 0
+                    arg1 = "_JADDITEMCLOSET"
+                elif name == "J_TAKEITEMCLOSET":
+                    #arg1: label to jump to if player doesnt have item
+                    goodFormat = 0
+                    arg1 = "_JTAKEITEMCLOSET"
                 elif name == "J_REMOVEWEAPON":
                     #arg1: label to jump to if player doesnt have weapon
                     goodFormat = 0
@@ -491,6 +589,10 @@ for pointerData in pointerDatas:
                     #arg1: label to jump to if player doesnt choose an item from their inventory
                     goodFormat = 0
                     arg1 = "_JCHOOSEITEM"
+                elif name == "J_CHOOSEITEMCLOSET":
+                    #arg1: label to jump to if player doesnt choose an item from their closet
+                    goodFormat = 0
+                    arg1 = "_JCHOOSEITEMCLOSET"
                 elif name == "J_CHOOSECHAR":
                     #arg1: label to jump to if player doesnt choose an item from their inventory
                     goodFormat = 0
@@ -503,6 +605,11 @@ for pointerData in pointerDatas:
                     #arg1: label to jump to if not all melodies found
                     goodFormat = 0
                     arg1 = "_JMELODIES"
+                elif name == "J_NOTMAXPP":
+                    #arg1: label to jump to < max
+                    goodFormat = 0
+                    arg1 = "_JNOTMAXPP"
+                #
                 elif name == "T_CHANGETYPE":
                     #arg1: type in OBJ_TYPE to change to
                     type = pointerData[i+1]
@@ -743,6 +850,23 @@ for pointerData in pointerDatas:
                         internalLabels.append([label_position, useName])
                     args.append(f"{useName}-{newObjectName}")
                     inc += 3
+                elif name == "NJ_BELOWLEVEL":
+                    #arg1: level to compare
+                    #arg2: label to jump to if character < level
+                    item = hex(pointerData[i+1]).replace("0x", "$").upper()
+                    args.append(item)
+                    label_position = pointerData[i+2]
+                    useName = f"{newObjectName}_NJBELOWLEVEL{len(internalLabels)}"
+                    exists = False
+                    for label in internalLabels:
+                        if label[0] == label_position:
+                            exists = True
+                            useName = label[1]
+                            break
+                    if not exists:
+                        internalLabels.append([label_position, useName])
+                    args.append(f"{useName}-{newObjectName}")
+                    inc += 2
                 elif name == "F_DISAPPEAR":
                     #arg1 : flag to determine whether or not disappear (if 1)
                     goodFormat = 1
@@ -771,7 +895,7 @@ for pointerData in pointerDatas:
                 elif name == "C_INCCOUNTER":
                     #arg1 : counter to increment
                     goodFormat = 1
-                elif name == "S_PLAYSOUND":
+                elif name in ["S_PLAYSOUND", "S_PLAYSOUND2"]:
                     #arg1 : sound to play
                     goodFormat = 1
                 elif name == "M_MUSIC":
@@ -795,6 +919,9 @@ for pointerData in pointerDatas:
                 elif name == "N_MULNUMBER":
                     #arg1 : number * 100 to multiply by
                     goodFormat = 1
+                elif name == "N_HEALPP":
+                    #arg1 : number to heal pp
+                    goodFormat = 1
                 elif name in ["D_ROCKET","D_AIRPLANE","D_TANK","D_NOVEC"]:
                     #arg1 : direction
                     targetDirection = pointerData[i+1]
@@ -804,7 +931,9 @@ for pointerData in pointerDatas:
                         targetDirection = hex(targetDirection).replace("0x","$").upper()
                     args.append(targetDirection)
                     inc += 1
-                elif name in ["GETCASH","LANDMINE","RETURN", "SLEEP", "LIVESHOW", "SHOWMONEY", "CHARMULT", "PLANEEND"]:
+                elif name in ["SAVE","GETCHARNEXTEXP","GETCASH","LANDMINE","RETURN",
+                              "SLEEP","LIVESHOW","SHOWMONEY","CHARMULT",
+                              "PLANEEND","RESET","REGNAME"]:
                     noargs = True
                 else:
                     print(f"ERR: SCRIPT BYTE {stype} HAS NO HANDLING !!!")
@@ -913,6 +1042,7 @@ for pointerData in pointerDatas:
 
 #add subroutine labels
 #this is last since these are basically omniscient
+done = []
 j = 0
 while j < len(objectLabels):
     i = 0
@@ -923,6 +1053,7 @@ while j < len(objectLabels):
             while k < len(parsedObjects[i]):
                 if x == objectLabels[j][0]:
                     parsedObjects[i].insert(k, f"      {objectLabels[j][1]}:\n")
+                    done.append(objectLabels[j][1])
                     break
                 if not parsedObjects[i][k].endswith(":\n"):
                     if newObject[k].find("objectDef") != -1 or\

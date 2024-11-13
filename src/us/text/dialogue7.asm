@@ -10,11 +10,12 @@ MSG_MERRYSVILLE_SWEETSGUY_YES:
 .byte   " there.",newLine
 .byte   stopText
 
+MSG_TWINKLE_F2JANITOR:
 .byte   "*My wife was the 1st",newLine
 .byte   " Miss Merrysville in",newLine
 .byte   " history.",newLine
 .byte   stopText
-
+MSG_TWINKLE_F2JANITOR2:
 .byte   "*OK, I've unlocked",newLine
 .byte   " the roof. While",newLine
 .byte   " you're up there...",newLine
@@ -24,6 +25,7 @@ MSG_MERRYSVILLE_SWEETSGUY_YES:
 .byte   " unforgettable.",newLine
 .byte   stopText
 
+MSG_TWINKLE_F2LLOYD:
 .byte   "*Later we should go",newLine
 .byte   " to Duncan's",newLine
 .byte   " Factory...",newLine
@@ -32,7 +34,7 @@ MSG_MERRYSVILLE_SWEETSGUY_YES:
 .byte   " constructing an",newLine
 .byte   " incredible rocket.",newLine
 .byte   stopText
-
+MSG_TWINKLE_F1LLOYD:
 .byte   "*They call me names,",newLine
 .byte   " weakling or four",newLine
 .byte   " eyes, or worse...",newLine
@@ -155,6 +157,7 @@ MSG_ZOO_MONKEYSIGN:
 .byte   " Singing Monkey!",newLine
 .byte   stopText
 
+MSG_TWINKLE_F2_UPSTAIRS_PADLOCK:
 .byte   "*There's a padlock",newLine
 .byte   " on the door at the",newLine
 .byte   " top of the stairs.",newLine
