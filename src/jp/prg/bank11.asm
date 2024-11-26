@@ -24,9 +24,9 @@ OBJ_BANK_POINTERS2:
 ;twinkle elementary
 .include "../../global/objects/2/bank1a.asm"
 
-incbinRange "../../split/jp/prg/bank11.bin", $208, $322
+incbinRange "../../split/jp/objbank_2.bin", $208, $322
 ;this is the actual object btw
 .word UMSG::MYHOME_MINNIE_INVASION
 .byte 0
-incbinRange "../../split/jp/prg/bank11.bin", $325, $1d96
+.incbin "../../split/jp/objbank_2.bin", $325
 

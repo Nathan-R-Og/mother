@@ -1,133 +1,133 @@
 .segment        "CHR6": absolute
         ;enemy gfx 3
-        incbinRange "../../split/global/chr/bank6.bin", 0, $910
+        .incbin "../../split/global/chr/6/global1.bin"
 
         ;nancy 1
         ;2 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank6.bin", $910, $930
+        .incbin "../../split/jp/chr/6/jp1.bin"
         .else
-        incbinRange "../../split/us/chr/bank6.bin", $910, $930
+        .incbin "../../split/us/chr/6/us1.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank6.bin", $930, $a10
+        .incbin "../../split/global/chr/6/global2.bin"
 
         ;nancy 2
         ;2 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank6.bin", $a10, $a30
+        .incbin "../../split/jp/chr/6/jp2.bin"
         .else
-        incbinRange "../../split/us/chr/bank6.bin", $a10, $a30
+        .incbin "../../split/us/chr/6/us2.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank6.bin", $a30, $10d0
+        .incbin "../../split/global/chr/6/global3.bin"
 
         ;shroudley 1
         ;blood
         ;1 tile
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank6.bin", $10d0, $10e0
+        .incbin "../../split/jp/chr/6/jp3.bin"
         .else
-        incbinRange "../../split/us/chr/bank6.bin", $10d0, $10e0
+        .incbin "../../split/us/chr/6/us3.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank6.bin", $10e0, $11d0
+        .incbin "../../split/global/chr/6/global4.bin"
 
         ;shroudley 2
         ;blood
         ;3 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank6.bin", $11d0, $1200
+        .incbin "../../split/jp/chr/6/jp4.bin"
         .else
-        incbinRange "../../split/us/chr/bank6.bin", $11d0, $1200
+        .incbin "../../split/us/chr/6/us4.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank6.bin", $1200, $12f0
+        .incbin "../../split/global/chr/6/global5.bin"
 
         ;shroudley 3
         ;blood
         ;1 tile
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank6.bin", $12f0, $1300
+        .incbin "../../split/jp/chr/6/jp5.bin"
         .else
-        incbinRange "../../split/us/chr/bank6.bin", $12f0, $1300
+        .incbin "../../split/us/chr/6/us5.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank6.bin", $1300, $1380
+        .incbin "../../split/global/chr/6/global6.bin"
 
         ;shroudley 4
         ;???? hand????
         ;1 tile
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank6.bin", $1380, $1390
+        .incbin "../../split/jp/chr/6/jp6.bin"
         .else
-        incbinRange "../../split/us/chr/bank6.bin", $1380, $1390
+        .incbin "../../split/us/chr/6/us6.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank6.bin", $1390, $13c0
+        .incbin "../../split/global/chr/6/global7.bin"
 
         ;shroudley 5
         ;blood. probably
         ;1 tile
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank6.bin", $13c0, $13d0
+        .incbin "../../split/jp/chr/6/jp7.bin"
         .else
-        incbinRange "../../split/us/chr/bank6.bin", $13c0, $13d0
+        .incbin "../../split/us/chr/6/us7.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank6.bin", $13d0, $13e0
+        .incbin "../../split/global/chr/6/global8.bin"
 
         ;shroudley 6
         ;blood
         ;2 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank6.bin", $13e0, $1400
+        .incbin "../../split/jp/chr/6/jp8.bin"
         .else
-        incbinRange "../../split/us/chr/bank6.bin", $13e0, $1400
+        .incbin "../../split/us/chr/6/us8.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank6.bin", $1400, $1d00
+        .incbin "../../split/global/chr/6/global9.bin"
 
         ;bb boss 1
         ;knife
         ;2 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank6.bin", $1d00, $1d20
+        .incbin "../../split/jp/chr/6/jp9.bin"
         .else
-        incbinRange "../../split/us/chr/bank6.bin", $1d00, $1d20
+        .incbin "../../split/us/chr/6/us9.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank6.bin", $1d20, $1e00
+        .incbin "../../split/global/chr/6/global10.bin"
 
         ;bb boss 2
         ;knife
         ;2 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank6.bin", $1e00, $1e20
+        .incbin "../../split/jp/chr/6/jp10.bin"
         .else
-        incbinRange "../../split/us/chr/bank6.bin", $1e00, $1e20
+        .incbin "../../split/us/chr/6/us10.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank6.bin", $1e20, $1e30
+        .incbin "../../split/global/chr/6/global11.bin"
 
         ;bb boss 3
         ;????
         ;1 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank6.bin", $1e30, $1e40
+        .incbin "../../split/jp/chr/6/jp11.bin"
         .else
-        incbinRange "../../split/us/chr/bank6.bin", $1e30, $1e40
+        .incbin "../../split/us/chr/6/us11.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank6.bin", $1e40, $1f30
+        .incbin "../../split/global/chr/6/global12.bin"
 
         ;bb boss 4
         ;???????? arm?????? thing???? idk man
         ;1 tile
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank6.bin", $1f30, $1f40
+        .incbin "../../split/jp/chr/6/jp12.bin"
         .else
-        incbinRange "../../split/us/chr/bank6.bin", $1f30, $1f40
+        .incbin "../../split/us/chr/6/us12.bin"
         .endif
 
-        .incbin "../../split/global/chr/bank6.bin", $1f40
+        .incbin "../../split/global/chr/6/global13.bin"

@@ -26,5 +26,5 @@ OBJ_BANK_POINTERS2:
 ;general home/heal stuff
 .include "../../global/objects/2/bank1b.asm"
 
-incbinRange "../../split/us/prg/bank11.bin",$675,$1eab
+.incbin "../../split/us/objbank_2.bin",$675
 

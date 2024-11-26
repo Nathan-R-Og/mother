@@ -1,13 +1,13 @@
 .segment        "CHR1": absolute
         ;map gfx 2
-        incbinRange "../../split/global/chr/bank1.bin",0,$970
+        .incbin "../../split/global/chr/1/global1.bin"
 
         ;4 x's were replaced with the taller giegue stone
         ;4 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank1.bin",$970,$9B0
+        .incbin "../../split/jp/chr/1/jp.bin"
         .else
-        incbinRange "../../split/us/chr/bank1.bin",$970,$9B0
+        .incbin "../../split/us/chr/1/us.bin"
         .endif
 
-        .incbin "../../split/global/chr/bank1.bin",$9B0
+        .incbin "../../split/global/chr/1/global2.bin"

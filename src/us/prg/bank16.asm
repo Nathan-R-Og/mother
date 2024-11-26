@@ -3,7 +3,7 @@
 .include "../../global/enemy_stats.asm"
 
 ;positioning???
-incbinRange "../../split/us/prg/bank16.bin",$f40,$f98
+.incbin "../../split/global/prg/bank16/unkf40.bin"
 
 .include "../../global/battles.asm"
 
@@ -948,6 +948,6 @@ BATTLE_ACTION75: ;there was no effect on
 .byte $00
 
 ;battle action targeting (???)
-incbinRange "../../split/us/prg/bank16.bin",$1ec7,$1ee9
+incbinRange "../../split/us/prg/bank16/unk1ec7.bin",0,$22
 ;?
-incbinRange "../../split/us/prg/bank16.bin",$1ee9,$1fb8
+.incbin "../../split/us/prg/bank16/unk1ec7.bin",$22

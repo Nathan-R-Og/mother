@@ -1,29 +1,29 @@
 .segment        "CHRD": absolute
         ;general character/object sprites 2
-        incbinRange "../../split/global/chr/bankd.bin",0,$620
+        .incbin "../../split/global/chr/d/global1.bin"
 
         ;carol (mom)
         ;changed to look less like a peanut character
         ;6 tiles
         ;NOTE- the sideways face tile is unchanged. technically only 5 tiles have changed
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bankd.bin",$620,$680
+        .incbin "../../split/jp/chr/d/jp1.bin"
         .else
-        incbinRange "../../split/us/chr/bankd.bin",$620,$680
+        .incbin "../../split/us/chr/d/us1.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bankd.bin",$680,$700
+        .incbin "../../split/global/chr/d/global2.bin"
 
         ;carol (mom) part 2
         ;8 tiles
         ;NOTE- same as above. technically only 6 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bankd.bin",$700,$780
+        .incbin "../../split/jp/chr/d/jp2.bin"
         .else
-        incbinRange "../../split/us/chr/bankd.bin",$700,$780
+        .incbin "../../split/us/chr/d/us2.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bankd.bin",$780,$ea0
+        .incbin "../../split/global/chr/d/global3.bin"
 
         ;george diamond
         ;exists!
@@ -31,10 +31,10 @@
         .ifdef VER_JP
         .res $20, $0
         .else
-        incbinRange "../../split/us/chr/bankd.bin",$ea0,$ec0
+        .incbin "../../split/us/chr/d/us3.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bankd.bin",$ec0,$f80
+        .incbin "../../split/global/chr/d/global4.bin"
 
         ;george diamond part 2
         ;now with a sparkle!
@@ -42,28 +42,28 @@
         .ifdef VER_JP
         .res $40, $0
         .else
-        incbinRange "../../split/us/chr/bankd.bin",$f80,$fc0
+        .incbin "../../split/us/chr/d/us4.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bankd.bin",$fc0,$1a80
+        .incbin "../../split/global/chr/d/global5.bin"
 
         ;flying man grave
         ;cross replaced with stone
         ;2 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bankd.bin",$1a80,$1aA0
+        .incbin "../../split/jp/chr/d/jp5.bin"
         .else
-        incbinRange "../../split/us/chr/bankd.bin",$1a80,$1aA0
+        .incbin "../../split/us/chr/d/us5.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bankd.bin",$1aA0,$1c80
+        .incbin "../../split/global/chr/d/global6.bin"
 
         ;flying man grave part 2
         ;2 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bankd.bin",$1c80,$1cA0
+        .incbin "../../split/jp/chr/d/jp6.bin"
         .else
-        incbinRange "../../split/us/chr/bankd.bin",$1c80,$1cA0
+        .incbin "../../split/us/chr/d/us6.bin"
         .endif
 
-        .incbin "../../split/global/chr/bankd.bin",$1cA0
+        .incbin "../../split/global/chr/d/global7.bin"

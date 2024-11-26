@@ -1,13 +1,13 @@
 .segment        "CHR2": absolute
         ;map gfx 3
-        incbinRange "../../split/global/chr/bank2.bin",0,$1160
+        .incbin "../../split/global/chr/2/global1.bin"
 
         ;cross was changed to glass pane
         ;9 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank2.bin",$1160,$11F0
+        .incbin "../../split/jp/chr/2/jp.bin"
         .else
-        incbinRange "../../split/us/chr/bank2.bin",$1160,$11F0
+        .incbin "../../split/us/chr/2/us.bin"
         .endif
 
-        .incbin "../../split/global/chr/bank2.bin",$11F0
+        .incbin "../../split/global/chr/2/global2.bin"

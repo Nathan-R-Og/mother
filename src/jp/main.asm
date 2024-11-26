@@ -1,5 +1,6 @@
 .setcpu "6502"
 
+.include "../global/include.asm"
 .include "../global/header.asm"
 
 PAD_A := 1 << 7

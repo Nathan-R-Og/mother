@@ -1,4 +1,4 @@
 .segment        "PRG1D": absolute
-        incbinRange "../../split/jp/prg/bank1d.bin", 0, $1E00
+        .incbin "../../split/jp/prg/bank1d/unk0.bin"
         .include "../../global/starting_sram.asm"
         binclude "../global/starting_characters.asm"

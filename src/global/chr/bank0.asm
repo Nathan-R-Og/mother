@@ -1,44 +1,43 @@
 .segment        "CHR0": absolute
         ;map gfx 1
-
-        incbinRange "../../split/global/chr/bank0.bin",0,$750
+        .incbin "../../split/global/chr/0/global1.bin"
 
         ;the steeple was changed to remove the cross
         ;4 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank0.bin",$750,$790
+        .incbin "../../split/jp/chr/0/jp1.bin"
         .else
-        incbinRange "../../split/us/chr/bank0.bin",$750,$790
+        .incbin "../../split/us/chr/0/us1.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank0.bin",$790,$1dc0
+        .incbin "../../split/global/chr/0/global2.bin"
 
         ;the grave was changed to remove the cross
         ;4 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank0.bin",$1dc0,$1e00
+        .incbin "../../split/jp/chr/0/jp2.bin"
         .else
-        incbinRange "../../split/us/chr/bank0.bin",$1dc0,$1e00
+        .incbin "../../split/us/chr/0/us2.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank0.bin",$1e00,$1f20
+        .incbin "../../split/global/chr/0/global3.bin"
 
         ;the basic grave was changed to remove the cross
         ;2 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank0.bin",$1f20,$1f40
+        .incbin "../../split/jp/chr/0/jp3.bin"
         .else
-        incbinRange "../../split/us/chr/bank0.bin",$1f20,$1f40
+        .incbin "../../split/us/chr/0/us3.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank0.bin",$1f40,$1f80
+        .incbin "../../split/global/chr/0/global4.bin"
 
         ;part 2
         ;2 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank0.bin",$1f80,$1fA0
+        .incbin "../../split/jp/chr/0/jp4.bin"
         .else
-        incbinRange "../../split/us/chr/bank0.bin",$1f80,$1fA0
+        .incbin "../../split/us/chr/0/us4.bin"
         .endif
 
-        .incbin "../../split/global/chr/bank0.bin",$1fA0
+        .incbin "../../split/global/chr/0/global5.bin"

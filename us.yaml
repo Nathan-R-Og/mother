@@ -1,0 +1,341 @@
+name: Earthbound Beginnings
+md5: 5bacf7ba94c539a1caf623dbe12059a3
+options:
+  prgs: 32
+  chrs: 32
+  mapper: MMC3
+splits:
+  prg:
+    - bank: header
+    - bank: 0
+      splits:
+      - [0, itemNames]
+      - [0x380, choicerNames]
+      - [0x3D2, teleportNames]
+      - [0x41D, psiNames]
+      - [0x5F8, statusNames]
+      - [0x630, enemyNames]
+      - [0x9CC]
+      - [0xC00, battleUI_tilecode]
+      - [0xE81, battlePalettes]
+      - [0x1081]
+      - [0x1800, itemData]
+      - [0x1C00, choicerData]
+      - [0x1DC0, expRates]
+      - [0x1E00, psiData]
+    - bank: 1
+      splits:
+      - [0, map]
+    - bank: 2
+      splits:
+      - [0, map]
+    - bank: 3
+      splits:
+      - [0, map]
+    - bank: 4
+      splits:
+      - [0, map]
+    - bank: 5
+      splits:
+      - [0, map]
+    - bank: 6
+      splits:
+      - [0, map]
+    - bank: 7
+      splits:
+      - [0, map]
+    - bank: 8
+      splits:
+      - [0, map]
+    - bank: 9
+      splits:
+      - [0, map]
+    - bank: 0xA
+      splits:
+      - [0, map]
+    - bank: 0xB
+      splits:
+      - [0, map]
+    - bank: 0xC
+      splits:
+      - [0, map]
+    - bank: 0xD
+      splits:
+      - [0, map]
+    - bank: 0xE
+      splits:
+      - [0, map]
+    - bank: 0xF
+      splits:
+      - [0, map]
+    - bank: 0x10
+      end: 0x1fe3
+      splits:
+      - [0, objbank_1]
+    - bank: 0x11
+      end: 0x1eab
+      splits:
+      - [0, objbank_2]
+    - bank: 0x12
+      end: 0x1f76
+      splits:
+      - [0, objbank_3]
+    - bank: 0x13
+      end: 0x1ef9
+      splits:
+      - [0]
+      - [0x3CB, overworld_actions]
+      - [0x909]
+    - bank: 0x14
+      end: 0x1f9f
+      splits:
+      - [0]
+      - [0x1000, map_palettes]
+      - [0x1200, spawn_sets]
+      - [0x1400]
+      - [0x158b, spawn_rates]
+      - [0x1593, spawn_areas]
+      - [0x15D3]
+    - bank: 0x15
+      end: 0x1cfc
+      splits:
+      - [0, sprites]
+    - bank: 0x16
+      end: 0x1fb8
+      splits:
+      - [0, enemy_stats]
+      - [0xf40]
+      - [0xf98, battles]
+      - [0x160A, enemy_tiles]
+      - [0x17FB, battle_actions]
+      - [0x1ec7]
+    - bank: 0x17
+      end: 0x1ffe
+      splits:
+      - [0, battle_engine]
+    - bank: 0x18
+      splits:
+      - [0, text_pointers]
+      - [0x1770]
+      - [0x1E00, starting_sram]
+      - [0x1E40, starting_characters]
+    - bank: 0x19
+      end: 0x1ea0
+      splits:
+      - [0, antipiracy]
+      - [0x8A4]
+      - [0x1800]
+      - [0x1ae8, naming_stuff]
+    - bank: 0x1A
+      end: 0x1fd7
+      #splits:
+      #- [0]
+    - bank: 0x1B
+      end: 0x1488
+      #splits:
+      #- [0]
+    - bank: 0x1C
+      #splits:
+      #- [0]
+    - bank: 0x1D
+      end: 0x1ea8
+      #splits:
+      #- [0]
+    - bank: 0x1E
+      #splits:
+      #- [0]
+    - bank: 0x1F
+      splits:
+      - [0]
+      - [0x1ea2] #padding
+      - [0x1f40, vectors]
+  chr:
+    - bank: 0
+      splits:
+      - [0, chr/0/global1]
+      - [0x750, chr/0/us1]
+      - [0x790, chr/0/global2]
+      - [0x1dc0, chr/0/us2]
+      - [0x1e00, chr/0/global3]
+      - [0x1f20, chr/0/us3]
+      - [0x1f40, chr/0/global4]
+      - [0x1f80, chr/0/us4]
+      - [0x1fA0, chr/0/global5]
+    - bank: 1
+      splits:
+      - [0, chr/1/global1]
+      - [0x970, chr/1/us]
+      - [0x9b0, chr/1/global2]
+    - bank: 2
+      splits:
+      - [0, chr/2/global1]
+      - [0x1160, chr/2/us]
+      - [0x11F0, chr/2/global2]
+    - bank: 3
+      splits:
+      - [0, chr/3/global]
+    - bank: 4
+      splits:
+      - [0, chr/4/global]
+    - bank: 5
+      splits:
+      - [0, chr/5/global]
+    - bank: 6
+      splits:
+      - [0, chr/6/global1]
+      - [0x910, chr/6/us1]
+      - [0x930, chr/6/global2]
+      - [0xa10, chr/6/us2]
+      - [0xa30, chr/6/global3]
+      - [0x10d0, chr/6/us3]
+      - [0x10e0, chr/6/global4]
+      - [0x11d0, chr/6/us4]
+      - [0x1200, chr/6/global5]
+      - [0x12f0, chr/6/us5]
+      - [0x1300, chr/6/global6]
+      - [0x1380, chr/6/us6]
+      - [0x1390, chr/6/global7]
+      - [0x13c0, chr/6/us7]
+      - [0x13d0, chr/6/global8]
+      - [0x13e0, chr/6/us8]
+      - [0x1400, chr/6/global9]
+      - [0x1d00, chr/6/us9]
+      - [0x1d20, chr/6/global10]
+      - [0x1e00, chr/6/us10]
+      - [0x1e20, chr/6/global11]
+      - [0x1e30, chr/6/us11]
+      - [0x1e40, chr/6/global12]
+      - [0x1f30, chr/6/us12]
+      - [0x1f40, chr/6/global13]
+    - bank: 7
+      splits:
+      - [0, chr/7/global1]
+      - [0xc90, chr/7/us1]
+      - [0xca0, chr/7/global2]
+      - [0xd80, chr/7/us2]
+      - [0xda0, chr/7/global3]
+      - [0xe70, chr/7/us3]
+      - [0xe80, chr/7/global4]
+      - [0x1210, chr/7/us4]
+      - [0x1220, chr/7/global5]
+      - [0x1310, chr/7/us5]
+      - [0x1330, chr/7/global6]
+      - [0x1860, chr/7/us6]
+      - [0x1870, chr/7/global7]
+      - [0x1960, chr/7/us7]
+      - [0x1970, chr/7/global8]
+      - [0x1a60, chr/7/us8]
+      - [0x1a70, chr/7/global9]
+      - [0x1e00, chr/7/us9]
+      - [0x1e10, chr/7/global10]
+      - [0x1f00, chr/7/us10]
+      - [0x1f20, chr/7/global11]
+    - bank: 8
+      splits:
+      - [0, chr/8/global1]
+      - [0x400, chr/8/us1]
+      - [0x800, chr/8/global2]
+      - [0x1000, chr/8/us2]
+    - bank: 9
+      splits:
+      - [0, chr/9/us]
+      - [0x1000, chr/9/global]
+    - bank: 0xA
+      splits:
+      - [0, chr/a/global]
+    - bank: 0xB
+      end: 0x18fe
+      #splits:
+      #- [0]
+    - bank: 0xC
+      splits:
+      - [0, chr/c/global1]
+      - [0x100, chr/c/us1]
+      - [0x180, chr/c/global2]
+      - [0x910, chr/c/us2]
+      - [0x920, chr/c/global3]
+      - [0x940, chr/c/us3]
+      - [0x980, chr/c/global4]
+      - [0xaa0, chr/c/us4]
+      - [0xb00, chr/c/global5]
+      - [0xdb0, chr/c/us5]
+      - [0xdc0, chr/c/global6]
+      - [0xf00, chr/c/us6]
+      - [0xf80, chr/c/global7]
+      - [0x1b80, chr/c/us7]
+      - [0x1ba0, chr/c/global8]
+      - [0x1ea0, chr/c/us8]
+      - [0x1ee0, chr/c/global9]
+      - [0x1fa0, chr/c/us9]
+      - [0x1fe0, chr/c/global10]
+    - bank: 0xD
+      splits:
+      - [0, chr/d/global1]
+      - [0x620, chr/d/us1]
+      - [0x680, chr/d/global2]
+      - [0x700, chr/d/us2]
+      - [0x780, chr/d/global3]
+      - [0xea0, chr/d/us3]
+      - [0xec0, chr/d/global4]
+      - [0xf80, chr/d/us4]
+      - [0xfc0, chr/d/global5]
+      - [0x1a80, chr/d/us5]
+      - [0x1aa0, chr/d/global6]
+      - [0x1c80, chr/d/us6]
+      - [0x1ca0, chr/d/global7]
+    - bank: 0xE
+      splits:
+      - [0, chr/e/global1]
+      - [0x1900, chr/e/us]
+      - [0x1980, chr/e/global2]
+    - bank: 0xF
+      #splits:
+      #- [0]
+    - bank: 0x10
+      end: 0x1fa6
+      splits:
+      - [0, dialogue1]
+    - bank: 0x11
+      end: 0x1ffc
+      splits:
+      - [0, dialogue2]
+    - bank: 0x12
+      end: 0x1fea
+      splits:
+      - [0, dialogue3]
+    - bank: 0x13
+      end: 0x1fe8
+      splits:
+      - [0, dialogue4]
+    - bank: 0x14
+      end: 0x1fcb
+      splits:
+      - [0, dialogue5]
+    - bank: 0x15
+      end: 0x1fa1
+      splits:
+      - [0, dialogue6]
+    - bank: 0x16
+      end: 0x1fb6
+      splits:
+      - [0, dialogue7]
+    - bank: 0x17
+      end: 0x1056
+      splits:
+      - [0, dialogue8]
+    - bank: 0x18
+      end: 0x1f1c
+      splits:
+      - [0, dialogue9]
+    - bank: 0x19
+      end: 0x1653
+      splits:
+      - [0, dialogue10]
+    - bank: 0x1a
+      #splits:
+      #- [0]
+    - bank: 0x1b
+      end: 0x800
+      #splits:
+      #- [0]
+    #bank 1c-1f are padding

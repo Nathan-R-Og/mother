@@ -1,5 +1,5 @@
 .segment        "PRG13": absolute
-incbinRange "../../split/us/prg/bank13.bin",0,$3cb
+.incbin "../../split/us/prg/bank13/unk0.bin"
 
 ;the pointers on this are fucked for some reason
 ;everything is -1 what it should be
@@ -405,5 +405,5 @@ OVERWORLD_ACTION24:
 .byte $0F,$21,$21,$21
 
 
-incbinRange "../../split/us/prg/bank13.bin",$909,$1ef9
+.incbin "../../split/us/prg/bank13/unk909.bin"
 

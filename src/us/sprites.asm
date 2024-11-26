@@ -2,9 +2,9 @@
 
 ;sprite
 .macro spritePointerDef pointer, ppu, p1, p2, unkArg1, unkArg2
-        .word pointer
-        .byte ppu
-        .byte (unkArg2 << 5) | (unkArg1 << 4) | (p2 << 2) | p1
+    .word pointer
+    .byte ppu
+    .byte (unkArg2 << 5) | (unkArg1 << 4) | (p2 << 2) | p1
 .endmacro
 
 .macro spriteTile posX, posY, palette, unkArg1, order, flipX, flipY, index

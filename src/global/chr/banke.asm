@@ -1,14 +1,15 @@
 .segment        "CHRE": absolute
         ;gfxs to be swapped out ($800 each)
-        incbinRange "../../split/global/chr/banke.bin",0,$1900
+        .incbin "../../split/global/chr/e/global1.bin"
 
         ;ninten
         ;same changes as before
         ;8 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/banke.bin",$1900,$1980
+        .incbin "../../split/jp/chr/e/jp.bin"
         .else
-        incbinRange "../../split/us/chr/banke.bin",$1900,$1980
+        .incbin "../../split/us/chr/e/us.bin"
         .endif
 
-        .incbin "../../split/global/chr/banke.bin",$1980
+        .incbin "../../split/global/chr/e/global2.bin"
+

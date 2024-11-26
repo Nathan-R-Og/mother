@@ -356,7 +356,7 @@ kanjifix "ラストスタ-マン"
 .byte $29,$29,$29,$29
 .res $3C, 0
 
-incbinRange "../../split/jp/prg/bank0.bin", $300, $8df
+.incbin "../../split/jp/prg/bank0/unk300.bin"
 
 .byte   attacker
 kanjifix "がおそいかかった!"
@@ -1348,7 +1348,7 @@ kanjifix "PSIを おぼえた!"
 kanjifix "を ひろった!"
 .byte   stopText
 
-incbinRange "../../split/jp/prg/bank0.bin", $14c8, $1800
+.incbin "../../split/jp/prg/bank0/unk14c8.bin"
 
 .include "../../global/items.asm"
 .include "../../global/choicers.asm"

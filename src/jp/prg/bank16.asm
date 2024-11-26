@@ -1,7 +1,7 @@
 .segment        "PRG16": absolute
 .include "../../global/enemy_stats.asm"
 ;positioning???
-incbinRange "../../split/jp/prg/bank16.bin",$f40,$f98
+.incbin "../../split/global/prg/bank16/unkf40.bin"
 .include "../../global/battles.asm"
 
 ENEMY_TILE_POINTERS:
@@ -340,4 +340,5 @@ BATTLE_ACTION_POINTERS:
 BATTLE_ACTION0:
 .byte $00 ;END
 
-.incbin "../../split/jp/prg/bank16.bin",$190e
+.incbin "../../split/jp/battle_actions.bin",$113
+.incbin "../../split/jp/prg/bank16/unk1ec7.bin"

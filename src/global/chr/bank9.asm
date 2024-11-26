@@ -1,14 +1,15 @@
 .segment        "CHR9": absolute
         ;credits labels
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank9.bin",0,$1000
+        .incbin "../../split/jp/chr/9/jp.bin"
         .else
-        incbinRange "../../split/us/chr/bank9.bin",0,$1000
+        .incbin "../../split/us/chr/9/us.bin"
         .endif
+
 
         ;leftover from JP, the tiles needed to construct the credits
         ;you can tell because it uses straight ascii for the (english) names, like JP
-        ;for the localization, it seems like this half went untouched in favor of the end of bank27
+        ;for the localization, it seems like this half went untouched in favor of the end of bank17
 
         .include "../../src/jp/fontmap.asm"
 
@@ -126,9 +127,7 @@
                 .repeat $a, ArgI
                 .byte ($D5 + ArgI) + ($20 * ArgX)
                 .endrepeat
-                .repeat $16
-                .byte 0
-                .endrepeat
+                .res $16, 0
         .endrepeat
         .byte $00,$F2,$F3,$F3,$F3,$F3,$F3,$F3,$F4,$00
 
@@ -146,15 +145,11 @@
         .repeat 7, ArgI
         .byte $07 + ArgI
         .endrepeat
-        .repeat $19
-        .byte 0
-        .endrepeat
+        .res $19, 0
         .repeat 7, ArgI
         .byte $17 + ArgI
         .endrepeat
-        .repeat $18
-        .byte 0
-        .endrepeat
+        .res $18, 0
         .repeat 9, ArgI
         .byte $26 + ArgI
         .endrepeat

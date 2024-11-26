@@ -1,113 +1,113 @@
 .segment        "CHR7": absolute
         ;enemy gfx 4
-        incbinRange "../../split/global/chr/bank7.bin", 0, $c90
+        .incbin "../../split/global/chr/7/global1.bin"
 
         ;bb gang 1
         ;smoking
         ;1 tile
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank7.bin", $c90, $ca0
+        .incbin "../../split/jp/chr/7/jp1.bin"
         .else
-        incbinRange "../../split/us/chr/bank7.bin", $c90, $ca0
+        .incbin "../../split/us/chr/7/us1.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank7.bin", $ca0, $d80
+        .incbin "../../split/global/chr/7/global2.bin"
 
         ;bb gang 2
         ;smoking
         ;2 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank7.bin", $d80, $da0
+        .incbin "../../split/jp/chr/7/jp2.bin"
         .else
-        incbinRange "../../split/us/chr/bank7.bin", $d80, $da0
+        .incbin "../../split/us/chr/7/us2.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank7.bin", $da0, $e70
+        .incbin "../../split/global/chr/7/global3.bin"
 
         ;bb gang 3
         ;?????? stylistic???? man what
         ;1 tile
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank7.bin", $e70, $e80
+        .incbin "../../split/jp/chr/7/jp3.bin"
         .else
-        incbinRange "../../split/us/chr/bank7.bin", $e70, $e80
+        .incbin "../../split/us/chr/7/us3.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank7.bin", $e80, $1210
+        .incbin "../../split/global/chr/7/global4.bin"
 
         ;gang zombie 1
         ;gunshot wound
         ;1 tile
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank7.bin", $1210, $1220
+        .incbin "../../split/jp/chr/7/jp4.bin"
         .else
-        incbinRange "../../split/us/chr/bank7.bin", $1210, $1220
+        .incbin "../../split/us/chr/7/us4.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank7.bin", $1220, $1310
+        .incbin "../../split/global/chr/7/global5.bin"
 
         ;gang zombie 2
         ;gunshot wound
         ;2 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank7.bin", $1310, $1330
+        .incbin "../../split/jp/chr/7/jp5.bin"
         .else
-        incbinRange "../../split/us/chr/bank7.bin", $1310, $1330
+        .incbin "../../split/us/chr/7/us5.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank7.bin", $1330, $1860
+        .incbin "../../split/global/chr/7/global6.bin"
 
         ;crow 1
         ;smoking
         ;1 tile
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank7.bin", $1860, $1870
+        .incbin "../../split/jp/chr/7/jp6.bin"
         .else
-        incbinRange "../../split/us/chr/bank7.bin", $1860, $1870
+        .incbin "../../split/us/chr/7/us6.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank7.bin", $1870, $1960
+        .incbin "../../split/global/chr/7/global7.bin"
 
         ;crow 2
         ;smoking
         ;1 tile
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank7.bin", $1960, $1970
+        .incbin "../../split/jp/chr/7/jp7.bin"
         .else
-        incbinRange "../../split/us/chr/bank7.bin", $1960, $1970
+        .incbin "../../split/us/chr/7/us7.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank7.bin", $1970, $1A60
+        .incbin "../../split/global/chr/7/global8.bin"
 
         ;crow 3
         ;smoking
         ;1 tile
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank7.bin", $1A60, $1A70
+        .incbin "../../split/jp/chr/7/jp8.bin"
         .else
-        incbinRange "../../split/us/chr/bank7.bin", $1A60, $1A70
+        .incbin "../../split/us/chr/7/us8.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank7.bin", $1A70, $1E00
+        .incbin "../../split/global/chr/7/global9.bin"
 
         ;dr distorto 1
         ;(presumed, but probably just a pocket) blood
         ;1 tile
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank7.bin", $1E00, $1E10
+        .incbin "../../split/jp/chr/7/jp9.bin"
         .else
-        incbinRange "../../split/us/chr/bank7.bin", $1E00, $1E10
+        .incbin "../../split/us/chr/7/us9.bin"
         .endif
 
-        incbinRange "../../split/global/chr/bank7.bin", $1E10, $1F00
+        .incbin "../../split/global/chr/7/global10.bin"
 
         ;dr distorto 2
         ;(presumed, but probably just a pocket) blood
         ;2 tiles
         .ifdef VER_JP
-        incbinRange "../../split/jp/chr/bank7.bin", $1F00, $1F20
+        .incbin "../../split/jp/chr/7/jp10.bin"
         .else
-        incbinRange "../../split/us/chr/bank7.bin", $1F00, $1F20
+        .incbin "../../split/us/chr/7/us10.bin"
         .endif
 
-        .incbin "../../split/global/chr/bank7.bin", $1F20
+        .incbin "../../split/global/chr/7/global11.bin"

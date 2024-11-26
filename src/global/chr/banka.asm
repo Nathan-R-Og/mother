@@ -1,2 +1,2 @@
 .segment        "CHRA": absolute
-        .incbin "../../split/global/chr/banka.bin"
+        .incbin "../../split/global/chr/a/global.bin"

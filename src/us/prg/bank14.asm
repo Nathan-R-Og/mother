@@ -175,8 +175,8 @@ ramOffset := $5800
 .segment        "PRG14": absolute
 
 
-        .incbin "../../split/us/prg/bank14.bin", 0, $1000
-        
+        .incbin "../../split/us/prg/bank14/unk0.bin"
+
         ;overworld palettes + map exclusive data
         ;1st and 3rd byte of last palette of each set contains
         ;map data
@@ -189,152 +189,152 @@ ramOffset := $5800
         .byte $0F,$3A,$10,$20
         .byte $0F,$3A,$25,$1A
         .byte $02,$3A,$4B,$12
-        
+
         .byte $0F,$20,$20,$10
         .byte $0F,$20,$20,$10
         .byte $0F,$20,$20,$28
         .byte $09,$20,$40,$3B
-        
+
         .byte $0F,$38,$18,$1C
         .byte $0F,$38,$10,$3B
         .byte $0F,$38,$25,$1A
         .byte $1A,$38,$40,$00
-        
+
         .byte $0F,$38,$18,$16
         .byte $0F,$10,$30,$21
         .byte $0F,$3A,$28,$21
         .byte $17,$38,$40,$3C
-        
+
         .byte $0F,$39,$00,$00
         .byte $0F,$39,$20,$10
         .byte $0F,$39,$30,$2B
         .byte $1B,$39,$40,$3B
-        
+
         .byte $0F,$38,$18,$1C
         .byte $0F,$38,$10,$3B
         .byte $0F,$38,$25,$1A
         .byte $1A,$38,$40,$00
-        
+
         .byte $0F,$38,$18,$21
         .byte $0F,$10,$30,$2A
         .byte $0F,$00,$10,$30
         .byte $14,$10,$40,$21
-        
+
         .byte $0F,$38,$18,$00
         .byte $0F,$38,$24,$2B
         .byte $0F,$12,$31,$02
         .byte $1A,$21,$40,$00
-        
+
         .byte $0F,$38,$18,$1C
         .byte $0F,$38,$10,$3B
         .byte $0F,$38,$25,$1A
         .byte $1A,$38,$40,$00
-        
+
         .byte $0F,$10,$00,$08
         .byte $0F,$10,$00,$16
         .byte $0F,$10,$00,$12
         .byte $13,$00,$66,$30
-        
+
         .byte $0F,$10,$00,$08
         .byte $0F,$10,$00,$16
         .byte $0F,$10,$00,$12
         .byte $13,$00,$41,$30
-        
+
         .byte $0F,$10,$00,$08
         .byte $0F,$10,$00,$16
         .byte $0F,$10,$00,$12
         .byte $13,$00,$40,$30
-        
+
         .byte $0F,$10,$00,$08
         .byte $0F,$10,$00,$16
         .byte $0F,$10,$00,$12
         .byte $13,$00,$40,$30
-        
+
         .byte $0F,$10,$00,$08
         .byte $0F,$10,$00,$16
         .byte $0F,$10,$00,$12
         .byte $13,$00,$40,$30
-        
+
         .byte $0F,$10,$00,$08
         .byte $0F,$10,$00,$16
         .byte $0F,$10,$00,$12
         .byte $13,$00,$40,$30
-        
+
         .byte $0F,$10,$00,$08
         .byte $0F,$10,$00,$16
         .byte $0F,$10,$00,$12
         .byte $13,$00,$40,$30
-        
+
         .byte $0F,$00,$10,$30
         .byte $0F,$00,$10,$30
         .byte $0F,$00,$10,$30
         .byte $00,$00,$40,$30
-        
+
         .byte $0F,$38,$18,$17
         .byte $0F,$38,$18,$28
         .byte $0F,$38,$00,$27
         .byte $0A,$38,$76,$22
-        
+
         .byte $0F,$3B,$18,$38
         .byte $0F,$28,$18,$38
         .byte $0F,$33,$25,$38
         .byte $16,$26,$40,$00
-        
+
         .byte $0F,$0F,$17,$27
         .byte $0F,$0F,$17,$27
         .byte $0F,$0F,$17,$27
         .byte $0E,$18,$6E,$28
-        
+
         .byte $0F,$04,$15,$25
         .byte $0F,$38,$18,$21
         .byte $0F,$38,$18,$28
         .byte $1D,$04,$4C,$34
-        
+
         .byte $0F,$34,$30,$24
         .byte $0F,$34,$30,$35
         .byte $0F,$2B,$35,$15
         .byte $0F,$34,$00,$3B
-        
+
         .byte $0F,$37,$35,$17
         .byte $0F,$37,$28,$17
         .byte $0F,$37,$3A,$17
         .byte $18,$37,$40,$17
-        
+
         .byte $0F,$3B,$34,$2B
         .byte $0F,$3B,$28,$2B
         .byte $0F,$3B,$29,$2B
         .byte $18,$3B,$40,$2B
-        
+
         .byte $0F,$3B,$15,$1B
         .byte $0F,$38,$15,$1B
         .byte $0F,$3B,$0B,$1B
         .byte $18,$3B,$40,$1B
-        
+
         .byte $0F,$3A,$18,$38
         .byte $0F,$3A,$00,$20
         .byte $0F,$3A,$25,$1A
         .byte $0B,$3A,$42,$12
-        
+
         .byte $0F,$04,$03,$23
         .byte $0F,$04,$27,$30
         .byte $0F,$04,$05,$30
         .byte $1A,$04,$40,$34
-        
+
         .byte $0F,$0F,$21,$30
         .byte $0F,$12,$12,$21
         .byte $0F,$12,$21,$30
         .byte $0E,$17,$6E,$30
-        
+
         .byte $0F,$10,$33,$22
         .byte $0F,$10,$03,$22
         .byte $0F,$00,$10,$30
         .byte $00,$00,$40,$30
-        
+
         .byte $0F,$37,$18,$31
         .byte $0F,$37,$10,$3B
         .byte $0F,$37,$30,$24
         .byte $1A,$37,$40,$27
-        
+
         .byte $0F,$00,$10,$30
         .byte $0F,$00,$10,$30
         .byte $0F,$00,$10,$30
@@ -446,7 +446,7 @@ ramOffset := $5800
         .endrepeat
 
         ;?????
-        incbinRange "../../split/us/prg/bank14.bin", $1400, $158B
+        .incbin "../../split/us/prg/bank14/unk1400.bin"
 
         ;lookup table for frequencies
         .byte 32,21,16,13,10,8,6,5
@@ -521,19 +521,19 @@ ramOffset := $5800
         areaEncounterDef 4, $1B ; 3E
         .byte 0 ; 3F
 
-        incbinRange "../../split/us/prg/bank14.bin", $15D3, $1ab5
+        incbinRange "../../split/us/prg/bank14/unk15d3.bin", 0, $4E2
 
         ldx     #.LOBYTE(IntroText1-ramOffset)
         ldy     #.HIBYTE(IntroText1-ramOffset)
-        incbinRange "../../split/us/prg/bank14.bin", $1ab9, $1acc
+        incbinRange "../../split/us/prg/bank14/unk15d3.bin", $4E6, $4F9
         ldx     #.LOBYTE(IntroText2-ramOffset)
         ldy     #.HIBYTE(IntroText2-ramOffset)
-        incbinRange "../../split/us/prg/bank14.bin", $1ad0, $1B40
+        incbinRange "../../split/us/prg/bank14/unk15d3.bin", $4FD, $56D
 L9B40:  lda     #.LOBYTE(NameCharacters-ramOffset)
         sta     $64
         lda     #.HIBYTE(NameCharacters-ramOffset)
         sta     $65
-        incbinRange "../../split/us/prg/bank14.bin", $1b48, $1C1F
+        incbinRange "../../split/us/prg/bank14/unk15d3.bin", $575, $64C
         lda     #.LOBYTE(gridWidth-ramOffset)
         ldx     #.HIBYTE(gridWidth-ramOffset)
         sta     $80
@@ -542,10 +542,10 @@ L9B40:  lda     #.LOBYTE(NameCharacters-ramOffset)
         ldx     #.HIBYTE(NameCharacters-ramOffset)
         sta     $84
         stx     $85
-        incbinRange "../../split/us/prg/bank14.bin", $1C2F, $1C4E
+        incbinRange "../../split/us/prg/bank14/unk15d3.bin", $65C, $67B
 L9C4E:  ldx     $82 ; cursor (x*width)+y value
         lda     NameCharacters-ramOffset,x
-        incbinRange "../../split/us/prg/bank14.bin", $1C53, $1C8b
+        incbinRange "../../split/us/prg/bank14/unk15d3.bin", $680, $6B8
 
 CurrentName := $0580
 ;;;;;;NAME_CHECK
@@ -606,7 +606,6 @@ UNKNOWN_9C8B:
 	clc
 	rts
 UNKNOWN_9CCF:
-        incbinRange "../../split/us/prg/bank14.bin", $1CCf, $1d07
+        incbinRange "../../split/us/prg/bank14/unk15d3.bin", $6FC, $734
 UNKNOWN_9CCF_END:
-        incbinRange "../../split/us/prg/bank14.bin", $1d07, $1f9f
-        
+        .incbin "../../split/us/prg/bank14/unk15d3.bin", $734

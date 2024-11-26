@@ -1,14 +1,13 @@
 .segment        "PRG19": absolute
 
 ;anti-piracy
-incbinRange "../../split/us/prg/bank19.bin", 0, $8A4
+.incbin "../../split/us/antipiracy.bin"
 
 ;???? padding??
 .res $F5C, $FF
 
 ;intro stuff
-incbinRange "../../split/us/prg/bank19.bin", $1800, $1ae8
-
+.incbin "../../split/us/prg/bank19/unk1800.bin"
 
 ;ramOffset := $5800
 gridWidth: .byte 16

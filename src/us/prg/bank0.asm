@@ -904,7 +904,7 @@ ui_thing_tiles7:
 .byte $A0,$E0
 .byte 0
 ui_thing_tiles8:
-.byte print_string $0588
+.byte beingAttacked
 .byte 0
 ui_thing_tiles9:
 .byte $FF
@@ -937,12 +937,12 @@ ui_thing_tilesF:
 .byte 0
 ui_thing_tiles10:
 .byte set_pos 13, 25
-.byte print_string $0580
+.byte attacker
 .byte "cannot."
 .byte 0
 ui_thing_tiles11:
 .byte set_pos 3, 19
-.byte print_string $0580
+.byte attacker
 .byte 0
 
 
@@ -1093,7 +1093,7 @@ ui_thing_tiles11:
 
 ;naming screen (???)
 ;the first half at least definitely isnt
-incbinRange "../../split/us/prg/bank0.bin", $1081, $1800
+.incbin "../../split/us/prg/bank0/unk1081.bin"
 
 .include "../../global/items.asm"
 .include "../../global/choicers.asm"
