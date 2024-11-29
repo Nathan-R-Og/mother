@@ -171,7 +171,6 @@
         BA4 = BATTLEID(BATTLE_A4)
 .endscope
 
-ramOffset := $5800
 .segment        "PRG14": absolute
 
 
@@ -445,9 +444,73 @@ ramOffset := $5800
                 .byte BATTLES::MYHOUSE_RAT1
         .endrepeat
 
-        ;?????
-        .incbin "../../split/us/prg/bank14/unk1400.bin"
+        jsr $CED3
+        jsr $9D60
+        bcs_1:
+        jsr $FD5E
+        jsr $FD80
+        jsr $CE02
+        jsr PpuSync
+        lda #25
+        ldx #$8A
+        ldy #$A2
+        jsr $FDF3
+        jsr ResetScroll
+        lda #$35
+        ldx #$62
+        jsr $CEE8
+        lda #$3B
+        ldx #$62
+        jsr LoadPalette
+        ldx #$0C
+        jsr $9505
+        jsr $94D7
+        jsr $950E
+        lda #$00
+        sta $D6
+        ldy $82
+        lda ($84),Y
+        ;get offset
+        asl A
+        tax
 
+        ;stash pointer into stack
+        lda unk_pointers+1,X
+        pha
+        lda unk_pointers,X
+        pha
+
+        tya
+        lsr A
+        lsr A
+
+        ;jump to last in stack (from list)
+        rts
+
+        unk_pointers:
+        .word $BE87
+        .word $948B
+        .word $9471
+        .word something_init-1
+
+        something_init:
+        pha
+        jsr EnablePRGRam
+
+        lda #$18
+        ldx #BANK::PRGA000
+        jsr BANK_SWAP
+
+        pla
+        jsr rts_5
+        jsr WriteProtectPRGRam
+        jsr $CED3
+        jsr $9A4D
+        bcs bcs_1
+        jmp $BE57
+        .incbin "../../split/us/prg/bank14/unk1400.bin", $72
+
+        AREA_FREQ_TABLE:
         ;lookup table for frequencies
         .byte 32,21,16,13,10,8,6,5
 
@@ -456,6 +519,7 @@ ramOffset := $5800
                 .byte (id << 3) | frequency
         .endmacro
 
+        AREA_ENCOUNTER_LIST:
         .byte 0 ; 0
         .byte 0 ; 1
         .byte 0 ; 2
@@ -521,36 +585,54 @@ ramOffset := $5800
         areaEncounterDef 4, $1B ; 3E
         .byte 0 ; 3F
 
-        incbinRange "../../split/us/prg/bank14/unk15d3.bin", 0, $4E2
-
-        ldx     #.LOBYTE(IntroText1-ramOffset)
-        ldy     #.HIBYTE(IntroText1-ramOffset)
-        incbinRange "../../split/us/prg/bank14/unk15d3.bin", $4E6, $4F9
-        ldx     #.LOBYTE(IntroText2-ramOffset)
-        ldy     #.HIBYTE(IntroText2-ramOffset)
-        incbinRange "../../split/us/prg/bank14/unk15d3.bin", $4FD, $56D
-L9B40:  lda     #.LOBYTE(NameCharacters-ramOffset)
-        sta     $64
-        lda     #.HIBYTE(NameCharacters-ramOffset)
-        sta     $65
+        incbinRange "../../split/us/prg/bank14/unk15d3.bin", 0, $4DA
+        lda #2
+        sta $76
+        lda #3
+        sta $77
+        ldx #.LOBYTE(IntroText1)
+        ldy #.HIBYTE(IntroText1)
+        ;prints each line
+        jsr do_story_print
+        incbinRange "../../split/us/prg/bank14/unk15d3.bin", $4E9, $4F9
+        ldx #.LOBYTE(IntroText2)
+        ldy #.HIBYTE(IntroText2)
+        incbinRange "../../split/us/prg/bank14/unk15d3.bin", $4FD, $540
+        do_story_print:
+        lda #0
+        sta $70
+        stx $74
+        sty $75
+        @loop:
+        jsr $C707
+        dec $77
+        cmp #0
+        bne @loop
+        jsr WaitABPressed
+        jmp $9D50
+        incbinRange "../../split/us/prg/bank14/unk15d3.bin", $557, $56D
+        lda #.LOBYTE(NameCharacters)
+        sta $64
+        lda #.HIBYTE(NameCharacters)
+        sta $65
         incbinRange "../../split/us/prg/bank14/unk15d3.bin", $575, $64C
-        lda     #.LOBYTE(gridWidth-ramOffset)
-        ldx     #.HIBYTE(gridWidth-ramOffset)
-        sta     $80
-        stx     $81
-        lda     #.LOBYTE(NameCharacters-ramOffset)
-        ldx     #.HIBYTE(NameCharacters-ramOffset)
-        sta     $84
-        stx     $85
+        lda #.LOBYTE(gridWidth)
+        ldx #.HIBYTE(gridWidth)
+        sta $80
+        stx $81
+        lda #.LOBYTE(NameCharacters)
+        ldx #.HIBYTE(NameCharacters)
+        sta $84
+        stx $85
         incbinRange "../../split/us/prg/bank14/unk15d3.bin", $65C, $67B
-L9C4E:  ldx     $82 ; cursor (x*width)+y value
-        lda     NameCharacters-ramOffset,x
+        ldx $82 ; cursor (x*width)+y value
+        lda NameCharacters,x
         incbinRange "../../split/us/prg/bank14/unk15d3.bin", $680, $6B8
 
 CurrentName := $0580
-;;;;;;NAME_CHECK
-UNKNOWN_9C8B:
-	ldy $55 ;ram - amount of characters/char index
+NAME_CHECK:
+        ;ram - amount of characters/char index
+	ldy $55
 @UNKNOWN3:
 	lda CurrentName,Y
         ;if char == ? (blank)
@@ -578,7 +660,7 @@ UNKNOWN_9C8B:
 	ldy #0
 @EXIST_LOOP:
         ;load existing name entries
-	lda ExistEntries-ramOffset,X
+	lda ExistEntries,X
         ;branch if end of line
 	beq @UNKNOWN10 ;if this jumps, it was an unsuccessful check
         ;check if newLine
@@ -595,7 +677,7 @@ UNKNOWN_9C8B:
         ;fall through if not equal
 @EXIST_NEXTENTRY: ;skips to the next one
         ;load entry, check if at newline
-	lda ExistEntries-ramOffset,X
+	lda ExistEntries,X
 	inx
 	cmp #newLine
 	bne @EXIST_NEXTENTRY ;loop if no
@@ -609,3 +691,4 @@ UNKNOWN_9CCF:
         incbinRange "../../split/us/prg/bank14/unk15d3.bin", $6FC, $734
 UNKNOWN_9CCF_END:
         .incbin "../../split/us/prg/bank14/unk15d3.bin", $734
+

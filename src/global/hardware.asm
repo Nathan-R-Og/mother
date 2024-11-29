@@ -1,3 +1,11 @@
+.define PAD_A 1 << 7
+.define PAD_B 1 << 6
+.define PAD_SELECT 1 << 5
+.define PAD_START 1 << 4
+.define PAD_UP 1 << 3
+.define PAD_DOWN 1 << 2
+.define PAD_LEFT 1 << 1
+.define PAD_RIGHT 1 << 0
 
 ;https://github.com/Herringway/ebbsrc/blob/main/src/hardware.asm
 .enum BANK

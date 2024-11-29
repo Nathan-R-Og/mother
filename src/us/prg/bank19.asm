@@ -1,15 +1,98 @@
 .segment        "PRG19": absolute
 
+;different segment?
 ;anti-piracy
 .incbin "../../split/us/antipiracy.bin"
 
 ;???? padding??
 .res $F5C, $FF
 
-;intro stuff
-.incbin "../../split/us/prg/bank19/unk1800.bin"
+;different segment?
+rts_1:
+  tay
+  beq beq_1
+  ldy #$04
+  beq_1:
+  lda $6222,Y
+  sta $0584,X
+  lda $6223,Y
+  sta $0585,X
+  lda $6224,Y
+  sta $0586,X
+  lda $6225,Y
+  sta $0587,X
+  rts
 
-;ramOffset := $5800
+rts_2:
+  lda $6073,X
+  sta $74
+  lda $6074,X
+  sta $75
+  rts
+
+rts_3:
+  lda $6085,X
+  sta $80
+  lda $6086,X
+  sta $81
+  rts
+
+rts_4:
+  lda #$FF
+  sta $D6
+  ldx #$06
+  ldy #$05
+  stx $76
+  sty $77
+  rts
+
+rts_5:
+  ;stash
+  pha
+
+  lda #0
+  ldx #$74
+  sta $30
+  stx $31
+
+  lda #0
+  ldx #$BE
+  sta $32
+  stx $33
+
+  ;2 $FF copies
+  ldx #2
+  ldy #0
+  bne_1:
+  lda ($32),Y
+  sta ($30),Y
+  iny
+  bne bne_1
+  inc $31
+  inc $33
+  dex
+  bne bne_1
+
+  ;clear $FF
+  lda #0
+  bne_2:
+  sta ($30),Y
+  iny
+  bne bne_2
+
+  ;pop
+  pla
+  ora $7402
+  sta $7402
+  rts
+
+
+;intro stuff
+.incbin "../../split/us/prg/bank19/unk1800.bin", $73
+
+;$80 == letterSetup and $84 == NameCharacters
+letterSetup:
+;the width and height are array dimensions
 gridWidth: .byte 16
 gridHeight: .byte 6
 moveTilesX: .byte 1
@@ -18,6 +101,10 @@ controllerBits: .byte PAD_A | PAD_B | PAD_START
 cursorSpriteTile: .byte $01
 cursorInitX: .byte 8
 cursorInitY: .byte 14
+
+;$80 == finalSetup and $84 == finalChoicers
+finalSetup:
+;the width and height are array dimensions
 finalChoicersWidth: .byte 2
 finalChoicersHeight: .byte 1
 finalChoicersXMove: .byte 4
@@ -26,11 +113,29 @@ finalcontrollerBits: .byte PAD_A
 finalcursorSpriteTile: .byte $3A
 finalcursorInitX: .byte 12
 finalcursorInitY: .byte 24
-.byte   $FA
-finalcontrollerBits2: .byte $62
-    .byte   $01,$01,$01,$08,$40,$23
-LBB00:  .byte   $C0,$FF,$00
-;above here are variables or smth????? cursor control and whatever
+
+.word   finalChoicers
+;setting a choicer to 0 makes it unavailable
+;if all are 0, it is completely skipped
+;fairly certain unless there is implementation, the value itself
+;is completely discarded
+finalChoicers:
+.byte 1
+.byte 1
+
+.byte 1
+;these are wrote to $0400
+;used to access the jumptable at bank 1f, $18c1
+.byte 8
+;amount of times to draw tile (set to reg x)
+.byte $40
+;vram addr set (set to reg a, sent to ppuaddr)
+.byte $23,$C0
+;tile (sent to ppudata)
+.byte $FF
+;some flag???
+.byte 0
+
 .include "../fontmap.asm"
 
 NintenQuestion:
@@ -65,10 +170,10 @@ CharExists:
 .byte   "only capital   ",newLine
 .byte   "letters.       "
 .byte   stopText
-;newLine decides the end of the entry
-;the question marks arent actually needed, but if you
-;remove it it does a search within the text from the start
 
+;newLine decides the end of the entry
+;the question marks are only needed to prevent an
+;inclusive search
 ExistEntries:
 .byte   "Mary?",newLine
 .byte   "Suzy?",newLine

@@ -24,6 +24,8 @@ ITEMUSE_ALL = ITEMUSE_NINTEN | ITEMUSE_ANA | ITEMUSE_LLOYD | ITEMUSE_TEDDY | ITE
     .byte overworldAction,battleAction
     .word msgPrice
 .endmacro
+
+Item_Data:
 itemDef INAME_NULL, 0, 0, 0, 0, 0, 0, 0, 0
 itemDef INAME_BIG_BAG, ITEMUSE_ALL, 0, 0, 0, 0, $10, $75, 0
 itemDef INAME_PHONE_CARD, ITEMUSE_ALL, 0, 0, 0, 0, $07, $00, 50
