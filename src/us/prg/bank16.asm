@@ -950,4 +950,5 @@ BATTLE_ACTION75: ;there was no effect on
 ;battle action targeting (???)
 incbinRange "../../split/us/prg/bank16/unk1ec7.bin",0,$22
 ;?
+battle_sfx:
 .incbin "../../split/us/prg/bank16/unk1ec7.bin",$22

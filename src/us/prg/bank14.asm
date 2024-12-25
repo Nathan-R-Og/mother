@@ -177,8 +177,8 @@
         .incbin "../../split/us/prg/bank14/unk0.bin"
 
         ;overworld palettes + map exclusive data
-        ;1st and 3rd byte of last palette of each set contains
-        ;map data
+        ;1st and 3rd byte of last palette of each set contains map data
+        Map_Palettes:
         .byte $0F,$00,$10,$30
         .byte $0F,$00,$10,$30
         .byte $0F,$00,$10,$30
@@ -444,6 +444,7 @@
                 .byte BATTLES::MYHOUSE_RAT1
         .endrepeat
 
+        intro:
         jsr $CED3
         jsr $9D60
         bcs_1:

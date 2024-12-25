@@ -554,6 +554,7 @@ ENAME_LASTSTARMAN:
 .res $b1, 0
 
 ;battle ui stuff
+ui_list:
 .word ui_battlelog
 .word ui_partybox
 .word ui_actionbox

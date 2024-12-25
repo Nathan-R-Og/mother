@@ -28,6 +28,7 @@
     .byte overworldEffect, battleEffect, arg5, cost
 .endmacro
 
+PSI_Data:
 psiDef            PSI_NULL,  ,  ,$00,$00,$00,0
 psiDef       PSI_TELEPATHY, 0, 0,$25,$00,$00,1
 psiDef        PSI_TELEPORT,  ,  ,$26,$00,$00,3

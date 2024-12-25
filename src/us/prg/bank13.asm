@@ -1,26 +1,8 @@
-Rand := $f1ed
-BankswitchCHRFromTable := $cee8
-SetObjectBank := $DE6C
-GetObjectData := $E655
-GetTextData := $caa2
-GetPartyMemberData := $c665
-B31_0105 := $E105
-xy_unknown := $EBED
-SetObjectType := $de13
 B25_04cc := $a5cc
-DarkenPalette := $ef1b
-TempUpperBankswitch := $fdf3
 B25_06c1 := $a6c1
 B25_06c2 := $a6c2
-B31_10d1 := $f0d1
 B25_036e := $a36e
-BankswitchLower_Bank00_2nd := $de8b
-BackupAndFillPalette := $EDFE
-FillPalette := $EE03
-FillBackgroundColor := $EE0E
-BankswitchLower_Bank20 := $cee1
 B25_01f8 := $a1f8
-B31_0ddc := $eddc
 
 .segment        "PRG13": absolute
 
@@ -46,7 +28,7 @@ B19_0005:
     B19_0021:
     ldx #$00
     B19_0023:
-    jsr $d9f1
+    jsr B30_19f1
     bcs B19_0084
     jsr GetPartyMemberData
     txa
@@ -66,7 +48,7 @@ B19_0005:
     iny
     cpy #$2c
     bcc B19_003b
-    jsr $c3e6
+    jsr B30_03e6
     lda #$f5
     ldx #$a0
     jsr B19_0c44
@@ -77,7 +59,7 @@ B19_0005:
     ldx #.HIBYTE(B19_0119)
     sta $80
     stx $81
-    jsr $ef34
+    jsr B31_0f34
     B19_0064:
     bit $83
     bvs B19_008b
@@ -91,7 +73,7 @@ B19_0005:
     ldy #$03
     stx $76
     sty $77
-    jsr $ef7c
+    jsr B31_0f7c
     jmp B19_0064
 
 B19_0082:
@@ -104,7 +86,7 @@ B19_0084:
     bcs B19_0021
 B19_008b:
     pla
-    jmp $c3f4
+    jmp B30_03f4
 
 B19_008f:
     tya
@@ -136,7 +118,7 @@ B19_00b3:
     ldx #$40
 B19_00b5:
     stx $68
-    jsr $dccd
+    jsr B30_1ccd
     ldx $68
     and $0600, y
     beq B19_00c4
@@ -170,7 +152,7 @@ B19_00e5:
     sta $74
     stx $75
 B19_00ed:
-    jsr $c6db
+    jsr B30_06db
     cmp #$00
     bne B19_00ed
     rts
@@ -205,7 +187,7 @@ B19_0123:
     ora $d4
     sta $d4
     lda #$2f
-    jsr $cde4
+    jsr B30_0de4
     ldx #$7c
     jsr DisplayText
     ldx #$7e
@@ -232,23 +214,23 @@ B19_0168:
     ldx #$84
     jsr DisplayText
     jsr B19_0b30
-    jmp $c3f4
+    jmp B30_03f4
 
 B19_0178:
     lda #$05
     sta $07f1
-    jsr $c26c
+    jsr B30_026c
     lda #.LOBYTE(B19_01b0)
     ldx #.HIBYTE(B19_01b0)
     sta $80
     stx $81
-    jsr $ef34
+    jsr B31_0f34
     bit $83
     bmi B19_0192
-    jmp $c3f4
+    jmp B30_03f4
     B19_0192:
     lda #$ff
-    jsr $f0b0
+    jsr B31_10b0
     lda $82
     asl a
     tax
@@ -281,10 +263,10 @@ B19_01ba:
     ldx #.LOBYTE(B25_036e-1)
     ldy #.HIBYTE(B25_036e-1)
     jsr TempUpperBankswitch
-    jmp $c3f4
+    jmp B30_03f4
 
 B19_01c6:
-    jsr $e266
+    jsr B31_0266
     bcs B19_01e4
     jsr B19_09c7
     beq B19_01e9
@@ -298,7 +280,7 @@ B19_01c6:
     jsr B19_0b0f
     bcs B19_01e9
     B19_01e1:
-    jmp $c3f4
+    jmp B30_03f4
 
 B19_01e4:
     jsr B19_0b48
@@ -307,12 +289,12 @@ B19_01e9:
     rts
 
 B19_01ea:
-    jsr $e20f
+    jsr B31_020f
     asl a
     bpl B19_0200
     and #$0F<<1
     beq B19_0204
-    jsr $e2a2
+    jsr B31_02a2
     lda #$0a ; Interaction type: TALK
     sta $34
     jsr B19_0b0f
@@ -326,14 +308,14 @@ B19_01ea:
     jsr DisplayText
     jsr B19_0b30
     B19_020c:
-    jmp $c3f4
+    jmp B30_03f4
 
 B19_020f:
-    jsr $e20f
+    jsr B31_020f
     jsr B19_09c7
     bne B19_021d
     jsr B19_09d6
-    jmp $c3f4
+    jmp B30_03f4
 
 B19_021d:
     asl a
@@ -349,12 +331,12 @@ B19_021d:
     jsr DisplayText
     jsr B19_0b30
     B19_0235:
-    jmp $c3f4
+    jmp B30_03f4
 
 B19_0238:
     jsr B19_18e6
     bcc B19_0240
-    jmp $c3f4
+    jmp B30_03f4
 
 B19_0240:
     jsr B19_092d
@@ -378,10 +360,10 @@ B19_0240:
 B19_0262:
     jsr B19_17b6
     bcc B19_026a
-    jmp $c3f4
+    jmp B30_03f4
 
 B19_026a:
-    jsr $c3c7
+    jsr B30_03c7
     jsr B19_0964
     jsr B19_0972
     beq B19_0281
@@ -401,7 +383,7 @@ B19_026a:
     ldx #$a2
     sta $80
     stx $81
-    jsr $ef3f
+    jsr B31_0f3f
     bit $83
     bmi B19_02a7
     bpl B19_0262
@@ -412,7 +394,7 @@ B19_029a:
 
 B19_02a7:
     lda #$ff
-    jsr $f0b0
+    jsr B31_10b0
     jsr B19_092d
     lda $82
     asl a
@@ -620,7 +602,7 @@ OVERWORLD_ACTIONS_POINTERS:
 
 OVERWORLD_ACTION0:
     jsr B19_09b1
-    jsr $E20F
+    jsr B31_020f
     asl a
     bpl OVERWORLD_ACTION1
     and #$1E
@@ -642,7 +624,7 @@ OVERWORLD_ACTION2:
     jsr B19_0a7c
     jmp B19_0d29
 OVERWORLD_ACTION3:
-    jsr $E20F
+    jsr B31_020f
     asl a
     bpl OVERWORLD_ACTION2
     and #$1E
@@ -881,7 +863,7 @@ OVERWORLD_ACTION12:
     pla
     pla
     jsr B19_0b30
-    jmp $ccd8
+    jmp B30_0cd8
 
 B19_062c:
     lda event_flags+31
@@ -1003,11 +985,11 @@ B19_06e0:
     pha
     lda object_pointer+1
     pha
-    jsr $d8d3
+    jsr B30_18d3
     jsr B19_0728
     bcs @B19_071e
     txa
-    jsr $d86c
+    jsr B30_186c
     lda $f6
     pha
     ldy #$15
@@ -1016,13 +998,13 @@ B19_06e0:
     asl a
     asl a
     tax
-    jsr $e2bf
+    jsr B31_02bf
     pla
     ldx #$06
     jsr BANK_SWAP
     lda #$1d
-    jsr $cde4
-    jsr $d977
+    jsr B30_0de4
+    jsr B30_1977
     @B19_071e:
     jsr EnablePRGRam
     pla
@@ -1139,8 +1121,8 @@ OVERWORLD_ACTION1F:
     sta xpos_music,X
     dex
     bpl OVERWORLD_ACTION1F_bpl2
-    jsr $D9FA
-    jsr $D8CE
+    jsr B30_19fa
+    jsr B30_18ce
     lda #2
     sta fade_type
     lda #$40
@@ -1163,7 +1145,7 @@ OVERWORLD_ACTION23:
     ldx #$70
     jsr DisplayText
     lda #$01
-    jsr $cde4
+    jsr B30_0de4
     ldx #$72
     jmp DisplayText
 OVERWORLD_ACTION24:
@@ -1184,8 +1166,8 @@ OVERWORLD_ACTION24:
     jmp B19_0909
     B19_0843:
     jsr B19_0b30
-    jsr $eddc
-    jsr $fd5e
+    jsr B31_0ddc
+    jsr B31_1d5e
     ldx #$00
     ldy #$08
     jsr SetScroll
@@ -1195,7 +1177,7 @@ OVERWORLD_ACTION24:
     lda #$5b
     ldx #$02
     jsr BANK_SWAP
-    jsr $ce6d
+    jsr B30_0e6d
     lda #$e3
     ldx #$a8
     jsr BankswitchCHRFromTable
@@ -1231,7 +1213,7 @@ OVERWORLD_ACTION24:
     lda #$f0
     sta $0200
     jsr PpuSync
-    jsr $eddf
+    jsr B31_0ddf
     jsr RestorePalette
     lda #$f9
     and ram_PPUMASK
@@ -1241,8 +1223,8 @@ OVERWORLD_ACTION24:
     jsr BANK_SWAP
     lda #$00
     sta disable_dmc
-    jsr $fd5e
-    jmp $cfac
+    jsr B31_1d5e
+    jmp B30_0fac
 
 B19_08d4:
     sec
@@ -1269,21 +1251,18 @@ B19_08d4:
 .byte $0F,$21,$21,$21
 
 
-
-
-
 ;;;;;;
 B19_0909:
     jsr DisplayText
 B19_090c:
     jsr B19_0b30
-    jmp $c3f4
+    jmp B30_03f4
 
 B19_0912:
     sta $60
     lda #$00
     sta $61
-    jsr $f2ed
+    jsr B31_12ed
     lda $60
     sta $2a
     lda $61
@@ -1404,11 +1383,11 @@ B19_09c7:
 
 B19_09d6:
     jsr GetObjectDataAndBank
-    jsr $e772
+    jsr B31_0772
     and All_Bits, x
     bne @B19_09fd
     lda #$04
-    jsr $e2c2
+    jsr B31_02c2
     ldx #$66
     jsr DisplayText
     lda #$0a
@@ -1430,7 +1409,7 @@ B19_0a05:
     jsr DisplayText
     ldx #$00
     B19_0a0f:
-    jsr $d9f1
+    jsr B30_19f1
     bcs B19_0a1f
     sta $28
     txa
@@ -1458,7 +1437,7 @@ B19_0a2c:
 
 B19_0a3f:
     jsr EnablePRGRam
-    jsr $e772
+    jsr B31_0772
     ora All_Bits, x
     sta $7620, y
     jmp WriteProtectPRGRam
@@ -1584,7 +1563,7 @@ B19_0b19:
 B19_0b23:
     lda $21
     beq B19_0b30
-    jsr $e266
+    jsr B31_0266
     lda #$40
     sta $34 ; Interaction type: SIGNAL
     bne B19_0b0f
@@ -1596,7 +1575,7 @@ B19_0b30:
     lda #$00
     sta $2c
     clc
-    jmp $fd4f
+    jmp B31_1d4f
     @B19_0b3c:
     sec
     rts
@@ -1616,7 +1595,7 @@ B19_0b48:
     jmp B19_0b19
 
 B19_0b53:
-    jsr $e266
+    jsr B31_0266
     jsr GetObjectDataAndBank
     ldy object_script_offset
     jmp B19_0b19
@@ -1748,13 +1727,13 @@ B19_0c41:
 B19_0c44:
     sta $74
     stx $75
-    jmp $c6d2
+    jmp B30_06d2
 
 ; Instruction 0F - Reset game
 B19_0c4b:
     jsr B19_0b30
-    jsr $eddc
-    jmp $ff40
+    jsr B31_0ddc
+    jmp Reset_Vector
 
 ; Instructions 05 and 06 (only valid at the start of a script)
 B19_0c54:
@@ -1940,8 +1919,8 @@ B19_0d40:
     sta $70
     lda #0
     sta $71
-    jsr $c707
-    jsr $c7af
+    jsr B30_0707
+    jsr B30_07af
     cmp #0
     beq B19_0d61
     ldy #0
@@ -1985,7 +1964,7 @@ B19_0d91:
 
 B19_0d98:
     ldx #4
-    jsr $c7c1
+    jsr B30_07c1
     dec $77
     dec $77
     rts
@@ -2022,7 +2001,7 @@ B19_0dc5:
     ldx #$f0
     sta $84
     stx $85
-    jsr $ef4b
+    jsr B31_0f4b
     lda #8
     sta $76
     rts
@@ -2098,7 +2077,7 @@ B19_0e4a:
 B19_0e58:
     iny
     sty object_script_offset
-    jmp $e646
+    jmp B31_0646
 
 ; Instruction 14 - Increment counter
 B19_0e5e:
@@ -2289,7 +2268,7 @@ B19_0f5e:
     jsr Mult16x8 ; $60 *= $64
     lda #$64
     sta $64
-    jsr $f13d
+    jsr B31_113d
     ldy object_script_offset
     iny
     lda $62
@@ -2311,7 +2290,7 @@ B19_0f8e:
     jsr B19_0fc4
     ldx #0
 B19_0f93:
-    jsr $d9f1
+    jsr B30_19f1
     bcs B19_0fa5
     sta $28
     txa
@@ -2580,7 +2559,7 @@ B19_10eb:
 B19_1118:
     ldx #$c
     stx $76
-    jsr $ef7c
+    jsr B31_0f7c
     lda $83
     and #$c
     beq B19_1146
@@ -2601,11 +2580,11 @@ B19_1136:
 B19_113d:
     tya
     sta $6c, x
-    jsr $f0b0
+    jsr B31_10b0
     jmp B19_1118
 
 B19_1146:
-    jsr $f1a4
+    jsr B31_11a4
     lda $60
     sta $2a
     lda $61
@@ -2683,7 +2662,7 @@ B19_11bd:
     sty $35
     ldx #0
 B19_11c1:
-    jsr $d9f1
+    jsr B30_19f1
     bcs B19_11d1
     tay
     txa
@@ -2893,7 +2872,7 @@ B19_12fc:
     lda #$f
     sta $679a
     ldx #$10
-    jsr $cdaf
+    jsr B30_0daf
     jmp B19_1295
 
 ; Instruction 4D - Airplane End
@@ -2913,7 +2892,7 @@ B19_1323:
     ldy #$8b
     jsr B19_12d8
     ldx #8
-    jsr $cdaf
+    jsr B30_0daf
     jmp B19_1295
 
 ; Instruction 49 - Boat
@@ -2952,7 +2931,7 @@ B19_134a:
     sta $679a
     jsr B19_1bd4
     ldx #$10
-    jsr $cdaf
+    jsr B30_0daf
     ldy $35
     iny
     jmp WriteProtectPRGRam
@@ -2989,12 +2968,12 @@ B19_13b5:
     sta fade_flag
     ldx #0
     stx $23
-    jsr $cdaf
+    jsr B30_0daf
     lda $30
     pha
     lda $31
     pha
-    jsr $d674
+    jsr B30_1674
     pla
     sta $31
     pla
@@ -3051,7 +3030,7 @@ B19_141b:
 B19_1420:
     jsr EnablePRGRam
     iny
-    jsr $e6a1
+    jsr B31_06a1
     iny
     jmp WriteProtectPRGRam
 
@@ -3067,7 +3046,7 @@ B19_142b:
 B19_1432:
     sty $35
     jsr EnablePRGRam
-    jsr $d9fa
+    jsr B30_19fa
     ldy $35
     iny
     jmp WriteProtectPRGRam
@@ -3080,7 +3059,7 @@ B19_1440:
     lda $31
     pha
     lda $28
-    jsr $d759
+    jsr B30_1759
     pla
     sta $31
     pla
@@ -3096,7 +3075,7 @@ B19_1459:
     lda $31
     pha
     lda $28
-    jsr $d78d
+    jsr B30_178d
     pla
     sta $31
     pla
@@ -3152,7 +3131,7 @@ B19_14a9:
     jsr B19_15c4
     ldy #$10
     lda ($60), y
-    jsr $db40
+    jsr B30_1b40
     jsr B19_15c4
     ldy #$11
     sec
@@ -3212,7 +3191,7 @@ B19_1511:
     sta $65
     ldx #1
 B19_151d:
-    jsr $d9f1
+    jsr B30_19f1
     bcs B19_153d
     jsr GetPartyMemberData
     ldy #1
@@ -3240,12 +3219,12 @@ B19_1546:
     sty $35
     ldx #60
     jsr WaitXFrames_Min1
-    jsr $eddc
+    jsr B31_0ddc
     jsr B19_1561
     jsr B19_1c0a
     lda #$55
     sta $2c
-    jsr $ee30
+    jsr B31_0e30
     ldy $35
     iny
     rts
@@ -3268,7 +3247,7 @@ B19_157a:
     bcc B19_1566
     jsr WriteProtectPRGRam
     lda #$20
-    jmp $cde4
+    jmp B30_0de4
 
 ; Set HP of character in $60 to their max HP
 HealCharacterHP:
@@ -3563,7 +3542,7 @@ B19_172d:
 B19_1735:
     ldx #$10
 B19_1737:
-    jsr $eee4
+    jsr B31_0ee4
     dex
     bne B19_1737
     iny
@@ -3603,7 +3582,7 @@ B19_1763:
     lda $6704, x
     beq B19_177e
     lda #$a0
-    jsr $c68b
+    jsr B30_068b
     dec $77
     dec $77
     dex
@@ -3614,20 +3593,20 @@ B19_1763:
     lda $77
     sbc #$04
     sta $77
-    jsr $c3c0
+    jsr B30_03c0
     jsr B19_0b41
     lda #<B19_17ac
     ldx #>B19_17ac
     sta $80
     stx $81
-    jsr $ef34
+    jsr B31_0f34
     bit $83
     bmi B19_179e
     sec
     rts
     B19_179e:
     lda #$ff
-    jsr $f0b0
+    jsr B31_10b0
     ldx $82
     lda $6704, x
     sta $28
@@ -3645,7 +3624,7 @@ B19_17ac:
     .word $6704
 
 B19_17b6:
-    jsr $c3b2
+    jsr B30_03b2
     ldx #$ff
     B19_17bb:
     inx
@@ -3653,7 +3632,7 @@ B19_17b6:
     bcc B19_17c2
     ldx #$00
     B19_17c2:
-    jsr $d9f1
+    jsr B30_19f1
     bcs B19_17bb
     sta $28
     stx $37
@@ -3679,7 +3658,7 @@ B19_17b6:
     rts
     B19_17f6:
     lda #$ff
-    jsr $f0b0
+    jsr B31_10b0
     ldy $82
     lda ($84), y
     sta $29
@@ -3698,7 +3677,7 @@ B19_1803:
     rts
 
 B19_1814:
-    jsr $c3b9
+    jsr B30_03b9
     jsr B19_0b41
     sec
     lda $35
@@ -3739,7 +3718,7 @@ B19_1814:
     ldx #$b8
     sta $80
     stx $81
-    jsr $ef3f
+    jsr B31_0f3f
     bit $83
     bmi B19_186c
     sec
@@ -3752,7 +3731,7 @@ B19_186f:
     .byte $01,$04,$00,$02,$c0,$3a,$02,$03
 
 B19_187f:
-    jsr $c3b2
+    jsr B30_03b2
     lda #$d8
     ldx #$b8
     jsr B19_0c44
@@ -3808,7 +3787,7 @@ B19_18d8:
     .byte $ec,$ef,$f3,$e5,$f4,$00
 
 B19_18e6:
-    jsr $c3b2
+    jsr B30_03b2
     ldx #$ff
     B19_18eb:
     inx
@@ -3904,39 +3883,44 @@ B19_18e6:
 B19_198b:
     .byte $60,$e0,$a8,$00
 
-B19_198f:       jsr $c3b2
-B19_1992:       lda #<B19_19d1
-B19_1994:       ldx #>B19_19d1
-B19_1996:       jsr B19_0c44
-B19_1999:       jsr B19_19af
-B19_199c:       jsr B19_1b40
-B19_199f:       lda #<B19_19dc
-B19_19a1:       ldx #>B19_19dc
-B19_19a3:       jsr B19_1b12
-B19_19a6:       bit $83
-B19_19a8:       bmi B19_19ac
-B19_19aa:       sec
-B19_19ab:       rts
-B19_19ac:       jmp B19_17f6
+B19_198f:
+    jsr B30_03b2
+	lda #<B19_19d1
+	ldx #>B19_19d1
+	jsr B19_0c44
+	jsr B19_19af
+	jsr B19_1b40
+	lda #<B19_19dc
+	ldx #>B19_19dc
+	jsr B19_1b12
+	bit $83
+	bmi B19_19ac
+	sec
+	rts
+    B19_19ac:
+    jmp B19_17f6
 
-B19_19af:       lda event_flags+29
-B19_19b2:       sta $65
-B19_19b4:       ldx #$00
-B19_19b6:       lda #$00
-B19_19b8:       asl $65
-B19_19ba:       bcc B19_19c0
-B19_19bc:       clc
-B19_19bd:       txa
-B19_19be:       adc #$80
-B19_19c0:       sta $0580, x
-B19_19c3:       inx
-B19_19c4:       cpx #$08
-B19_19c6:       bcc B19_19b6
-B19_19c8:       lda #$80
-B19_19ca:       ldx #$05
-B19_19cc:       sta $84
-B19_19ce:       stx $85
-B19_19d0:       rts
+B19_19af:
+    lda event_flags+29
+	sta $65
+	ldx #$00
+    B19_19b6:
+    lda #$00
+	asl $65
+	bcc B19_19c0
+	clc
+	txa
+	adc #$80
+    B19_19c0:
+    sta $0580, x
+	inx
+	cpx #$08
+	bcc B19_19b6
+	lda #$80
+	ldx #$05
+	sta $84
+	stx $85
+	rts
 
 B19_19d1:
     .byte $20,$07,$03,$fe,$d7,$e8,$e5,$f2
@@ -3946,11 +3930,11 @@ B19_19dc:
     .byte $02,$04,$0c,$02,$c0,$3a,$06,$05
 
 B19_19e4:
-    jsr $c3ce
+    jsr B30_03ce
     lda #$b6
     ldx #$ba
     jsr B19_0c44
-    jsr $c6d2
+    jsr B30_06d2
     ldx #$00
     jsr B19_1a72
     jsr B19_1a72
@@ -3966,12 +3950,12 @@ B19_19e4:
     bpl B19_1a07
     sta $d6
     jsr B19_1a8d
-    jsr $ef34
+    jsr B31_0f34
     jmp B19_1a1e
 
 B19_1a18:
     jsr B19_1a8d
-    jsr $ef7c
+    jsr B31_0f7c
 B19_1a1e:
     bit $83
     bmi B19_1a39
@@ -4095,7 +4079,7 @@ B19_1af9:
     ldx #>B19_1b04
     sta $80
     stx $81
-    jmp $ef34
+    jmp B31_0f34
 
 ; UNKNOWN
 B19_1b04:
@@ -4113,7 +4097,7 @@ B19_1b0e:
 B19_1b12:
     sta $80
     stx $81
-    jmp $ef3f
+    jmp B31_0f3f
 
 ; UNKNOWN
 B19_1b19:
@@ -4139,7 +4123,7 @@ B19_1b21:
     sta $70
     stx $76
     sty $77
-    jmp $c6d2
+    jmp B30_06d2
 
 B19_1b40:
     lda #$0b
@@ -4210,7 +4194,7 @@ B19_1baf:
     iny
     lda ($60), y
     sta $75
-    jsr $c6d2
+    jsr B30_06d2
     jmp B19_0b41
 
 B19_1bc3:
@@ -4226,7 +4210,7 @@ B19_1bc3:
 B19_1bd4:
     jsr GetItemDataPointer
     ldy #$02
-    jsr $e6a9
+    jsr B31_06a9
     jmp B19_0b41
 
 GetItemDataPointer:
@@ -4256,15 +4240,15 @@ B19_1bf2:
     jmp BankswitchLower_Bank00_2nd
 
 B19_1c04:
-    jsr $fd4f
-    jmp $c3d5
+    jsr B31_1d4f
+    jmp B30_03d5
 
 B19_1c0a:
     lda $74
     pha
     lda $73
     pha
-    jsr $c3a0
+    jsr B30_03a0
     pla
     sta $73
     pla
@@ -4282,7 +4266,7 @@ B19_1c28:
     pha
     lda $77
     pha
-    jsr $c3df
+    jsr B30_03df
     pla
     sta $77
     pla
@@ -4433,7 +4417,7 @@ B19_1d15:
     lda #$10
     sta $07f1
     lda #$34
-    jsr $ee21
+    jsr B31_0e21
     lda $06
     beq B19_1d2c
     lda #25
@@ -4476,13 +4460,13 @@ B19_1d5c:
     lda #$09
     sta $07f0
     lda #$11
-    jsr $ee21
-    jsr $fd5e
+    jsr B31_0e21
+    jsr B31_1d5e
     jsr ResetScroll
     lda #$5d
     ldx #$02
     jsr BANK_SWAP
-    jsr $ce6d
+    jsr B30_0e6d
     lda #$5c
     ldx #$02
     jsr BANK_SWAP
@@ -4490,7 +4474,7 @@ B19_1d5c:
     ldx #$be
     sta $60
     stx $61
-    jsr $e087
+    jsr B31_0087
     lda #$2f
     ldx #$be
     jsr LoadPalette
@@ -4531,8 +4515,8 @@ B19_1d5c:
     tay
     dey
     bne B19_1d91
-    jsr $fd5e
-    jsr $eddc
+    jsr B31_1d5e
+    jsr B31_0ddc
     ldx #90
     jmp WaitXFrames_Min1
 
@@ -4542,7 +4526,7 @@ B19_1dd9:
     jsr FillBackgroundColor
     lda #$03
     sta $07f0
-    jsr $fdc0
+    jsr B31_1dc0
     ldx #$08
     ldy #$07
     B19_1dea:
