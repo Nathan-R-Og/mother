@@ -8,6 +8,7 @@
 .define PAD_RIGHT 1 << 0
 
 ;https://github.com/Herringway/ebbsrc/blob/main/src/hardware.asm
+;where to put it
 .enum BANK
 	CHR0000 = 0
 	CHR0800 = 1

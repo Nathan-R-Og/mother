@@ -35,8 +35,7 @@ binclude "text/dialogue4.asm"
 
 .include "prg/bank1c.asm"
 .include "prg/bank1d.asm"
-.include "prg/bank1e.asm"
-.include "prg/bank1f.asm"
+.include "prg/constant.asm"
 
 .include "../global/chr/bank0.asm"
 .include "../global/chr/bank1.asm"

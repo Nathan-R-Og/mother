@@ -1,2 +1,2 @@
 .segment        "PRG1D": absolute
-        .incbin "../../split/us/prg/bank1d.bin"
+    .incbin "../../split/us/prg/bank1d.bin"

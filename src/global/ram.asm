@@ -122,7 +122,12 @@ text_data_buffer = $0110
 ;  1E -> Battle-specific status (80=Blind;40=Blocked;20=Roped;10=Shield;08=Guarding;04=PowerShield?;02=Asthma;01=???)
 ;  1F -> ???
 
+;todo: verify
+.ifdef VER_JP
+pc_count = $6D07
+.else
 pc_count = $6707
+.endif
 
 ;;;; TODO: AREAS
 ; Area 0x08 -> Yucca Desert?

@@ -356,6 +356,7 @@ kanjifix "ラストスタ-マン"
 .byte $29,$29,$29,$29
 .res $3C, 0
 
+ui_list:
 .incbin "../../split/jp/prg/bank0/unk300.bin"
 
 .byte   attacker
