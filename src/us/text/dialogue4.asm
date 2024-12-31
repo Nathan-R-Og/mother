@@ -693,6 +693,7 @@ MSG_ELLAY_LHSIDEGUY:
 .byte   " real weakling...",newLine
 .byte   stopText
 
+MSG_SNOWMAN_REGNAME:
 .byte   "*Let me register",newLine
 .byte   " your name once",newLine
 .byte   " more.",newLine
@@ -813,6 +814,7 @@ MSG_ELLAY_HARBORGUY:
 .byte   "*To whom?",newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_INVFULL:
 .byte   "*Your load is too",newLine
 .byte   " heavy. Hand it to",newLine
 .byte   " someone else?",newLine
@@ -867,6 +869,7 @@ MSG_HOSPITAL_NOPERSON:
 .byte   " Magic Herb.",newLine
 .byte   stopText
 
+MSG_HEALER_MAN:
 .byte   "*Where do you think",newLine
 .byte   " you can find such",newLine
 .byte   " a man!",newLine

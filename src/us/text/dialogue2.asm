@@ -207,6 +207,7 @@ MSG_MTITOI_HEALER:
 .byte   " do. Here!",newLine
 .byte   stopText
 
+MSG_MAGICANT_GUITARMAN_SONG:
 .byte   "*Listen to my song!",newLine
 .byte   " Oh music-loving",newLine
 .byte   " adventurer ",partyLead,"!",newLine
@@ -277,6 +278,7 @@ MSG_MTITOI_HEALER:
 .byte   " remember who.",newLine
 .byte   stopText
 
+MSG_HEALER:
 .byte   "*Believe it or not,",newLine
 .byte   " I am a Healer.",newLine
 .byte   pauseText

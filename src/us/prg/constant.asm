@@ -2055,7 +2055,7 @@ B30_0c9d:
 	lsr a
 	tax
 	ldy B30_0ca9, x
-	lda $743c, y
+	lda save_ram_unk, y
 	rts
 
 B30_0ca9:
@@ -4150,10 +4150,13 @@ B30_1a48:
 	lda $47
 	bne B30_1b30
 	jsr EnablePRGRam
-	ldx #$12
+
+	ldx #bank_money-starting_sram
 	jsr B30_1c11
-	ldx #$15
+
+	ldx #dad_money-starting_sram
 	jsr B30_1c11
+
 	lda enemy_group
 	beq B30_1b30
 	sta $29
@@ -4315,22 +4318,23 @@ B30_1b75:
     clc
 	rts
 
+;save 24-bit money?
 B30_1c11:
     clc
 	lda $4c
-	adc $7400, x
-	sta $7400, x
+	adc starting_sram, x
+	sta starting_sram, x
 	lda $4d
-	adc $7401, x
-	sta $7401, x
+	adc starting_sram+1, x
+	sta starting_sram+1, x
 	lda #$00
-	adc $7402, x
-	sta $7402, x
+	adc starting_sram+2, x
+	sta starting_sram+2, x
 	bcc B30_1c37
 	lda #$ff
-	sta $7400, x
-	sta $7401, x
-	sta $7402, x
+	sta starting_sram, x
+	sta starting_sram+1, x
+	sta save_slot, x
     B30_1c37:
     rts
 
@@ -5073,7 +5077,7 @@ B31_0087:
 B31_00f2:
     and #$3f
     tax
-    lda $7400, x
+    lda starting_sram, x
     rts
 
 ; $E0F9

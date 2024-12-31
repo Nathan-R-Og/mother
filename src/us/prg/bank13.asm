@@ -733,7 +733,7 @@ OVERWORLD_ACTION11:
     ldx #$42
     jsr DisplayText
     jsr EnablePRGRam
-    DEC $741F
+    dec big_bag_uses
     php
     jsr WriteProtectPRGRam
     plp
@@ -2086,7 +2086,7 @@ B19_0e5e:
     tax
     iny
     jsr EnablePRGRam
-    inc $7660, x
+    inc script_counters, x
     jmp WriteProtectPRGRam
 
 ; Instruction 13 - Decrement counter
@@ -2096,7 +2096,7 @@ B19_0e6c:
     tax
     iny
     jsr EnablePRGRam
-    dec $7660, x
+    dec script_counters, x
     jmp WriteProtectPRGRam
 
 ; Instruction 15 - Set counter to zero
@@ -2107,7 +2107,7 @@ B19_0e7a:
     iny
     jsr EnablePRGRam
     lda #0
-    sta $7660, x
+    sta script_counters, x
     jmp WriteProtectPRGRam
 
 ; Instruction 16 - Jump if counter less than
@@ -2116,7 +2116,7 @@ B19_0e8a:
     lda (object_data), y
     tax
     iny
-    lda $7660, x
+    lda script_counters, x
     cmp (object_data), y
     jmp JumpCS
 
@@ -2711,7 +2711,7 @@ B19_11fd:
     ldy #$28
     lda ($60), y
     beq B19_121b
-    sta $7680
+    sta confiscated_weapon
     sty $62
     jsr B19_1c5a
     jsr B19_0b41
@@ -2729,7 +2729,7 @@ B19_1220:
 
 ; Instruction 63 - Get confiscated weapon, Jump to j if none
 B19_1223:
-    lda $7680
+    lda confiscated_weapon
     beq B19_1220
     sta $29
     sty $35
@@ -3151,9 +3151,9 @@ B19_14d0:
     dex
     bpl B19_14d0
     lda #0
-    sta $7415
-    sta $7416
-    sta $7417
+    sta dad_money
+    sta dad_money+1
+    sta dad_money+2
     jsr WriteProtectPRGRam
     ldy $35
     iny
@@ -3940,12 +3940,12 @@ B19_19e4:
     jsr B19_1a72
     jsr EnablePRGRam
     lda #$00
-    sta $7431
+    sta player_name_end
     sta $37
     ldy #$10
     lda #$a2
     B19_1a07:
-    sta $7420, y
+    sta player_name, y
     dey
     bpl B19_1a07
     sta $d6
@@ -3963,14 +3963,14 @@ B19_1a1e:
     B19_1a24:
     ldy $37
     beq B19_1a18
-    lda $7420, y
+    lda player_name, y
     cmp #$a2
     bne B19_1a30
     dey
     B19_1a30:
     lda #$a2
     sty $37
-    sta $7420, y
+    sta player_name, y
     bne B19_1a18
     B19_1a39:
     ldy $82
@@ -3980,7 +3980,7 @@ B19_1a1e:
     beq B19_1a54
     lda $0580, y
     ldy $37
-    sta $7420, y
+    sta player_name, y
     cpy #$10
     bcs B19_1a18
     iny
@@ -3989,13 +3989,13 @@ B19_1a1e:
     B19_1a54:
     ldy $37
     beq B19_1a18
-    lda $7420, y
+    lda player_name, y
     cmp #$a2
     beq B19_1a60
     iny
     B19_1a60:
     lda #$00
-    sta $7420, y
+    sta player_name, y
     sta $d6
     lda #$f0
     sta $0204
@@ -4570,7 +4570,7 @@ B19_1e4f:
     .byte $01,$fe
 
 B19_1e57:
-    lda $7402
+    lda save_slot
     jsr B19_1ebb
     jsr B19_1ed3
     jsr EnablePRGRam
@@ -4614,11 +4614,11 @@ B19_1e88:
     bne B19_1e90
     jsr WriteProtectPRGRam
     jsr B19_1ed3
-    lda $7402
+    lda save_slot
     and #$f0
     cmp #$b0
     bne B19_1eba
-    lda $7403
+    lda save_slot_state
     cmp #$e9
     bne B19_1eba
     lda $60
@@ -4636,8 +4636,8 @@ B19_1ebb:
     lda #$00
     sta $68
 B19_1eca:
-    lda #$00
-    ldx #$74 ; TODO: RAM $7400
+    lda #.LOBYTE(starting_sram)
+    ldx #.HIBYTE(starting_sram)
     sta $64
     stx $65
     rts

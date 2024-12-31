@@ -446,7 +446,7 @@ SPAWNS_1F:
 
 intro:
     jsr BankswitchUpper_Bank19
-    jsr $9D60
+    jsr B20_1d60
     bcs_1:
     jsr B31_1d5e
     jsr B31_1d80
@@ -463,10 +463,11 @@ intro:
     lda #$3B
     ldx #$62
     jsr LoadPalette
+    B20_142C:
     ldx #$0C
-    jsr $9505
-    jsr $94D7
-    jsr $950E
+    jsr B20_1505
+    jsr B20_14d7
+    jsr B20_150e
     lda #$00
     sta $D6
     ldy $82
@@ -506,14 +507,14 @@ something_init:
     jsr rts_5
     jsr WriteProtectPRGRam
     jsr BankswitchUpper_Bank19
-    jsr $9A4D
+    jsr B20_1a4d
     bcs bcs_1
     jmp $BE57
 
 B20_1472:
-    jsr $94c0       ; 20 c0 94
+    jsr B20_14c0       ; 20 c0 94
 	bne B20_1489 ; d0 12
-	lda $7402       ; ad 02 74
+	lda save_slot       ; ad 02 74
 	jsr $bebb       ; 20 bb be
 	jsr EnablePRGRam    ; 20 e7 fd
 	ldy #$03        ; a0 03
@@ -521,23 +522,23 @@ B20_1472:
 	sta ($68), y    ; 91 68
 	jsr WriteProtectPRGRam  ; 20 ed fd
     B20_1489:
-    jmp $942c       ; 4c 2c 94
+    jmp B20_142C       ; 4c 2c 94
 
 B20_148c:
     sta $36         ; 85 36
 	ldx #$10        ; a2 10
-	jsr $9505       ; 20 05 95
+	jsr B20_1505       ; 20 05 95
 	lda $36         ; a5 36
 	sec             ; 38
 	rol a           ; 2a
 	asl a           ; 0a
 	tax             ; aa
-	jsr $950b       ; 20 0b 95
+	jsr B20_150b       ; 20 0b 95
 	bit $83         ; 24 83
 	bvs B20_14bd ; 70 1d
 	lda $82         ; a5 82
 	sta $37         ; 85 37
-	jsr $94c0       ; 20 c0 94
+	jsr B20_14c0       ; 20 c0 94
 	bcs B20_14ab ; b0 02
 	bne B20_14bd ; d0 12
     B20_14ab:
@@ -546,10 +547,11 @@ B20_148c:
 	jsr EnablePRGRam    ; 20 e7 fd
 	lda $37         ; a5 37
 	ora #$b0        ; 09 b0
-	sta $7402       ; 8d 02 74
+	sta save_slot       ; 8d 02 74
 	jsr $be57       ; 20 57 be
     B20_14bd:
-    jmp $942c       ; 4c 2c 94
+    jmp B20_142C       ; 4c 2c 94
+    B20_14c0:
 	jsr $be88       ; 20 88 be
 	sec             ; 38
 	bne B20_14d6 ; d0 10
@@ -557,7 +559,7 @@ B20_148c:
 	jsr $601e       ; 20 1e 60
 	jsr B30_067a       ; 20 7a c6
 	ldx #$0e        ; a2 0e
-	jsr $950b       ; 20 0b 95
+	jsr B20_150b       ; 20 0b 95
 	clc             ; 18
 	lda $82         ; a5 82
     B20_14d6:
@@ -580,7 +582,7 @@ B20_14d7:
 	lsr a           ; 4a
 	adc $37         ; 65 37
 	tax             ; aa
-	jsr $9505       ; 20 05 95
+	jsr B20_1505       ; 20 05 95
 	clc             ; 18
 	lda $37         ; a5 37
 	adc #$04        ; 69 04
@@ -596,6 +598,7 @@ B20_1505:
 
 B20_150b:
     jsr $6029       ; 20 29 60 ; $80 = $6085[x]
+B20_150e:
 	jsr B31_0f34       ; 20 34 ef
 	lda #$ff        ; a9 ff
 	jmp B31_10b0       ; 4c b0 f0
@@ -610,9 +613,10 @@ B20_1516:
 	bne B20_1538            ; d0 14
 	bit $a0                 ; 24 a0
 	bmi B20_1538            ; 30 10
-	jsr $95d3               ; 20 d3 95
+	jsr B20_15d3               ; 20 d3 95
 	ldx $15                 ; a6 15
 	lda AREA_ENCOUNTER_LIST, x         ; bd 93 95
+    B20_1530:
 	bne B20_1539            ; d0 07
 	sta $24                 ; 85 24
     B20_1534:
@@ -630,7 +634,7 @@ B20_1539:
 	lsr a           ; 4a
 	lsr a           ; 4a
 	jsr B31_00f2       ; 20 f2 e0
-	jmp $9530       ; 4c 30 95
+	jmp B20_1530       ; 4c 30 95
 
 B25_04a7 := $a4a7
 B20_1548:
@@ -835,12 +839,12 @@ B20_1630:
 	lda B20_16f1, x             ; bd f1 96
 	and #$0f                    ; 29 0f
 	sta $62                     ; 85 62
-	jsr $9685                   ; 20 85 96
+	jsr B20_1685                   ; 20 85 96
 	ldx $61                     ; a6 61
 	ldy $62                     ; a4 62
 	sty $61                     ; 84 61
 	stx $62                     ; 86 62
-	jsr $9685                   ; 20 85 96
+	jsr B20_1685                   ; 20 85 96
 	inc $60                     ; e6 60
 	bne B20_164d                ; d0 d8
     B20_1675:
@@ -867,7 +871,7 @@ B20_1685:
 	sec             ; 38
 	sbc $61         ; e5 61
 	sta $76         ; 85 76
-	jsr $96b8       ; 20 b8 96
+	jsr B20_16b8       ; 20 b8 96
 	lda #$0f        ; a9 0f
 	clc             ; 18
 	adc $62         ; 65 62
@@ -876,14 +880,15 @@ B20_1685:
 	lda #$1d        ; a9 1d
     B20_16a6:
     sta $77         ; 85 77
-	jsr $96b8       ; 20 b8 96
+	jsr B20_16b8       ; 20 b8 96
 	lda #$10        ; a9 10
 	clc             ; 18
 	adc $61         ; 65 61
 	sta $76         ; 85 76
-	jsr $96b8       ; 20 b8 96
+	jsr B20_16b8       ; 20 b8 96
 	pla             ; 68
 	sta $77         ; 85 77
+    B20_16b8:
 	lda $0401       ; ad 01 04
 	cmp #$14        ; c9 14
 	bcc B20_16cf ; 90 10
@@ -936,10 +941,10 @@ B20_1779:
     lda #$38        ; a9 38
 	jsr B31_0e21       ; 20 21 ee
 	lda #$05        ; a9 05
-	jsr $9920       ; 20 20 99
+	jsr B20_1920       ; 20 20 99
 	lda #<B20_19c2  ; a9 c2
 	ldx #>B20_19c2  ; a2 99
-	jsr $97d6       ; 20 d6 97
+	jsr B20_17d6       ; 20 d6 97
 	lda #$ff        ; a9 ff
 	jsr PlayMusic   ; 20 28 fd
 	ldx #180        ; a2 b4
@@ -953,24 +958,25 @@ B20_1779:
 
 B20_17a3:
     lda #$0e        ; a9 0e
-	jsr $9920       ; 20 20 99
+	jsr B20_1920       ; 20 20 99
 	lda #<B20_19d5  ; a9 d5
 	ldx #>B20_19d5  ; a2 99
-	jsr $97d6       ; 20 d6 97
+	jsr B20_17d6       ; 20 d6 97
 	lda #$ff        ; a9 ff
 	jsr PlayMusic   ; 20 28 fd
 	lda #<B20_19e0  ; a9 e0
 	ldx #>B20_19e0  ; a2 99
-	jsr $97d6       ; 20 d6 97
+	jsr B20_17d6       ; 20 d6 97
 	lda #$09        ; a9 09
 	sta $07f0       ; 8d f0 07
 	lda #$01        ; a9 01
 	sta $07f4       ; 8d f4 07
 	lda #<B20_19e9  ; a9 e9
 	ldx #>B20_19e9  ; a2 99
-	jsr $97d6       ; 20 d6 97
+	jsr B20_17d6       ; 20 d6 97
+
 	lda #$1a        ; a9 1a
-	ldx #$07        ; a2 07
+	ldx #BANK::PRGA000        ; a2 07
 	jsr BANK_SWAP    ; 20 d0 ff
 	jmp $a000       ; 4c 00 a0
 
@@ -1014,7 +1020,7 @@ B20_17d6:
     lsr a           ; 4a
     B20_1816:
     pha             ; 48
-	jsr $983d       ; 20 3d 98
+	jsr B20_183d       ; 20 3d 98
 	pla             ; 68
 	sec             ; 38
 	sbc #$01        ; e9 01
@@ -1044,20 +1050,20 @@ B20_183d:
     bit $6d         ; 24 6d
 	bpl B20_1877 ; 10 36
 	bvc B20_1859 ; 50 16
-	jsr $9878       ; 20 78 98
+	jsr B20_1878       ; 20 78 98
 	bne B20_1851 ; d0 09
 	dex             ; ca
 	cpx #$05        ; e0 05
 	bcc B20_1877 ; 90 2a
 	txa             ; 8a
-	jsr $9883       ; 20 83 98
+	jsr B20_1883       ; 20 83 98
     B20_1851:
     sec             ; 38
 	lda scroll_x    ; a5 fc
 	sbc #$01        ; e9 01
-	jmp $9871       ; 4c 71 98
+	jmp B20_1871       ; 4c 71 98
     B20_1859:
-    jsr $9878       ; 20 78 98
+    jsr B20_1878       ; 20 78 98
 	eor #$0f        ; 49 0f
 	bne B20_186c ; d0 0c
 	inx             ; e8
@@ -1066,29 +1072,37 @@ B20_183d:
 	txa             ; 8a
 	clc             ; 18
 	adc #$0a        ; 69 0a
-	jsr $9883       ; 20 83 98
+	jsr B20_1883       ; 20 83 98
     B20_186c:
     clc             ; 18
 	lda scroll_x    ; a5 fc
 	adc #$11        ; 69 11
+    B20_1871:
 	bcs B20_1875 ; b0 02
 	sbc #$0f        ; e9 0f
     B20_1875:
     sta scroll_x    ; 85 fc
     B20_1877:
     rts             ; 60
+
+B20_1878:
 	jsr PpuSync     ; 20 33 fd
 	ldx $6a         ; a6 6a
 	clc             ; 18
 	lda scroll_x    ; a5 fc
 	and #$0f        ; 29 0f
 	rts             ; 60
+
+B20_1883:
 	stx $6a         ; 86 6a
-	jsr $988d       ; 20 8d 98
+	jsr B20_188d       ; 20 8d 98
 	lda #$80        ; a9 80
 	sta $e5         ; 85 e5
 	rts             ; 60
+
+B20_188d:
 	ldx #$24        ; a2 24
+	B20_188f:
 	stx $62         ; 86 62
 	ldx #$00        ; a2 00
     B20_1893:
@@ -1147,14 +1161,14 @@ B20_183d:
 	ldy #$3f        ; a0 3f
     B20_18f9:
     lda ($60), y    ; b1 60
-	jsr $9919       ; 20 19 99
+	jsr B20_1919       ; 20 19 99
 	sta $0404, y    ; 99 04 04
 	dey             ; 88
 	bpl B20_18f9 ; 10 f5
 	ldy #$07        ; a0 07
     B20_1906:
     lda ($64), y    ; b1 64
-	jsr $9919       ; 20 19 99
+	jsr B20_1919       ; 20 19 99
 	sta $0448, y    ; 99 48 04
 	dey             ; 88
 	bpl B20_1906 ; 10 f5
@@ -1162,6 +1176,8 @@ B20_183d:
 	sta $0450       ; 8d 50 04
 	sta $e6         ; 85 e6
 	rts             ; 60
+
+B20_1919:
 	cpx #$04        ; e0 04
 	bcc B20_191f ; 90 02
 	lda #$00        ; a9 00
@@ -1172,7 +1188,7 @@ B20_1920:
     sta $6a         ; 85 6a
 	lda #$0b        ; a9 0b
 	jsr PlayMusic   ; 20 28 fd
-	jsr $99a3       ; 20 a3 99
+	jsr B20_19a3       ; 20 a3 99
 	jsr SetScroll   ; 20 cc ee
 	jsr B31_1d5e       ; 20 5e fd
 	jsr PpuSync     ; 20 33 fd
@@ -1188,7 +1204,7 @@ B20_1920:
 	stx $61         ; 86 61
 	jsr B31_0087       ; 20 87 e0
 	lda #$54        ; a9 54
-	jsr $99ad       ; 20 ad 99
+	jsr B20_19ad       ; 20 ad 99
 	lda #<B20_19f9  ; a9 f9
 	ldx #>B20_19f9  ; a2 99
 	jsr BankswitchCHRFromTable  ; 20 e8 ce
@@ -1199,14 +1215,14 @@ B20_1920:
     tya             ; 98
 	pha             ; 48
 	ldx #$20        ; a2 20
-	jsr $988f       ; 20 8f 98
+	jsr B20_188f       ; 20 8f 98
 	lda #$80        ; a9 80
 	sta $e5         ; 85 e5
 	pla             ; 68
 	tay             ; a8
 	dey             ; 88
 	bpl B20_195b ; 10 f0
-	jsr $998b       ; 20 8b 99
+	jsr B20_198b       ; 20 8b 99
 	ldx #$03        ; a2 03
     B20_1970:
     lda B20_1a09, x ; bd 09 9a
@@ -1222,12 +1238,14 @@ B20_1920:
 	dex             ; ca
 	bpl B20_197f ; 10 f7
 	jmp B31_0e30       ; 4c 30 ee
+
+B20_198b:
 	clc             ; 18
 	lda $6a         ; a5 6a
 	adc #$0b        ; 69 0b
     B20_1990:
     pha             ; 48
-	jsr $988d       ; 20 8d 98
+	jsr B20_188d ; 20 8d 98
 	lda #$80        ; a9 80
 	sta $e5         ; 85 e5
 	pla             ; 68
@@ -1342,49 +1360,51 @@ B20_1a3d:
     .byte $00, $00, $c4, $99
 
 B20_1a4d:
-    jsr $9b2a       ; 20 2a 9b
+    jsr B20_1B2A       ; 20 2a 9b
     B20_1a50:
     lda #$06        ; a9 06
 	sta $56         ; 85 56
-	lda #$ca        ; a9 ca
-	ldx #$62        ; a2 62
-	jsr $9b7d       ; 20 7d 9b
+
+	lda #.LOBYTE(B25_1aca)        ; a9 ca
+	ldx #.HIBYTE(B25_1aca)        ; a2 62
+	jsr B20_1B7D       ; 20 7d 9b
+
 	bcs B20_1ad4 ; b0 77
     B20_1a5d:
     lda #$06        ; a9 06
 	sta $56         ; 85 56
 	lda #$d0        ; a9 d0
 	ldx #$62        ; a2 62
-	jsr $9b7d       ; 20 7d 9b
+	jsr B20_1B7D       ; 20 7d 9b
 	bcs B20_1a50 ; b0 e6
     B20_1a6a:
     lda #$06        ; a9 06
 	sta $56         ; 85 56
 	lda #$d6        ; a9 d6
 	ldx #$62        ; a2 62
-	jsr $9b7d       ; 20 7d 9b
+	jsr B20_1B7D       ; 20 7d 9b
 	bcs B20_1a5d ; b0 e6
     B20_1a77:
     lda #$06        ; a9 06
 	sta $56         ; 85 56
 	lda #$dc        ; a9 dc
 	ldx #$62        ; a2 62
-	jsr $9b7d       ; 20 7d 9b
+	jsr B20_1B7D       ; 20 7d 9b
 	bcs B20_1a6a ; b0 e6
 	lda #$0a        ; a9 0a
 	sta $56         ; 85 56
 	lda #$e2        ; a9 e2
 	ldx #$62        ; a2 62
-	jsr $9b7d       ; 20 7d 9b
+	jsr B20_1B7D       ; 20 7d 9b
 	bcs B20_1a77 ; b0 e6
-	jsr $9d50       ; 20 50 9d
-	jsr $9ad5       ; 20 d5 9a
+	jsr B20_1d50       ; 20 50 9d
+	jsr B20_1ad5       ; 20 d5 9a
 	jsr B31_0e30       ; 20 30 ee
-	jsr $9b00       ; 20 00 9b
+	jsr B20_1b00       ; 20 00 9b
 	bcc B20_1aa2 ; 90 03
-	jmp $9a4d       ; 4c 4d 9a
+	jmp B20_1a4d       ; 4c 4d 9a
     B20_1aa2:
-    jsr $9d50       ; 20 50 9d
+    jsr B20_1d50       ; 20 50 9d
 	ldx #60         ; a2 3c
 	jsr WaitXFrames ; 20 5e f2
 	jsr B31_0e30       ; 20 30 ee
@@ -1406,20 +1426,22 @@ B20_1a4d:
     ldy #.HIBYTE(IntroText2)
 
 B20_1ad0:
-    jsr $9b13       ; 20 13 9b
+    jsr do_story_print       ; 20 13 9b
 	clc             ; 18
     B20_1ad4:
     rts             ; 60
+
+B20_1ad5:
 	lda #$8b        ; a9 8b
 	ldx #$6c        ; a2 6c
-	jsr $9af9       ; 20 f9 9a
+	jsr B20_1af9       ; 20 f9 9a
 	lda #$c0        ; a9 c0
 	ldx #$6c        ; a2 6c
-	jsr $9af9       ; 20 f9 9a
+	jsr B20_1af9       ; 20 f9 9a
 	jsr $6286       ; 20 86 62
 	ldy #$00        ; a0 00
     B20_1ae8:
-    jsr $9af3       ; 20 f3 9a
+    jsr B20_1af3       ; 20 f3 9a
 	jsr $629b       ; 20 9b 62
 	cmp #$20        ; c9 20
 	bne B20_1ae8 ; d0 f6
@@ -1460,16 +1482,16 @@ do_story_print:
     cmp #0
     bne @loop
     jsr WaitABPressed
-    jmp $9D50
+    jmp B20_1d50
 
 B20_1B2A:
-    jsr $9d50       ; 20 50 9d
+    jsr B20_1d50       ; 20 50 9d
 	jsr ResetScroll ; 20 c8 ee
 	lda #$2d        ; a9 2d
 	ldx #$6c        ; a2 6c
-	jsr $9af9       ; 20 f9 9a
-	jsr $9b40       ; 20 40 9b
-	jsr $9b76       ; 20 76 9b
+	jsr B20_1af9       ; 20 f9 9a
+	jsr B20_1B40       ; 20 40 9b
+	jsr B20_1B76       ; 20 76 9b
 	jmp B31_0e30       ; 4c 30 ee
 
 B20_1B40:
@@ -1501,19 +1523,24 @@ B20_1B40:
 	bne B20_1b4e ; d0 df
 	lda #$66        ; a9 66
 	ldx #$6c        ; a2 6c
-	jmp $9af9       ; 4c f9 9a
+	jmp B20_1af9       ; 4c f9 9a
 
 B20_1B76:
 	lda #$00        ; a9 00
 	ldx #$6c        ; a2 6c
-	jmp $9af9       ; 4c f9 9a
+	jmp B20_1af9       ; 4c f9 9a
 
+CurrentName := $0580
+Menu_Question_Addr = $5C ;2 bytes
+Current_Name_Addr = $60 ;2 bytes, taken from ^
 B20_1B7D:
-	sta $5c         ; 85 5c
-	stx $5d         ; 86 5d
+	;takes an address and assigns it to $5d$5c
+	sta Menu_Question_Addr         ; 85 5c
+	stx Menu_Question_Addr+1         ; 86 5d
+
 	ldy #$00        ; a0 00
-	jsr $9bed       ; 20 ed 9b
-	ora $60         ; 05 60
+	jsr B20_1bed       ; 20 ed 9b
+	ora Current_Name_Addr         ; 05 60
 	beq B20_1b9b ; f0 11
 	lda #$22        ; a9 22
 	sta $62         ; 85 62
@@ -1522,41 +1549,48 @@ B20_1B7D:
 	lda #$80        ; a9 80
 	sta $64         ; 85 64
 	ldy #$00        ; a0 00
-	jsr $9af3       ; 20 f3 9a
+	jsr B20_1af3       ; 20 f3 9a
     B20_1b9b:
-    jsr $9bf7       ; 20 f7 9b
+    jsr B20_1bf7       ; 20 f7 9b
 	lda #$24        ; a9 24
 	ldx #$6c        ; a2 6c
-	jsr $9af9       ; 20 f9 9a
+	jsr B20_1af9       ; 20 f9 9a
 	ldy #$04        ; a0 04
-	jsr $9bed       ; 20 ed 9b
+	jsr B20_1bed       ; 20 ed 9b
 	ldy $56         ; a4 56
 	lda #$00        ; a9 00
 	sta $70         ; 85 70
 	sta $0581, y    ; 99 81 05
 	sty $55         ; 84 55
     B20_1bb5:
-    lda ($60), y    ; b1 60
+    lda (Current_Name_Addr), y    ; b1 60
 	bne B20_1bbd ; d0 04
 	sty $55         ; 84 55
 	lda #$a2        ; a9 a2
     B20_1bbd:
-    sta $0580, y    ; 99 80 05
+    sta CurrentName, y    ; 99 80 05
 	dey             ; 88
 	bpl B20_1bb5 ; 10 f2
-	jsr $9c1c       ; 20 1c 9c
+	jsr B20_1C1C       ; 20 1c 9c
 	bcs B20_1be8 ; b0 20
 	ldy #$04        ; a0 04
-	jsr $9bed       ; 20 ed 9b
+	;get name pointer
+	jsr B20_1bed       ; 20 ed 9b
 	jsr EnablePRGRam    ; 20 e7 fd
+	;put current cursor to y
 	ldy $56         ; a4 56
     B20_1bd2:
-    lda $0580, y    ; b9 80 05
+	;get stored character at y
+    lda CurrentName, y    ; b9 80 05
+	;check for "?" (blank)
 	cmp #$a2        ; c9 a2
 	bne B20_1bdb ; d0 02
-	lda #$00        ; a9 00
+	;if blank, set to 0
+	lda #0        ; a9 00
     B20_1bdb:
-    sta ($60), y    ; 91 60
+	;store in sram
+	;$61$60 == name pointer
+    sta (Current_Name_Addr), y    ; 91 60
 	dey             ; 88
 	bpl B20_1bd2 ; 10 f2
 	jsr WriteProtectPRGRam  ; 20 ed fd
@@ -1569,20 +1603,22 @@ B20_1be8:
 	sec             ; 38
 	rts             ; 60
 
+;sets $60 and $61 to a name pointer
 B20_1bed:
-	lda ($5c), y    ; b1 5c
-	sta $60         ; 85 60
+	lda (Menu_Question_Addr), y    ; b1 5c
+	sta Current_Name_Addr         ; 85 60
 	iny             ; c8
-	lda ($5c), y    ; b1 5c
-	sta $61         ; 85 61
+	lda (Menu_Question_Addr), y    ; b1 5c
+	sta Current_Name_Addr+1         ; 85 61
 	rts             ; 60
 
 B20_1bf7:
-	jsr $9b76       ; 20 76 9b
+	jsr B20_1B76       ; 20 76 9b
 	ldx #$08        ; a2 08
 	jsr WaitXFrames ; 20 5e f2
 	ldy #$02        ; a0 02
-	jsr $9bed       ; 20 ed 9b
+	jsr B20_1bed       ; 20 ed 9b
+	B20_1c04:
 	lda $60         ; a5 60
 	sta $74         ; 85 74
 	lda $61         ; a5 61
@@ -1598,30 +1634,34 @@ B20_1bf7:
 	rts             ; 60
 
 B20_1C1C:
-	jsr $9d0a       ; 20 0a 9d
+	jsr B20_1d0a       ; 20 0a 9d
     lda #.LOBYTE(gridWidth)
     ldx #.HIBYTE(gridWidth)
     sta $80
     stx $81
+
     lda #.LOBYTE(NameCharacters)
     ldx #.HIBYTE(NameCharacters)
     sta $84
     stx $85
+
     lda #$01        ; a9 01
 	sta $d6         ; 85 d6
+	B20_1C33:
 	jsr B31_0f3f       ; 20 3f ef
-	jmp $9c3f       ; 4c 3f 9c
+	jmp B20_1C3f       ; 4c 3f 9c
 
 B20_1C39:
-	jsr $9d0a       ; 20 0a 9d
+	jsr B20_1d0a       ; 20 0a 9d
 	jsr B31_0f7c       ; 20 7c ef
+	B20_1C3f:
 	bit $83         ; 24 83
 	bvs B20_1c70 ; 70 2d
 	bmi B20_1c4e ; 30 09
 	lda $83         ; a5 83
 	and #$10        ; 29 10
 	bne NAME_CHECK ; d0 40
-	jmp $9c33       ; 4c 33 9c
+	jmp B20_1C33       ; 4c 33 9c
 
 B20_1c4e:
     ldx $82 ; cursor (x*width)+y value
@@ -1633,13 +1673,13 @@ B20_1c4e:
 	cmp #$a3        ; c9 a3
 	beq B20_1c6e ; f0 0f
 	ldx $55         ; a6 55
-	sta $0580, x    ; 9d 80 05
+	sta CurrentName, x    ; 9d 80 05
 	cpx $56         ; e4 56
 	beq B20_1c6b ; f0 03
 	inx             ; e8
 	stx $55         ; 86 55
     B20_1c6b:
-    jmp $9c39       ; 4c 39 9c
+    jmp B20_1C39       ; 4c 39 9c
 
 B20_1c6e:
     sec             ; 38
@@ -1650,19 +1690,18 @@ B20_1c70:
 	ldx $55         ; a6 55
 	cpx $56         ; e4 56
 	bne B20_1c7d ; d0 05
-	cmp $0580, x    ; dd 80 05
+	cmp CurrentName, x    ; dd 80 05
 	bne B20_1c85 ; d0 08
     B20_1c7d:
-    sta $0580, x    ; 9d 80 05
+    sta CurrentName, x    ; 9d 80 05
 	dex             ; ca
 	bmi B20_1c88 ; 30 05
 	stx $55         ; 86 55
     B20_1c85:
-    sta $0580, x    ; 9d 80 05
+    sta CurrentName, x    ; 9d 80 05
     B20_1c88:
-    jmp $9c39       ; 4c 39 9c
+    jmp B20_1C39       ; 4c 39 9c
 
-CurrentName := $0580
 NAME_CHECK:
     ;ram - amount of characters/char index
 	ldy $55
@@ -1723,13 +1762,13 @@ NAME_CHECK:
 
 B20_1ccf:
     jsr B31_1465       ; 20 65 f4
-	jsr $9b76       ; 20 76 9b
+	jsr B20_1B76       ; 20 76 9b
 	lda #$7f        ; a9 7f
 	ldx #$63        ; a2 63
 	sta $60         ; 85 60
 	stx $61         ; 86 61
-	jsr $9c04       ; 20 04 9c
-	lda $0580       ; ad 80 05
+	jsr B20_1c04       ; 20 04 9c
+	lda CurrentName       ; ad 80 05
 	cmp #$a0        ; c9 a0
 	beq B20_1cfe ; f0 17
 	lda #$98        ; a9 98
@@ -1746,10 +1785,10 @@ B20_1ccf:
 	bne B20_1cf7 ; d0 f9
     B20_1cfe:
     jsr WaitABPressed   ; 20 9e f2
-	jsr $9b40       ; 20 40 9b
-	jsr $9bf7       ; 20 f7 9b
+	jsr B20_1B40       ; 20 40 9b
+	jsr B20_1bf7       ; 20 f7 9b
     B20_1d07:
-    jmp $9c1c       ; 4c 1c 9c
+    jmp B20_1C1C       ; 4c 1c 9c
 
 B20_1d0a:
     lda $76         ; a5 76
@@ -1830,13 +1869,13 @@ B20_1d60:
 	jsr B31_1732       ; 20 32 f7
 	lda #<B20_1ec4  ; a9 c4
 	ldx #>B20_1ec4  ; a2 9e
-	jsr $9e2c       ; 20 2c 9e
+	jsr B20_1e2c       ; 20 2c 9e
 	ldx #<B20_1eaf  ; a2 af
 	ldy #>B20_1eaf  ; a0 9e
 	jsr B31_1732       ; 20 32 f7
 	lda #<B20_1eea  ; a9 ea
 	ldx #>B20_1eea  ; a2 9e
-	jsr $9e2c       ; 20 2c 9e
+	jsr B20_1e2c       ; 20 2c 9e
 	lda #<B20_1e8f  ; a9 8f
 	sta $60         ; 85 60
 	lda #>B20_1e8f  ; a9 9e
@@ -1848,7 +1887,7 @@ B20_1d60:
 	jsr BankswitchCHRFromTable  ; 20 e8 ce
 	lda #<B20_1f18  ; a9 18
 	ldx #>B20_1f18  ; a2 9f
-	jsr $9e44       ; 20 44 9e
+	jsr B20_1e44       ; 20 44 9e
 	lda #$00        ; a9 00
 	sta $60         ; 85 60
 	lda #$10        ; a9 10
@@ -1900,14 +1939,14 @@ B20_1d60:
 	rts             ; 60
 
 B20_1e2c:
-    jsr $9e44       ; 20 44 9e
+    jsr B20_1e44       ; 20 44 9e
 	ldx #$ff        ; a2 ff
-	jsr $9e54       ; 20 54 9e
+	jsr B20_1e54       ; 20 54 9e
 	ldx #$40        ; a2 40
-	jsr $9e54       ; 20 54 9e
+	jsr B20_1e54       ; 20 54 9e
 	jsr B31_0ddc       ; 20 dc ed
 	ldx #$40        ; a2 40
-	jsr $9e54       ; 20 54 9e
+	jsr B20_1e54       ; 20 54 9e
 	jmp B31_1d80       ; 4c 80 fd
 
 B20_1e44:

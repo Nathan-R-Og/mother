@@ -3,7 +3,7 @@
 
 OBJ_BANK_POINTERS2:
 .word OBJ_BANK_1A
-.word $8208
+.word OBJ_BANK_1B
 .word $860C
 .word $86D1
 .word $8795
@@ -23,10 +23,8 @@ OBJ_BANK_POINTERS2:
 
 ;twinkle elementary
 .include "../../global/objects/2/bank1a.asm"
+;general home/heal stuff
+.include "../../global/objects/2/bank1b.asm"
 
-incbinRange "../../split/jp/objbank_2.bin", $208, $322
-;this is the actual object btw
-.word UMSG::MYHOME_MINNIE_INVASION
-.byte 0
-.incbin "../../split/jp/objbank_2.bin", $325
+.incbin "../../split/jp/objbank_2.bin", $60c
 

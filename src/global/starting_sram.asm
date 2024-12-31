@@ -3,31 +3,45 @@
 
 .include "../fontmap.asm"
 
-;checksum
+starting_sram:
+save_checksum:
 .byte $00,$00
-;slot number
+save_slot:
 .byte $B0+0
-;slot state
+save_slot_state:
 .byte $E9
-;position
-.word $852,$2F84
-;party members
-.byte $01,$00,$00,$00
-;last save position
-.word $852,$2F86
-;cash
+xpos_music:
+.word ($21 << 6) | $12
+ypos_direction:
+.word ($BE << 6) | DIRECTIONS::DOWN
+party_members:
+.byte 1,0,0,0
+save_coordinates: ;_x:
+.word ($21 << 6) | $12
+save_coordinates_y:
+.word ($BE << 6) | DIRECTIONS::LEFT
+wallet_money: ;cash (on hand)
 .word 0
-;?
-.byte $00,$00,$00,$00,$00,$00
+bank_money: ;cash (atm)
+.faraddr 0
+dad_money: ;cash (since last call)
+.faraddr 0
 
+battle_message_speed:
 .ifdef VER_JP
-.byte $19
+.byte 25
 .else
-.byte $21
+.byte 33
 .endif
 
-.byte $00,$00,$6B,$84,$1C,$42,$1E
+.byte $00,$00,$6B,$84,$1C
 
+;flags? higher nybble is used for the train blockage graphics, at least
+.byte $42
+big_bag_uses:
+.byte 30
+
+player_name:
 ;player name. a whopping 17 characters!!!!! wow!!!
 .ifdef VER_JP
 .byte "NO NAME"
@@ -35,10 +49,12 @@
 .byte "......."
 .endif
 .byte 0,0,0,0,0,0,0,0,0,0
+player_name_end:
 
 ;?
 .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
+save_ram_unk:
 .ifdef VER_JP
 .byte 0,0,0,0
 .else

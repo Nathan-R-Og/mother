@@ -263,12 +263,28 @@ B25_1ab5:
 	sta $63         ; 85 63
 	rts             ; 60
 
-;idk lol
+;character name stuff
 B25_1aca:
-    .byte $10,$80,$03,$63,$78,$74,$30,$80
-    .byte $1c,$63,$b8,$74,$50,$80,$36,$63
-    .byte $f8,$74,$70,$80,$4d,$63,$38,$75
-    .byte $00,$00,$63,$63,$89,$76
+    ;ninten
+    .word $8010
+    .word NintenQuestion
+    .word ninten_name
+    ;ana
+    .word $8030
+    .word AnaQuestion
+    .word ana_name
+    ;lloyd
+    .word $8050
+    .word LloydQuestion
+    .word lloyd_name
+    ;teddy
+    .word $8070
+    .word TeddyQuestion
+    .word teddy_name
+    ;food
+    .word 0
+    .word FoodQuestion
+    .word fav_food
 
 ;$80 == letterSetup and $84 == NameCharacters
 letterSetup:

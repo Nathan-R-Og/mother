@@ -1,6 +1,6 @@
 ;this helps us even use quotes in the first place.
 ;if a better method if found (escapes dont work), deprecate this.
-.FEATURE loose_string_term
+.feature loose_string_term
 
 .charmap $41, $C1 ;A == $C1
 .charmap $42, $C2 ;B == $C2

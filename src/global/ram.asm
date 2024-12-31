@@ -268,19 +268,19 @@ object_memory  = $6780
 ; EACH SAVED GAME TAKES 0x0300 BYTES
 ; SAVED GAMES ARE STORED AT $7700, $7A00 and $7D00
 
-save_slot            = $7402 ; TODO: CONFIRM AND LABEL
-xpos_music           = $7404 ; xxxxxxxx.xxmmmmmm (x=xpos;m=music)
-ypos_direction       = $7406 ; yyyyyyyy.yydddddd (y=ypos;d=direction)
-party_members        = $7408 ; Array of party members (4 bytes)
-save_coordinates     = $740C ; Saved game coordinates (copied from $7404, 4 bytes)
-wallet_money         = $7410 ; Wallet money (2 bytes)
-bank_money           = $7412 ; Bank money (3 bytes)
-dad_money            = $7415 ; Money earned since last Dad call
-battle_message_speed = $7418
+;save_slot            = $7402 ; TODO: CONFIRM AND LABEL
+;xpos_music           = $7404 ; xxxxxxxx.xxmmmmmm (x=xpos;m=music)
+;ypos_direction       = $7406 ; yyyyyyyy.yydddddd (y=ypos;d=direction)
+;party_members        = $7408 ; Array of party members (4 bytes)
+;save_coordinates     = $740C ; Saved game coordinates (copied from $7404, 4 bytes)
+;wallet_money         = $7410 ; Wallet money (2 bytes)
+;bank_money           = $7412 ; Bank money (3 bytes)
+;dad_money            = $7415 ; Money earned since last Dad call
+;battle_message_speed = $7418
 
-big_bag_uses         = $741F
+;big_bag_uses         = $741F
 
-party_data           = $7440
+;party_data           = $7440
 ; $7440 -> Party member data
 ; STRUCT FORMAT (64 bytes):
 ;  00 -> ???
@@ -303,13 +303,13 @@ party_data           = $7440
 ;
 ;  20 -> Inventory (8 bytes)
 ;  28 -> Equipment (4 bytes)
-;  2C -> Breadcrumbs coordinates (copied from $7404, 4 bytes)
+;  2C -> Breadcrumbs coordinates (copied from $740C, 4 bytes)
 ;  30 -> PSI Learned (--t----- => t=teleportation)
 ;
 ;  38 -> Name (8 bytes)
 
 event_flags      = $7600
-learned_melodies = event_flags+30
+learned_melodies = event_flags+$1e
 ; $7620[64] = UNKNOWN BITFLAGS
 
 ;;;; TODO: COUNTERS
@@ -323,8 +323,11 @@ learned_melodies = event_flags+30
 ;;;; TODO: COUNTERS
 script_counters  = $7660
 
+;may not be entirely accurate
+confiscated_weapon = $7680
 ; $7680 -> Labeled as "Weapon" in Normmatt's decomp
 
+fav_food = $7689
 ; $7689 -> Favorite Food name
 
 item_storage = $76B0

@@ -1,5 +1,6 @@
 .segment        "CHR16": absolute
 
+MSG_HEALER_SOFTEN_FAIL:
 .byte   "*You have not been",newLine
 .byte   " turned to stone.",newLine
 .byte   stopText
@@ -195,6 +196,7 @@ MSG_ELLAY_BBGANG1_TEDDY2:
 .byte   " back fast!",newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_CANT:
 .byte   "*No, no. I can't",newLine
 .byte   " keep ",item,newLine
 .byte   " with me.",newLine
@@ -679,9 +681,11 @@ MSG_PODUNK_PIPPI_NOGOODS:
 .byte   " come again.",newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE:
 .byte   "*I am Minnie.",newLine
 .byte   stopText
 
+MSG_HEALER_MENU:
 .byte   "  Refresh  Soften"
 .byte   stopText
 
@@ -764,6 +768,7 @@ MSG_MERRYSVILLE_SWEETSSIGN:
 .byte   " Please help me!",newLine
 .byte   stopText
 
+MSG_SNOWMAN_PHONE_CHECK:
 .byte   "*Are you sure that",newLine
 .byte   " it is spelled",newLine
 .byte   " correctly?",newLine

@@ -1,5 +1,6 @@
 .segment        "CHR14": absolute
 
+MSG_MYHOME_INVASION:
 .byte   "*The phenomenon has",newLine
 .byte   " stopped.",newLine
 .byte   " For the moment...",newLine
@@ -100,6 +101,7 @@ MSG_ELLAY_LHBOUNCERGIRL:
 .byte   " for you?",newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_STASH:
 .byte   "*Yes, I will keep",newLine
 .byte   " ",item," with",newLine
 .byte   " utmost care.",newLine
@@ -108,11 +110,13 @@ MSG_ELLAY_LHBOUNCERGIRL:
 .byte   " want me to keep?",newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_BYE:
 .byte   "*See you later, and",newLine
 .byte   " brother...",newLine
 .byte   " You take care!",newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_TAKE:
 .byte   "*You want to take",newLine
 .byte   " ",item,"?",newLine
 .byte   pauseText
@@ -139,6 +143,7 @@ MSG_ELLAY_LHBOUNCERGIRL:
 .byte   " anything more.",newLine
 .byte   stopText
 
+MSG_HEALER_BROKE:
 .byte   "*Oh?  You don't",newLine
 .byte   " seem to have",newLine
 .byte   " enough money.",newLine
@@ -206,6 +211,7 @@ MSG_YUCCA_PILOT_CHOOSEPLAN:
 .byte   " would you like?",newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHGUY_DENTURES2:
 .byte   "*I can't talk very",newLine
 .byte   " well without my",newLine
 .byte   " Dentures.",newLine
@@ -247,6 +253,7 @@ MSG_MERRYSVILLE_PASSTRIGGER2:
 .byte   " the Pass.",newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHKID_NOMONEY:
 .byte   "*Hmm...",newLine
 .byte   " You don't have",newLine
 .byte   " enough money.",newLine
@@ -378,6 +385,7 @@ MSG_CANARY_LAURA:
 .byte   " come again!",newLine
 .byte   stopText
 
+MSG_SWAMP_HOUSEPIPPI_MORNING:
 .byte   "*Good morning!",newLine
 .byte   stopText
 
@@ -545,6 +553,7 @@ MSG_CANARY_LAURA:
 .byte   " have come here.",newLine
 .byte   stopText
 
+MSG_MYHOME_MIMMIE_INVASION2:
 .byte   "*Help me!",newLine
 .byte   stopText
 
@@ -791,6 +800,7 @@ MSG_ELLAY_LHBOUNCERGIRL2:
 .byte   " this place.",newLine
 .byte   stopText
 
+MSG_SWAMP_HOUSEPIPPI:
 .byte   "*It's me Pippi!",newLine
 .byte   " We meet once more",newLine
 .byte   " ",partyLead,"!",newLine

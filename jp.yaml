@@ -123,6 +123,7 @@ splits:
     - bank: 0x1D
       splits:
       - [0]
+      - [0x1db2] #padding
       - [0x1E00, starting_sram]
       - [0x1E40, starting_characters]
     - bank: 0x1E

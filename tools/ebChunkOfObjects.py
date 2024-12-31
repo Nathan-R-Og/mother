@@ -1,6 +1,6 @@
 file = "src/jp/prg/bank11.asm"
 lines = open(file, "r").readlines()
-bank = "OBJ_BANK_1A"
+bank = "OBJ_BANK_1B"
 i = 0
 pointers = []
 reading = False
@@ -28,7 +28,7 @@ while i < len(lines):
             fix = "0"+fix
         pointers.append(fix)
     i += 1
-binaryFile = file.replace("src","split").replace(".asm",".bin")
+binaryFile = "split/jp/objbank_2.bin"
 bytes = open(binaryFile, "rb").read()
 pointerDatas = []
 i = 0

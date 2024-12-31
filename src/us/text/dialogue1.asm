@@ -42,6 +42,7 @@ MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 .byte   " inside the doll.",newLine
 .byte   stopText
 
+MSG_MYHOME_MIMMIE:
 .byte   "*No, I'm Mimmie,",newLine
 .byte   " don't confuse me",newLine
 .byte   " with Minnie.",newLine
@@ -88,6 +89,7 @@ MSG_MYHOME_MOM_EAT:
 .byte   " back here.",newLine
 .byte   stopText
 
+MSG_MYHOME_PHONE:
 .byte   "*Well...",newLine
 .byte   " It seems like a",newLine
 .byte   " poltergeist.",newLine

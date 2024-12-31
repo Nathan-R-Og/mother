@@ -162,6 +162,7 @@ kanjifix "また ごりようください。"
 .byte   newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHKID_NOTAKE:
 kanjifix "*おや やめるんですか?"
 .byte   newLine
 kanjifix "では またきてくださいね。"
@@ -212,6 +213,7 @@ kanjifix "*はい すっかりよくなったよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_HEALER:
 kanjifix "*しんじようが しんじまいが"
 .byte   newLine
 kanjifix "わたしは ヒ-ラ-。"
@@ -220,10 +222,12 @@ kanjifix "どうしたい?"
 .byte   newLine
 .byte   stopText
 
+MSG_HEALER_NO:
 kanjifix "*おお そうか。 そうしなさい。"
 .byte   newLine
 .byte   stopText
 
+MSG_HEALER_PRICE:
 kanjifix "*"
 .byte   price
 kanjifix "ドル"
@@ -331,20 +335,24 @@ kanjifix "なにもなかった。"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE:
 kanjifix "  あずける   もちだす"
 .byte   stopText
 
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_INVNOTHING:
 kanjifix "*なにももってないじゃない。"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_NOTHING:
 kanjifix "*なにも あずかってないわよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_FULL:
 kanjifix "*ちょっとまって‥‥‥"
 .byte   newLine
 .byte   pauseText
@@ -382,6 +390,7 @@ kanjifix "*アリガトウ ゴザイマシタ"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_DOLL:
 kanjifix "*にんぎょうの なかには"
 .byte   newLine
 kanjifix "ふるい オルゴ-ルが"
@@ -512,6 +521,7 @@ kanjifix "よろしいとおもいます。"
 .byte   newLine
 .byte   stopText
 
+MSG_HEALER_FIXED:
 kanjifix "*っはい! もうなおってる。"
 .byte   newLine
 kanjifix "すごいでしょ。"
@@ -629,6 +639,7 @@ kanjifix "*だれが どくに やられたんだね?"
 .byte   newLine
 .byte   stopText
 
+MSG_HEALER_WHO:
 kanjifix "*だれを やわらかくしようかね‥‥?"
 .byte   newLine
 .byte   stopText
@@ -637,6 +648,7 @@ kanjifix "*どくなんか ない!"
 .byte   newLine
 .byte   stopText
 
+MSG_HEALER_SOFTEN_FAIL:
 kanjifix "*かたくなって ないじゃないか。"
 .byte   newLine
 .byte   stopText
@@ -859,6 +871,7 @@ kanjifix "カムバックさせてくれよう!"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_CANT:
 kanjifix "*あ だめだめ。"
 .byte   newLine
 .byte   item
@@ -1475,10 +1488,13 @@ kanjifix "でも また あいにきてね。"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE:
 kanjifix "*わたし ミニ-よ。"
 .byte   newLine
 .byte   stopText
 
+
+MSG_HEALER_MENU:
 kanjifix "  きをいれる  やわらかくする"
 .byte   stopText
 
@@ -1592,6 +1608,7 @@ kanjifix "*なんとかしてくれ!"
 .byte   newLine
 .byte   stopText
 
+MSG_SNOWMAN_PHONE_CHECK:
 kanjifix "*スペルの まちがいは ないですね?"
 .byte   newLine
 .byte   stopText

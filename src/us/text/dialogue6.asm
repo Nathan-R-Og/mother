@@ -532,6 +532,7 @@ MSG_ELLAY_FISHERGUY:
 .byte   " visit us again.",newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHKID_NOTAKE:
 .byte   "*Are you sure you",newLine
 .byte   " don't need that?",newLine
 .byte   " Well, come again.",newLine
@@ -568,15 +569,18 @@ MSG_PODUNK_HOSPITALDOCTOR_ACCEPT:
 .byte   " once again.",newLine
 .byte   stopText
 
+MSG_HEALER_INTRO:
 .byte   "*Believe it or not,",newLine
 .byte   " I am a Healer.",newLine
 .byte   " What do you want?",newLine
 .byte   stopText
 
+MSG_HEALER_NO:
 .byte   "*OK, do what you",newLine
 .byte   " want to.",newLine
 .byte   stopText
 
+MSG_HEALER_PRICE:
 .byte   "*Give me $",price,newLine
 .byte   " for that.",newLine
 .byte   stopText
@@ -656,16 +660,20 @@ MSG_ELLAY_LHBOUNCERGIRL_TICKET:
 .byte   " Nothing was there.",newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE:
 .byte   "  Leave    Take out"
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_INVNOTHING:
 .byte   "*You have nothing.",newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_NOTHING:
 .byte   "*You haven't left",newLine
 .byte   " anything with me.",newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_FULL:
 .byte   "*Just a moment...",newLine
 .byte   pauseText
 .byte   "*The closet is full.",newLine
@@ -696,6 +704,7 @@ MSG_SPOOKANE_HOTELBELLHOP_THANKS:
 .byte   " much.",newLine
 .byte   stopText
 
+MSG_MYHOME_DOLL:
 .byte   "*Inside the doll,",newLine
 .byte   " ",partyLead," spotted an",newLine
 .byte   " old music box.",newLine
@@ -784,6 +793,7 @@ MSG_HOSPITAL_NURSE_NOMONEY:
 .byte   " think you should.",newLine
 .byte   stopText
 
+MSG_HEALER_FIXED:
 .byte   "*There you have it!",newLine
 .byte   " I've fixed it like",newLine
 .byte   " a true expert.",newLine
@@ -870,6 +880,7 @@ MSG_TWINKLE_F1_ROOM6ENTRANCE_NOJANITOR:
 .byte   " poisoned?",newLine
 .byte   stopText
 
+MSG_HEALER_WHO:
 .byte   "*Who needs to be",newLine
 .byte   " softened?",newLine
 .byte   stopText

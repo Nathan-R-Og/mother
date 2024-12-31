@@ -22,6 +22,7 @@ kanjifix "*ウェ-ン。"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_JUICE:
 kanjifix "*はい おにいちゃん ジュ-ス。"
 .byte   newLine
 kanjifix "おなかすいたでしょ。"
@@ -34,6 +35,7 @@ kanjifix "おにんぎょうが あばれだしたの!"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MIMMIE_INVASION_FIGHT:
 kanjifix "*こわかったぁ。"
 .byte   newLine
 kanjifix "あっ! おにんぎょうのなかに"
@@ -42,12 +44,14 @@ kanjifix "なにかあるみたい。"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MIMMIE:
 kanjifix "*わたし ミミ-よ。"
 .byte   newLine
 kanjifix "ミニ-と まちがえちゃいや。"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MOM_INVASION:
 kanjifix "*だいじょうぶだった?"
 .byte   newLine
 .byte   nintenName
@@ -67,6 +71,7 @@ kanjifix "いいのかもしれないけど‥‥"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MOM:
 kanjifix "*あなたって おもってたより"
 .byte   newLine
 kanjifix "ずっと ゆうかんなこだったのね。"
@@ -78,6 +83,7 @@ kanjifix "つらいたびに だしたくないわ。"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MOM_HURT:
 kanjifix "*まぁ ずいぶんきずついて‥‥"
 .byte   newLine
 .byte   stopText
@@ -87,6 +93,7 @@ kanjifix "*え-と つぎのレベルまで‥‥"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MOM_EAT:
 kanjifix "*また"
 .byte   newLine
 .byte   favFood
@@ -96,6 +103,7 @@ kanjifix "かえってくるのよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_PHONE:
 kanjifix "*ふむふむ‥‥ そうか"
 .byte   newLine
 kanjifix "それは ラップげんしょうだな。"

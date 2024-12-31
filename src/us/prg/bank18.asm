@@ -2,8 +2,7 @@
 
 .include "../text_pointers.asm"
 
-;???? padding??
-.res $690, $FF
+.segment "SRAM": absolute
 
 .include "../../global/starting_sram.asm"
 .include "../../global/starting_characters.asm"

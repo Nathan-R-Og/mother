@@ -147,6 +147,7 @@ MSG_ELLAY_LHCOP_SEEWEAPON:
 .byte   " was producing.",newLine
 .byte   stopText
 
+MSG_SWAMP_HOUSEPIPPI_REST:
 .byte   "*You must be tired.",newLine
 .byte   " Why don't you stay",newLine
 .byte   " here tonight?",newLine
@@ -253,6 +254,7 @@ MSG_REINDEER_NOSEYGUY_HAT:
 .byte   " may reward you.",newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHGUY_LEAVE:
 .byte   "*May you live a",newLine
 .byte   " long life.",newLine
 .byte   stopText
@@ -455,16 +457,19 @@ MSG_REINDEER_RUMORMWGUY:
 .byte   " in 300 years.",newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHGUY_DENTURELESS:
 .byte   "*Mmm, hmm meh heh,",newLine
 .byte   " hmm, heh mehah,",newLine
 .byte   " hmmm, heh hmmumm!",newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHKID:
 .byte   "*I can't understand",newLine
 .byte   " a word the old man",newLine
 .byte   " says either.",newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHGUY_DENTURES:
 .byte   "*So nice to have my",newLine
 .byte   " Dentures back once",newLine
 .byte   " more. Your reward?",newLine
@@ -486,6 +491,7 @@ MSG_REINDEER_RUMORMWGUY:
 .byte   " myself. Take it!",newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHKID_TAKE:
 .byte   "*Mouthwash again?",newLine
 .byte   " Here it is.",newLine
 .byte   " Go ahead, take it.",newLine
@@ -806,16 +812,19 @@ MSG_SNOWMAN_NOSEGIRL:
 .byte   " is running.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_PHONE_2:
 .byte   "*Excuse me, I need",newLine
 .byte   " to see the person",newLine
 .byte   " playing this game.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_PHONE_1:
 .byte   "*I have some very",newLine
 .byte   " important things",newLine
 .byte   " to talk about.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_PHONE_3:
 .byte   "*Hello there...",newLine
 .byte   pauseText
 .byte   "*I appreciate your",newLine
@@ -833,6 +842,7 @@ MSG_SNOWMAN_NOSEGIRL:
 .byte   " cooperation.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_PHONE_END:
 .byte   "*Thank you for",newLine
 .byte   " spending your time",newLine
 .byte   " with me.",newLine

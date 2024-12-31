@@ -4,6 +4,7 @@
 
 .include "../fontmap.asm"
 
+party_data:
 ;ninten
 ;?
 .byte $00
@@ -21,24 +22,30 @@
 .faraddr 0 ;far addrs are meant for segments but also i want a 3 byte keyword :)
 ;hp, pp
 .word 30,8
+;name pointer (why exactly?)
+.word ninten_name
 ;?
-.byte $78,$74,$00,$00,$08,$64,$00,$80
+.byte $00,$00,$08,$64,$00,$80
 ;items
 .byte $6E,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
 .byte $00,$00,$00,$00
 
-;?
+;breadcrumb coords
 .ifdef VER_JP
-.byte $00,$00,$00,$00
+doorArgDef 0, 0, DIRECTIONS::UP, 0
 .else
-.byte $52,$08,$86,$2F
+doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .endif
 
 ;psi table
-.byte $40,$00,$00,$00,$00,$00,$00,$00
+.byte %01000000, %00000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
 
 ;default name
+ninten_name:
 .ifdef VER_JP
 ;Boy A
 kanjifix "しょうねんA"
@@ -64,24 +71,30 @@ kanjifix "しょうねんA"
 .faraddr 0
 ;hp, pp
 .word 26,12
+;name pointer (why exactly?)
+.word ana_name
 ;?
-.byte $B8,$74,$00,$00,$08,$64,$20,$80
+.byte $00,$00,$08,$64,$20,$80
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
 .byte $00,$00,$00,$00
 
-;?
+;breadcrumb coords
 .ifdef VER_JP
-.byte $00,$00,$00,$00
+doorArgDef 0, 0, DIRECTIONS::UP, 0
 .else
-.byte $52,$08,$86,$2F
+doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .endif
 
 ;psi table
-.byte $40,$40,$00,$00,$00,$00,$00,$00
+.byte %01000000, %01000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
 
 ;default name
+ana_name:
 .ifdef VER_JP
 ;Girl B
 kanjifix "しょうじょB"
@@ -107,24 +120,30 @@ kanjifix "しょうじょB"
 .faraddr 0
 ;hp, pp
 .word 28,0
+;name pointer (why exactly?)
+.word lloyd_name
 ;?
-.byte $F8,$74,$00,$00,$08,$64,$40,$80
+.byte $00,$00,$08,$64,$40,$80
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
 .byte $00,$00,$00,$00
 
-;?
+;breadcrumb coords
 .ifdef VER_JP
-.byte $00,$00,$00,$00
+doorArgDef 0, 0, DIRECTIONS::UP, 0
 .else
-.byte $52,$08,$86,$2F
+doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .endif
 
 ;psi table
-.byte $00,$00,$00,$00,$00,$00,$00,$00
+.byte %00000000, %00000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
 
 ;default name
+lloyd_name:
 .ifdef VER_JP
 ;Boy C
 kanjifix "しょうねんC"
@@ -150,24 +169,30 @@ kanjifix "しょうねんC"
 .faraddr $e10
 ;hp, pp
 .word 134,0
+;name pointer (why exactly?)
+.word teddy_name
 ;?
-.byte $38,$75,$00,$00,$08,$64,$60,$80
+.byte $00,$00,$08,$64,$60,$80
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
 .byte $00,$00,$00,$00
 
-;?
+;breadcrumb coords
 .ifdef VER_JP
-.byte $00,$00,$00,$00
+doorArgDef 0, 0, DIRECTIONS::UP, 0
 .else
-.byte $52,$08,$86,$2F
+doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .endif
 
 ;psi table
-.byte $00,$00,$00,$00,$00,$00,$00,$00
+.byte %00000000, %00000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
 
 ;default name
+teddy_name:
 .ifdef VER_JP
 ;Boy D
 kanjifix "しょうねんD"
@@ -193,24 +218,30 @@ kanjifix "しょうねんD"
 .faraddr 0
 ;hp, pp
 .word 32,0
+;name pointer (why exactly?)
+.word pippi_name
 ;?
-.byte $78,$75,$00,$00,$08,$64,$80,$80
+.byte $00,$00,$08,$64,$80,$80
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
 .byte $00,$00,$00,$00
 
-;?
+;breadcrumb coords
 .ifdef VER_JP
-.byte $00,$00,$00,$00
+doorArgDef 0, 0, DIRECTIONS::UP, 0
 .else
-.byte $52,$08,$86,$2F
+doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .endif
 
 ;psi table
-.byte $00,$00,$00,$00,$00,$00,$00,$00
+.byte %00000000, %00000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
 
 ;default name
+pippi_name:
 .ifdef VER_JP
 ;Pippi
 kanjifix "ピッピ"
@@ -236,24 +267,30 @@ kanjifix "ピッピ"
 .faraddr 1000000
 ;hp, pp
 .word 999,0
+;name pointer (why exactly?)
+.word eve_name
 ;?
-.byte $B8,$75,$00,$00,$08,$3A,$60,$81
+.byte $00,$00,$08,$3A,$60,$81
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
 .byte $00,$00,$00,$00
 
-;?
+;breadcrumb coords
 .ifdef VER_JP
-.byte $00,$00,$00,$00
+doorArgDef 0, 0, DIRECTIONS::UP, 0
 .else
-.byte $52,$08,$86,$2F
+doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .endif
 
 ;psi table
-.byte $00,$00,$00,$00,$00,$00,$00,$00
+.byte %00000000, %00000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
 
 ;default name
+eve_name:
 .ifdef VER_JP
 ;EVE
 kanjifix "イヴ"
@@ -279,24 +316,30 @@ kanjifix "イヴ"
 .faraddr 1000000
 ;hp, pp
 .word 30,0
+;name pointer (why exactly?)
+.word flyingman_name
 ;?
-.byte $F8,$75,$00,$00,$08,$64,$40,$81
+.byte $00,$00,$08,$64,$40,$81
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
 .byte $00,$00,$00,$00
 
-;?
+;breadcrumb coords
 .ifdef VER_JP
-.byte $00,$00,$00,$00
+doorArgDef 0, 0, DIRECTIONS::UP, 0
 .else
-.byte $52,$08,$86,$2F
+doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .endif
 
 ;psi table
-.byte $00,$00,$00,$00,$00,$00,$00,$00
+.byte %00000000, %00000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
+.byte %00000000, %00000000
 
 ;default name
+flyingman_name:
 .ifdef VER_JP
 ;Flying Man
 kanjifix "フライングマン"

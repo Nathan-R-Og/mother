@@ -47,6 +47,7 @@ kanjifix "いこうじゃないか?"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MOM_HELP:
 kanjifix "*どうか うちの "
 .byte   nintenName
 kanjifix "の"
@@ -164,6 +165,7 @@ kanjifix "よわむしなんだから‥‥"
 .byte   newLine
 .byte   stopText
 
+MSG_SNOWMAN_REGNAME:
 kanjifix "*じゃ もういっかい"
 .byte   newLine
 kanjifix "てつづき しましょうね。"
@@ -306,6 +308,7 @@ kanjifix "*だれに わたす?"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_INVFULL:
 kanjifix "*もちきれない みたいだけど"
 .byte   newLine
 kanjifix "ほかの ひとに わたす?"
@@ -376,6 +379,7 @@ kanjifix "マジックハ-ブに なりました。"
 .byte   newLine
 .byte   stopText
 
+MSG_HEALER_MAN:
 kanjifix "*そんなやつが どこにおるのだ!"
 .byte   newLine
 .byte   stopText
@@ -415,6 +419,7 @@ kanjifix "*りかしつにきてくれ。"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_INVASION:
 kanjifix "*ふしぎな げんしょうは"
 .byte   newLine
 kanjifix "ひとまず おさまった。"
@@ -432,6 +437,7 @@ kanjifix "*あっ しまった おしちゃった。"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MOM_COOK:
 kanjifix "*"
 .byte   nintenName
 kanjifix "のすきな"
@@ -543,6 +549,7 @@ kanjifix "*なにか ごよう?"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_STASH:
 kanjifix "*"
 .byte   item
 kanjifix "ね。"
@@ -553,10 +560,12 @@ kanjifix "ほかに あずかるものは ある?"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_BYE:
 kanjifix "*じゃあ きをつけてね。"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MINNIE_STORAGE_TAKE:
 kanjifix "*"
 .byte   item
 kanjifix "ね。"
@@ -592,6 +601,7 @@ kanjifix "おもちになれないようですよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_HEALER_BROKE:
 kanjifix "*おや おかねが たりないようだな。"
 .byte   newLine
 .byte   stopText
@@ -661,6 +671,7 @@ kanjifix "*どのコ-スが いいかね?"
 .byte   newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHGUY_DENTURES2:
 kanjifix "*いればが ないと"
 .byte   newLine
 kanjifix "うまく しゃべれんのじゃ。"
@@ -712,6 +723,7 @@ kanjifix "こっそり てにいれた。"
 .byte   newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHKID_NOMONEY:
 kanjifix "*おや おかねがたりないようですね。"
 .byte   newLine
 .byte   stopText
@@ -880,6 +892,7 @@ kanjifix "*またきてね。 きっとだよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_SWAMP_HOUSEPIPPI_MORNING:
 kanjifix "*おはよう!"
 .byte   newLine
 .byte   stopText
@@ -1086,10 +1099,13 @@ kanjifix "しっぱいだったよ。"
 .byte   newLine
 .byte   stopText
 
+
+MSG_MYHOME_MIMMIE_INVASION2:
 kanjifix "*たすけて おにいちゃん!"
 .byte   newLine
 .byte   stopText
 
+MSG_MYHOME_MOM_INVASION2:
 kanjifix "*あっ でんわだ!"
 .byte   newLine
 .byte   nintenName
@@ -1383,6 +1399,7 @@ kanjifix "*でも ゾンビは‥‥コワイ!"
 .byte   newLine
 .byte   stopText
 
+MSG_SWAMP_HOUSEPIPPI:
 kanjifix "*ピッピだよ!"
 .byte   newLine
 kanjifix "ほんとに あえたね"
@@ -1398,6 +1415,7 @@ kanjifix "こんなところまで"
 kanjifix "あそびにきてるのよ。"
 .byte   newLine
 .byte   stopText
+
 
 kanjifix "*あら"
 .byte   newLine

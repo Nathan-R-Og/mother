@@ -388,6 +388,7 @@ kanjifix "とばして みたくてさ。"
 .byte   newLine
 .byte   stopText
 
+MSG_SWAMP_HOUSEPIPPI_REST:
 kanjifix "*つかれてるでしょ。"
 .byte   newLine
 kanjifix "とまっていけば?"
@@ -525,6 +526,7 @@ kanjifix "*とどけてあげたまえ。"
 .byte   newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHGUY_LEAVE:
 kanjifix "*ながいき しなされ。"
 .byte   newLine
 .byte   stopText
@@ -742,12 +744,14 @@ kanjifix "よげんしゃのじいさんがいるらしい。"
 .byte   newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHGUY_DENTURELESS:
 kanjifix "*ひひぇひゃひょ ひょひょひへ"
 .byte   newLine
 kanjifix "ふはく ひゃひぇひぇひゃひんひゃ。"
 .byte   newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHKID:
 kanjifix "*いまの せんせいと"
 .byte   newLine
 kanjifix "ふつうに しゃべるのは"
@@ -756,6 +760,7 @@ kanjifix "わたしでも むりです。"
 .byte   newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHGUY_DENTURES:
 kanjifix "*おお"
 .byte   newLine
 kanjifix "いればを さがしてくれたおれいに "
@@ -777,6 +782,7 @@ kanjifix "ホレ。"
 .byte   newLine
 .byte   stopText
 
+MSG_MISLAY_MOUTHWASHKID_TAKE:
 kanjifix "*また うがいぐすりですか?"
 .byte   newLine
 kanjifix "さぁ もっていきなさい。"
@@ -1194,6 +1200,7 @@ kanjifix "*あれあれ ハナミズがたれてるよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_SNOWMAN_PHONE_2:
 kanjifix "*ちょっと このゲ-ムをしている"
 .byte   newLine
 kanjifix "プレイヤ- のかたに"
@@ -1202,10 +1209,12 @@ kanjifix "かわってくれないか。"
 .byte   newLine
 .byte   stopText
 
+MSG_SNOWMAN_PHONE_1:
 kanjifix "*だいじな ようじが あるんだ。"
 .byte   newLine
 .byte   stopText
 
+MSG_SNOWMAN_PHONE_3:
 kanjifix "*もしもし いつも "
 .byte   nintenName
 kanjifix "が"
@@ -1229,6 +1238,7 @@ kanjifix "*よろしくおねがい いたします。"
 .byte   newLine
 .byte   stopText
 
+MSG_SNOWMAN_PHONE_END:
 kanjifix "*どうも おいそがしいところを"
 .byte   newLine
 kanjifix "ありがとうございました。"
