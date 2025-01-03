@@ -9472,7 +9472,7 @@ MusicInit:
     inx
     bne @B31_1d1c
     jsr BankswitchMusic
-    jmp $8006
+    jmp B28_0006
 
 ; $FD28 - Play music track (without restarting, but wait next frame)
 PlayMusic:

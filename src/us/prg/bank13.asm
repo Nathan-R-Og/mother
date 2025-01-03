@@ -4542,7 +4542,7 @@ B19_1dd9:
     dey
     bpl B19_1dea
     jsr BankswitchLower_Bank20
-    jsr $9641
+    jsr B20_1641
     lda #$11
     jsr BackupAndFillPalette
     ldx #90

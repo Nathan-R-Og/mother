@@ -509,13 +509,13 @@ something_init:
     jsr BankswitchUpper_Bank19
     jsr B20_1a4d
     bcs bcs_1
-    jmp $BE57
+    jmp B19_1e57
 
 B20_1472:
     jsr B20_14c0       ; 20 c0 94
 	bne B20_1489 ; d0 12
 	lda save_slot       ; ad 02 74
-	jsr $bebb       ; 20 bb be
+	jsr B19_1ebb       ; 20 bb be
 	jsr EnablePRGRam    ; 20 e7 fd
 	ldy #$03        ; a0 03
 	lda #$00        ; a9 00
@@ -543,20 +543,20 @@ B20_148c:
 	bne B20_14bd ; d0 12
     B20_14ab:
     lda $36         ; a5 36
-	jsr $be88       ; 20 88 be
+	jsr B19_1e88       ; 20 88 be
 	jsr EnablePRGRam    ; 20 e7 fd
 	lda $37         ; a5 37
 	ora #$b0        ; 09 b0
 	sta save_slot       ; 8d 02 74
-	jsr $be57       ; 20 57 be
+	jsr B19_1e57       ; 20 57 be
     B20_14bd:
     jmp B20_142C       ; 4c 2c 94
     B20_14c0:
-	jsr $be88       ; 20 88 be
+	jsr B19_1e88       ; 20 88 be
 	sec             ; 38
 	bne B20_14d6 ; d0 10
 	ldx #$0e        ; a2 0e
-	jsr $601e       ; 20 1e 60
+	jsr rts_2       ; 20 1e 60
 	jsr B30_067a       ; 20 7a c6
 	ldx #$0e        ; a2 0e
 	jsr B20_150b       ; 20 0b 95
@@ -571,13 +571,13 @@ B20_14d7:
     sta $37         ; 85 37
 	lsr a           ; 4a
 	lsr a           ; 4a
-	jsr $be88       ; 20 88 be
+	jsr B19_1e88       ; 20 88 be
 	beq B20_14e4 ; f0 02
 	lda #$04        ; a9 04
     B20_14e4:
     sta $36         ; 85 36
 	ldx $37         ; a6 37
-	jsr $6000       ; 20 00 60
+	jsr rts_1       ; 20 00 60
 	lda $36         ; a5 36
 	lsr a           ; 4a
 	adc $37         ; 65 37
@@ -589,15 +589,15 @@ B20_14d7:
 	cmp #$0c        ; c9 0c
 	bcc B20_14d9 ; 90 dc
 	ldx #$0c        ; a2 0c
-	jsr $6029       ; 20 29 60
-	jmp $6034       ; 4c 34 60
+	jsr rts_3       ; 20 29 60
+	jmp rts_4       ; 4c 34 60
 
 B20_1505:
-    jsr $601e       ; 20 1e 60 ; $74 = $607e[x]
+    jsr rts_2       ; 20 1e 60 ; $74 = $607e[x]
     jmp B30_067a       ; 4c 7a c6
 
 B20_150b:
-    jsr $6029       ; 20 29 60 ; $80 = $6085[x]
+    jsr rts_3       ; 20 29 60 ; $80 = $6085[x]
 B20_150e:
 	jsr B31_0f34       ; 20 34 ef
 	lda #$ff        ; a9 ff
@@ -821,6 +821,7 @@ B20_1630:
 	jsr BackupAndFillPalette    ; 20 fe ed
 	jsr RestoreAndUpdatePalette ; 20 b0 ee
 	jsr B31_1dc0                   ; 20 c0 fd
+	B20_1641:
 	lda #$07                    ; a9 07    ; WRITE_PPU
 	sta $0400                   ; 8d 00 04
 	lda #$00                    ; a9 00
@@ -1438,18 +1439,18 @@ B20_1ad5:
 	lda #$c0        ; a9 c0
 	ldx #$6c        ; a2 6c
 	jsr B20_1af9       ; 20 f9 9a
-	jsr $6286       ; 20 86 62
+	jsr B25_1a86       ; 20 86 62
 	ldy #$00        ; a0 00
     B20_1ae8:
     jsr B20_1af3       ; 20 f3 9a
-	jsr $629b       ; 20 9b 62
+	jsr B25_1a9b       ; 20 9b 62
 	cmp #$20        ; c9 20
 	bne B20_1ae8 ; d0 f6
 	rts             ; 60
 
 B20_1af3:
     jsr PpuSync     ; 20 33 fd
-    jmp $625b       ; 4c 5b 62
+    jmp B25_1a5b       ; 4c 5b 62
 
 B20_1af9:
     sta $74         ; 85 74
@@ -1516,7 +1517,7 @@ B20_1B40:
 	lda $65         ; a5 65
 	sta $75         ; 85 75
 	jsr B30_06db       ; 20 db c6
-	jsr $62b5       ; 20 b5 62
+	jsr B25_1ab5       ; 20 b5 62
 	pla             ; 68
 	tax             ; aa
 	dex             ; ca

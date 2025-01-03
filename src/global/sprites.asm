@@ -1270,7 +1270,11 @@ spritePointerDef SPRITE_26F, $E0, 1, 1, 0, 0
 SPRITEDEF_270:
 spritePointerDef SPRITE_26F, $E0, 1, 1, 0, 0
 SPRITEDEF_271:
+.ifdef VER_JP
+spritePointerDef SPRITE_142, $A8, 5, 0, 0, 0
+.else
 spritePointerDef SPRITE_142, $A8, 0, 0, 0, 0
+.endif
 SPRITEDEF_272:
 spritePointerDef SPRITE_60, $EC, 1, 1, 0, 0
 SPRITEDEF_273:
@@ -2560,6 +2564,8 @@ spriteTile $18, $20, 0, 4, 0, 0, 0, $6B
 spriteTile $08, $28, 0, 4, 0, 0, 0, $7D
 spriteTile $10, $28, 0, 4, 0, 0, 0, $7E
 spriteTile $18, $28, 0, 4, 0, 0, 0, $7F
+
+.ifndef VER_JP
 spriteTile $04, $9C, 0, 6, 1, 1, 1, $00
 spriteTile $AC, $8E, 2, 2, 1, 1, 1, $00
 spriteTile $5C, $8B, 0, 0, 1, 1, 0, $06
@@ -2753,3 +2759,4 @@ spriteTile $1C, $20, 0, 4, 0, 1, 0, $10
 spriteTile $0C, $28, 0, 4, 0, 1, 0, $22
 spriteTile $14, $28, 0, 4, 0, 1, 0, $21
 spriteTile $1C, $28, 0, 4, 0, 1, 0, $20
+.endif
