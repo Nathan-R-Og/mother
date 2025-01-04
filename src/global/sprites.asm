@@ -2565,6 +2565,7 @@ spriteTile $08, $28, 0, 4, 0, 0, 0, $7D
 spriteTile $10, $28, 0, 4, 0, 0, 0, $7E
 spriteTile $18, $28, 0, 4, 0, 0, 0, $7F
 
+;are these tiles or pointers?
 .ifndef VER_JP
 spriteTile $04, $9C, 0, 6, 1, 1, 1, $00
 spriteTile $AC, $8E, 2, 2, 1, 1, 1, $00
@@ -2590,10 +2591,12 @@ spriteTile $AC, $8E, 2, 2, 0, 1, 0, $0A
 spriteTile $AC, $8E, 2, 2, 1, 1, 0, $0A
 spriteTile $AC, $8E, 2, 3, 0, 1, 0, $03
 spriteTile $AC, $8E, 2, 3, 1, 1, 0, $03
+SPRITE_CREDITS_UNK_1:
 spriteTile $AC, $8E, 0, 3, 0, 1, 0, $02
 spriteTile $DC, $8E, 0, 3, 1, 1, 0, $01
 spriteTile $5C, $8B, 0, 0, 0, 0, 1, $0A
 spriteTile $6C, $8B, 0, 0, 0, 0, 1, $0A
+
 spriteTile $7C, $8B, 0, 0, 0, 0, 1, $0A
 spriteTile $8C, $8B, 0, 0, 0, 0, 1, $0A
 spriteTile $9C, $8B, 0, 0, 0, 0, 1, $0A
@@ -2621,20 +2624,24 @@ spriteTile $5C, $8B, 0, 0, 0, 0, 1, $0F
 spriteTile $6C, $8B, 0, 0, 0, 0, 1, $0F
 spriteTile $7C, $8B, 0, 0, 0, 0, 1, $0F
 spriteTile $8C, $8B, 0, 0, 0, 0, 1, $0F
+SPRITE_CREDITS_UNK_2:
 spriteTile $9C, $8B, 0, 0, 0, 0, 1, $0F
 spriteTile $AC, $8B, 0, 0, 0, 0, 1, $0F
+SPRITE_CREDITS_UNK_3:
 spriteTile $BC, $8B, 0, 0, 0, 0, 1, $0F
 spriteTile $CC, $8B, 0, 0, 0, 0, 1, $0F
 spriteTile $5C, $8B, 0, 0, 0, 1, 1, $0F
 spriteTile $6C, $8B, 0, 0, 0, 1, 1, $0F
 spriteTile $7C, $8B, 0, 0, 0, 1, 1, $0F
 spriteTile $8C, $8B, 0, 0, 0, 1, 1, $0F
+SPRITE_CREDITS_UNK_4:
 spriteTile $9C, $8B, 0, 0, 0, 1, 1, $0F
 spriteTile $AC, $8B, 0, 0, 0, 1, 1, $0F
 spriteTile $BC, $8B, 0, 0, 0, 1, 1, $0F
 spriteTile $CC, $8B, 0, 0, 0, 1, 1, $0F
 spriteTile $5C, $8B, 0, 0, 1, 1, 1, $0F
 spriteTile $6C, $8B, 0, 0, 1, 1, 1, $0F
+SPRITE_CREDITS_UNK_5:
 spriteTile $7C, $8B, 0, 0, 1, 1, 1, $0F
 spriteTile $8C, $8B, 0, 0, 1, 1, 1, $0F
 spriteTile $9C, $8B, 0, 0, 1, 1, 1, $0F
@@ -2647,10 +2654,12 @@ spriteTile $7C, $8B, 0, 2, 0, 0, 1, $05
 spriteTile $8C, $8B, 0, 2, 0, 0, 1, $05
 spriteTile $9C, $8B, 0, 2, 0, 0, 1, $05
 spriteTile $AC, $8B, 0, 2, 0, 0, 1, $05
+SPRITE_CREDITS_UNK_6:
 spriteTile $BC, $8B, 0, 2, 0, 0, 1, $05
 spriteTile $CC, $8B, 0, 2, 0, 0, 1, $05
 spriteTile $5C, $8B, 0, 0, 1, 0, 1, $06
 spriteTile $6C, $8B, 0, 0, 1, 0, 1, $06
+SPRITE_CREDITS_UNK_7:
 spriteTile $7C, $8B, 0, 0, 1, 0, 1, $06
 spriteTile $8C, $8B, 0, 0, 1, 0, 1, $06
 spriteTile $9C, $8B, 0, 0, 1, 0, 1, $06
@@ -2663,6 +2672,7 @@ spriteTile $7C, $8B, 0, 2, 1, 0, 1, $05
 spriteTile $8C, $8B, 0, 2, 1, 0, 1, $05
 spriteTile $9C, $8B, 0, 2, 1, 0, 1, $05
 spriteTile $AC, $8B, 0, 2, 1, 0, 1, $05
+SPRITE_CREDITS_UNK_8:
 spriteTile $BC, $8B, 0, 2, 1, 0, 1, $05
 spriteTile $CC, $8B, 0, 2, 1, 0, 1, $05
 spriteTile $5C, $8B, 0, 2, 0, 1, 1, $0A
@@ -2702,6 +2712,7 @@ spriteTile $18, $20, 0, 4, 0, 1, 0, $00
 spriteTile $10, $28, 0, 4, 0, 0, 1, $00
 spriteTile $18, $28, 0, 4, 0, 1, 1, $00
 spriteTile $00, $00, 0, 4, 0, 0, 0, $00
+
 spriteTile $08, $00, 0, 4, 0, 0, 0, $01
 spriteTile $10, $00, 0, 4, 0, 0, 0, $02
 spriteTile $18, $00, 0, 4, 0, 0, 0, $03

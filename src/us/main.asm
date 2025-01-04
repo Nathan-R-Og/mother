@@ -15,15 +15,29 @@
 .include "../global/objects/1.asm"
 .include "prg/bank11.asm"
 .include "prg/bank12.asm"
+
 .include "prg/bank13.asm"
 .include "prg/bank14.asm"
+
 .include "../global/sprites.asm"
+
 .include "prg/bank16.asm"
 .include "prg/bank17.asm"
-.include "prg/bank18.asm"
+
+;
+.segment        "PRG18": absolute
+.include "text_pointers.asm"
+
+.segment "SRAM": absolute
+.include "../global/starting_sram.asm"
+.include "../global/starting_characters.asm"
+;
+
 .include "prg/bank19.asm"
-.include "prg/bank1a.asm"
+
+.include "prg/credits.asm"
 .include "prg/bank1b.asm"
+
 .include "prg/music.asm"
 .include "prg/constant.asm"
 

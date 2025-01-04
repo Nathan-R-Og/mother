@@ -1,8 +1,6 @@
 ;intial sram
 ;jp has minor diffs
 
-.include "../fontmap.asm"
-
 starting_sram:
 save_checksum:
 .byte $00,$00

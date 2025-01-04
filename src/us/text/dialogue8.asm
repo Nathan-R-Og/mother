@@ -313,51 +313,52 @@ MSG_ANTIPIRACY:
 .byte   " ",newLine
 .byte   stopText
 
+MSG_CREDITS_1:
 .byte   "At the summit of Mt. Itoi,",newLine
 .byte   anaName," is reunited with her",newLine
 .byte   "mom as the rest of the freed",newLine
 .byte   "Earth people exit the cave.",newLine
 .byte   stopText
-
+MSG_CREDITS_2:
 .byte   " ",teddyName,", his health fully",newLine
 .byte   " recovered, now sings daily",newLine
 .byte   " at The Live Show.",newLine
 .byte   stopText
-
+MSG_CREDITS_3:
 .byte   "  The kidnapped grown-ups",newLine
 .byte   "  return to their lonely",newLine
 .byte   "  children in Youngtown.",newLine
 .byte   stopText
-
+MSG_CREDITS_4:
 .byte   "(",anaName,")",newLine
 .byte   "I promise I won't forget you",newLine
 .byte   "so I will not say Good-Bye,",newLine
 .byte   "just - 'til we meet again!",newLine
 .byte   stopText
-
+MSG_CREDITS_5:
 .byte   " ",lloydName," returns to a hero's",newLine
 .byte   " welcome at Twinkle",newLine
 .byte   " Elementary School.",newLine
 .byte   stopText
-
+MSG_CREDITS_6:
 .byte   "Son, your sisters and I are",newLine
 .byte   "so happy to see you back in",newLine
 .byte   "one piece. How unbelievable",newLine
 .byte   "that you are not hungry.",newLine
 .byte   stopText
-
+MSG_CREDITS_7:
 .byte   " A letter from ",nintenName,",",newLine
 .byte   " I miss him so much. I hope",newLine
 .byte   " we can get together again",newLine
 .byte   " soon.",newLine
 .byte   stopText
-
+MSG_CREDITS_8:
 .byte   " Well, now that the Earth's",newLine
 .byte   " crisis is finally over, I",newLine
 .byte   " think I'll just lay down",newLine
 .byte   " for a moment and Zzzzzzzzz",newLine
 .byte   stopText
-
+MSG_CREDITS_9:
 .byte   " I know that boy is home.",newLine
 .byte   " Come on son and answer the",newLine
 .byte   " phone. Something new has",newLine
@@ -365,111 +366,147 @@ MSG_ANTIPIRACY:
 .byte   stopText
 
 ;credits
+MSG_CREDITS_PLAYERNAME:
 .byte   playerName
 .byte   stopText
 
+MSG_CREDITS_SHIGESATO_ITOI:
 .byte   "SHIGESATO ITOI"
 .byte   stopText
 
+MSG_CREDITS_MIYUKI_KURE:
 .byte   "MIYUKI KURE"
 .byte   stopText
 
+MSG_CREDITS_AKIO_OHMORI:
 .byte   "AKIO OHMORI"
 .byte   stopText
 
+MSG_CREDITS_RITSUO_KAMIMURA:
 .byte   "RITSUO KAMIMURA"
 .byte   stopText
 
+MSG_CREDITS_KEIICHI_SUZUKI:
 .byte   "KEIICHI SUZUKI"
 .byte   stopText
 
+MSG_CREDITS_HIROKAZU_TANAKA:
 .byte   "HIROKAZU TANAKA"
 .byte   stopText
 
+MSG_CREDITS_SHINBO_MINAMI:
 .byte   "SHINBO MINAMI"
 .byte   stopText
 
+MSG_CREDITS_TATSUYA_ISHII:
 .byte   "TATSUYA ISHII"
 .byte   stopText
 
+MSG_CREDITS_TOTTORI:
 .byte   "TOTTORI"
 .byte   stopText
 
+MSG_CREDITS_KAZUYA_NAKATANI:
 .byte   "KAZUYA NAKATANI"
 .byte   stopText
 
+MSG_CREDITS_TAKAYUKI_ONODERA:
 .byte   "TAKAYUKI ONODERA"
 .byte   stopText
 
+MSG_CREDITS_MOTOO_YASUMA:
 .byte   "MOTOO YASUMA"
 .byte   stopText
 
+MSG_CREDITS_MASAYUKI_KAMEYAMA:
 .byte   "MASAYUKI KAMEYAMA"
 .byte   stopText
 
+MSG_CREDITS_HIDEO_KON:
 .byte   "HIDEO KON"
 .byte   stopText
 
+MSG_CREDITS_KATSUTOMO_MAEIWA:
 .byte   "KATSUTOMO MAEIWA"
 .byte   stopText
 
+MSG_CREDITS_KUNIKO_SAKURAI:
 .byte   "KUNIKO SAKURAI"
 .byte   stopText
 
+MSG_CREDITS_MASAHIRO_TATEMOTO:
 .byte   "MASAHIRO TATEMOTO"
 .byte   stopText
 
+MSG_CREDITS_TAKASHI_KAWAGUCHI:
 .byte   "TAKASHI KAWAGUCHI"
 .byte   stopText
 
+MSG_CREDITS_KEIZOH_KATOH:
 .byte   "KEIZOH KATOH"
 .byte   stopText
 
+MSG_CREDITS_MOTOHIRO_ISHII:
 .byte   "MOTOHIRO ISHII"
 .byte   stopText
 
+MSG_CREDITS_AKIHITO_TODA:
 .byte   "AKIHITO TODA"
 .byte   stopText
 
+MSG_CREDITS_YUKARI_SAITOH:
 .byte   "YUKARI SAITOH"
 .byte   stopText
 
+MSG_CREDITS_PHIL_SANDHOP:
 .byte   "PHIL SANDHOP"
 .byte   stopText
 
+MSG_CREDITS_TOSHIKO_WATSON:
 .byte   "TOSHIKO WATSON"
 .byte   stopText
 
+MSG_CREDITS_YUKA_NAKATA:
 .byte   "YUKA NAKATA"
 .byte   stopText
 
+MSG_CREDITS_HIROKO_FAULKNER:
 .byte   "HIROKO FAULKNER"
 .byte   stopText
 
+MSG_CREDITS_TONY_HARMAN:
 .byte   "TONY HARMAN"
 .byte   stopText
 
+MSG_CREDITS_DAYV_BROOKS:
 .byte   "DAYV BROOKS"
 .byte   stopText
 
+MSG_CREDITS_NORIYUKI_MINAMI:
 .byte   "NORIYUKI MINAMI"
 .byte   stopText
 
+MSG_CREDITS_BIN_OHGAWARA:
 .byte   "BIN OHGAWARA"
 .byte   stopText
 
+MSG_CREDITS_YOSHIHISA_WADA:
 .byte   "YOSHIHISA WADA"
 .byte   stopText
 
+MSG_CREDITS_HIKONORI_SUZUKI:
 .byte   "HIKONORI SUZUKI"
 .byte   stopText
 
+MSG_CREDITS_TAKAO_SHIMIZU:
 .byte   "TAKAO SHIMIZU"
 .byte   stopText
 
+MSG_CREDITS_SHIGERU_MIYAMOTO:
 .byte   "SHIGERU MIYAMOTO"
 .byte   stopText
 
+MSG_CREDITS_HIROSHI_YAMAUCHI:
 .byte   "HIROSHI YAMAUCHI"
 .byte   stopText
 

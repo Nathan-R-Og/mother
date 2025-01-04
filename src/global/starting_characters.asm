@@ -2,8 +2,6 @@
 ;us blanks out initial names but adds 4 new args
 ;jp has temp names but blanks out those args
 
-.include "../fontmap.asm"
-
 party_data:
 ;ninten
 ;?
