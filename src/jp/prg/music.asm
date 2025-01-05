@@ -1,4 +1,4 @@
-
+.segment        "MUSIC": absolute
 
 .enum music
     melodies = 1
@@ -23,14 +23,17 @@
     approaching_mt_itoi = $13
     ;monkey_cave = ?
 .endenum
-
 MUS_repeat_twice = $c2
 MUS_end_repeat = $ff
 MUS_end_track = $00
 
 
-.segment        "MUSIC": absolute
-;.segment        "PRG1C": absolute
+.ifdef VER_JP
+;externs
+B28_086b := $c18d
+B28_05ab := $c189
+B28_059c := $c181
+.endif
 
 ; $8000
 ; Sound driver
@@ -40,6 +43,7 @@ B28_0003:
     jmp B28_0299       ; 4c 99 82
 B28_0006:
     jmp B28_0216       ; 4c 16 82
+
 
 ; Mystery pointer table ($8009)
 .word B28_03fa ; 00
@@ -81,7 +85,9 @@ B28_0006:
 .word B28_05a4
 .word B28_0733
 .word B28_060d
+.ifndef VER_JP
 .word B28_0962
+.endif
 .word B28_06cb
 .word B28_077f
 .word B28_0752
@@ -101,7 +107,9 @@ B28_0006:
 .word B28_0683
 .word B28_073e
 .word B28_061e
+.ifndef VER_JP
 .word B28_096c
+.endif
 .word B28_085e
 .word B28_084e
 .word B28_08d4
@@ -116,6 +124,7 @@ B28_0006:
 .word B28_0509
 .word B28_0559
 .word B28_0559
+
 
 B28_0095:
     lda #$00
@@ -147,6 +156,40 @@ B28_00a1:
     cmp #$04        ; c9 04
     bne B28_00b1 ; d0 f6
     rts             ; 60
+
+;???
+.ifdef VER_JP
+B28_00B8:
+    sta $BF
+    pha
+    ldy #$80
+    sty $B1
+    ldy #$00
+B28_00C1:
+    dec $BF
+    beq B28_00D8
+    iny
+    iny
+    tya
+    cmp #$22
+    bne B28_00C1
+    lda #$D7
+    sta $B2
+    lda #$80
+    sta $B3
+B28_00D4:
+    pla
+    sta $BF
+    rts
+B28_00D8:
+    lda ($B0),Y
+    sta $B2
+    iny
+    lda ($B0),Y
+    sta $B3
+    jmp B28_00D4
+.endif
+
 
 B28_00bc:
     lda $bb         ; a5 bb
@@ -193,40 +236,50 @@ B28_00fa:
 .byte $A4,$AC,$A3,$AC,$A4,$AC
 .endif
 
-incbinRange "../../split/us/prg/bank1c.bin", $100, $10e
+incbinRange "../../split/jp/prg/bank1c.bin", $10e, $11c
 B28_010e:
-incbinRange "../../split/us/prg/bank1c.bin", $10e, $118
+incbinRange "../../split/jp/prg/bank1c.bin", $11c, $126
 B28_0118:
-incbinRange "../../split/us/prg/bank1c.bin", $118, $11a
+incbinRange "../../split/jp/prg/bank1c.bin", $126, $128
 B28_011a:
-incbinRange "../../split/us/prg/bank1c.bin", $11a, $120
+incbinRange "../../split/jp/prg/bank1c.bin", $128, $12e
 B28_0120:
-incbinRange "../../split/us/prg/bank1c.bin", $120, $12a
+incbinRange "../../split/jp/prg/bank1c.bin", $12e, $138
 B28_012a:
-incbinRange "../../split/us/prg/bank1c.bin", $12a, $12e
+incbinRange "../../split/jp/prg/bank1c.bin", $138, $13c
 B28_012e:
-incbinRange "../../split/us/prg/bank1c.bin", $12e, $13b
+incbinRange "../../split/jp/prg/bank1c.bin", $13c, $149
 B28_013b:
-incbinRange "../../split/us/prg/bank1c.bin", $13b, $146
+incbinRange "../../split/jp/prg/bank1c.bin", $149, $150
 B28_0146:
-incbinRange "../../split/us/prg/bank1c.bin", $146, $14a
+incbinRange "../../split/jp/prg/bank1c.bin", $150, $154
 B28_014a:
-incbinRange "../../split/us/prg/bank1c.bin", $14a, $156
+incbinRange "../../split/jp/prg/bank1c.bin", $154, $160
 B28_0156:
-incbinRange "../../split/us/prg/bank1c.bin", $156, $1a7
+incbinRange "../../split/jp/prg/bank1c.bin", $160, $1b1
 B28_01a7:
-incbinRange "../../split/us/prg/bank1c.bin", $1a7, $1b0
+incbinRange "../../split/jp/prg/bank1c.bin", $1b1, $1BA
 
 B28_01b0:
     ldx #$03        ; a2 03
+    .ifdef VER_JP
+    lda #$75        ; a9 79
+    ldy #$7d        ; a0 81
+    .else
     lda #$79        ; a9 79
     ldy #$81        ; a0 81
+    .endif
     bne B28_01d3 ; d0 1b
 
 B28_01b8:
     ldx #$04        ; a2 04
+    .ifdef VER_JP
+    lda #$85        ; a9 89
+    ldy #$8b        ; a0 8f
+    .else
     lda #$89        ; a9 89
     ldy #$8f        ; a0 8f
+    .endif
     bne B28_01d3    ; d0 13    - Jump pointer table shenanigans
 
 B28_01c0:
@@ -234,7 +287,11 @@ B28_01c0:
     bne B28_0237    ; d0 72    - Return
     ldx #$01        ; a2 01
     lda #$31        ; a9 31
+    .ifdef VER_JP
+    ldy #$53        ; a0 55
+    .else
     ldy #$55        ; a0 55
+    .endif
     bne B28_01d3    ; d0 06    - Jump pointer table shenanigans
 
 ; Executes code from a big pointer table at $8009
@@ -248,6 +305,7 @@ B28_01cd:
     lda $07f0, x    ; bd f0 07
     beq B28_020d    ; f0 31
     B28_01dc:
+    .ifndef VER_JP
     sta $bf         ; 85 bf
     sta $b2         ; 85 b2
     ldy #$80        ; a0 80
@@ -269,6 +327,9 @@ B28_01cd:
     iny             ; c8
     lda ($b0), y    ; b1 b0
     sta $b3         ; 85 b3
+    .else
+    jsr $80b8
+    .endif
     jmp ($00b2)     ; 6c b2 00
 
 .ifndef VER_JP
@@ -302,6 +363,22 @@ B28_0216:
     B28_0237:
     rts             ; 60
 
+.ifdef VER_JP
+; $80E6
+; Mystery pointer table
+B28_00e6:
+.word B28_1353
+.word B28_1342
+.word B28_1342
+.word B28_1342
+.word B28_1342
+.word B28_1342
+.word B28_1342
+.word B28_1342
+.word B28_1342
+.word 0
+.endif
+
 ; $8238 - Eight melodies music pointers
 B28_0238:
     .word B28_135a
@@ -319,10 +396,18 @@ B28_0248:
     ldy #$00        ; a0 00
     beq B28_025d ; f0 0c
     B28_0251:
-    lda #$42        ; a9 42
+    .ifdef VER_JP
+    lda #$99        ; a9 93
+    .else
+    lda #$42        ; a9 93
+    .endif
     sta $076e, y    ; 99 6e 07
     iny             ; c8
+    .ifdef VER_JP
+    lda #$92        ; a9 93
+    .else
     lda #$93        ; a9 93
+    .endif
     sta $076e, y    ; 99 6e 07
     iny             ; c8
     B28_025d:
@@ -341,11 +426,25 @@ B28_0248:
     B28_0276:
     rts             ; 60
 
+.ifdef VER_JP
+B27_007e:
+    lda new_music   ; ad f5 07
+    cmp #$25        ; c9 25
+    bne B27_0090    ; d0 0b
+    jsr B28_0299       ; 20 aa 80
+    sta new_music   ; 8d f5 07
+    lda #$11        ; a9 11
+    sta $07f1       ; 8d f1 07
+    B27_0090:
+    rts             ; 60
+.endif
+
 ; PLAY entry point
 B28_0277:
     lda #$c0        ; a9 c0
     sta $4017       ; 8d 17 40 ; APU "frame counter". Select "one 5-step sequence" (whatever that means) and clear interrupt flag
     jsr B28_00bc       ; 20 bc 80 ; Weird $BB shuffle-around
+    jsr $826a
     jsr B28_01cd       ; 20 cd 81 ; Something about jump pointer table at $8009
     jsr B28_01b8       ; 20 b8 81 ; Something about jump pointer table at $8089
     jsr B28_01b0       ; 20 b0 81 ; Something about jump pointer table at $8079
@@ -442,19 +541,31 @@ B28_0314:
 ; $8009 table, entry 09
 B28_0321:
     lda #$30        ; a9 30
+    .ifdef VER_JP
+    ldy #$2a        ; a0 1c
+    .else
     ldy #$1c        ; a0 1c
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 ; $8009 table, entry 07
 B28_0328:
     lda #$0c        ; a9 0c
-    ldy #$14        ; a0 14
+    .ifdef VER_JP
+    ldy #$22        ; a0 1c
+    .else
+    ldy #$14        ; a0 1c
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 B28_032f:
     jsr B28_00d3       ; 20 d3 80
     bne B28_0320 ; d0 ec
-    ldy #$14        ; a0 14
+    .ifdef VER_JP
+    ldy #$22        ; a0 1c
+    .else
+    ldy #$14        ; a0 1c
+    .endif
     jsr B28_009d       ; 20 9d 80
     inc $07df       ; ee df 07
     lda $07df       ; ad df 07
@@ -465,7 +576,11 @@ B28_032f:
 ; $8009 table, entry 06
 B28_0346:
     lda #$04        ; a9 04
-    ldy #$14        ; a0 14
+    .ifdef VER_JP
+    ldy #$22        ; a0 1c
+    .else
+    ldy #$14        ; a0 1c
+    .endif
     jsr B28_02dc       ; 20 dc 82
     lda #$02        ; a9 02
     sta $07f3       ; 8d f3 07
@@ -479,7 +594,11 @@ B28_0346:
 ; $8009 table, entry 05
 B28_035c:
     lda #$06        ; a9 06
-    ldy #$18        ; a0 18
+    .ifdef VER_JP
+    ldy #$26        ; a0 1c
+    .else
+    ldy #$18        ; a0 1c
+    .endif
     jsr B28_02dc       ; 20 dc 82
     lda B28_011a       ; ad 1a 81
     sta $07df       ; 8d df 07
@@ -512,7 +631,11 @@ B28_0374:
 ; $8009 table, entry 02
 B28_0393:
     lda #$05        ; a9 05
-    ldy #$0c        ; a0 0c
+    .ifdef VER_JP
+    ldy #$1a        ; a0 08
+    .else
+    ldy #$0c        ; a0 08
+    .endif
     jsr B28_02dc       ; 20 dc 82
     lda B28_010e       ; ad 0e 81
     sta $07df       ; 8d df 07
@@ -548,6 +671,7 @@ B28_03b1:
     B28_03d5:
     rts             ; 60
 
+
 B28_03d6:
     jsr B28_045c       ; 20 5c 84
     jmp B28_03d2       ; 4c d2 83
@@ -555,7 +679,11 @@ B28_03d6:
 ; $8009 table, entry 03
 B28_03dc:
     lda #$03        ; a9 03
-    ldy #$10        ; a0 10
+    .ifdef VER_JP
+    ldy #$1e        ; a0 08
+    .else
+    ldy #$10        ; a0 08
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 ; $8009 table, entry 0D
@@ -573,16 +701,28 @@ B28_03e3:
 ; $8009 table, entry 00
 B28_03fa:
     lda #$10        ; a9 10
+    .ifdef VER_JP
+    ldy #$16        ; a0 08
+    .else
     ldy #$08        ; a0 08
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 ; $8009 table, entry 0A
 B28_0401:
     jsr B28_00d3       ; 20 d3 80
     beq B28_0415 ; f0 0f
-    ldx #$81        ; a2 81
+    .ifdef VER_JP
+    ldx #$a0        ; a0 08
+    .else
+    ldx #$81        ; a0 08
+    .endif
     jsr B28_03d6       ; 20 d6 83
-    ldx #$89        ; a2 89
+    .ifdef VER_JP
+    ldx #$a8        ; a0 08
+    .else
+    ldx #$89        ; a0 08
+    .endif
     jmp B28_0450       ; 4c 50 84
     B28_0410:
     jsr B28_00d3       ; 20 d3 80
@@ -598,16 +738,28 @@ B28_0401:
 ; $8009 table, entry 04
 B28_0420:
     lda #$20        ; a9 20
+    .ifdef VER_JP
+    ldy #$16        ; a0 08
+    .else
     ldy #$08        ; a0 08
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 ; $8009 table, entry 0E
 B28_0427:
     jsr B28_00d3       ; 20 d3 80
     beq B28_0415 ; f0 e9
-    ldx #$91        ; a2 91
+    .ifdef VER_JP
+    ldx #$b0        ; a0 08
+    .else
+    ldx #$91        ; a0 08
+    .endif
     jsr B28_03d6       ; 20 d6 83
-    ldx #$a1        ; a2 a1
+    .ifdef VER_JP
+    ldx #$c0        ; a0 08
+    .else
+    ldx #$a1        ; a0 08
+    .endif
     jmp B28_0450       ; 4c 50 84
 
 B28_0436:
@@ -616,8 +768,13 @@ B28_0436:
 
 ; $8009 table, entry 01
 B28_043a:
+    .ifdef VER_JP
+    lda #$30        ; a9 40
+    ldy #$16        ; a0 08
+    .else
     lda #$40        ; a9 40
     ldy #$08        ; a0 08
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 ; $8009 table, entry 0B
@@ -626,9 +783,17 @@ B28_0441:
     bne B28_0449 ; d0 03
     jmp B28_0415       ; 4c 15 84
     B28_0449:
+    .ifdef VER_JP
+    ldx #$d0        ; a2 b1
+    .else
     ldx #$b1        ; a2 b1
+    .endif
     jsr B28_03d6       ; 20 d6 83
-    ldx #$d1        ; a2 d1
+    .ifdef VER_JP
+    ldx #$e8        ; a2 b1
+    .else
+    ldx #$d1        ; a2 b1
+    .endif
     B28_0450:
     jsr B28_045c       ; 20 5c 84
     ora #$10        ; 09 10
@@ -665,7 +830,11 @@ B28_0476:
 ; $8009 table, entry 08
 B28_047d:
     lda #$08        ; a9 08
+    .ifdef VER_JP
+    ldy #$12        ; a0 04
+    .else
     ldy #$04        ; a0 04
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 B28_0484:
@@ -673,6 +842,11 @@ B28_0484:
     bne B28_047c ; d0 f3
     lda $07df       ; ad df 07
     inc $07df       ; ee df 07
+    .ifdef VER_JP
+    cmp #$10
+    beq B28_04b9
+    jmp $835F
+    .else
     cmp #$28        ; c9 28
     beq B28_04b9 ; f0 26
     cmp #$10        ; c9 10
@@ -697,6 +871,7 @@ B28_0484:
     lda #$0f        ; a9 0f
     sta $400e       ; 8d 0e 40
     rts             ; 60
+    .endif
 
 B28_04b9:
     jmp B28_0415       ; 4c 15 84
@@ -729,10 +904,18 @@ B28_04bc:
     rts             ; 60
 
 B28_04f6:
+    .ifdef VER_JP
+    ldy #$32        ; a0 24
+    .else
     ldy #$24        ; a0 24
+    .endif
     jsr B28_0095       ; 20 95 80
     lda #$0a        ; a9 0a
-    ldy #$20        ; a0 20
+    .ifdef VER_JP
+    ldy #$2e        ; a0 24
+    .else
+    ldy #$20        ; a0 24
+    .endif
     jsr B28_04bc       ; 20 bc 84
     lda B28_0120       ; ad 20 81
     sta $07e0       ; 8d e0 07
@@ -772,17 +955,33 @@ B28_0533:
     rts             ; 60
 
 B28_0542:
+    .ifdef VER_JP
+    ldy #$3e        ; a0 30
+    .else
     ldy #$30        ; a0 30
+    .endif
     jsr B28_0095       ; 20 95 80
     lda #$08        ; a9 08
-    ldy #$34        ; a0 34
+    .ifdef VER_JP
+    ldy #$42        ; a0 30
+    .else
+    ldy #$34        ; a0 30
+    .endif
     bne B28_0556 ; d0 09
 
 B28_054d:
-    ldy #$2c        ; a0 2c
+    .ifdef VER_JP
+    ldy #$3a        ; a0 30
+    .else
+    ldy #$2c        ; a0 30
+    .endif
     jsr B28_0095       ; 20 95 80
     lda #$03        ; a9 03
-    ldy #$28        ; a0 28
+    .ifdef VER_JP
+    ldy #$36        ; a0 30
+    .else
+    ldy #$28        ; a0 30
+    .endif
     B28_0556:
     jmp B28_04bc       ; 4c bc 84
 
@@ -821,17 +1020,26 @@ B28_057e:
     B28_059b:
     rts             ; 60
 
+
+.ifndef VER_JP
 B28_059c:
 incbinRange "../../split/us/prg/bank1c.bin", $59c, $5a4
+.endif
 
 B28_05a4:
     lda #$0A
+    .ifdef VER_JP
+    ldy #$A2
+    .else
     ldy #$98
+    .endif
     jmp B28_02dc
 
+.ifndef VER_JP
 B28_05ab:
 .word $9314
 .byte $94,$d3
+.endif
 
 B28_05af:
     lda $07e4       ; ad e4 07
@@ -853,21 +1061,38 @@ B28_05c1:
     cmp #$08        ; c9 08
     bne B28_059b ; d0 c4
     inc $07e4       ; ee e4 07
-    ldy #$7c        ; a0 7c
+    .ifdef VER_JP
+    ldy #$86        ; a0 90
+    .else
+    ldy #$7c        ; a0 90
+    .endif
     jmp B28_0095       ; 4c 95 80
+
 
 B28_05df:
     lda #$02        ; a9 02
+    .ifdef VER_JP
+    ldy #$9A        ; a0 90
+    .else
     ldy #$90        ; a0 90
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 B28_05e6:
-    ldy #$78        ; a0 78
+    .ifdef VER_JP
+    ldy #$82        ; a0 90
+    .else
+    ldy #$78        ; a0 90
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 B28_05eb:
     lda #$04        ; a9 04
-    ldy #$64        ; a0 64
+    .ifdef VER_JP
+    ldy #$6e        ; a0 90
+    .else
+    ldy #$64        ; a0 90
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 B28_05f2:
@@ -882,7 +1107,11 @@ B28_05f2:
     jmp B28_0688       ; 4c 88 86
 
 B28_0608:
-    ldy #$68        ; a0 68
+    .ifdef VER_JP
+    ldy #$72        ; a0 48
+    .else
+    ldy #$68        ; a0 48
+    .endif
     jmp B28_0095       ; 4c 95 80
 
 B28_060d:
@@ -890,7 +1119,11 @@ B28_060d:
 
 B28_0610:
     lda #$0f        ; a9 0f
-    ldy #$44        ; a0 44
+    .ifdef VER_JP
+    ldy #$4e        ; a0 48
+    .else
+    ldy #$44        ; a0 48
+    .endif
     jsr B28_02dc       ; 20 dc 82
     lda B28_0146       ; ad 46 81
     B28_061a:
@@ -910,11 +1143,19 @@ B28_061e:
     and #$01        ; 29 01
     beq B28_063c ; f0 07
     lda B28_014a       ; ad 4a 81
+    .ifdef VER_JP
+    ldy #$52        ; a0 48
+    .else
     ldy #$48        ; a0 48
+    .endif
     bne B28_0641 ; d0 05
     B28_063c:
     lda B28_0146       ; ad 46 81
-    ldy #$44        ; a0 44
+    .ifdef VER_JP
+    ldy #$4e        ; a0 48
+    .else
+    ldy #$44        ; a0 48
+    .endif
     B28_0641:
     pha             ; 48
     jsr B28_0095       ; 20 95 80
@@ -942,17 +1183,26 @@ B28_065a:
     B28_066d:
     rts             ; 60
 
+
 B28_066e:
     lda $07f9       ; ad f9 07
     cmp #$07        ; c9 07
     beq B28_066d ; f0 f8
     lda #$02        ; a9 02
+    .ifdef VER_JP
+    ldy #$9e        ; a0 94
+    .else
     ldy #$94        ; a0 94
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 B28_067c:
     lda #$10        ; a9 10
-    ldy #$8c        ; a0 8c
+    .ifdef VER_JP
+    ldy #$96        ; a0 94
+    .else
+    ldy #$8c        ; a0 94
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 B28_0683:
@@ -971,7 +1221,11 @@ B28_0688:
 
 B28_0699:
     lda #$06        ; a9 06
+    .ifdef VER_JP
+    ldy #$8A        ; a0 80
+    .else
     ldy #$80        ; a0 80
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 B28_06a0:
@@ -987,15 +1241,33 @@ B28_06a0:
     bne B28_0698 ; d0 e1
     jmp B28_0688       ; 4c 88 86
     B28_06ba:
-    ldy #$84        ; a0 84
+    .ifdef VER_JP
+    ldy #$8e        ; a0 80
+    .else
+    ldy #$84        ; a0 80
+    .endif
     jmp B28_0095       ; 4c 95 80
     B28_06bf:
-    ldy #$88        ; a0 88
+    .ifdef VER_JP
+    ldy #$92        ; a0 80
+    .else
+    ldy #$88        ; a0 80
+    .endif
     jmp B28_0095       ; 4c 95 80
+
+
+.ifdef VER_JP
+B28_00fa:
+incbinRange "../../split/jp/prg/bank1c.bin", $69e, $6A4
+.endif
 
 B28_06c4:
     lda #$08        ; a9 08
+    .ifdef VER_JP
+    ldy #$76        ; a0 6c
+    .else
     ldy #$6c        ; a0 6c
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 B28_06cb:
@@ -1027,10 +1299,18 @@ B28_06ed:
     bne B28_070e ; d0 0f
     jmp B28_0688       ; 4c 88 86
     B28_0702:
-    ldy #$70        ; a0 70
+    .ifdef VER_JP
+    ldy #$7a        ; a0 50
+    .else
+    ldy #$70        ; a0 50
+    .endif
     bne B28_0708 ; d0 02
     B28_0706:
-    ldy #$74        ; a0 74
+    .ifdef VER_JP
+    ldy #$7e        ; a0 50
+    .else
+    ldy #$74        ; a0 50
+    .endif
     B28_0708:
     jsr B28_0095       ; 20 95 80
     inc $07e0       ; ee e0 07
@@ -1046,20 +1326,34 @@ B28_070f:
     bne B28_0721 ; d0 03
     jmp B28_0688       ; 4c 88 86
     B28_0721:
+    .ifdef VER_JP
+    ldy #$5A        ; a0 50
+    .else
     ldy #$50        ; a0 50
+    .endif
     jmp B28_0095       ; 4c 95 80
 
 B28_0726:
+    .ifndef VER_JP
     lda $07f9       ; ad f9 07
     cmp #$07        ; c9 07
     beq B28_070e ; f0 e1
+    .endif
     lda #$03        ; a9 03
+    .ifdef VER_JP
+    ldy #$56        ; a0 4c
+    .else
     ldy #$4c        ; a0 4c
+    .endif
     bne B28_075b ; d0 28
 
 B28_0733:
     lda #$10        ; a9 10
-    ldy #$3c        ; a0 3c
+    .ifdef VER_JP
+    ldy #$46        ; a0 4c
+    .else
+    ldy #$3c        ; a0 4c
+    .endif
     jsr B28_075b       ; 20 5b 87
     lda #$18        ; a9 18
     bne B28_077b ; d0 3d
@@ -1067,12 +1361,20 @@ B28_0733:
 B28_073e:
     jsr B28_00d3       ; 20 d3 80
     bne B28_077e ; d0 3b
-    ldy #$3c        ; a0 3c
+    .ifdef VER_JP
+    ldy #$46        ; a0 4c
+    .else
+    ldy #$3c        ; a0 4c
+    .endif
     bne B28_0786 ; d0 3f
 
 B28_0747:
     lda #$06        ; a9 06
-    ldy #$58        ; a0 58
+    .ifdef VER_JP
+    ldy #$62        ; a0 4c
+    .else
+    ldy #$58        ; a0 4c
+    .endif
     jsr B28_075b       ; 20 5b 87
     lda #$10        ; a9 10
     bne B28_077b ; d0 29
@@ -1080,7 +1382,11 @@ B28_0747:
 B28_0752:
     jsr B28_00d3       ; 20 d3 80
     bne B28_077e ; d0 27
-    ldy #$58        ; a0 58
+    .ifdef VER_JP
+    ldy #$62        ; a0 4c
+    .else
+    ldy #$58        ; a0 4c
+    .endif
     bne B28_0786 ; d0 2b
 
 B28_075b:
@@ -1088,7 +1394,11 @@ B28_075b:
 
 B28_075e:
     lda #$05        ; a9 05
-    ldy #$5c        ; a0 5c
+    .ifdef VER_JP
+    ldy #$66        ; a0 60
+    .else
+    ldy #$5c        ; a0 60
+    .endif
     jsr B28_075b       ; 20 5b 87
     lda #$08        ; a9 08
     bne B28_077b ; d0 12
@@ -1096,12 +1406,20 @@ B28_075e:
 B28_0769:
     jsr B28_00d3       ; 20 d3 80
     bne B28_077e ; d0 10
-    ldy #$5c        ; a0 5c
+    .ifdef VER_JP
+    ldy #$66        ; a0 60
+    .else
+    ldy #$5c        ; a0 60
+    .endif
     bne B28_0786 ; d0 14
 
 B28_0772:
     lda #$06        ; a9 06
+    .ifdef VER_JP
+    ldy #$6A        ; a0 60
+    .else
     ldy #$60        ; a0 60
+    .endif
     jsr B28_075b       ; 20 5b 87
     lda #$00        ; a9 00
     B28_077b:
@@ -1112,7 +1430,11 @@ B28_0772:
 B28_077f:
     jsr B28_00d3       ; 20 d3 80
     bne B28_077e ; d0 fa
+    .ifdef VER_JP
+    ldy #$6A        ; a0 60
+    .else
     ldy #$60        ; a0 60
+    .endif
     B28_0786:
     jsr B28_0095       ; 20 95 80
     clc             ; 18
@@ -1134,7 +1456,11 @@ B28_07a5:
 
 B28_07a9:
     lda #$04        ; a9 04
+    .ifdef VER_JP
+    ldy #$5E        ; a0 54
+    .else
     ldy #$54        ; a0 54
+    .endif
     jsr B28_02dc       ; 20 dc 82
     lda B28_0156       ; ad 56 81
     sta $07e0       ; 8d e0 07
@@ -1166,9 +1492,9 @@ B28_07b7:
     rts             ; 60
 
 B28_07e5:
-incbinRange "../../split/us/prg/bank1c.bin", $7e5, $7ee
+incbinRange "../../split/jp/prg/bank1c.bin", $7be, $7C7
 B28_07ee:
-incbinRange "../../split/us/prg/bank1c.bin", $7ee, $80e
+incbinRange "../../split/jp/prg/bank1c.bin", $7C7, $7E7
 
 B28_080e:
     jsr B28_00d3       ; 20 d3 80
@@ -1185,11 +1511,16 @@ B28_080e:
 
 B28_0829:
     lda #$04        ; a9 04
+    .ifdef VER_JP
+    ldy #$4A        ; a0 40
+    .else
     ldy #$40        ; a0 40
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 B28_0830:
-incbinRange "../../split/us/prg/bank1c.bin", $830, $840
+incbinRange "../../split/jp/prg/bank1c.bin", $809, $819
+
 
 B28_0840:
     lda #$10        ; a9 10
@@ -1201,7 +1532,11 @@ B28_0840:
 
 B28_084e:
     lda #$04        ; a9 04
+    .ifdef VER_JP
+    ldy #$aa        ; a0 a0
+    .else
     ldy #$a0        ; a0 a0
+    .endif
     jsr B28_02dc       ; 20 dc 82
     lda $bb         ; a5 bb
     sta $400a       ; 8d 0a 40
@@ -1210,14 +1545,20 @@ B28_084e:
 
 B28_085e:
     lda #$04        ; a9 04
+    .ifdef VER_JP
+    ldy #$a6        ; a0 9c
+    .else
     ldy #$9c        ; a0 9c
+    .endif
     jsr B28_02dc       ; 20 dc 82
     lda #$08        ; a9 08
     sta $07e6       ; 8d e6 07
     rts             ; 60
 
+.ifndef VER_JP
 B28_086b:
 incbinRange "../../split/us/prg/bank1c.bin", $86b, $87e
+.endif
 B28_087e:
     jsr B28_00d3
     bne B28_08b3
@@ -1267,7 +1608,11 @@ B28_08ba:
 
 B28_08d4:
     lda #$03        ; a9 03
+    .ifdef VER_JP
+    ldy #$ae        ; a0 a4
+    .else
     ldy #$a4        ; a0 a4
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 B28_08db:
@@ -1275,7 +1620,11 @@ B28_08db:
 
 B28_08e5:
     lda #$08
-    ldy #$a8        ; a0 a8
+    .ifdef VER_JP
+    ldy #$B2        ; a0 ac
+    .else
+    ldy #$a8        ; a0 ac
+    .endif
     jmp B28_02dc       ; 4c dc 82
 
 B28_08ec:
@@ -1287,7 +1636,11 @@ B28_08ec:
     bne B28_08fe ; d0 03
     jmp B28_08a3       ; 4c a3 88
     B28_08fe:
+    .ifdef VER_JP
+    ldy #$B6        ; a0 ac
+    .else
     ldy #$ac        ; a0 ac
+    .endif
     jmp B28_0099       ; 4c 99 80
 
 B28_0903:
@@ -1302,8 +1655,13 @@ B28_090e:
 B28_0911:
     lda new_music   ; ad f5 07
     tay             ; a8
+    .ifdef VER_JP
+    cmp #$ff        ; c9 3f
+    beq B28_090e ; b0 f5
+    .else
     cmp #$3f        ; c9 3f
     bcs B28_090e ; b0 f5
+    .endif
     cmp #$01        ; c9 01
     beq B28_0903 ; f0 e6
     tya             ; 98
@@ -1345,6 +1703,7 @@ B28_0911:
     bne B28_0959 ; d0 f8
     rts             ; 60
 
+.ifndef VER_JP
 B28_0962:
     lda #$03        ; a9 03
     ldy #$38        ; a0 38
@@ -1383,6 +1742,8 @@ incbinRange "../../split/us/prg/bank1c.bin", $999, $9a1
 B28_09a1:
 incbinRange "../../split/us/prg/bank1c.bin", $9a1, $9a7
 
+.endif
+
 B28_09a7:
 .byte $00,$10,$01
 .byte $18,$00,$01
@@ -1397,7 +1758,6 @@ B28_09a7:
 .byte $08,$16,$0E
 .byte $28,$16,$0B
 .byte $18
-
 
 B28_09cc:
     lda $07fd       ; ad fd 07
@@ -1514,13 +1874,14 @@ B28_0a83:
     rts             ; 60
 
 B28_0a85:
-incbinRange "../../split/us/prg/bank1c.bin", $a85, $a91
+incbinRange "../../split/jp/prg/bank1c.bin", $A06, $A12
 B28_0a91:
-incbinRange "../../split/us/prg/bank1c.bin", $a91, $ab2
+incbinRange "../../split/jp/prg/bank1c.bin", $A12, $A33
 B28_0ab2:
-incbinRange "../../split/us/prg/bank1c.bin", $ab2, $abc
+incbinRange "../../split/jp/prg/bank1c.bin", $A33, $A3D
 B28_0abc:
-incbinRange "../../split/us/prg/bank1c.bin", $abc, $acc
+incbinRange "../../split/jp/prg/bank1c.bin", $A3D, $A4d
+
 
 B28_0acc:
     lda $07cc       ; ad cc 07
@@ -1541,14 +1902,20 @@ B28_0acc:
 B28_0ae4:
     lda #$ff        ; a9 ff
     sta $07a0, x    ; 9d a0 07
+    .ifdef VER_JP
+    bne B28_0b65       ; 4c 65 8b
+    .else
     jmp B28_0b65       ; 4c 65 8b
+    .endif
 
 B28_0aec:
     jsr B28_029c       ; 20 9c 82
     lda $bf         ; a5 bf
     sta $07fd       ; 8d fd 07
+    .ifndef VER_JP
     cmp #$32        ; c9 32
     beq B28_0b06 ; f0 0e
+    .endif
     cmp #$19        ; c9 19
     beq B28_0b00 ; f0 04
     cmp #$19        ; c9 19
@@ -1556,6 +1923,7 @@ B28_0aec:
     B28_0b00:
     jsr B28_0acc       ; 20 cc 8a
     jmp B28_0b31       ; 4c 31 8b
+    .ifndef VER_JP
     B28_0b06:
     ldx #$00        ; a2 00
     ldy #$00        ; a0 00
@@ -1568,6 +1936,7 @@ B28_0aec:
     cmp #$0a        ; c9 0a
     bne B28_0b0a ; d0 f3
     jmp B28_0b31       ; 4c 31 8b
+    .endif
     B28_0b1a:
     lda $07cc       ; ad cc 07
     tay             ; a8
@@ -1827,6 +2196,7 @@ B28_0c7b:
     beq B28_0ce8 ; f0 13
     jmp B28_0d33       ; 4c 33 8d
 
+
 ; Command FF, end repeat section
 B28_0cd8:
     lda $07bc, x    ; bd bc 07
@@ -1850,7 +2220,7 @@ B28_0ce8:
 B28_0cfa:
     jsr B28_0ba1       ; 20 a1 8b
     jsr B28_09cc       ; 20 cc 89
-    jmp B28_0c88       ; 4c 88 8c
+    jmp B28_0c88       ; 4c 88 8cs
 
 ; Play noise note
 B28_0d03:
@@ -2087,6 +2457,7 @@ ReadByte:
     lda ($b6), y    ; b1 b6
     rts             ; 60
 
+
 ; $8E85
 ; Mystery table, related to envelope
 B28_0e85:
@@ -2117,7 +2488,9 @@ B28_0e85:
     .word B28_0ed2 ; 18
     .word B28_0ec7 ; 19
     .word B28_0ec3 ; 1A
+    .ifndef VER_JP
     .word B28_0f10 ; 1B
+    .endif
 
 ; Envelope divider/volume table
 B28_0ebd:   .byte $76,$11,$11,$14,$31,$ff
@@ -2151,11 +2524,14 @@ B28_0fbe:   .byte $23,$45,$55,$44,$33,$33,$22,$ff
 B28_0fc6:   .byte $87,$65,$43,$21,$44,$33,$21,$11,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$ff
 B28_0fda:   .byte $66,$65,$42,$21,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$ff
 
+
+
+
+
 ; $8FEA
 ; UNKNOWN
 B28_0fea:
-incbinRange "../../split/us/prg/bank1c.bin", $fea, $1074
-
+    incbinRange "../../split/jp/prg/bank1c.bin", $f4c, $fd6
 B28_1074:
     .byte $04,$08,$10,$20,$40,$18,$30,$0c,$0a,$05,$02,$01 ; 00
     .byte $05,$0a,$14,$28,$50,$1e,$3c,$0f,$0c,$06,$03,$02
@@ -2171,10 +2547,13 @@ B28_10DC:
     .byte $a0,$aa,$b4,$be,$c8,$d2,$dc,$e6
 B28_10f4:
     .byte $00,$0a,$14,$1e,$28,$32,$3c,$46,$50,$5a,$64,$6e,$78,$82,$8c,$96
-    .byte $a0,$aa,$b4,$be,$c8,$d2,$dc,$e6,$f0,$00
+    .byte $A0,$AA,$B4,$BE,$C8,$D2,$DC,$E6,$F0
+    .ifndef VER_JP
+    .byte 0
+    .endif
 
-B28_110e:
-    .byte $18,$18,$ff,$ff,$ff,$ff,$6c,$07,$ff,$ff
+    B28_110e:
+    .byte $18,$18,$FF,$FF,$FF,$FF,$6C,$07,$FF,$FF
 
 
 ; flippant battle song header
@@ -2240,6 +2619,7 @@ B28_110e:
 .word mus_magicant_pulse2
 .word mus_magicant_triangle
 .word mus_magicant_noise
+
 
 ; snowman song header
 .byte $00
@@ -2321,6 +2701,8 @@ B28_11a4:
 .word mus_approaching_mt_itoi_pulse2
 .word mus_approaching_mt_itoi_triangle
 .word mus_approaching_mt_itoi_noise
+
+
 
 ; song header
 .byte $00
@@ -2405,7 +2787,6 @@ B28_11fe:
 .word B29_1065
 .word B29_1067
 .word -1
-
 
 .byte $00
 .byte $18
@@ -2493,7 +2874,6 @@ B28_11fe:
 .word -1
 .word -1
 
-
 .byte $18
 .byte $28
 .word B28_132A
@@ -2554,6 +2934,7 @@ B28_11fe:
 .word B29_14AF
 .word -1
 
+B28_12f8:
 .byte $00
 .byte $28
 .word B29_1556
@@ -2561,13 +2942,17 @@ B28_11fe:
 .word -1
 .word -1
 
-B28_12f8:
+
+
+.ifndef VER_JP
 .byte $00
 .byte $43
 .word B29_1580
 .word B29_1588
 .word B29_1590
 .word B29_1596
+.endif
+
 
 ; $9302
 ; Music data
@@ -2685,6 +3070,8 @@ B28_13aa:
 .byte $B2,$2E,$3C
 .byte $B4,$38
 .byte $00
+
+
 
 ;song 2 - flippant battle
 ; music::b_flippant pulse1 pointers
@@ -2968,7 +3355,6 @@ B28_15ec:
 
 
 
-
 ;song 3 - dangerous
 mus_b_dangerous_pulse1:
 .word B28_163b
@@ -3173,6 +3559,11 @@ B28_1823:
     .byte $FF
     .byte $00
 
+
+
+
+
+
 ;song 4 - hippie battle
 mus_b_hippie_pulse1:
 .word B28_163b
@@ -3371,6 +3762,9 @@ B28_19D4:
     .byte $FF
     .byte $00
 
+
+
+
 ;song 5 - you win
 ;unsure about these orders
 mus_b_win_pulse1:
@@ -3399,6 +3793,9 @@ B28_1A29:
     .byte $B0,$2E,$34,$3E,$46,$4C,$56,$5E,$64
     .byte $B4,$5A
     .byte $00
+
+
+
 
 ;song 7 - yucca desert
 mus_yucca_desert_pulse1:
@@ -3549,6 +3946,11 @@ B28_1BAC:
         .byte $B2,$41,$04
     .byte $FF
     .byte $00
+
+
+
+
+
 
 ;song 6 - pollyanna
 mus_pollyanna_pulse1:
@@ -3822,6 +4224,10 @@ B28_1DAE:
     .byte $B4,$20
     .byte $00
 
+
+
+
+
 ;song 7 - bein friends
 mus_bein_friends_pulse1:
 .word B28_1E5D
@@ -4060,6 +4466,10 @@ B29_0054:
     .byte $B0,$81,$81,$01,$41,$81,$01,$01,$01
     .byte $00
 
+
+
+
+
 ;song $10 - poltergeist
 ;pulse 1
 mus_poltergeist_pulse1:
@@ -4184,6 +4594,10 @@ B29_0111:
     .byte $81
 .byte $FF
 .byte $00
+
+
+
+
 
 ;song 9 - magicant
 mus_magicant_pulse1:
@@ -4310,6 +4724,10 @@ B29_020A:
     .byte $B1,$04,$41
 .byte $FF
 .byte $00
+
+
+
+
 
 
 ; song $a - snowman
@@ -4476,6 +4894,9 @@ B29_0349:
 .byte $00
 
 
+
+
+
 ;song $b - mt_itoi
 mus_mt_itoi_pulse1:
 .word B29_0385
@@ -4561,6 +4982,9 @@ B29_0416:
     .byte $B1,$44
 .byte $FF
 .byte $00
+
+
+
 
 
 ;song $d - ghastly site
@@ -4793,6 +5217,8 @@ B29_05D7:
 .byte $00
 
 
+
+
 ;song $f - humoresque of a little dog
 mus_humoresque_of_a_little_dog_pulse1:
 .word B29_06CA
@@ -4872,6 +5298,8 @@ B29_0708:
 .byte $FF
 .byte $B2,$44,$44,$44,$01
 .byte $00
+
+
 
 
 ;song $c - factory
@@ -5014,6 +5442,9 @@ B29_07FE:
 .byte $00
 
 
+
+
+
 ;song $11 - underground
 mus_underground_pulse1:
 .word B29_0835
@@ -5128,6 +5559,8 @@ B29_08AC:
 .byte $00
 
 
+
+
 ;song ? - monkey cave
 mus_monkey_cave_pulse1:
 .word B29_08C9
@@ -5210,6 +5643,12 @@ B29_093B:
 .byte $B3,$30,$34
 .byte $B4,$38
 .byte $00
+
+
+
+
+
+
 
 
 ; song $12 - home
@@ -5295,6 +5734,9 @@ B29_0A02:
 .byte $46,$3C,$34
 .byte $B6,$40
 .byte $00
+
+
+
 
 
 ;song $13 - approaching mt. itoi
@@ -5533,6 +5975,7 @@ B29_0BC4:
 ;????
 .byte $FF
 .byte $00
+
 
 
 
@@ -5822,7 +6265,6 @@ B29_0E06:
 .byte $00
 
 
-
 ;song ? - ?
 B29_0E6C:
 .word B29_0E94
@@ -5895,6 +6337,7 @@ B29_0EB9:
 
 
 
+
 ;song ? - ?
 B29_0EC7:
 .word B29_1069
@@ -5934,6 +6377,8 @@ B29_0EEC:
 B29_0EF8:
 .byte $B6,$02
 .byte $00
+
+
 
 
 
@@ -5986,6 +6431,114 @@ B29_0FCA:
 
 
 
+
+.ifdef VER_JP
+
+;song ? - ?
+B29_1992:
+.word B29_19B8
+.word -1
+.word B29_1992
+
+B29_1998:
+.word B29_19F8
+.word -1
+.word B29_1998
+
+B29_199E:
+.word B29_1A43
+.word B29_1A73
+.word B29_1A73
+.word B29_1AE3
+.word B29_1B00
+.word B29_1AE3
+.word B29_1B0A
+.word -1
+.word B29_199E
+
+B29_19B0:
+.word B29_1A82
+.ifndef VER_JP
+.word B29_1AA6
+.endif
+.word -1
+.word B29_19B0
+
+B29_19B8:
+.byte $9F,$04,$13
+.byte $C4,$B2,$02,$B5,$24
+.byte $28,$20,$B1,$02,$20,$B5,$28,$B2,$02,$B5,$24,$28,$B3,$1E,$20,$FF
+.byte $B4,$2C,$2C,$B1,$2C,$2C,$02,$02,$B3,$2C,$B1,$02,$2E,$28,$2A,$3C
+.byte $3A,$38,$36,$B4,$2C,$2C,$B1,$2C,$2C,$02,$02,$B3,$2C,$B1,$38,$B5
+.byte $38,$B1,$38,$B4,$38,$B5,$02
+.byte $00
+
+B29_19F8:
+.byte $9F,$04,$13
+.byte $C4,$B1,$0C,$0C,$2C
+.byte $0C,$0C,$2E,$0C,$0C,$28,$0C,$0C,$0C,$28,$2E,$0C,$0C,$0C,$0C,$2C
+.byte $0C,$0C,$2E,$0C,$0C,$B3,$2E,$2E,$FF,$B4,$24,$22,$B1,$1E,$1E,$02
+.byte $02,$B3,$1E,$B1,$02,$16,$10,$12,$24,$22,$20,$B4,$1E,$B1,$24,$B4
+.byte $22,$B1,$1E,$1E,$02,$02,$B3,$1E,$B1,$2E,$B5,$32,$B1,$28,$B4,$2A
+.byte $B5,$02
+.byte $00
+
+B29_1A43:
+.byte $9F,$A0,$00
+.byte $B4,$24,$B3,$3C,$B1,$3C,$4A,$54,$4A
+
+.ifdef VER_JP
+.byte $B3,$24
+.else
+.byte $B4
+.endif
+
+.byte $24,$B3,$1E,$20,$B4,$24,$B3,$3C,$B1,$02,$4A,$54,$4A,$B4,$3C,$B3
+.byte $1E,$BA,$46,$44,$42,$40,$3E,$3C,$3A,$38,$36,$34,$32,$30,$2E,$2C
+.byte $2A,$26
+.byte $00
+
+B29_1A73:
+.byte $9F,$00,$00
+.byte $D8,$B1,$24,$FF,$B8,$1E,$24,$2E,$20,$24
+.byte $2E
+.byte $00
+
+B29_1A82:
+.byte $C6,$B2,$01,$04,$FF,$B1,$81,$41,$81,$81,$41,$81,$81,$41
+.byte $41,$01,$04,$01,$C5,$B2,$01,$04,$FF,$C8,$B0,$81,$FF,$B1,$81,$41
+.byte $B0,$81,$81,$B1,$41
+.ifndef VER_JP
+.byte $00
+.endif
+
+B29_1AA6:
+.byte $C8,$44,$04,$84,$04,$44,$44,$84,$04,$FF
+.byte $C5,$B1,$44,$44,$84,$44,$FF,$44,$44,$C4,$B0,$81,$FF,$B1,$81,$C2
+.byte $84,$44,$44,$FF,$44,$C5,$44,$44,$84,$44,$FF,$44,$44,$C4,$B0,$81
+.byte $FF,$C2,$B1,$84,$44,$01,$01,$FF,$04,$01,$04,$01,$81,$41,$C4,$B0
+.byte $81,$FF
+.byte $00
+
+B29_1AE3:
+.byte $9F,$00,$00
+.byte $C5,$B1,$1E,$B0,$1E,$36,$FF,$B1,$1E,$32
+.byte $32,$36,$32,$32,$32,$2E,$2E,$02,$C2,$B1,$2E,$B0,$2E,$2E,$FF
+.byte $00
+
+B29_1B00:
+.byte $B1,$02,$2E,$28,$2A,$3C,$3A,$38,$36
+.byte $00
+
+B29_1B0A:
+.byte $9F,$A0,$00
+.byte $B1,$28,$B5
+.byte $2A,$B1,$2E,$B4,$32,$BA,$32,$30,$2E,$2C,$2A,$28,$26,$24,$22,$20
+.byte $1E,$1C
+.byte $00
+.endif
+
+
 ;song ? - ?
 B29_0FF7:
 .word B29_1007
@@ -6009,6 +6562,7 @@ B29_100B:
 .byte $9F,$0F,$B1
 .byte $B8,$02,$02
 .byte $00
+
 
 
 
@@ -6054,6 +6608,9 @@ B29_1049:
 .byte $00
 
 
+
+
+
 ;song ? - ?
 B29_1061:
 .word B29_1069
@@ -6085,8 +6642,6 @@ B29_108F:
 .byte $9F,$A0,$00
 .byte $B0,$40,$42,$44,$46,$48,$4A,$B3,$4C,$B4,$34
 .byte $00
-
-
 
 
 
@@ -6149,8 +6704,6 @@ B29_112C:
 .byte $C8,$B1,$04,$01
 .byte $04,$07,$01,$04,$01,$04,$04,$07,$01,$04,$FF
 .byte $00
-
-
 
 
 
@@ -6341,8 +6894,6 @@ B29_1400:
 .byte $00
 
 
-
-
 ;song ? - ?
 B29_1438:
 .word B29_144C
@@ -6414,6 +6965,7 @@ B29_148D:
 
 
 
+
 ;song ? - ?
 B29_1495:
 .word B29_149B
@@ -6445,7 +6997,6 @@ B29_14AF:
 .word -1
 .word B29_14AF
 
-;unused?
 B29_14B5:
 .word B29_154C
 .word -1
@@ -6484,21 +7035,19 @@ B29_154C:
 .byte $00
 
 
-
-
-
 ;song ? - ?
 B29_1556:
 .word B29_1564
-B29_1558:
+B29_163E:
 .word B29_156D
 .word -1
-.word B29_1558
+.word B29_163E
 
 B29_155E:
 .word B29_156A
 .word -1
 .word B29_155E
+
 
 B29_1564:
 .byte $9F,$A9,$B2
@@ -6512,8 +7061,7 @@ B29_156D:
 .byte $B2,$52,$5C,$5E,$66,$6A,$72,$B5,$74,$B1,$02,$B4,$68,$02,$FF
 .byte $00
 
-
-
+.ifndef VER_JP
 
 ;song ? - ?
 B29_1580:
@@ -6564,6 +7112,8 @@ B29_15BC:
 .byte $C2,$B0,$01,$B3
 .byte $01,$FF,$C2,$B0,$41,$41,$01,$B3,$01,$FF
 .byte $00
+.endif
+
 
 B29_15CB:
 .byte $9F,$B3,$B1
@@ -6670,8 +7220,6 @@ B29_17E7:
 
 
 
-
-
 ;song ? - ?
 B29_1817:
 .word B29_1605
@@ -6682,6 +7230,7 @@ B29_181F:
 .word B29_1605
 .word -1
 .word B29_181F
+
 
 B29_1825:
 .word B29_1644
@@ -6761,7 +7310,7 @@ B29_1988:
 
 
 
-
+.ifndef VER_JP
 
 ;song ? - ?
 B29_1992:
@@ -6854,6 +7403,8 @@ B29_1B0A:
 .byte $2A,$B1,$2E,$B4,$32,$BA,$32,$30,$2E,$2C,$2A,$28,$26,$24,$22,$20
 .byte $1E,$1C
 .byte $00
+.endif
+
 
 
 
@@ -6919,8 +7470,6 @@ B29_1C0D:
 B29_1C3F:
 .byte $B3,$01,$04,$01,$04
 .byte $00
-
-
 
 
 ;song ? - ?
@@ -7066,3 +7615,5 @@ B29_1E7C:
 .byte $B1,$44,$04,$84,$44,$44,$04,$84,$04,$FF,$B4,$44,$C2,$B1,$44,$04
 .byte $84,$44,$44,$04,$84,$04,$FF
 .byte $00
+
+

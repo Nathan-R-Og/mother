@@ -3885,42 +3885,42 @@ B19_198b:
 
 B19_198f:
     jsr B30_03b2
-	lda #<B19_19d1
-	ldx #>B19_19d1
-	jsr B19_0c44
-	jsr B19_19af
-	jsr B19_1b40
-	lda #<B19_19dc
-	ldx #>B19_19dc
-	jsr B19_1b12
-	bit $83
-	bmi B19_19ac
-	sec
-	rts
+    lda #<B19_19d1
+    ldx #>B19_19d1
+    jsr B19_0c44
+    jsr B19_19af
+    jsr B19_1b40
+    lda #<B19_19dc
+    ldx #>B19_19dc
+    jsr B19_1b12
+    bit $83
+    bmi B19_19ac
+    sec
+    rts
     B19_19ac:
     jmp B19_17f6
 
 B19_19af:
     lda event_flags+29
-	sta $65
-	ldx #$00
+    sta $65
+    ldx #$00
     B19_19b6:
     lda #$00
-	asl $65
-	bcc B19_19c0
-	clc
-	txa
-	adc #$80
+    asl $65
+    bcc B19_19c0
+    clc
+    txa
+    adc #$80
     B19_19c0:
     sta $0580, x
-	inx
-	cpx #$08
-	bcc B19_19b6
-	lda #$80
-	ldx #$05
-	sta $84
-	stx $85
-	rts
+    inx
+    cpx #$08
+    bcc B19_19b6
+    lda #$80
+    ldx #$05
+    sta $84
+    stx $85
+    rts
 
 B19_19d1:
     .byte $20,$07,$03,$fe,$d7,$e8,$e5,$f2

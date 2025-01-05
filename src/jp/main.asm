@@ -34,8 +34,13 @@ binclude "text/dialogue2.asm"
 binclude "text/dialogue3.asm"
 binclude "text/dialogue4.asm"
 
-.include "prg/bank1c.asm"
-.include "prg/bank1d.asm"
+.include "prg/music.asm"
+
+.segment        "SRAM": absolute
+.include "../global/starting_sram.asm"
+binclude "../global/starting_characters.asm"
+
+
 .include "prg/constant.asm"
 
 .include "../global/chr/bank0.asm"

@@ -8,54 +8,54 @@ B26_0000:
     lda #$00
     sta $a000
     lda #$00
-	sta $ec
-	lda $e7
-	and #$bf
-	sta $e7
-	lda #$00
-	sta $e8
-	sta $e9
-	lda ram_PPUCTRL
-	and #$fc
-	ldx #$10
-	ldy #$08
-	sta ram_PPUCTRL
-	stx scroll_y
-	sty scroll_x
-	lda #$ff
-	jsr PlayMusic
-	lda #$1b
-	sta $07
-	jsr WaitFrame
-	lda #<B26_02d3
-	sta $40
-	lda #>B26_02d3
-	sta $41
+    sta $ec
+    lda $e7
+    and #$bf
+    sta $e7
+    lda #$00
+    sta $e8
+    sta $e9
+    lda ram_PPUCTRL
+    and #$fc
+    ldx #$10
+    ldy #$08
+    sta ram_PPUCTRL
+    stx scroll_y
+    sty scroll_x
+    lda #$ff
+    jsr PlayMusic
+    lda #$1b
+    sta $07
+    jsr WaitFrame
+    lda #<B26_02d3
+    sta $40
+    lda #>B26_02d3
+    sta $41
     B26_0042:
     ldy #$00
-	lda ($40), y
-	beq B26_005a
-	jsr B26_005d
-	clc
-	tya
-	adc $40
-	sta $40
-	lda #$00
-	adc $41
-	sta $41
-	jmp B26_0042
+    lda ($40), y
+    beq B26_005a
+    jsr B26_005d
+    clc
+    tya
+    adc $40
+    sta $40
+    lda #$00
+    adc $41
+    sta $41
+    jmp B26_0042
 
 B26_005a:
     jmp B26_005a
 
 B26_005d:
     asl a
-	tax
-	lda B26_0068+1, x
-	pha
-	lda B26_0068, x
-	pha
-	rts
+    tax
+    lda B26_0068+1, x
+    pha
+    lda B26_0068, x
+    pha
+    rts
 
 B26_0068:
     .addr B26_005a-1 ; [00]                      - END, locks up the game
@@ -81,336 +81,336 @@ B26_0068:
 
 B26_0090:
     iny
-	lda ($40), y
-	tax
+    lda ($40), y
+    tax
     @loop:
     jsr PpuSync
-	lda #$01
-	sta $e5
-	dex
-	bne @loop
-	iny
-	rts
+    lda #$01
+    sta $e5
+    dex
+    bne @loop
+    iny
+    rts
 
 B26_00a0:
     lda #$00
-	sta pad1_forced
-	iny
-	lda ($40), y
+    sta pad1_forced
+    iny
+    lda ($40), y
     B26_00a7:
     bit pad1_forced
-	beq B26_00a7
-	lda #$00
-	sta pad1_forced
-	iny
-	rts
+    beq B26_00a7
+    lda #$00
+    sta pad1_forced
+    iny
+    rts
 
 B26_00b1:
     jsr B31_0ddc
-	jsr B31_1d5e
-	jsr B31_1d80
-	ldy #$01
-	rts
+    jsr B31_1d5e
+    jsr B31_1d80
+    ldy #$01
+    rts
 
 B26_00bd:
     iny
-	lda ($40), y
-	ldx #$04
-	jsr BANK_SWAP
-	iny
-	lda ($40), y
-	ldx #$05
-	jsr BANK_SWAP
+    lda ($40), y
+    ldx #$04
+    jsr BANK_SWAP
+    iny
+    lda ($40), y
+    ldx #$05
+    jsr BANK_SWAP
     B26_00cd:
     iny
-	lda ($40), y
-	ldx #$02
-	jsr BANK_SWAP
-	iny
-	lda ($40), y
-	ldx #$03
-	jsr BANK_SWAP
-	iny
-	lda ($40), y
-	ldx #$00
-	jsr BANK_SWAP
+    lda ($40), y
+    ldx #$02
+    jsr BANK_SWAP
+    iny
+    lda ($40), y
+    ldx #$03
+    jsr BANK_SWAP
+    iny
+    lda ($40), y
+    ldx #$00
+    jsr BANK_SWAP
     B26_00e5:
     iny
-	lda ($40), y
-	ldx #$01
-	jsr BANK_SWAP
-	iny
-	rts
+    lda ($40), y
+    ldx #$01
+    jsr BANK_SWAP
+    iny
+    rts
 
 B26_00ef:
     lda #$08
-	bne B26_00f5
+    bne B26_00f5
     B26_00f3:
     lda #$20
     B26_00f5:
     sta $43
-	jsr PpuSync
-	lda #$05
-	sta $0400 ; TODO: UNKNOWN NMI COMMAND
-	ldy #$04
-	lda ($40), y
-	sta $42
-	dey
-	lda ($40), y
-	sta $0401
-	dey
-	lda ($40), y
-	sta $0402
-	dey
-	lda ($40), y
-	sta $0403
-	ldy #$05
+    jsr PpuSync
+    lda #$05
+    sta $0400 ; TODO: UNKNOWN NMI COMMAND
+    ldy #$04
+    lda ($40), y
+    sta $42
+    dey
+    lda ($40), y
+    sta $0401
+    dey
+    lda ($40), y
+    sta $0402
+    dey
+    lda ($40), y
+    sta $0403
+    ldy #$05
     B26_0119:
     ldx #$00
     B26_011b:
     lda ($40), y
-	sta $0404, x
-	iny
-	bne B26_0125
-	inc $41
+    sta $0404, x
+    iny
+    bne B26_0125
+    inc $41
     B26_0125:
     inx
-	cpx $0401
-	bne B26_011b
-	lda #$00
-	sta $0404, x
-	sta $e6
-	lda #$80
-	sta $e5
-	dec $42
-	beq B26_0151
-	jsr PpuSync
-	clc
-	lda $43
-	adc $0403
-	sta $0403
-	lda #$00
-	adc $0402
-	sta $0402
-	jmp B26_0119
+    cpx $0401
+    bne B26_011b
+    lda #$00
+    sta $0404, x
+    sta $e6
+    lda #$80
+    sta $e5
+    dec $42
+    beq B26_0151
+    jsr PpuSync
+    clc
+    lda $43
+    adc $0403
+    sta $0403
+    lda #$00
+    adc $0402
+    sta $0402
+    jmp B26_0119
     B26_0151:
     rts
 
 B26_0152:
     jsr PpuSync
-	ldy #$10
-	ldx #$0f
+    ldy #$10
+    ldx #$0f
     B26_0159:
     lda ($40), y
-	sta $0500, x
-	lda B26_02c3, x
-	sta $0510, x
-	dey
-	dex
-	bpl B26_0159
-	lda $0500
-	sta $0510
-	sta $0514
-	sta $0518
-	sta $051c
-	lda #$04
-	sta $0400 ; UPDATE_PALETTE
-	lda #$00
-	sta $0401 ; END
-	sta $e6
-	lda #$80
-	sta $e5
-	ldy #$11
-	rts
+    sta $0500, x
+    lda B26_02c3, x
+    sta $0510, x
+    dey
+    dex
+    bpl B26_0159
+    lda $0500
+    sta $0510
+    sta $0514
+    sta $0518
+    sta $051c
+    lda #$04
+    sta $0400 ; UPDATE_PALETTE
+    lda #$00
+    sta $0401 ; END
+    sta $e6
+    lda #$80
+    sta $e5
+    ldy #$11
+    rts
 
 B26_018a:
     jsr PpuSync
-	iny
-	lda ($40), y
-	asl a
-	asl a
-	asl a
-	tax
-	lda ($40), y
-	and #$80
-	sta $0301, x
-	iny
-	lda ($40), y
-	sta $0300, x
-	iny
-	lda ($40), y
-	sta $0302, x
-	iny
-	lda ($40), y
-	sta $0303, x
-	iny
-	lda ($40), y
-	sta $0306, x
-	iny
-	lda ($40), y
-	sta $0307, x
-	lda #$00
-	sta $0304, x
-	sta $0305, x
-	ldy #$07
-	rts
+    iny
+    lda ($40), y
+    asl a
+    asl a
+    asl a
+    tax
+    lda ($40), y
+    and #$80
+    sta $0301, x
+    iny
+    lda ($40), y
+    sta $0300, x
+    iny
+    lda ($40), y
+    sta $0302, x
+    iny
+    lda ($40), y
+    sta $0303, x
+    iny
+    lda ($40), y
+    sta $0306, x
+    iny
+    lda ($40), y
+    sta $0307, x
+    lda #$00
+    sta $0304, x
+    sta $0305, x
+    ldy #$07
+    rts
 
 B26_01c4:
     jsr PpuSync
-	iny
-	lda ($40), y
-	asl a
-	asl a
-	asl a
-	tax
-	clc
-	iny
-	lda ($40), y
-	adc $0306, x
-	sta $0306, x
-	iny
-	lda ($40), y
-	adc $0307, x
-	sta $0307, x
-	iny
-	lda ($40), y
-	sta $0304, x
-	iny
-	lda ($40), y
-	sta $0305, x
-	ldy #$06
-	rts
+    iny
+    lda ($40), y
+    asl a
+    asl a
+    asl a
+    tax
+    clc
+    iny
+    lda ($40), y
+    adc $0306, x
+    sta $0306, x
+    iny
+    lda ($40), y
+    adc $0307, x
+    sta $0307, x
+    iny
+    lda ($40), y
+    sta $0304, x
+    iny
+    lda ($40), y
+    sta $0305, x
+    ldy #$06
+    rts
 
 B26_01f0:
     iny
-	lda ($40), y
-	jsr PlayMusic
-	iny
-	rts
+    lda ($40), y
+    jsr PlayMusic
+    iny
+    rts
 
 B26_01f8:
     iny
-	lda ($40), y
-	sta $47
-	iny
-	rts
+    lda ($40), y
+    sta $47
+    iny
+    rts
 
 B26_01ff:
     dec $47
-	bne B26_0206
-	ldy #$03
-	rts
+    bne B26_0206
+    ldy #$03
+    rts
 
 B26_0206:
     iny
-	lda ($40), y
-	pha
-	iny
-	lda ($40), y
-	sta $41
-	pla
-	sta $40
-	ldy #$00
-	rts
+    lda ($40), y
+    pha
+    iny
+    lda ($40), y
+    sta $41
+    pla
+    sta $40
+    ldy #$00
+    rts
 
 B26_0215:
     jsr PpuSync
-	iny
-	lda ($40), y
-	asl a
-	asl a
-	asl a
-	tax
-	lda #$00
-	sta $0300, x
-	iny
-	rts
+    iny
+    lda ($40), y
+    asl a
+    asl a
+    asl a
+    tax
+    lda #$00
+    sta $0300, x
+    iny
+    rts
 
 B26_0226:
     iny
-	lda ($40), y
-	sta $74
-	iny
-	lda ($40), y
-	sta $73
-	lda #$02
-	sta $76
-	lda #$13
-	sta $77
-	lda #$1c
-	sta $70
-	lda #$00
-	sta $71
+    lda ($40), y
+    sta $74
+    iny
+    lda ($40), y
+    sta $73
+    lda #$02
+    sta $76
+    lda #$13
+    sta $77
+    lda #$1c
+    sta $70
+    lda #$00
+    sta $71
     B26_0240:
     jsr GetTextData
-	jsr B30_06db
-	cmp #$00
-	beq B26_0252
-	ldy #$00
-	lda ($74), y
-	cmp #$00
-	bne B26_0240
+    jsr B30_06db
+    cmp #$00
+    beq B26_0252
+    ldy #$00
+    lda ($74), y
+    cmp #$00
+    bne B26_0240
     B26_0252:
     jsr PpuSync
-	lda #$08
-	sta $0400 ; PPU_FILL
-	lda #$07
-	sta $0401 ; Fill 7 bytes...
-	lda #<$23e9
-	sta $0403
-	lda #>$23e9
-	sta $0402 ; at $23E9...
-	lda #$ff
-	sta $0404 ; with $FF
-	lda #$00
-	sta $0405 ; END
-	ldx #$02
+    lda #$08
+    sta $0400 ; PPU_FILL
+    lda #$07
+    sta $0401 ; Fill 7 bytes...
+    lda #<$23e9
+    sta $0403
+    lda #>$23e9
+    sta $0402 ; at $23E9...
+    lda #$ff
+    sta $0404 ; with $FF
+    lda #$00
+    sta $0405 ; END
+    ldx #$02
     B26_0275:
     lda #$00
-	sta $e6
-	lda #$80
-	sta $e5
-	dex
-	beq B26_0297
-	jsr PpuSync
-	clc
-	lda #$08
-	adc $0403
-	sta $0403
-	lda #$00
-	adc $0402
-	sta $0402
-	jmp B26_0275
+    sta $e6
+    lda #$80
+    sta $e5
+    dex
+    beq B26_0297
+    jsr PpuSync
+    clc
+    lda #$08
+    adc $0403
+    sta $0403
+    lda #$00
+    adc $0402
+    sta $0402
+    jmp B26_0275
 
 B26_0297:
     ldy #$03
-	rts
+    rts
 
 B26_029a:
     iny
-	lda ($40), y
-	sta $74
-	iny
-	lda ($40), y
-	sta $73
-	iny
-	lda ($40), y
-	sta $76
-	iny
-	lda ($40), y
-	sta $77
-	lda #$00
-	sta $70
-	sta $71
-	jsr GetTextData
-	jsr B30_06db
-	ldy #$05
-	rts
+    lda ($40), y
+    sta $74
+    iny
+    lda ($40), y
+    sta $73
+    iny
+    lda ($40), y
+    sta $76
+    iny
+    lda ($40), y
+    sta $77
+    lda #$00
+    sta $70
+    sta $71
+    jsr GetTextData
+    jsr B30_06db
+    ldy #$05
+    rts
 
 B26_02bd:
     jsr RestoreAndUpdatePalette
-	ldy #$01
-	rts
+    ldy #$01
+    rts
 
 B26_02c3:
     .byte $0f, $0f, $00, $30
@@ -421,103 +421,103 @@ B26_02c3:
 .define ENDING_CMD_00_END .byte $00
 
 .macro ENDING_CMD_01_DELAY frames
-	.byte $01
-	.byte frames
+    .byte $01
+    .byte frames
 .endmacro
 
 .macro ENDING_CMD_02 arg1
-	.byte $02
-	.byte arg1
+    .byte $02
+    .byte arg1
 .endmacro
 
 .define ENDING_CMD_03_FADEOUT .byte $03
 
 .macro ENDING_CMD_04_LOADTILESETS arg1, arg2, arg3, arg4
-	.byte $04
-	.byte arg1
-	.byte arg2
-	.byte arg3
-	.byte arg4
+    .byte $04
+    .byte arg1
+    .byte arg2
+    .byte arg3
+    .byte arg4
 .endmacro
 
 .macro ENDING_CMD_05_LOADBG2MAP arg1, arg2, arg3
-	.byte $05
-	.word arg1
-	.byte arg2
-	.byte arg3
+    .byte $05
+    .word arg1
+    .byte arg2
+    .byte arg3
 .endmacro
 
 .macro ENDING_CMD_06_SETMETATILEPROPERTIES arg1, arg2, arg3
-	.byte $06
-	.word arg1
-	.byte arg2
-	.byte arg3
+    .byte $06
+    .word arg1
+    .byte arg2
+    .byte arg3
 .endmacro
 
 .define ENDING_CMD_07_SETPAL .byte $07
 
 .macro ENDING_CMD_08 arg1
-	.byte $08
-	.word arg1
+    .byte $08
+    .word arg1
 .endmacro
 
 .macro ENDING_CMD_09_INITSPRITE id, tiles, arg_x, arg_y, sprite_pointer
-	.byte $09
-	.byte id
-	.byte tiles
-	.byte arg_x,arg_y
-	.word sprite_pointer
+    .byte $09
+    .byte id
+    .byte tiles
+    .byte arg_x,arg_y
+    .word sprite_pointer
 .endmacro
 
 .macro ENDING_CMD_0A_MOVESPRITE id, arg2, arg3, arg4
-	.byte $0A
-	.byte id
-	.word arg2
-	.byte arg3
-	.byte arg4
+    .byte $0A
+    .byte id
+    .word arg2
+    .byte arg3
+    .byte arg4
 .endmacro
 
 .macro ENDING_CMD_0B_PLAYSFX arg1
-	.byte $0B
-	.byte arg1
+    .byte $0B
+    .byte arg1
 .endmacro
 
 .macro ENDING_CMD_0C_LOADSECONDARYSPRITETILES arg1
-	.byte $0C
-	.byte arg1
+    .byte $0C
+    .byte arg1
 .endmacro
 
 .macro ENDING_CMD_0D_SETALLTILESETS arg1, arg2, arg3, arg4, arg5, arg6
-	.byte $0D
-	.byte arg1, arg2
-	.byte arg3, arg4
-	.byte arg5, arg6
+    .byte $0D
+    .byte arg1, arg2
+    .byte arg3, arg4
+    .byte arg5, arg6
 .endmacro
 
 .macro ENDING_CMD_0E_BEGINLOOP iterations
-	.byte $0E
-	.byte iterations
+    .byte $0E
+    .byte iterations
 .endmacro
 
 .macro ENDING_CMD_0F_ENDLOOP pointer
-	.byte $0F
-	.word pointer
+    .byte $0F
+    .word pointer
 .endmacro
 
 .macro ENDING_CMD_10 arg1
-	.byte $10
-	.byte arg1
+    .byte $10
+    .byte arg1
 .endmacro
 
 .macro ENDING_CMD_11_DRAWTEXT stringId
-	.byte $11
-	.word stringId
+    .byte $11
+    .word stringId
 .endmacro
 
 .macro ENDING_CMD_12_DRAWTEXTXY stringId, arg_x, arg_y
-	.byte $12
+    .byte $12
     .word stringId
-	.byte arg_x,arg_y
+    .byte arg_x,arg_y
 .endmacro
 
 .define ENDING_CMD_13_FADEIN .byte $13

@@ -36,7 +36,7 @@
 .include "prg/bank19.asm"
 
 .include "prg/credits.asm"
-.include "prg/bank1b.asm"
+.include "prg/credits_music.asm"
 
 .include "prg/music.asm"
 .include "prg/constant.asm"
