@@ -1,5 +1,5 @@
 ;this helps us even use quotes in the first place.
-;if a better method if found (escapes dont work), deprecate this.
+;if a better method is found (escapes dont work), deprecate this.
 .feature loose_string_term
 
 .charmap $41, $C1 ;A == $C1
@@ -101,28 +101,29 @@ waitThenOverwrite = 2
 pauseText = 3
 t_nop = 5
 
+.define goto(ta) 4,.LOBYTE(ta),.HIBYTE(ta)
 .define set_pos(tx,ty) $20,tx,ty
 .define print_string(ta) $21,.LOBYTE(ta),.HIBYTE(ta)
 .define repeatTile(ta,tb) $22,ta,tb
-.define print_number(ta, tb) $23,.LOBYTE(ta),.HIBYTE(ta),tb
+.define print_number(ta, tb, tc) $23,.LOBYTE(ta),.HIBYTE(ta),tb,tc
 
-.define cashDeposit print_number $7415, 3, stopText
-.define currentCash print_number $7412, 3, stopText
-.define price print_number $002A, 2, stopText
-.define damageAmount print_number $0590, 2, stopText
-.define defenseStat print_number $0592, 2, stopText
-.define lvHPPPinc print_number $005D, 1, stopText
-.define lvFIGinc print_number $0058, 1, stopText
-.define lvSPDinc print_number $0059, 1, stopText
-.define lvWISinc print_number $005A, 1, stopText
-.define lvSTRinc print_number $005B, 1, stopText
-.define lvFORinc print_number $005C, 1, stopText
+.define cashDeposit print_number $7415, 3, 0
+.define currentCash print_number $7412, 3, 0
+.define price print_number $002A, 2, 0
+.define damageAmount print_number $0590, 2, 0
+.define defenseStat print_number $0592, 2, 0
+.define lvHPPPinc print_number $005D, 1, 0
+.define lvFIGinc print_number $0058, 1, 0
+.define lvSPDinc print_number $0059, 1, 0
+.define lvWISinc print_number $005A, 1, 0
+.define lvSTRinc print_number $005B, 1, 0
+.define lvFORinc print_number $005C, 1, 0
 .define SMAAAAASH $97,$98,$99,$9A,$9B,$9C,$9D,$9E,$9F ; this isnt a command per se but this is helpful enough
 .define user print_string $6D20
 .define recipient print_string $6D24
 .define result print_string $6d00
 .define favFood print_string $7689
-.define nintenName print_string $7478
+.define nintenName print_string ninten_name
 .define lloydName print_string $74F8
 .define anaName print_string $74B8
 .define teddyName print_string $7538
@@ -142,6 +143,22 @@ beta  = $BC ; β
 gamma = $BD ; γ
 pi    = $BE ; π
 omega = $BF ; Ω
+
+;top
+uibox_tl = $DB
+uibox_t = $DC
+uibox_tr = $DD
+uibox_tc = $FE ;version cut off (save menus and whatnot)
+
+;middle
+;(problem area)
+uibox_l = $24 ;is actually $DE
+uibox_r = $25 ;is actually $DF
+
+;bottom
+uibox_bl = $FB
+uibox_b = $FC
+uibox_br = $FD
 
 .endif
 

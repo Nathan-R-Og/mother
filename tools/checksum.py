@@ -17,8 +17,8 @@ if __name__ == "__main__":
     #here because it passes the same args as build.py
     parser.add_argument(
         "-kf",
-        "--kanjifix",
-        help="Build using the macro for japanese kanji",
+        "--kanafix",
+        help="Build using the macro for japanese kana",
         action="store_true",
     )
 

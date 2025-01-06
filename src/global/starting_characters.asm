@@ -3,6 +3,7 @@
 ;jp has temp names but blanks out those args
 
 party_data:
+
 ;ninten
 ;?
 .byte $00
@@ -14,7 +15,7 @@ party_data:
 .word 30,8,5,5
 ;fight, speed, wisdom, strength, force
 .byte 5,5,5,5,5
-;level
+ninten_level:
 .byte 1
 ;exp
 .faraddr 0 ;far addrs are meant for segments but also i want a 3 byte keyword :)
@@ -46,7 +47,7 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 ninten_name:
 .ifdef VER_JP
 ;Boy A
-kanjifix "しょうねんA"
+kanafix "しょうねんA"
 .byte 0,stopText
 .else
 .byte 0,0,0,0,0,0,0,stopText
@@ -95,7 +96,7 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 ana_name:
 .ifdef VER_JP
 ;Girl B
-kanjifix "しょうじょB"
+kanafix "しょうじょB"
 .byte 0,stopText
 .else
 .byte 0,0,0,0,0,0,0,stopText
@@ -144,7 +145,7 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 lloyd_name:
 .ifdef VER_JP
 ;Boy C
-kanjifix "しょうねんC"
+kanafix "しょうねんC"
 .byte 0,stopText
 .else
 .byte 0,0,0,0,0,0,0,stopText
@@ -193,7 +194,7 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 teddy_name:
 .ifdef VER_JP
 ;Boy D
-kanjifix "しょうねんD"
+kanafix "しょうねんD"
 .byte 0,stopText
 .else
 .byte 0,0,0,0,0,0,0,stopText
@@ -242,7 +243,7 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 pippi_name:
 .ifdef VER_JP
 ;Pippi
-kanjifix "ピッピ"
+kanafix "ピッピ"
 .byte 0,0,0,0,stopText
 .else
 .byte "Pippi",0,0,stopText
@@ -291,7 +292,7 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 eve_name:
 .ifdef VER_JP
 ;EVE
-kanjifix "イヴ"
+kanafix "イヴ"
 .byte 0,0,0,0,0,stopText
 .else
 .byte "EVE",0,0,0,0,stopText
@@ -340,7 +341,7 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 flyingman_name:
 .ifdef VER_JP
 ;Flying Man
-kanjifix "フライングマン"
+kanafix "フライングマン"
 .byte stopText
 .else
 .byte "FlynMan",stopText

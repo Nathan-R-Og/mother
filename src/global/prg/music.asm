@@ -1,5 +1,3 @@
-.segment        "MUSIC": absolute
-
 .enum music
     melodies = 1
     b_flippant = 2
@@ -23,9 +21,59 @@
     approaching_mt_itoi = $13
     ;monkey_cave = ?
 .endenum
-MUS_repeat_twice = $c2
-MUS_end_repeat = $ff
-MUS_end_track = $00
+
+;Oct  C  C#   D  D#   E   F  F#   G  G#   A  A#   B  Max Detune at B
+;1:                                       0*         0.96 cents
+;2:   2   3   4   5   6   7   8   9   a   b   c   d  1.91 cents
+;3:   e   f  10  11  12  13  14  15  16  17  18  19  3.83 cents
+;4:  1a  1b  1c  1d  1e  1f  20  21  22  23  24  25  7.69 cents
+;5:  26  27  28  29  2a  2b  2c  2d  2e  2f  30  31  15.49 cents
+;6:  32  33  34  35  36  37  38  39  3a  3b  3c  3d  31.41 cents
+;7:  3e  3f  40  41  42
+
+.define note_offset(octave, note) .byte (((octave-2) *$c) + note) * 2
+
+
+.define Note_Repeat(amount) .byte $C0 + amount
+.define Note_End_Repeat .byte $FF
+
+;'rest'
+.define Note_Rest .byte $2 ; == 1
+.define Note_C(octave) note_offset octave, 2
+.define Note_CS(octave) note_offset octave, 3
+.define Note_D(octave) note_offset octave, 4
+.define Note_DS(octave) note_offset octave, 5
+.define Note_E(octave) note_offset octave, 6
+.define Note_F(octave) note_offset octave, 7
+.define Note_FS(octave) note_offset octave, 8
+.define Note_G(octave) note_offset octave, 9
+.define Note_GS(octave) note_offset octave, 10
+.define Note_A(octave) note_offset octave, 11
+.define Note_AS(octave) note_offset octave, 12
+.define Note_B(octave) note_offset octave, 13
+
+.define Note_Noise(dmc_cmd, noise_cmd) .byte (dmc_cmd << 6) | noise_cmd
+
+;normal
+.define nl_whole 4
+.define nl_half 3
+.define nl_quarter 2
+.define nl_eighth 1
+.define nl_sixteenth 0
+.define nl_thirtysecond $a ;!
+
+;dotted
+.define nl_d_half 6
+.define nl_d_quarter 5
+.define nl_d_eighth 7
+
+;triplet
+.define nl_t_quarter 8 ;!
+.define nl_t_eighth 9 ;!
+
+.define Note_Length(length) .byte $B0 | length
+
+.define Track_End .byte 0
 
 
 .ifdef VER_JP
@@ -34,6 +82,10 @@ B28_086b := $c18d
 B28_05ab := $c189
 B28_059c := $c181
 .endif
+
+
+.segment        "MUSIC": absolute
+;.segment        "PRG1C": absolute
 
 ; $8000
 ; Sound driver
@@ -248,9 +300,15 @@ incbinRange "../../split/jp/prg/bank1c.bin", $12e, $138
 B28_012a:
 incbinRange "../../split/jp/prg/bank1c.bin", $138, $13c
 B28_012e:
-incbinRange "../../split/jp/prg/bank1c.bin", $13c, $149
+incbinRange "../../split/jp/prg/bank1c.bin", $13c, $146
+.ifndef VER_JP
+incbinRange "../../split/us/prg/bank1c.bin", $138, $13b
+.endif
 B28_013b:
-incbinRange "../../split/jp/prg/bank1c.bin", $149, $150
+.ifndef VER_JP
+incbinRange "../../split/us/prg/bank1c.bin", $13b, $13c
+.endif
+incbinRange "../../split/jp/prg/bank1c.bin", $146, $150
 B28_0146:
 incbinRange "../../split/jp/prg/bank1c.bin", $150, $154
 B28_014a:
@@ -444,7 +502,9 @@ B28_0277:
     lda #$c0        ; a9 c0
     sta $4017       ; 8d 17 40 ; APU "frame counter". Select "one 5-step sequence" (whatever that means) and clear interrupt flag
     jsr B28_00bc       ; 20 bc 80 ; Weird $BB shuffle-around
-    jsr $826a
+    .ifdef VER_JP
+    jsr B27_007e
+    .endif
     jsr B28_01cd       ; 20 cd 81 ; Something about jump pointer table at $8009
     jsr B28_01b8       ; 20 b8 81 ; Something about jump pointer table at $8089
     jsr B28_01b0       ; 20 b0 81 ; Something about jump pointer table at $8079
@@ -2552,9 +2612,14 @@ B28_10f4:
     .byte 0
     .endif
 
-    B28_110e:
-    .byte $18,$18,$FF,$FF,$FF,$FF,$6C,$07,$FF,$FF
-
+;eight melodies
+B28_110e:
+    .byte $18
+    .byte $18
+    .word -1
+    .word -1
+    .word $076c
+    .word -1
 
 ; flippant battle song header
 .byte $00
@@ -2811,6 +2876,7 @@ B28_11fe:
 .word B29_0E9E
 .word -1
 
+B28_124E:
 .byte $83
 .byte $43
 .word B29_1438
@@ -2850,7 +2916,6 @@ B28_11fe:
 .word -1
 .word -1
 
-
 .byte $00
 .byte $28
 .word B28_1312
@@ -2859,6 +2924,7 @@ B28_11fe:
 .word -1
 
 
+B28_128A:
 .byte $00
 .byte $28
 .word B28_131A
@@ -2927,6 +2993,7 @@ B28_11fe:
 .word -1
 .word -1
 
+B28_12ee:
 .byte $00
 .byte $28
 .word B29_14A3
@@ -2934,7 +3001,10 @@ B28_11fe:
 .word B29_14AF
 .word -1
 
+
+.ifdef VER_JP
 B28_12f8:
+.endif
 .byte $00
 .byte $28
 .word B29_1556
@@ -2942,9 +3012,8 @@ B28_12f8:
 .word -1
 .word -1
 
-
-
 .ifndef VER_JP
+B28_12f8:
 .byte $00
 .byte $43
 .word B29_1580
@@ -3109,10 +3178,11 @@ B28_13d8:   .word B28_15ec ; 01
     .word B28_13d8
 
 ;pulse1 phrase 01
+;pulse1 phrase 01
 B28_13de:
     .byte $9f,$13,$31   ; Unknown
     .byte $9e,$00      ; Set notelength table offset
-    .byte MUS_repeat_twice         ; Repeat until FF twice
+    Note_Repeat(2)
         .byte $b7,$02
         .byte $b0,$38
         .byte $b2,$02
@@ -3122,7 +3192,7 @@ B28_13de:
         .byte $b0,$38
         .byte $b7,$02
         .byte $b6,$02
-    .byte MUS_end_repeat         ; End repeat section
+    Note_End_Repeat
     .byte $b7,$02
     .byte $b4,$2a
     .byte $b0,$02
@@ -3141,7 +3211,7 @@ B28_13de:
     .byte $b0,$42
     .byte $b2,$02
     .byte $b4,$3c,$02
-    .byte MUS_repeat_twice         ; Repeat until FF twice
+    Note_Repeat(2)         ; Repeat until FF twice
         .byte $b1,$34,$02,$42,$02,$3c,$02,$42,$02,$38,$02
         .byte $b7,$3c
         .byte $b0,$3c
@@ -3153,7 +3223,7 @@ B28_13de:
         .byte $b7,$02
         .byte $b3,$24
         .byte $b0,$02
-    .byte MUS_end_repeat        ; End repeat section
+    Note_End_Repeat
     .byte $b7,$02
     .byte $b0,$22
     .byte $b2,$02,$22,$22
@@ -3185,23 +3255,23 @@ B28_13de:
     .byte $b7,$02
     .byte $b0,$32
     .byte $b3,$02
-    .byte MUS_repeat_twice         ; Repeat until FF twice
+    Note_Repeat(2)         ; Repeat until FF twice
         .byte $b8,$3c,$3c,$3c
         .byte $ba,$02
         .byte $b2,$3c,$02
-    .byte MUS_end_repeat         ; End repeat section
-    .byte MUS_repeat_twice         ; Repeat until FF twice
+    Note_End_Repeat
+    Note_Repeat(2)         ; Repeat until FF twice
         .byte $b8,$3c
         .byte $bb,$02
         .byte $b8,$3c
         .byte $bb,$02
         .byte $b8,$3c
-    .byte MUS_end_repeat         ; End repeat section
+    Note_End_Repeat
     .byte $b2,$3c,$02,$3c,$02
-    .byte MUS_end_track         ; End track
+    Track_End
 B28_14b4:
     .byte $9F,$15,$31
-    .byte MUS_repeat_twice
+    Note_Repeat(2)
         .byte $B7,$02
         .byte $B0,$30
         .byte $B2,$02
@@ -3211,7 +3281,7 @@ B28_14b4:
         .byte $B0,$30
         .byte $B7,$02
         .byte $B6,$02
-    .byte MUS_end_repeat
+    Note_End_Repeat
     .byte $B7,$02
     .byte $B4,$22
     .byte $B0,$02
@@ -3233,7 +3303,7 @@ B28_14b4:
     .byte $B6,$02
     .byte $B7,$02
     .byte $B0,$3A
-    .byte MUS_end_track
+    Track_End
 B28_14f7:
     .byte $C2
         .byte $B1,$3C,$02,$42,$02,$46,$02,$42,$02,$48,$02

@@ -10,14 +10,14 @@
 ;https://github.com/Herringway/ebbsrc/blob/main/src/hardware.asm
 ;where to put it
 .enum BANK
-	CHR0000 = 0
-	CHR0800 = 1
-	CHR1000 = 2
-	CHR1400 = 3
-	CHR1800 = 4
-	CHR1C00 = 5
-	PRG8000 = 6
-	PRGA000 = 7
+    CHR0000 = 0
+    CHR0800 = 1
+    CHR1000 = 2
+    CHR1400 = 3
+    CHR1800 = 4
+    CHR1C00 = 5
+    PRG8000 = 6
+    PRGA000 = 7
 .endenum
 
 

@@ -390,7 +390,7 @@ def ebToString(input:str, asm=False, english=True):
                 string += table_jp[val]
             elif val in [0, 1, 3] + list(range(0x20, 0x23+1)) and asm:
                 if string != "":
-                    lines.append(f'kanjifix "{string}"')
+                    lines.append(f'kanafix "{string}"')
                 string = ""
                 if val == 0:
                     lines.append(".byte   stopText")

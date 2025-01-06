@@ -3,9 +3,10 @@
 .include "../global/hardware.asm"
 .include "../global/ram.asm"
 .include "../global/header.asm"
+.include "fontmap.asm"
 
 .macro binclude Path
-    .ifndef kanjiMacro
+    .ifndef kanaMacro
         .include .concat("../../build_artifacts/jp/", Path)
     .else
         .include Path
@@ -28,13 +29,12 @@ binclude "prg/bank0.asm"
 .include "prg/bank16.asm"
 .include "prg/bank17.asm"
 
-.include "fontmap.asm"
 binclude "text/dialogue1.asm"
 binclude "text/dialogue2.asm"
 binclude "text/dialogue3.asm"
 binclude "text/dialogue4.asm"
 
-.include "prg/music.asm"
+.include "../global/prg/music.asm"
 
 .segment        "SRAM": absolute
 .include "../global/starting_sram.asm"

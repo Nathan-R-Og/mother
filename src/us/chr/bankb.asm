@@ -81,8 +81,118 @@ incbinRange "../../split/us/chr/bankb.bin", $1000, $1400
 .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$20,$00,$00,$00,$50,$50,$50,$5A,$52,$50,$50,$50,$05,$05,$05,$05,$05,$05,$05,$05
 
-;some weird ui tile commands???? not JUST a tiledef.
-incbinRange "../../split/us/chr/bankb.bin", $1800, $18FE
+.segment        "NAMING_SCREEN_2": absolute
+.byte set_pos 7, 1
+.byte uibox_tl
+.byte repeatTile uibox_t, 15
+.byte uibox_tr
+.byte 1
+.byte uibox_l
+.byte repeatTile " ", 15
+.byte uibox_r
+.byte 1
+.byte uibox_l
+.byte repeatTile " ", 15
+.byte uibox_r
+.byte 1
+
+.byte set_pos 7, 6
+.byte uibox_l
+.byte repeatTile " ", 15
+.byte uibox_r
+.byte 0
+
+.byte uibox_bl
+.byte repeatTile uibox_b, 15
+.byte uibox_br
+.byte 0,1
+
+.byte set_pos 8, 10
+.byte repeatTile " ", 15
+.byte 0,0
+
+.byte set_pos 5, 7
+.byte uibox_tl
+.byte repeatTile uibox_t, 19
+.byte uibox_tr
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 0
+
+.byte uibox_bl
+.byte repeatTile uibox_b, 19
+.byte uibox_br
+.byte 0
+
+string_in_question:
+.byte uibox_l
+.byte repeatTile " ", 19
+.byte uibox_r
+.byte 1,1
+
+.byte set_pos 8, 22
+.byte "  *Back  *End  "
+.byte 1
+.byte "   *Previous   "
+.byte 0,0,1
+
+;end sequence
+;ninten name
+.byte set_pos 15, 5
+.byte nintenName
+.byte 1
+;ana name
+.byte set_pos 15, 8
+.byte anaName
+.byte 1
+;lloyd name
+.byte set_pos 15, 11
+.byte lloydName
+.byte 1
+;teddy name
+.byte set_pos 15, 14
+.byte teddyName
+.byte 1
+.byte set_pos 3, 17
+.byte "Favorite food: "
+.byte favFood
+.byte 0
+.byte 0,1
+
+.byte set_pos 7, 20
+.byte uibox_tl
+.byte repeatTile uibox_t, 16
+.byte uibox_tr
+.byte 1
+.byte uibox_l,"  Is this OK?   ",uibox_r
+.byte 1
+.byte uibox_l,"     Yes No     ",uibox_r
+.byte 1
+.byte uibox_l
+.byte repeatTile " ", 16
+.byte uibox_r
+.byte 0
+.byte set_pos 7, 26
+.byte uibox_bl
+.byte repeatTile uibox_b, 16
+.byte uibox_br
+.byte 0
 
 ;SUPPOSED to be padding
 .res $102, $FF

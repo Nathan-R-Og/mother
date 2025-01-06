@@ -13,11 +13,7 @@ ITEMUSE_FLYINGMAN = 1 << 5
 ITEMUSE_ALL = ITEMUSE_NINTEN | ITEMUSE_ANA | ITEMUSE_LLOYD | ITEMUSE_TEDDY | ITEMUSE_EVE | ITEMUSE_FLYINGMAN
 
 .macro itemDef name, usableBy, edible, keyitem, type1, type2, overworldAction, battleAction, msgPrice
-    .ifdef VER_JP
-    .word name+$5400
-    .else
     .word name
-    .endif
 
     .byte (keyitem << 7) | (edible << 6) | usableBy
     .byte (type2 << 6) | type1

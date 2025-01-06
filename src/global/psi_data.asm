@@ -4,23 +4,17 @@
 ;(or at least i think it does)
 ;also i only made a macro out of this because i dont wanna seperate one word and six bytes
 .macro psiDef name, nintenLevel, anaLevel, overworldEffect, battleEffect, arg5, cost
-
-    .ifdef VER_JP
-        .word name+$5400
-    .else
-        .word name
-    .endif
-
+    .word name
 
     ;the levels have to be PASSED to gain the psi, specifically
     .ifblank nintenLevel
-    .byte $FF
+    .byte -1
     .else
     .byte nintenLevel
     .endif
 
     .ifblank anaLevel
-    .byte $FF
+    .byte -1
     .else
     .byte anaLevel
     .endif

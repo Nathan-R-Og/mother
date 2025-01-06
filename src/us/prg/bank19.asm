@@ -11,27 +11,27 @@ rts_1:
     beq beq_1
     ldy #$04
     beq_1:
-    lda $6222,Y
-    sta $0584,X
-    lda $6223,Y
-    sta $0585,X
-    lda $6224,Y
-    sta $0586,X
-    lda $6225,Y
-    sta $0587,X
+    lda B25_1a22, y
+    sta $0584, x
+    lda B25_1a22+1, y
+    sta $0585, x
+    lda B25_1a22+2, y
+    sta $0586, x
+    lda B25_1a22+3, y
+    sta $0587, x
     rts
 
 rts_2:
-    lda $6073,X
+    lda B25_1873, x
     sta $74
-    lda $6074,X
+    lda B25_1873+1, x
     sta $75
     rts
 
 rts_3:
-    lda $6085,X
+    lda B25_1885, x
     sta $80
-    lda $6086,X
+    lda B25_1885+1, x
     sta $81
     rts
 
@@ -62,8 +62,8 @@ rts_5:
     ldx #2
     ldy #0
     bne_1:
-    lda ($32),Y
-    sta ($30),Y
+    lda ($32), y
+    sta ($30), y
     iny
     bne bne_1
     inc $31
@@ -74,7 +74,7 @@ rts_5:
     ;clear $FF
     lda #0
     bne_2:
-    sta ($30),Y
+    sta ($30), y
     iny
     bne bne_2
 
@@ -85,30 +85,168 @@ rts_5:
     rts
 
 B25_1873:
-    .byte $1A,$61,$92,$61,$38,$61,$AA,$61,$56,$61,$C2,$61,$95,$60,$AC,$60
-    .byte $FA,$60,$F0,$61,$F0,$61,$F0,$61,$FA,$61,$F0,$61,$04,$62,$0E,$62
-    .byte $18,$62,$20,$04,$14,$22,$A0,$18,$01,$22,$A0,$18,$01,$22,$A0,$18
-    .byte $01,$22,$A0,$18,$00,$22,$A0,$18,$00,$20,$06,$14,$DB,$22,$DC,$12
-    .byte $DD,$01,$24,$A0,$A6,$23,$78,$74,$00,$08,$CC,$F6,$EC,$23,$50,$74
-    .byte $01,$02,$A6,$A0,$A0,$25,$01,$24,$A0,$F7,$E9,$EC,$EC,$A0,$F6,$E1
-    .byte $EE,$E9,$F3,$E8,$AE,$A0,$CF,$CB,$A2,$A0,$25,$01,$24,$A0,$A0,$A0
-    .byte $A0,$A0,$D9,$E5,$F3,$A0,$A0,$CE,$EF,$A0,$A0,$A0,$A0,$A0,$A0,$25
-    .byte $00,$FB,$22,$FC,$12,$FD,$00,$20,$08,$15,$DB,$22,$DC,$0E,$DD,$01
-    .byte $24,$A0,$A0,$A0,$D4,$EF,$A0,$F7,$E8,$E9,$E3,$E8,$A2,$A0,$A0,$25
-    .byte $00,$FB,$22,$FC,$0E,$FD,$00,$20,$03,$01,$A0,$01,$A0,$DB,$DC,$FE
-    .byte $23,$78,$77,$00,$08,$CC,$F6,$EC,$23,$50,$77,$01,$02,$22,$DC,$07
-    .byte $DD,$01,$04,$71,$61,$20,$03,$07,$A0,$01,$A0,$DB,$DC,$FE,$23,$78
-    .byte $7A,$00,$08,$CC,$F6,$EC,$23,$50,$7A,$01,$02,$22,$DC,$07,$DD,$01
-    .byte $04,$71,$61,$20,$03,$0D,$A0,$01,$A0,$DB,$DC,$FE,$23,$78,$7D,$00
-    .byte $08,$CC,$F6,$EC,$23,$50,$7D,$01,$02,$22,$DC,$07,$DD,$01,$A0,$24
-    .byte $A0,$C3,$EF,$EE,$F4,$E9,$EE,$F5,$E5,$A0,$A0,$C3,$EF,$F0,$F9,$A0
-    .byte $C5,$F2,$E1,$F3,$E5,$A0,$25,$00,$A0,$FB,$22,$FC,$16,$FD,$00,$20
-    .byte $03,$01,$A0,$01,$A0,$DB,$DC,$FE,$C7,$C1,$CD,$C5,$A8,$B1,$A9,$22
-    .byte $DC,$0D,$DD,$01,$04,$D7,$61,$20,$03,$07,$A0,$01,$A0,$DB,$DC,$FE
-    .byte $C7,$C1,$CD,$C5,$A8,$B2,$A9,$22,$DC,$0D,$DD,$01,$04,$D7,$61,$20
-    .byte $03,$0D,$A0,$01,$A0,$DB,$DC,$FE,$C7,$C1,$CD,$C5,$A8,$B3,$A9,$22
-    .byte $DC,$0D,$DD,$01,$A0,$24,$22,$A0,$06,$D3,$F4,$E1,$F2,$F4,$A0,$F5
-    .byte $F0,$22,$A0,$08,$25,$00,$A0,$FB,$22,$FC,$16,$FD,$00
+    .word ui_save_slot_1
+    .word ui_empty_slot_1
+    .word ui_save_slot_2
+    .word ui_empty_slot_2
+    .word ui_save_slot_3
+    .word ui_empty_slot_3
+    .word B25_1895
+    .word ui_delete_save
+    .word ui_copy_save
+
+B25_1885:
+    .word B25_19f0
+    .word B25_19f0
+    .word B25_19f0
+    .word B25_19fa
+    .word B25_19f0
+    .word B25_1a04
+    .word B25_1a0e
+    .word B25_1a18
+
+B25_1895:
+    .byte set_pos 4, 20
+    .byte repeatTile " ", 24
+    .byte 1
+    .byte repeatTile " ", 24
+    .byte 1
+    .byte repeatTile " ", 24
+    .byte 1
+    .byte repeatTile " ", 24
+    .byte 0
+    .byte repeatTile " ", 24
+    .byte 0
+
+
+ui_delete_save:
+    ;top menu
+    .byte set_pos 6, 20
+    .byte uibox_tl
+    .byte repeatTile uibox_t, 18
+    .byte uibox_tr
+    .byte newLine
+    ;line
+    .byte uibox_l," ",'"'
+    .byte print_number ninten_name, 0, 8
+    .byte "Lvl"
+    .byte print_number ninten_level, 1, 2
+    .byte '"',"  ",uibox_r
+    .byte newLine
+    .byte uibox_l," will vanish. OK? ",uibox_r
+    .byte newLine
+    .byte uibox_l,"     Yes  No      ",uibox_r
+    .byte 0
+    ;bottom
+    .byte uibox_bl
+    .byte repeatTile uibox_b, 18
+    .byte uibox_br
+    .byte 0
+
+ui_copy_save:
+    .byte set_pos 8, 21
+    .byte uibox_tl
+    .byte repeatTile uibox_t, 14
+    .byte uibox_tr
+    .byte 1
+    .byte uibox_l,"   To which?  ",uibox_r
+    .byte 0
+    .byte uibox_bl
+    .byte repeatTile uibox_b, 14
+    .byte uibox_br
+    .byte 0
+
+ui_save_slot_1:
+    .byte set_pos 3, 1
+    .byte " "
+    .byte 1
+    .byte " "
+    .byte uibox_tl,uibox_t,uibox_tc
+    .byte print_number $7778, 0, 8
+    .byte "Lvl"
+    .byte print_number $7750, 1, 2
+    .byte repeatTile uibox_t, 7
+    .byte uibox_tr
+    .byte 1
+    .byte goto slot_middle
+
+ui_save_slot_2:
+    .byte set_pos 3, 7
+    .byte " "
+    .byte 1
+    .byte " "
+    .byte uibox_tl,uibox_t,uibox_tc
+    .byte print_number $7A78, 0, 8
+    .byte "Lvl"
+    .byte print_number $7A50, 1, 2
+    .byte repeatTile uibox_t, 7
+    .byte uibox_tr
+    .byte 1
+    .byte goto slot_middle
+
+ui_save_slot_3:
+    .byte set_pos 3, 13
+    .byte " "
+    .byte 1
+    .byte " "
+    .byte uibox_tl,uibox_t,uibox_tc
+    .byte print_number $7D78, 0, 8
+    .byte "Lvl"
+    .byte print_number $7D50, 1, 2
+    .byte repeatTile uibox_t, 7
+    .byte uibox_tr
+    .byte 1
+    ;fallthrough
+    slot_middle:
+    .byte " ",uibox_l," Continue  Copy Erase ",uibox_r
+    .byte 0
+    ;bottom
+    .byte " ",uibox_bl
+    .byte repeatTile uibox_b, 22
+    .byte uibox_br
+    .byte 0
+
+ui_empty_slot_1:
+    .byte set_pos 3, 1
+    .byte " "
+    .byte 1
+    .byte " ",uibox_tl,uibox_t,uibox_tc,"GAME(1)"
+    .byte repeatTile uibox_t, 13
+    .byte uibox_tr
+    .byte 1
+    .byte goto empty_slot_middle
+
+ui_empty_slot_2:
+    .byte set_pos 3, 7
+    .byte " "
+    .byte 1
+    .byte " ",uibox_tl,uibox_t,uibox_tc,"GAME(2)"
+    .byte repeatTile uibox_t, 13
+    .byte uibox_tr
+    .byte 1
+    .byte goto empty_slot_middle
+
+ui_empty_slot_3:
+    .byte set_pos 3, 13
+    .byte " "
+    .byte 1
+    .byte " ",uibox_tl,uibox_t,uibox_tc,"GAME(3)"
+    .byte repeatTile uibox_t, 13
+    .byte uibox_tr
+    .byte 1
+    ;fallthrough
+    empty_slot_middle:
+    .byte " ",uibox_l
+    .byte repeatTile " ", 6
+    .byte "Start up"
+    .byte repeatTile " ", 8
+    .byte uibox_r
+    .byte 0
+    ;empty slot bottom
+    .byte " ",uibox_bl
+    .byte repeatTile uibox_b, 22
+    .byte uibox_br
+    .byte 0
 
 ; $61F0 - UNKNOWN
 B25_19f0:
@@ -117,7 +255,7 @@ B25_19f0:
     .byte %11000000 ; Input mask
     .byte $3a       ; Tile
     .byte 3, 4  ;init x, init y
-    .word B25_1a2c  ; $622c
+    .word B25_1a2c
 
 ; $61FA - UNKNOWN
 B25_19fa:
@@ -126,7 +264,7 @@ B25_19fa:
     .byte %11000000 ; Input mask
     .byte $3a       ; Tile
     .byte 3, 4  ;init x, init y
-    .word B25_1a2f  ; $622f
+    .word B25_1a2f
 
 ; $6204 - UNKNOWN
 B25_1a04:
@@ -135,7 +273,7 @@ B25_1a04:
     .byte %11000000 ; Input mask
     .byte $3a       ; Tile
     .byte 3, 4  ;init x, init y
-    .word B25_1a32  ; $6232
+    .word B25_1a32
 
 ; $620E - UNKNOWN
 B25_1a0e:
@@ -153,7 +291,7 @@ B25_1a18:
     .byte %10000000 ; Input mask
     .byte $3a       ; Tile
     .byte 11, 26  ;init x, init y
-    .word B25_1a2a  ; $622a
+    .word B25_1a2a
 
 B25_1a22:
     .byte $80,$00,$81,$82

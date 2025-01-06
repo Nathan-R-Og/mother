@@ -38,7 +38,7 @@
 .include "prg/credits.asm"
 .include "prg/credits_music.asm"
 
-.include "prg/music.asm"
+.include "../global/prg/music.asm"
 .include "prg/constant.asm"
 
 .include "../global/chr/bank0.asm"

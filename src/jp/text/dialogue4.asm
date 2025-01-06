@@ -3,1827 +3,1827 @@
 .byte   0
 
 MSG_ELLAY_BBGANG5:
-kanjifix "*おれは つよい。"
+kanafix "*おれは つよい。"
 .byte   newLine
-kanjifix "くちばっかしだけどな。"
+kanafix "くちばっかしだけどな。"
 .byte   newLine
 .byte   stopText
 MSG_ELLAY_BBGANG6:
-kanjifix "*"
+kanafix "*"
 .byte   teddyName
-kanjifix "の あにきがいたら"
+kanafix "の あにきがいたら"
 .byte   newLine
-kanjifix "おまえなんか ゆびさきで"
+kanafix "おまえなんか ゆびさきで"
 .byte   newLine
-kanjifix "ヒョイッ さ。"
+kanafix "ヒョイッ さ。"
 .byte   newLine
 .byte   stopText
 
 MSG_ELLAY_SIGNGUY:
-kanjifix "*カンバンの もじは"
+kanafix "*カンバンの もじは"
 .byte   newLine
-kanjifix "ちゃんと よんどるかね?"
+kanafix "ちゃんと よんどるかね?"
 .byte   newLine
 .byte   stopText
 
 MSG_ELLAY_CACTUSGIRL:
-kanjifix "*もし どこかのさばくで"
+kanafix "*もし どこかのさばくで"
 .byte   newLine
-kanjifix "かおのあるサボテンを"
+kanafix "かおのあるサボテンを"
 .byte   newLine
-kanjifix "みつけたら‥‥"
+kanafix "みつけたら‥‥"
 .byte   newLine
 .byte   pauseText
-kanjifix "*とても こわいざますわね。"
+kanafix "*とても こわいざますわね。"
 .byte   newLine
 .byte   stopText
 
 MSG_ELLAY_FISHERGUY:
-kanjifix "*つりびとに はなしかけると"
+kanafix "*つりびとに はなしかけると"
 .byte   newLine
-kanjifix "はなしが ながくて いけないね。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*しょうがく いちねんせいだったら"
-.byte   newLine
-kanjifix "さかあがりくらい"
-.byte   newLine
-kanjifix "できるものよねぇ。"
+kanafix "はなしが ながくて いけないね。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*こちらのエレベ-タ-で"
+kanafix "*しょうがく いちねんせいだったら"
 .byte   newLine
-kanjifix "てんぼうだいまで"
+kanafix "さかあがりくらい"
 .byte   newLine
-kanjifix "おあがりください。"
+kanafix "できるものよねぇ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*ここの てんぼうだいから"
+kanafix "*こちらのエレベ-タ-で"
 .byte   newLine
-kanjifix "みえる しまで けむりがでてたよ。"
+kanafix "てんぼうだいまで"
 .byte   newLine
-kanjifix "だれか すんでいるのかなぁ?"
+kanafix "おあがりください。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*ここの てんぼうだいから"
+.byte   newLine
+kanafix "みえる しまで けむりがでてたよ。"
+.byte   newLine
+kanafix "だれか すんでいるのかなぁ?"
 .byte   newLine
 .byte   pauseText
-kanjifix "*ぼうえんきょうで みてみれば"
+kanafix "*ぼうえんきょうで みてみれば"
 .byte   newLine
-kanjifix "よかったなあ。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*ぼく さかあがりできないのよ。"
+kanafix "よかったなあ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*わたしは"
-.byte   newLine
-kanjifix "ひきざんの くりさがりが"
-.byte   newLine
-kanjifix "まだ よくわからない。"
+kanafix "*ぼく さかあがりできないのよ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*いちごあじのとうふって"
+kanafix "*わたしは"
 .byte   newLine
-kanjifix "とかいのほうで"
+kanafix "ひきざんの くりさがりが"
 .byte   newLine
-kanjifix "はやってるらしいな。"
+kanafix "まだ よくわからない。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*いちごあじのとうふって"
+.byte   newLine
+kanafix "とかいのほうで"
+.byte   newLine
+kanafix "はやってるらしいな。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*くってみてぇよ。"
+kanafix "*くってみてぇよ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*はら へったな。"
+kanafix "*はら へったな。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*おれを ただのおじさんと"
+kanafix "*おれを ただのおじさんと"
 .byte   newLine
-kanjifix "おもうなよ。"
+kanafix "おもうなよ。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*って うちのパパのくちぐせなの。"
+kanafix "*って うちのパパのくちぐせなの。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*あなた ちこくよね!"
+kanafix "*あなた ちこくよね!"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*りかしつで"
+kanafix "*りかしつで"
 .byte   newLine
-kanjifix "へんなせんせいを みなかったぁ?"
+kanafix "へんなせんせいを みなかったぁ?"
 .byte   newLine
 .byte   pauseText
-kanjifix "*‥‥わたし みた。"
+kanafix "*‥‥わたし みた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*ドラクエの フォ- やった?"
+kanafix "*ドラクエの フォ- やった?"
 .byte   newLine
-kanjifix "おれ"
+kanafix "おれ"
 .byte   newLine
-kanjifix "まだスリ-でくろうしてるんだ。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*いらっしゃいませ。"
-.byte   newLine
-kanjifix "なにを さしあげましょう?"
+kanafix "まだスリ-でくろうしてるんだ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*もうしわけありません。"
+kanafix "*いらっしゃいませ。"
 .byte   newLine
-kanjifix "そのしなは"
-.byte   newLine
-kanjifix "ただいまうりきれで ございます。"
+kanafix "なにを さしあげましょう?"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*あら おやめになるんですか?"
+kanafix "*もうしわけありません。"
 .byte   newLine
-kanjifix "ざんねんですが‥‥"
+kanafix "そのしなは"
+.byte   newLine
+kanafix "ただいまうりきれで ございます。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*あら おやめになるんですか?"
+.byte   newLine
+kanafix "ざんねんですが‥‥"
 .byte   newLine
 .byte   pauseText
-kanjifix "*またの ごらいてんを"
+kanafix "*またの ごらいてんを"
 .byte   newLine
-kanjifix "おまちしております。"
+kanafix "おまちしております。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*ありがとうございました。"
+kanafix "*ありがとうございました。"
 .byte   newLine
-kanjifix "また ごりようください。"
+kanafix "また ごりようください。"
 .byte   newLine
 .byte   stopText
 
 MSG_MISLAY_MOUTHWASHKID_NOTAKE:
-kanjifix "*おや やめるんですか?"
+kanafix "*おや やめるんですか?"
 .byte   newLine
-kanjifix "では またきてくださいね。"
+kanafix "では またきてくださいね。"
 .byte   newLine
 .byte   stopText
 
 MSG_HOSPITAL_NURSE_REVIVE:
-kanjifix "*"
+kanafix "*"
 .byte   result
-kanjifix "さん"
+kanafix "さん"
 .byte   newLine
-kanjifix "げんきになって よかったわね。"
+kanafix "げんきになって よかったわね。"
 .byte   newLine
-kanjifix "また いつでもどうぞ!"
+kanafix "また いつでもどうぞ!"
 .byte   newLine
 .byte   stopText
 MSG_HOSPITAL_NURSE_NOREVIVE:
-kanjifix "*あら あなたのおともだちでしょ?"
+kanafix "*あら あなたのおともだちでしょ?"
 .byte   newLine
-kanjifix "ほんとに しんじゃいますよ。"
+kanafix "ほんとに しんじゃいますよ。"
 .byte   newLine
 .byte   stopText
 
 MSG_PODUNK_HOSPITALDOCTOR:
-kanjifix "*はいはい"
+kanafix "*はいはい"
 .byte   newLine
-kanjifix "ひとり "
+kanafix "ひとり "
 .byte   price
-kanjifix "ドルで"
+kanafix "ドルで"
 .byte   newLine
-kanjifix "しんさつしてあげましょうね。"
+kanafix "しんさつしてあげましょうね。"
 .byte   newLine
 .byte   stopText
 MSG_PODUNK_HOSPITALDOCTOR_DECLINE:
-kanjifix "*ほんとに ちりょうは いらない?"
+kanafix "*ほんとに ちりょうは いらない?"
 .byte   newLine
-kanjifix "あっそ。"
+kanafix "あっそ。"
 .byte   newLine
 .byte   stopText
 MSG_PODUNK_HOSPITALDOCTOR_NORMAL:
-kanjifix "*わたしのみたてでは"
+kanafix "*わたしのみたてでは"
 .byte   newLine
-kanjifix "どこも わるくないようだよ。"
+kanafix "どこも わるくないようだよ。"
 .byte   newLine
 .byte   stopText
 MSG_PODUNK_HOSPITALDOCTOR_ACCEPT:
-kanjifix "*はい すっかりよくなったよ。"
+kanafix "*はい すっかりよくなったよ。"
 .byte   newLine
 .byte   stopText
 
 MSG_HEALER:
-kanjifix "*しんじようが しんじまいが"
+kanafix "*しんじようが しんじまいが"
 .byte   newLine
-kanjifix "わたしは ヒ-ラ-。"
+kanafix "わたしは ヒ-ラ-。"
 .byte   newLine
-kanjifix "どうしたい?"
+kanafix "どうしたい?"
 .byte   newLine
 .byte   stopText
 
 MSG_HEALER_NO:
-kanjifix "*おお そうか。 そうしなさい。"
+kanafix "*おお そうか。 そうしなさい。"
 .byte   newLine
 .byte   stopText
 
 MSG_HEALER_PRICE:
-kanjifix "*"
+kanafix "*"
 .byte   price
-kanjifix "ドル"
+kanafix "ドル"
 .byte   newLine
-kanjifix "いただいておこうか。"
+kanafix "いただいておこうか。"
 .byte   newLine
 .byte   stopText
 
 MSG_HOTELBELLHOP:
-kanjifix "*いらっしゃいませ。"
+kanafix "*いらっしゃいませ。"
 .byte   newLine
-kanjifix "ひとばん "
+kanafix "ひとばん "
 .byte   price
-kanjifix "ドルに"
+kanafix "ドルに"
 .byte   newLine
-kanjifix "なりますが おとまりになりますか?"
+kanafix "なりますが おとまりになりますか?"
 .byte   newLine
 .byte   stopText
 MSG_HOTELBELLHOP_DECLINE:
-kanjifix "*それは ざんねんです。"
+kanafix "*それは ざんねんです。"
 .byte   newLine
-kanjifix "また いらしてくださいね。"
+kanafix "また いらしてくださいね。"
 .byte   newLine
 .byte   stopText
 MSG_HOTELBELLHOP_ACCEPT:
-kanjifix "*では ごゆっくり。"
+kanafix "*では ごゆっくり。"
 .byte   newLine
 .byte   stopText
 MSG_HOTELBELLHOP_GOODMORNING:
-kanjifix "*おはようございます。"
+kanafix "*おはようございます。"
 .byte   newLine
-kanjifix "また おたちよりください。"
+kanafix "また おたちよりください。"
 .byte   newLine
-kanjifix "おまちしております。"
+kanafix "おまちしております。"
 .byte   newLine
 .byte   stopText
 
 MSG_HOSPITAL_NURSE_SELECT:
-kanjifix "*"
+kanafix "*"
 .byte   result
-kanjifix "さんでしたら"
+kanafix "さんでしたら"
 .byte   newLine
-kanjifix "さっき はこびこまれましたよ。"
+kanafix "さっき はこびこまれましたよ。"
 .byte   newLine
-kanjifix "いしきが もどらないんですが‥‥"
+kanafix "いしきが もどらないんですが‥‥"
 .byte   newLine
 .byte   pauseText
-kanjifix "*ちりょうひを "
+kanafix "*ちりょうひを "
 .byte   price
-kanjifix "ドル"
+kanafix "ドル"
 .byte   newLine
-kanjifix "おしはらい ください。"
+kanafix "おしはらい ください。"
 .byte   newLine
 .byte   stopText
 MSG_HOSPITAL_NURSE:
-kanjifix "*どなたに ごめんかいですか?"
+kanafix "*どなたに ごめんかいですか?"
 .byte   newLine
 .byte   stopText
 
 MSG_YOUNGTOWN_HOTELBELLHOP:
-kanjifix "*パパは るすです。"
+kanafix "*パパは るすです。"
 .byte   newLine
-kanjifix "だから"
+kanafix "だから"
 .byte   newLine
-kanjifix "おかねのことは わかんないけど"
+kanafix "おかねのことは わかんないけど"
 .byte   newLine
 .byte   pauseText
-kanjifix "ほかは"
+kanafix "ほかは"
 .byte   newLine
-kanjifix "ぼくが ちゃんとやりますから"
+kanafix "ぼくが ちゃんとやりますから"
 .byte   newLine
-kanjifix "あんしんして とまってください。"
+kanafix "あんしんして とまってください。"
 .byte   newLine
 .byte   stopText
 MSG_YOUNGTOWN_HOTELBELLHOP_GOODMORNING:
-kanjifix "*おはよう。"
+kanafix "*おはよう。"
 .byte   newLine
-kanjifix "また とまりにきてね。"
+kanafix "また とまりにきてね。"
 .byte   newLine
-kanjifix "ひとりぼっちで さみしいんだ。"
+kanafix "ひとりぼっちで さみしいんだ。"
 .byte   newLine
 .byte   stopText
 MSG_YOUNGTOWN_HOTELBELLHOP_DECLINE:
-kanjifix "*なんだ とまっていかないの‥‥"
+kanafix "*なんだ とまっていかないの‥‥"
 .byte   newLine
 .byte   pauseText
-kanjifix "*パパがいなくても ぼくがちゃんと"
+kanafix "*パパがいなくても ぼくがちゃんと"
 .byte   newLine
-kanjifix "かわりをするから"
+kanafix "かわりをするから"
 .byte   newLine
-kanjifix "だいじょうぶなのに‥‥"
+kanafix "だいじょうぶなのに‥‥"
 .byte   newLine
 .byte   stopText
 
 MSG_ELLAY_LHBOUNCERGIRL_TICKET:
-kanjifix "*あらっ チケットがなきゃ"
+kanafix "*あらっ チケットがなきゃ"
 .byte   newLine
-kanjifix "はいれないわよ。"
+kanafix "はいれないわよ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*しかし‥‥‥"
+kanafix "*しかし‥‥‥"
 .byte   newLine
-kanjifix "なにもなかった。"
+kanafix "なにもなかった。"
 .byte   newLine
 .byte   stopText
 
 MSG_MYHOME_MINNIE_STORAGE:
-kanjifix "  あずける   もちだす"
+kanafix "  あずける   もちだす"
 .byte   stopText
 
 .byte   newLine
 .byte   stopText
 
 MSG_MYHOME_MINNIE_STORAGE_INVNOTHING:
-kanjifix "*なにももってないじゃない。"
+kanafix "*なにももってないじゃない。"
 .byte   newLine
 .byte   stopText
 
 MSG_MYHOME_MINNIE_STORAGE_NOTHING:
-kanjifix "*なにも あずかってないわよ。"
+kanafix "*なにも あずかってないわよ。"
 .byte   newLine
 .byte   stopText
 
 MSG_MYHOME_MINNIE_STORAGE_FULL:
-kanjifix "*ちょっとまって‥‥‥"
+kanafix "*ちょっとまって‥‥‥"
 .byte   newLine
 .byte   pauseText
-kanjifix "*そうこが いっぱいだから"
+kanafix "*そうこが いっぱいだから"
 .byte   newLine
-kanjifix "もうあずかれないよ。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*イラッシャイマセ"
+kanafix "もうあずかれないよ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*ザンダカガ タリマセン"
+kanafix "*イラッシャイマセ"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*オカネガ タリマセン"
+kanafix "*ザンダカガ タリマセン"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*モウシワケ アリマセン"
+kanafix "*オカネガ タリマセン"
+.byte   newLine
+.byte   stopText
+
+kanafix "*モウシワケ アリマセン"
 .byte   newLine
 .byte   pauseText
-kanjifix "トリヒキ ゲンドガクヲ"
+kanafix "トリヒキ ゲンドガクヲ"
 .byte   newLine
-kanjifix "コエマシタノデ"
+kanafix "コエマシタノデ"
 .byte   newLine
-kanjifix "オアズカリ デキマセン"
+kanafix "オアズカリ デキマセン"
 .byte   newLine
 .byte   stopText
 
 MSG_SPOOKANE_HOTELBELLHOP_THANKS:
-kanjifix "*アリガトウ ゴザイマシタ"
+kanafix "*アリガトウ ゴザイマシタ"
 .byte   newLine
 .byte   stopText
 
 MSG_MYHOME_DOLL:
-kanjifix "*にんぎょうの なかには"
+kanafix "*にんぎょうの なかには"
 .byte   newLine
-kanjifix "ふるい オルゴ-ルが"
+kanafix "ふるい オルゴ-ルが"
 .byte   newLine
-kanjifix "かくされていた。"
+kanafix "かくされていた。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*"
+kanafix "*"
 .byte   partyLead
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "オルゴ-ルをあけた。"
+kanafix "オルゴ-ルをあけた。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*とぎれとぎれに"
+kanafix "*とぎれとぎれに"
 .byte   newLine
-kanjifix "メロディ-がながれた。"
+kanafix "メロディ-がながれた。"
 .byte   newLine
 .byte   stopText
 
 MSG_CANARY_PILLAR:
-kanjifix "* ?"
+kanafix "* ?"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*ありがとう ございました。"
+kanafix "*ありがとう ございました。"
 .byte   newLine
 .byte   stopText
 
 MSG_ELLAY_JAILCOP:
-kanjifix "*おれ ぶきをてにいれる"
+kanafix "*おれ ぶきをてにいれる"
 .byte   newLine
-kanjifix "いいル-トを もっているんだ。"
+kanafix "いいル-トを もっているんだ。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*そのうち すごいぶきを"
+kanafix "*そのうち すごいぶきを"
 .byte   newLine
-kanjifix "てにいれられる かもな。"
+kanafix "てにいれられる かもな。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   partyLead
 .byte   unk4
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "たたかいに かった。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "  ヒキダス   アズケル"
-.byte   stopText
-
+kanafix "たたかいに かった。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*ゲンザイ $"
+kanafix "  ヒキダス   アズケル"
+.byte   stopText
+
+.byte   newLine
+.byte   stopText
+
+kanafix "*ゲンザイ $"
 .byte   currentCash, c00
 .byte   newLine
-kanjifix "オアズカリ シテイマス"
+kanafix "オアズカリ シテイマス"
 .byte   newLine
 .byte   stopText
 
 MSG_DOOR_LOCKED:
-kanjifix "*カギが かかっている。"
+kanafix "*カギが かかっている。"
 .byte   newLine
 .byte   stopText
 
 MSG_DOOR_KEYFAIL:
-kanjifix "*カギが あわないようだ。"
+kanafix "*カギが あわないようだ。"
 .byte   newLine
 .byte   stopText
 
 MSG_DOOR_UNLOCKED:
-kanjifix "*"
+kanafix "*"
 .byte   partyLead
 .byte   unk4
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "カギをあけて なかにはいった。"
+kanafix "カギをあけて なかにはいった。"
 .byte   newLine
 .byte   stopText
 
 MSG_MENU_YES_NO:
-kanjifix "  きろくする  とくにない"
+kanafix "  きろくする  とくにない"
 .byte   stopText
 
 .byte   newLine
 .byte   stopText
 
 MSG_MENU_CONTINUE_REST:
-kanjifix "  つづける   おわる"
+kanafix "  つづける   おわる"
 .byte   stopText
 
 .byte   newLine
 .byte   stopText
 
 MSG_PHONE_GRAB:
-kanjifix "*"
+kanafix "*"
 .byte   partyLead
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "じゅわきを とった。"
+kanafix "じゅわきを とった。"
 .byte   newLine
 .byte   stopText
 
 MSG_HOSPITAL_NURSE_NOMONEY:
-kanjifix "*しつれいですが‥‥"
+kanafix "*しつれいですが‥‥"
 .byte   newLine
-kanjifix "おかねが たりないようですよ。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*まあ おきゃくさま"
-.byte   newLine
-kanjifix "おかねが たりませんわ。"
+kanafix "おかねが たりないようですよ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*おきゃくさま"
+kanafix "*まあ おきゃくさま"
 .byte   newLine
-kanjifix "それいじょうおもちになろうなんて"
+kanafix "おかねが たりませんわ。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*おきゃくさま"
+.byte   newLine
+kanafix "それいじょうおもちになろうなんて"
 .byte   newLine
 .byte   pauseText
-kanjifix "おやめになったほうが"
+kanafix "おやめになったほうが"
 .byte   newLine
-kanjifix "よろしいとおもいます。"
+kanafix "よろしいとおもいます。"
 .byte   newLine
 .byte   stopText
 
 MSG_HEALER_FIXED:
-kanjifix "*っはい! もうなおってる。"
+kanafix "*っはい! もうなおってる。"
 .byte   newLine
-kanjifix "すごいでしょ。"
+kanafix "すごいでしょ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*もうしわけありません。"
+kanafix "*もうしわけありません。"
 .byte   newLine
 .byte   item
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "かいとれません。"
+kanafix "かいとれません。"
 .byte   newLine
 .byte   stopText
 
 MSG_CANARY_LAURA_SING:
-kanjifix "*うたひめロ-ラは わがこ と"
+kanafix "*うたひめロ-ラは わがこ と"
 .byte   newLine
-kanjifix "たいめんして おおよろこびで"
+kanafix "たいめんして おおよろこびで"
 .byte   newLine
-kanjifix "うたを うたいはじめた。"
+kanafix "うたを うたいはじめた。"
 .byte   newLine
 .byte   stopText
 
 MSG_REMEMBER_MELODY:
-kanjifix "*"
+kanafix "*"
 .byte   partyLead
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "メロディ-をおぼえた。"
+kanafix "メロディ-をおぼえた。"
 .byte   newLine
 .byte   stopText
 
 MSG_CANARY_SING:
-kanjifix "*カナリアが うたっている。"
+kanafix "*カナリアが うたっている。"
 .byte   newLine
 .byte   stopText
 
 MSG_ZOO_GATEMONKEY_KEY:
-kanjifix "*サルは"
+kanafix "*サルは"
 .byte   newLine
-kanjifix "どうぶつえんのカギをぬすんだ。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*ロボットは ふるく"
-.byte   newLine
-kanjifix "さびついていた。"
+kanafix "どうぶつえんのカギをぬすんだ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*ロボットは ふるく"
+.byte   newLine
+kanafix "さびついていた。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*"
 .byte   nintenName
-kanjifix "の けはいを"
+kanafix "の けはいを"
 .byte   newLine
-kanjifix "かんじた しゅんかん"
+kanafix "かんじた しゅんかん"
 .byte   newLine
 .byte   pauseText
-kanjifix "ロボットは"
+kanafix "ロボットは"
 .byte   newLine
-kanjifix "いのちを ふきこまれた。"
+kanafix "いのちを ふきこまれた。"
 .byte   newLine
 .byte   stopText
 
 MSG_PHONE_EXPLVL:
-kanjifix "*"
+kanafix "*"
 .byte   result
-kanjifix "は "
+kanafix "は "
 .byte   price
 .byte   newLine
 .byte   stopText
 
-kanjifix "*がんばりなさい。"
+kanafix "*がんばりなさい。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*いずみの みずにふれると"
+kanafix "*いずみの みずにふれると"
 .byte   newLine
-kanjifix "すっごく げんきになりました。"
+kanafix "すっごく げんきになりました。"
 .byte   newLine
 .byte   stopText
 
 MSG_PODUNK_PIPPIMOM_RETURN:
-kanjifix "*ピッピ!"
+kanafix "*ピッピ!"
 .byte   newLine
-kanjifix "よかったわ よかったわ。"
+kanafix "よかったわ よかったわ。"
 .byte   newLine
-kanjifix "ほんとによかった。"
-.byte   newLine
-.byte   pauseText
-kanjifix "*ちょうちょうさんも"
-.byte   newLine
-kanjifix "ピッピを さがしてくれてるはずよ。"
+kanafix "ほんとによかった。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*ちゃんと ごあいさつに"
+kanafix "*ちょうちょうさんも"
 .byte   newLine
-kanjifix "いってきてちょうだい。"
+kanafix "ピッピを さがしてくれてるはずよ。"
+.byte   newLine
+.byte   pauseText
+kanafix "*ちゃんと ごあいさつに"
+.byte   newLine
+kanafix "いってきてちょうだい。"
 .byte   newLine
 .byte   stopText
 
 MSG_TWINKLE_F1_ROOM6ENTRANCE_NOJANITOR:
-kanjifix "*はいってます!"
+kanafix "*はいってます!"
 .byte   newLine
-kanjifix "って ここはトイレじゃないけどな。"
+kanafix "って ここはトイレじゃないけどな。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*いま てがはなせないんだ。"
+kanafix "*いま てがはなせないんだ。"
 .byte   newLine
-kanjifix "あとでおいで。"
+kanafix "あとでおいで。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*だれが どくに やられたんだね?"
+kanafix "*だれが どくに やられたんだね?"
 .byte   newLine
 .byte   stopText
 
 MSG_HEALER_WHO:
-kanjifix "*だれを やわらかくしようかね‥‥?"
+kanafix "*だれを やわらかくしようかね‥‥?"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*どくなんか ない!"
+kanafix "*どくなんか ない!"
 .byte   newLine
 .byte   stopText
 
 MSG_HEALER_SOFTEN_FAIL:
-kanjifix "*かたくなって ないじゃないか。"
+kanafix "*かたくなって ないじゃないか。"
 .byte   newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_SWEETSGUY_YES:
-kanjifix "*あそこは むかし"
+kanafix "*あそこは むかし"
 .byte   newLine
-kanjifix "ペンシルロケットを"
+kanafix "ペンシルロケットを"
 .byte   newLine
-kanjifix "じゃんじゃん つくってたんだよ。"
+kanafix "じゃんじゃん つくってたんだよ。"
 .byte   newLine
 .byte   stopText
 
 MSG_TWINKLE_F2JANITOR:
-kanjifix "*うちの にょうぼうは"
+kanafix "*うちの にょうぼうは"
 .byte   newLine
-kanjifix "しょだいの ミスいなかまち"
+kanafix "しょだいの ミスいなかまち"
 .byte   newLine
-kanjifix "だったんだ。"
+kanafix "だったんだ。"
 .byte   newLine
 .byte   stopText
 MSG_TWINKLE_F2JANITOR2:
-kanjifix "*カギは あけたよ。"
+kanafix "*カギは あけたよ。"
 .byte   newLine
-kanjifix "おくじょうは けしきがいいぞ。"
+kanafix "おくじょうは けしきがいいぞ。"
 .byte   newLine
 .byte   stopText
 
 MSG_TWINKLE_F2LLOYD:
-kanjifix "*あとで ダンカンのだいこうじょうに"
+kanafix "*あとで ダンカンのだいこうじょうに"
 .byte   newLine
-kanjifix "いこう。"
+kanafix "いこう。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*あそこには すっごいロケットが"
+kanafix "*あそこには すっごいロケットが"
 .byte   newLine
-kanjifix "あるらしいんだ。"
+kanafix "あるらしいんだ。"
 .byte   newLine
 .byte   stopText
 MSG_TWINKLE_F1LLOYD:
-kanjifix "*みんなが ぼくのことを"
+kanafix "*みんなが ぼくのことを"
 .byte   newLine
-kanjifix "よわむしとか けむしとか"
+kanafix "よわむしとか けむしとか"
 .byte   newLine
-kanjifix "アホタレとか"
+kanafix "アホタレとか"
 .byte   newLine
 .byte   pauseText
-kanjifix "うわさしてなかったかなぁ。"
+kanafix "うわさしてなかったかなぁ。"
 .byte   newLine
 .byte   stopText
 
 MSG_ELLAY_FISHER2:
-kanjifix "*いや‥‥あさになってしまったな。"
+kanafix "*いや‥‥あさになってしまったな。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*としよりを たいせつにしなさいね。"
+kanafix "*としよりを たいせつにしなさいね。"
 .byte   newLine
-kanjifix "ゴホゴホ。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*チビ!"
-.byte   newLine
-kanjifix "きやすく はなしかけんじゃねぇよ。"
+kanafix "ゴホゴホ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*ある"
+kanafix "*チビ!"
 .byte   newLine
-kanjifix "ファミコンソフトのはなしだけどね。"
+kanafix "きやすく はなしかけんじゃねぇよ。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*ある"
+.byte   newLine
+kanafix "ファミコンソフトのはなしだけどね。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*マザ-って タイトルに"
+kanafix "*マザ-って タイトルに"
 .byte   newLine
-kanjifix "きまったらしいんだけど"
+kanafix "きまったらしいんだけど"
 .byte   newLine
 .byte   pauseText
-kanjifix "ジョン.レノンの まねだよな。"
+kanafix "ジョン.レノンの まねだよな。"
 .byte   newLine
 .byte   stopText
 
 MSG_SPOOKANE_HINTGIRL_HINT2:
-kanjifix "*レインディアの えきにいる"
+kanafix "*レインディアの えきにいる"
 .byte   newLine
-kanjifix "おばあさんは とっても"
+kanafix "おばあさんは とっても"
 .byte   newLine
-kanjifix "たいせつなものを くれるんだけど"
+kanafix "たいせつなものを くれるんだけど"
 .byte   newLine
 .byte   pauseText
-kanjifix "*あなた"
+kanafix "*あなた"
 .byte   unk4
-kanjifix "は あったかしら‥‥"
+kanafix "は あったかしら‥‥"
 .byte   newLine
 .byte   stopText
 MSG_SPOOKANE_HINTGIRL_HINT3:
-kanjifix "*さいごの ヒントよ。"
+kanafix "*さいごの ヒントよ。"
 .byte   newLine
-kanjifix "マジカントこくの ギタ-ひきの"
+kanafix "マジカントこくの ギタ-ひきの"
 .byte   newLine
-kanjifix "うたは ぜひ きいてね。"
+kanafix "うたは ぜひ きいてね。"
 .byte   newLine
 .byte   stopText
 
 MSG_MYHOME_DOG_ADVICE:
-kanjifix "*なにか あるなとおもったら"
+kanafix "*なにか あるなとおもったら"
 .byte   newLine
-kanjifix "こまめに チェックするといいぞ。"
+kanafix "こまめに チェックするといいぞ。"
 .byte   newLine
 .byte   stopText
 
 MSG_ZOO_MONKEY:
-kanjifix "*うたうサルは しみじみとうたった。"
+kanafix "*うたうサルは しみじみとうたった。"
 .byte   newLine
 .byte   stopText
 
 MSG_YUCCA_SINGINGCACTUS:
-kanjifix "*サボテンは うたう。"
+kanafix "*サボテンは うたう。"
 .byte   newLine
-kanjifix "なぜか うたう。"
+kanafix "なぜか うたう。"
 .byte   newLine
-kanjifix "せつせつと うたいつづけた。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*ピアノは ひとりでに"
-.byte   newLine
-kanjifix "けんばんが うごいて"
-.byte   newLine
-kanjifix "えんそうを はじめた。"
+kanafix "せつせつと うたいつづけた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*ドラゴンは いがいと すなおに"
+kanafix "*ピアノは ひとりでに"
 .byte   newLine
-kanjifix "ふるい がくふを みせてくれた。"
+kanafix "けんばんが うごいて"
+.byte   newLine
+kanafix "えんそうを はじめた。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*ドラゴンは いがいと すなおに"
+.byte   newLine
+kanafix "ふるい がくふを みせてくれた。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*こんな うただった。"
+kanafix "*こんな うただった。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*ロボット イヴは"
+kanafix "*ロボット イヴは"
 .byte   newLine
-kanjifix "はかいされ うごかなくなった。"
+kanafix "はかいされ うごかなくなった。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*イヴの むねのあたりから"
+kanafix "*イヴの むねのあたりから"
 .byte   newLine
-kanjifix "おんがくが ながれてきた。"
+kanafix "おんがくが ながれてきた。"
 .byte   newLine
 .byte   stopText
 
 MSG_ZOO_MONKEYSIGN:
-kanjifix "「よにも めずらしい うたうさるは"
+kanafix "「よにも めずらしい うたうさるは"
 .byte   newLine
-kanjifix "とう シュ-クリ-ムどうぶつえんに"
+kanafix "とう シュ-クリ-ムどうぶつえんに"
 .byte   newLine
-kanjifix "しか おりません。」"
+kanafix "しか おりません。」"
 .byte   newLine
 .byte   stopText
 
 MSG_TWINKLE_F2_UPSTAIRS_PADLOCK:
-kanjifix "*かいだんの うえの とびらには"
+kanafix "*かいだんの うえの とびらには"
 .byte   newLine
-kanjifix "おおきな じょうまえが"
+kanafix "おおきな じょうまえが"
 .byte   newLine
-kanjifix "かかっている。"
+kanafix "かかっている。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*わたしは スノ-マンのまちの"
+kanafix "*わたしは スノ-マンのまちの"
 .byte   newLine
-kanjifix "ひとたちのために ここにのこるが"
+kanafix "ひとたちのために ここにのこるが"
 .byte   newLine
-kanjifix "どうか‥‥きをつけて‥‥いって。"
+kanafix "どうか‥‥きをつけて‥‥いって。"
 .byte   newLine
 .byte   stopText
 
 MSG_PHONE_PAYPHONE:
-kanjifix "*おかねが たりません。"
+kanafix "*おかねが たりません。"
 .byte   newLine
 .byte   stopText
 
 MSG_GRAVEYARD_PIPPI_AFRAID:
-kanjifix "*やっぱり こわいから"
+kanafix "*やっぱり こわいから"
 .byte   newLine
 .byte   nintenName
-kanjifix "ちゃん"
+kanafix "ちゃん"
 .byte   newLine
-kanjifix "さきに あるいてよ。"
+kanafix "さきに あるいてよ。"
 .byte   newLine
 .byte   stopText
 
 MSG_ZOO_GATE:
-kanjifix "*よくみると とびらの カギは"
+kanafix "*よくみると とびらの カギは"
 .byte   newLine
-kanjifix "こわれていた。"
+kanafix "こわれていた。"
 .byte   newLine
 .byte   partyLead
-kanjifix "は とびらを あけた。"
+kanafix "は とびらを あけた。"
 .byte   newLine
 .byte   stopText
 
 MSG_ELLAY_BBGANG2_TEDDY:
-kanjifix "*あっ "
+kanafix "*あっ "
 .byte   teddyName
-kanjifix "さん"
+kanafix "さん"
 .byte   newLine
-kanjifix "こんにちは ッス。"
+kanafix "こんにちは ッス。"
 .byte   newLine
 .byte   stopText
 
 MSG_ELLAY_BBGANG1_TEDDY2:
-kanjifix "*"
+kanafix "*"
 .byte   teddyName
-kanjifix "のアニキを はやく"
+kanafix "のアニキを はやく"
 .byte   newLine
-kanjifix "カムバックさせてくれよう!"
+kanafix "カムバックさせてくれよう!"
 .byte   newLine
 .byte   stopText
 
 MSG_MYHOME_MINNIE_STORAGE_CANT:
-kanjifix "*あ だめだめ。"
+kanafix "*あ だめだめ。"
 .byte   newLine
 .byte   item
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "あずかれないのよ。"
+kanafix "あずかれないのよ。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*わたし わがままなの。"
+kanafix "*わたし わがままなの。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "「"
+kanafix "「"
 .byte   nintenName
-kanjifix "の"
+kanafix "の"
 .byte   newLine
-kanjifix "えいえんのしもべ。"
+kanafix "えいえんのしもべ。"
 .byte   newLine
 .byte   pauseText
-kanjifix "ゆうかんなる フライングマンせんし"
+kanafix "ゆうかんなる フライングマンせんし"
 .byte   newLine
-kanjifix "ここに ねむる。」"
+kanafix "ここに ねむる。」"
 .byte   newLine
 .byte   stopText
 
-kanjifix "「"
+kanafix "「"
 .byte   nintenName
-kanjifix "の"
+kanafix "の"
 .byte   newLine
-kanjifix "うちなる ちから。"
+kanafix "うちなる ちから。"
 .byte   newLine
 .byte   pauseText
-kanjifix "ゆうかんなる フライングマンせんし"
+kanafix "ゆうかんなる フライングマンせんし"
 .byte   newLine
-kanjifix "ここに ねむる。」"
+kanafix "ここに ねむる。」"
 .byte   newLine
 .byte   stopText
 
-kanjifix "「"
+kanafix "「"
 .byte   nintenName
-kanjifix "の"
+kanafix "の"
 .byte   newLine
-kanjifix "ぜんなる こころ。"
+kanafix "ぜんなる こころ。"
 .byte   newLine
 .byte   pauseText
-kanjifix "ゆうかんなる フライングマンせんし"
+kanafix "ゆうかんなる フライングマンせんし"
 .byte   newLine
-kanjifix "ここに ねむる。」"
+kanafix "ここに ねむる。」"
 .byte   newLine
 .byte   stopText
 
-kanjifix "「"
+kanafix "「"
 .byte   nintenName
-kanjifix "の"
+kanafix "の"
 .byte   newLine
-kanjifix "おおいなる かなしみ。"
+kanafix "おおいなる かなしみ。"
 .byte   newLine
 .byte   pauseText
-kanjifix "ゆうかんなる フライングマンせんし"
+kanafix "ゆうかんなる フライングマンせんし"
 .byte   newLine
-kanjifix "ここに ねむる。」"
+kanafix "ここに ねむる。」"
 .byte   newLine
 .byte   stopText
 
-kanjifix "「"
+kanafix "「"
 .byte   nintenName
-kanjifix "の"
+kanafix "の"
 .byte   newLine
-kanjifix "ち と にく。"
+kanafix "ち と にく。"
 .byte   newLine
 .byte   pauseText
-kanjifix "ゆうかんなる フライングマンせんし"
+kanafix "ゆうかんなる フライングマンせんし"
 .byte   newLine
-kanjifix "ここに ねむる。」"
+kanafix "ここに ねむる。」"
 .byte   newLine
 .byte   stopText
 
 MSG_PODUNK_MAGICOP:
-kanjifix "*ちょうちょうさんの めいれいで"
+kanafix "*ちょうちょうさんの めいれいで"
 .byte   newLine
 .byte   pauseText
-kanjifix "どうぶつえんの じけんが"
+kanafix "どうぶつえんの じけんが"
 .byte   newLine
-kanjifix "かいけつするまで"
+kanafix "かいけつするまで"
 .byte   newLine
-kanjifix "ここは とおれないんだぞ。"
+kanafix "ここは とおれないんだぞ。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*ちょっと ロコツな"
+kanafix "*ちょっと ロコツな"
 .byte   newLine
-kanjifix "やりかただけどな。"
+kanafix "やりかただけどな。"
 .byte   newLine
 .byte   stopText
 MSG_PODUNK_MAGICOP_LIFTED:
-kanjifix "*このおくの やまのどうくつに"
+kanafix "*このおくの やまのどうくつに"
 .byte   newLine
-kanjifix "へんな いわが あるんだぞ。"
+kanafix "へんな いわが あるんだぞ。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*あんまりへんだから"
+kanafix "*あんまりへんだから"
 .byte   newLine
-kanjifix "けんぶつすると いいぞ。"
+kanafix "けんぶつすると いいぞ。"
 .byte   newLine
 .byte   stopText
 
 MSG_PODUNK_MAGICOP2_LIFTED:
-kanjifix "*ところで‥‥"
+kanafix "*ところで‥‥"
 .byte   newLine
-kanjifix "おまえ"
+kanafix "おまえ"
 .byte   unk4
-kanjifix " テレパシ-とかが"
+kanafix " テレパシ-とかが"
 .byte   newLine
-kanjifix "できるんだってな。"
-.byte   newLine
-.byte   pauseText
-kanjifix "*だいひょうばんだぞ。"
+kanafix "できるんだってな。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*この にんきもの!"
+kanafix "*だいひょうばんだぞ。"
+.byte   newLine
+.byte   pauseText
+kanafix "*この にんきもの!"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*あんた"
+kanafix "*あんた"
 .byte   unk4
 .byte   newLine
-kanjifix "スノ-マンに いくのかい?"
+kanafix "スノ-マンに いくのかい?"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*このぼうしを ひろったんだけど"
+kanafix "*このぼうしを ひろったんだけど"
 .byte   newLine
-kanjifix "スノ-マンにいる おんなのこの"
+kanafix "スノ-マンにいる おんなのこの"
 .byte   newLine
-kanjifix "ものらしいの。"
+kanafix "ものらしいの。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*とどけてあげて ちょうだいな。"
+kanafix "*とどけてあげて ちょうだいな。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*たのみたいことが あったんだけど"
+kanafix "*たのみたいことが あったんだけど"
 .byte   newLine
-kanjifix "ざんねんだわ。"
+kanafix "ざんねんだわ。"
 .byte   newLine
 .byte   stopText
 
 MSG_REINDEER_SINGINGGUY_ACCEPT2:
-kanjifix "*かっこいいしょうねんは"
+kanafix "*かっこいいしょうねんは"
 .byte   newLine
-kanjifix "どくとくの うたをうたった。"
+kanafix "どくとくの うたをうたった。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*"
+kanafix "*"
 .byte   partyLead
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "このメロディ-は"
+kanafix "このメロディ-は"
 .byte   newLine
-kanjifix "さすがに おぼえられなかった。"
+kanafix "さすがに おぼえられなかった。"
 .byte   newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_QUESTIONNAIRE:
-kanjifix "*すみません。"
+kanafix "*すみません。"
 .byte   newLine
-kanjifix "ちょっと アンケ-トに"
+kanafix "ちょっと アンケ-トに"
 .byte   newLine
-kanjifix "こたえていただけますか?"
+kanafix "こたえていただけますか?"
 .byte   newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_QUESTIONNAIRE_Q1:
-kanjifix "*あなたは"
+kanafix "*あなたは"
 .byte   newLine
-kanjifix "きしゃの うんちんを"
+kanafix "きしゃの うんちんを"
 .byte   newLine
-kanjifix "たかいと おもいますか?"
+kanafix "たかいと おもいますか?"
 .byte   newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_QUESTIONNAIRE_Q2:
-kanjifix "*あなたは"
+kanafix "*あなたは"
 .byte   newLine
-kanjifix "ふしぎなメガホンを"
+kanafix "ふしぎなメガホンを"
 .byte   newLine
-kanjifix "つかいましたか?"
+kanafix "つかいましたか?"
 .byte   newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_QUESTIONNAIRE_FINISH:
-kanjifix "*ごきょうりょく"
+kanafix "*ごきょうりょく"
 .byte   newLine
-kanjifix "ありがとうございました。"
+kanafix "ありがとうございました。"
 .byte   newLine
-kanjifix "おれいの テレホンカ-ドです。"
+kanafix "おれいの テレホンカ-ドです。"
 .byte   newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_QUESTIONNAIRE_DONE:
-kanjifix "*すいません。 ちょっと‥‥"
+kanafix "*すいません。 ちょっと‥‥"
 .byte   newLine
-kanjifix "アンケ-トに‥‥‥"
+kanafix "アンケ-トに‥‥‥"
 .byte   newLine
 .byte   pauseText
-kanjifix "*あっ"
+kanafix "*あっ"
 .byte   newLine
-kanjifix "まえに おねがいしましたっけね。"
+kanafix "まえに おねがいしましたっけね。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*こころの さけびを ききつけて"
+kanafix "*こころの さけびを ききつけて"
 .byte   newLine
-kanjifix "おたすけじいさんが"
+kanafix "おたすけじいさんが"
 .byte   newLine
-kanjifix "とうじょうした。"
+kanafix "とうじょうした。"
 .byte   newLine
 .byte   stopText
 
 MSG_GRAVEYARD_CASKET_GENERIC:
-kanjifix "*"
+kanafix "*"
 .byte   partyLead
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "カンオケを あけた。"
+kanafix "カンオケを あけた。"
 .byte   newLine
-kanjifix "カンオケのなかから‥‥!!"
+kanafix "カンオケのなかから‥‥!!"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   partyLead
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "ぼうえんきょうを のぞいた。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*うみが きれいだった。"
+kanafix "ぼうえんきょうを のぞいた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*むこうのしまで"
-.byte   newLine
-kanjifix "なにかが ひかった!"
+kanafix "*うみが きれいだった。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*カプセルのなかから"
+kanafix "*むこうのしまで"
 .byte   newLine
-kanjifix "なにかが とびだした。"
+kanafix "なにかが ひかった!"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*カプセルのなかから"
+.byte   newLine
+kanafix "なにかが とびだした。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*"
 .byte   anaName
-kanjifix " "
+kanafix " "
 .byte   newLine
-kanjifix "「パパ‥‥いまは‥‥さよなら。"
+kanafix "「パパ‥‥いまは‥‥さよなら。"
 .byte   newLine
-kanjifix "つぎに あうときは"
+kanafix "つぎに あうときは"
 .byte   newLine
-kanjifix "きっと ママといっしょよ!"
+kanafix "きっと ママといっしょよ!"
 .byte   newLine
 .byte   pauseText
-kanjifix "‥‥いのっててください。」"
+kanafix "‥‥いのっててください。」"
 .byte   newLine
 .byte   stopText
 
 .byte   stopText
 
-kanjifix "*だれに はなしているのだ。"
+kanafix "*だれに はなしているのだ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*なに?"
+kanafix "*なに?"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*もんだいなし。"
+kanafix "*もんだいなし。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
 .byte   recipient
-kanjifix "を つかった。"
+kanafix "を つかった。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
 .byte   recipient
-kanjifix "を"
+kanafix "を"
 .byte   newLine
-kanjifix "つかえない。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*やめてください。"
+kanafix "つかえない。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*やめてください。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
 .byte   recipient
-kanjifix "を"
+kanafix "を"
 .byte   newLine
-kanjifix "そうびした。"
+kanafix "そうびした。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
 .byte   recipient
-kanjifix "を"
+kanafix "を"
 .byte   newLine
-kanjifix "そうびできない。"
+kanafix "そうびできない。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
 .byte   recipient
-kanjifix "を"
+kanafix "を"
 .byte   newLine
-kanjifix "すててしまった。"
+kanafix "すててしまった。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   recipient
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "すててはいけない。"
+kanafix "すててはいけない。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は "
+kanafix "は "
 .byte   result
-kanjifix "に"
+kanafix "に"
 .byte   newLine
 .byte   recipient
-kanjifix "を"
+kanafix "を"
 .byte   newLine
-kanjifix "わたした。"
+kanafix "わたした。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   recipient
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "わたせない。"
+kanafix "わたせない。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   result
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "これいじょう ものをもてない。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*なにも おこらない。"
+kanafix "これいじょう ものをもてない。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*なにも おこらない。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*"
 .byte   partyLead
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "プレゼントのはこを あけた。"
+kanafix "プレゼントのはこを あけた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   item
-kanjifix "が あった。"
+kanafix "が あった。"
 .byte   newLine
 .byte   stopText
 
 MSG_GET_ITEM:
-kanjifix "*"
+kanafix "*"
 .byte   partyLead
 .byte   unk4
-kanjifix "は"
+kanafix "は"
 .byte   newLine
 .byte   item
-kanjifix "を てにいれた。"
+kanafix "を てにいれた。"
 .byte   newLine
 .byte   stopText
 
 MSG_INVENTORY_FULL:
-kanjifix "*しかし これいじょう"
+kanafix "*しかし これいじょう"
 .byte   newLine
-kanjifix "ものを もてない。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*しかし からっぽだった。"
+kanafix "ものを もてない。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "  ドクをけす  やわらかくする"
+kanafix "*しかし からっぽだった。"
+.byte   newLine
+.byte   stopText
+
+kanafix "  ドクをけす  やわらかくする"
 .byte   stopText
 
 .byte   newLine
 .byte   stopText
 
 MSG_CANARY_SIGN:
-kanjifix "「みなみ.マザ-ズデイ"
+kanafix "「みなみ.マザ-ズデイ"
 .byte   newLine
-kanjifix " きた .シュ-クリ-ム"
+kanafix " きた .シュ-クリ-ム"
 .byte   newLine
-kanjifix "        どうぶつえん」"
+kanafix "        どうぶつえん」"
 .byte   newLine
 .byte   stopText
 
 MSG_PODUNK_CANARYSIGN:
-kanjifix "「このおく カナリアむら。"
+kanafix "「このおく カナリアむら。"
 .byte   newLine
-kanjifix " しぜんを たいせつにしよう!」"
+kanafix " しぜんを たいせつにしよう!」"
 .byte   newLine
 .byte   stopText
 
 MSG_PODUNK_CITYHALLSIGN:
-kanjifix "「マザ-ズデイ まちやくば」"
+kanafix "「マザ-ズデイ まちやくば」"
 .byte   newLine
 .byte   stopText
 
 MSG_ELLAY_RESIDENTIALSIGN:
-kanjifix "「にし.うみのてんぼうだい"
+kanafix "「にし.うみのてんぼうだい"
 .byte   newLine
-kanjifix " きた.バレンタインみなと"
+kanafix " きた.バレンタインみなと"
 .byte   newLine
-kanjifix "       うみをきれいに!」"
+kanafix "       うみをきれいに!」"
 .byte   newLine
 .byte   stopText
 MSG_ELLAY_RESIDENTIALSIGN2:
-kanjifix "「にし .バレンタイン"
+kanafix "「にし .バレンタイン"
 .byte   newLine
-kanjifix " ひがし.ホ-リ-ロ-リ-"
+kanafix " ひがし.ホ-リ-ロ-リ-"
 .byte   newLine
-kanjifix "          マウンテン」"
+kanafix "          マウンテン」"
 .byte   newLine
 .byte   stopText
 
 MSG_PODUNK_GRAVESIGN:
-kanjifix "「にし    .ヒ-ラ-のいえ"
+kanafix "「にし    .ヒ-ラ-のいえ"
 .byte   newLine
-kanjifix " はしのむこう.はかば"
+kanafix " はしのむこう.はかば"
 .byte   newLine
-kanjifix "    ひとりあるき きけん!」"
+kanafix "    ひとりあるき きけん!」"
 .byte   newLine
 .byte   stopText
 
 MSG_PODUNK_MERRYSIGN:
-kanjifix "「にし .マザ-ズデイ"
+kanafix "「にし .マザ-ズデイ"
 .byte   newLine
-kanjifix " ひがし.サンクスギビング」"
+kanafix " ひがし.サンクスギビング」"
 .byte   newLine
 .byte   stopText
 
 MSG_PODUNK_ZOOSIGN:
-kanjifix "「シュ-クリ-ムどうぶつえんは"
+kanafix "「シュ-クリ-ムどうぶつえんは"
 .byte   newLine
-kanjifix "    にしに 700メ-トル」"
+kanafix "    にしに 700メ-トル」"
 .byte   newLine
 .byte   stopText
 
 MSG_SNOWMAN_SIGN:
-kanjifix "「スノ-マンきょうかい このおく」"
+kanafix "「スノ-マンきょうかい このおく」"
 .byte   newLine
 .byte   stopText
 
 MSG_ELLAY_INTROSIGN:
-kanjifix "「にし .バレンタイン"
+kanafix "「にし .バレンタイン"
 .byte   newLine
-kanjifix " みなみ.しっちたい」"
+kanafix " みなみ.しっちたい」"
 .byte   newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_SCHOOLSIGN:
-kanjifix "「サンクスギビングおおどおり"
+kanafix "「サンクスギビングおおどおり"
 .byte   newLine
-kanjifix " みなみ.ティンクル"
+kanafix " みなみ.ティンクル"
 .byte   newLine
-kanjifix "        しょうがっこう」"
+kanafix "        しょうがっこう」"
 .byte   newLine
 .byte   stopText
 
 MSG_MYHOME_SIGN:
-kanjifix "「"
+kanafix "「"
 .byte   nintenName
-kanjifix " の いえ」"
+kanafix " の いえ」"
 .byte   newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_SIGN:
-kanjifix "「サンクスギビングへ ようこそ!"
+kanafix "「サンクスギビングへ ようこそ!"
 .byte   newLine
-kanjifix " にし.マザ-ズデイ"
+kanafix " にし.マザ-ズデイ"
 .byte   newLine
-kanjifix " きた.サンタクロ-スえき」"
+kanafix " きた.サンタクロ-スえき」"
 .byte   newLine
 .byte   stopText
 
 MSG_REINDEER_SIGN:
-kanjifix "「にし .ヒ-ラ-のいえ"
+kanafix "「にし .ヒ-ラ-のいえ"
 .byte   newLine
-kanjifix " ひがし.レインディアえき"
+kanafix " ひがし.レインディアえき"
 .byte   newLine
-kanjifix " みなみ.レインディアのまち」"
+kanafix " みなみ.レインディアのまち」"
 .byte   newLine
 .byte   stopText
 
 MSG_SPOOKANE_SIGN:
-kanjifix "「にし .ハロウィ-ンダウンタウン"
+kanafix "「にし .ハロウィ-ンダウンタウン"
 .byte   newLine
-kanjifix " ひがし.ハロウィ-ン"
+kanafix " ひがし.ハロウィ-ン"
 .byte   newLine
-kanjifix "         じゅうたくち」"
+kanafix "         じゅうたくち」"
 .byte   newLine
 .byte   stopText
 
 MSG_YOUNGTOWN_SIGN:
-kanjifix "「ひがし.しっちたい」"
+kanafix "「ひがし.しっちたい」"
 .byte   newLine
 .byte   stopText
 
 MSG_SPOOKANE_MANSIONSIGN:
-kanjifix "「このさき"
+kanafix "「このさき"
 .byte   newLine
-kanjifix " ロ-ズマリ-さんの しゆうち」"
+kanafix " ロ-ズマリ-さんの しゆうち」"
 .byte   newLine
 .byte   stopText
 
 MSG_ELLAY_JAILSIGN:
-kanjifix "「バレンタイン けいさつしょ」"
+kanafix "「バレンタイン けいさつしょ」"
 .byte   newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_DUNCANSIGN:
-kanjifix "「ストリップげきじょう"
+kanafix "「ストリップげきじょう"
 .byte   newLine
-kanjifix "      けんせつよていち"
+kanafix "      けんせつよていち"
 .byte   newLine
-kanjifix "   ダンカンけんせつがいしゃ」"
+kanafix "   ダンカンけんせつがいしゃ」"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*アニハ ウツクシク"
+kanafix "*アニハ ウツクシク"
 .byte   newLine
-kanjifix "タオレタト キキマス。"
+kanafix "タオレタト キキマス。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*ハカヲ タテテ"
+kanafix "*ハカヲ タテテ"
 .byte   newLine
-kanjifix "テアツク トムライマシタ。"
+kanafix "テアツク トムライマシタ。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*ツギハ ワタシノ バンデス。"
+kanafix "*ツギハ ワタシノ バンデス。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*ワタシモ ハヤク"
+kanafix "*ワタシモ ハヤク"
 .byte   newLine
-kanjifix "アナタノ オテツダイガ シタイ。"
+kanafix "アナタノ オテツダイガ シタイ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*ワタシハ ふらいんぐまん。"
+kanafix "*ワタシハ ふらいんぐまん。"
 .byte   newLine
-kanjifix "アナタノ チカラニナル。"
+kanafix "アナタノ チカラニナル。"
 .byte   newLine
-kanjifix "ソノタメニ ウマレテキタ。"
+kanafix "ソノタメニ ウマレテキタ。"
 .byte   newLine
 .byte   stopText
 
 MSG_PODUNK_MAGICOP2_LIFTED2:
-kanjifix "*かいげんれいは とかれた。"
+kanafix "*かいげんれいは とかれた。"
 .byte   newLine
-kanjifix "ちょっと おおげさだったけどな。"
+kanafix "ちょっと おおげさだったけどな。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*ふるぼけた ロケットだ。"
+kanafix "*ふるぼけた ロケットだ。"
 .byte   newLine
 .byte   stopText
 
 MSG_PODUNK_PIPPI_GOODS:
-kanjifix "*グッズを とりにきたのね。"
+kanafix "*グッズを とりにきたのね。"
 .byte   newLine
-kanjifix "はい どうぞ。"
+kanafix "はい どうぞ。"
 .byte   newLine
 .byte   stopText
 MSG_PODUNK_PIPPI_NOGOODS:
-kanjifix "*グッズは ぜんぶわたしたわよ。"
+kanafix "*グッズは ぜんぶわたしたわよ。"
 .byte   newLine
-kanjifix "でも また あいにきてね。"
+kanafix "でも また あいにきてね。"
 .byte   newLine
 .byte   stopText
 
 MSG_MYHOME_MINNIE:
-kanjifix "*わたし ミニ-よ。"
+kanafix "*わたし ミニ-よ。"
 .byte   newLine
 .byte   stopText
 
 
 MSG_HEALER_MENU:
-kanjifix "  きをいれる  やわらかくする"
+kanafix "  きをいれる  やわらかくする"
 .byte   stopText
 
 .byte   newLine
 .byte   stopText
 
 MSG_MTITOI_TEDDY_CALL:
-kanjifix "*"
+kanafix "*"
 .byte   teddyName
-kanjifix " "
+kanafix " "
 .byte   newLine
-kanjifix "「おまえら"
+kanafix "「おまえら"
 .byte   newLine
-kanjifix "ふたりで いたいんだろう。"
+kanafix "ふたりで いたいんだろう。"
 .byte   newLine
 .byte   pauseText
-kanjifix "おれ ここで ねてるわ。」"
+kanafix "おれ ここで ねてるわ。」"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*しまった! まにあわなかった。"
+kanafix "*しまった! まにあわなかった。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*‥‥よかった。"
+kanafix "*‥‥よかった。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   teddyName
-kanjifix " "
+kanafix " "
 .byte   newLine
-kanjifix "「おい! なんか"
+kanafix "「おい! なんか"
 .byte   newLine
-kanjifix "とんでもないおとが したぜ。」"
+kanafix "とんでもないおとが したぜ。」"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   teddyName
-kanjifix " "
+kanafix " "
 .byte   newLine
-kanjifix "「ほ-んとかよ!?」"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*ボ-トは"
-.byte   newLine
-kanjifix "エンジンの ちょうしが"
-.byte   newLine
-kanjifix "わるいようだ。"
+kanafix "「ほ-んとかよ!?」"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*ボ-トは"
+.byte   newLine
+kanafix "エンジンの ちょうしが"
+.byte   newLine
+kanafix "わるいようだ。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*"
 .byte   partyLead
-kanjifix "には"
+kanafix "には"
 .byte   newLine
-kanjifix "うごかすことが できない。"
+kanafix "うごかすことが できない。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*しかし "
+kanafix "*しかし "
 .byte   lloydName
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "じょうずに エンジンを"
+kanafix "じょうずに エンジンを"
 .byte   newLine
-kanjifix "かけることが できた。"
+kanafix "かけることが できた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   item
-kanjifix "ですね。"
+kanafix "ですね。"
 .byte   newLine
-kanjifix "ちゃんと "
+kanafix "ちゃんと "
 .byte   nintenName
-kanjifix "さんの"
+kanafix "さんの"
 .byte   newLine
-kanjifix "うちへ おくっておきますね。"
+kanafix "うちへ おくっておきますね。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*ほかに あずかるものは"
+kanafix "*ほかに あずかるものは"
 .byte   newLine
-kanjifix "ありますか?"
+kanafix "ありますか?"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*こんな せまいなかに"
+kanafix "*こんな せまいなかに"
 .byte   newLine
-kanjifix "とじこめられて‥‥"
+kanafix "とじこめられて‥‥"
 .byte   newLine
-kanjifix "これから どうなるんだろう。"
+kanafix "これから どうなるんだろう。"
 .byte   newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_SWEETSSIGN:
-kanjifix "「スイ-トリトル こうじょう」"
+kanafix "「スイ-トリトル こうじょう」"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*やまのうえの"
+kanafix "*やまのうえの"
 .byte   newLine
-kanjifix "マザ-シップに つれていかれて"
+kanafix "マザ-シップに つれていかれて"
 .byte   newLine
-kanjifix "きがついたら こんなことに‥‥"
+kanafix "きがついたら こんなことに‥‥"
 .byte   newLine
 .byte   pauseText
-kanjifix "*なんとかしてくれ!"
+kanafix "*なんとかしてくれ!"
 .byte   newLine
 .byte   stopText
 
 MSG_SNOWMAN_PHONE_CHECK:
-kanjifix "*スペルの まちがいは ないですね?"
+kanafix "*スペルの まちがいは ないですね?"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*どうぶつたちを くるわせていた"
+kanafix "*どうぶつたちを くるわせていた"
 .byte   newLine
-kanjifix "あやしいおとは きえた。"
+kanafix "あやしいおとは きえた。"
 .byte   newLine
-kanjifix "どうぶつえんは あんぜんになった。"
+kanafix "どうぶつえんは あんぜんになった。"
 .byte   newLine
 .byte   stopText
 
 MSG_YUCCA_PILOT_TANKRIDE:
-kanjifix "*だいじな せんしゃだからな。"
+kanafix "*だいじな せんしゃだからな。"
 .byte   newLine
-kanjifix "こわさんようにな。"
+kanafix "こわさんようにな。"
 .byte   newLine
 .byte   stopText
 
 MSG_MYHOME_DOG_CHECK:
-kanjifix "*いぬの くびわには"
+kanafix "*いぬの くびわには"
 .byte   newLine
-kanjifix "ちかしつのカギが さがっていた。"
+kanafix "ちかしつのカギが さがっていた。"
 .byte   newLine
 .byte   stopText
 
 MSG_PODUNK_NOISYMOUSE:
-kanjifix "*へっへっへ あっしは"
+kanafix "*へっへっへ あっしは"
 .byte   newLine
-kanjifix "おせっかいな ねずみです。"
-.byte   newLine
-.byte   pauseText
-kanjifix "*まちの いえには"
-.byte   newLine
-kanjifix "はいれる いえと"
-.byte   newLine
-kanjifix "はいれない いえが あります。"
+kanafix "おせっかいな ねずみです。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*まるいドアと かんばんのあるドアは"
+kanafix "*まちの いえには"
 .byte   newLine
-kanjifix "はいれる いえ。"
+kanafix "はいれる いえと"
 .byte   newLine
-.byte   pauseText
-kanjifix "*あとは はいろうとしても"
-.byte   newLine
-kanjifix "あたまを ぶつけるだけでさぁ。"
+kanafix "はいれない いえが あります。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*さいなら。"
+kanafix "*まるいドアと かんばんのあるドアは"
 .byte   newLine
-.byte   stopText
-
-kanjifix "*テレポ-テ-ションを"
-.byte   newLine
-kanjifix "おもちゃに するんじゃないぞ。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*ほんとうの こどものように"
-.byte   newLine
-kanjifix "かわいがったのに‥‥"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*しっぽを ふってた"
-.byte   newLine
-kanjifix "あかちゃんだった‥‥"
-.byte   newLine
-kanjifix "こもりうたを‥‥でも‥‥"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*ああ ジョ-ジ!"
-.byte   newLine
-kanjifix "あなたの つま マリアです。"
+kanafix "はいれる いえ。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*あなたのまつ てんごくに"
+kanafix "*あとは はいろうとしても"
 .byte   newLine
-kanjifix "わたしも いまから むかいます‥‥"
+kanafix "あたまを ぶつけるだけでさぁ。"
 .byte   newLine
-.byte   stopText
-
-kanjifix "*キャッシュカ-ドヲ イレテクダサイ"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*そんなに げんきんを"
-.byte   newLine
-kanjifix "もちあるいては いけない。"
+.byte   pauseText
+kanafix "*さいなら。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*このまえの"
+kanafix "*テレポ-テ-ションを"
 .byte   newLine
-kanjifix "セ-ブデ-タまで もどるが"
-.byte   newLine
-kanjifix "それで よいのか?"
+kanafix "おもちゃに するんじゃないぞ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*「はい」って いったのに"
+kanafix "*ほんとうの こどものように"
 .byte   newLine
-kanjifix "もってないじゃないか。"
-.byte   newLine
-kanjifix "アハハハハ。"
+kanafix "かわいがったのに‥‥"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*こきゅうが みだれて"
+kanafix "*しっぽを ふってた"
 .byte   newLine
-kanjifix "くるしそうだ。"
+kanafix "あかちゃんだった‥‥"
 .byte   newLine
-.byte   stopText
-
-kanjifix "*まだ グッズをわたせる"
-.byte   newLine
-kanjifix "なかまが いない。"
+kanafix "こもりうたを‥‥でも‥‥"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*ああ ジョ-ジ!"
+.byte   newLine
+kanafix "あなたの つま マリアです。"
+.byte   newLine
+.byte   pauseText
+kanafix "*あなたのまつ てんごくに"
+.byte   newLine
+kanafix "わたしも いまから むかいます‥‥"
+.byte   newLine
+.byte   stopText
+
+kanafix "*キャッシュカ-ドヲ イレテクダサイ"
+.byte   newLine
+.byte   stopText
+
+kanafix "*そんなに げんきんを"
+.byte   newLine
+kanafix "もちあるいては いけない。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*このまえの"
+.byte   newLine
+kanafix "セ-ブデ-タまで もどるが"
+.byte   newLine
+kanafix "それで よいのか?"
+.byte   newLine
+.byte   stopText
+
+kanafix "*「はい」って いったのに"
+.byte   newLine
+kanafix "もってないじゃないか。"
+.byte   newLine
+kanafix "アハハハハ。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*こきゅうが みだれて"
+.byte   newLine
+kanafix "くるしそうだ。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*まだ グッズをわたせる"
+.byte   newLine
+kanafix "なかまが いない。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*"
 .byte   item
-kanjifix "ですね。"
+kanafix "ですね。"
 .byte   newLine
-kanjifix "たしかに おわたししましたよ。"
+kanafix "たしかに おわたししましたよ。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*ほかに もっていくものは"
+kanafix "*ほかに もっていくものは"
 .byte   newLine
-kanjifix "ありますか?"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*もちきれない みたいだけど"
-.byte   newLine
-kanjifix "ほかのひとに わたしますか?"
+kanafix "ありますか?"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*そうこが いっぱいです。"
+kanafix "*もちきれない みたいだけど"
+.byte   newLine
+kanafix "ほかのひとに わたしますか?"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*クイ-ンマリ-は"
+kanafix "*そうこが いっぱいです。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*クイ-ンマリ-は"
 .byte   newLine
 .byte   nintenName
-kanjifix "に かたりおえると"
+kanafix "に かたりおえると"
 .byte   newLine
-kanjifix "かぜのなかに きえていった。"
-.byte   newLine
-.byte   pauseText
-kanjifix "*そして マジカントのくにも"
-.byte   newLine
-kanjifix "また あとかたもなく"
-.byte   newLine
-kanjifix "かききえた。"
+kanafix "かぜのなかに きえていった。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*マジカントのくに とは"
+kanafix "*そして マジカントのくにも"
 .byte   newLine
-kanjifix "マリ-のいしきが うみだした"
+kanafix "また あとかたもなく"
 .byte   newLine
-kanjifix "まぼろしだったのだ。"
+kanafix "かききえた。"
+.byte   newLine
+.byte   pauseText
+kanafix "*マジカントのくに とは"
+.byte   newLine
+kanafix "マリ-のいしきが うみだした"
+.byte   newLine
+kanafix "まぼろしだったのだ。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*わたしが"
+kanafix "*わたしが"
 .byte   newLine
-kanjifix "あなた"
+kanafix "あなた"
 .byte   unk4
-kanjifix "を よんだのです。"
+kanafix "を よんだのです。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*"
+kanafix "*"
 .byte   nintenName
-kanjifix "!"
+kanafix "!"
 .byte   newLine
 .byte   anaName
-kanjifix "!"
+kanafix "!"
 .byte   newLine
 .byte   lloydName
-kanjifix "!"
+kanafix "!"
 .byte   newLine
 .byte   teddyName
-kanjifix "!"
+kanafix "!"
 .byte   newLine
 .byte   pauseText
-kanjifix "*そして すべての"
+kanafix "*そして すべての"
 .byte   newLine
-kanjifix "ゆうきある こどもたち。"
+kanafix "ゆうきある こどもたち。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*いまが そのときです!"
+kanafix "*いまが そのときです!"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*し-っ! わたくしどもも"
+kanafix "*し-っ! わたくしどもも"
 .byte   newLine
-kanjifix "あなた"
+kanafix "あなた"
 .byte   unk4
-kanjifix "と おなじように"
+kanafix "と おなじように"
 .byte   newLine
-kanjifix "あっちの せかいの にんげんです。"
-.byte   newLine
-.byte   pauseText
-kanjifix "*おかねさえ いただければ"
-.byte   newLine
-kanjifix "マジカントの すばらしいおみやげを"
-.byte   newLine
-kanjifix "わけて さしあげますよ。"
+kanafix "あっちの せかいの にんげんです。"
 .byte   newLine
 .byte   pauseText
-kanjifix "*ヒッヒッヒ。"
+kanafix "*おかねさえ いただければ"
+.byte   newLine
+kanafix "マジカントの すばらしいおみやげを"
+.byte   newLine
+kanafix "わけて さしあげますよ。"
+.byte   newLine
+.byte   pauseText
+kanafix "*ヒッヒッヒ。"
 .byte   newLine
 .byte   stopText
 
@@ -1831,319 +1831,319 @@ kanjifix "*ヒッヒッヒ。"
 
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "わたすのを やめた。"
+kanafix "わたすのを やめた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は "
+kanafix "は "
 .byte   result
-kanjifix "に"
+kanafix "に"
 .byte   newLine
 .byte   recipient
-kanjifix "を あたえた。"
+kanafix "を あたえた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
 .byte   result
-kanjifix "の バッグに"
+kanafix "の バッグに"
 .byte   newLine
 .byte   recipient
-kanjifix "を いれた。"
+kanafix "を いれた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   result
-kanjifix "は"
+kanafix "は"
 .byte   newLine
 .byte   user
-kanjifix "の バッグから"
+kanafix "の バッグから"
 .byte   newLine
 .byte   recipient
-kanjifix "を だした。"
+kanafix "を だした。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   partyLead
-kanjifix "は"
+kanafix "は"
 .byte   newLine
 .byte   user
-kanjifix "の バッグから"
+kanafix "の バッグから"
 .byte   newLine
 .byte   recipient
-kanjifix "を すてた。"
+kanafix "を すてた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   partyLead
-kanjifix "は"
+kanafix "は"
 .byte   newLine
 .byte   user
-kanjifix "の バッグから"
+kanafix "の バッグから"
 .byte   newLine
 .byte   recipient
-kanjifix "を だして"
+kanafix "を だして"
 .byte   newLine
 .byte   pauseText
 .byte   result
-kanjifix "の バッグに いれた。"
+kanafix "の バッグに いれた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
 .byte   recipient
-kanjifix "を たべた。"
+kanafix "を たべた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
 .byte   recipient
-kanjifix "を のんだ。"
+kanafix "を のんだ。"
 .byte   newLine
 .byte   stopText
 
 .byte   price
-kanjifix " かいふくした。"
+kanafix " かいふくした。"
 .byte   newLine
 .byte   stopText
 
 .byte   price
-kanjifix " あがった。"
+kanafix " あがった。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "の HPは"
+kanafix "の HPは"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "の PPは"
+kanafix "の PPは"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "の ファイトは"
+kanafix "の ファイトは"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "の スピ-ドは"
+kanafix "の スピ-ドは"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "の かしこさは"
+kanafix "の かしこさは"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "の たいりょくは"
+kanafix "の たいりょくは"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "の フォ-スは"
+kanafix "の フォ-スは"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は でかぶくろから"
+kanafix "は でかぶくろから"
 .byte   newLine
-kanjifix "マジックハ-ブを とりだして"
+kanafix "マジックハ-ブを とりだして"
 .byte   newLine
-kanjifix "つかった。"
+kanafix "つかった。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "パンを ちぎって"
+kanafix "パンを ちぎって"
 .byte   newLine
-kanjifix "まきながら あるきだした。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*ふるいパンくずを"
-.byte   newLine
-kanjifix "すててからでないと"
-.byte   newLine
-kanjifix "パンは つかえない。"
+kanafix "まきながら あるきだした。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*ふるいパンくずを"
+.byte   newLine
+kanafix "すててからでないと"
+.byte   newLine
+kanafix "パンは つかえない。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*"
 .byte   partyLead
 .byte   unk4
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "パンくずを たどりながら"
+kanafix "パンくずを たどりながら"
 .byte   newLine
-kanjifix "もとのばしょに もどった。"
+kanafix "もとのばしょに もどった。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "かみに リボンを つけた。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*「でんげんを きってしまえ!」"
+kanafix "かみに リボンを つけた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*いろいろなものの"
-.byte   newLine
-kanjifix "ながさが わかった。"
+kanafix "*「でんげんを きってしまえ!」"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*でかぶくろは からになって"
+kanafix "*いろいろなものの"
 .byte   newLine
-kanjifix "かききえてしまった。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*テレホンカ-ドを"
-.byte   newLine
-kanjifix "つかいきってしまった。"
+kanafix "ながさが わかった。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*でかぶくろは からになって"
+.byte   newLine
+kanafix "かききえてしまった。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*テレホンカ-ドを"
+.byte   newLine
+kanafix "つかいきってしまった。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*"
 .byte   user
-kanjifix "の からだから"
+kanafix "の からだから"
 .byte   newLine
-kanjifix "どくが ぬけた。"
+kanafix "どくが ぬけた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "のカゼが なおった。"
+kanafix "のカゼが なおった。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "サイパワ-スト-ンをにぎりしめた。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*サイパワ-スト-ンは"
-.byte   newLine
-kanjifix "ただの いしころに なった。"
+kanafix "サイパワ-スト-ンをにぎりしめた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*サイパワ-スト-ンは"
+.byte   newLine
+kanafix "ただの いしころに なった。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
 .byte   recipient
-kanjifix "をこころみた。"
+kanafix "をこころみた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*それを こころみるだけの"
+kanafix "*それを こころみるだけの"
 .byte   newLine
-kanjifix "パワ-は のこっていない。"
+kanafix "パワ-は のこっていない。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   user
-kanjifix "は カムバックした。"
+kanafix "は カムバックした。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*にっきは ほとんど"
+kanafix "*にっきは ほとんど"
 .byte   newLine
-kanjifix "よみとれなかったが かろうじて"
-.byte   newLine
-.byte   pauseText
-kanjifix "*「あいことば‥‥"
-.byte   newLine
-kanjifix "かみのしっぽは どこにある。"
-.byte   newLine
-kanjifix "あまかけるふねの わすれもの」"
+kanafix "よみとれなかったが かろうじて"
 .byte   newLine
 .byte   pauseText
-kanjifix "と よめた。"
+kanafix "*「あいことば‥‥"
+.byte   newLine
+kanafix "かみのしっぽは どこにある。"
+.byte   newLine
+kanafix "あまかけるふねの わすれもの」"
+.byte   newLine
+.byte   pauseText
+kanafix "と よめた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   result
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "すっかり やわらかくなった。"
-.byte   newLine
-.byte   stopText
-
-kanjifix "*きぼうのオカリナを ふいた。"
+kanafix "すっかり やわらかくなった。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*「きこえたかい?」"
+kanafix "*きぼうのオカリナを ふいた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*このばしょは"
-.byte   newLine
-kanjifix "ちずに のっていない。"
+kanafix "*「きこえたかい?」"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*このばしょは"
+.byte   newLine
+kanafix "ちずに のっていない。"
+.byte   newLine
+.byte   stopText
+
+kanafix "*"
 .byte   user
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "ちずを しらべた。"
+kanafix "ちずを しらべた。"
 .byte   newLine
 .byte   stopText
 
-kanjifix "*"
+kanafix "*"
 .byte   partyLead
 .byte   unk4
-kanjifix "は"
+kanafix "は"
 .byte   newLine
-kanjifix "なにかの ちからに"
+kanafix "なにかの ちからに"
 .byte   newLine
-kanjifix "おしとどめられて しまった。"
+kanafix "おしとどめられて しまった。"
 .byte   newLine
 .byte   stopText
 

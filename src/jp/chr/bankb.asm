@@ -78,38 +78,197 @@ incbinRange "../../split/jp/chr/bankb.bin", $1000, $1400
 .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$20,$00,$00,$00,$50,$50,$50,$5A,$52,$50,$50,$50,$05,$05,$05,$05,$05,$05,$05,$05
 
-;some weird ui tile commands???? not JUST a tiledef.
-incbinRange "../../split/jp/chr/bankb.bin", $1800, $1913
 
-.include "../fontmap.asm"
+.segment        "NAMING_SCREEN_2": absolute
+;because of how the game retargets kana, the ui tiles are offset that amount
+;this is a dedicated macro to support those effected by text
 
-kanjifix "1900ねんだいの はじめ"
+;;;;;;NAMING SCREEN
+;question box top
+.byte set_pos 2, 1
+.byte " ",uibox_tl
+.byte repeatTile uibox_t, 14
+.byte uibox_tr
+.byte 1 ;?
+;question box middle
+.byte " ", uibox_l
+.byte repeatTile " ", 14
+.byte uibox_r
+.byte 0
+;question box bottom
+.byte uibox_tl,uibox_bl
+.byte repeatTile uibox_b, 14
+.byte uibox_br
+.byte 0
+
+;entry box top
+.byte set_pos 19, 1
+.byte uibox_tl
+.byte repeatTile uibox_t, 8
+.byte uibox_tr," "
+.byte 1
+;entry box middle
+.byte uibox_l
+.byte repeatTile " ", 8
+.byte uibox_r," "
+.byte 0
+;entry box bottom
+.byte uibox_bl
+.byte repeatTile uibox_b, 8
+.byte uibox_br,uibox_tr
+.byte 0
+
+;letter box top
+.byte set_pos 2, 5
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte print_string string_in_question
+.byte 1
+.byte uibox_l
+.byte repeatTile " ", 26
+.byte uibox_r
+.byte 0
+
+;letter box bottom
+.byte set_pos 2, 26
+.byte uibox_bl
+.byte repeatTile uibox_b, 26
+.byte uibox_br
+.byte 0
+
+;letter box sides
+string_in_question:
+.byte uibox_l
+.byte repeatTile " ", 26
+.byte uibox_r
+.byte 1
+.byte 1
+
+;choicers
+.byte set_pos 23, 22
+kanafix "*もどる"
+.byte newLine
+kanafix "*おわり"
+.byte stopText
+
+.byte 0
+.byte 1
+;ninten name
+.byte set_pos 15, 5
+.byte nintenName
+.byte 1
+;ana name
+.byte set_pos 15, 8
+.byte anaName
+.byte 1
+;lloyd name
+.byte set_pos 15, 11
+.byte lloydName
+.byte 1
+;teddy name
+.byte set_pos 15, 14
+.byte teddyName
+.byte 1
+;favorite food (for the end of the sequence)
+.byte set_pos 9, 17
+kanafix "すきなこんだて"
+.byte " "
+.byte favFood
+.byte 0
+.byte 0
+
+string_in_question_2:
+;confirmation box top
+.byte set_pos 8, 20
+.byte uibox_tl
+.byte repeatTile uibox_t, 14
+.byte uibox_tr
+.byte 1
+;confirmation box side
+.byte uibox_l," "
+kanafix "これで よろしいですか" ;is this okay?
+.byte "  ", uibox_r
+.byte 1
+.byte uibox_l
+.byte repeatTile " ", 4
+kanafix "はい  いいえ"
+.byte "   ", uibox_r
+.byte 1
+string_in_question_3:
+.byte uibox_l
+.byte repeatTile " ", 14
+.byte uibox_r
+.byte 0
+string_in_question_4:
+;confirmation box bottom
+.byte set_pos 8, 26
+.byte uibox_bl
+.byte repeatTile uibox_b, 14
+.byte uibox_br
+.byte 0
+
+fuckhead:
+.byte print_string string_in_question_2
+.byte 1
+;battle speed confirmation box
+.byte uibox_l,"  "
+kanafix "メッセ-ジスピ-ド"
+.byte "   "
+.byte uibox_r
+.byte 1
+.byte uibox_l,"  "
+kanafix "はやい ふつう おそい"
+.byte " ",uibox_r
+.byte 1
+.byte print_string string_in_question_3
+.byte 0
+.byte print_string string_in_question_4
+.byte 0
+
+IntroText1:
+kanafix "1900ねんだいの はじめ"
 .byte   newLine
-kanjifix "アメリカのいなかまちに くろくものようなかげがおち"
+kanafix "アメリカのいなかまちに くろくものようなかげがおち"
 .byte   newLine
-kanjifix "ひとくみの ふうふが"
+kanafix "ひとくみの ふうふが"
 .byte   newLine
-kanjifix "ゆくえふめいに なりました。"
+kanafix "ゆくえふめいに なりました。"
 .byte   newLine
-kanjifix "おっとのなは ジョ-ジ。 つまのなは マリア。"
+kanafix "おっとのなは ジョ-ジ。 つまのなは マリア。"
 .byte   newLine
-kanjifix "2ねんほどして ジョ-ジは いえにもどりましたが"
+kanafix "2ねんほどして ジョ-ジは いえにもどりましたが"
 .byte   newLine
-kanjifix "どこにいっていたのか なにをしていたのかについて"
+kanafix "どこにいっていたのか なにをしていたのかについて"
 .byte   newLine
-kanjifix "だれに はなすこともなく"
+kanafix "だれに はなすこともなく"
 .byte   newLine
-kanjifix "ふしぎなけんきゅうにぼっとうするようになりました。"
+kanafix "ふしぎなけんきゅうにぼっとうするようになりました。"
 .byte   newLine
-kanjifix "つまの マリアのほうは"
+kanafix "つまの マリアのほうは"
 .byte   newLine
-kanjifix "とうとう かえっては きませんでした。"
+kanafix "とうとう かえっては きませんでした。"
 .byte   stopText
 
-kanjifix "1988ねん マザ-ズデイのまちはずれ"
+IntroText2:
+kanafix "1988ねん マザ-ズデイのまちはずれ"
 .byte   stopText
-
-kanjifix "。。。。。。"
+kanafix "。。。。。。"
 .byte   stopText
 
 
@@ -117,13 +276,13 @@ kanjifix "。。。。。。"
 INAME_NULL:
 .byte   stopText
 INAME_BIG_BAG:
-kanjifix "でかぶくろ"
+kanafix "でかぶくろ"
 .byte   stopText
 INAME_PHONE_CARD:
-kanjifix "テレホンカ-ド"
+kanafix "テレホンカ-ド"
 .byte   stopText
 INAME_CRUMBS:
-kanjifix "パンくず"
+kanafix "パンくず"
 .byte   stopText
 INAME_UNKITEM4:
 .byte   stopText
@@ -138,97 +297,97 @@ INAME_UNKITEM8:
 INAME_UNKITEM9:
 .byte   stopText
 INAME_BUTTERKNIFE:
-kanjifix "ナイフ"
+kanafix "ナイフ"
 .byte   stopText
 INAME_SURV_KNIFE:
-kanjifix "サバイバルナイフ"
+kanafix "サバイバルナイフ"
 .byte   stopText
 INAME_SWORD:
-kanjifix "アシガルソ-ド"
+kanafix "アシガルソ-ド"
 .byte   stopText
 INAME_KATANA:
-kanjifix "KATANA"
+kanafix "KATANA"
 .byte   stopText
 INAME_STUN_GUN:
-kanjifix "ショックガン"
+kanafix "ショックガン"
 .byte   stopText
 INAME_AIR_GUN:
-kanjifix "エアガン"
+kanafix "エアガン"
 .byte   stopText
 INAME_PLASTIC_BAT:
-kanjifix "ボロのバット"
+kanafix "ボロのバット"
 .byte   stopText
 INAME_WOODEN_BAT:
-kanjifix "ふつうのバット"
+kanafix "ふつうのバット"
 .byte   stopText
 INAME_ALUMINUMBAT:
-kanjifix "いいバット"
+kanafix "いいバット"
 .byte   stopText
 INAME_HANKS_BAT:
-kanjifix "さいこうのバット"
+kanafix "さいこうのバット"
 .byte   stopText
 INAME_FRYING_PAN:
-kanjifix "フライパン"
+kanafix "フライパン"
 .byte   stopText
 INAME_NONSTICKPAN:
-kanjifix "いいフライパン"
+kanafix "いいフライパン"
 .byte   stopText
 INAME_IRONSKILLET:
-kanjifix "とびきりのフライパン"
+kanafix "とびきりのフライパン"
 .byte   stopText
 INAME_SLINGSHOT:
-kanjifix "スリングショット"
+kanafix "スリングショット"
 .byte   stopText
 INAME_BOOMERANG:
-kanjifix "ブ-メラン"
+kanafix "ブ-メラン"
 .byte   stopText
 INAME_INSECTICIDE:
-kanjifix "さっちゅうスプレ-"
+kanafix "さっちゅうスプレ-"
 .byte   stopText
 INAME_SUPER_SPRAY:
-kanjifix "ス-パ-スプレ-"
+kanafix "ス-パ-スプレ-"
 .byte   stopText
 INAME_FLEA_BAG:
-kanjifix "ノミとシラミ"
+kanafix "ノミとシラミ"
 .byte   stopText
 INAME_WORDSOLOVE:
-kanjifix "あいのことば"
+kanafix "あいのことば"
 .byte   stopText
 INAME_SWEAR_WORDS:
-kanjifix "のろいのことば"
+kanafix "のろいのことば"
 .byte   stopText
 INAME_STKYMACHINE:
-kanjifix "ねばねばマシン"
+kanafix "ねばねばマシン"
 .byte   stopText
 INAME_FLASHDARK:
-kanjifix "やみのライト"
+kanafix "やみのライト"
 .byte   stopText
 INAME_STONEORIGIN:
-kanjifix "いしのもと"
+kanafix "いしのもと"
 .byte   stopText
 INAME_POISNNEEDLE:
-kanjifix "どくばり"
+kanafix "どくばり"
 .byte   stopText
 INAME_FL_THROWER:
-kanjifix "かえんほうしゃき"
+kanafix "かえんほうしゃき"
 .byte   stopText
 INAME_BOMB:
-kanjifix "ボム"
+kanafix "ボム"
 .byte   stopText
 INAME_SUPER_BOMB:
-kanjifix "ス-パ-ボム"
+kanafix "ス-パ-ボム"
 .byte   stopText
 INAME_LASER_BEAM:
-kanjifix "レ-ザ-ビ-ム"
+kanafix "レ-ザ-ビ-ム"
 .byte   stopText
 INAME_PLASMA_BEAM:
-kanjifix "デスビ-ム"
+kanafix "デスビ-ム"
 .byte   stopText
 INAME_UNKITEM27: ;???? 39 is actually its decimal index. neat!
-kanjifix "ITEM39"
+kanafix "ITEM39"
 .byte   stopText
 INAME_ROPE:
-kanjifix "ロ-プ"
+kanafix "ロ-プ"
 .byte   stopText
 INAME_UNKITEM29:
 .byte   stopText
@@ -239,34 +398,34 @@ INAME_UNKITEM2B:
 INAME_UNKITEM2C:
 .byte   stopText
 INAME_PEACE_COIN:
-kanjifix "やすらぎのコイン"
+kanafix "やすらぎのコイン"
 .byte   stopText
 INAME_PROTECTCOIN:
-kanjifix "まもりのコイン"
+kanafix "まもりのコイン"
 .byte   stopText
 INAME_MAGIC_COIN:
-kanjifix "まふうじのコイン"
+kanafix "まふうじのコイン"
 .byte   stopText
 INAME_BRASS_RING:
-kanjifix "ようせいのうでわ"
+kanafix "ようせいのうでわ"
 .byte   stopText
 INAME_SILVER_RING:
-kanjifix "てんしのうでわ"
+kanafix "てんしのうでわ"
 .byte   stopText
 INAME_GOLD_RING:
-kanjifix "めがみのうでわ"
+kanafix "めがみのうでわ"
 .byte   stopText
 INAME_H2O_PENDANT:
-kanjifix "しずくのペンダント"
+kanafix "しずくのペンダント"
 .byte   stopText
 INAME_FIREPENDANT:
-kanjifix "ほのおのペンダント"
+kanafix "ほのおのペンダント"
 .byte   stopText
 INAME_EARTHPENDNT:
-kanjifix "だいちのペンダント"
+kanafix "だいちのペンダント"
 .byte   stopText
 INAME_SEA_PENDANT:
-kanjifix "うみのペンダント"
+kanafix "うみのペンダント"
 .byte   stopText
 INAME_UNKITEM37:
 .byte   stopText
@@ -279,94 +438,94 @@ INAME_UNKITEM3A:
 INAME_UNKITEM3B:
 .byte   stopText
 INAME_ORANGEJUICE:
-kanjifix "オレンジジュ-ス"
+kanafix "オレンジジュ-ス"
 .byte   stopText
 INAME_FRENCHFRIES:
-kanjifix "フライドポテト"
+kanafix "フライドポテト"
 .byte   stopText
 INAME_MAGIC_HERB:
-kanjifix "マジックハ-ブ"
+kanafix "マジックハ-ブ"
 .byte   stopText
 INAME_HAMBURGER:
-kanjifix "ハンバ-ガ-"
+kanafix "ハンバ-ガ-"
 .byte   stopText
 INAME_SPROTSDRINK:
-kanjifix "スポ-ツドリンク"
+kanafix "スポ-ツドリンク"
 .byte   stopText
 INAME_LIFEUPCREAM:
-kanjifix "きずぐすり"
+kanafix "きずぐすり"
 .byte   stopText
 INAME_ASTHMASPRAY:
-kanjifix "ぜんそくスプレ-"
+kanafix "ぜんそくスプレ-"
 .byte   stopText
 INAME_ANTIDOTE:
-kanjifix "どくけし"
+kanafix "どくけし"
 .byte   stopText
 INAME_MOUTHWASH:
-kanjifix "うがいぐすり"
+kanafix "うがいぐすり"
 .byte   stopText
 INAME_BERRY_TOFU:
-kanjifix "いちごとうふ"
+kanafix "いちごとうふ"
 .byte   stopText
 INAME_UNKITEM46:
-kanjifix "ITEM70"
+kanafix "ITEM70"
 .byte   stopText
 INAME_BREAD:
-kanjifix "パン"
+kanafix "パン"
 .byte   stopText
 INAME_NOBLE_SEED:
-kanjifix "エンジェルシ-ド"
+kanafix "エンジェルシ-ド"
 .byte   stopText
 INAME_PSI_STONE:
-kanjifix "サイパワ-スト-ン"
+kanafix "サイパワ-スト-ン"
 .byte   stopText
 INAME_UNKITEM4A:
 .byte   stopText
 INAME_MAGICRIBBON:
-kanjifix "ふしぎなリボン"
+kanafix "ふしぎなリボン"
 .byte   stopText
 INAME_MAGIC_CANDY:
-kanjifix "ふしぎなキャンディ"
+kanafix "ふしぎなキャンディ"
 .byte   stopText
 INAME_UNKITEM4D:
-kanjifix "ITEM77"
+kanafix "ITEM77"
 .byte   stopText
 INAME_QUICKCAPSUL:
-kanjifix "スピ-ドカプセル"
+kanafix "スピ-ドカプセル"
 .byte   stopText
 INAME_WISDOM_CAPS:
-kanjifix "ウィズダムカプセル"
+kanafix "ウィズダムカプセル"
 .byte   stopText
 INAME_PHYSICALCAP:
-kanjifix "フィジカルカプセル"
+kanafix "フィジカルカプセル"
 .byte   stopText
 INAME_FORCECAPSUL:
-kanjifix "フォ-スカプセル"
+kanafix "フォ-スカプセル"
 .byte   stopText
 INAME_FIGHTCAPSUL:
-kanjifix "ファイトカプセル"
+kanafix "ファイトカプセル"
 .byte   stopText
 INAME_UNKITEM53:
 .byte   stopText
 INAME_UNKITEM54:
 .byte   stopText
 INAME_BASEMENTKEY:
-kanjifix "ちかしつのカギ"
+kanafix "ちかしつのカギ"
 .byte   stopText
 INAME_ZOO_KEY:
-kanjifix "どうぶつえんのカギ"
+kanafix "どうぶつえんのカギ"
 .byte   stopText
 INAME_GHOST_KEY:
-kanjifix "ゆうれいやしきのカギ"
+kanafix "ゆうれいやしきのカギ"
 .byte   stopText
 INAME_GGFS_DIARY:
-kanjifix "そうそふのにっき"
+kanafix "そうそふのにっき"
 .byte   stopText
 INAME_PASS:
-kanjifix "つうこうきょかしょう"
+kanafix "つうこうきょかしょう"
 .byte   stopText
 INAME_TICKET:
-kanjifix "ライブのチケット"
+kanafix "ライブのチケット"
 .byte   stopText
 INAME_UNKITEM5B:
 .byte   stopText
@@ -377,61 +536,61 @@ INAME_UNKITEM5D:
 INAME_UNKITEM5E:
 .byte   stopText
 INAME_CANARYCHICK:
-kanjifix "カナリアのこども"
+kanafix "カナリアのこども"
 .byte   stopText
 INAME_UNKITEM60:
-kanjifix "ITEM96"
+kanafix "ITEM96"
 .byte   stopText
 INAME_BOTTLROCKET:
-kanjifix "ペンシルロケット"
+kanafix "ペンシルロケット"
 .byte   stopText
 INAME_HAT:
-kanjifix "ぼうし"
+kanafix "ぼうし"
 .byte   stopText
 INAME_DENTURES:
-kanjifix "いれば"
+kanafix "いれば"
 .byte   stopText
 INAME_TICKET_STUB:
-kanjifix "チケットのはんけん"
+kanafix "チケットのはんけん"
 .byte   stopText
 INAME_IC_CHIP:
-kanjifix "ICチップ"
+kanafix "ICチップ"
 .byte   stopText
 INAME_OCARINA:
-kanjifix "きぼうのオカリナ"
+kanafix "きぼうのオカリナ"
 .byte   stopText
 INAME_UNKITEM67:
-kanjifix "ITEM103"
+kanafix "ITEM103"
 .byte   stopText
 INAME_FRANKLNBDGE:
-kanjifix "フランクリンバッヂ"
+kanafix "フランクリンバッヂ"
 .byte   stopText
 INAME_FRNDSHPRING:
-kanjifix "ゆうじょうのゆびわ"
+kanafix "ゆうじょうのゆびわ"
 .byte   stopText
 INAME_UNKITEM6A:
-kanjifix "ITEM106"
+kanafix "ITEM106"
 .byte   stopText
 INAME_ONYX_HOOK:
-kanjifix "めのうのつりばり"
+kanafix "めのうのつりばり"
 .byte   stopText
 INAME_LAST_WEAPON:
-kanjifix "さいしゅうへいき"
+kanafix "さいしゅうへいき"
 .byte   stopText
 INAME_RULER:
-kanjifix "ものさし"
+kanafix "ものさし"
 .byte   stopText
 INAME_CASH_CARD:
-kanjifix "キャッシュカ-ド"
+kanafix "キャッシュカ-ド"
 .byte   stopText
 INAME_RED_WEED:
-kanjifix "あかいくさ"
+kanafix "あかいくさ"
 .byte   stopText
 INAME_BULLHORN:
-kanjifix "ふしぎなメガホン"
+kanafix "ふしぎなメガホン"
 .byte   stopText
 INAME_MAP:
-kanjifix "ちず"
+kanafix "ちず"
 .byte   stopText
 INAME_UNKITEM72:
 .byte   stopText
@@ -460,7 +619,7 @@ INAME_UNKITEM7D:
 INAME_UNKITEM7E:
 .byte   stopText
 INAME_DEBUG:
-kanjifix "ざひょう" ;coordinate???? probably debug
+kanafix "ざひょう" ;coordinate???? probably debug
 .byte   stopText
 
 ;choicers
@@ -468,40 +627,40 @@ CHOICER_NULL:
 .byte   stopText
 
 CHOICER_FLIGHTPLANSA:
-kanjifix "Aコ-ス"
+kanafix "Aコ-ス"
 .byte   stopText
 CHOICER_FLIGHTPLANSB:
-kanjifix "Bコ-ス"
+kanafix "Bコ-ス"
 .byte   stopText
 CHOICER_FLIGHTPLANSC:
-kanjifix "Cコ-ス"
+kanafix "Cコ-ス"
 .byte   stopText
 CHOICER_HINTS1:
-kanjifix "ヒント1"
+kanafix "ヒント1"
 .byte   stopText
 CHOICER_HINTS2:
-kanjifix "ヒント2"
+kanafix "ヒント2"
 .byte   stopText
 CHOICER_HINTS3:
-kanjifix "ヒント3"
+kanafix "ヒント3"
 .byte   stopText
 CHOICER_UNK1:
-kanjifix "どくけし"
+kanafix "どくけし"
 .byte   stopText
 CHOICER_UNK2:
-kanjifix "どくけし"
+kanafix "どくけし"
 .byte   stopText
 CHOICER_UNK3:
-kanjifix "どくけし"
+kanafix "どくけし"
 .byte   stopText
 CHOICER_UNK4:
-kanjifix "どくけし"
+kanafix "どくけし"
 .byte   stopText
 CHOICER_SCIENTIST1:
-kanjifix "ロケット(ほんもの)"
+kanafix "ロケット(ほんもの)"
 .byte   stopText
 CHOICER_SCIENTIST2:
-kanjifix "タイムマシン"
+kanafix "タイムマシン"
 .byte   stopText
 
 ;teleport locales
@@ -509,31 +668,31 @@ kanjifix "タイムマシン"
 TELEPORT_NULL:
 .byte   stopText
 TELEPORT_MYHOME:
-kanjifix "マイホ-ム"
+kanafix "マイホ-ム"
 .byte   stopText
 TELEPORT_PODUNK:
-kanjifix "マザ-ズデイ"
+kanafix "マザ-ズデイ"
 .byte   stopText
 TELEPORT_MERRYSVILLE:
-kanjifix "サンクスギビング"
+kanafix "サンクスギビング"
 .byte   stopText
 TELEPORT_REINDEER:
-kanjifix "レインディア"
+kanafix "レインディア"
 .byte   stopText
 TELEPORT_SPOOKANE:
-kanjifix "ハロウィ-ン"
+kanafix "ハロウィ-ン"
 .byte   stopText
 TELEPORT_SNOWMAN:
-kanjifix "スノ-マン"
+kanafix "スノ-マン"
 .byte   stopText
 TELEPORT_YOUNGTOWN:
-kanjifix "イ-スタ-"
+kanafix "イ-スタ-"
 .byte   stopText
 TELEPORT_ELLAY:
-kanjifix "バレンタイン"
+kanafix "バレンタイン"
 .byte   stopText
 TELEPORT_UNION:
-kanjifix "サンタクロ-ス"
+kanafix "サンタクロ-ス"
 .byte   stopText
 
 
@@ -541,10 +700,10 @@ kanjifix "サンタクロ-ス"
 PSI_NULL:
 .byte   stopText
 PSI_TELEPATHY:
-kanjifix "テレパシ-"
+kanafix "テレパシ-"
 .byte   stopText
 PSI_TELEPORT:
-kanjifix "テレポ-テ-ション"
+kanafix "テレポ-テ-ション"
 .byte   stopText
 PSI_UNK3:
 .byte   stopText
@@ -557,23 +716,23 @@ PSI_UNK6:
 PSI_UNK7:
 .byte   stopText
 PSI_LIFEUP_ALPHA:
-kanjifix "ライフアップ"
+kanafix "ライフアップ"
 .byte   alpha
 .byte   stopText
 PSI_LIFEUP_BETA:
-kanjifix "ライフアップ"
+kanafix "ライフアップ"
 .byte   beta
 .byte   stopText
 PSI_LIFEUP_GAMMA:
-kanjifix "ライフアップ"
+kanafix "ライフアップ"
 .byte   gamma
 .byte   stopText
 PSI_LIFEUP_PI:
-kanjifix "ライフアップ"
+kanafix "ライフアップ"
 .byte   pi
 .byte   stopText
 PSI_LIFEUP_OMEGA:
-kanjifix "ライフアップ"
+kanafix "ライフアップ"
 .byte   omega
 .byte   stopText
 PSI_UNKD:
@@ -583,144 +742,144 @@ PSI_UNKE:
 PSI_UNKF:
 .byte   stopText
 PSI_HEALING_ALPHA:
-kanjifix "ヒ-リング"
+kanafix "ヒ-リング"
 .byte   alpha
 .byte   stopText
 PSI_HEALING_BETA:
-kanjifix "ヒ-リング"
+kanafix "ヒ-リング"
 .byte   beta
 .byte   stopText
 PSI_HEALING_GAMMA:
-kanjifix "ヒ-リング"
+kanafix "ヒ-リング"
 .byte   gamma
 .byte   stopText
 PSI_HEALING_PI:
-kanjifix "ヒ-リング"
+kanafix "ヒ-リング"
 .byte   pi
 .byte   stopText
 PSI_SUPRHEALING:
-kanjifix "ス-パ-ヒ-リング"
+kanafix "ス-パ-ヒ-リング"
 .byte   stopText
 PSI_PSISHIELD_ALPHA:
-kanjifix "サイコシ-ルド"
+kanafix "サイコシ-ルド"
 .byte   alpha
 .byte   stopText
 PSI_PSISHIELD_BETA:
-kanjifix "サイコシ-ルド"
+kanafix "サイコシ-ルド"
 .byte   beta
 .byte   stopText
 PSI_POWERSHIELD:
-kanjifix "パワ-シ-ルド"
+kanafix "パワ-シ-ルド"
 .byte   stopText
 PSI_BRAINSHOCK:
-kanjifix "ブレインショック"
+kanafix "ブレインショック"
 .byte   stopText
 PSI_BRAINCYCLON:
-kanjifix "ブレインサイクロン"
+kanafix "ブレインサイクロン"
 .byte   stopText
 PSI_HYPNOSIS:
-kanjifix "さいみんじゅつ"
+kanafix "さいみんじゅつ"
 .byte   stopText
 PSI_PARALYSIS:
-kanjifix "パラライシス"
+kanafix "パラライシス"
 .byte   stopText
 PSI_DARKNESS:
-kanjifix "ダ-クネス"
+kanafix "ダ-クネス"
 .byte   stopText
 PSI_PSI_MAGNET:
-kanjifix "サイマグネット"
+kanafix "サイマグネット"
 .byte   stopText
 PSI_SHIELD_OFF:
-kanjifix "シ-ルドオフ"
+kanafix "シ-ルドオフ"
 .byte   stopText
 PSI_PSI_BLOCK:
-kanjifix "サイコブロック"
+kanafix "サイコブロック"
 .byte   stopText
 PSI_OFFENSEUP:
-kanjifix "オフェンスアップ"
+kanafix "オフェンスアップ"
 .byte   stopText
 PSI_DEFENSEUP_ALPHA:
-kanjifix "ディフェンスアップ"
+kanafix "ディフェンスアップ"
 .byte   alpha
 .byte   stopText
 PSI_DEFENSEUP_BETA:
-kanjifix "ディフェンスアップ"
+kanafix "ディフェンスアップ"
 .byte   beta
 .byte   stopText
 PSI_QUICKUP:
-kanjifix "クイックアップ"
+kanafix "クイックアップ"
 .byte   stopText
 PSI_DEF_DOWN_ALPHA:
-kanjifix "ディフェンスダウン"
+kanafix "ディフェンスダウン"
 .byte   alpha
 .byte   stopText
 PSI_DEF_DOWN_BETA:
-kanjifix "ディフェンスダウン"
+kanafix "ディフェンスダウン"
 .byte   beta
 .byte   stopText
 PSI_4TH_D_SLIP:
-kanjifix "じげんスリップ"
+kanafix "じげんスリップ"
 .byte   stopText
 PSI_UNK27:
 .byte   stopText
 PSI_PK_FREEZE_ALPHA:
-kanjifix "PKフリ-ズ"
+kanafix "PKフリ-ズ"
 .byte   alpha
 .byte   stopText
 PSI_PK_FREEZE_BETA:
-kanjifix "PKフリ-ズ"
+kanafix "PKフリ-ズ"
 .byte   beta
 .byte   stopText
 PSI_PK_FREEZE_GAMMA:
-kanjifix "PKフリ-ズ"
+kanafix "PKフリ-ズ"
 .byte   gamma
 .byte   stopText
 PSI_PK_FREEZE_OMEGA:
-kanjifix "PKフリ-ズ"
+kanafix "PKフリ-ズ"
 .byte   omega
 .byte   stopText
 PSI_PK_FIRE_ALPHA:
-kanjifix "PKファイア-"
+kanafix "PKファイア-"
 .byte   alpha
 .byte   stopText
 PSI_PK_FIRE_BETA:
-kanjifix "PKファイア-"
+kanafix "PKファイア-"
 .byte   beta
 .byte   stopText
 PSI_PK_FIRE_GAMMA:
-kanjifix "PKファイア-"
+kanafix "PKファイア-"
 .byte   gamma
 .byte   stopText
 PSI_PK_FIRE_OMEGA:
-kanjifix "PKファイア-"
+kanafix "PKファイア-"
 .byte   omega
 .byte   stopText
 PSI_PK_BEAM_ALPHA:
-kanjifix "PKビ-ム"
+kanafix "PKビ-ム"
 .byte   alpha
 .byte   stopText
 PSI_PK_BEAM_BETA:
-kanjifix "PKビ-ム"
+kanafix "PKビ-ム"
 .byte   beta
 .byte   stopText
 PSI_PK_BEAM_GAMMA:
-kanjifix "PKビ-ム"
+kanafix "PKビ-ム"
 .byte   gamma
 .byte   stopText
 PSI_PK_BEAM_OMEGA:
-kanjifix "PKビ-ム"
+kanafix "PKビ-ム"
 .byte   omega
 .byte   stopText
 PSI_PK_THUNDERALPHA:
-kanjifix "PKサンダ-"
+kanafix "PKサンダ-"
 .byte   alpha
 .byte   stopText
 PSI_PK_THUNDERBETA:
-kanjifix "PKサンダ-"
+kanafix "PKサンダ-"
 .byte   beta
 .byte   stopText
 PSI_PK_THUNDERGAMMA:
-kanjifix "PKサンダ-"
+kanafix "PKサンダ-"
 .byte   gamma
 .byte   stopText
 PSI_UNK37:
@@ -745,26 +904,26 @@ PSI_STOP:
 
 ;status
 STATUS_FAINTD:
-kanjifix "いしきふめい"
+kanafix "いしきふめい"
 .byte   stopText
 STATUS_STONE:
-kanjifix "いしになった"
+kanafix "いしになった"
 .byte   stopText
 STATUS_PARLZD:
-kanjifix "まひしている"
+kanafix "まひしている"
 .byte   stopText
 STATUS_ASLEEP:
-kanjifix "ねむっている"
+kanafix "ねむっている"
 .byte   stopText
 STATUS_CONFSD:
-kanjifix "こんらんした"
+kanafix "こんらんした"
 .byte   stopText
 STATUS_PUZZLD:
-kanjifix "まどわされた"
+kanafix "まどわされた"
 .byte   stopText
 STATUS_POISON:
-kanjifix "どくをうけた"
+kanafix "どくをうけた"
 .byte   stopText
 STATUS_COLD:
-kanjifix "かぜをひいた"
+kanafix "かぜをひいた"
 .byte   stopText

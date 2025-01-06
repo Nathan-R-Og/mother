@@ -78,277 +78,277 @@ B30_19f1 := $DAd5
 ; DPCM samples
 B30_0000:
     .byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $b6, $42
-	.byte $04
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $20, $49, $b5
-	.byte $aa
-	.byte $aa
-	.byte $4a
-	.byte $24, $01
-	.byte $51, $da
-	.byte $b6, $aa
-	.byte $6d, $f7, $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $f6, $76
-	.byte $db
-	.byte $ab
-	.byte $55, $a5
-	.byte $44
-	.byte $10, $20
-	.byte $00
-	.byte $00
-	.byte $04
-	.byte $08
-	.byte $90, $28
-	.byte $51, $aa
-	.byte $5a
-	.byte $b5, $6d
-	.byte $7b
-	.byte $f7
-	.byte $ee, $dd, $b7
-	.byte $77
-	.byte $5b
-	.byte $5b
-	.byte $b5, $52
-	.byte $49, $12
-	.byte $12
-	.byte $09, $12
-	.byte $22
-	.byte $49, $48
-	.byte $a5, $2a
-	.byte $55, $65
-	.byte $b5, $b5
-	.byte $ad, $b6, $6d
-	.byte $db
-	.byte $b6, $6d
-	.byte $db
-	.byte $b6, $b5
-	.byte $ad, $d6, $aa
-	.byte $2a
-	.byte $55, $4a
-	.byte $a5, $24
-	.byte $49, $2a
-	.byte $09, $95
-	.byte $a2, $54
-	.byte $49, $53
-	.byte $b5, $44
-	.byte $6a
-	.byte $d5, $6a
-	.byte $ad, $d6, $44
-	.byte $00
-	.byte $ab
-	.byte $6a
-	.byte $d5, $44
-	.byte $44
-	.byte $ad, $44, $44
-	.byte $44
-	.byte $54
-	.byte $44
-	.byte $95, $44
-	.byte $52
-	.byte $00
-	.byte $00
-	.byte $ff
-	.byte $b7
-	.byte $20, $0b, $00
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $c0, $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $c0, $0b
-	.byte $00
-	.byte $00
-	.byte $80
-	.byte $fd, $ff, $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $17
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $f0, $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $7e, $51, $ed
-	.byte $44
-	.byte $81, $10
-	.byte $01, $82
-	.byte $18
-	.byte $2b
-	.byte $42
-	.byte $53
-	.byte $81, $6f
-	.byte $d8
-	.byte $db
-	.byte $eb
-	.byte $e7
-	.byte $bf
-	.byte $eb
-	.byte $1f
-	.byte $fb
-	.byte $95, $24
-	.byte $48
-	.byte $00
-	.byte $02
-	.byte $00
-	.byte $e0, $c5
-	.byte $c0, $bf
-	.byte $f8
-	.byte $ff
-	.byte $ff
-	.byte $ba
-	.byte $0e, $7e, $c4
-	.byte $50, $68
-	.byte $2a
-	.byte $56, $02
-	.byte $6f
-	.byte $77
-	.byte $4e, $f8, $45
-	.byte $95, $20
-	.byte $56, $50
-	.byte $63
-	.byte $3f
-	.byte $f4
-	.byte $ff
-	.byte $f0, $9d
-	.byte $f8
-	.byte $21, $b2
-	.byte $20, $8e, $0d
-	.byte $18
-	.byte $cf
-	.byte $82
-	.byte $af
-	.byte $8a
-	.byte $e3
-	.byte $3f
-	.byte $78
-	.byte $fd, $18, $ce
-	.byte $02
-	.byte $87
-	.byte $58
-	.byte $e0, $c4
-	.byte $47
-	.byte $e9, $df
-	.byte $f1, $53
-	.byte $3b
-	.byte $8a
-	.byte $97
-	.byte $38
-	.byte $08
-	.byte $a9, $03
-	.byte $de, $e2, $f8
-	.byte $0f
-	.byte $9e
-	.byte $ec, $89, $b2
-	.byte $07
-	.byte $38
-	.byte $e2
-	.byte $63
-	.byte $f1, $e3
-	.byte $c3
-	.byte $7b
-	.byte $42
-	.byte $af
-	.byte $28
-	.byte $8e, $2a, $8e
-	.byte $42
-	.byte $83
-	.byte $5a
-	.byte $1d, $fa, $b1
-	.byte $eb
-	.byte $ab
-	.byte $d6, $62
-	.byte $da
-	.byte $a1, $e2
-	.byte $d0, $34
-	.byte $9c
-	.byte $85, $8e
-	.byte $ae, $c4, $7a
-	.byte $72
-	.byte $1d, $a6, $55
-	.byte $1c
-	.byte $b9, $52, $3d
-	.byte $8b
-	.byte $9e
-	.byte $9d, $4e, $96
-	.byte $2a
-	.byte $0b
-	.byte $e2
-	.byte $a8
-	.byte $a4, $95
-	.byte $2d, $bb, $72
-	.byte $ad, $f4, $91
-	.byte $5a
-	.byte $8b
-	.byte $52
-	.byte $25, $4e
-	.byte $9c
-	.byte $5a
-	.byte $79, $6a, $d7
-	.byte $a4, $8e
-	.byte $9c
-	.byte $74
-	.byte $b0, $a2
-	.byte $b4, $89
-	.byte $67
-	.byte $35, $6d
-	.byte $2b
-	.byte $37
-	.byte $b6, $45
-	.byte $a5, $a9
-	.byte $c5, $a4
-	.byte $42
-	.byte $34
-	.byte $26, $54
-	.byte $44
-	.byte $44
-	.byte $04
-	.byte $44
-	.byte $00
-	.byte $4a
-	.byte $44
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $00
-	.byte $00
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $b6, $42
+    .byte $04
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $20, $49, $b5
+    .byte $aa
+    .byte $aa
+    .byte $4a
+    .byte $24, $01
+    .byte $51, $da
+    .byte $b6, $aa
+    .byte $6d, $f7, $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $f6, $76
+    .byte $db
+    .byte $ab
+    .byte $55, $a5
+    .byte $44
+    .byte $10, $20
+    .byte $00
+    .byte $00
+    .byte $04
+    .byte $08
+    .byte $90, $28
+    .byte $51, $aa
+    .byte $5a
+    .byte $b5, $6d
+    .byte $7b
+    .byte $f7
+    .byte $ee, $dd, $b7
+    .byte $77
+    .byte $5b
+    .byte $5b
+    .byte $b5, $52
+    .byte $49, $12
+    .byte $12
+    .byte $09, $12
+    .byte $22
+    .byte $49, $48
+    .byte $a5, $2a
+    .byte $55, $65
+    .byte $b5, $b5
+    .byte $ad, $b6, $6d
+    .byte $db
+    .byte $b6, $6d
+    .byte $db
+    .byte $b6, $b5
+    .byte $ad, $d6, $aa
+    .byte $2a
+    .byte $55, $4a
+    .byte $a5, $24
+    .byte $49, $2a
+    .byte $09, $95
+    .byte $a2, $54
+    .byte $49, $53
+    .byte $b5, $44
+    .byte $6a
+    .byte $d5, $6a
+    .byte $ad, $d6, $44
+    .byte $00
+    .byte $ab
+    .byte $6a
+    .byte $d5, $44
+    .byte $44
+    .byte $ad, $44, $44
+    .byte $44
+    .byte $54
+    .byte $44
+    .byte $95, $44
+    .byte $52
+    .byte $00
+    .byte $00
+    .byte $ff
+    .byte $b7
+    .byte $20, $0b, $00
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $c0, $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $c0, $0b
+    .byte $00
+    .byte $00
+    .byte $80
+    .byte $fd, $ff, $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $17
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $f0, $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $7e, $51, $ed
+    .byte $44
+    .byte $81, $10
+    .byte $01, $82
+    .byte $18
+    .byte $2b
+    .byte $42
+    .byte $53
+    .byte $81, $6f
+    .byte $d8
+    .byte $db
+    .byte $eb
+    .byte $e7
+    .byte $bf
+    .byte $eb
+    .byte $1f
+    .byte $fb
+    .byte $95, $24
+    .byte $48
+    .byte $00
+    .byte $02
+    .byte $00
+    .byte $e0, $c5
+    .byte $c0, $bf
+    .byte $f8
+    .byte $ff
+    .byte $ff
+    .byte $ba
+    .byte $0e, $7e, $c4
+    .byte $50, $68
+    .byte $2a
+    .byte $56, $02
+    .byte $6f
+    .byte $77
+    .byte $4e, $f8, $45
+    .byte $95, $20
+    .byte $56, $50
+    .byte $63
+    .byte $3f
+    .byte $f4
+    .byte $ff
+    .byte $f0, $9d
+    .byte $f8
+    .byte $21, $b2
+    .byte $20, $8e, $0d
+    .byte $18
+    .byte $cf
+    .byte $82
+    .byte $af
+    .byte $8a
+    .byte $e3
+    .byte $3f
+    .byte $78
+    .byte $fd, $18, $ce
+    .byte $02
+    .byte $87
+    .byte $58
+    .byte $e0, $c4
+    .byte $47
+    .byte $e9, $df
+    .byte $f1, $53
+    .byte $3b
+    .byte $8a
+    .byte $97
+    .byte $38
+    .byte $08
+    .byte $a9, $03
+    .byte $de, $e2, $f8
+    .byte $0f
+    .byte $9e
+    .byte $ec, $89, $b2
+    .byte $07
+    .byte $38
+    .byte $e2
+    .byte $63
+    .byte $f1, $e3
+    .byte $c3
+    .byte $7b
+    .byte $42
+    .byte $af
+    .byte $28
+    .byte $8e, $2a, $8e
+    .byte $42
+    .byte $83
+    .byte $5a
+    .byte $1d, $fa, $b1
+    .byte $eb
+    .byte $ab
+    .byte $d6, $62
+    .byte $da
+    .byte $a1, $e2
+    .byte $d0, $34
+    .byte $9c
+    .byte $85, $8e
+    .byte $ae, $c4, $7a
+    .byte $72
+    .byte $1d, $a6, $55
+    .byte $1c
+    .byte $b9, $52, $3d
+    .byte $8b
+    .byte $9e
+    .byte $9d, $4e, $96
+    .byte $2a
+    .byte $0b
+    .byte $e2
+    .byte $a8
+    .byte $a4, $95
+    .byte $2d, $bb, $72
+    .byte $ad, $f4, $91
+    .byte $5a
+    .byte $8b
+    .byte $52
+    .byte $25, $4e
+    .byte $9c
+    .byte $5a
+    .byte $79, $6a, $d7
+    .byte $a4, $8e
+    .byte $9c
+    .byte $74
+    .byte $b0, $a2
+    .byte $b4, $89
+    .byte $67
+    .byte $35, $6d
+    .byte $2b
+    .byte $37
+    .byte $b6, $45
+    .byte $a5, $a9
+    .byte $c5, $a4
+    .byte $42
+    .byte $34
+    .byte $26, $54
+    .byte $44
+    .byte $44
+    .byte $04
+    .byte $44
+    .byte $00
+    .byte $4a
+    .byte $44
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $00
+    .byte $00
 
     .ifdef VER_JP
     .byte $00,$01,$02,$01,$00,$FF,$FE,$FF,$14,$93,$94,$D3,$31,$3A,$42,$4A
@@ -356,102 +356,102 @@ B30_0000:
     .endif
 
 
-	.byte $ed, $ba, $98
-	.byte $76, $78
-	.byte $97
-	.byte $ab
-	.byte $cd, $a7, $47
-	.byte $76, $48
-	.byte $45, $66
-	.byte $77
-	.byte $89
-	.byte $fc
-	.byte $97
-	.byte $64
-	.byte $fc
-	.byte $97
-	.byte $65, $fc
-	.byte $86, $01
-	.byte $23
-	.byte $45, $67
-	.byte $89
-	.byte $ab
-	.byte $cd, $ef, $fe
-	.byte $a9, $ed
-	.byte $fd, $79, $bd
-	.byte $fe, $d9, $45
-	.byte $78
-	.byte $99, $aa, $bb
-	.byte $cc, $dd, $ef
-	.byte $7a
-	.byte $de, $ff, $ef
-	.byte $fd, $df, $fe
-	.byte $ef
-	.byte $ef
-	.byte $fd, $ef, $fe
-	.byte $df
-	.byte $ff
-	.byte $ee, $ee, $ff
-	.byte $ef
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ef
-	.byte $ef
-	.byte $ff
+    .byte $ed, $ba, $98
+    .byte $76, $78
+    .byte $97
+    .byte $ab
+    .byte $cd, $a7, $47
+    .byte $76, $48
+    .byte $45, $66
+    .byte $77
+    .byte $89
+    .byte $fc
+    .byte $97
+    .byte $64
+    .byte $fc
+    .byte $97
+    .byte $65, $fc
+    .byte $86, $01
+    .byte $23
+    .byte $45, $67
+    .byte $89
+    .byte $ab
+    .byte $cd, $ef, $fe
+    .byte $a9, $ed
+    .byte $fd, $79, $bd
+    .byte $fe, $d9, $45
+    .byte $78
+    .byte $99, $aa, $bb
+    .byte $cc, $dd, $ef
+    .byte $7a
+    .byte $de, $ff, $ef
+    .byte $fd, $df, $fe
+    .byte $ef
+    .byte $ef
+    .byte $fd, $ef, $fe
+    .byte $df
+    .byte $ff
+    .byte $ee, $ee, $ff
+    .byte $ef
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ef
+    .byte $ef
+    .byte $ff
 
     .ifndef VER_JP
-	.byte $ff
-	.byte $ef
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ef
-	.byte $ef
-	.byte $ff
+    .byte $ff
+    .byte $ef
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ef
+    .byte $ef
+    .byte $ff
     .endif
 
-	.byte $bf
-	.byte $ff
-	.byte $ee, $ee, $ed
-	.byte $ed, $dd, $bb
-	.byte $bb
-	.byte $aa
-	.byte $aa
-	.byte $99, $98, $87
-	.byte $76, $65
-	.byte $54
-	.byte $44
-	.byte $33
-	.byte $22
-	.byte $22
-	.byte $22
+    .byte $bf
+    .byte $ff
+    .byte $ee, $ee, $ed
+    .byte $ed, $dd, $bb
+    .byte $bb
+    .byte $aa
+    .byte $aa
+    .byte $99, $98, $87
+    .byte $76, $65
+    .byte $54
+    .byte $44
+    .byte $33
+    .byte $22
+    .byte $22
+    .byte $22
     .ifdef VER_JP
     .byte $21
     .byte $11
     .else
-	.byte $22
-	.byte $22
-	.byte $22
-	.byte $22
-	.byte $11, $11
-	.byte $11, $11
-	.byte $11, $11
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
-	.byte $ff
+    .byte $22
+    .byte $22
+    .byte $22
+    .byte $22
+    .byte $11, $11
+    .byte $11, $11
+    .byte $11, $11
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
+    .byte $ff
     .endif
 
 ; THIS HERE IS CODE.
@@ -471,15 +471,15 @@ B30_0200:
 
 B30_0218:
     sta $c000
-	lda #$02
-	ora bankswitch_flags
-	tax
+    lda #$02
+    ora bankswitch_flags
+    tax
 B30_0220:
-	ldy #$04
+    ldy #$04
     B30_0222:
     dey
-	bne B30_0222
-	rts
+    bne B30_0222
+    rts
 
 B30_0226:
     lda #$0f
@@ -562,473 +562,473 @@ incbinRange "../../split/jp/prg/bank1e.bin", $28e,$1B2C
 
 B30_1a48:
     lda $37
-	sta $64
-	lda $49
-	sta $60
-	lda $4a
-	sta $61
-	lda $4b
-	sta $62
-	jsr B31_113d
-	lda $68
-	beq B30_1a61
-	lda #$01
+    sta $64
+    lda $49
+    sta $60
+    lda $4a
+    sta $61
+    lda $4b
+    sta $62
+    jsr B31_113d
+    lda $68
+    beq B30_1a61
+    lda #$01
     B30_1a61:
     clc
-	adc $60
-	sta $49
-	lda #$00
-	adc $61
-	sta $4a
-	lda #$00
-	adc $62
-	sta $4b
-	jsr EnablePRGRam
-	ldx #$00
+    adc $60
+    sta $49
+    lda #$00
+    adc $61
+    sta $4a
+    lda #$00
+    adc $62
+    sta $4b
+    jsr EnablePRGRam
+    ldx #$00
     B30_1a77:
-	jsr B30_19f1
-	bcs B30_1add
-	sta $28
-	txa
-	lsr a
-	ror a
-	ror a
-	ror a
-	sta $53
-	txa
-	pha
-	jsr B30_18ba
-	ldy #$01
-	lda ($38), y
-	bmi B30_1adb
-	lda $47
-	bne B30_1ad8
-	ldy #$11
-	clc
-	lda $49
-	adc ($38), y
-	sta ($38), y
-	iny
-	lda $4a
-	adc ($38), y
-	sta ($38), y
-	iny
-	lda $4b
-	adc ($38), y
-	sta ($38), y
-	bcc B30_1ab9
-	ldy #$11
-	lda #$ff
-	sta ($38), y
-	iny
-	sta ($38), y
-	iny
-	sta ($38), y
+    jsr B30_19f1
+    bcs B30_1add
+    sta $28
+    txa
+    lsr a
+    ror a
+    ror a
+    ror a
+    sta $53
+    txa
+    pha
+    jsr B30_18ba
+    ldy #$01
+    lda ($38), y
+    bmi B30_1adb
+    lda $47
+    bne B30_1ad8
+    ldy #$11
+    clc
+    lda $49
+    adc ($38), y
+    sta ($38), y
+    iny
+    lda $4a
+    adc ($38), y
+    sta ($38), y
+    iny
+    lda $4b
+    adc ($38), y
+    sta ($38), y
+    bcc B30_1ab9
+    ldy #$11
+    lda #$ff
+    sta ($38), y
+    iny
+    sta ($38), y
+    iny
+    sta ($38), y
     B30_1ab9:
     ldy #$10
-	lda ($38), y
-	jsr B30_1b40
-	ldy #$11
-	sec
-	lda ($38), y
-	sbc $64
-	iny
-	lda ($38), y
-	sbc $65
-	iny
-	lda ($38), y
-	sbc $66
-	bcc B30_1ad8
-	jsr B30_1b6c
-	bcc B30_1ab9
+    lda ($38), y
+    jsr B30_1b40
+    ldy #$11
+    sec
+    lda ($38), y
+    sbc $64
+    iny
+    lda ($38), y
+    sbc $65
+    iny
+    lda ($38), y
+    sbc $66
+    bcc B30_1ad8
+    jsr B30_1b6c
+    bcc B30_1ab9
     B30_1ad8:
     jsr B30_1c87
     B30_1adb:
     pla
-	tax
+    tax
     B30_1add:
     inx
-	cpx #$04
-	bcc B30_1a77
-	jsr B30_043f
-	lda $47
-	bne B30_1b30
-	jsr EnablePRGRam
-	ldx #$12
-	jsr B30_1c11
-	ldx #$15
-	jsr B30_1c11
-	lda enemy_group
-	beq B30_1b30
-	sta $29
-	jsr BankswitchUpper_Bank19
+    cpx #$04
+    bcc B30_1a77
+    jsr B30_043f
+    lda $47
+    bne B30_1b30
+    jsr EnablePRGRam
+    ldx #$12
+    jsr B30_1c11
+    ldx #$15
+    jsr B30_1c11
+    lda enemy_group
+    beq B30_1b30
+    sta $29
+    jsr BankswitchUpper_Bank19
     ;needs label
     .ifdef VER_JP
-	jsr $bcaa
+    jsr $bcaa
     .else
-	jsr $bbc3
+    jsr $bbc3
     .endif
-	lda #$ff
-	sta $2a
-	lda $2b
-	ora #$1f
+    lda #$ff
+    sta $2a
+    lda $2b
+    ora #$1f
     B30_1b0a:
     asl $2a
-	asl a
-	bcc B30_1b0a
+    asl a
+    bcc B30_1b0a
 ; TODO: CHANCE OF GETTING AN ITEM
-	jsr Rand
-	and $2a
-	bne B30_1b30
+    jsr Rand
+    and $2a
+    bne B30_1b30
     ;needs label
     .ifdef VER_JP
-	jsr $bc73
+    jsr $bc73
     .else
-	jsr $bb8c
+    jsr $bb8c
     .endif
-	ldx #$00
+    ldx #$00
     B30_1b1b:
     jsr B30_19f1
-	bcs B30_1b2b
-	sta $28
-	txa
-	pha
+    bcs B30_1b2b
+    sta $28
+    txa
+    pha
     ;needs label
     .ifdef VER_JP
-	jsr $a92f
+    jsr $a92f
     .else
-	jsr $a979
+    jsr $a979
     .endif
-	pla
-	tax
-	bcc B30_1b33
+    pla
+    tax
+    bcc B30_1b33
     B30_1b2b:
     inx
-	cpx #$04
-	bcc B30_1b1b
+    cpx #$04
+    bcc B30_1b1b
     B30_1b30:
     jmp WriteProtectPRGRam
 
 B30_1b33:
     jsr BankswitchUpper_Bank23
-	lda #$06
-	sta $07f1
-	lda #$8c
-	jmp $a3f8
+    lda #$06
+    sta $07f1
+    lda #$8c
+    jmp $a3f8
 
 B30_1b40:
     tax
-	inx
-	stx $64
-	inx
-	stx $60
-	lda #$00
-	sta $61
-	sta $62
-	jsr Mult24x8
-	jsr Mult24x8
-	jsr B30_1cdf
-	ldy #$00
-	lda ($68), y
-	sta $64
-	jsr Mult24x8
-	lda $61
-	sta $64
-	lda $62
-	sta $65
-	lda $63
-	sta $66
-	rts
+    inx
+    stx $64
+    inx
+    stx $60
+    lda #$00
+    sta $61
+    sta $62
+    jsr Mult24x8
+    jsr Mult24x8
+    jsr B30_1cdf
+    ldy #$00
+    lda ($68), y
+    sta $64
+    jsr Mult24x8
+    lda $61
+    sta $64
+    lda $62
+    sta $65
+    lda $63
+    sta $66
+    rts
 
 B30_1b6c:
     ldy #$10
-	lda ($38), y
-	cmp #$63
-	bcc B30_1b75
-	rts
+    lda ($38), y
+    cmp #$63
+    bcc B30_1b75
+    rts
 
 B30_1b75:
     adc #$01
-	sta ($38), y
-	jsr B30_043f
-	jsr EnablePRGRam
-	lda #$ff
-	jsr PlayMusic
-	lda #$1f
-	jsr PlayMusic
-	lda #$82
-	jsr $a3f8
-	jsr B30_1cdf
-	ldy #$03
+    sta ($38), y
+    jsr B30_043f
+    jsr EnablePRGRam
+    lda #$ff
+    jsr PlayMusic
+    lda #$1f
+    jsr PlayMusic
+    lda #$82
+    jsr $a3f8
+    jsr B30_1cdf
+    ldy #$03
     B30_1b93:
     jsr Rand
-	lsr a
-	lsr a
-	lsr a
-	lsr a
-	lsr a
-	lsr a
-	clc
-	adc ($68), y
-	lsr a
-	sta $55, y
-	iny
-	cpy #$08
-	bcc B30_1b93
-	ldy #$0b
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    clc
+    adc ($68), y
+    lsr a
+    sta $55, y
+    iny
+    cpy #$08
+    bcc B30_1b93
+    ldy #$0b
     B30_1baa:
     clc
-	lda ($38), y
-	adc $4D, y
-	bcc B30_1bbc
-	sbc $4D, y
-	eor #$ff
-	sta $4D, y
-	lda #$ff
+    lda ($38), y
+    adc $4D, y
+    bcc B30_1bbc
+    sbc $4D, y
+    eor #$ff
+    sta $4D, y
+    lda #$ff
     B30_1bbc:
     sta ($38), y
-	lda $4D, y
-	beq B30_1bcd
-	tya
-	pha
-	clc
-	adc #$7b
-	jsr $a3f8
-	pla
-	tay
+    lda $4D, y
+    beq B30_1bcd
+    tya
+    pha
+    clc
+    adc #$7b
+    jsr $a3f8
+    pla
+    tay
     B30_1bcd:
     iny
-	cpy #$10
-	bcc B30_1baa
-	ldy #$07
-	lda $58
-	jsr B30_1c64
-	ldy #$09
-	lda $59
-	jsr B30_1c64
-	ldy #$0e
-	lda ($38), y
-	sta $60
-	clc
-	adc #$14
-	bcc B30_1bed
-	lda #$ff
+    cpy #$10
+    bcc B30_1baa
+    ldy #$07
+    lda $58
+    jsr B30_1c64
+    ldy #$09
+    lda $59
+    jsr B30_1c64
+    ldy #$0e
+    lda ($38), y
+    sta $60
+    clc
+    adc #$14
+    bcc B30_1bed
+    lda #$ff
     B30_1bed:
     ldy #$03
-	jsr B30_1c3f
-	lda #$84
-	jsr B30_1c38
-	lda $28
-	cmp #$03
-	bcs B30_1c0f
-	ldy #$0f
-	lda ($38), y
-	sta $60
-	lsr a
-	clc
-	ldy #$05
-	jsr B30_1c3f
-	lda #$85
-	jsr B30_1c38
+    jsr B30_1c3f
+    lda #$84
+    jsr B30_1c38
+    lda $28
+    cmp #$03
+    bcs B30_1c0f
+    ldy #$0f
+    lda ($38), y
+    sta $60
+    lsr a
+    clc
+    ldy #$05
+    jsr B30_1c3f
+    lda #$85
+    jsr B30_1c38
     B30_1c0f:
     clc
-	rts
+    rts
 
 B30_1c11:
     clc
-	lda $4c
-	adc $7400, x
-	sta $7400, x
-	lda $4d
-	adc $7401, x
-	sta $7401, x
-	lda #$00
-	adc $7402, x
-	sta $7402, x
-	bcc B30_1c37
-	lda #$ff
-	sta $7400, x
-	sta $7401, x
-	sta $7402, x
+    lda $4c
+    adc $7400, x
+    sta $7400, x
+    lda $4d
+    adc $7401, x
+    sta $7401, x
+    lda #$00
+    adc $7402, x
+    sta $7402, x
+    bcc B30_1c37
+    lda #$ff
+    sta $7400, x
+    sta $7401, x
+    sta $7402, x
     B30_1c37:
     rts
 
 B30_1c38:
     ldx $5d
-	beq B30_1c70
-	jmp $a3f8
+    beq B30_1c70
+    jmp $a3f8
 
 B30_1c3f:
     clc
-	adc $60
-	sta $60
-	lda #$00
-	rol a
-	sta $61
-	sec
-	lda $60
-	sbc ($38), y
-	tax
-	iny
-	lda $61
-	sbc ($38), y
-	beq B30_1c5c
-	ldx #$08
-	bcs B30_1c5c
-	ldx #$01
+    adc $60
+    sta $60
+    lda #$00
+    rol a
+    sta $61
+    sec
+    lda $60
+    sbc ($38), y
+    tax
+    iny
+    lda $61
+    sbc ($38), y
+    beq B30_1c5c
+    ldx #$08
+    bcs B30_1c5c
+    ldx #$01
     B30_1c5c:
     dey
-	txa
-	asl a
-	jsr B30_1c71
-	sta $5d
+    txa
+    asl a
+    jsr B30_1c71
+    sta $5d
     B30_1c64:
-	clc
-	adc ($38), y
-	sta ($38), y
-	iny
-	lda #$00
-	adc ($38), y
-	sta ($38), y
+    clc
+    adc ($38), y
+    sta ($38), y
+    iny
+    lda #$00
+    adc ($38), y
+    sta ($38), y
     B30_1c70:
     rts
 
 B30_1c71:
     cmp #$10
-	bcc B30_1c77
-	lda #$10
+    bcc B30_1c77
+    lda #$10
     B30_1c77:
     tax
-	jsr Rand
-	lsr a
-	lsr a
-	lsr a
-	lsr a
-	jsr Mult8x8
-	lsr a
-	lsr a
-	lsr a
-	lsr a
-	rts
+    jsr Rand
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    jsr Mult8x8
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    rts
 
 B30_1c87:
     lda $21
-	bne B30_1ccc
-	jsr B30_1cdf
-	ldy #$02
-	lda ($68), y
-	beq B30_1ccc
-	pha
-	ldx #$c0
+    bne B30_1ccc
+    jsr B30_1cdf
+    ldy #$02
+    lda ($68), y
+    beq B30_1ccc
+    pha
+    ldx #$c0
     B30_1c97:
     stx $29
-	jsr B30_1ce6
-	pla
-	pha
-	tay
-	lda ($68), y
-	ldy #$10
-	cmp ($38), y
-	bcs B30_1cc6
-	jsr B30_1ccd
-	and ($38), y
-	bne B30_1cc6
+    jsr B30_1ce6
+    pla
+    pha
+    tay
+    lda ($68), y
+    ldy #$10
+    cmp ($38), y
+    bcs B30_1cc6
+    jsr B30_1ccd
+    and ($38), y
+    bne B30_1cc6
 ; TODO: CHANCE OF NOT LEARNING PSI
-	jsr Rand
-	and #$c0
-	bne B30_1cc6
-	lda ($38), y
-	ora All_Bits, x
-	sta ($38), y
-	lda #$09
-	sta $07f1
-	lda #$83
-	jsr $a3f8
+    jsr Rand
+    and #$c0
+    bne B30_1cc6
+    lda ($38), y
+    ora All_Bits, x
+    sta ($38), y
+    lda #$09
+    sta $07f1
+    lda #$83
+    jsr $a3f8
     B30_1cc6:
     ldx $29
-	inx
-	bne B30_1c97
-	pla
+    inx
+    bne B30_1c97
+    pla
     B30_1ccc:
     rts
 
 B30_1ccd:
     lda $29
-	clc
-	adc #$c0
-	ror a
-	lsr a
-	lsr a
-	tay
-	lda $29
-	and #$07
-	tax
-	lda All_Bits, x
-	rts
+    clc
+    adc #$c0
+    ror a
+    lsr a
+    lsr a
+    tay
+    lda $29
+    and #$07
+    tax
+    lda All_Bits, x
+    rts
 
 B30_1cdf:
     clc
-	lda $28
-	adc #$b8
-	bcc B30_1ce8
+    lda $28
+    adc #$b8
+    bcc B30_1ce8
     B30_1ce6:
-	lda $29
+    lda $29
     B30_1ce8:
     asl a
-	rol $69
-	asl a
-	rol $69
-	asl a
-	rol $69
-	clc
-	adc #$00
-	sta $68
-	lda $69
-	and #$07
-	adc #$98
-	sta $69
-	jmp BankswitchLower_Bank00_2nd
+    rol $69
+    asl a
+    rol $69
+    asl a
+    rol $69
+    clc
+    adc #$00
+    sta $68
+    lda $69
+    and #$07
+    adc #$98
+    sta $69
+    jmp BankswitchLower_Bank00_2nd
 
 B30_1d01:
     jsr BeginPartyObjectIteration
-	jsr EnablePRGRam
+    jsr EnablePRGRam
     B30_1d07:
     ldy #$00
-	lda (object_pointer), y
-	asl a
-	beq B30_1d2b
-	jsr IsObjectNearPlayer
-	bcs B30_1d1d
-	ldy #$00
-	lda (object_pointer), y
-	ora #$80
-	sta (object_pointer), y
-	bmi B30_1d2b
+    lda (object_pointer), y
+    asl a
+    beq B30_1d2b
+    jsr IsObjectNearPlayer
+    bcs B30_1d1d
+    ldy #$00
+    lda (object_pointer), y
+    ora #$80
+    sta (object_pointer), y
+    bmi B30_1d2b
     B30_1d1d:
     ldy #$00
-	lda (object_pointer), y
-	and #$3f
-	sta (object_pointer), y
-	jsr TickObject
-	jsr B30_1ef9
+    lda (object_pointer), y
+    and #$3f
+    sta (object_pointer), y
+    jsr TickObject
+    jsr B30_1ef9
     B30_1d2b:
     jsr NextEntity
-	inc $36
-	bne B30_1d07
-	lda fade_flag
-	bne B30_1d54
-	lda player_x
-	and #$c0
-	ora current_music
-	ldx player_x+1
-	sta xpos_music
-	stx xpos_music+1
-	lda player_y
-	and #$c0
-	ora object_memory+$15
-	ldx player_y+1
-	sta ypos_direction
-	stx ypos_direction+1
+    inc $36
+    bne B30_1d07
+    lda fade_flag
+    bne B30_1d54
+    lda player_x
+    and #$c0
+    ora current_music
+    ldx player_x+1
+    sta xpos_music
+    stx xpos_music+1
+    lda player_y
+    and #$c0
+    ora object_memory+$15
+    ldx player_y+1
+    sta ypos_direction
+    stx ypos_direction+1
     B30_1d54:
     jmp WriteProtectPRGRam
 
@@ -1045,101 +1045,101 @@ BeginPartyObjectIteration:
 ; $DD64 - Add 0x20 to entity data pointer
 NextEntity:     clc
     lda object_pointer
-	adc #$20
-	sta object_pointer
-	lda object_pointer+1
-	adc #$00
-	sta object_pointer+1
-	rts
+    adc #$20
+    sta object_pointer
+    lda object_pointer+1
+    adc #$00
+    sta object_pointer+1
+    rts
 
 B30_1d72:
     jsr B30_1e29
-	jsr EnablePRGRam
+    jsr EnablePRGRam
     B30_1d78:
     jsr B30_1e4b
-	jsr InitializeObject
-	jsr NextObjectPointer
-	dec $36
-	bne B30_1d78
-	jmp WriteProtectPRGRam
+    jsr InitializeObject
+    jsr NextObjectPointer
+    dec $36
+    bne B30_1d78
+    jmp WriteProtectPRGRam
 
 InitializeObject:
     ldy #$01
-	lda $15
-	sta (object_pointer), y
-	lda $37
-	bne B30_1d97
+    lda $15
+    sta (object_pointer), y
+    lda $37
+    bne B30_1d97
     B30_1d92:
     ldy #$00
-	sta (object_pointer), y
-	rts
+    sta (object_pointer), y
+    rts
 
 B30_1d97:
     ldy #$00
-	lda (object_data), y
-	and #$3f
-	beq B30_1d92
-	jsr SetObjectType
-	ldy #$02
-	lda (object_data), y
-	and #$3f
-	ldy #$15
-	sta (object_pointer), y
-	ldy #$04
-	lda (object_data), y
-	ldy #$16
-	sta (object_pointer), y
-	ldy #$05
-	lda (object_data), y
-	ldy #$17
-	sta (object_pointer), y
-	ldy #$00
-	lda (object_data), y
-	and #$c0
-	ldy #$04
-	sta (object_pointer), y
-	sta $aa
-	ldy #$01
-	lda (object_data), y
-	ldy #$05
-	sta (object_pointer), y
-	sta $ab
-	ldy #$02
-	lda (object_data), y
-	and #$c0
-	ldy #$06
-	sta (object_pointer), y
-	sta $ac
-	ldy #$03
-	lda (object_data), y
-	ldy #$07
-	sta (object_pointer), y
-	sta $ad
-	ldy #$02
-	lda object_data
-	sta (object_pointer), y
-	iny
-	lda object_data+1
-	sta (object_pointer), y
-	jsr B30_155d
-	ldy #$11
-	lda $a1
-	sta (object_pointer), y
-	iny
-	lda $a6
-	sta (object_pointer), y
-	iny
-	lda $a7
-	sta (object_pointer), y
-	ldy #$18
-	ldx #$08
-	lda #$00
+    lda (object_data), y
+    and #$3f
+    beq B30_1d92
+    jsr SetObjectType
+    ldy #$02
+    lda (object_data), y
+    and #$3f
+    ldy #$15
+    sta (object_pointer), y
+    ldy #$04
+    lda (object_data), y
+    ldy #$16
+    sta (object_pointer), y
+    ldy #$05
+    lda (object_data), y
+    ldy #$17
+    sta (object_pointer), y
+    ldy #$00
+    lda (object_data), y
+    and #$c0
+    ldy #$04
+    sta (object_pointer), y
+    sta $aa
+    ldy #$01
+    lda (object_data), y
+    ldy #$05
+    sta (object_pointer), y
+    sta $ab
+    ldy #$02
+    lda (object_data), y
+    and #$c0
+    ldy #$06
+    sta (object_pointer), y
+    sta $ac
+    ldy #$03
+    lda (object_data), y
+    ldy #$07
+    sta (object_pointer), y
+    sta $ad
+    ldy #$02
+    lda object_data
+    sta (object_pointer), y
+    iny
+    lda object_data+1
+    sta (object_pointer), y
+    jsr B30_155d
+    ldy #$11
+    lda $a1
+    sta (object_pointer), y
+    iny
+    lda $a6
+    sta (object_pointer), y
+    iny
+    lda $a7
+    sta (object_pointer), y
+    ldy #$18
+    ldx #$08
+    lda #$00
     B30_1e0c:
     sta (object_pointer), y
-	iny
-	dex
-	bne B30_1e0c
-	rts
+    iny
+    dex
+    bne B30_1e0c
+    rts
 
 ; $DE13 - Set object type
 SetObjectType:
@@ -1202,113 +1202,113 @@ NextObjectPointer:
 
 ; $DE6C - Bankswitch to object bank from given "area"
 SetObjectBank:  cmp #$2b
-	bcc B30_1e76
-	ldx #$12
-	sbc #$2b
-	bcs B30_1e82
+    bcc B30_1e76
+    ldx #$12
+    sbc #$2b
+    bcs B30_1e82
     B30_1e76:
     cmp #$1a
-	bcc B30_1e80
-	ldx #$11
-	sbc #$1a
-	bcs B30_1e82
+    bcc B30_1e80
+    ldx #$11
+    sbc #$1a
+    bcs B30_1e82
     B30_1e80:
     ldx #$10
     B30_1e82:
     pha
-	txa
-	ldx #$06
-	jsr BANK_SWAP
-	pla
-	rts
+    txa
+    ldx #$06
+    jsr BANK_SWAP
+    pla
+    rts
 
 BankswitchLower_Bank00_2nd:
     ldx #$06
-	lda #$00
-	jmp BANK_SWAP
+    lda #$00
+    jmp BANK_SWAP
 
 BankswitchLower_Bank00_3rd:
-	ldx #$06
-	lda #$00
-	jmp BANK_SWAP
+    ldx #$06
+    lda #$00
+    jmp BANK_SWAP
 
 B30_1e99:
     jsr B30_1e29
-	jsr EnablePRGRam
+    jsr EnablePRGRam
     B30_1e9f:
-	jsr B30_1e4b
-	ldy #$01
-	lda (object_pointer), y
-	cmp $15
-	beq B30_1eb9
-	ldy #$00
-	lda (object_pointer), y
-	asl a
-	beq B30_1eb6
-	jsr IsObjectNearPlayer
-	bcs B30_1ecf
+    jsr B30_1e4b
+    ldy #$01
+    lda (object_pointer), y
+    cmp $15
+    beq B30_1eb9
+    ldy #$00
+    lda (object_pointer), y
+    asl a
+    beq B30_1eb6
+    jsr IsObjectNearPlayer
+    bcs B30_1ecf
     B30_1eb6:
     jsr InitializeObject
     B30_1eb9:
     ldy #$00
-	lda (object_pointer), y
-	asl a
-	beq B30_1ed7
-	jsr IsObjectNearPlayer
-	bcs B30_1ecf
-	ldy #$00
-	lda (object_pointer), y
-	ora #$80
-	sta (object_pointer), y
-	bmi B30_1ed7
+    lda (object_pointer), y
+    asl a
+    beq B30_1ed7
+    jsr IsObjectNearPlayer
+    bcs B30_1ecf
+    ldy #$00
+    lda (object_pointer), y
+    ora #$80
+    sta (object_pointer), y
+    bmi B30_1ed7
 
 B30_1ecf:
     ldy #$00
-	lda (object_pointer), y
+    lda (object_pointer), y
     and #$3f
     sta (object_pointer), y
 B30_1ed7:
     jsr NextObjectPointer
-	dec $36
-	bne B30_1e9f
-	jsr B30_1e3e
+    dec $36
+    bne B30_1e9f
+    jsr B30_1e3e
     B30_1ee1:
     ldy #$00
-	lda (object_pointer), y
-	beq B30_1eef
-	bmi B30_1eef
-	jsr TickObject
+    lda (object_pointer), y
+    beq B30_1eef
+    bmi B30_1eef
+    jsr TickObject
     jsr B30_1ef9
     B30_1eef:
     jsr NextEntity
-	dec $36
-	bne B30_1ee1
-	jmp WriteProtectPRGRam
+    dec $36
+    bne B30_1ee1
+    jmp WriteProtectPRGRam
 
 B30_1ef9:
     ldy #$11
-	lda (object_pointer), y
-	sta $69
-	iny
-	lda (object_pointer), y
-	sta $6a
-	iny
-	lda (object_pointer), y
-	sta $6b
-	ldy #$00
-	lda (object_pointer), y
-	bpl B30_1f12
-	jmp B30_1faf
+    lda (object_pointer), y
+    sta $69
+    iny
+    lda (object_pointer), y
+    sta $6a
+    iny
+    lda (object_pointer), y
+    sta $6b
+    ldy #$00
+    lda (object_pointer), y
+    bpl B30_1f12
+    jmp B30_1faf
 
 B30_1f12:
     clc
-	lda player_x
-	adc #$60
-	sta $60
-	lda player_x+1
+    lda player_x
+    adc #$60
+    sta $60
+    lda player_x+1
 
     ;this opcode is split between bank $1e and bank $1f
-	adc #$00
+    adc #$00
 
 
 
@@ -1321,98 +1321,98 @@ B30_1f12:
 
 
 
-	sta $61
-	sec
-	ldy #$04
+    sta $61
+    sec
+    ldy #$04
     lda (object_pointer), y
-	sbc $60
-	sta $60
-	iny
-	lda (object_pointer), y
-	sbc $61
-	sta $61
-	clc
+    sbc $60
+    sta $60
+    iny
+    lda (object_pointer), y
+    sbc $61
+    sta $61
+    clc
     lda player_y
-	adc #$a4
-	sta $64
-	lda player_y+1
-	adc #$00
-	sta $65
-	sec
-	ldy #$06
-	lda (object_pointer), y
-	sbc $64
-	sta $64
-	iny
-	lda (object_pointer), y
-	sbc $65
-	sta $65
-	ldy #$08
-	lda $61
+    adc #$a4
+    sta $64
+    lda player_y+1
+    adc #$00
+    sta $65
+    sec
+    ldy #$06
+    lda (object_pointer), y
+    sbc $64
+    sta $64
+    iny
+    lda (object_pointer), y
+    sbc $65
+    sta $65
+    ldy #$08
+    lda $61
     and #$04
-	asl a
-	asl a
-	asl a
-	asl a
-	asl a
-	ora (object_pointer), y
-	sta (object_pointer), y
-	iny
-	lda $65
-	and #$04
-	asl a
-	asl a
-	asl a
-	asl a
-	asl a
-	ora (object_pointer), y
-	sta (object_pointer), y
-	iny
-	lda $60
-	lsr $61
-	ror a
-	lsr $61
-	ror a
-	sta (object_pointer), y
-	iny
-	lda $64
-	lsr $65
-	ror a
-	lsr $65
-	ror a
-	sta (object_pointer), y
-	lda movement_direction
-	bmi B30_1fb8
-	ldy #$04
-	lda $3a
-	sta (object_pointer), y
-	iny
-	lda $3b
-	sta (object_pointer), y
-	ldy #$06
-	lda $3c
-	sta (object_pointer), y
-	iny
-	lda $3d
-	sta (object_pointer), y
-	ldy #$11
-	lda $a1
-	sta (object_pointer), y
-	iny
-	lda $a6
-	sta (object_pointer), y
-	iny
-	lda $a7
-	sta (object_pointer), y
-	ldy $a1
-	lda $36
-	sta ($a6), y
+    asl a
+    asl a
+    asl a
+    asl a
+    asl a
+    ora (object_pointer), y
+    sta (object_pointer), y
+    iny
+    lda $65
+    and #$04
+    asl a
+    asl a
+    asl a
+    asl a
+    asl a
+    ora (object_pointer), y
+    sta (object_pointer), y
+    iny
+    lda $60
+    lsr $61
+    ror a
+    lsr $61
+    ror a
+    sta (object_pointer), y
+    iny
+    lda $64
+    lsr $65
+    ror a
+    lsr $65
+    ror a
+    sta (object_pointer), y
+    lda movement_direction
+    bmi B30_1fb8
+    ldy #$04
+    lda $3a
+    sta (object_pointer), y
+    iny
+    lda $3b
+    sta (object_pointer), y
+    ldy #$06
+    lda $3c
+    sta (object_pointer), y
+    iny
+    lda $3d
+    sta (object_pointer), y
+    ldy #$11
+    lda $a1
+    sta (object_pointer), y
+    iny
+    lda $a6
+    sta (object_pointer), y
+    iny
+    lda $a7
+    sta (object_pointer), y
+    ldy $a1
+    lda $36
+    sta ($a6), y
 B30_1faf:
-	ldy $69
-	lda $36
-	eor ($6a), y
-	beq B30_1fbc
-	rts
+    ldy $69
+    lda $36
+    eor ($6a), y
+    beq B30_1fbc
+    rts
 
 
 B30_1fb8:

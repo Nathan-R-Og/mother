@@ -6,11 +6,7 @@
 ;not JUST teleport defs, by the way!
 ;name, (posX << 6)| music, (posY << 6)| startDirection, msgPrice
 .macro choicerDef name, music, posX, direction, posY, msgPrice
-    .ifdef VER_JP
-    .word name+$5400
-    .else
     .word name
-    .endif
 
     .word (posX << 6) | music
     .word (posY << 6) | direction

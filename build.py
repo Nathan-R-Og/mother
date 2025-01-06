@@ -12,7 +12,7 @@ def addDefine(define):
 def ca65HasNoUnicodeSupport(dir:str):
 
     from glob import glob
-    kanjiToBytes = []
+    kanaToBytes = []
     for file in glob(f"src/{dir}/**/*.asm", recursive=True) + glob(f"src/global/**/*.asm", recursive=True):
         blacklist = [
             "fontmap.asm",
@@ -28,17 +28,17 @@ def ca65HasNoUnicodeSupport(dir:str):
 
         lines = open(file, "r").readlines()
         for line in lines:
-            if line.find("kanjifix") != -1:
-                kanjiToBytes.append(file)
+            if line.find("kanafix") != -1:
+                kanaToBytes.append(file)
                 print("charmapping "+file+"....")
                 break
-    if len(kanjiToBytes) == 0: return
+    if len(kanaToBytes) == 0: return
 
     if not os.path.exists("build_artifacts/"):
         os.makedirs("build_artifacts/")
 
     from tools.ebToString import stringToEb
-    for file in kanjiToBytes:
+    for file in kanaToBytes:
         outfile = file.replace("src/", "build_artifacts/")
         justdir = outfile.split("/")
         justdir.pop(-1)
@@ -66,9 +66,9 @@ def ca65HasNoUnicodeSupport(dir:str):
                     x += 1
                 lines[i] = f'.include "{dots}src/jp/{"/".join(newpath)}"\n'
             #because ca65 absolute hates anything but english for some reason
-            elif line.find("kanjifix") != -1:
-                kanji = line.split("kanjifix ")[-1].split(";")[0].strip()
-                result = stringToEb(kanji, False)
+            elif line.find("kanafix") != -1:
+                kana = line.split("kanafix ")[-1].split(";")[0].strip()
+                result = stringToEb(kana, False)
                 result = "$"+result.replace(" ",",$")
                 lines[i] = f".byte   {result}\n"
 
@@ -179,8 +179,8 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "-kf",
-        "--kanjifix",
-        help="Build using the macro for japanese kanji",
+        "--kanafix",
+        help="Build using the macro for japanese kana",
         action="store_true",
     )
 
@@ -199,12 +199,12 @@ if __name__ == "__main__":
 
     simplifyPointers(dir)
 
-    if not args.kanjifix:
-        if args.japanese: #remove this if we need kanji on us
+    if not args.kanafix:
+        if args.japanese: #remove this if we need kana on us
             ca65HasNoUnicodeSupport(dir)
     else:
         print("have fun !")
-        addDefine("kanjiMacro")
+        addDefine("kanaMacro")
 
     linker = "linker.cfg"
     if args.japanese:

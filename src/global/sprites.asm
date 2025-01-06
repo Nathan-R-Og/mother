@@ -1,4 +1,4 @@
-.segment        "PRG15": absolute
+.segment        "SPRITES": absolute
 
 ;sprite
 .macro spritePointerDef pointer, ppu, p1, p2, unkArg1, unkArg2
