@@ -1,8 +1,3 @@
-B25_04cc := $a5cc
-B25_06c1 := $a6c1
-B25_06c2 := $a6c2
-B25_036e := $a36e
-B25_01f8 := $a1f8
 
 .segment        "PRG13": absolute
 
@@ -172,7 +167,7 @@ B19_0119:
     .byte %11000101 ; Input mask
     .byte $3a       ; Tile
     .byte $0a,$03
-    .word B31_10d1
+    .addr B31_10d1
 
 B19_0123:
     lda #$80
@@ -241,12 +236,12 @@ B19_0178:
     rts
 
 B19_01a4:
-    .word B19_01ea-1 ; 00 - TALK
-    .word B19_020f-1 ; 01 - CHECK
-    .word B19_0262-1 ; 02
-    .word B19_0005-1 ; 03
-    .word B19_0238-1 ; 04
-    .word B19_01ba-1 ; 05
+    .addr B19_01ea-1 ; 00 - TALK
+    .addr B19_020f-1 ; 01 - CHECK
+    .addr B19_0262-1 ; 02
+    .addr B19_0005-1 ; 03
+    .addr B19_0238-1 ; 04
+    .addr B19_01ba-1 ; 05
 
 ; UNKNOWN
 B19_01b0:
@@ -256,7 +251,7 @@ B19_01b0:
     .byte %11000000 ; Input mask
     .byte $3a       ; Tile
     .byte $02,$03
-    .word B31_10d1
+    .addr B31_10d1
 
 B19_01ba:
     lda #25
@@ -406,11 +401,11 @@ B19_02a7:
     rts
 
 B19_02bc:
-    .word B19_02c6-1
-    .word B19_037d-1
-    .word B19_0315-1
-    .word B19_0390-1
-    .word B19_03a9-1
+    .addr B19_02c6-1
+    .addr B19_037d-1
+    .addr B19_0315-1
+    .addr B19_0390-1
+    .addr B19_03a9-1
 
 B19_02c6:
     ldy #$03
@@ -553,52 +548,52 @@ B19_03bc:
 
 ;the reason these are all -1 are because of NES accessing stuff. needs to be even or odd or whatever
 OVERWORLD_ACTIONS_POINTERS:
-.word OVERWORLD_ACTION2-1 ;$0 Nothing
-.word OVERWORLD_ACTION3-1 ;$1 Nothing (Situational)
-.word OVERWORLD_ACTION2-1 ;$2 Equippable
-.word OVERWORLD_ACTION2-1 ;$3
-.word OVERWORLD_ACTION2-1 ;$4
-.word OVERWORLD_ACTION6-1 ;$5 Bread
-.word OVERWORLD_ACTION7-1 ;$6 berry Tofu
-.word OVERWORLD_ACTION3-1 ;$7 Phone Card
-.word OVERWORLD_ACTION4-1 ;$8 Repel Ring
-.word OVERWORLD_ACTION2-1 ;$9 Debug
-.word OVERWORLD_ACTIONB-1 ;$A Orange Juice
-.word OVERWORLD_ACTIONC-1 ;$B French Fries
-.word OVERWORLD_ACTIOND-1 ;$C Magic Herb
-.word OVERWORLD_ACTIONE-1 ;$D Hamburger
-.word OVERWORLD_ACTIONF-1 ;$E Sports Drink
-.word OVERWORLD_ACTION10-1 ;$F LifeUp Cream
-.word OVERWORLD_ACTION11-1 ;$10 Big Bag
-.word OVERWORLD_ACTION15-1 ;$11 Antidote
-.word OVERWORLD_ACTION16-1 ;$12 Mouthwash
-.word OVERWORLD_ACTION17-1 ;$13 PSI STone
-.word OVERWORLD_ACTION18-1 ;$14 Magic Ribbon
-.word OVERWORLD_ACTION19-1 ;$15 Magic Candy
-.word OVERWORLD_ACTION1A-1 ;$16 QUICK Capsule
-.word OVERWORLD_ACTION1B-1 ;$17 WISDOM Capsule
-.word OVERWORLD_ACTION1C-1 ;$18 PHYSICAL Capsule
-.word OVERWORLD_ACTION1D-1 ;$19 FORCE Capsule
-.word OVERWORLD_ACTION1E-1 ;$1a FIGHT Capsule
-.word OVERWORLD_ACTION22-1 ;$1b GGF's Diary
-.word OVERWORLD_ACTION2-1 ;$1c
-.word OVERWORLD_ACTION2-1 ;$1d
-.word OVERWORLD_ACTION1F-1 ;$1e Onyx Hook
-.word OVERWORLD_ACTION5-1 ;$1f Crumbs
-.word OVERWORLD_ACTION20-1 ;$20 Last Weapon
-.word OVERWORLD_ACTION21-1 ;$21 Ruler
-.word OVERWORLD_ACTION24-1 ;$22 Map
-.word OVERWORLD_ACTION23-1 ;$23 Ocarina
-.word OVERWORLD_ACTION1-1 ;$24
-.word OVERWORLD_ACTION0-1 ;$25 Telepathy (events only work through psi)
-.word OVERWORLD_ACTION12-1 ;$26 Teleport
-.word OVERWORLD_ACTION8-1 ;$27 LifeUp Alpha
-.word OVERWORLD_ACTION9-1 ;$28 LifeUp Beta
-.word OVERWORLD_ACTIONA-1 ;$29 LifeUp Gamma
-.word OVERWORLD_ACTION14-1 ;$2A Healing Gamma
-.word OVERWORLD_ACTION1-1 ;$2B
-.word OVERWORLD_ACTION13-1 ;$2C Healing Alpha
-.word OVERWORLD_ACTION25-1
+.addr OVERWORLD_ACTION2-1 ;$0 Nothing
+.addr OVERWORLD_ACTION3-1 ;$1 Nothing (Situational)
+.addr OVERWORLD_ACTION2-1 ;$2 Equippable
+.addr OVERWORLD_ACTION2-1 ;$3
+.addr OVERWORLD_ACTION2-1 ;$4
+.addr OVERWORLD_ACTION6-1 ;$5 Bread
+.addr OVERWORLD_ACTION7-1 ;$6 berry Tofu
+.addr OVERWORLD_ACTION3-1 ;$7 Phone Card
+.addr OVERWORLD_ACTION4-1 ;$8 Repel Ring
+.addr OVERWORLD_ACTION2-1 ;$9 Debug
+.addr OVERWORLD_ACTIONB-1 ;$A Orange Juice
+.addr OVERWORLD_ACTIONC-1 ;$B French Fries
+.addr OVERWORLD_ACTIOND-1 ;$C Magic Herb
+.addr OVERWORLD_ACTIONE-1 ;$D Hamburger
+.addr OVERWORLD_ACTIONF-1 ;$E Sports Drink
+.addr OVERWORLD_ACTION10-1 ;$F LifeUp Cream
+.addr OVERWORLD_ACTION11-1 ;$10 Big Bag
+.addr OVERWORLD_ACTION15-1 ;$11 Antidote
+.addr OVERWORLD_ACTION16-1 ;$12 Mouthwash
+.addr OVERWORLD_ACTION17-1 ;$13 PSI STone
+.addr OVERWORLD_ACTION18-1 ;$14 Magic Ribbon
+.addr OVERWORLD_ACTION19-1 ;$15 Magic Candy
+.addr OVERWORLD_ACTION1A-1 ;$16 QUICK Capsule
+.addr OVERWORLD_ACTION1B-1 ;$17 WISDOM Capsule
+.addr OVERWORLD_ACTION1C-1 ;$18 PHYSICAL Capsule
+.addr OVERWORLD_ACTION1D-1 ;$19 FORCE Capsule
+.addr OVERWORLD_ACTION1E-1 ;$1a FIGHT Capsule
+.addr OVERWORLD_ACTION22-1 ;$1b GGF's Diary
+.addr OVERWORLD_ACTION2-1 ;$1c
+.addr OVERWORLD_ACTION2-1 ;$1d
+.addr OVERWORLD_ACTION1F-1 ;$1e Onyx Hook
+.addr OVERWORLD_ACTION5-1 ;$1f Crumbs
+.addr OVERWORLD_ACTION20-1 ;$20 Last Weapon
+.addr OVERWORLD_ACTION21-1 ;$21 Ruler
+.addr OVERWORLD_ACTION24-1 ;$22 Map
+.addr OVERWORLD_ACTION23-1 ;$23 Ocarina
+.addr OVERWORLD_ACTION1-1 ;$24
+.addr OVERWORLD_ACTION0-1 ;$25 Telepathy (events only work through psi)
+.addr OVERWORLD_ACTION12-1 ;$26 Teleport
+.addr OVERWORLD_ACTION8-1 ;$27 LifeUp Alpha
+.addr OVERWORLD_ACTION9-1 ;$28 LifeUp Beta
+.addr OVERWORLD_ACTIONA-1 ;$29 LifeUp Gamma
+.addr OVERWORLD_ACTION14-1 ;$2A Healing Gamma
+.addr OVERWORLD_ACTION1-1 ;$2B
+.addr OVERWORLD_ACTION13-1 ;$2C Healing Alpha
+.addr OVERWORLD_ACTION25-1
 
 OVERWORLD_ACTION0:
     jsr B19_09b1
@@ -1154,6 +1149,7 @@ OVERWORLD_ACTION24:
     ldx #$78
     jsr DisplayText
     jmp B19_0834
+    B19_082f:
     lda #$05
     sta $07f1
     B19_0834:
@@ -1178,9 +1174,9 @@ OVERWORLD_ACTION24:
     ldx #$02
     jsr BANK_SWAP
     jsr B30_0e6d
-    lda #$e3
-    ldx #$a8
-    jsr BankswitchCHRFromTable
+
+    BankswitchCHR_Address B19_08e3
+
     lda #$df
     sta $0201
     lda #$00
@@ -1195,9 +1191,9 @@ OVERWORLD_ACTION24:
     jsr B19_08d4
     sbc #$21
     sta $0200
-    lda #$e9
-    ldx #$a8
-    jsr LoadPalette
+
+    LoadPalette_Address B19_08e9
+
     lda #$00
     sta $da
     B19_0899:
@@ -1238,13 +1234,16 @@ B19_08d4:
     @B19_08e2:
     rts
 
-;palettes
+;chr bankswitch table
+B19_08e3:
 .byte $00,$78,$58,$59,$5A,$00
-;the
+;palettes
+B19_08e9:
 .byte $0F,$36,$30,$2A
 .byte $0F,$36,$30,$2A
 .byte $0F,$36,$30,$16
 .byte $0F,$36,$30,$16
+
 .byte $0F,$21,$02,$0A
 .byte $0F,$21,$21,$21
 .byte $0F,$21,$21,$21
@@ -1611,114 +1610,114 @@ B19_0b5e:
 
 ; Object script JSR table
 B19_0b69:
-    .word B19_0b30-1 ; 00 - End script
-    .word OBJS_Jump-1 ; 01 - Jump
-    .word B19_0c8d-1 ; 02 - Call subroutine
-    .word B19_0cb7-1 ; 03 - Return from subroutine
-    .word B19_0cba-1 ; 04 - TODO: delay
-    .word B19_0c54-1 ; 05 - Appear if flag clear (only valid at start of script)
-    .word B19_0c54-1 ; 06 - Appear if flag set (only valid at start of script)
-    .word B19_0c41-1 ; 07 - Infinite loop
-    .word B19_0d0d-1 ; 08 - Display text
-    .word B19_0da2-1 ; 09 - Ask yes/no, jump if canceled or "no" selected
-    .word B19_0c71-1 ; 0A - Jump unless TALKing
-    .word B19_0c71-1 ; 0B - Jump unless CHECKing
-    .word B19_0c61-1 ; 0C - Jump unless using PSI
-    .word B19_0c6a-1 ; 0D - Jump unless using item
-    .word B19_0c41-1 ; 0E - Infinite loop
-    .word B19_0c4b-1 ; 0F - Reset game
-    .word B19_0e23-1 ; 10 - Set flag
-    .word B19_0e35-1 ; 11 - Clear flag
-    .word B19_0e4a-1 ; 12 - Jump unless flag set
-    .word B19_0e6c-1 ; 13 - Decrement counter
-    .word B19_0e5e-1 ; 14 - Increment counter
-    .word B19_0e7a-1 ; 15 - Set counter to zero
-    .word B19_0e8a-1 ; 16 - Jump if counter less than
-    .word B19_148d-1 ; 17 - Set $7400[] value
-    .word B19_10ad-1 ; 18 - Choose character, jump if canceled
-    .word B19_0e97-1 ; 19 - Select specific character
-    .word B19_0ebd-1 ; 1A - Jump unless character selected
-    .word B19_1505-1 ; 1B
-    .word B19_10e4-1 ; 1C
-    .word B19_0e9e-1 ; 1D
-    .word B19_0ec5-1 ; 1E
-    .word B19_1484-1 ; 1F
-    .word B19_1196-1 ; 20
-    .word B19_1172-1 ; 21
-    .word B19_1184-1 ; 22
-    .word B19_0fac-1 ; 23
-    .word B19_0fb8-1 ; 24
-    .word B19_0eb6-1 ; 25
-    .word B19_0ed3-1 ; 26
-    .word B19_0f8e-1 ; 27
-    .word B19_0edb-1 ; 28
-    .word B19_0eee-1 ; 29
-    .word B19_0f15-1 ; 2A
-    .word B19_0f2f-1 ; 2B
-    .word B19_0fdc-1 ; 2C
-    .word B19_0fd1-1 ; 2D
-    .word B19_0fea-1 ; 2E
-    .word B19_0ff5-1 ; 2F
-    .word B19_100c-1 ; 30
-    .word B19_103c-1 ; 31
-    .word B19_0f5e-1 ; 32
-    .word B19_1028-1 ; 33
-    .word B19_0c71-1 ; 34 - TODO
-    .word B19_0c71-1 ; 35 - Jump unless touching object
-    .word B19_13d8-1 ; 36
-    .word B19_0dfa-1 ; 37
-    .word B19_11bd-1 ; 38
-    .word B19_11d8-1 ; 39
-    .word B19_10d1-1 ; 3A
-    .word B19_1235-1 ; 3B - Set object type
-    .word B19_142b-1 ; 3C
-    .word B19_1420-1 ; 3D
-    .word B19_1246-1 ; 3E - TODO: Move object
-    .word B19_0c57-1 ; 3F - TODO: Signal another object
-    .word B19_0c71-1 ; 40 - TODO: Jump unless signaled
-    .word B19_14eb-1 ; 41
-    .word B19_1440-1 ; 42
-    .word B19_1459-1 ; 43
-    .word B19_1472-1 ; 44
-    .word B19_1511-1 ; 45
-    .word B19_1290-1 ; 46
-    .word B19_12fc-1 ; 47
-    .word B19_1323-1 ; 48
-    .word B19_1339-1 ; 49
-    .word B19_134a-1 ; 4A
-    .word B19_13a8-1 ; 4B
-    .word B19_13b5-1 ; 4C
-    .word B19_1317-1 ; 4D
-    .word B19_1432-1 ; 4E
-    .word B19_13e8-1 ; 4F
-    .word B19_15a9-1 ; 50
-    .word B19_164a-1 ; 51
-    .word B19_15e2-1 ; 52
-    .word B19_1600-1 ; 53
-    .word B19_15f1-1 ; 54
-    .word B19_1546-1 ; 55
-    .word B19_14a0-1 ; 56
-    .word B19_14a9-1 ; 57
-    .word B19_0eaa-1 ; 58
-    .word B19_1629-1 ; 59
-    .word B19_1695-1 ; 5A
-    .word B19_16ac-1 ; 5B
-    .word B19_16b4-1 ; 5C
-    .word B19_16bc-1 ; 5D
-    .word B19_0c41-1 ; 5E - Infinite loop
-    .word B19_16c4-1 ; 5F
-    .word B19_15c9-1 ; 60
-    .word B19_1640-1 ; 61
-    .word B19_11fd-1 ; 62
-    .word B19_1223-1 ; 63
-    .word B19_16db-1 ; 64
-    .word B19_16ea-1 ; 65
-    .word B19_170c-1 ; 66
-    .word B19_1725-1 ; 67 - Darken palette
-    .word B19_172d-1 ; 68
-    .word B19_1735-1 ; 69
-    .word B19_173f-1 ; 6A
-    .word B19_1751-1 ; 6B
+    .addr B19_0b30-1 ; 00 - End script
+    .addr OBJS_Jump-1 ; 01 - Jump
+    .addr B19_0c8d-1 ; 02 - Call subroutine
+    .addr B19_0cb7-1 ; 03 - Return from subroutine
+    .addr B19_0cba-1 ; 04 - TODO: delay
+    .addr B19_0c54-1 ; 05 - Appear if flag clear (only valid at start of script)
+    .addr B19_0c54-1 ; 06 - Appear if flag set (only valid at start of script)
+    .addr B19_0c41-1 ; 07 - Infinite loop
+    .addr B19_0d0d-1 ; 08 - Display text
+    .addr B19_0da2-1 ; 09 - Ask yes/no, jump if canceled or "no" selected
+    .addr B19_0c71-1 ; 0A - Jump unless TALKing
+    .addr B19_0c71-1 ; 0B - Jump unless CHECKing
+    .addr B19_0c61-1 ; 0C - Jump unless using PSI
+    .addr B19_0c6a-1 ; 0D - Jump unless using item
+    .addr B19_0c41-1 ; 0E - Infinite loop
+    .addr B19_0c4b-1 ; 0F - Reset game
+    .addr B19_0e23-1 ; 10 - Set flag
+    .addr B19_0e35-1 ; 11 - Clear flag
+    .addr B19_0e4a-1 ; 12 - Jump unless flag set
+    .addr B19_0e6c-1 ; 13 - Decrement counter
+    .addr B19_0e5e-1 ; 14 - Increment counter
+    .addr B19_0e7a-1 ; 15 - Set counter to zero
+    .addr B19_0e8a-1 ; 16 - Jump if counter less than
+    .addr B19_148d-1 ; 17 - Set $7400[] value
+    .addr B19_10ad-1 ; 18 - Choose character, jump if canceled
+    .addr B19_0e97-1 ; 19 - Select specific character
+    .addr B19_0ebd-1 ; 1A - Jump unless character selected
+    .addr B19_1505-1 ; 1B
+    .addr B19_10e4-1 ; 1C
+    .addr B19_0e9e-1 ; 1D
+    .addr B19_0ec5-1 ; 1E
+    .addr B19_1484-1 ; 1F
+    .addr B19_1196-1 ; 20
+    .addr B19_1172-1 ; 21
+    .addr B19_1184-1 ; 22
+    .addr B19_0fac-1 ; 23
+    .addr B19_0fb8-1 ; 24
+    .addr B19_0eb6-1 ; 25
+    .addr B19_0ed3-1 ; 26
+    .addr B19_0f8e-1 ; 27
+    .addr B19_0edb-1 ; 28
+    .addr B19_0eee-1 ; 29
+    .addr B19_0f15-1 ; 2A
+    .addr B19_0f2f-1 ; 2B
+    .addr B19_0fdc-1 ; 2C
+    .addr B19_0fd1-1 ; 2D
+    .addr B19_0fea-1 ; 2E
+    .addr B19_0ff5-1 ; 2F
+    .addr B19_100c-1 ; 30
+    .addr B19_103c-1 ; 31
+    .addr B19_0f5e-1 ; 32
+    .addr B19_1028-1 ; 33
+    .addr B19_0c71-1 ; 34 - TODO
+    .addr B19_0c71-1 ; 35 - Jump unless touching object
+    .addr B19_13d8-1 ; 36
+    .addr B19_0dfa-1 ; 37
+    .addr B19_11bd-1 ; 38
+    .addr B19_11d8-1 ; 39
+    .addr B19_10d1-1 ; 3A
+    .addr B19_1235-1 ; 3B - Set object type
+    .addr B19_142b-1 ; 3C
+    .addr B19_1420-1 ; 3D
+    .addr B19_1246-1 ; 3E - TODO: Move object
+    .addr B19_0c57-1 ; 3F - TODO: Signal another object
+    .addr B19_0c71-1 ; 40 - TODO: Jump unless signaled
+    .addr B19_14eb-1 ; 41
+    .addr B19_1440-1 ; 42
+    .addr B19_1459-1 ; 43
+    .addr B19_1472-1 ; 44
+    .addr B19_1511-1 ; 45
+    .addr B19_1290-1 ; 46
+    .addr B19_12fc-1 ; 47
+    .addr B19_1323-1 ; 48
+    .addr B19_1339-1 ; 49
+    .addr B19_134a-1 ; 4A
+    .addr B19_13a8-1 ; 4B
+    .addr B19_13b5-1 ; 4C
+    .addr B19_1317-1 ; 4D
+    .addr B19_1432-1 ; 4E
+    .addr B19_13e8-1 ; 4F
+    .addr B19_15a9-1 ; 50
+    .addr B19_164a-1 ; 51
+    .addr B19_15e2-1 ; 52
+    .addr B19_1600-1 ; 53
+    .addr B19_15f1-1 ; 54
+    .addr B19_1546-1 ; 55
+    .addr B19_14a0-1 ; 56
+    .addr B19_14a9-1 ; 57
+    .addr B19_0eaa-1 ; 58
+    .addr B19_1629-1 ; 59
+    .addr B19_1695-1 ; 5A
+    .addr B19_16ac-1 ; 5B
+    .addr B19_16b4-1 ; 5C
+    .addr B19_16bc-1 ; 5D
+    .addr B19_0c41-1 ; 5E - Infinite loop
+    .addr B19_16c4-1 ; 5F
+    .addr B19_15c9-1 ; 60
+    .addr B19_1640-1 ; 61
+    .addr B19_11fd-1 ; 62
+    .addr B19_1223-1 ; 63
+    .addr B19_16db-1 ; 64
+    .addr B19_16ea-1 ; 65
+    .addr B19_170c-1 ; 66
+    .addr B19_1725-1 ; 67 - Darken palette
+    .addr B19_172d-1 ; 68
+    .addr B19_1735-1 ; 69
+    .addr B19_173f-1 ; 6A
+    .addr B19_1751-1 ; 6B
 
 ; Instructions 07, 0E and 5E (infinite loop)
 B19_0c41:
@@ -3551,9 +3550,9 @@ B19_1737:
 ; Instruction 6A - George crystal (?)
 B19_173f:
     sty $35
-    lda #25
-    ldx #.LOBYTE(B25_04cc-1)
-    ldy #.HIBYTE(B25_04cc)
+    lda #$19
+    ldx #.LOBYTE(B25_05cc-1)
+    ldy #.HIBYTE(B25_05cc-1)
     jsr TempUpperBankswitch
     jsr B19_0b41
     ldy $35
@@ -3563,9 +3562,9 @@ B19_173f:
 ; Instruction 6B - ???
 B19_1751:
     sty $35
-    lda #25
+    lda #$19
     ldx #.LOBYTE(B25_06c1-1)
-    ldy #.HIBYTE(B25_06c1)
+    ldy #.HIBYTE(B25_06c1-1)
     jsr TempUpperBankswitch
     jsr B19_0b41
     ldy $35
@@ -3595,8 +3594,8 @@ B19_1763:
     sta $77
     jsr B30_03c0
     jsr B19_0b41
-    lda #<B19_17ac
-    ldx #>B19_17ac
+    lda #.LOBYTE(B19_17ac)
+    ldx #.HIBYTE(B19_17ac)
     sta $80
     stx $81
     jsr B31_0f34
@@ -3775,10 +3774,10 @@ B19_187f:
 B19_18ca:
     clc
     lda $37
-    adc #<item_storage
+    adc #.LOBYTE(item_storage)
     sta $84
     lda #$00
-    adc #>item_storage
+    adc #.HIBYTE(item_storage)
     sta $85
     rts
 
@@ -3885,13 +3884,13 @@ B19_198b:
 
 B19_198f:
     jsr B30_03b2
-    lda #<B19_19d1
-    ldx #>B19_19d1
+    lda #.LOBYTE(B19_19d1)
+    ldx #.HIBYTE(B19_19d1)
     jsr B19_0c44
     jsr B19_19af
     jsr B19_1b40
-    lda #<B19_19dc
-    ldx #>B19_19dc
+    lda #.LOBYTE(B19_19dc)
+    ldx #.HIBYTE(B19_19dc)
     jsr B19_1b12
     bit $83
     bmi B19_19ac
@@ -4021,8 +4020,8 @@ B19_1a72:
     rts
 
 B19_1a8d:
-    lda #<B19_1ae5
-    ldx #>B19_1ae5
+    lda #.LOBYTE(B19_1ae5)
+    ldx #.HIBYTE(B19_1ae5)
     jsr B19_0c44
     lda #$32
     sta $0204
@@ -4036,8 +4035,8 @@ B19_1a8d:
     asl a
     adc #$48
     sta $0207
-    lda #<B19_1aef
-    ldx #>B19_1aef
+    lda #.LOBYTE(B19_1aef)
+    ldx #.HIBYTE(B19_1aef)
     sta $80
     stx $81
     rts
@@ -4075,8 +4074,8 @@ B19_1aef:
     .word $0580
 
 B19_1af9:
-    lda #<B19_1b04
-    ldx #>B19_1b04
+    lda #.LOBYTE(B19_1b04)
+    ldx #.HIBYTE(B19_1b04)
     sta $80
     stx $81
     jmp B31_0f34
@@ -4089,11 +4088,11 @@ B19_1b04:
     .byte %11000101 ; Input mask
     .byte $3a
     .byte $07,$03
-    .word B31_10d1
+    .addr B31_10d1
 
 B19_1b0e:
-    lda #<B19_1b19
-    ldx #>B19_1b19
+    lda #.LOBYTE(B19_1b19)
+    ldx #.HIBYTE(B19_1b19)
 B19_1b12:
     sta $80
     stx $81
@@ -4218,10 +4217,10 @@ GetItemDataPointer:
 B19_1be2:
     clc
     lda $60
-    adc #<Item_Data
+    adc #.LOBYTE(Item_Data)
     sta $60
     lda $61
-    adc #>Item_Data
+    adc #.HIBYTE(Item_Data)
     sta $61
     rts
 
@@ -4387,11 +4386,11 @@ B19_1cec:
     lda fade_type
     asl a
     tax
-    lda #$00
+    lda #0
     sta fade_type
     lda B19_1cfd+1, x
     pha
-    lda B19_1cfd  , x
+    lda B19_1cfd, x
     pha
     rts
 
@@ -4421,8 +4420,8 @@ B19_1d15:
     lda $06
     beq B19_1d2c
     lda #25
-    ldx #<(B25_01f8-1)
-    ldy #>(B25_01f8-1)
+    ldx #.LOBYTE(B25_01f8-1)
+    ldy #.HIBYTE(B25_01f8-1)
     jsr TempUpperBankswitch
     B19_1d2c:
     ldx #60
@@ -4475,9 +4474,9 @@ B19_1d5c:
     sta $60
     stx $61
     jsr B31_0087
-    lda #$2f
-    ldx #$be
-    jsr LoadPalette
+
+    LoadPalette_Address B19_1e2f
+
     ldy #$16
     B19_1d91:
     tya
@@ -4556,12 +4555,20 @@ B19_1e0f:
     jsr WaitXFrames_Min1
     jmp B19_1561
 
-.byte $60,$e0,$40,$18,$68,$c8,$40,$00
-.byte $58,$b0,$40,$08,$60,$98,$40,$10
-.byte $0f,$22,$20,$11,$0f,$10,$1a,$11
-.byte $0f,$30,$00,$11,$0f,$00,$10,$30
-.byte $0f,$0f,$01,$31,$0f,$0f,$13,$32
-.byte $0f,$0f,$22,$32,$0f,$0f,$11,$32
+.byte $60,$e0,$40,$18
+.byte $68,$c8,$40,$00
+.byte $58,$b0,$40,$08
+.byte $60,$98,$40,$10
+
+B19_1e2f:
+.byte $0f,$22,$20,$11
+.byte $0f,$10,$1a,$11
+.byte $0f,$30,$00,$11
+.byte $0f,$00,$10,$30
+.byte $0f,$0f,$01,$31
+.byte $0f,$0f,$13,$32
+.byte $0f,$0f,$22,$32
+.byte $0f,$0f,$11,$32
 
 B19_1e4f:
     .byte $fe,$ff
@@ -4665,5 +4672,3 @@ B19_1ed3:
     dex
     bne B19_1ede
     jmp B19_1eca
-
-;   ;(.|\n)*?\n

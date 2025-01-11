@@ -6,10 +6,10 @@ incbinRange "../../split/us/chr/bankf.bin", 0, $800
 ;this portion IS leftover from JP
 ;except. full converted to what the game uses
 ;lmfao
-.segment        "NAMING_SCREEN_1": absolute
+.segment        "NAMING_SCREEN_1_UNUSED": absolute
+;direct copy of NAMING_SCREEN_1
+;if you make any edits to NAMING_SCREEN_1, TRY to include them here. doesn't really matter but hey
 .scope unused ;so it doesnt have name conflicts :D
-;the EXACT same as PRG19 (segment)
-;TODO: .include the file :)
 rts_1:
     tay
     beq beq_1

@@ -1961,20 +1961,25 @@ UMSG_MR_RAILROADCORPSE:
 .faraddr $00000
 .faraddr $00000
 
-;text indexed from battle actions
-;disptext(1)
-.faraddr $13652
-.faraddr $13652
-.faraddr BSG_UNK
-.faraddr BSG_APPROACH
-.faraddr BSG_ATTACK
-.faraddr BSG_TANKGUN
+UMSG_B_NULL:
+.faraddr MSG_B_NULL
+UMSG_B_NULL_2:
+.faraddr MSG_B_NULL_2
+UMSG_B_UNK:
+.faraddr MSG_B_UNK
+UMSG_B_APPROACH:
+.faraddr MSG_B_APPROACH
+UMSG_B_ATTACK:
+.faraddr MSG_B_ATTACK
+UMSG_B_TANKGUN:
+.faraddr MSG_B_TANKGUN
 .faraddr $12C89
 .faraddr $12783
 .faraddr $1232C
 .faraddr $12339
 .faraddr $1234C
-.faraddr BSG_SMAAAAASH
+UMSG_B_SMAAAAASH:
+.faraddr MSG_B_SMAAAAASH
 .faraddr $12CAB
 .faraddr $12796
 .faraddr $127A8
@@ -2010,7 +2015,8 @@ UMSG_MR_RAILROADCORPSE:
 .faraddr $12436
 .faraddr $1244D
 .faraddr $12465
-.faraddr BSG_GROUCHOFUNNY2
+UMSG_B_GROUCHOFUNNY2:
+.faraddr MSG_B_GROUCHOFUNNY2
 .faraddr $12479
 .faraddr $127D8
 .faraddr $1248F
@@ -2051,7 +2057,8 @@ UMSG_MR_RAILROADCORPSE:
 .faraddr $1318A
 .faraddr $125B5
 .faraddr $125D9
-.faraddr BSG_GROUCHOFUNNY
+UMSG_B_GROUCHOFUNNY:
+.faraddr MSG_B_GROUCHOFUNNY
 .faraddr $12615
 .faraddr $12631
 .faraddr $12644
@@ -2110,9 +2117,12 @@ UMSG_MR_RAILROADCORPSE:
 .faraddr $133BA
 .faraddr $13402
 .faraddr $127BF
-.faraddr $13573
-.faraddr $13652
-.faraddr $13652
+UMSG_GIEGUE_CHECK_REAL:
+.faraddr MSG_GIEGUE_CHECK_REAL
+UMSG_B_NULL_3:
+.faraddr MSG_B_NULL_3
+UMSG_B_NULL_4:
+.faraddr MSG_B_NULL_4
 .faraddr $1289C
 .faraddr $128C5
 .faraddr $12902

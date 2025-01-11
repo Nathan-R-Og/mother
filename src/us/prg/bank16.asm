@@ -8,22 +8,22 @@
 .include "../../global/battles.asm"
 
 ENEMY_TILE_POINTERS:
-.word ENEMY_TILE_POINTER1
-.word ENEMY_TILE_POINTER1
-.word ENEMY_TILE_POINTER2
-.word ENEMY_TILE_POINTER3
-.word ENEMY_TILE_POINTER4
-.word ENEMY_TILE_POINTER5
-.word ENEMY_TILE_POINTER1
-.word ENEMY_TILE_POINTER6
-.word ENEMY_TILE_POINTER7
-.word ENEMY_TILE_POINTER8
-.word ENEMY_TILE_POINTER9
-.word ENEMY_TILE_POINTERA
-.word ENEMY_TILE_POINTERB
-.word ENEMY_TILE_POINTERC
-.word ENEMY_TILE_POINTERD
-.word ENEMY_TILE_POINTERE
+.addr ENEMY_TILE_POINTER1
+.addr ENEMY_TILE_POINTER1
+.addr ENEMY_TILE_POINTER2
+.addr ENEMY_TILE_POINTER3
+.addr ENEMY_TILE_POINTER4
+.addr ENEMY_TILE_POINTER5
+.addr ENEMY_TILE_POINTER1
+.addr ENEMY_TILE_POINTER6
+.addr ENEMY_TILE_POINTER7
+.addr ENEMY_TILE_POINTER8
+.addr ENEMY_TILE_POINTER9
+.addr ENEMY_TILE_POINTERA
+.addr ENEMY_TILE_POINTERB
+.addr ENEMY_TILE_POINTERC
+.addr ENEMY_TILE_POINTERD
+.addr ENEMY_TILE_POINTERE
 
 ENEMY_TILE_POINTER1:
 .byte 8,8
@@ -201,143 +201,143 @@ ENEMY_TILE_POINTERE:
 .word $977C
 
 BATTLE_ACTION_POINTERS:
-.word BATTLE_ACTION0 ;nothing
-.word BATTLE_ACTION1 ;basic attack
-.word BATTLE_ACTION2 ;continous attack!
-.word BATTLE_ACTION3 ;bite
-.word BATTLE_ACTION4 ;scratch
-.word BATTLE_ACTION5 ;charge
-.word BATTLE_ACTION6 ;run out of control
-.word BATTLE_ACTION7 ;last blow
-.word BATTLE_ACTION8 ;the form of it's attack was inexplicable!
-.word BATTLE_ACTIONA ;PK Fire alpha
-.word BATTLE_ACTIONC ;PK Fire beta
-.word BATTLE_ACTIOND ;PK Fire gamma
-.word BATTLE_ACTION10 ;PK Freeze alpha
-.word BATTLE_ACTION11 ;PK Freeze beta
-.word BATTLE_ACTION12 ;PK Freeze omega
-.word BATTLE_ACTION13 ;PK Freeze gamma
-.word BATTLE_ACTION14 ;use bomb
-.word BATTLE_ACTION15 ;use super bomb
-.word BATTLE_ACTION16 ;PK Beam alpha
-.word BATTLE_ACTION18 ;PK Beam beta
-.word BATTLE_ACTION1A ;PK Beam omega
-.word BATTLE_ACTION1B ;PK Beam gamma
-.word BATTLE_ACTION1F ;use insecticide
-.word BATTLE_ACTION1C ;PK Thunder alpha
-.word BATTLE_ACTION1D ;PK Thunder beta
-.word BATTLE_ACTION66 ;explode
-.word BATTLE_ACTION68 ;burst into flames
-.word BATTLE_ACTION28 ;Offense Up
-.word BATTLE_ACTION9 ;sing the song
-.word BATTLE_ACTION29 ;Defense Up alpha
-.word BATTLE_ACTION2B ;Defense Up beta
-.word BATTLE_ACTION2C ;Quick Up
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION33 ;utter threatening words
-.word BATTLE_ACTION34 ;utter dirty words
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION2F ;Defense Down alpha
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION2D ;fly into a rage
-.word BATTLE_ACTION40 ;LifeUp alpha
-.word BATTLE_ACTION41 ;LifeUp beta
-.word BATTLE_ACTION42 ;LifeUp gamma
-.word BATTLE_ACTION43 ;LifeUp pi
-.word BATTLE_ACTION44 ;LifeUp omega
-.word BATTLE_ACTION45 ;flow energy into receiver
-.word BATTLE_ACTION46 ;use PSI stone
-.word BATTLE_ACTION69 ;PSI-Magnet
-.word BATTLE_ACTION21 ;Darkness
-.word BATTLE_ACTION35 ;puff a cloud of exhaust gas
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION36 ;attack (dehydration)
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION57 ;PSI-Block
-.word BATTLE_ACTION58 ;PowerShield
-.word BATTLE_ACTION59 ;PSI Shield alpha
-.word BATTLE_ACTION5A ;PSI Shield beta
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION37 ;use bullhorn
-.word BATTLE_ACTION30 ;use poison needle
-.word BATTLE_ACTION39 ;use stone origin
-.word BATTLE_ACTION23 ;spit a sticky substance
-.word BATTLE_ACTION24 ;"made confused" (Hypnosis???)
-.word BATTLE_ACTION25 ;use the wicked seed
-.word BATTLE_ACTION26 ;Brain Shock
-.word BATTLE_ACTION27 ;Brain Cyclone
-.word BATTLE_ACTION3A ;Hypnosis
-.word BATTLE_ACTION3B ;Paralysis
-.word BATTLE_ACTION60 ;trip and fall
-.word BATTLE_ACTION3F ;use rope
-.word BATTLE_ACTION5B ;run away
-.word BATTLE_ACTION6A ;cry out for help
-.word BATTLE_ACTION6B ;sow your seed
-.word BATTLE_ACTION6C ;steal item / ready for an attack if none
-.word BATTLE_ACTION61 ;start laughing
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION62 ;grin and bear it
-.word BATTLE_ACTION63 ;meditate
-.word BATTLE_ACTION6D ;say hello and walk away (Groucho)
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION5C ;ready for an attack
-.word BATTLE_ACTION6E ;think about the circumstances
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION5D ;guard
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION4F ;Healing alpha
-.word BATTLE_ACTION5E ;4th-D Slip
-.word BATTLE_ACTION2E ;approach slowly
-.word BATTLE_ACTION6F ;draw near (battle intro)
-.word BATTLE_ACTION51 ;use noble seed
-.word BATTLE_ACTION38 ;use flea bag
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION3E ;attack (do something strange)
-.word BATTLE_ACTION52 ;Healing beta
-.word BATTLE_ACTION53 ;Healing pi
-.word BATTLE_ACTION54 ;SuperHealing
-.word BATTLE_ACTION5F ;Shield-Off
-.word BATTLE_ACTIONE ;use flame thrower
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION17 ;use laser beam
-.word BATTLE_ACTION19 ;use plasma beam
-.word BATTLE_ACTION2A ;smile a darling smile
-.word BATTLE_ACTION31 ;let out a strange cry
-.word BATTLE_ACTION22 ;use flashdark
-.word BATTLE_ACTION3C ;use sticky machine
-.word BATTLE_ACTION70 ;check
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION47 ;use orange juice
-.word BATTLE_ACTION48 ;use french fries
-.word BATTLE_ACTION49 ;use magic herb
-.word BATTLE_ACTION4A ;use sports drink
-.word BATTLE_ACTION4B ;use big bag
-.word BATTLE_ACTION55 ;use asthma spray
-.word BATTLE_ACTION20 ;use super spray
-.word BATTLE_ACTION64 ;use words o' love
-.word BATTLE_ACTION65 ;use swear words
-.word BATTLE_ACTION4C ;use hamburger
-.word BATTLE_ACTION4D ;use LifeUp cream
-.word BATTLE_ACTION50 ;use antidote
-.word BATTLE_ACTIONB ;use bottle rocket
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION3D ;use a paralyzing gas
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION32 ;Defense Down beta
-.word BATTLE_ACTION1E ;PK Thunder gamma
-.word BATTLE_ACTION4E ;use bread
-.word BATTLE_ACTIONF ;PK Fire omega
-.word BATTLE_ACTION56 ;Healing gamma
-.word BATTLE_ACTION71 ;NOTHING
-.word BATTLE_ACTION67 ;explode 2
+.addr BATTLE_ACTION0 ;nothing
+.addr BATTLE_ACTION1 ;basic attack
+.addr BATTLE_ACTION2 ;continous attack!
+.addr BATTLE_ACTION3 ;bite
+.addr BATTLE_ACTION4 ;scratch
+.addr BATTLE_ACTION5 ;charge
+.addr BATTLE_ACTION6 ;run out of control
+.addr BATTLE_ACTION7 ;last blow
+.addr BATTLE_ACTION8 ;the form of it's attack was inexplicable!
+.addr BATTLE_ACTIONA ;PK Fire alpha
+.addr BATTLE_ACTIONC ;PK Fire beta
+.addr BATTLE_ACTIOND ;PK Fire gamma
+.addr BATTLE_ACTION10 ;PK Freeze alpha
+.addr BATTLE_ACTION11 ;PK Freeze beta
+.addr BATTLE_ACTION12 ;PK Freeze omega
+.addr BATTLE_ACTION13 ;PK Freeze gamma
+.addr BATTLE_ACTION14 ;use bomb
+.addr BATTLE_ACTION15 ;use super bomb
+.addr BATTLE_ACTION16 ;PK Beam alpha
+.addr BATTLE_ACTION18 ;PK Beam beta
+.addr BATTLE_ACTION1A ;PK Beam omega
+.addr BATTLE_ACTION1B ;PK Beam gamma
+.addr BATTLE_ACTION1F ;use insecticide
+.addr BATTLE_ACTION1C ;PK Thunder alpha
+.addr BATTLE_ACTION1D ;PK Thunder beta
+.addr BATTLE_ACTION66 ;explode
+.addr BATTLE_ACTION68 ;burst into flames
+.addr BATTLE_ACTION28 ;Offense Up
+.addr BATTLE_ACTION9 ;sing the song
+.addr BATTLE_ACTION29 ;Defense Up alpha
+.addr BATTLE_ACTION2B ;Defense Up beta
+.addr BATTLE_ACTION2C ;Quick Up
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION33 ;utter threatening addrs
+.addr BATTLE_ACTION34 ;utter dirty addrs
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION2F ;Defense Down alpha
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION2D ;fly into a rage
+.addr BATTLE_ACTION40 ;LifeUp alpha
+.addr BATTLE_ACTION41 ;LifeUp beta
+.addr BATTLE_ACTION42 ;LifeUp gamma
+.addr BATTLE_ACTION43 ;LifeUp pi
+.addr BATTLE_ACTION44 ;LifeUp omega
+.addr BATTLE_ACTION45 ;flow energy into receiver
+.addr BATTLE_ACTION46 ;use PSI stone
+.addr BATTLE_ACTION69 ;PSI-Magnet
+.addr BATTLE_ACTION21 ;Darkness
+.addr BATTLE_ACTION35 ;puff a cloud of exhaust gas
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION36 ;attack (dehydration)
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION57 ;PSI-Block
+.addr BATTLE_ACTION58 ;PowerShield
+.addr BATTLE_ACTION59 ;PSI Shield alpha
+.addr BATTLE_ACTION5A ;PSI Shield beta
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION37 ;use bullhorn
+.addr BATTLE_ACTION30 ;use poison needle
+.addr BATTLE_ACTION39 ;use stone origin
+.addr BATTLE_ACTION23 ;spit a sticky substance
+.addr BATTLE_ACTION24 ;"made confused" (Hypnosis???)
+.addr BATTLE_ACTION25 ;use the wicked seed
+.addr BATTLE_ACTION26 ;Brain Shock
+.addr BATTLE_ACTION27 ;Brain Cyclone
+.addr BATTLE_ACTION3A ;Hypnosis
+.addr BATTLE_ACTION3B ;Paralysis
+.addr BATTLE_ACTION60 ;trip and fall
+.addr BATTLE_ACTION3F ;use rope
+.addr BATTLE_ACTION5B ;run away
+.addr BATTLE_ACTION6A ;cry out for help
+.addr BATTLE_ACTION6B ;sow your seed
+.addr BATTLE_ACTION6C ;steal item / ready for an attack if none
+.addr BATTLE_ACTION61 ;start laughing
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION62 ;grin and bear it
+.addr BATTLE_ACTION63 ;meditate
+.addr BATTLE_ACTION6D ;say hello and walk away (Groucho)
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION5C ;ready for an attack
+.addr BATTLE_ACTION6E ;think about the circumstances
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION5D ;guard
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION4F ;Healing alpha
+.addr BATTLE_ACTION5E ;4th-D Slip
+.addr BATTLE_ACTION2E ;approach slowly
+.addr BATTLE_ACTION6F ;draw near (battle intro)
+.addr BATTLE_ACTION51 ;use noble seed
+.addr BATTLE_ACTION38 ;use flea bag
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION3E ;attack (do something strange)
+.addr BATTLE_ACTION52 ;Healing beta
+.addr BATTLE_ACTION53 ;Healing pi
+.addr BATTLE_ACTION54 ;SuperHealing
+.addr BATTLE_ACTION5F ;Shield-Off
+.addr BATTLE_ACTIONE ;use flame thrower
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION17 ;use laser beam
+.addr BATTLE_ACTION19 ;use plasma beam
+.addr BATTLE_ACTION2A ;smile a darling smile
+.addr BATTLE_ACTION31 ;let out a strange cry
+.addr BATTLE_ACTION22 ;use flashdark
+.addr BATTLE_ACTION3C ;use sticky machine
+.addr BATTLE_ACTION70 ;check
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION47 ;use orange juice
+.addr BATTLE_ACTION48 ;use french fries
+.addr BATTLE_ACTION49 ;use magic herb
+.addr BATTLE_ACTION4A ;use sports drink
+.addr BATTLE_ACTION4B ;use big bag
+.addr BATTLE_ACTION55 ;use asthma spray
+.addr BATTLE_ACTION20 ;use super spray
+.addr BATTLE_ACTION64 ;use words o' love
+.addr BATTLE_ACTION65 ;use swear words
+.addr BATTLE_ACTION4C ;use hamburger
+.addr BATTLE_ACTION4D ;use LifeUp cream
+.addr BATTLE_ACTION50 ;use antidote
+.addr BATTLE_ACTIONB ;use bottle rocket
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION3D ;use a paralyzing gas
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION32 ;Defense Down beta
+.addr BATTLE_ACTION1E ;PK Thunder gamma
+.addr BATTLE_ACTION4E ;use bread
+.addr BATTLE_ACTIONF ;PK Fire omega
+.addr BATTLE_ACTION56 ;Healing gamma
+.addr BATTLE_ACTION71 ;NOTHING
+.addr BATTLE_ACTION67 ;explode 2
 
 .enum BATTLE_ACTIONS
     E_DRAWNEAR = $10
@@ -547,7 +547,7 @@ BATTLE_ACTION_POINTERS:
 
 .macro ba_conditional conditional, condition, pointer
 .byte (conditional << 4) | condition
-.word pointer
+.addr pointer
 .endmacro
 .macro ba_jumpif condition, pointer
 ba_conditional 7, condition, pointer
@@ -937,18 +937,116 @@ BATTLE_ACTION72: ;was already gone.
 .byte $00
 BATTLE_ACTION73: ;dodged swiftly
 .byte BATTLE_ACTIONS::SOUND,$0B
-.byte BATTLE_ACTIONS::DISPTEXT,$06
+.byte BATTLE_ACTIONS::DISPTEXT, $06
 .byte $00
 BATTLE_ACTION74: ;miss!
-.byte BATTLE_ACTIONS::SOUND,$13
-.byte BATTLE_ACTIONS::DISPTEXT,$50
+.byte BATTLE_ACTIONS::SOUND, $13
+.byte BATTLE_ACTIONS::DISPTEXT, $50
 .byte $00
 BATTLE_ACTION75: ;there was no effect on
-.byte BATTLE_ACTIONS::DISPTEXT,$12
+.byte BATTLE_ACTIONS::DISPTEXT, $12
 .byte $00
 
 ;battle action targeting (???)
-incbinRange "../../split/us/prg/bank16/unk1ec7.bin",0,$22
-;?
+B22_1ec7:
+    .byte $2A
+    .byte $AA
+    .byte $00
+    .byte $A2
+    .byte $0A
+    .byte $22
+    .byte $81
+    .byte $11
+    .byte $4A
+    .byte $20
+    .byte $15
+    .byte $04
+    .byte $A0
+    .byte $89
+    .byte $40
+    .byte $AA
+    .byte $A8
+    .byte $A2
+    .byte $02
+    .byte $00
+    .byte $20
+    .byte $02
+    .byte $01
+    .byte $01
+    .byte $89
+    .byte $58
+    .byte $28
+    .byte $AA
+    .byte $15
+    .byte $54
+    .byte $A5
+    .byte $40
+    .byte $80
+    .byte $44
+
+; $9EE9 - Battle sound effects
+;  [00] type (0=noise;1=pulse;2=triangle;3=???) -- TODO CONFIRM! $07F0~$07F3 NEEDS CONFIRMATION
+;  [01] sound
+;  [02] duration
+;  [03] unused, padding (eol?)
 battle_sfx:
-.incbin "../../split/us/prg/bank16/unk1ec7.bin",$22
+    .byte 0,  0,   0, 0 ; 00
+    .byte 1, 10,   0, 0 ; 01
+    .byte 0,  1,   0, 0 ; 02
+    .byte 0,  5,   0, 0 ; 03
+    .byte 0,  3,  60, 0 ; 04
+    .byte 0,  4,  60, 0 ; 05
+    .byte 1,  2,  60, 0 ; 06
+    .byte 2,  1,  60, 0 ; 07
+    .byte 0,  2,  20, 0 ; 08
+    .byte 1,  3,   0, 0 ; 09
+    .byte 1,  7,   0, 0 ; 0A
+    .byte 1, 12,   0, 0 ; 0B
+    .byte 3,  1, 180, 0 ; 0C
+    .byte 3,  2,  80, 0 ; 0D
+    .byte 1,  5,   0, 0 ; 0E
+    .byte 1,  1,   0, 0 ; 0F
+    .byte 1,  4,   0, 0 ; 10
+    .byte 0,  8,   0, 0 ; 11
+    .byte 3,  2,   0, 0 ; 12
+    .byte 1, 15,   0, 0 ; 13
+    .byte 3,  3, 140, 0 ; 14
+    .byte 2,  3,  60, 0 ; 15
+
+
+incbinRange "../../split/us/prg/bank16/unk1ec7.bin",$7A,$C4
+
+; $9F8B - UNKNOWN
+B22_1f8b:
+    .byte $01, $04
+    .byte $00       ; X
+    .byte $02       ; Y
+    .byte %11000000 ; Input mask
+    .byte $5e       ; Tile
+    .byte $10, $13
+    .word $0591
+
+incbinRange "../../split/us/prg/bank16/unk1ec7.bin",$ce,$d6
+
+; $9F9D - UNKNOWN
+B22_1f9d:
+    .byte $02, $04
+    .byte $0c       ; X
+    .byte $02       ; Y
+    .byte %11001000 ; Input mask
+    .byte $5e       ; Tile
+    .byte $06, $13
+    .addr $0580
+
+; $9FA7 - UNKNOWN
+B22_1fa7:
+    .byte $01, $01
+    .byte $00       ; X
+    .byte $00       ; Y
+    .byte %11000101 ; Input mask
+    .byte $5e       ; Tile
+    .byte $07, $11
+    .addr B22_1fb1
+
+B22_1fb1:
+    .byte 1, 7, 19, 18, 20, 22, 24

@@ -1,6 +1,6 @@
-file = "src/jp/prg/bank11.asm"
+file = "src/us/prg/bank11.asm"
 lines = open(file, "r").readlines()
-bank = "OBJ_BANK_1B"
+bank = "OBJ_BANK_1D"
 i = 0
 pointers = []
 reading = False
@@ -9,26 +9,26 @@ bankafter = -1
 endof = -1
 while i < len(lines):
     if not reading:
-        if lines[i].find(f".word {bank}") != -1:
+        if lines[i].find(f".addr {bank}") != -1:
             if lines[i+1] == "\n":
-                endof = 0x1f7d if file.find("us") != -1 else 0x1d96
+                endof = 0x1eab if file.find("us") != -1 else 0x1d96
             else:
-                endof = int(lines[i+1].split(".word $")[-1].strip(), 16)-0x8000
+                endof = int(lines[i+1].split(".addr $")[-1].strip(), 16)-0x8000
 
         if lines[i].find(bank+":") != -1:
             reading = True
     else:
-        if lines[i].find(".word 0") != -1:
+        if lines[i].find(".addr 0") != -1:
             break
         if lines[i].find(" ;STOP\n") != -1: #manual stop for garbage data
             stopat = len(pointers)
-        get = lines[i].split("word $")[-1].split(" ")[0].strip()
+        get = lines[i].split("addr $")[-1].split(" ")[0].strip()
         fix = hex(int(get, 16) - 0x8000).replace("0x", "").upper()
         while len(fix) < 4:
             fix = "0"+fix
         pointers.append(fix)
     i += 1
-binaryFile = "split/jp/objbank_2.bin"
+binaryFile = "split/us/objbank_2.bin"
 bytes = open(binaryFile, "rb").read()
 pointerDatas = []
 i = 0
@@ -131,6 +131,7 @@ SCRIPTS = {
     0x3E: "M_MOVE", #move using m pointer (word)
     0x3F: "O_SIGNAL", #signal object o (index)
     0x40: "J_SIGNALED", #jump to j if not signaled
+    0x41: "SAVEGAMETP", #teleport to saved game location
     0x42: "CJ_ADDCHAR", #add char c from party, jump to j if full
     0x43: "CJ_REMOVECHAR", #remove char c from party, jump to j if not in
     0x44: "B_BATTLE", #start battle b in battles list
@@ -241,7 +242,7 @@ for pointerData in pointerDatas:
         hasSprite = numba in range(0x8000, 0xFFFF+1)
         if hasSprite:
             word3 = hex(numba).replace("0x","$").upper()
-            newObject.append(f".word {word3} ;sprite\n")
+            newObject.append(f".addr {word3} ;sprite\n")
             i += 2
         #the rest is behavior scripting
         #THIS is the part i cared to automate.
@@ -352,7 +353,7 @@ for pointerData in pointerDatas:
                     #while len(label_position) < 5:
                     #    label_position = label_position.replace("$", "$0")
                     newObject.append(f".byte SCRIPTS::{name}\n")
-                    newObject.append(f".word {useName}\n")
+                    newObject.append(f".addr {useName}\n")
                     inc += 2
                 elif name == "DA_TELEPORT":
                     customhandle = True
@@ -439,7 +440,7 @@ for pointerData in pointerDatas:
                             objectLabels.append([label_position, useName, pointer, useobjectName])
                     args.insert(0, "SCRIPTS::"+name)
                     newObject.append(f".byte {args[0]}\n")
-                    newObject.append(f".word {args[1]}\n")
+                    newObject.append(f".addr {args[1]}\n")
                     newObject.append(f".byte {useName}-{useobjectName}\n")
                     inc += 3
 
@@ -933,7 +934,7 @@ for pointerData in pointerDatas:
                     inc += 1
                 elif name in ["SAVE","GETCHARNEXTEXP","GETCASH","LANDMINE","RETURN",
                               "SLEEP","LIVESHOW","SHOWMONEY","CHARMULT",
-                              "PLANEEND","RESET","REGNAME"]:
+                              "PLANEEND","RESET","REGNAME","SAVEGAMETP"]:
                     noargs = True
                 else:
                     print(f"ERR: SCRIPT BYTE {stype} HAS NO HANDLING !!!")
@@ -991,11 +992,13 @@ for pointerData in pointerDatas:
                 elif newObject[i].find("teleportFlagDef") != -1:
                     x += 1
                 elif newObject[i].find(".byte") != -1 or\
-                     newObject[i].find(".word") != -1:
+                     newObject[i].find(".word") != -1 or\
+                     newObject[i].find(".addr") != -1:
                     c = 1
                     if newObject[i].find(",") != -1:
                         c = len(newObject[i].split(","))
-                    if newObject[i].find(".word") != -1:
+                    if newObject[i].find(".word") != -1 or \
+                       newObject[i].find(".addr") != -1:
                         c *= 2
                     x += c
             i += 1
@@ -1064,11 +1067,13 @@ while j < len(objectLabels):
                     elif parsedObjects[i][k].find("teleportFlagDef") != -1:
                         x += 1
                     elif parsedObjects[i][k].find(".byte") != -1 or\
-                            parsedObjects[i][k].find(".word") != -1:
+                         parsedObjects[i][k].find(".word") != -1 or\
+                         parsedObjects[i][k].find(".addr") != -1:
                         c = 1
                         if parsedObjects[i][k].find(",") != -1:
                             c = len(parsedObjects[i][k].split(","))
-                        if parsedObjects[i][k].find(".word") != -1:
+                        if parsedObjects[i][k].find(".word") != -1 or\
+                           parsedObjects[i][k].find(".addr") != -1:
                             c *= 2
                         x += c
                 k += 1

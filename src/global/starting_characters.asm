@@ -22,7 +22,7 @@ ninten_level:
 ;hp, pp
 .word 30,8
 ;name pointer (why exactly?)
-.word ninten_name
+.addr ninten_name
 ;?
 .byte $00,$00,$08,$64,$00,$80
 ;items
@@ -71,7 +71,7 @@ kanafix "しょうねんA"
 ;hp, pp
 .word 26,12
 ;name pointer (why exactly?)
-.word ana_name
+.addr ana_name
 ;?
 .byte $00,$00,$08,$64,$20,$80
 ;items
@@ -120,7 +120,7 @@ kanafix "しょうじょB"
 ;hp, pp
 .word 28,0
 ;name pointer (why exactly?)
-.word lloyd_name
+.addr lloyd_name
 ;?
 .byte $00,$00,$08,$64,$40,$80
 ;items
@@ -169,7 +169,7 @@ kanafix "しょうねんC"
 ;hp, pp
 .word 134,0
 ;name pointer (why exactly?)
-.word teddy_name
+.addr teddy_name
 ;?
 .byte $00,$00,$08,$64,$60,$80
 ;items
@@ -218,7 +218,7 @@ kanafix "しょうねんD"
 ;hp, pp
 .word 32,0
 ;name pointer (why exactly?)
-.word pippi_name
+.addr pippi_name
 ;?
 .byte $00,$00,$08,$64,$80,$80
 ;items
@@ -267,7 +267,7 @@ kanafix "ピッピ"
 ;hp, pp
 .word 999,0
 ;name pointer (why exactly?)
-.word eve_name
+.addr eve_name
 ;?
 .byte $00,$00,$08,$3A,$60,$81
 ;items
@@ -316,7 +316,7 @@ kanafix "イヴ"
 ;hp, pp
 .word 30,0
 ;name pointer (why exactly?)
-.word flyingman_name
+.addr flyingman_name
 ;?
 .byte $00,$00,$08,$64,$40,$81
 ;items

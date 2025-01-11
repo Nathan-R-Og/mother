@@ -4,6 +4,8 @@
 .include "../global/ram.asm"
 .include "../global/header.asm"
 .include "fontmap.asm"
+.include "../global/objects/include.asm"
+
 
 .macro binclude Path
     .ifndef kanaMacro
@@ -54,8 +56,9 @@ binclude "../global/starting_characters.asm"
 .include "../global/chr/bank8.asm"
 .include "../global/chr/bank9.asm"
 .include "../global/chr/banka.asm"
-binclude "chr/bankb.asm"
+.include "chr/bankb.asm"
+binclude "../global/prg/naming_screen.asm"
 .include "../global/chr/bankc.asm"
 .include "../global/chr/bankd.asm"
 .include "../global/chr/banke.asm"
-binclude "chr/bankf.asm"
+.include "chr/bankf.asm"

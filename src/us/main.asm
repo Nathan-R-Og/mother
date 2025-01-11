@@ -2,13 +2,12 @@
 
 .include "../global/hardware.asm"
 .include "../global/ram.asm"
-.include "../global/header.asm"
 .include "fontmap.asm"
+.include "../global/objects/include.asm"
+.include "../global/macros.asm"
 
-.macro incbinRange path, start, end
-        .incbin path, start, end-start
-.endmacro
 
+.include "../global/header.asm"
 
 .include "prg/bank0.asm"
 .include "map.asm"
@@ -22,7 +21,7 @@
 .include "../global/sprites.asm"
 
 .include "prg/bank16.asm"
-.include "prg/bank17.asm"
+.include "prg/battle.asm"
 
 ;
 .segment        "PRG18": absolute
@@ -33,7 +32,8 @@
 .include "../global/starting_characters.asm"
 ;
 
-.include "prg/bank19.asm"
+.include "prg/antipiracy.asm"
+.include "../global/prg/naming_screen.asm"
 
 .include "prg/credits.asm"
 .include "prg/credits_music.asm"

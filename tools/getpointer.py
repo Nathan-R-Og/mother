@@ -5,10 +5,13 @@
 lines = open("src/us/text_pointers.asm", "r").readlines()
 i = 0
 calcI = 0
-toGet = 2000
+toGet = -1
 toGetP = "MSG_ANTIPIRACY"
 while i < len(lines):
-    if calcI == toGet:
+    if lines[i] == "" or lines[i].startswith(";"):
+        i += 1
+        continue
+    if calcI == toGet and toGet != -1:
         print(lines[i].strip())
         if lines[i].find(":") != -1:
             print(lines[i+1].strip())

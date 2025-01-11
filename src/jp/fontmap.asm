@@ -49,7 +49,10 @@
 .charmap $21, $C1 ;!
 .charmap $3F, $C2 ;?
 .charmap $2C, $60 ;, == $60
+.charmap $2F, $76 ;/
 .charmap $2A, $90 ;* == $C0 (is technically ◆, but can't be typed/is too big)
+.charmap $3E, $C5 ;> == $FF (is technically ▶, but can't be typed/is too big)
+
 
 .charmap $28, $74 ;(
 .charmap $29, $75 ;)
@@ -109,6 +112,8 @@ gamma = $63 ; γ
 pi    = $64 ; π
 omega = $65 ; Ω
 c00 = $7a ; 00. even if i could i dont know how to do it
+arrow = $c4
+jp_do = $c3 ;duplicate of ド except squashed into one tile. JUST used for the command window
 
 ;top
 uibox_tl = $80
@@ -119,6 +124,11 @@ uibox_tr = $82
 ;(problem area)
 uibox_l = $24 ;is actually $BE
 uibox_r = $25 ;is actually $BF
+
+;middle
+;(For real this time)
+uibox_l_r = $BE
+uibox_r_r = $BF
 
 ;bottom
 uibox_bl = $83

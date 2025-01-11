@@ -1,5 +1,10 @@
 import subprocess
 import os
+from tools.ebToString import stringToEb
+from glob import glob
+import argparse
+import shutil
+import time
 
 DEFINES = ""
 
@@ -10,8 +15,6 @@ def addDefine(define):
 
 
 def ca65HasNoUnicodeSupport(dir:str):
-
-    from glob import glob
     kanaToBytes = []
     for file in glob(f"src/{dir}/**/*.asm", recursive=True) + glob(f"src/global/**/*.asm", recursive=True):
         blacklist = [
@@ -37,7 +40,6 @@ def ca65HasNoUnicodeSupport(dir:str):
     if not os.path.exists("build_artifacts/"):
         os.makedirs("build_artifacts/")
 
-    from tools.ebToString import stringToEb
     for file in kanaToBytes:
         outfile = file.replace("src/", "build_artifacts/")
         justdir = outfile.split("/")
@@ -106,16 +108,19 @@ def simplifyPointers(dir:str):
         for entry in array:
             i = 0
             while i < len(fixLines):
-                if fixLines[i] == f".faraddr {entry}\n" != -1 and fixLines[i].find(":") == -1:
-                    if entry.startswith("MSG_"):
-                        convert = entry.replace("MSG_","UMSG_",1)
-                        #if one doesnt exist, add
-                        if fixLines[i-1].find("UMSG") == -1:
-                            fixLines.insert(i, f"{convert}:\n")
-                            i -= 1
-                        #otherwise regen anyways
-                        else:
-                            fixLines[i-1] = f"{convert}:\n"
+                if fixLines[i] == f".faraddr {entry}\n" != -1 and \
+                   fixLines[i].find(":") == -1 and \
+                   entry.startswith("MSG_"):
+
+
+                    convert = entry.replace("MSG_","UMSG_",1)
+                    #if one doesnt exist, add
+                    if fixLines[i-1].find("UMSG") == -1:
+                        fixLines.insert(i, f"{convert}:\n")
+                        i -= 1
+                    #otherwise regen anyways
+                    else:
+                        fixLines[i-1] = f"{convert}:\n"
                 i += 1
 
         print("text_pointers fixed!")
@@ -140,7 +145,6 @@ def simplifyPointers(dir:str):
     elif dir == "jp":
         #if other files in jp are referenced using the same
         #system as objects, add them here
-        from glob import glob
         dFiles = glob("src/jp/text/*.asm", recursive=True)
 
         array = []
@@ -160,7 +164,6 @@ def simplifyPointers(dir:str):
 
         UMSGLIST_lines.append(".endscope\n")
 
-    import os
     filename = "build_artifacts/global/UMSG_list.asm"
     if not os.path.exists(filename):
         os.makedirs(os.path.dirname(filename))
@@ -168,7 +171,8 @@ def simplifyPointers(dir:str):
     print("UMSG_list generated!")
 
 if __name__ == "__main__":
-    import argparse
+
+    start_time = time.time()
     parser = argparse.ArgumentParser(description="Configure the project")
     parser.add_argument(
         "-j",
@@ -189,7 +193,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if os.path.exists("build_artifacts/"):
-        import shutil
         shutil.rmtree("build_artifacts/")
 
     dir = "us"
@@ -213,4 +216,6 @@ if __name__ == "__main__":
     subprocess.run(f"ca65 {DEFINES} -o example.o -g src/{dir}/main.asm -t nes".strip(), shell = True, executable="/bin/bash")
     subprocess.run(f"ld65 -Ln linked.txt -C {linker} -o mother_rebuilt.nes example.o", shell = True, executable="/bin/bash")
 
+    resultTime = (time.time() - start_time)
+    print(f"Assembly took {resultTime} seconds!")
 

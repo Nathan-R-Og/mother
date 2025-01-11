@@ -4,282 +4,282 @@
 
 ; $8000
 B27_0000:
-    jmp B27_0091       ; 4c 91 80
+    jmp B27_0091
 B27_0003:
-    jmp B27_00aa       ; 4c aa 80
+    jmp B27_00aa
 B27_0006:
-    jmp B27_005a       ; 4c 5a 80
+    jmp B27_005a
 
 B27_0009:
-    lda #$00        ; a9 00
-    beq B27_0017 ; f0 0a
+    lda #$00
+    beq B27_0017
     B27_000d:
-    lda #$08        ; a9 08
-    bne B27_0017 ; d0 06
+    lda #$08
+    bne B27_0017
     B27_0011:
-    lda #$0c        ; a9 0c
-    bne B27_0017 ; d0 02
+    lda #$0c
+    bne B27_0017
     B27_0015:
-    lda #$04        ; a9 04
+    lda #$04
     B27_0017:
-    sta $b0         ; 85 b0
-    lda #$40        ; a9 40
-    sta $b1         ; 85 b1
-    sty $b2         ; 84 b2
-    sta $b3         ; 85 b3
-    ldy #$00        ; a0 00
+    sta $b0
+    lda #$40
+    sta $b1
+    sty $b2
+    sta $b3
+    ldy #$00
     B27_0023:
-    lda ($b2), y    ; b1 b2
-    sta ($b0), y    ; 91 b0
-    iny             ; c8
-    tya             ; 98
-    cmp #$04        ; c9 04
-    bne B27_0023 ; d0 f6
-    rts             ; 60
+    lda ($b2), y
+    sta ($b0), y
+    iny
+    tya
+    cmp #$04
+    bne B27_0023
+    rts
 
 B27_002e:
-    lda $bb         ; a5 bb
-    and #$02        ; 29 02
-    sta $07ff       ; 8d ff 07
-    lda $bc         ; a5 bc
-    and #$02        ; 29 02
-    eor $07ff       ; 4d ff 07
-    clc             ; 18
-    beq B27_0040 ; f0 01
-    sec             ; 38
+    lda $bb
+    and #$02
+    sta $07ff
+    lda $bc
+    and #$02
+    eor $07ff
+    clc
+    beq B27_0040
+    sec
     B27_0040:
-    ror $bb         ; 66 bb
-    ror $bc         ; 66 bc
-    rts             ; 60
+    ror $bb
+    ror $bc
+    rts
 
 B27_0045:
-    ldx $bd         ; a6 bd
-    inc $07da, x    ; fe da 07
-    lda $07da, x    ; bd da 07
-    cmp $07d5, x    ; dd d5 07
-    bne B27_0057 ; d0 05
-    lda #$00        ; a9 00
-    sta $07da, x    ; 9d da 07
+    ldx $bd
+    inc $07da, x
+    lda $07da, x
+    cmp $07d5, x
+    bne B27_0057
+    lda #$00
+    sta $07da, x
     B27_0057:
-    rts             ; 60
+    rts
 
 B27_0058:
 .byte 0,0
 
 B27_005a:
-    lda #$0f        ; a9 0f
-    sta $4015       ; 8d 15 40
-    lda #$55        ; a9 55
-    sta $bb         ; 85 bb
-    lda #$00        ; a9 00
-    sta $0786       ; 8d 86 07
-    sta $078b       ; 8d 8b 07
-    tay             ; a8
+    lda #$0f
+    sta $4015
+    lda #$55
+    sta $bb
+    lda #$00
+    sta $0786
+    sta $078b
+    tay
     B27_006c:
-    lda B27_0058, y    ; b9 58 80
-    sta $076c, y    ; 99 6c 07
-    iny             ; c8
-    tya             ; 98
-    cmp #$14        ; c9 14
-    bne B27_006c ; d0 f4
-    jsr B27_00aa       ; 20 aa 80
-    rts             ; 60
+    lda B27_0058, y
+    sta $076c, y
+    iny
+    tya
+    cmp #$14
+    bne B27_006c
+    jsr B27_00aa
+    rts
 
 .byte 0,0
 
 B27_007e:
-    lda new_music   ; ad f5 07
-    cmp #$25        ; c9 25
-    bne B27_0090    ; d0 0b
-    jsr B27_00aa       ; 20 aa 80
-    sta new_music   ; 8d f5 07
-    lda #$11        ; a9 11
-    sta $07f1       ; 8d f1 07
+    lda new_music
+    cmp #$25
+    bne B27_0090
+    jsr B27_00aa
+    sta new_music
+    lda #$11
+    sta $07f1
     B27_0090:
-    rts             ; 60
+    rts
 
 ; PLAY entry point
 B27_0091:
-    lda #$c0        ; a9 c0
-    sta $4017       ; 8d 17 40 ; APU "frame counter". Select "one 5-step sequence" (whatever that means) and clear interrupt flag
-    jsr B27_002e       ; 20 2e 80 ; Weird $BB shuffle-around
-    jsr B27_007e       ; 20 7e 80
-    jsr B27_01a3       ; 20 a3 81
-    lda #$00        ; a9 00
-    ldx #$06        ; a2 06
+    lda #$c0
+    sta $4017 ; APU "frame counter". Select "one 5-step sequence" (whatever that means) and clear interrupt flag
+    jsr B27_002e ; Weird $BB shuffle-around
+    jsr B27_007e
+    jsr B27_01a3
+    lda #$00
+    ldx #$06
     B27_00a3:
-    sta $07ef, x    ; 9d ef 07
-    dex             ; ca
-    bne B27_00a3 ; d0 fa
-    rts             ; 60
+    sta $07ef, x
+    dex
+    bne B27_00a3
+    rts
 
 B27_00aa:
-    jsr B27_00b9       ; 20 b9 80
+    jsr B27_00b9
     B27_00ad:
-    jsr B27_00d7       ; 20 d7 80
-    lda #$00        ; a9 00
-    sta $4011       ; 8d 11 40
-    sta $079c       ; 8d 9c 07
-    rts             ; 60
+    jsr B27_00d7
+    lda #$00
+    sta $4011
+    sta $079c
+    rts
     B27_00b9:
-    lda #$00        ; a9 00
-    sta $07c8       ; 8d c8 07
-    sta $07c9       ; 8d c9 07
-    sta $07ca       ; 8d ca 07
-    sta current_music   ; 8d 8c 07
-    sta $078a       ; 8d 8a 07
-    tay             ; a8
+    lda #$00
+    sta $07c8
+    sta $07c9
+    sta $07ca
+    sta current_music
+    sta $078a
+    tay
     B27_00cb:
-    lda #$00        ; a9 00
-    sta $07f8, y    ; 99 f8 07
-    iny             ; c8
-    tya             ; 98
-    cmp #$06        ; c9 06
-    bne B27_00cb ; d0 f5
-    rts             ; 60
+    lda #$00
+    sta $07f8, y
+    iny
+    tya
+    cmp #$06
+    bne B27_00cb
+    rts
     B27_00d7:
-    lda #$00        ; a9 00
-    sta $4011       ; 8d 11 40
-    lda #$10        ; a9 10
-    sta $4000       ; 8d 00 40
-    sta $4004       ; 8d 04 40
-    sta $400c       ; 8d 0c 40
-    lda #$00        ; a9 00
-    sta $4008       ; 8d 08 40
-    rts             ; 60
-    ldx $bd         ; a6 bd
-    sta $07d5, x    ; 9d d5 07
-    txa             ; 8a
-    sta $07c7, x    ; 9d c7 07
-    tya             ; 98
-    beq B27_011b ; f0 22
-    txa             ; 8a
-    beq B27_0118 ; f0 1c
-    cmp #$01        ; c9 01
-    beq B27_0109 ; f0 09
-    cmp #$02        ; c9 02
-    beq B27_010e ; f0 0a
-    cmp #$03        ; c9 03
-    beq B27_0113 ; f0 0b
-    rts             ; 60
+    lda #$00
+    sta $4011
+    lda #$10
+    sta $4000
+    sta $4004
+    sta $400c
+    lda #$00
+    sta $4008
+    rts
+    ldx $bd
+    sta $07d5, x
+    txa
+    sta $07c7, x
+    tya
+    beq B27_011b
+    txa
+    beq B27_0118
+    cmp #$01
+    beq B27_0109
+    cmp #$02
+    beq B27_010e
+    cmp #$03
+    beq B27_0113
+    rts
     B27_0109:
-    jsr B27_0009       ; 20 09 80
-    beq B27_011b ; f0 0d
+    jsr B27_0009
+    beq B27_011b
     B27_010e:
-    jsr B27_0015       ; 20 15 80
-    beq B27_011b ; f0 08
+    jsr B27_0015
+    beq B27_011b
     B27_0113:
-    jsr B27_000d       ; 20 0d 80
-    beq B27_011b ; f0 03
+    jsr B27_000d
+    beq B27_011b
     B27_0118:
-    jsr B27_0011       ; 20 11 80
+    jsr B27_0011
     B27_011b:
-    lda $bf         ; a5 bf
-    sta $07f8, x    ; 9d f8 07
-    lda #$00        ; a9 00
-    sta $07da, x    ; 9d da 07
+    lda $bf
+    sta $07f8, x
+    lda #$00
+    sta $07da, x
     B27_0125:
-    sta $07df, x    ; 9d df 07
-    sta $07e3, x    ; 9d e3 07
-    sta $07e7, x    ; 9d e7 07
-    sta $078a       ; 8d 8a 07
-    rts             ; 60
-    jsr B27_0045       ; 20 45 80
-    bne B27_0141 ; d0 0a
-    lda #$00        ; a9 00
-    sta $07f8       ; 8d f8 07
-    lda #$10        ; a9 10
-    sta $400c       ; 8d 0c 40
+    sta $07df, x
+    sta $07e3, x
+    sta $07e7, x
+    sta $078a
+    rts
+    jsr B27_0045
+    bne B27_0141
+    lda #$00
+    sta $07f8
+    lda #$10
+    sta $400c
     B27_0141:
-    rts             ; 60
-    sta $07d9       ; 8d d9 07
-    jsr B27_0015       ; 20 15 80
-    lda $bf         ; a5 bf
-    sta $07fc       ; 8d fc 07
-    ldx #$01        ; a2 01
-    stx $07c8       ; 8e c8 07
-    inx             ; e8
-    stx $07c9       ; 8e c9 07
-    lda #$00        ; a9 00
-    sta $07de       ; 8d de 07
-    sta $07f9       ; 8d f9 07
-    ldx #$01        ; a2 01
-    jmp B27_0125       ; 4c 25 81
-    jsr B27_0181       ; 20 81 81
-    jsr B27_0192       ; 20 92 81
-    inc $078a       ; ee 8a 07
-    lda #$00        ; a9 00
-    sta $07fc       ; 8d fc 07
-    ldx #$01        ; a2 01
-    lda #$7f        ; a9 7f
-    sta $4000, x    ; 9d 00 40
-    sta $4004, x    ; 9d 04 40
-    rts             ; 60
-    jsr B27_0045       ; 20 45 80
-    bne B27_0191 ; d0 10
+    rts
+    sta $07d9
+    jsr B27_0015
+    lda $bf
+    sta $07fc
+    ldx #$01
+    stx $07c8
+    inx
+    stx $07c9
+    lda #$00
+    sta $07de
+    sta $07f9
+    ldx #$01
+    jmp B27_0125
+    jsr B27_0181
+    jsr B27_0192
+    inc $078a
+    lda #$00
+    sta $07fc
+    ldx #$01
+    lda #$7f
+    sta $4000, x
+    sta $4004, x
+    rts
+    jsr B27_0045
+    bne B27_0191
     B27_0181:
-    lda #$10        ; a9 10
-    sta $4000       ; 8d 00 40
-    lda #$00        ; a9 00
-    sta $07c8       ; 8d c8 07
-    sta $07f9       ; 8d f9 07
-    inc $078a       ; ee 8a 07
+    lda #$10
+    sta $4000
+    lda #$00
+    sta $07c8
+    sta $07f9
+    inc $078a
     B27_0191:
-    rts             ; 60
+    rts
     B27_0192:
-    lda #$10        ; a9 10
-    sta $4004       ; 8d 04 40
-    lda #$00        ; a9 00
-    sta $07c9       ; 8d c9 07
-    sta $07fa       ; 8d fa 07
-    rts             ; 60
+    lda #$10
+    sta $4004
+    lda #$00
+    sta $07c9
+    sta $07fa
+    rts
 
 B27_01a0:
-    jmp B27_00aa       ; 4c aa 80
+    jmp B27_00aa
 
 B27_01a3:
-    lda new_music   ; ad f5 07
-    tay             ; a8
-    cmp #$3f        ; c9 3f
-    bcs B27_01a0 ; b0 f5
-    tya             ; 98
-    beq B27_01ea ; f0 3c
-    sta current_music   ; 8d 8c 07
-    cmp #$19        ; c9 19
-    beq B27_01b9 ; f0 04
-    cmp #$19        ; c9 19
-    bcc B27_01c4 ; 90 0b
+    lda new_music
+    tay
+    cmp #$3f
+    bcs B27_01a0
+    tya
+    beq B27_01ea
+    sta current_music
+    cmp #$19
+    beq B27_01b9
+    cmp #$19
+    bcc B27_01c4
     B27_01b9:
-    sta $bf         ; 85 bf
-    sec             ; 38
-    sbc #$19        ; e9 19
-    sta $07cc       ; 8d cc 07
-    jmp B27_01dc       ; 4c dc 81
+    sta $bf
+    sec
+    sbc #$19
+    sta $07cc
+    jmp B27_01dc
     B27_01c4:
-    cmp #$06        ; c9 06
-    bne B27_01d4 ; d0 0c
-    lda pc_count    ; ad 07 67
-    cmp #$01        ; c9 01
-    beq B27_01d3 ; f0 04
-    lda #$07        ; a9 07
-    bne B27_01d4 ; d0 01
+    cmp #$06
+    bne B27_01d4
+    lda pc_count
+    cmp #$01
+    beq B27_01d3
+    lda #$07
+    bne B27_01d4
     B27_01d3:
-    tya             ; 98
+    tya
     B27_01d4:
-    sta $bf         ; 85 bf
-    sta $07cc       ; 8d cc 07
-    dec $07cc       ; ce cc 07
+    sta $bf
+    sta $07cc
+    dec $07cc
     B27_01dc:
-    lda #$7f        ; a9 7f
-    sta $07c0       ; 8d c0 07
-    sta $07c1       ; 8d c1 07
-    jsr B27_0341       ; 20 41 83
+    lda #$7f
+    sta $07c0
+    sta $07c1
+    jsr B27_0341
     B27_01e7:
-    jmp B27_04d0       ; 4c d0 84
+    jmp B27_04d0
     B27_01ea:
-    lda $07fd       ; ad fd 07
-    bne B27_01e7 ; d0 f8
-    rts             ; 60
+    lda $07fd
+    bne B27_01e7
+    rts
 
 ;????
 B27_01f0:
@@ -304,115 +304,115 @@ B27_01f0:
 .byte $38
 
 B27_0221:
-    lda $07fd       ; ad fd 07
-    cmp #$01        ; c9 01
-    beq B27_024a ; f0 22
-    txa             ; 8a
-    cmp #$03        ; c9 03
-    beq B27_024a ; f0 1d
-    lda $079a, x    ; bd 9a 07
-    and #$e0        ; 29 e0
-    beq B27_024a ; f0 16
-    sta $b0         ; 85 b0
-    lda $07c3, x    ; bd c3 07
-    cmp #$02        ; c9 02
-    beq B27_0247 ; f0 0a
-    ldy $be         ; a4 be
-    lda $0780, y    ; b9 80 07
-    sta $b1         ; 85 b1
-    jsr B27_0288       ; 20 88 82
+    lda $07fd
+    cmp #$01
+    beq B27_024a
+    txa
+    cmp #$03
+    beq B27_024a
+    lda $079a, x
+    and #$e0
+    beq B27_024a
+    sta $b0
+    lda $07c3, x
+    cmp #$02
+    beq B27_0247
+    ldy $be
+    lda $0780, y
+    sta $b1
+    jsr B27_0288
     B27_0247:
-    inc $07d1, x    ; fe d1 07
+    inc $07d1, x
     B27_024a:
-    rts             ; 60
+    rts
     B27_024b:
-    lda $b2         ; a5 b2
-    cmp #$31        ; c9 31
-    bne B27_0253 ; d0 02
-    lda #$27        ; a9 27
+    lda $b2
+    cmp #$31
+    bne B27_0253
+    lda #$27
     B27_0253:
-    tay             ; a8
-    lda B27_02da, y    ; b9 da 82
-    pha             ; 48
-    lda $07c3, x    ; bd c3 07
-    cmp #$46        ; c9 46
-    bne B27_0264 ; d0 05
-    pla             ; 68
-    lda #$00        ; a9 00
-    beq B27_02c2 ; f0 5e
+    tay
+    lda B27_02da, y
+    pha
+    lda $07c3, x
+    cmp #$46
+    bne B27_0264
+    pla
+    lda #$00
+    beq B27_02c2
     B27_0264:
-    pla             ; 68
-    jmp B27_02c2       ; 4c c2 82
+    pla
+    jmp B27_02c2
     B27_0268:
-    lda $b2         ; a5 b2
-    tay             ; a8
-    cmp #$10        ; c9 10
-    bcs B27_0275 ; b0 06
-    lda B27_0311, y    ; b9 11 83
-    jmp B27_02c8       ; 4c c8 82
+    lda $b2
+    tay
+    cmp #$10
+    bcs B27_0275
+    lda B27_0311, y
+    jmp B27_02c8
     B27_0275:
-    lda #$f6        ; a9 f6
-    bne B27_02c8 ; d0 4f
+    lda #$f6
+    bne B27_02c8
     B27_0279:
-    lda $07c3, x    ; bd c3 07
-    cmp #$4c        ; c9 4c
-    bcc B27_0284 ; 90 04
-    lda #$fe        ; a9 fe
-    bne B27_02c8 ; d0 44
+    lda $07c3, x
+    cmp #$4c
+    bcc B27_0284
+    lda #$fe
+    bne B27_02c8
     B27_0284:
-    lda #$fe        ; a9 fe
-    bne B27_02c8 ; d0 40
+    lda #$fe
+    bne B27_02c8
     B27_0288:
-    lda $07d1, x    ; bd d1 07
-    sta $b2         ; 85 b2
-    lda $b0         ; a5 b0
-    cmp #$20        ; c9 20
-    beq B27_02a7 ; f0 14
-    cmp #$a0        ; c9 a0
-    beq B27_02b6 ; f0 1f
-    cmp #$60        ; c9 60
-    beq B27_0279 ; f0 de
-    cmp #$40        ; c9 40
-    beq B27_0268 ; f0 c9
-    cmp #$80        ; c9 80
-    beq B27_024b ; f0 a8
-    cmp #$c0        ; c9 c0
-    beq B27_024b ; f0 a4
+    lda $07d1, x
+    sta $b2
+    lda $b0
+    cmp #$20
+    beq B27_02a7
+    cmp #$a0
+    beq B27_02b6
+    cmp #$60
+    beq B27_0279
+    cmp #$40
+    beq B27_0268
+    cmp #$80
+    beq B27_024b
+    cmp #$c0
+    beq B27_024b
     B27_02a7:
-    lda $b2         ; a5 b2
-    cmp #$0a        ; c9 0a
-    bne B27_02af ; d0 02
-    lda #$00        ; a9 00
+    lda $b2
+    cmp #$0a
+    bne B27_02af
+    lda #$00
     B27_02af:
-    tay             ; a8
-    lda B27_0307, y    ; b9 07 83
-    jmp B27_02c2       ; 4c c2 82
+    tay
+    lda B27_0307, y
+    jmp B27_02c2
     B27_02b6:
-    lda $b2         ; a5 b2
-    cmp #$2b        ; c9 2b
-    bne B27_02be ; d0 02
-    lda #$21        ; a9 21
+    lda $b2
+    cmp #$2b
+    bne B27_02be
+    lda #$21
     B27_02be:
-    tay             ; a8
-    lda B27_02e6, y    ; b9 e6 82
+    tay
+    lda B27_02e6, y
     B27_02c2:
-    pha             ; 48
-    tya             ; 98
-    sta $07d1, x    ; 9d d1 07
-    pla             ; 68
+    pha
+    tya
+    sta $07d1, x
+    pla
     B27_02c8:
-    pha             ; 48
-    lda $07c8, x    ; bd c8 07
-    bne B27_02d8 ; d0 0a
-    pla             ; 68
-    clc             ; 18
-    adc $b1         ; 65 b1
-    ldy $be         ; a4 be
-    sta $4002, y    ; 99 02 40
-    rts             ; 60
+    pha
+    lda $07c8, x
+    bne B27_02d8
+    pla
+    clc
+    adc $b1
+    ldy $be
+    sta $4002, y
+    rts
     B27_02d8:
-    pla             ; 68
-    rts             ; 60
+    pla
+    rts
 
 ;???????
 B27_02da:
@@ -425,571 +425,571 @@ B27_0311:
 .byte $00,$FF,$FE,$FD,$FC,$FB,$FA,$F9,$F8,$F7,$F6,$F5,$F6,$F7,$F6,$F5
 
 B27_0321:
-    lda $07cc       ; ad cc 07
-    tay             ; a8
-    lda B27_09a7, y    ; b9 a7 89
-    tay             ; a8
-    ldx #$00        ; a2 00
+    lda $07cc
+    tay
+    lda B27_09a7, y
+    tay
+    ldx #$00
     B27_032b:
-    lda B27_09c3, y    ; b9 c3 89
-    sta $0790, x    ; 9d 90 07
-    iny             ; c8
-    inx             ; e8
-    txa             ; 8a
-    cmp #$0a        ; c9 0a
-    bne B27_032b ; d0 f3
-    rts             ; 60
+    lda B27_09c3, y
+    sta $0790, x
+    iny
+    inx
+    txa
+    cmp #$0a
+    bne B27_032b
+    rts
     B27_0339:
-    lda #$ff        ; a9 ff
-    sta $07a0, x    ; 9d a0 07
-    jmp B27_03ba       ; 4c ba 83
+    lda #$ff
+    sta $07a0, x
+    jmp B27_03ba
     B27_0341:
-    jsr B27_00ad       ; 20 ad 80
-    lda $bf         ; a5 bf
-    sta $07fd       ; 8d fd 07
-    cmp #$33        ; c9 33
-    beq B27_035b ; f0 0e
-    cmp #$19        ; c9 19
-    beq B27_0355 ; f0 04
-    cmp #$19        ; c9 19
-    bcc B27_036f ; 90 1a
+    jsr B27_00ad
+    lda $bf
+    sta $07fd
+    cmp #$33
+    beq B27_035b
+    cmp #$19
+    beq B27_0355
+    cmp #$19
+    bcc B27_036f
     B27_0355:
-    jsr B27_0321       ; 20 21 83
-    jmp B27_0386       ; 4c 86 83
+    jsr B27_0321
+    jmp B27_0386
     B27_035b:
-    ldx #$00        ; a2 00
-    ldy #$00        ; a0 00
+    ldx #$00
+    ldy #$00
     B27_035f:
-    lda B27_09cd, y    ; b9 cd 89
-    sta $0790, x    ; 9d 90 07
-    iny             ; c8
-    inx             ; e8
-    txa             ; 8a
-    cmp #$0a        ; c9 0a
-    bne B27_035f ; d0 f3
-    jmp B27_0386       ; 4c 86 83
+    lda B27_09cd, y
+    sta $0790, x
+    iny
+    inx
+    txa
+    cmp #$0a
+    bne B27_035f
+    jmp B27_0386
     B27_036f:
-    lda $07cc       ; ad cc 07
-    tay             ; a8
-    lda B27_098f, y    ; b9 8f 89
-    tay             ; a8
-    ldx #$00        ; a2 00
+    lda $07cc
+    tay
+    lda B27_098f, y
+    tay
+    ldx #$00
     B27_0379:
-    lda B27_09c3, y    ; b9 c3 89
-    sta $0790, x    ; 9d 90 07
-    iny             ; c8
-    inx             ; e8
-    txa             ; 8a
-    cmp #$0a        ; c9 0a
-    bne B27_0379 ; d0 f3
+    lda B27_09c3, y
+    sta $0790, x
+    iny
+    inx
+    txa
+    cmp #$0a
+    bne B27_0379
     B27_0386:
-    lda #$01        ; a9 01
-    sta $07b4       ; 8d b4 07
-    sta $07b5       ; 8d b5 07
-    sta $07b6       ; 8d b6 07
-    sta $07b7       ; 8d b7 07
-    lda #$00        ; a9 00
-    sta $ba         ; 85 ba
-    ldy #$08        ; a0 08
+    lda #$01
+    sta $07b4
+    sta $07b5
+    sta $07b6
+    sta $07b7
+    lda #$00
+    sta $ba
+    ldy #$08
     B27_039a:
-    sta $07a7, y    ; 99 a7 07
-    dey             ; 88
-    bne B27_039a ; d0 fa
-    tax             ; aa
+    sta $07a7, y
+    dey
+    bne B27_039a
+    tax
     B27_03a1:
-    lda $0792, x    ; bd 92 07
-    sta $b6         ; 85 b6
-    lda $0793, x    ; bd 93 07
-    cmp #$ff        ; c9 ff
-    beq B27_0339 ; f0 8c
-    sta $b7         ; 85 b7
-    ldy $07a8       ; ac a8 07
-    lda ($b6), y    ; b1 b6
-    sta $07a0, x    ; 9d a0 07
-    iny             ; c8
-    lda ($b6), y    ; b1 b6
+    lda $0792, x
+    sta $b6
+    lda $0793, x
+    cmp #$ff
+    beq B27_0339
+    sta $b7
+    ldy $07a8
+    lda ($b6), y
+    sta $07a0, x
+    iny
+    lda ($b6), y
     B27_03ba:
-    sta $07a1, x    ; 9d a1 07
-    inx             ; e8
-    inx             ; e8
-    txa             ; 8a
-    cmp #$08        ; c9 08
-    bne B27_03a1 ; d0 dd
-    rts             ; 60
+    sta $07a1, x
+    inx
+    inx
+    txa
+    cmp #$08
+    bne B27_03a1
+    rts
     B27_03c5:
-    lda $078a       ; ad 8a 07
-    beq B27_03f5 ; f0 2b
-    cmp #$01        ; c9 01
-    beq B27_03df ; f0 11
-    lda #$7f        ; a9 7f
-    sta $4005       ; 8d 05 40
-    lda $0784       ; ad 84 07
-    sta $4006       ; 8d 06 40
-    lda $0785       ; ad 85 07
-    sta $4007       ; 8d 07 40
+    lda $078a
+    beq B27_03f5
+    cmp #$01
+    beq B27_03df
+    lda #$7f
+    sta $4005
+    lda $0784
+    sta $4006
+    lda $0785
+    sta $4007
     B27_03df:
-    lda #$7f        ; a9 7f
-    sta $4001       ; 8d 01 40
-    lda $0780       ; ad 80 07
-    sta $4002       ; 8d 02 40
-    lda $0781       ; ad 81 07
-    sta $4003       ; 8d 03 40
-    lda #$00        ; a9 00
-    sta $078a       ; 8d 8a 07
+    lda #$7f
+    sta $4001
+    lda $0780
+    sta $4002
+    lda $0781
+    sta $4003
+    lda #$00
+    sta $078a
     B27_03f5:
-    rts             ; 60
+    rts
     B27_03f6:
-    txa             ; 8a
-    cmp #$02        ; c9 02
-    bcs B27_03f5 ; b0 fa
-    lda $079a, x    ; bd 9a 07
-    and #$1f        ; 29 1f
-    beq B27_045b ; f0 59
-    sta $b1         ; 85 b1
-    lda $07c3, x    ; bd c3 07
-    cmp #$02        ; c9 02
-    beq B27_0465 ; f0 5a
-    ldy #$00        ; a0 00
+    txa
+    cmp #$02
+    bcs B27_03f5
+    lda $079a, x
+    and #$1f
+    beq B27_045b
+    sta $b1
+    lda $07c3, x
+    cmp #$02
+    beq B27_0465
+    ldy #$00
     B27_040d:
-    dec $b1         ; c6 b1
-    beq B27_0415 ; f0 04
-    iny             ; c8
-    iny             ; c8
-    bne B27_040d ; d0 f8
+    dec $b1
+    beq B27_0415
+    iny
+    iny
+    bne B27_040d
     B27_0415:
-    lda B27_06da, y    ; b9 da 86
-    sta $b2         ; 85 b2
-    lda B27_06da+1, y    ; b9 db 86
-    sta $b3         ; 85 b3
-    lda $07cd, x    ; bd cd 07
-    lsr a           ; 4a
-    tay             ; a8
-    lda ($b2), y    ; b1 b2
-    sta $b4         ; 85 b4
-    cmp #$ff        ; c9 ff
-    beq B27_045c ; f0 30
-    cmp #$f0        ; c9 f0
-    beq B27_0461 ; f0 31
-    lda $07cd, x    ; bd cd 07
-    and #$01        ; 29 01
-    bne B27_043f ; d0 08
-    lsr $b4         ; 46 b4
-    lsr $b4         ; 46 b4
-    lsr $b4         ; 46 b4
-    lsr $b4         ; 46 b4
+    lda B27_06da, y
+    sta $b2
+    lda B27_06da+1, y
+    sta $b3
+    lda $07cd, x
+    lsr a
+    tay
+    lda ($b2), y
+    sta $b4
+    cmp #$ff
+    beq B27_045c
+    cmp #$f0
+    beq B27_0461
+    lda $07cd, x
+    and #$01
+    bne B27_043f
+    lsr $b4
+    lsr $b4
+    lsr $b4
+    lsr $b4
     B27_043f:
-    lda $b4         ; a5 b4
-    and #$0f        ; 29 0f
-    sta $b0         ; 85 b0
-    lda $079d, x    ; bd 9d 07
-    and #$f0        ; 29 f0
-    ora $b0         ; 05 b0
-    tay             ; a8
+    lda $b4
+    and #$0f
+    sta $b0
+    lda $079d, x
+    and #$f0
+    ora $b0
+    tay
     B27_044d:
-    inc $07cd, x    ; fe cd 07
+    inc $07cd, x
     B27_0450:
-    lda $07c8, x    ; bd c8 07
-    bne B27_045b ; d0 06
-    tya             ; 98
-    ldy $be         ; a4 be
-    sta $4000, y    ; 99 00 40
+    lda $07c8, x
+    bne B27_045b
+    tya
+    ldy $be
+    sta $4000, y
     B27_045b:
-    rts             ; 60
+    rts
     B27_045c:
-    ldy $079d, x    ; bc 9d 07
-    bne B27_0450 ; d0 ef
+    ldy $079d, x
+    bne B27_0450
     B27_0461:
-    ldy #$10        ; a0 10
-    bne B27_0450 ; d0 eb
+    ldy #$10
+    bne B27_0450
     B27_0465:
-    ldy #$10        ; a0 10
-    bne B27_044d ; d0 e4
+    ldy #$10
+    bne B27_044d
     B27_0469:
-    iny             ; c8
-    lda ($b6), y    ; b1 b6
-    sta $0792, x    ; 9d 92 07
-    iny             ; c8
-    lda ($b6), y    ; b1 b6
-    sta $0793, x    ; 9d 93 07
-    lda $0792, x    ; bd 92 07
-    sta $b6         ; 85 b6
-    lda $0793, x    ; bd 93 07
-    sta $b7         ; 85 b7
-    txa             ; 8a
-    lsr a           ; 4a
-    tax             ; aa
-    lda #$00        ; a9 00
-    tay             ; a8
-    sta $07a8, x    ; 9d a8 07
-    jmp B27_04a8       ; 4c a8 84
+    iny
+    lda ($b6), y
+    sta $0792, x
+    iny
+    lda ($b6), y
+    sta $0793, x
+    lda $0792, x
+    sta $b6
+    lda $0793, x
+    sta $b7
+    txa
+    lsr a
+    tax
+    lda #$00
+    tay
+    sta $07a8, x
+    jmp B27_04a8
     B27_048b:
-    jsr B27_00aa       ; 20 aa 80
+    jsr B27_00aa
     B27_048e:
-    rts             ; 60
+    rts
     B27_048f:
-    txa             ; 8a
-    asl a           ; 0a
-    tax             ; aa
-    lda $0792, x    ; bd 92 07
-    sta $b6         ; 85 b6
-    lda $0793, x    ; bd 93 07
-    sta $b7         ; 85 b7
-    txa             ; 8a
-    lsr a           ; 4a
-    tax             ; aa
-    inc $07a8, x    ; fe a8 07
-    inc $07a8, x    ; fe a8 07
-    ldy $07a8, x    ; bc a8 07
+    txa
+    asl a
+    tax
+    lda $0792, x
+    sta $b6
+    lda $0793, x
+    sta $b7
+    txa
+    lsr a
+    tax
+    inc $07a8, x
+    inc $07a8, x
+    ldy $07a8, x
     B27_04a8:
-    txa             ; 8a
-    asl a           ; 0a
-    tax             ; aa
-    lda ($b6), y    ; b1 b6
-    sta $07a0, x    ; 9d a0 07
-    iny             ; c8
-    lda ($b6), y    ; b1 b6
-    sta $07a1, x    ; 9d a1 07
-    cmp #$00        ; c9 00
-    beq B27_048b ; f0 d1
-    cmp #$ff        ; c9 ff
-    beq B27_0469 ; f0 ab
-    txa             ; 8a
-    lsr a           ; 4a
-    tax             ; aa
-    lda #$00        ; a9 00
-    sta $07ac, x    ; 9d ac 07
-    lda #$01        ; a9 01
-    sta $07b4, x    ; 9d b4 07
-    bne B27_04ea ; d0 1d
+    txa
+    asl a
+    tax
+    lda ($b6), y
+    sta $07a0, x
+    iny
+    lda ($b6), y
+    sta $07a1, x
+    cmp #$00
+    beq B27_048b
+    cmp #$ff
+    beq B27_0469
+    txa
+    lsr a
+    tax
+    lda #$00
+    sta $07ac, x
+    lda #$01
+    sta $07b4, x
+    bne B27_04ea
     B27_04cd:
-    jmp B27_048f       ; 4c 8f 84
+    jmp B27_048f
     B27_04d0:
-    jsr B27_03c5       ; 20 c5 83
-    lda #$00        ; a9 00
-    tax             ; aa
-    sta $be         ; 85 be
-    beq B27_04ea ; f0 10
+    jsr B27_03c5
+    lda #$00
+    tax
+    sta $be
+    beq B27_04ea
     B27_04da:
-    txa             ; 8a
-    lsr a           ; 4a
-    tax             ; aa
+    txa
+    lsr a
+    tax
     B27_04dd:
-    inx             ; e8
-    txa             ; 8a
-    cmp #$04        ; c9 04
-    beq B27_048e ; f0 ab
-    lda $be         ; a5 be
-    clc             ; 18
-    adc #$04        ; 69 04
-    sta $be         ; 85 be
+    inx
+    txa
+    cmp #$04
+    beq B27_048e
+    lda $be
+    clc
+    adc #$04
+    sta $be
     B27_04ea:
-    txa             ; 8a
-    asl a           ; 0a
-    tax             ; aa
+    txa
+    asl a
+    tax
 
-    lda $07a0, x    ; bd a0 07
-    sta $b6         ; 85 b6
+    lda $07a0, x
+    sta $b6
 
-    lda $07a1, x    ; bd a1 07
-    sta $b7         ; 85 b7
-    lda $07a1, x    ; bd a1 07
-    cmp #$ff        ; c9 ff
-    beq B27_04da ; f0 dc
-    txa             ; 8a
-    lsr a           ; 4a
-    tax             ; aa
-    dec $07b4, x    ; de b4 07
-    bne B27_054f ; d0 49
-    lda #$00        ; a9 00
-    sta $07cd, x    ; 9d cd 07
-    sta $07d1, x    ; 9d d1 07
+    lda $07a1, x
+    sta $b7
+    lda $07a1, x
+    cmp #$ff
+    beq B27_04da
+    txa
+    lsr a
+    tax
+    dec $07b4, x
+    bne B27_054f
+    lda #$00
+    sta $07cd, x
+    sta $07d1, x
     B27_050e:
-    jsr B27_06d1       ; 20 d1 86
-    beq B27_04cd ; f0 ba
-    cmp #$9f        ; c9 9f
-    beq B27_055e ; f0 47
-    cmp #$9e        ; c9 9e
-    beq B27_0576 ; f0 5b
-    cmp #$9c        ; c9 9c
-    beq B27_057f ; f0 60
-    tay             ; a8
-    cmp #$ff        ; c9 ff
-    beq B27_052d ; f0 09
-    and #$c0        ; 29 c0
-    cmp #$c0        ; c9 c0
-    beq B27_053d ; f0 13
-    jmp B27_0588       ; 4c 88 85
+    jsr B27_06d1
+    beq B27_04cd
+    cmp #$9f
+    beq B27_055e
+    cmp #$9e
+    beq B27_0576
+    cmp #$9c
+    beq B27_057f
+    tay
+    cmp #$ff
+    beq B27_052d
+    and #$c0
+    cmp #$c0
+    beq B27_053d
+    jmp B27_0588
     B27_052d:
-    lda $07bc, x    ; bd bc 07
-    beq B27_054c ; f0 1a
-    dec $07bc, x    ; de bc 07
-    lda $07b0, x    ; bd b0 07
-    sta $07ac, x    ; 9d ac 07
-    bne B27_054c ; d0 0f
+    lda $07bc, x
+    beq B27_054c
+    dec $07bc, x
+    lda $07b0, x
+    sta $07ac, x
+    bne B27_054c
     B27_053d:
-    tya             ; 98
-    and #$3f        ; 29 3f
-    sta $07bc, x    ; 9d bc 07
-    dec $07bc, x    ; de bc 07
-    lda $07ac, x    ; bd ac 07
-    sta $07b0, x    ; 9d b0 07
+    tya
+    and #$3f
+    sta $07bc, x
+    dec $07bc, x
+    lda $07ac, x
+    sta $07b0, x
     B27_054c:
-    jmp B27_050e       ; 4c 0e 85
+    jmp B27_050e
 
 B27_054f:
-    jsr B27_03f6       ; 20 f6 83
-    jsr B27_0221       ; 20 21 82
-    jmp B27_04dd       ; 4c dd 84
+    jsr B27_03f6
+    jsr B27_0221
+    jmp B27_04dd
 
 B27_0558:
-    jmp B27_066c       ; 4c 6c 86
+    jmp B27_066c
 
 B27_055b:
-    jmp B27_0642       ; 4c 42 86
+    jmp B27_0642
 
 B27_055e:
-    jsr B27_06d1       ; 20 d1 86
-    sta $079a, x    ; 9d 9a 07
-    jsr B27_06d1       ; 20 d1 86
-    sta $079d, x    ; 9d 9d 07
-    jmp B27_050e       ; 4c 0e 85
+    jsr B27_06d1
+    sta $079a, x
+    jsr B27_06d1
+    sta $079d, x
+    jmp B27_050e
 
 B27_056d:
-    jsr B27_06d1       ; 20 d1 86
-    jsr B27_06d1       ; 20 d1 86
-    jmp B27_050e       ; 4c 0e 85
+    jsr B27_06d1
+    jsr B27_06d1
+    jmp B27_050e
 
 B27_0576:
-    jsr B27_06d1       ; 20 d1 86
-    sta $0791       ; 8d 91 07
-    jmp B27_050e       ; 4c 0e 85
+    jsr B27_06d1
+    sta $0791
+    jmp B27_050e
 
 B27_057f:
-    jsr B27_06d1       ; 20 d1 86
-    sta $0790       ; 8d 90 07
-    jmp B27_050e       ; 4c 0e 85
+    jsr B27_06d1
+    sta $0790
+    jmp B27_050e
 
 B27_0588:
-    tya             ; 98
-    and #$b0        ; 29 b0
-    cmp #$b0        ; c9 b0
-    bne B27_05a7 ; d0 18
-    tya             ; 98
-    and #$0f        ; 29 0f
-    clc             ; 18
-    adc $0791       ; 6d 91 07
-    tay             ; a8
-    lda B27_091a, y    ; b9 1a 89
-    sta $07b8, x    ; 9d b8 07
-    tay             ; a8
-    txa             ; 8a
-    cmp #$02        ; c9 02
-    beq B27_055b ; f0 b8
+    tya
+    and #$b0
+    cmp #$b0
+    bne B27_05a7
+    tya
+    and #$0f
+    clc
+    adc $0791
+    tay
+    lda B27_091a, y
+    sta $07b8, x
+    tay
+    txa
+    cmp #$02
+    beq B27_055b
     B27_05a3:
-    jsr B27_06d1       ; 20 d1 86
-    tay             ; a8
+    jsr B27_06d1
+    tay
     B27_05a7:
-    tya             ; 98
-    sta $07c3, x    ; 9d c3 07
-    txa             ; 8a
-    cmp #$03        ; c9 03
-    beq B27_0558 ; f0 a8
-    pha             ; 48
-    ldx $be         ; a6 be
-    lda B27_0890+1, y    ; b9 91 88
-    beq B27_05dc ; f0 24
-    lda $0790       ; ad 90 07
-    bpl B27_05c8 ; 10 0b
-    and #$7f        ; 29 7f
-    sta $b3         ; 85 b3
-    tya             ; 98
-    clc             ; 18
-    sbc $b3         ; e5 b3
-    jmp B27_05cd       ; 4c cd 85
+    tya
+    sta $07c3, x
+    txa
+    cmp #$03
+    beq B27_0558
+    pha
+    ldx $be
+    lda B27_0890+1, y
+    beq B27_05dc
+    lda $0790
+    bpl B27_05c8
+    and #$7f
+    sta $b3
+    tya
+    clc
+    sbc $b3
+    jmp B27_05cd
     B27_05c8:
-    tya             ; 98
-    clc             ; 18
-    adc $0790       ; 6d 90 07
+    tya
+    clc
+    adc $0790
     B27_05cd:
-    tay             ; a8
-    lda B27_0890+1, y    ; b9 91 88
-    sta $0780, x    ; 9d 80 07
-    lda B27_0890, y    ; b9 90 88
-    ora #$08        ; 09 08
-    sta $0781, x    ; 9d 81 07
+    tay
+    lda B27_0890+1, y
+    sta $0780, x
+    lda B27_0890, y
+    ora #$08
+    sta $0781, x
     B27_05dc:
-    tay             ; a8
-    pla             ; 68
-    tax             ; aa
-    tya             ; 98
-    bne B27_05f1 ; d0 0f
-    lda #$00        ; a9 00
-    sta $b0         ; 85 b0
-    txa             ; 8a
-    cmp #$02        ; c9 02
-    beq B27_05f6 ; f0 0b
-    lda #$10        ; a9 10
-    sta $b0         ; 85 b0
-    bne B27_05f6 ; d0 05
+    tay
+    pla
+    tax
+    tya
+    bne B27_05f1
+    lda #$00
+    sta $b0
+    txa
+    cmp #$02
+    beq B27_05f6
+    lda #$10
+    sta $b0
+    bne B27_05f6
     B27_05f1:
-    lda $079d, x    ; bd 9d 07
-    sta $b0         ; 85 b0
+    lda $079d, x
+    sta $b0
     B27_05f6:
-    txa             ; 8a
-    dec $07c8, x    ; de c8 07
-    cmp $07c8, x    ; dd c8 07
-    beq B27_063c ; f0 3d
-    inc $07c8, x    ; fe c8 07
-    ldy $be         ; a4 be
-    txa             ; 8a
-    cmp #$02        ; c9 02
-    beq B27_061c ; f0 13
-    lda $079a, x    ; bd 9a 07
-    and #$1f        ; 29 1f
-    beq B27_061c ; f0 0c
-    lda $b0         ; a5 b0
-    cmp #$10        ; c9 10
-    beq B27_061e ; f0 08
-    and #$f0        ; 29 f0
-    ora #$00        ; 09 00
-    bne B27_061e ; d0 02
+    txa
+    dec $07c8, x
+    cmp $07c8, x
+    beq B27_063c
+    inc $07c8, x
+    ldy $be
+    txa
+    cmp #$02
+    beq B27_061c
+    lda $079a, x
+    and #$1f
+    beq B27_061c
+    lda $b0
+    cmp #$10
+    beq B27_061e
+    and #$f0
+    ora #$00
+    bne B27_061e
     B27_061c:
-    lda $b0         ; a5 b0
+    lda $b0
     B27_061e:
-    sta $4000, y    ; 99 00 40
-    lda $07c0, x    ; bd c0 07
-    sta $4001, y    ; 99 01 40
-    lda $0780, y    ; b9 80 07
-    sta $4002, y    ; 99 02 40
-    lda $0781, y    ; b9 81 07
-    sta $4003, y    ; 99 03 40
+    sta $4000, y
+    lda $07c0, x
+    sta $4001, y
+    lda $0780, y
+    sta $4002, y
+    lda $0781, y
+    sta $4003, y
     B27_0633:
-    lda $07b8, x    ; bd b8 07
-    sta $07b4, x    ; 9d b4 07
-    jmp B27_04dd       ; 4c dd 84
+    lda $07b8, x
+    sta $07b4, x
+    jmp B27_04dd
     B27_063c:
-    inc $07c8, x    ; fe c8 07
-    jmp B27_0633       ; 4c 33 86
+    inc $07c8, x
+    jmp B27_0633
     B27_0642:
-    lda $079c       ; ad 9c 07
-    and #$1f        ; 29 1f
-    bne B27_0666 ; d0 1d
-    lda $079c       ; ad 9c 07
-    and #$c0        ; 29 c0
-    bne B27_0653 ; d0 03
+    lda $079c
+    and #$1f
+    bne B27_0666
+    lda $079c
+    and #$c0
+    bne B27_0653
     B27_0650:
-    tya             ; 98
-    bne B27_065b ; d0 08
+    tya
+    bne B27_065b
     B27_0653:
-    cmp #$c0        ; c9 c0
-    beq B27_0650 ; f0 f9
-    lda #$ff        ; a9 ff
-    bne B27_0666 ; d0 0b
+    cmp #$c0
+    beq B27_0650
+    lda #$ff
+    bne B27_0666
     B27_065b:
-    clc             ; 18
-    adc #$ff        ; 69 ff
-    asl a           ; 0a
-    asl a           ; 0a
-    cmp #$3c        ; c9 3c
-    bcc B27_0666 ; 90 02
-    lda #$3c        ; a9 3c
+    clc
+    adc #$ff
+    asl a
+    asl a
+    cmp #$3c
+    bcc B27_0666
+    lda #$3c
     B27_0666:
-    sta $079f       ; 8d 9f 07
-    jmp B27_05a3       ; 4c a3 85
+    sta $079f
+    jmp B27_05a3
     B27_066c:
-    tya             ; 98
-    pha             ; 48
-    jsr B27_0693       ; 20 93 86
-    pla             ; 68
-    and #$3f        ; 29 3f
-    tay             ; a8
-    jsr B27_067b       ; 20 7b 86
-    jmp B27_0633       ; 4c 33 86
+    tya
+    pha
+    jsr B27_0693
+    pla
+    and #$3f
+    tay
+    jsr B27_067b
+    jmp B27_0633
     B27_067b:
-    lda $07f8       ; ad f8 07
-    bne B27_0692 ; d0 12
-    lda B27_01f0, y    ; b9 f0 81
-    sta $400c       ; 8d 0c 40
-    lda B27_01f0+1, y    ; b9 f1 81
-    sta $400e       ; 8d 0e 40
-    lda B27_01f0+2, y    ; b9 f2 81
-    sta $400f       ; 8d 0f 40
+    lda $07f8
+    bne B27_0692
+    lda B27_01f0, y
+    sta $400c
+    lda B27_01f0+1, y
+    sta $400e
+    lda B27_01f0+2, y
+    sta $400f
     B27_0692:
-    rts             ; 60
+    rts
     B27_0693:
-    tya             ; 98
-    and #$c0        ; 29 c0
-    cmp #$40        ; c9 40
-    beq B27_069f ; f0 05
-    cmp #$80        ; c9 80
-    beq B27_06a9 ; f0 0b
-    rts             ; 60
+    tya
+    and #$c0
+    cmp #$40
+    beq B27_069f
+    cmp #$80
+    beq B27_06a9
+    rts
     B27_069f:
-    lda #$0e        ; a9 0e
-    sta $b1         ; 85 b1
-    lda #$07        ; a9 07
-    ldy #$00        ; a0 00
-    beq B27_06b1 ; f0 08
+    lda #$0e
+    sta $b1
+    lda #$07
+    ldy #$00
+    beq B27_06b1
     B27_06a9:
-    lda #$0e        ; a9 0e
-    sta $b1         ; 85 b1
-    lda #$0f        ; a9 0f
-    ldy #$02        ; a0 02
+    lda #$0e
+    sta $b1
+    lda #$0f
+    ldy #$02
     B27_06b1:
-    sta $4013       ; 8d 13 40
-    sty $4012       ; 8c 12 40
-    lda disable_dmc ; ad f7 07
-    bne B27_06d0    ; d0 14
-    lda $b1         ; a5 b1
-    sta $4010       ; 8d 10 40
-    lda #$0f        ; a9 0f
-    sta $4015       ; 8d 15 40
-    lda #$00        ; a9 00
-    sta $4011       ; 8d 11 40
-    lda #$1f        ; a9 1f
-    sta $4015       ; 8d 15 40
+    sta $4013
+    sty $4012
+    lda disable_dmc
+    bne B27_06d0
+    lda $b1
+    sta $4010
+    lda #$0f
+    sta $4015
+    lda #$00
+    sta $4011
+    lda #$1f
+    sta $4015
     B27_06d0:
-    rts             ; 60
+    rts
 
 B27_06d1:
-    ldy $07ac, x    ; bc ac 07
-    inc $07ac, x    ; fe ac 07
-    lda ($b6), y    ; b1 b6
-    rts             ; 60
+    ldy $07ac, x
+    inc $07ac, x
+    lda ($b6), y
+    rts
 
 ;envelope table probably
 B27_06da:
-    .word B27_074C
-    .word B27_0753
-    .word B27_0777
-    .word B27_078A
-    .word B27_079C
-    .word B27_07A2
-    .word B27_0745
-    .word B27_07A4
-    .word B27_07AD
-    .word B27_079F
-    .word B27_07B6
-    .word B27_07C3
-    .word B27_07D1
-    .word B27_07DE
-    .word B27_07EA
-    .word B27_07F4
-    .word B27_083F
-    .word B27_0847
-    .word B27_080D
-    .word B27_085B
-    .word B27_0822
-    .word B27_0718
-    .word B27_075D
-    .word B27_073C
-    .word B27_0735
-    .word B27_0722
-    .word B27_071E
-    .word B27_0773
-    .word B27_0793
-    .word B27_086B
-    .word B27_087F
+    .addr B27_074C
+    .addr B27_0753
+    .addr B27_0777
+    .addr B27_078A
+    .addr B27_079C
+    .addr B27_07A2
+    .addr B27_0745
+    .addr B27_07A4
+    .addr B27_07AD
+    .addr B27_079F
+    .addr B27_07B6
+    .addr B27_07C3
+    .addr B27_07D1
+    .addr B27_07DE
+    .addr B27_07EA
+    .addr B27_07F4
+    .addr B27_083F
+    .addr B27_0847
+    .addr B27_080D
+    .addr B27_085B
+    .addr B27_0822
+    .addr B27_0718
+    .addr B27_075D
+    .addr B27_073C
+    .addr B27_0735
+    .addr B27_0722
+    .addr B27_071E
+    .addr B27_0773
+    .addr B27_0793
+    .addr B27_086B
+    .addr B27_087F
 
 B27_0718:
 .byte $76,$11,$11,$14,$31,$FF
@@ -1087,19 +1087,19 @@ B27_09a7:
 B27_09c3:
 .byte $00
 .byte $28
-.word credits_mus_table_2
-.word credits_mus_table_1
-.word credits_mus_table_3
-.word credits_mus_table_4
+.addr credits_mus_table_2
+.addr credits_mus_table_1
+.addr credits_mus_table_3
+.addr credits_mus_table_4
 
 ;song header
 B27_09cd:
 .byte $00
 .byte $18
-.word credits2_mus_table_1
-.word credits2_mus_table_2
-.word credits2_mus_table_3
-.word credits2_mus_table_4
+.addr credits2_mus_table_1
+.addr credits2_mus_table_2
+.addr credits2_mus_table_3
+.addr credits2_mus_table_4
 
 credits_phrase_14:
 .byte $9F,$B3,$B1
@@ -1329,41 +1329,41 @@ credits_phrase_13:
 
 
 credits_mus_table_1:
-    .word credits_phrase_6
-    .word credits_phrase_1B
-    .word credits_phrase_14
-    .word credits_phrase_A
-    .word credits_phrase_6
-    .word credits_phrase_5
-    .word 0
+    .addr credits_phrase_6
+    .addr credits_phrase_1B
+    .addr credits_phrase_14
+    .addr credits_phrase_A
+    .addr credits_phrase_6
+    .addr credits_phrase_5
+    .addr 0
 
 credits_mus_table_2:
-    .word credits_phrase_8
-    .word credits_phrase_1A
-    .word credits_phrase_1
-    .word credits_phrase_10
-    .word credits_phrase_15
-    .word credits_phrase_11
-    .word credits_phrase_4
-    .word credits_phrase_8
-    .word credits_phrase_7
+    .addr credits_phrase_8
+    .addr credits_phrase_1A
+    .addr credits_phrase_1
+    .addr credits_phrase_10
+    .addr credits_phrase_15
+    .addr credits_phrase_11
+    .addr credits_phrase_4
+    .addr credits_phrase_8
+    .addr credits_phrase_7
 
 credits_mus_table_3:
-    .word credits_phrase_19
-    .word credits_phrase_18
-    .word credits_phrase_2
-    .word credits_phrase_12
-    .word credits_phrase_9
-    .word credits_phrase_9
+    .addr credits_phrase_19
+    .addr credits_phrase_18
+    .addr credits_phrase_2
+    .addr credits_phrase_12
+    .addr credits_phrase_9
+    .addr credits_phrase_9
 
 credits_mus_table_4:
-    .word credits_phrase_16
-    .word credits_phrase_17
-    .word credits_phrase_3
-    .word credits_phrase_13
-    .word credits_phrase_16
-    .word credits_phrase_16
-    .word credits_phrase_16
+    .addr credits_phrase_16
+    .addr credits_phrase_17
+    .addr credits_phrase_3
+    .addr credits_phrase_13
+    .addr credits_phrase_16
+    .addr credits_phrase_16
+    .addr credits_phrase_16
 
 credits_phrase_1B:
 .byte $9F,$10,$B1
@@ -1476,50 +1476,50 @@ credits_phrase_17:
 
 
 credits2_mus_table_1:
-.word credits2_phrase_3
-.word credits2_phrase_C
-.word credits2_phrase_15
-.word credits2_phrase_16
+.addr credits2_phrase_3
+.addr credits2_phrase_C
+.addr credits2_phrase_15
+.addr credits2_phrase_16
 @loop:
-.word credits2_phrase_17
-.word -1
-.word @loop
+.addr credits2_phrase_17
+.addr -1
+.addr @loop
 
 credits2_mus_table_2:
-.word credits2_phrase_4
-.word credits2_phrase_D
-.word credits2_phrase_E
-.word credits2_phrase_F
+.addr credits2_phrase_4
+.addr credits2_phrase_D
+.addr credits2_phrase_E
+.addr credits2_phrase_F
 @loop:
-.word credits2_phrase_18
-.word -1
-.word @loop
+.addr credits2_phrase_18
+.addr -1
+.addr @loop
 
 credits2_mus_table_3:
-.word credits2_phrase_5
-.word credits2_phrase_6
-.word credits2_phrase_6
-.word credits2_phrase_9
-.word credits2_phrase_A
-.word credits2_phrase_9
-.word credits2_phrase_B
-.word credits2_phrase_10
-.word credits2_phrase_11
+.addr credits2_phrase_5
+.addr credits2_phrase_6
+.addr credits2_phrase_6
+.addr credits2_phrase_9
+.addr credits2_phrase_A
+.addr credits2_phrase_9
+.addr credits2_phrase_B
+.addr credits2_phrase_10
+.addr credits2_phrase_11
 @loop:
-.word credits2_phrase_1
-.word -1
-.word @loop
+.addr credits2_phrase_1
+.addr -1
+.addr @loop
 
 credits2_mus_table_4:
-.word credits2_phrase_7
-.word credits2_phrase_8
-.word credits2_phrase_12
-.word credits2_phrase_13
-.word credits2_phrase_14
+.addr credits2_phrase_7
+.addr credits2_phrase_8
+.addr credits2_phrase_12
+.addr credits2_phrase_13
+.addr credits2_phrase_14
 @loop:
-.word credits2_phrase_2
-.word -1
-.word @loop
+.addr credits2_phrase_2
+.addr -1
+.addr @loop
 
 
 credits2_phrase_1:

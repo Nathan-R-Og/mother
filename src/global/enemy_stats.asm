@@ -21,24 +21,16 @@
 ;https://datacrystal.tcrf.net/wiki/EarthBound_Beginnings/Enemy_data
 ;enemy health can range from 0-$3ff (inclusive)
 ;ggggsshhhhhhhhhh
-.macro ething1 health, subpal, gtile
-.word (gtile<<12) | (subpal<<10) | health
-.endmacro
+.define ething1(health, subpal, gtile) .word (gtile<<12) | (subpal<<10) | health
 ;enemy pp can range from 0-$3ff (inclusive)
 ;ggggggpppppppppp
-.macro ething2 pp, gfx
-.word (gfx<<10) | pp
-.endmacro
+.define ething2(pp, gfx) .word (gfx<<10) | pp
 ;enemy offense can range from 0-$3ff (inclusive)
 ;aaafffoooooooooo
-.macro ething3 offense, finalAction, altitude
-.word (altitude<<13) | (finalAction<<10) | offense
-.endmacro
+.define ething3(offense, finalAction, altitude) .word (altitude<<13) | (finalAction<<10) | offense
 ;enemy defense can range from 0-$3ff (inclusive)
 ;uuummmdddddddddd
-.macro ething4 defense, messageDefeat, unkParam
-.word (unkParam<<13) | (messageDefeat<<10) | defense
-.endmacro
+.define ething4(defense, messageDefeat, unkParam) .word (unkParam<<13) | (messageDefeat<<10) | defense
 
 STATS_START:
 
@@ -69,7 +61,7 @@ STATS_UNKENEMY0:
     ;battle actions
     .byte $00,$00,$00,$00,$00,$00,$00,$00
     ;name pointer
-    .word ENAME_NULL
+    .addr ENAME_NULL
     ;exp
     .word 0
     ;money
@@ -106,7 +98,7 @@ STATS_BIGWOODOH:
     ;battle actions
     .byte $01,$34,$41,$41,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_BIGWOODOH
+    .addr ENAME_BIGWOODOH
     ;exp
     .word 100
     ;money
@@ -143,7 +135,7 @@ STATS_DRAGON:
     ;battle actions
     .byte $6C,$0A,$6C,$01,$0A,$01,$01,$83
     ;name pointer
-    .word ENAME_DRAGON
+    .addr ENAME_DRAGON
     ;exp
     .word 500
     ;money
@@ -180,7 +172,7 @@ STATS_R7038:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_R7038
+    .addr ENAME_R7038
     ;exp
     .word 430
     ;money
@@ -217,7 +209,7 @@ STATS_ELEPHANT:
     ;battle actions
     .byte $05,$05,$05,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_ELEPHANT
+    .addr ENAME_ELEPHANT
     ;exp
     .word 60
     ;money
@@ -254,7 +246,7 @@ STATS_BEAR:
     ;battle actions
     .byte $01,$01,$01,$04,$05,$4F,$01,$01
     ;name pointer
-    .word ENAME_BEAR
+    .addr ENAME_BEAR
     ;exp
     .word 70
     ;money
@@ -291,7 +283,7 @@ STATS_BIG_FOOT:
     ;battle actions
     .byte $0F,$0D,$0C,$0C,$0C,$0C,$0C,$0C
     ;name pointer
-    .word ENAME_BIG_FOOT
+    .addr ENAME_BIG_FOOT
     ;exp
     .word 150
     ;money
@@ -328,7 +320,7 @@ STATS_MAD_TRUCK:
     ;battle actions
     .byte $06,$06,$06,$06,$06,$06,$32,$32
     ;name pointer
-    .word ENAME_MAD_TRUCK
+    .addr ENAME_MAD_TRUCK
     ;exp
     .word 57
     ;money
@@ -365,7 +357,7 @@ STATS_OLD_ROBOT:
     ;battle actions
     .byte $01,$12,$12,$53,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_OLD_ROBOT
+    .addr ENAME_OLD_ROBOT
     ;exp
     .word 54
     ;money
@@ -402,7 +394,7 @@ STATS_MEGABORG:
     ;battle actions
     .byte $12,$13,$12,$12,$12,$12,$12,$01
     ;name pointer
-    .word ENAME_MEGABORG
+    .addr ENAME_MEGABORG
     ;exp
     .word 197
     ;money
@@ -439,7 +431,7 @@ STATS_GARGOYLE:
     ;battle actions
     .byte $0A,$01,$0B,$0A,$01,$0B,$01,$3E
     ;name pointer
-    .word ENAME_GARGOYLE
+    .addr ENAME_GARGOYLE
     ;exp
     .word 110
     ;money
@@ -476,7 +468,7 @@ STATS_GABILAN:
     ;battle actions
     .byte $01,$3F,$3F,$01,$02,$01,$01,$34
     ;name pointer
-    .word ENAME_GABILAN
+    .addr ENAME_GABILAN
     ;exp
     .word 70
     ;money
@@ -513,7 +505,7 @@ STATS_GORILLA:
     ;battle actions
     .byte $4B,$01,$01,$28,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_GORILLA
+    .addr ENAME_GORILLA
     ;exp
     .word 23
     ;money
@@ -550,7 +542,7 @@ STATS_BISON:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$02
     ;name pointer
-    .word ENAME_BISON
+    .addr ENAME_BISON
     ;exp
     .word 186
     ;money
@@ -587,7 +579,7 @@ STATS_TIGER:
     ;battle actions
     .byte $03,$02,$02,$03,$03,$03,$03,$02
     ;name pointer
-    .word ENAME_TIGER
+    .addr ENAME_TIGER
     ;exp
     .word 24
     ;money
@@ -624,7 +616,7 @@ STATS_MAD_CAR:
     ;battle actions
     .byte $06,$06,$06,$06,$06,$06,$06,$32
     ;name pointer
-    .word ENAME_MAD_CAR
+    .addr ENAME_MAD_CAR
     ;exp
     .word 55
     ;money
@@ -661,7 +653,7 @@ STATS_RAEB_YDDET:
     ;battle actions
     .byte $49,$49,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_RAEB_YDDET
+    .addr ENAME_RAEB_YDDET
     ;exp
     .word 25
     ;money
@@ -698,7 +690,7 @@ STATS_MAGIC_SNAIL:
     ;attacks
     .byte $01,$5D,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_MAGIC_SNAIL
+    .addr ENAME_MAGIC_SNAIL
     ;exp
     .word 42
     ;money
@@ -735,7 +727,7 @@ STATS_TITANEES:
     ;battle actions
     .byte $44,$44,$44,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_TITANEES
+    .addr ENAME_TITANEES
     ;exp
     .word 78
     ;money
@@ -772,7 +764,7 @@ STATS_GIEGUE:
     ;battle actions
     .byte $08,$08,$08,$08,$08,$08,$08,$08
     ;name pointer
-    .word ENAME_GIEGUE
+    .addr ENAME_GIEGUE
     ;exp
     .word 0
     ;money
@@ -809,7 +801,7 @@ STATS_EAGLE:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_EAGLE
+    .addr ENAME_EAGLE
     ;exp
     .word 36
     ;money
@@ -846,7 +838,7 @@ STATS_WOLF:
     ;battle actions
     .byte $03,$03,$03,$03,$03,$03,$03,$03
     ;name pointer
-    .word ENAME_WOLF
+    .addr ENAME_WOLF
     ;exp
     .word 34
     ;money
@@ -883,7 +875,7 @@ STATS_SEAGULL:
     ;battle actions
     .byte $4B,$4C,$01,$53,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_SEAGULL
+    .addr ENAME_SEAGULL
     ;exp
     .word 100
     ;money
@@ -920,7 +912,7 @@ STATS_ALLIGATOR:
     ;battle actions
     .byte $5D,$5D,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_ALLIGATOR
+    .addr ENAME_ALLIGATOR
     ;exp
     .word 21
     ;money
@@ -957,7 +949,7 @@ STATS_ENERGYROBOT:
     ;battle actions
     .byte $53,$2E,$2E,$2E,$2E,$01,$01,$01
     ;name pointer
-    .word ENAME_ENERGYROBOT
+    .addr ENAME_ENERGYROBOT
     ;exp
     .word 202
     ;money
@@ -994,7 +986,7 @@ STATS_THE_FISH:
     ;battle actions
     .byte $02,$02,$02,$02,$02,$02,$02,$02
     ;name pointer
-    .word ENAME_THE_FISH
+    .addr ENAME_THE_FISH
     ;exp
     .word 140
     ;money
@@ -1031,7 +1023,7 @@ STATS_FUGITIVE:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_FUGITIVE
+    .addr ENAME_FUGITIVE
     ;exp
     .word 60
     ;money
@@ -1068,7 +1060,7 @@ STATS_BBS_BOSS:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_BBS_BOSS
+    .addr ENAME_BBS_BOSS
     ;exp
     .word 0
     ;money
@@ -1105,7 +1097,7 @@ STATS_BARBOT:
     ;battle actions
     .byte $01,$01,$01,$15,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_BARBOT
+    .addr ENAME_BARBOT
     ;exp
     .word 32
     ;money
@@ -1142,7 +1134,7 @@ STATS_NANCY:
     ;battle actions
     .byte $6B,$01,$36,$0F,$6B,$01,$01,$01
     ;name pointer
-    .word ENAME_NANCY
+    .addr ENAME_NANCY
     ;exp
     .word 68
     ;money
@@ -1179,7 +1171,7 @@ STATS_STARMAN:
     ;battle actions
     .byte $12,$12,$38,$01,$01,$53,$53,$15
     ;name pointer
-    .word ENAME_STARMAN
+    .addr ENAME_STARMAN
     ;exp
     .word 165
     ;money
@@ -1216,7 +1208,7 @@ STATS_ULLRICH:
     ;battle actions
     .byte $17,$17,$17,$17,$17,$17,$17,$17
     ;name pointer
-    .word ENAME_ULLRICH
+    .addr ENAME_ULLRICH
     ;exp
     .word 65
     ;money
@@ -1253,7 +1245,7 @@ STATS_CEREBRUM:
     ;battle actions
     .byte $12,$13,$82,$0A,$36,$30,$38,$18
     ;name pointer
-    .word ENAME_CEREBRUM
+    .addr ENAME_CEREBRUM
     ;exp
     .word 89
     ;money
@@ -1290,7 +1282,7 @@ STATS_MOOK:
     ;battle actions
     .byte $0C,$0D,$42,$29,$1D,$31,$44,$45
     ;name pointer
-    .word ENAME_MOOK
+    .addr ENAME_MOOK
     ;exp
     .word 166
     ;money
@@ -1327,7 +1319,7 @@ STATS_ARMOR:
     ;battle actions
     .byte $01,$18,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_ARMOR
+    .addr ENAME_ARMOR
     ;exp
     .word 200
     ;money
@@ -1364,7 +1356,7 @@ STATS_WOODOH:
     ;battle actions
     .byte $4A,$4A,$4A,$62,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_WOODOH
+    .addr ENAME_WOODOH
     ;exp
     .word 40
     ;money
@@ -1401,7 +1393,7 @@ STATS_WALLY:
     ;battle actions
     .byte $28,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_WALLY
+    .addr ENAME_WALLY
     ;exp
     .word 5
     ;money
@@ -1438,7 +1430,7 @@ STATS_THE_HIPPIE:
     ;battle actions
     .byte $3C,$50,$28,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_THE_HIPPIE
+    .addr ENAME_THE_HIPPIE
     ;exp
     .word 6
     ;money
@@ -1475,7 +1467,7 @@ STATS_BAG_LADY:
     ;battle actions
     .byte $02,$02,$02,$22,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_BAG_LADY
+    .addr ENAME_BAG_LADY
     ;exp
     .word 63
     ;money
@@ -1512,7 +1504,7 @@ STATS_BB_GANG:
     ;battle actions
     .byte $23,$23,$02,$02,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_BB_GANG
+    .addr ENAME_BB_GANG
     ;exp
     .word 72
     ;money
@@ -1549,7 +1541,7 @@ STATS_DR_DISTORTO:
     ;battle actions
     .byte $48,$28,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_DR_DISTORTO
+    .addr ENAME_DR_DISTORTO
     ;exp
     .word 45
     ;money
@@ -1627,7 +1619,7 @@ STATS_GANG_ZOMBIE:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_GANG_ZOMBIE
+    .addr ENAME_GANG_ZOMBIE
     ;exp
     .word 12
     ;money
@@ -1664,7 +1656,7 @@ STATS_PSEUDOZOMBI:
     ;battle actions
     .byte $04,$03,$05,$04,$03,$05,$04,$03
     ;name pointer
-    .word ENAME_PSEUDOZOMBI
+    .addr ENAME_PSEUDOZOMBI
     ;exp
     .word 8
     ;money
@@ -1701,7 +1693,7 @@ STATS_CROW:
     ;battle actions
     .byte $4B,$4C,$4C,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_CROW
+    .addr ENAME_CROW
     ;exp
     .word 3
     ;money
@@ -1738,7 +1730,7 @@ STATS_SNAKE:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_SNAKE
+    .addr ENAME_SNAKE
     ;exp
     .word 2
     ;money
@@ -1775,7 +1767,7 @@ STATS_HYENA:
     ;battle actions
     .byte $4F,$4F,$4F,$48,$03,$03,$03,$03
     ;name pointer
-    .word ENAME_HYENA
+    .addr ENAME_HYENA
     ;exp
     .word 12
     ;money
@@ -1812,7 +1804,7 @@ STATS_COUGAR:
     ;battle actions
     .byte $04,$04,$04,$04,$04,$04,$04,$04
     ;name pointer
-    .word ENAME_COUGAR
+    .addr ENAME_COUGAR
     ;exp
     .word 32
     ;money
@@ -1849,7 +1841,7 @@ STATS_CENTIPEDE:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_CENTIPEDE
+    .addr ENAME_CENTIPEDE
     ;exp
     .word 1
     ;money
@@ -1886,7 +1878,7 @@ STATS_DUST_BALL:
     ;battle actions
     .byte $4F,$4F,$4F,$4F,$4F,$4F,$4F,$4F
     ;name pointer
-    .word ENAME_DUST_BALL
+    .addr ENAME_DUST_BALL
     ;exp
     .word 80
     ;money
@@ -1923,7 +1915,7 @@ STATS_FLY:
     ;battle actions
     .byte $49,$49,$49,$01,$48,$01,$01,$01
     ;name pointer
-    .word ENAME_FLY
+    .addr ENAME_FLY
     ;exp
     .word 1
     ;money
@@ -1960,7 +1952,7 @@ STATS_SPIDER:
     ;battle actions
     .byte $49,$3D,$3D,$49,$49,$01,$01,$23
     ;name pointer
-    .word ENAME_SPIDER
+    .addr ENAME_SPIDER
     ;exp
     .word 48
     ;money
@@ -1997,7 +1989,7 @@ STATS_SCORPION:
     ;battle actions
     .byte $3D,$3D,$3D,$03,$03,$03,$03,$03
     ;name pointer
-    .word ENAME_SCORPION
+    .addr ENAME_SCORPION
     ;exp
     .word 50
     ;money
@@ -2034,7 +2026,7 @@ STATS_ROPE:
     ;battle actions
     .byte $47,$47,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_ROPE
+    .addr ENAME_ROPE
     ;exp
     .word 48
     ;money
@@ -2071,7 +2063,7 @@ STATS_FIRE_BALL:
     ;battle actions
     .byte $09,$09,$09,$09,$09,$09,$09,$09
     ;name pointer
-    .word ENAME_FIRE_BALL
+    .addr ENAME_FIRE_BALL
     ;exp
     .word 61
     ;money
@@ -2108,7 +2100,7 @@ STATS_WATCHER:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_WATCHER
+    .addr ENAME_WATCHER
     ;exp
     .word 30
     ;money
@@ -2145,7 +2137,7 @@ STATS_GROUCHO:
     ;battle actions
     .byte $51,$51,$51,$51,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_GROUCHO
+    .addr ENAME_GROUCHO
     ;exp
     .word 3
     ;money
@@ -2182,7 +2174,7 @@ STATS_GHOST:
     ;battle actions
     .byte $48,$48,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_GHOST
+    .addr ENAME_GHOST
     ;exp
     .word 5
     ;money
@@ -2219,7 +2211,7 @@ STATS_LIL_SAUCER:
     ;battle actions
     .byte $01,$36,$01,$01,$38,$01,$01,$01
     ;name pointer
-    .word ENAME_LIL_SAUCER
+    .addr ENAME_LIL_SAUCER
     ;exp
     .word 30
     ;money
@@ -2256,7 +2248,7 @@ STATS_MR_BAT:
     ;battle actions
     .byte $54,$54,$54,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_MR_BAT
+    .addr ENAME_MR_BAT
     ;exp
     .word 4
     ;money
@@ -2293,7 +2285,7 @@ STATS_STARMAN_JR:
     ;battle actions
     .byte $12,$12,$15,$01,$01,$01,$01,$53
     ;name pointer
-    .word ENAME_STARMAN_JR
+    .addr ENAME_STARMAN_JR
     ;exp
     .word 30
     ;money
@@ -2330,7 +2322,7 @@ STATS_SKUNK:
     ;battle actions
     .byte $01,$01,$01,$01,$46,$01,$01,$01
     ;name pointer
-    .word ENAME_SKUNK
+    .addr ENAME_SKUNK
     ;exp
     .word 32
     ;money
@@ -2367,7 +2359,7 @@ STATS_SHROUDLEY:
     ;battle actions
     .byte $34,$34,$07,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_SHROUDLEY
+    .addr ENAME_SHROUDLEY
     ;exp
     .word 58
     ;money
@@ -2404,7 +2396,7 @@ STATS_RAT:
     ;battle actions
     .byte $23,$23,$23,$03,$03,$03,$03,$03
     ;name pointer
-    .word ENAME_RAT
+    .addr ENAME_RAT
     ;exp
     .word 3
     ;money
@@ -2441,7 +2433,7 @@ STATS_BOMBER:
     ;battle actions
     .byte $46,$46,$46,$10,$10,$01,$01,$01
     ;name pointer
-    .word ENAME_BOMBER
+    .addr ENAME_BOMBER
     ;exp
     .word 56
     ;money
@@ -2519,7 +2511,7 @@ STATS_DOLL:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_DOLL
+    .addr ENAME_DOLL
     ;exp
     .word 10
     ;money
@@ -2556,7 +2548,7 @@ STATS_LAMP:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_LAMP
+    .addr ENAME_LAMP
     ;exp
     .word 1
     ;money
@@ -2675,7 +2667,7 @@ STATS_BIONICCENTI:
     ;battle actions
     .byte $01,$3D,$3D,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_BIONICCENTI
+    .addr ENAME_BIONICCENTI
     ;exp
     .word 18
     ;money
@@ -2712,7 +2704,7 @@ STATS_BIONICSCORP:
     ;battle actions
     .byte $3D,$3E,$3D,$3E,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_BIONICSCORP
+    .addr ENAME_BIONICSCORP
     ;exp
     .word 61
     ;money
@@ -2831,7 +2823,7 @@ STATS_RED_SNAKE:
     ;battle actions
     .byte $48,$48,$48,$48,$48,$48,$01,$01
     ;name pointer
-    .word ENAME_RED_SNAKE
+    .addr ENAME_RED_SNAKE
     ;exp
     .word 500
     ;money
@@ -2868,7 +2860,7 @@ STATS_LONE_WOLF:
     ;battle actions
     .byte $03,$03,$03,$03,$03,$03,$03,$03
     ;name pointer
-    .word ENAME_LONE_WOLF
+    .addr ENAME_LONE_WOLF
     ;exp
     .word 100
     ;money
@@ -2905,7 +2897,7 @@ STATS_POLAR_BEAR:
     ;battle actions
     .byte $01,$01,$01,$04,$05,$4F,$01,$01
     ;name pointer
-    .word ENAME_POLAR_BEAR
+    .addr ENAME_POLAR_BEAR
     ;exp
     .word 160
     ;money
@@ -3106,7 +3098,7 @@ STATS_RATTLESNAKE:
     ;battle actions
     .byte $5D,$5D,$5D,$07,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_RATTLESNAKE
+    .addr ENAME_RATTLESNAKE
     ;exp
     .word 57
     ;money
@@ -3143,7 +3135,7 @@ STATS_TARANTULA:
     ;battle actions
     .byte $49,$49,$3D,$3D,$3D,$3D,$01,$01
     ;name pointer
-    .word ENAME_TARANTULA
+    .addr ENAME_TARANTULA
     ;exp
     .word 205
     ;money
@@ -3180,7 +3172,7 @@ STATS_CROCODILE:
     ;battle actions
     .byte $5D,$5D,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_CROCODILE
+    .addr ENAME_CROCODILE
     ;exp
     .word 172
     ;money
@@ -3258,7 +3250,7 @@ STATS_BUFFALO:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_BUFFALO
+    .addr ENAME_BUFFALO
     ;exp
     .word 103
     ;money
@@ -3336,7 +3328,7 @@ STATS_BIONIC_BAT:
     ;battle actions
     .byte $49,$49,$54,$54,$01,$01,$01,$3E
     ;name pointer
-    .word ENAME_BIONIC_BAT
+    .addr ENAME_BIONIC_BAT
     ;exp
     .word 40
     ;money
@@ -3373,7 +3365,7 @@ STATS_STRAY_DOG:
     ;battle actions
     .byte $03,$03,$03,$03,$03,$03,$03,$03
     ;name pointer
-    .word ENAME_STRAY_DOG
+    .addr ENAME_STRAY_DOG
     ;exp
     .word 4
     ;money
@@ -3410,7 +3402,7 @@ STATS_PSYCHO_CAR:
     ;battle actions
     .byte $06,$32,$06,$06,$06,$06,$06,$06
     ;name pointer
-    .word ENAME_PSYCHO_CAR
+    .addr ENAME_PSYCHO_CAR
     ;exp
     .word 61
     ;money
@@ -3447,7 +3439,7 @@ STATS_PSYCHOTRUCK:
     ;battle actions
     .byte $06,$06,$32,$32,$06,$06,$06,$32
     ;name pointer
-    .word ENAME_PSYCHOTRUCK
+    .addr ENAME_PSYCHOTRUCK
     ;exp
     .word 34
     ;money
@@ -3484,7 +3476,7 @@ STATS_MANIACTRUCK:
     ;battle actions
     .byte $32,$32,$06,$06,$32,$06,$06,$32
     ;name pointer
-    .word ENAME_MANIACTRUCK
+    .addr ENAME_MANIACTRUCK
     ;exp
     .word 75
     ;money
@@ -3521,7 +3513,7 @@ STATS_ALARM_GHOST:
     ;battle actions
     .byte $49,$49,$49,$49,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_ALARM_GHOST
+    .addr ENAME_ALARM_GHOST
     ;exp
     .word 80
     ;money
@@ -3599,7 +3591,7 @@ STATS_FOUREYES:
     ;battle actions
     .byte $5D,$5D,$5D,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_FOUREYES
+    .addr ENAME_FOUREYES
     ;exp
     .word 32
     ;money
@@ -3636,7 +3628,7 @@ STATS_DADSEYES:
     ;battle actions
     .byte $28,$28,$28,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_DADSEYES
+    .addr ENAME_DADSEYES
     ;exp
     .word 35
     ;money
@@ -3673,7 +3665,7 @@ STATS_MOMSEYES:
     ;battle actions
     .byte $02,$02,$02,$02,$02,$02,$02,$02
     ;name pointer
-    .word ENAME_MOMSEYES
+    .addr ENAME_MOMSEYES
     ;exp
     .word 35
     ;money
@@ -3792,7 +3784,7 @@ STATS_SKY_YDDET:
     ;battle actions
     .byte $4F,$4F,$4F,$4F,$4F,$4F,$07,$07
     ;name pointer
-    .word ENAME_SKY_YDDET
+    .addr ENAME_SKY_YDDET
     ;exp
     .word 40
     ;money
@@ -3870,7 +3862,7 @@ STATS_GIGA_BORG:
     ;battle actions
     .byte $12,$15,$12,$12,$13,$12,$12,$12
     ;name pointer
-    .word ENAME_GIGA_BORG
+    .addr ENAME_GIGA_BORG
     ;exp
     .word 98
     ;money
@@ -3907,7 +3899,7 @@ STATS_OMEGA_BORG:
     ;battle actions
     .byte $15,$13,$13,$0A,$0A,$83,$01,$0E
     ;name pointer
-    .word ENAME_OMEGA_BORG
+    .addr ENAME_OMEGA_BORG
     ;exp
     .word 180
     ;money
@@ -3944,7 +3936,7 @@ STATS_SCRAPPER:
     ;battle actions
     .byte $53,$53,$01,$01,$01,$12,$12,$12
     ;name pointer
-    .word ENAME_SCRAPPER
+    .addr ENAME_SCRAPPER
     ;exp
     .word 65
     ;money
@@ -3981,7 +3973,7 @@ STATS_ULTRABARBOT:
     ;battle actions
     .byte $01,$15,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_ULTRABARBOT
+    .addr ENAME_ULTRABARBOT
     ;exp
     .word 220
     ;money
@@ -4018,7 +4010,7 @@ STATS_OMEGASAUCER:
     ;battle actions
     .byte $12,$01,$38,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_OMEGASAUCER
+    .addr ENAME_OMEGASAUCER
     ;exp
     .word 82
     ;money
@@ -4055,7 +4047,7 @@ STATS_KELLY:
     ;battle actions
     .byte $6B,$62,$31,$01,$6B,$01,$01,$01
     ;name pointer
-    .word ENAME_KELLY
+    .addr ENAME_KELLY
     ;exp
     .word 102
     ;money
@@ -4092,7 +4084,7 @@ STATS_STAR_MINER:
     ;battle actions
     .byte $46,$10,$46,$10,$10,$10,$10,$01
     ;name pointer
-    .word ENAME_STAR_MINER
+    .addr ENAME_STAR_MINER
     ;exp
     .word 209
     ;money
@@ -4129,7 +4121,7 @@ STATS_SUPERENERGY:
     ;battle actions
     .byte $2E,$2E,$2E,$2E,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_SUPERENERGY
+    .addr ENAME_SUPERENERGY
     ;exp
     .word 230
     ;money
@@ -4166,7 +4158,7 @@ STATS_JUANA:
     ;battle actions
     .byte $18,$83,$0A,$6B,$0B,$15,$01,$01
     ;name pointer
-    .word ENAME_JUANA
+    .addr ENAME_JUANA
     ;exp
     .word 270
     ;money
@@ -4203,7 +4195,7 @@ STATS_BLUESTARMAN:
     ;battle actions
     .byte $12,$13,$38,$53,$53,$15,$01,$01
     ;name pointer
-    .word ENAME_BLUESTARMAN
+    .addr ENAME_BLUESTARMAN
     ;exp
     .word 150
     ;money
@@ -4240,7 +4232,7 @@ STATS_ROCKOYLE:
     ;battle actions
     .byte $0D,$40,$0E,$0F,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_ROCKOYLE
+    .addr ENAME_ROCKOYLE
     ;exp
     .word 162
     ;money
@@ -4277,7 +4269,7 @@ STATS_TITANIAN:
     ;battle actions
     .byte $62,$62,$62,$01,$01,$01,$01,$3E
     ;name pointer
-    .word ENAME_TITANIAN
+    .addr ENAME_TITANIAN
     ;exp
     .word 180
     ;money
@@ -4314,7 +4306,7 @@ STATS_OH_MOOK:
     ;battle actions
     .byte $0A,$0D,$42,$4B,$2B,$1D,$31,$36
     ;name pointer
-    .word ENAME_OH_MOOK
+    .addr ENAME_OH_MOOK
     ;exp
     .word 175
     ;money
@@ -4392,7 +4384,7 @@ STATS_ZOMBIE:
     ;battle actions
     .byte $42,$42,$42,$4C,$4C,$4C,$4C,$01
     ;name pointer
-    .word ENAME_ZOMBIE
+    .addr ENAME_ZOMBIE
     ;exp
     .word 48
     ;money
@@ -4429,7 +4421,7 @@ STATS_NASTYZOMBIE:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_NASTYZOMBIE
+    .addr ENAME_NASTYZOMBIE
     ;exp
     .word 54
     ;money
@@ -4466,7 +4458,7 @@ STATS_SILVER_WOLF:
     ;battle actions
     .byte $03,$03,$03,$03,$03,$03,$03,$03
     ;name pointer
-    .word ENAME_SILVER_WOLF
+    .addr ENAME_SILVER_WOLF
     ;exp
     .word 66
     ;money
@@ -4503,7 +4495,7 @@ STATS_R7037:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_R7037
+    .addr ENAME_R7037
     ;exp
     .word 205
     ;money
@@ -4540,7 +4532,7 @@ STATS_GRIZZLYBEAR:
     ;battle actions
     .byte $02,$02,$02,$04,$05,$02,$02,$07
     ;name pointer
-    .word ENAME_GRIZZLYBEAR
+    .addr ENAME_GRIZZLYBEAR
     ;exp
     .word 250
     ;money
@@ -4577,7 +4569,7 @@ STATS_R7038XX:
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
-    .word ENAME_R7038XX
+    .addr ENAME_R7038XX
     ;exp
     .word 550
     ;money
@@ -4614,7 +4606,7 @@ STATS_LASTSTARMAN:
     ;battle actions
     .byte $13,$13,$38,$15,$01,$01,$53,$53
     ;name pointer
-    .word ENAME_LASTSTARMAN
+    .addr ENAME_LASTSTARMAN
     ;exp
     .word 330
     ;money

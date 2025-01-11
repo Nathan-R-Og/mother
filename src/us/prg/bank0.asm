@@ -1,550 +1,11 @@
 .segment        "PRG0": absolute
 
-;items
-INAME_NULL:
-.byte 0
-INAME_BIG_BAG:
-.byte   "Big Bag",stopText
-INAME_PHONE_CARD:
-.byte   "Phone Card",stopText
-INAME_CRUMBS:
-.byte   "Crumbs",stopText
-INAME_REPEL_RING:
-.byte   "Repel Ring",stopText
-INAME_BUTTERKNIFE:
-.byte   "ButterKnife",stopText
-INAME_SURV_KNIFE:
-.byte   "Surv.Knife",stopText
-INAME_SWORD:
-.byte   "Sword",stopText
-INAME_KATANA:
-.byte   "Katana",stopText
-INAME_STUN_GUN:
-.byte   "Stun Gun",stopText
-INAME_AIR_GUN:
-.byte   "Air Gun",stopText
-INAME_PLASTIC_BAT:
-.byte   "Plastic Bat",stopText
-INAME_WOODEN_BAT:
-.byte   "Wooden Bat",stopText
-INAME_ALUMINUMBAT:
-.byte   "AluminumBat",stopText
-INAME_HANKS_BAT:
-.byte   "Hank's Bat",stopText
-INAME_FRYING_PAN:
-.byte   "Frying Pan",stopText
-INAME_NONSTICKPAN:
-.byte   "NonstickPan",stopText
-INAME_IRONSKILLET:
-.byte   "IronSkillet",stopText
-INAME_SLINGSHOT:
-.byte   "Slingshot",stopText
-INAME_BOOMERANG:
-.byte   "Boomerang",stopText
-INAME_INSECTICIDE:
-.byte   "Insecticide",stopText
-INAME_SUPER_SPRAY:
-.byte   "Super Spray",stopText
-INAME_FLEA_BAG:
-.byte   "Flea Bag",stopText
-INAME_WORDSOLOVE:
-.byte   "WordsO'Love",stopText
-INAME_SWEAR_WORDS:
-.byte   "Swear Words",stopText
-INAME_STKYMACHINE:
-.byte   "StkyMachine",stopText
-INAME_FLASHDARK:
-.byte   "Flashdark",stopText
-INAME_STONEORIGIN:
-.byte   "StoneOrigin",stopText
-INAME_POISNNEEDLE:
-.byte   "PoisnNeedle",stopText
-INAME_FL_THROWER:
-.byte   "Fl Thrower",stopText
-INAME_BOMB:
-.byte   "Bomb",stopText
-INAME_SUPER_BOMB:
-.byte   "Super Bomb",stopText
-INAME_LASER_BEAM:
-.byte   "Laser Beam",stopText
-INAME_PLASMA_BEAM:
-.byte   "Plasma Beam",stopText
-INAME_ROPE:
-.byte   "Rope",stopText
-INAME_PEACE_COIN:
-.byte   "Peace Coin",stopText
-INAME_PROTECTCOIN:
-.byte   "ProtectCoin",stopText
-INAME_MAGIC_COIN:
-.byte   "Magic Coin",stopText
-INAME_BRASS_RING:
-.byte   "Brass Ring",stopText
-INAME_SILVER_RING:
-.byte   "Silver Ring",stopText
-INAME_GOLD_RING:
-.byte   "Gold Ring",stopText
-INAME_H2O_PENDANT:
-.byte   "H2o Pendant",stopText
-INAME_FIREPENDANT:
-.byte   "FirePendant",stopText
-INAME_EARTHPENDNT:
-.byte   "EarthPendnt",stopText
-INAME_SEA_PENDANT:
-.byte   "Sea Pendant",stopText
+.include "../../global/item_names.asm"
+.include "../../global/choicer_names.asm"
+.include "../../global/psi_names.asm"
+.include "../../global/status_names.asm"
+.include "../../global/enemy_names.asm"
 
-INAME_ORANGEJUICE:
-.byte   "OrangeJuice",stopText
-INAME_FRENCHFRIES:
-.byte   "FrenchFries",stopText
-INAME_MAGIC_HERB:
-.byte   "Magic Herb",stopText
-INAME_HAMBURGER:
-.byte   "Hamburger",stopText
-INAME_SPROTSDRINK:
-.byte   "SportsDrink",stopText
-INAME_LIFEUPCREAM:
-.byte   "LifeUpCream",stopText
-INAME_ASTHMASPRAY:
-.byte   "AsthmaSpray",stopText
-INAME_ANTIDOTE:
-.byte   "Antidote",stopText
-INAME_MOUTHWASH:
-.byte   "Mouthwash",stopText
-INAME_BERRY_TOFU:
-.byte   "berry Tofu",stopText
-INAME_BREAD:
-.byte   "Bread",stopText
-INAME_NOBLE_SEED:
-.byte   "Noble Seed",stopText
-INAME_PSI_STONE:
-.byte   "PSI Stone",stopText
-INAME_MAGICRIBBON:
-.byte   "MagicRibbon",stopText
-INAME_MAGIC_CANDY:
-.byte   "Magic Candy",stopText
-INAME_QUICKCAPSUL:
-.byte   "QuickCapsul",stopText
-INAME_WISDOM_CAPS:
-.byte   "Wisdom Caps",stopText
-INAME_PHYSICALCAP:
-.byte   "PhysicalCap",stopText
-INAME_FORCECAPSUL:
-.byte   "ForceCapsul",stopText
-INAME_FIGHTCAPSUL:
-.byte   "FightCapsul",stopText
-INAME_BASEMENTKEY:
-.byte   "BasementKey",stopText
-INAME_ZOO_KEY:
-.byte   "Zoo Key",stopText
-INAME_GHOST_KEY:
-.byte   "Ghost Key",stopText
-INAME_GGFS_DIARY:
-.byte   "GGF's Diary",stopText
-INAME_PASS:
-.byte   "Pass",stopText
-INAME_TICKET:
-.byte   "Ticket",stopText
-INAME_CANARYCHICK:
-.byte   "CanaryChick",stopText
-INAME_BOTTLROCKET:
-.byte   "BottlRocket",stopText
-INAME_HAT:
-.byte   "Hat",stopText
-INAME_DENTURES:
-.byte   "Dentures",stopText
-INAME_TICKET_STUB:
-.byte   "Ticket Stub",stopText
-INAME_IC_CHIP:
-.byte   "IC-chip",stopText
-INAME_OCARINA:
-.byte   "Ocarina",stopText
-INAME_FRANKLNBDGE:
-.byte   "FranklnBdge",stopText
-INAME_FRNDSHPRING:
-.byte   "FrndshpRing",stopText
-INAME_ONYX_HOOK:
-.byte   "Onyx Hook",stopText
-INAME_LAST_WEAPON:
-.byte   "Last Weapon",stopText
-INAME_RULER:
-.byte   "Ruler",stopText
-INAME_CASH_CARD:
-.byte   "Cash Card",stopText
-INAME_RED_WEED:
-.byte   "Red Weed",stopText
-INAME_BULLHORN:
-.byte   "Bullhorn",stopText
-INAME_MAP:
-.byte   "Map",stopText
-INAME_DEBUG:
-.byte   "Debug",stopText
-
-;choicers
-CHOICER_NULL:
-.byte 0
-CHOICER_FLIGHTPLANSA:
-.byte   "FlightplanA",stopText
-CHOICER_FLIGHTPLANSB:
-.byte   "FlightplanB",stopText
-CHOICER_FLIGHTPLANSC:
-.byte   "FlightplanC",stopText
-CHOICER_HINTS1:
-.byte   "Hint 1",stopText
-CHOICER_HINTS2:
-.byte   "Hint 2",stopText
-CHOICER_HINTS3:
-.byte   "Hint 3",stopText
-CHOICER_SCIENTIST1:
-.byte   "Real Rocket",stopText
-CHOICER_SCIENTIST2:
-.byte   "TimeMachine",stopText
-
-;teleport locales
-TELEPORT_NULL:
-.byte 0
-TELEPORT_MYHOME:
-.byte   "MyHome",stopText
-TELEPORT_PODUNK:
-.byte   "Podunk",stopText
-TELEPORT_MERRYSVILLE:
-.byte   "Merrysville",stopText
-TELEPORT_REINDEER:
-.byte   "Reindeer",stopText
-TELEPORT_SPOOKANE:
-.byte   "Spookane",stopText
-TELEPORT_SNOWMAN:
-.byte   "Snowman",stopText
-TELEPORT_YOUNGTOWN:
-.byte   "Youngtown",stopText
-TELEPORT_ELLAY:
-.byte   "Ellay",stopText
-TELEPORT_UNION:
-.byte   "Union",stopText
-
-;PSI
-PSI_NULL:
-.byte 0
-PSI_TELEPATHY:
-.byte   "Telepathy",stopText
-PSI_TELEPORT:
-.byte   "Teleport",stopText
-PSI_LIFEUP_ALPHA:
-.byte   "LifeUp ",alpha,stopText
-PSI_LIFEUP_BETA:
-.byte   "LifeUp ",beta,stopText
-PSI_LIFEUP_GAMMA:
-.byte   "LifeUp ",gamma,stopText
-PSI_LIFEUP_PI:
-.byte   "LifeUp ",pi,stopText
-PSI_LIFEUP_OMEGA:
-.byte   "LifeUp ",omega,stopText
-PSI_HEALING_ALPHA:
-.byte   "Healing ",alpha,stopText
-PSI_HEALING_BETA:
-.byte   "Healing ",beta,stopText
-PSI_HEALING_GAMMA:
-.byte   "Healing ",gamma,stopText
-PSI_HEALING_PI:
-.byte   "Healing ",pi,stopText
-PSI_SUPRHEALING:
-.byte   "SuprHealing",stopText
-PSI_PSISHIELD_ALPHA:
-.byte   "PSIShield ",alpha,stopText
-PSI_PSISHIELD_BETA:
-.byte   "PSIShield ",beta,stopText
-PSI_POWERSHIELD:
-.byte   "PowerShield",stopText
-PSI_BRAINSHOCK:
-.byte   "BrainShock",stopText
-PSI_BRAINCYCLON:
-.byte   "BrainCyclon",stopText
-PSI_HYPNOSIS:
-.byte   "Hypnosis",stopText
-PSI_PARALYSIS:
-.byte   "Paralysis",stopText
-PSI_DARKNESS:
-.byte   "Darkness",stopText
-PSI_PSI_MAGNET:
-.byte   "PSI-Magnet",stopText
-PSI_SHIELD_OFF:
-.byte   "Shield-Off",stopText
-PSI_PSI_BLOCK:
-.byte   "PSI-Block",stopText
-PSI_OFFENSEUP:
-.byte   "OffenseUp",stopText
-PSI_DEFENSEUP_ALPHA:
-.byte   "DefenseUp ",alpha,stopText
-PSI_DEFENSEUP_BETA:
-.byte   "DefenseUp ",beta,stopText
-PSI_QUICKUP:
-.byte   "QuickUp",stopText
-PSI_DEF_DOWN_ALPHA:
-.byte   "Def.Down ",alpha,stopText
-PSI_DEF_DOWN_BETA:
-.byte   "Def.Down ",beta,stopText
-PSI_4TH_D_SLIP:
-.byte   "4th-D Slip",stopText
-PSI_PK_FREEZE_ALPHA:
-.byte   "PK Freeze ",alpha,stopText
-PSI_PK_FREEZE_BETA:
-.byte   "PK Freeze ",beta,stopText
-PSI_PK_FREEZE_GAMMA:
-.byte   "PK Freeze ",gamma,stopText
-PSI_PK_FREEZE_OMEGA:
-.byte   "PK Freeze ",omega,stopText
-PSI_PK_FIRE_ALPHA:
-.byte   "PK Fire ",alpha,stopText
-PSI_PK_FIRE_BETA:
-.byte   "PK Fire ",beta,stopText
-PSI_PK_FIRE_GAMMA:
-.byte   "PK Fire ",gamma,stopText
-PSI_PK_FIRE_OMEGA:
-.byte   "PK Fire ",omega,stopText
-PSI_PK_BEAM_ALPHA:
-.byte   "PK Beam ",alpha,stopText
-PSI_PK_BEAM_BETA:
-.byte   "PK Beam ",beta,stopText
-PSI_PK_BEAM_GAMMA:
-.byte   "PK Beam ",gamma,stopText
-PSI_PK_BEAM_OMEGA:
-.byte   "PK Beam ",omega,stopText
-PSI_PK_THUNDERALPHA:
-.byte   "PK Thunder",alpha,stopText
-PSI_PK_THUNDERBETA:
-.byte   "PK Thunder",beta,stopText
-PSI_PK_THUNDERGAMMA:
-.byte   "PK Thunder",gamma,stopText
-PSI_STOP:
-
-;status
-STATUS_FAINTD:
-.byte   "Faintd",stopText
-STATUS_STONE:
-.byte   " Stone",stopText
-STATUS_PARLZD:
-.byte   "Parlzd",stopText
-STATUS_ASLEEP:
-.byte   "Asleep",stopText
-STATUS_CONFSD:
-.byte   "Confsd",stopText
-STATUS_PUZZLD:
-.byte   "Puzzld",stopText
-STATUS_POISON:
-.byte   "Poison",stopText
-STATUS_COLD:
-.byte   "  Cold",stopText
-
-;enemies
-ENAME_NULL:
-.byte 0
-ENAME_BIGWOODOH:
-.byte   "BigWoodoh",stopText
-ENAME_DRAGON:
-.byte   "Dragon",stopText
-ENAME_R7038:
-.byte   "R7038",stopText
-ENAME_ELEPHANT:
-.byte   "Elephant",stopText
-ENAME_BEAR:
-.byte   "Bear",stopText
-ENAME_BIG_FOOT:
-.byte   "Big Foot",stopText
-ENAME_MAD_TRUCK:
-.byte   "Mad Truck",stopText
-ENAME_OLD_ROBOT:
-.byte   "Old Robot",stopText
-ENAME_MEGABORG:
-.byte   "Megaborg",stopText
-ENAME_GARGOYLE:
-.byte   "Gargoyle",stopText
-ENAME_GABILAN:
-.byte   "Gabilan",stopText
-ENAME_GORILLA:
-.byte   "Gorilla",stopText
-ENAME_BISON:
-.byte   "Bison",stopText
-ENAME_TIGER:
-.byte   "Tiger",stopText
-ENAME_MAD_CAR:
-.byte   "Mad Car",stopText
-ENAME_RAEB_YDDET:
-.byte   "Raeb Yddet",stopText
-ENAME_MAGIC_SNAIL:
-.byte   "Magic Snail",stopText
-ENAME_TITANEES:
-.byte   "Titanees",stopText
-ENAME_GIEGUE:
-.byte   "Giegue",stopText
-ENAME_EAGLE:
-.byte   "Eagle",stopText
-ENAME_WOLF:
-.byte   "Wolf",stopText
-ENAME_SEAGULL:
-.byte   "Seagull",stopText
-ENAME_ALLIGATOR:
-.byte   "Alligator",stopText
-ENAME_ENERGYROBOT:
-.byte   "EnergyRobot",stopText
-ENAME_THE_FISH:
-.byte   "The Fish",stopText
-ENAME_FUGITIVE:
-.byte   "Fugitive",stopText
-ENAME_BBS_BOSS:
-.byte   "B.B.'s Boss",stopText
-ENAME_BARBOT:
-.byte   "Barbot",stopText
-ENAME_NANCY:
-.byte   "Nancy",stopText
-ENAME_STARMAN:
-.byte   "Starman",stopText
-ENAME_ULLRICH:
-.byte   "Ullrich",stopText
-ENAME_CEREBRUM:
-.byte   "Cerebrum",stopText
-ENAME_MOOK:
-.byte   "Mook",stopText
-ENAME_ARMOR:
-.byte   "Armor",stopText
-ENAME_WOODOH:
-.byte   "Woodoh",stopText
-ENAME_WALLY:
-.byte   "Wally",stopText
-ENAME_THE_HIPPIE:
-.byte   "The Hippie",stopText
-ENAME_BAG_LADY:
-.byte   "Bag Lady",stopText
-ENAME_BB_GANG:
-.byte   "B.B. Gang",stopText
-ENAME_DR_DISTORTO:
-.byte   "Dr.Distorto",stopText
-ENAME_GANG_ZOMBIE:
-.byte   "Gang Zombie",stopText
-ENAME_PSEUDOZOMBI:
-.byte   "PseudoZombi",stopText
-ENAME_CROW:
-.byte   "Crow",stopText
-ENAME_SNAKE:
-.byte   "Snake",stopText
-ENAME_HYENA:
-.byte   "Hyena",stopText
-ENAME_COUGAR:
-.byte   "Cougar",stopText
-ENAME_CENTIPEDE:
-.byte   "Centipede",stopText
-ENAME_DUST_BALL:
-.byte   "Dust Ball",stopText
-ENAME_FLY:
-.byte   "Fly",stopText
-ENAME_SPIDER:
-.byte   "Spider",stopText
-ENAME_SCORPION:
-.byte   "Scorpion",stopText
-ENAME_ROPE:
-.byte   "Rope",stopText
-ENAME_FIRE_BALL:
-.byte   "Fire Ball",stopText
-ENAME_WATCHER:
-.byte   "Watcher",stopText
-ENAME_GROUCHO:
-.byte   "Groucho",stopText
-ENAME_GHOST:
-.byte   "Ghost",stopText
-ENAME_LIL_SAUCER:
-.byte   "Lil Saucer",stopText
-ENAME_MR_BAT:
-.byte   "Mr. Bat",stopText
-ENAME_STARMAN_JR:
-.byte   "Starman Jr.",stopText
-ENAME_SKUNK:
-.byte   "Skunk",stopText
-ENAME_SHROUDLEY:
-.byte   "Shroudley",stopText
-ENAME_RAT:
-.byte   "Rat",stopText
-ENAME_BOMBER:
-.byte   "Bomber",stopText
-ENAME_DOLL:
-.byte   "Doll",stopText
-ENAME_LAMP:
-.byte   "Lamp",stopText
-ENAME_BIONICCENTI:
-.byte   "BionicCenti",stopText
-ENAME_BIONICSCORP:
-.byte   "BionicScorp",stopText
-ENAME_RED_SNAKE:
-.byte   "Red Snake",stopText
-ENAME_LONE_WOLF:
-.byte   "Lone Wolf",stopText
-ENAME_POLAR_BEAR:
-.byte   "Polar Bear",stopText
-ENAME_RATTLESNAKE:
-.byte   "Rattlesnake",stopText
-ENAME_TARANTULA:
-.byte   "Tarantula",stopText
-ENAME_CROCODILE:
-.byte   "Crocodile",stopText
-ENAME_BUFFALO:
-.byte   "Buffalo",stopText
-ENAME_BIONIC_BAT:
-.byte   "Bionic Bat",stopText
-ENAME_STRAY_DOG:
-.byte   "Stray Dog",stopText
-ENAME_PSYCHO_CAR:
-.byte   "Psycho Car",stopText
-ENAME_PSYCHOTRUCK:
-.byte   "PsychoTruck",stopText
-ENAME_MANIACTRUCK:
-.byte   "ManiacTruck",stopText
-ENAME_ALARM_GHOST:
-.byte   "Alarm Ghost",stopText
-ENAME_FOUREYES:
-.byte   "Foureyes",stopText
-ENAME_DADSEYES:
-.byte   "Dadseyes",stopText
-ENAME_MOMSEYES:
-.byte   "Momseyes",stopText
-ENAME_SKY_YDDET:
-.byte   "Sky Yddet",stopText
-ENAME_GIGA_BORG:
-.byte   "Giga Borg",stopText
-ENAME_OMEGA_BORG:
-.byte   "Omega Borg",stopText
-ENAME_SCRAPPER:
-.byte   "Scrapper",stopText
-ENAME_ULTRABARBOT:
-.byte   "UltraBarbot",stopText
-ENAME_OMEGASAUCER:
-.byte   "OmegaSaucer",stopText
-ENAME_KELLY:
-.byte   "Kelly",stopText
-ENAME_STAR_MINER:
-.byte   "Star Miner",stopText
-ENAME_SUPERENERGY:
-.byte   "SuperEnergy",stopText
-ENAME_JUANA:
-.byte   "Juana",stopText
-ENAME_BLUESTARMAN:
-.byte   "BlueStarman",stopText
-ENAME_ROCKOYLE:
-.byte   "Rockoyle",stopText
-ENAME_TITANIAN:
-.byte   "Titanian",stopText
-ENAME_OH_MOOK:
-.byte   "Oh-Mook",stopText
-ENAME_ZOMBIE:
-.byte   "Zombie",stopText
-ENAME_NASTYZOMBIE:
-.byte   "NastyZombie",stopText
-ENAME_SILVER_WOLF:
-.byte   "Silver Wolf",stopText
-ENAME_R7037:
-.byte   "R7037",stopText
-ENAME_GRIZZLYBEAR:
-.byte   "GrizzlyBear",stopText
-ENAME_R7038XX:
-.byte   "R7038XX",stopText
-ENAME_LASTSTARMAN:
-.byte   "LastStarman",stopText
 
 ;???????
 .res $82, 0
@@ -555,207 +16,207 @@ ENAME_LASTSTARMAN:
 
 ;battle ui stuff
 ui_list:
-.word ui_battlelog
-.word ui_partybox
-.word ui_actionbox
-.word ui_thing_6
-.word ui_thing_20
-.word ui_thing_11
-.word ui_thing_12
-.word ui_thing_2
-.word ui_thing_14
-.word ui_thing_20
-.word ui_thing_7
-.word ui_thing_8
-.word ui_thing_13
-.word ui_thing_16
-.word ui_thing_9
-.word ui_thing_15
-.word ui_thing_17
-.word ui_thing_18
-.word ui_thing_10
-.word ui_actionbox_melodies
-.word ui_thing_19
+.addr ui_battlelog
+.addr ui_partybox
+.addr ui_actionbox
+.addr ui_thing_6
+.addr ui_thing_20
+.addr ui_thing_11
+.addr ui_thing_12
+.addr ui_thing_2
+.addr ui_thing_14
+.addr ui_thing_20
+.addr ui_thing_7
+.addr ui_thing_8
+.addr ui_thing_13
+.addr ui_thing_16
+.addr ui_thing_9
+.addr ui_thing_15
+.addr ui_thing_17
+.addr ui_thing_18
+.addr ui_thing_10
+.addr ui_actionbox_melodies
+.addr ui_thing_19
 
 ui_battlelog:
 ;yspacing, xoffset, yoffset, draw mode
 .byte 1, 0, 1, $FE
 .byte 1 ;amount?
-.word ui_battlelog_top
+.addr ui_battlelog_top
 .byte $FD
 .byte 3 ;amount?
-.word ui_battlelog_middle
+.addr ui_battlelog_middle
 .byte $FE
 .byte 1 ;amount?
-.word ui_battlelog_bottom
+.addr ui_battlelog_bottom
 .byte $FF
 ui_thing_2:
 .byte $FF,0,9,$FD
 .byte 4
-.word ui_nothing
+.addr ui_nothing
 .byte $FF
 ui_partybox:
 .byte 1,0,19,$FE
 .byte 1
-.word ui_partybox_top
+.addr ui_partybox_top
 .byte $FD
 .byte 3
-.word ui_partybox_middle
+.addr ui_partybox_middle
 .byte $FE
 .byte 1
-.word ui_partybox_bottom
+.addr ui_partybox_bottom
 .byte $FF
 ui_actionbox:
 .byte $01,11,17,$FE
 .byte 1
-.word ui_actionbox_top
+.addr ui_actionbox_top
 .byte $FD
 .byte 1
-.word ui_actionbox_line1
+.addr ui_actionbox_line1
 .byte 1
-.word ui_actionbox_line2
+.addr ui_actionbox_line2
 .byte 1
-.word ui_actionbox_line3
+.addr ui_actionbox_line3
 .byte 1
-.word ui_actionbox_line4
+.addr ui_actionbox_line4
 .byte $FE
 .byte 1
-.word ui_actionbox_bottom
+.addr ui_actionbox_bottom
 .byte $FF
 ui_actionbox_melodies:
 .byte $01,$0B,$11,$FE
 .byte 1
-.word ui_actionbox_top
+.addr ui_actionbox_top
 .byte $FD
 .byte 1
-.word ui_actionbox_line1
+.addr ui_actionbox_line1
 .byte 1
-.word ui_actionbox_line2
+.addr ui_actionbox_line2
 .byte 1
-.word ui_actionbox_line3
+.addr ui_actionbox_line3
 .byte 1
-.word ui_actionbox_line4_melodies
+.addr ui_actionbox_line4_melodies
 .byte $FE
 .byte 1
-.word ui_actionbox_bottom
+.addr ui_actionbox_bottom
 .byte $FF
 ui_thing_6:
 .byte $FF,0,27,$FD
 .byte 5
-.word ui_nothing
+.addr ui_nothing
 .byte $FF
 ui_thing_7:
 .byte $01,1,17,$FE
 .byte 1
-.word ui_thing_top
+.addr ui_thing_top
 .byte $FD
 .byte 1
-.word ui_thing_middle
+.addr ui_thing_middle
 .byte $FE
 .byte 1
-.word ui_thing_bottom
+.addr ui_thing_bottom
 .byte $FD
 .byte 3
-.word ui_thing_bottom_padding
+.addr ui_thing_bottom_padding
 .byte $FF
 ui_thing_8:
 .byte $01,15,17,$FE
 .byte 1
-.word ui_thing_tiles1
+.addr ui_thing_tiles1
 .byte $FD
 .byte 4
-.word ui_thing_tiles2
+.addr ui_thing_tiles2
 .byte $FE
 .byte 1
-.word ui_thing_tiles3
+.addr ui_thing_tiles3
 .byte $FF
 ui_thing_9:
 .byte $01,5,17,$FE
 .byte 1
-.word ui_thing_tiles4
+.addr ui_thing_tiles4
 .byte $FD
 .byte 4
-.word ui_thing_tiles5
+.addr ui_thing_tiles5
 .byte $FE
 .byte 1
-.word ui_thing_tiles6
+.addr ui_thing_tiles6
 .byte $FF
 ui_thing_10:
 .byte $01,7,17,$FE
 .byte 1
-.word ui_thing_tiles7
+.addr ui_thing_tiles7
 .byte $FF
 ui_thing_11:
 .byte $01,7,6,$FE
 .byte 1
-.word ui_thing_tilesA
+.addr ui_thing_tilesA
 .byte $FF
 ui_thing_12:
 .byte $01,7,7,$FE
 .byte 1
-.word ui_thing_tilesA
+.addr ui_thing_tilesA
 .byte $FF
 ui_thing_13:
 .byte $01,17,$FF,$FD
 .byte 1
-.word ui_thing_tiles8
+.addr ui_thing_tiles8
 .byte $FF
 ui_thing_14:
 .byte $01,3,$FF,$FD
 .byte 1
-.word ui_thing_tiles8
+.addr ui_thing_tiles8
 .byte $FF
 ui_thing_15:
 .byte $01,$FF,$FF,$FD
 .byte 1
-.word ui_thing_tiles8
+.addr ui_thing_tiles8
 .byte $FF
 ui_thing_16:
 .byte $01,$FF,$FF,$FE
 .byte 1
-.word ui_thing_tiles9
+.addr ui_thing_tiles9
 .byte $FF
 ui_thing_17:
 .byte $01,11,23,$FE
 .byte 1
-.word ui_thing_tilesB
+.addr ui_thing_tilesB
 .byte $FD
 .byte 1
-.word ui_thing_tilesC
+.addr ui_thing_tilesC
 .byte $FE
 .byte 1
-.word ui_thing_tilesD
+.addr ui_thing_tilesD
 .byte $FC
 .byte 1
-.word ui_thing_tilesE
+.addr ui_thing_tilesE
 .byte $FF
 ui_thing_18:
 .byte $01,11,23,$FE
 .byte 1
-.word ui_thing_tilesB
+.addr ui_thing_tilesB
 .byte $FD
 .byte 1
-.word ui_thing_tilesC
+.addr ui_thing_tilesC
 .byte $FE
 .byte 1
-.word ui_thing_tilesD
+.addr ui_thing_tilesD
 .byte $FC
 .byte 1
-.word ui_thing_tilesF
+.addr ui_thing_tilesF
 .byte $FF
 ui_thing_19:
 .byte $01,11,23,$FE
 .byte 1
-.word ui_thing_tilesB
+.addr ui_thing_tilesB
 .byte $FD
 .byte 1
-.word ui_thing_tilesC
+.addr ui_thing_tilesC
 .byte $FE
 .byte 1
-.word ui_thing_tilesD
+.addr ui_thing_tilesD
 .byte $FC
 .byte 1
-.word ui_thing_tiles10
+.addr ui_thing_tiles10
 .byte $FF
 
 ui_thing_20:
@@ -763,170 +224,170 @@ ui_thing_20:
 .byte 0
 
 ui_nothing:
-.byte repeatTile $A0, 32
+.byte repeatTile " ", 32
 .byte $00
 
 ui_battlelog_top:
-.byte repeatTile $A0, 4
-.byte $DB
-.byte repeatTile $DC, 22
-.byte $DD
-.byte repeatTile $A0, 4
+.byte repeatTile " ", 4
+.byte uibox_tl
+.byte repeatTile uibox_t, 22
+.byte uibox_tr
+.byte repeatTile " ", 4
 .byte 0
 ui_battlelog_middle:
-.byte repeatTile $A0, 4
-.byte $24
-.byte repeatTile $A0, 22
-.byte $25
-.byte repeatTile $A0, 4
+.byte repeatTile " ", 4
+.byte uibox_l
+.byte repeatTile " ", 22
+.byte uibox_r
+.byte repeatTile " ", 4
 .byte 0
 ui_battlelog_bottom:
-.byte repeatTile $A0, 4
-.byte $FB
-.byte repeatTile $FC, 22
-.byte $FD
-.byte repeatTile $A0, 4
+.byte repeatTile " ", 4
+.byte uibox_bl
+.byte repeatTile uibox_b, 22
+.byte uibox_br
+.byte repeatTile " ", 4
 .byte 0
 
 ;jp leftovers?
-ui_partybox_top:
-.byte $A0,$DB,$DC,"NAME"
-.byte repeatTile $DC, 4
-.byte "HP",$DC,$DC,"PP",$DC,$DC,"LV"
-.byte repeatTile $DC, 6
-.byte "EX",$DC,$DD,$A0
-.byte 0
 ;why does $24 and $25 make the side tiles???? that doesnt make sense unless there's some override
+ui_partybox_top:
+.byte " ",uibox_tl,uibox_t,"NAME"
+.byte repeatTile uibox_t, 4
+.byte "HP",uibox_t,uibox_t,"PP",uibox_t,uibox_t,"LV"
+.byte repeatTile uibox_t, 6
+.byte "EX",uibox_t,uibox_tr," "
+.byte 0
 ui_partybox_middle:
-.byte $A0,$24
-.byte repeatTile $A0, 28
-.byte $25,$A0
+.byte " ",uibox_l
+.byte repeatTile " ", 28
+.byte uibox_r," "
 .byte 0
 ui_partybox_bottom:
-.byte $A0,$FB
-.byte repeatTile $FC, 28
-.byte $FD,$A0
+.byte " ",uibox_bl
+.byte repeatTile uibox_b, 28
+.byte uibox_br," "
 .byte 0
 
 ui_actionbox_top:
-.byte $DB
-.byte repeatTile $DC, 18
-.byte $DD
+.byte uibox_tl
+.byte repeatTile uibox_t, 18
+.byte uibox_tr
 .byte 0
 ui_actionbox_line1:
-.byte $24,$A0,"Fight"
-.byte repeatTile $A0, 4
+.byte uibox_l," Fight"
+.byte repeatTile " ", 4
 .byte "Auto"
-.byte repeatTile $A0, 4
-.byte $25
+.byte repeatTile " ", 4
+.byte uibox_r
 .byte 0
 ui_actionbox_line2:
-.byte $24,$A0,"PSI"
-.byte repeatTile $A0, 6
+.byte uibox_l," PSI"
+.byte repeatTile " ", 6
 .byte "Guard"
-.byte repeatTile $A0, 3
-.byte $25
+.byte repeatTile " ", 3
+.byte uibox_r
 .byte 0
 ui_actionbox_line3:
-.byte $24,$A0,"Goods"
-.byte repeatTile $A0, 4
+.byte uibox_l," Goods"
+.byte repeatTile " ", 4
 .byte "Run"
-.byte repeatTile $A0, 5
-.byte $25
+.byte repeatTile " ", 5
+.byte uibox_r
 .byte 0
 ui_actionbox_line4:
-.byte $24,$A0,"Check"
-.byte repeatTile $A0, 12
-.byte $25
+.byte uibox_l," Check"
+.byte repeatTile " ", 12
+.byte uibox_r
 .byte 0
 ui_actionbox_bottom:
-.byte $FB
-.byte repeatTile $FC, 18
-.byte $FD
+.byte uibox_bl
+.byte repeatTile uibox_b, 18
+.byte uibox_br
 .byte 0
 ui_actionbox_line4_melodies:
-.byte $24,$A0,"Check"
-.byte repeatTile $A0, 4
+.byte uibox_l," Check"
+.byte repeatTile " ", 4
 .byte "Sing"
-.byte repeatTile $A0, 4
-.byte $25
+.byte repeatTile " ", 4
+.byte uibox_r
 .byte 0
 ;namebox?
 ui_thing_top:
-.byte $DB
-.byte repeatTile $DC, 8
-.byte $DD
+.byte uibox_tl
+.byte repeatTile uibox_t, 8
+.byte uibox_tr
 .byte 0
 ui_thing_middle:
-.byte $24
-.byte repeatTile $A0, 8
-.byte $25
+.byte uibox_l
+.byte repeatTile " ", 8
+.byte uibox_r
 .byte 0
 ui_thing_bottom:
-.byte $FB
-.byte repeatTile $FC, 8
-.byte $FD
+.byte uibox_bl
+.byte repeatTile uibox_b, 8
+.byte uibox_br
 .byte 0
 ui_thing_bottom_padding:
-.byte repeatTile $A0, 10
+.byte repeatTile " ", 10
 .byte 0
 
 ui_thing_tiles1:
-.byte $DB
-.byte repeatTile $DC, 14
-.byte $DD
+.byte uibox_tl
+.byte repeatTile uibox_t, 14
+.byte uibox_tr
 .byte 0
 ui_thing_tiles2:
-.byte $24
-.byte repeatTile $A0, 14
-.byte $25
+.byte uibox_l
+.byte repeatTile " ", 14
+.byte uibox_r
 .byte 0
 ui_thing_tiles3:
-.byte $FB
-.byte repeatTile $FC, 14
-.byte $FD
+.byte uibox_bl
+.byte repeatTile uibox_b, 14
+.byte uibox_br
 .byte 0
 ui_thing_tiles4:
-.byte $DB
-.byte repeatTile $DC, 24
-.byte $DD
+.byte uibox_tl
+.byte repeatTile uibox_t, 24
+.byte uibox_tr
 .byte 0
 ui_thing_tiles5:
-.byte $24
-.byte repeatTile $A0, 24
-.byte $25
+.byte uibox_l
+.byte repeatTile " ", 24
+.byte uibox_r
 .byte 0
 ui_thing_tiles6:
-.byte $FB
-.byte repeatTile $FC, 24
-.byte $FD
+.byte uibox_bl
+.byte repeatTile uibox_b, 24
+.byte uibox_br
 .byte 0
 ui_thing_tiles7:
-.byte $A0,$E0
+.byte " ",arrow
 .byte 0
 ui_thing_tiles8:
 .byte beingAttacked
 .byte 0
 ui_thing_tiles9:
-.byte $FF
+.byte ">"
 .byte 0
 ui_thing_tilesA:
-.byte repeatTile $A0, 22
+.byte repeatTile " ", 22
 .byte 0
 ui_thing_tilesB:
-.byte $DB
-.byte repeatTile $DC, 18
-.byte $DD
+.byte uibox_tl
+.byte repeatTile uibox_t, 18
+.byte uibox_tr
 .byte 0
 ui_thing_tilesC:
-.byte $24
-.byte repeatTile $A0, 18
-.byte $25
+.byte uibox_l
+.byte repeatTile " ", 18
+.byte uibox_r
 .byte 0
 ui_thing_tilesD:
-.byte $FB
-.byte repeatTile $FC, 18
-.byte $FD
+.byte uibox_bl
+.byte repeatTile uibox_b, 18
+.byte uibox_br
 .byte 0
 ui_thing_tilesE:
 .byte set_pos 13, 25
@@ -947,7 +408,7 @@ ui_thing_tiles11:
 .byte 0
 
 
-;battle palettes
+Battle_Palettes:
 .byte $0F,$10,$30,$00
 .byte $0F,$16,$30,$00
 .byte $0F,$28,$30,$18
@@ -1092,9 +553,765 @@ ui_thing_tiles11:
 .byte $0F,$1A,$30,$0F
 .byte $0F,$13,$30,$30
 
-;naming screen (???)
-;the first half at least definitely isnt
-.incbin "../../split/us/prg/bank0/unk1081.bin"
+;battle text list
+;text indexed from battle actions
+;disptext(0)
+Battle_Text:
+.word UMSG::B_NULL
+.word UMSG::GIEGUE_CHECK_REAL
+.word UMSG::B_UNK
+.word UMSG::B_APPROACH
+.word UMSG::B_ATTACK
+.word UMSG::B_TANKGUN
+.word $05E2
+.word $05E3
+.word $05E4
+.word $05E5
+.word $05E6
+.word $05E7
+.word $05E8
+.word $05E9
+.word $05EA
+.word $05EB
+.word $05EC
+.word $05ED
+.word $05EE
+.word $05EF
+.word $05F0
+.word $05F1
+.word $05F2
+.word $05F3
+.word $05F4
+.word $05F5
+.word $05F6
+.word $05F7
+.word $05F8
+.word $05F9
+.word $05FA
+.word $05FB
+.word $05FC
+.word $05FD
+.word $05FE
+.word $05FF
+.word $0600
+.word $0601
+.word $0602
+.word $0603
+.word $0604
+.word $0605
+.word $0606
+.word $0607
+.word $0608
+.word $0609
+.word $060A
+.word $060B
+.word $060C
+.word $060D
+.word $060E
+.word $060F
+.word $0610
+.word $0611
+.word $0612
+.word $0613
+.word $0614
+.word $0615
+.word $0616
+.word $0617
+.word $0618
+.word $0619
+.word $061A
+.word $061B
+.word $061C
+.word $061D
+.word $061E
+.word $061F
+.word $0620
+.word $0621
+.word $0622
+.word $0623
+.word $0624
+.word $0625
+.word $0626
+.word $0627
+.word $0628
+.word $0629
+.word $062A
+.word $062B
+.word $062C
+.word $062D
+.word $062E
+.word $062F
+.word $0630
+.word $0631
+.word $0632
+.word $0633
+.word $0634
+.word $0635
+.word $0636
+;guard
+.word $0637
+.word $0638
+.word $0639
+.word $063A
+.word $063B
+.word $063C
+.word $063D
+.word $063E
+.word $063F
+.word $0640
+.word $0641
+.word $0642
+.word $0643
+.word $0644
+.word $0645
+.word $0646
+.word $0647
+.word $0648
+.word $0649
+.word $064A
+.word $064B
+.word $064C
+.word $064D
+.word $064E
+.word $064F
+.word $0650
+.word $0651
+.word $0652
+.word $0653
+.word $0654
+.word $0655
+.word $0656
+.word $0657
+.word $0658
+.word $0659
+.word $065A
+.word $065B
+.word $065C
+.word $065D
+.word $065E
+.word $065F
+.word $0660
+.word $0661
+.word $0662
+.word $0663
+.word $0664
+.word $0665
+.word $0666
+.word $0667
+.word $0668
+.word $0669
+.word $066A
+.word $066B
+.word $066C
+.word $066D
+.word $066E
+.word $0517
+.word $058C
+.word $058A
+.word $0672
+.word $0673
+.word $0674
+.word $0675
+.word $0676
+.word $0677
+.word $0678
+.word $0679
+.word $067A
+.word $067B
+.word $067C
+.word $067D
+.word $067E
+.word $067F
+.word $0680
+.word $0681
+.word $0682
+.word $0683
+.word $0684
+.word $0685
+.word $0686
+.word $0687
+
+incrementor = $25
+
+command_box_top:
+.byte set_pos 1, 1
+.byte uibox_tl,uibox_tc,"Command"
+.byte repeatTile uibox_t, 4
+.byte uibox_tr
+.byte 1
+.byte incrementor
+.byte 0
+;command box middle
+.byte uibox_l," Talk  Check",uibox_r
+.byte 1
+.byte incrementor
+.byte 2
+.byte uibox_l," Goods State",uibox_r
+.byte 1
+.byte incrementor
+.byte 4
+.byte uibox_l," PSI   Setup",uibox_r
+.byte 0
+.byte incrementor
+.byte 6
+;command box bottom
+.byte uibox_bl
+.byte repeatTile uibox_b, 12
+.byte uibox_br
+.byte 1
+
+cash_box_top:
+.byte set_pos 21, 1
+.byte uibox_tl,uibox_t,uibox_t,uibox_tc,"Cash",uibox_t,uibox_tr
+.byte 1
+.byte incrementor
+.byte 0
+;cash box middle
+.byte uibox_l,"$"
+.byte print_number $7410, 2, 5
+.byte c00," ",uibox_r
+.byte 0
+.byte incrementor
+.byte 2
+;cash box bottom
+.byte uibox_bl
+.byte repeatTile uibox_b, 8
+.byte uibox_br
+.byte 1
+window_unk:
+.byte goto $6700
+
+
+;stat bar top
+.byte uibox_tl,uibox_tc
+.byte "Name"
+.byte uibox_t,uibox_t,uibox_tc
+.byte "Lvl"
+.byte uibox_t,uibox_tc
+.byte "HP"
+.byte uibox_t,uibox_tc
+.byte "PP"
+.byte uibox_t,uibox_t,uibox_t,uibox_t,uibox_tc
+.byte "Exp"
+.byte uibox_t,uibox_tr
+.byte 0
+
+
+
+window_unk_2:
+.byte set_pos 7, 17
+.byte uibox_tl
+.byte repeatTile uibox_t, 22
+.byte uibox_tr
+.byte 1
+.byte incrementor
+.byte 16
+
+.byte uibox_l
+.byte repeatTile " ", 22
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 18
+
+.byte uibox_l
+.byte repeatTile " ", 22
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 20
+
+.byte uibox_l
+.byte repeatTile " ", 22
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 22
+
+.byte uibox_l
+.byte repeatTile " ", 22
+.byte uibox_r
+.byte 0
+.byte incrementor
+.byte 24
+
+.byte uibox_bl
+.byte repeatTile uibox_b, 22
+.byte uibox_br
+.byte 0
+
+
+
+window_unk_3:
+.byte set_pos 5, 3
+.byte uibox_tl,uibox_t," ",arrow
+.byte repeatTile uibox_t, 21
+.byte uibox_tr
+.byte 1
+.byte incrementor
+.byte 2
+
+.byte uibox_l
+.byte repeatTile " ", 24
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 4
+
+.byte uibox_l
+.byte repeatTile " ", 24
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 6
+
+.byte uibox_l
+.byte repeatTile " ", 24
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 8
+
+.byte uibox_l
+.byte repeatTile " ", 24
+.byte uibox_r
+.byte 0
+.byte incrementor
+.byte 10
+
+.byte uibox_bl
+.byte repeatTile uibox_b, 24
+.byte uibox_br
+.byte 0
+
+
+window_unk_4:
+.byte set_pos 1, 1
+.byte uibox_tl
+.byte repeatTile uibox_t, 20
+.byte uibox_tr
+.byte 1
+.byte incrementor
+.byte 0
+
+.byte uibox_l
+.byte repeatTile " ", 20
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 2
+
+.byte uibox_l
+.byte repeatTile " ", 20
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 4
+
+.byte uibox_l
+.byte repeatTile " ", 20
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 6
+
+.byte uibox_l
+.byte repeatTile " ", 20
+.byte uibox_r
+.byte 0
+.byte incrementor
+.byte 8
+
+.byte uibox_bl
+.byte repeatTile uibox_b, 20
+.byte uibox_br
+.byte 0
+
+
+window_unk_5:
+.byte uibox_tl
+.byte repeatTile uibox_t, 4
+.byte uibox_tr
+.byte 1
+.byte incrementor
+.byte 14
+
+.byte uibox_l,"Who?",uibox_r
+.byte 0
+.byte incrementor
+.byte 16
+
+.byte uibox_bl
+.byte repeatTile uibox_b, 4
+.byte uibox_br
+.byte 0
+
+
+item_action_menu:
+.byte set_pos 23, 5
+.byte uibox_tl
+.byte repeatTile uibox_t, 6
+.byte uibox_tr
+.byte 1
+.byte incrementor
+.byte 4
+
+.byte uibox_l," Use  ",uibox_r
+.byte 1
+.byte incrementor
+.byte 6
+
+.byte uibox_l," Eat  ",uibox_r
+.byte 1
+.byte incrementor
+.byte 8
+
+.byte uibox_l," Give ",uibox_r
+.byte 1
+.byte incrementor
+.byte 10
+
+.byte uibox_l," Drop ",uibox_r
+.byte 1
+.byte incrementor
+.byte 12
+
+.byte uibox_l," Look ",uibox_r
+.byte 0
+.byte incrementor
+.byte 14
+
+.byte uibox_bl
+.byte repeatTile uibox_b, 6
+.byte uibox_br
+.byte 0
+
+
+
+cash_box_menu:
+.byte set_pos 5, 3
+.byte uibox_tl
+.byte repeatTile uibox_t, 24
+.byte uibox_tr
+.byte goto $92A6
+
+
+cash_box_top_2:
+.byte set_pos 21, 1
+.byte uibox_tl,uibox_t,uibox_t,uibox_tc
+.byte "Cash"
+.byte uibox_t,uibox_tr
+.byte 1
+.byte incrementor
+.byte 0
+
+
+.byte uibox_l,"$"
+.byte print_number $7410, 2, 5
+.byte c00," "
+.byte uibox_r
+.byte 0
+.byte incrementor
+.byte 2
+
+.byte uibox_bl
+.byte repeatTile uibox_b, 8
+.byte uibox_br
+.byte 0
+
+cash_box_middle:
+.byte set_pos 9, 1
+.byte uibox_tl
+.byte repeatTile uibox_t, 8
+.byte uibox_tr
+.byte 0
+.byte incrementor
+.byte 0
+
+.byte uibox_l
+.byte repeatTile " ", 8
+.byte uibox_r
+.byte 1
+
+
+state_menu:
+.byte set_pos 1, 3
+.byte uibox_tl,uibox_tc,"State",uibox_t,uibox_l
+.byte repeatTile " ", 8
+.byte uibox_r," ",arrow,"PSI"
+.byte repeatTile uibox_t, 6
+.byte uibox_tr
+.byte 0
+.byte incrementor
+.byte 2
+
+.byte uibox_l
+.byte repeatTile " ", 7
+.byte uibox_bl
+.byte repeatTile uibox_b, 8
+.byte uibox_br
+.byte repeatTile " ", 11
+.byte uibox_r
+.byte 1
+
+.byte set_pos 1, 5
+.byte uibox_l," Lvl"
+.byte print_number $0610, 1, 3
+.byte repeatTile " ", 7
+.byte uibox_r
+
+.byte uibox_l," "
+.byte repeatTile " ", 10
+.byte " ",uibox_r
+.byte 1
+.byte incrementor
+.byte 4
+
+.byte uibox_l," HP"
+.byte print_number $0614, 2, 6
+.byte "/"
+.byte print_number $0603, 2, 3
+.byte " ",uibox_r
+
+.byte uibox_l," "
+.byte repeatTile " ", 10
+.byte " ",uibox_r
+.byte 1
+.byte incrementor
+.byte 6
+
+.byte uibox_l," PP"
+.byte print_number $0616, 2, 6
+.byte "/"
+.byte print_number $0605, 2, 3
+.byte " ",uibox_r
+
+.byte uibox_l," "
+.byte repeatTile " ", 10
+.byte " ",uibox_r
+.byte 1
+.byte incrementor
+.byte 8
+
+.byte uibox_l," Offense"
+.byte print_number $0607, 2, 5
+.byte " ",uibox_r
+
+.byte uibox_l," "
+.byte repeatTile " ", 10
+.byte " ",uibox_r
+.byte 0
+.byte incrementor
+.byte 10
+
+.byte uibox_l_r,"  "
+.byte repeatTile " ", 11
+.byte " ",uibox_r_r
+
+.byte uibox_bl
+.byte repeatTile uibox_b, 12
+.byte uibox_br
+.byte 1
+
+.byte set_pos 1, 13
+.byte uibox_l," Defense"
+.byte print_number $0609, 2, 5
+.byte " ",uibox_r
+
+.byte uibox_tl,uibox_tc,"Equip"
+.byte repeatTile uibox_t, 6
+.byte uibox_tr
+.byte 1
+.byte incrementor
+.byte 12
+
+.byte uibox_l," Fight "
+.byte print_number $060B, 1, 6
+.byte " ",uibox_r
+
+.byte uibox_l," "
+.byte print_number $0680, 0, 11
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 14
+
+.byte uibox_l," Speed "
+.byte print_number $060C, 1, 6
+.byte " ",uibox_r
+
+.byte uibox_l," "
+.byte print_number $0690, 0, 11
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 16
+
+.byte uibox_l," Wisdom"
+.byte print_number $060D, 1, 6
+.byte " ",uibox_r
+
+.byte uibox_l," "
+.byte print_number $06A0, 0, 11
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 18
+
+.byte uibox_l," Strength"
+.byte print_number $060E, 1, 4
+.byte " ",uibox_r
+
+.byte uibox_l," "
+.byte print_number $06B0, 0, 11
+.byte uibox_r
+.byte 0
+.byte incrementor
+.byte 20
+
+
+.byte uibox_l_r," "
+.byte repeatTile " ", 12
+.byte " ",uibox_r_r
+
+.byte uibox_bl
+.byte repeatTile uibox_b, 12
+.byte uibox_br
+.byte 1
+
+.byte set_pos 1, 23
+.byte uibox_l," Force "
+.byte print_number $060F, 1, 6
+.byte " ",uibox_r
+
+.byte uibox_tl,uibox_tc,"Melody"
+.byte repeatTile uibox_t, 5
+.byte uibox_tr
+.byte 1
+.byte incrementor
+.byte 22
+
+.byte uibox_l," Exp "
+.byte print_number $0611, 3, 8
+.byte " ",uibox_r
+
+.byte uibox_l,"  "
+.byte print_number $06F0, 0, 10
+.byte uibox_r
+.byte 0
+.byte incrementor
+.byte 24
+
+.byte uibox_bl
+.byte repeatTile uibox_b, 14
+.byte uibox_br
+
+.byte uibox_bl
+.byte repeatTile uibox_b, 12
+.byte uibox_br
+.byte 0
+
+
+setup_menu:
+.byte set_pos 1, 1
+.byte uibox_tl,uibox_tc,"Setup"
+.byte repeatTile uibox_t, 22
+.byte uibox_tr
+.byte 1
+.byte incrementor
+.byte 0
+
+.byte uibox_l," To change button function: ",uibox_r
+.byte 1
+.byte incrementor
+.byte 2
+
+.byte uibox_l,"  Move Cursor with CROSS,   ",uibox_r
+.byte 1
+.byte uibox_r
+.byte 4
+
+.byte uibox_l,"   press A button to change.",uibox_r
+.byte 1
+.byte incrementor
+.byte 6
+
+.byte uibox_l
+.byte repeatTile $A0,$1C
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 8
+
+.byte uibox_l," B button assignment"
+.byte repeatTile " ", 8
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 10
+
+.byte uibox_l,"   ",radial_empty,"State  ",radial_empty,"Map    ",radial_empty,"Run"
+.byte repeatTile " ", 5
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 12
+
+
+.byte uibox_l," START button assignment"
+.byte repeatTile " ", 4
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 14
+
+.byte uibox_l,"   ",radial_empty,"State  ",radial_empty,"Map    ",radial_empty,"Run"
+.byte repeatTile " ", 5
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 16
+
+
+.byte uibox_l," SELECT button assignment"
+.byte repeatTile " ", 3
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 18
+
+.byte uibox_l,"   ",radial_empty,"State  ",radial_empty,"Map    ",radial_empty,"Run"
+.byte repeatTile " ", 5
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 20
+
+
+.byte uibox_l," Fight message speed"
+.byte repeatTile " ", 8
+.byte uibox_r
+.byte 1
+.byte incrementor
+.byte 22
+
+.byte uibox_l,"   ",radial_empty,"1  ",radial_empty,"2  ",radial_empty,"3  ",radial_empty,"4  ",radial_empty,"5"
+.byte repeatTile " ", 7
+.byte uibox_r
+.byte 0
+.byte incrementor
+.byte 24
+
+.byte uibox_bl
+.byte repeatTile uibox_b, 28
+.byte uibox_br
+.byte 0
+
+.res $BF, 0
+.byte $48,$59
+.res 4, 0
+.res 4, 2
+.res $a4, 0
 
 .include "../../global/items.asm"
 .include "../../global/choicers.asm"

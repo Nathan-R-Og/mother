@@ -6,8 +6,7 @@
 ;not JUST teleport defs, by the way!
 ;name, (posX << 6)| music, (posY << 6)| startDirection, msgPrice
 .macro choicerDef name, music, posX, direction, posY, msgPrice
-    .word name
-
+    .addr name
     .word (posX << 6) | music
     .word (posY << 6) | direction
     .word msgPrice

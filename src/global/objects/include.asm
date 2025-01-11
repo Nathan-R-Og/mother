@@ -27,12 +27,15 @@ obj_incs = 0
     DOOR_UNK = 2
     STAIRS = 3
     HOLE = 4
-    STATIONARY_NPC2 = $10
-    WANDERING_NPC2 = $11
+    STATIONARY_NPC = $10
+    WANDERING_NPC = $11
     WANDERINGFAST_NPC = $12
     SPINNING_NPC = $13
-    WANDERING_NPC = $15
+    STATIONARY_NPC_CHECKSPAWN = $14
+    WANDERING_NPC_CHECKSPAWN = $15
+    SPINNING_NPC_CHECKSPAWN = $16
     TRIGGER = $1B
+    PRESENT = $20
     FLAGSET_SEE = $29 ;sets a flag in a byte when on screen. uses teleportFlagDef
 .endenum
 
@@ -102,6 +105,7 @@ obj_incs = 0
     M_MOVE = $3E ;move using m pointer (word)
     O_SIGNAL = $3F ;signal object o (index)
     J_SIGNALED = $40 ;jump to j if not signaled
+    SAVEGAMETP = $41 ;teleport to saved game location
     CJ_ADDCHAR = $42 ;add char c from party, jump to j if full
     CJ_REMOVECHAR = $43 ;remove char c from party, jump to j if not in
     B_BATTLE = $44 ;start battle b in battles list

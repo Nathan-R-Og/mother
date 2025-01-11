@@ -1,25 +1,9 @@
-BattleMain := $a000
-
-B25_031e := $a31e
-B25_02b3 := $a2b3
-B0_11d9 := $91d9
-B0_151e := $951e
-B0_138d := $938d
-B0_136a := $936a
-B0_1248 := $9248
-B0_135f := $935f
-B0_1317 := $9317
-B0_1300 := $9300
-B0_12cf := $92cf
-B0_129b := $929b
-B0_126a := $926a
-
-
 ;bank $1e-$1f start
 .segment        "CONSTANT": absolute
 
 ; $C000
 ; DPCM samples
+;kick
 B30_0000:
     .byte $ff
     .byte $ff
@@ -95,6 +79,7 @@ B30_0000:
     .byte $ad, $d6, $44
     .byte $00
     .byte $ab
+B30_0071:
     .byte $6a
     .byte $d5, $44
     .byte $44
@@ -106,7 +91,9 @@ B30_0000:
     .byte $52
     .byte $00
     .byte $00
-    .byte $ff
+;snare
+B30_0080:
+    .byte $ff ;133
     .byte $b7
     .byte $20, $0b, $00
     .byte $00
@@ -278,6 +265,7 @@ B30_0000:
     .byte $b6, $45
     .byte $a5, $a9
     .byte $c5, $a4
+B30_0171:
     .byte $42
     .byte $34
     .byte $26, $54
@@ -483,8 +471,8 @@ B30_022c:
 
 ; MORE CODE!
 B30_026c:
-    lda #.LOBYTE(B0_11d9)
-    ldx #.HIBYTE(B0_11d9)
+    lda #.LOBYTE(command_box_top)
+    ldx #.HIBYTE(command_box_top)
     sta $74
     stx $75
 B30_0274:
@@ -624,28 +612,31 @@ B30_033e:
 
 ; $C359 - Unknown
 B30_0359:
-    .byte $20
-    .byte $01, $13
-    .byte $21, $4b
-    .byte $92
-    .byte $01, $25
-    .byte $12
-    .byte $21, $10
-    .byte $67
-    .byte $01, $25
-    .byte $14
-    .byte $21, $2e
-    .byte $67
-    .byte $01, $25
-    .byte $16, $21
-    .byte $4c, $67, $00
-    .byte $25, $18
-    .byte $fb
-    .byte $22
-    .byte $fc
-    .byte $1c
-    .byte $fd
-    .byte $00
+    .byte set_pos 1, 19
+    .byte print_string $924b
+    .byte 1
+    .byte incrementor
+    .byte 18
+
+    .byte print_string $6710
+    .byte 1
+    .byte incrementor
+    .byte 20
+
+    .byte print_string $672e
+    .byte 1
+    .byte incrementor
+    .byte 22
+
+    .byte print_string $674c
+    .byte 0
+    .byte incrementor
+    .byte 24
+
+    .byte uibox_bl
+    .byte repeatTile uibox_b, 28
+    .byte uibox_br
+    .byte 0
 
 B30_037a:
     .byte $24, $a0, $23, $38, $00
@@ -662,8 +653,8 @@ B30_039d:
 
 ; TODO: Open dialogue window
 B30_03a0:
-    lda #.LOBYTE(B0_126a)
-    ldx #.HIBYTE(B0_126a)
+    lda #.LOBYTE(window_unk_2)
+    ldx #.HIBYTE(window_unk_2)
     B30_03a4:
     sta $74
     stx $75
@@ -674,49 +665,49 @@ B30_03a0:
     jmp B30_0274
 
 B30_03b2:
-    lda #.LOBYTE(B0_129b)
-    ldx #.HIBYTE(B0_129b)
+    lda #.LOBYTE(window_unk_3)
+    ldx #.HIBYTE(window_unk_3)
     jmp B30_03a4
 
 B30_03b9:
-    lda #.LOBYTE(B0_12cf)
-    ldx #.HIBYTE(B0_12cf)
+    lda #.LOBYTE(window_unk_4)
+    ldx #.HIBYTE(window_unk_4)
     jmp B30_03a4
 
 B30_03c0:
-    lda #.LOBYTE(B0_1300)
-    ldx #.HIBYTE(B0_1300)
+    lda #.LOBYTE(window_unk_5)
+    ldx #.HIBYTE(window_unk_5)
     jmp B30_03a4
 
 B30_03c7:
-    lda #.LOBYTE(B0_1317)
-    ldx #.HIBYTE(B0_1317)
+    lda #.LOBYTE(item_action_menu)
+    ldx #.HIBYTE(item_action_menu)
     jmp B30_03a4
 
 B30_03ce:
-    lda #.LOBYTE(B0_135f)
-    ldx #.HIBYTE(B0_135f)
+    lda #.LOBYTE(cash_box_menu)
+    ldx #.HIBYTE(cash_box_menu)
     jmp B30_03a4
 
 B30_03d5:
     jsr B30_0542
-    lda #.LOBYTE(B0_1248)
-    ldx #.HIBYTE(B0_1248)
+    lda #.LOBYTE(window_unk)
+    ldx #.HIBYTE(window_unk)
     jmp B30_03a4
 
 B30_03df:
-    lda #.LOBYTE(B0_136a)
-    ldx #.HIBYTE(B0_136a)
+    lda #.LOBYTE(cash_box_top_2)
+    ldx #.HIBYTE(cash_box_top_2)
     jmp B30_03a4
 
 B30_03e6:
-    lda #.LOBYTE(B0_138d)
-    ldx #.HIBYTE(B0_138d)
+    lda #.LOBYTE(cash_box_middle)
+    ldx #.HIBYTE(cash_box_middle)
     jmp B30_03a4
 
 B30_03ed:
-    lda #.LOBYTE(B0_151e)
-    ldx #.HIBYTE(B0_151e)
+    lda #.LOBYTE(setup_menu)
+    ldx #.HIBYTE(setup_menu)
     jmp B30_03a4
 
 B30_03f4:
@@ -915,6 +906,12 @@ B30_0531:
     sta $79
     jmp B30_04e5
 
+.ifdef VER_JP
+something = $6D00
+.else
+something = $6700
+.endif
+
 B30_0542:
     jsr EnablePRGRam
     ldx #$10
@@ -946,7 +943,7 @@ B30_0542:
     ldy #$00
     B30_0572:
     lda B30_0398, y
-    sta $6700, x
+    sta something, x
     inx
     iny
     cpy #$05
@@ -954,10 +951,10 @@ B30_0542:
     pla
     tay
     lda B30_061e, y
-    sta $6700, x
+    sta something, x
     inx
     lda B30_061e+1, y
-    sta $6700, x
+    sta something, x
     inx
     ldy #$1b
     bne B30_059b
@@ -970,7 +967,7 @@ B30_0542:
     jsr B30_0637
     B30_059b:
     lda B30_037a, y
-    sta $6700, x
+    sta something, x
     inx
     iny
     cpy #$1e
@@ -986,9 +983,9 @@ B30_0542:
     bcc B30_054c
     B30_05b5:
     lda #$00
-    sta $6704
-    sta $6705
-    sta $6706
+    sta something+4
+    sta something+5
+    sta something+6
     sec
     lda #$03
     sbc pc_count
@@ -997,7 +994,7 @@ B30_0542:
     B30_05c9:
     jsr GetYCharacter
     bcs B30_05d6
-    sta $6704, x
+    sta something+4, x
     inx
     cpx #$03
     bcs B30_05db
@@ -1010,42 +1007,42 @@ B30_0542:
     asl a
     tax
     lda #$04
-    sta $6700
-    sta $670a
+    sta something
+    sta something+$a
     cpx #$04
     bcs B30_05ee
     lda #$00
     B30_05ee:
-    sta $670d
+    sta something+$d
     lda B30_0616, x
-    sta $6701
+    sta something+1
     lda B30_0616+1, x
-    sta $6702
-    lda $6713
-    sta $670b
-    lda $6714
-    sta $670c
+    sta something+2
+    lda something+$13
+    sta something+$b
+    lda something+$14
+    sta something+$c
     lda #.LOBYTE(B30_039d)
-    sta $670e
+    sta something+$e
     lda #.HIBYTE(B30_039d)
-    sta $670f
+    sta something+$f
     jmp WriteProtectPRGRam
 
 B30_0616:
-    .word B30_033d ; 0 characters
-    .word B30_0329 ; 1 character
-    .word B30_033e ; 2 characters
-    .word B30_0359 ; 3 characters
+    .addr B30_033d ; 0 characters
+    .addr B30_0329 ; 1 character
+    .addr B30_033e ; 2 characters
+    .addr B30_0359 ; 3 characters
 
 B30_061e:
-    .word STATUS_COLD ; "  Cold"
-    .word STATUS_POISON ; "Poison"
-    .word STATUS_PUZZLD ; "Puzzld"
-    .word STATUS_CONFSD ; "Confsd"
-    .word STATUS_ASLEEP ; "Asleep"
-    .word STATUS_PARLZD ; "Parlzd"
-    .word STATUS_STONE ; " Stone"
-    .word STATUS_FAINTD ; "Faintd"
+    .addr STATUS_COLD ; "  Cold"
+    .addr STATUS_POISON ; "Poison"
+    .addr STATUS_PUZZLD ; "Puzzld"
+    .addr STATUS_CONFSD ; "Confsd"
+    .addr STATUS_ASLEEP ; "Asleep"
+    .addr STATUS_PARLZD ; "Parlzd"
+    .addr STATUS_STONE ; " Stone"
+    .addr STATUS_FAINTD ; "Faintd"
 
 ; $C62E - Get Yth player character. Return carry set on failure
 GetYCharacter:
@@ -1058,26 +1055,26 @@ GetYCharacter:
 
 B30_0637:
     lda B30_037a , y
-    sta $6700, x
+    sta something, x
     inx
     iny
     lda B30_037a, y
-    sta $6700, x
+    sta something, x
     inx
     iny
     lda B30_037a, y
-    sta $6700, x
+    sta something, x
     inx
     iny
     clc
     lda B30_037a, y
     adc $60
-    sta $6700, x
+    sta something, x
     inx
     iny
     lda B30_037a, y
     adc $61
-    sta $6700, x
+    sta something, x
     inx
     iny
     rts
@@ -1424,16 +1421,16 @@ B30_08a1:
     rts
 
 B30_08ae:
-    .word B30_08e2-1 ; 00
-    .word B30_08e2-1 ; 01
-    .word B30_08e2-1 ; 02
-    .word B30_08e2-1 ; 03
-    .word B30_0909-1 ; 04
-    .word B30_08d4-1 ; 05
-    .word B30_092f-1 ; 06
-    .word B30_0950-1 ; 07
-    .word B30_08c2-1 ; 08
-    .word B30_09d2-1 ; 09
+    .addr B30_08e2-1 ; 00
+    .addr B30_08e2-1 ; 01
+    .addr B30_08e2-1 ; 02
+    .addr B30_08e2-1 ; 03
+    .addr B30_0909-1 ; 04
+    .addr B30_08d4-1 ; 05
+    .addr B30_092f-1 ; 06
+    .addr B30_0950-1 ; 07
+    .addr B30_08c2-1 ; 08
+    .addr B30_09d2-1 ; 09
 
 B30_08c2:
     ldy $7a
@@ -1875,21 +1872,24 @@ PostInit:
     jsr WriteProtectPRGRam
     lda #$c0
     sta $07ef
+
+    ;run the intro
     jsr BankswitchLower_Bank20
     jsr intro
+
     lda #$00
     sta $07ef
     B30_0b57:
     jsr BankswitchUpper_Bank19
-    jsr $bcec
+    jsr B19_1cec
     B30_0b5d:
     jsr B30_0542
     jsr B30_0efc
     lda #$00
     sta $24
     lda ypos_direction
-    and #$0f
-    eor #$84
+    and #%00001111
+    eor #%10000100
     sta $0d
     B30_0b70:
     jsr B31_1d5e
@@ -1918,7 +1918,7 @@ PostInit:
     lda $21
     beq B30_0bad
     jsr BankswitchUpper_Bank19
-    jsr $a1c6
+    jsr B19_01c6
     bcc B30_0beb
     B30_0bad:
     jsr BankswitchUpper_Bank19
@@ -1934,7 +1934,7 @@ PostInit:
     and #$f0
     bmi B30_0be2
     bne B30_0bcd
-    jsr $a123
+    jsr B19_0123
     jmp B30_0be5
 
 B30_0bcd:
@@ -1942,18 +1942,18 @@ B30_0bcd:
     and #$a0
     beq B30_0be5
     bmi B30_0bdc
-    jsr $a82f
+    jsr B19_082f
     jmp B30_0be5
 
 B30_0bdc:
-    jsr $a000
+    jsr B19_0000
     jmp B30_0be5
 
 B30_0be2:
-    jsr $a178
+    jsr B19_0178
     B30_0be5:
     jsr BankswitchLower_Bank20
-    jsr $9516
+    jsr B20_1516
     B30_0beb:
     lda enemy_group
     beq B30_0c17
@@ -1969,7 +1969,7 @@ B30_0be2:
     lda $21
     beq B30_0c11
     jsr BankswitchUpper_Bank19
-    jsr $ab53
+    jsr B19_0b53
     lda fade_flag
     bne B30_0c14
     B30_0c11:
@@ -2136,7 +2136,7 @@ B30_0cd8:
     jsr BackupAndFillPalette
     jsr BankswitchUpper_Bank19
     jsr EnablePRGRam
-    jsr $bbd4
+    jsr B19_1bd4
     jsr B30_19fa
     pla
     lda xpos_music
@@ -2355,12 +2355,13 @@ BankswitchLower_Bank20:
     jmp BANK_SWAP
 
 BankswitchCHRFromTable:
-    sta $60
-    stx $61
-    ldx #$05
-    ldy #$05
-    B30_0ef0:
+    sta $60 ;some addr:low
+    stx $61 ;some addr:high
 
+    ldx #5
+    ldy #5
+
+    B30_0ef0:
     lda ($60), y
     beq B30_0ef7
     jsr BANK_SWAP
@@ -2945,7 +2946,7 @@ B30_12cd:
     beq B30_1355
     inc $a1
     lda $a1
-    bit $d47f
+    bit B30_147f
     bne B30_12f4
     sec
     sbc #$10
@@ -2986,7 +2987,7 @@ B30_1355:
     lda $92
     adc #$02
     sta $92
-    bit $d47f
+    bit B30_147f
     bne B30_1367
     sec
     sbc #$10
@@ -3505,15 +3506,15 @@ AREA_CHR_TABLE:
 B30_1674:
     lda fade_flag
     bpl B30_1697
-    and #$0f
+    and #%00001111
     sta movement_direction
     lda object_memory+$04
-    and #$c0
+    and #%11000000
     sta $aa
     lda object_memory+$05
     sta $ab
     lda object_memory+$06
-    and #$c0
+    and #%11000000
     sta $ac
     lda object_memory+$07
     sta $ad
@@ -3930,7 +3931,7 @@ B30_196b:
 
 B30_196f: ;?
     .word $df5c, $2400
-    .word $df8b, B30_1b40
+    .word $df8b, $db40
 
 B30_1977:
     dec $36
@@ -4161,7 +4162,7 @@ B30_1a48:
     beq B30_1b30
     sta $29
     jsr BankswitchUpper_Bank19
-    jsr $bbc3
+    jsr B19_1bc3
     lda #$ff
     sta $2a
     lda $2b
@@ -4174,7 +4175,7 @@ B30_1a48:
     jsr Rand
     and $2a
     bne B30_1b30
-    jsr $bb8c
+    jsr B19_1b8c
     ldx #$00
     B30_1b1b:
     jsr B30_19f1
@@ -4182,7 +4183,7 @@ B30_1a48:
     sta $28
     txa
     pha
-    jsr $a979
+    jsr B19_0979
     pla
     tax
     bcc B30_1b33
@@ -4198,7 +4199,7 @@ B30_1b33:
     lda #$06
     sta $07f1
     lda #$8c
-    jmp $a3f8
+    jmp DisplayText_battle
 
 B30_1b40:
     tax
@@ -4241,7 +4242,7 @@ B30_1b75:
     lda #$1f
     jsr PlayMusic
     lda #$82
-    jsr $a3f8
+    jsr DisplayText_battle
     jsr B30_1cdf
     ldy #$03
     B30_1b93:
@@ -4277,7 +4278,7 @@ B30_1b75:
     pha
     clc
     adc #$7b
-    jsr $a3f8
+    jsr DisplayText_battle
     pla
     tay
     B30_1bcd:
@@ -4341,7 +4342,7 @@ B30_1c11:
 B30_1c38:
     ldx $5d
     beq B30_1c70
-    jmp $a3f8
+    jmp DisplayText_battle
 
 B30_1c3f:
     clc
@@ -4428,7 +4429,7 @@ B30_1c87:
     lda #$09
     sta $07f1
     lda #$83
-    jsr $a3f8
+    jsr DisplayText_battle
     B30_1cc6:
     ldx $29
     inx
@@ -5092,7 +5093,7 @@ TickObject:
     rts
 
 .macro OBJECT_CONFIG tick, field08, field14
-    .word tick-1
+    .addr tick-1
     .byte field08
     .byte field14
 .endmacro
@@ -5109,42 +5110,42 @@ B31_0105:
     OBJECT_CONFIG B31_083f,  $04, $a6 ; 07
     OBJECT_CONFIG B31_096c,  $04, $60 ; 08 - Player
     OBJECT_CONFIG B31_0b3a,  $09, $20 ; 09
-    OBJECT_CONFIG B31_0b92,  $09, $20 ; 10
-    OBJECT_CONFIG B31_08de,  $09, $20 ; 11
-    OBJECT_CONFIG B31_0905,  $04, $60 ; 12
-    OBJECT_CONFIG B31_0a38,  $09, $20 ; 13
-    OBJECT_CONFIG B31_0ac5,  $09, $20 ; 14
-    OBJECT_CONFIG B31_0bca,  $04, $20 ; 15
-    OBJECT_CONFIG B31_07f5,  $04, $e6 ; 16
-    OBJECT_CONFIG B31_07cd,  $04, $e6 ; 17
-    OBJECT_CONFIG B31_07be,  $04, $e6 ; 18
-    OBJECT_CONFIG B31_0814,  $04, $e6 ; 19
-    OBJECT_CONFIG B31_0808,  $04, $e6 ; 20
-    OBJECT_CONFIG B31_07c7,  $04, $e6 ; 21
-    OBJECT_CONFIG B31_07b8,  $04, $e6 ; 22
-    OBJECT_CONFIG B31_080e,  $04, $e6 ; 23
-    OBJECT_CONFIG B31_0720,  $00, $c4 ; 24
-    OBJECT_CONFIG B31_0720,  $04, $c6 ; 25 - Signs?
-    OBJECT_CONFIG B31_0720,  $09, $46 ; 26
-    OBJECT_CONFIG B31_0720,  $00, $44 ; 27
-    OBJECT_CONFIG B31_071a,  $00, $c4 ; 28
-    OBJECT_CONFIG B31_071a,  $04, $c6 ; 29
-    OBJECT_CONFIG B31_071a,  $09, $46 ; 30
-    OBJECT_CONFIG B31_071a,  $00, $44 ; 31
-    OBJECT_CONFIG B31_0756,  $04, $88 ; 32
-    OBJECT_CONFIG B31_06f1,  $04, $c6 ; 33
-    OBJECT_CONFIG B31_07be,  $02, $e6 ; 34
-    OBJECT_CONFIG B31_0720,  $0A, $56 ; 35
-    OBJECT_CONFIG B31_0720,  $04, $56 ; 36
-    OBJECT_CONFIG B31_0720,  $08, $c6 ; 37
-    OBJECT_CONFIG B31_0788,  $04, $a6 ; 38
-    OBJECT_CONFIG B31_06d9,  $04, $c6 ; 39
-    OBJECT_CONFIG B31_08d2,  $09, $46 ; 40
-    OBJECT_CONFIG B31_0661,  $00, $45 ; 41
-    OBJECT_CONFIG B31_0669,  $00, $45 ; 42
-    OBJECT_CONFIG B31_08f5,  $0A, $c6 ; 43
-    OBJECT_CONFIG B31_08e8,  $09, $46 ; 44
-    OBJECT_CONFIG B31_071a,  $04, $46 ; 45
+    OBJECT_CONFIG B31_0b92,  $09, $20 ; 0A
+    OBJECT_CONFIG B31_08de,  $09, $20 ; 0B
+    OBJECT_CONFIG B31_0905,  $04, $60 ; 0C
+    OBJECT_CONFIG B31_0a38,  $09, $20 ; 0D
+    OBJECT_CONFIG B31_0ac5,  $09, $20 ; 0E
+    OBJECT_CONFIG B31_0bca,  $04, $20 ; 0F
+    OBJECT_CONFIG B31_07f5,  $04, $e6 ; 10 - Stationary NPC
+    OBJECT_CONFIG B31_07cd,  $04, $e6 ; 11 - Wandering NPC
+    OBJECT_CONFIG B31_07be,  $04, $e6 ; 12 - Wandering NPC (Fast)
+    OBJECT_CONFIG B31_0814,  $04, $e6 ; 13 - Spinning NPC
+    OBJECT_CONFIG B31_0808,  $04, $e6 ; 14 - Stationary NPC (Check if flag (dis)appear)
+    OBJECT_CONFIG B31_07c7,  $04, $e6 ; 15 - Wandering NPC (Check if flag (dis)appear)
+    OBJECT_CONFIG B31_07b8,  $04, $e6 ; 16 - Wandering NPC (Fast) (Check if flag (dis)appear)
+    OBJECT_CONFIG B31_080e,  $04, $e6 ; 17 - Spinning NPC (Check if flag (dis)appear)
+    OBJECT_CONFIG B31_0720,  $00, $c4 ; 18 - Wandering NPC 5
+    OBJECT_CONFIG B31_0720,  $04, $c6 ; 19 - Signs?
+    OBJECT_CONFIG B31_0720,  $09, $46 ; 1A
+    OBJECT_CONFIG B31_0720,  $00, $44 ; 1B - Trigger
+    OBJECT_CONFIG B31_071a,  $00, $c4 ; 1C
+    OBJECT_CONFIG B31_071a,  $04, $c6 ; 1D
+    OBJECT_CONFIG B31_071a,  $09, $46 ; 1E
+    OBJECT_CONFIG B31_071a,  $00, $44 ; 1F
+    OBJECT_CONFIG B31_0756,  $04, $88 ; 20 - Present
+    OBJECT_CONFIG B31_06f1,  $04, $c6 ; 21
+    OBJECT_CONFIG B31_07be,  $02, $e6 ; 22
+    OBJECT_CONFIG B31_0720,  $0A, $56 ; 23
+    OBJECT_CONFIG B31_0720,  $04, $56 ; 24
+    OBJECT_CONFIG B31_0720,  $08, $c6 ; 25
+    OBJECT_CONFIG B31_0788,  $04, $a6 ; 26
+    OBJECT_CONFIG B31_06d9,  $04, $c6 ; 27
+    OBJECT_CONFIG B31_08d2,  $09, $46 ; 28
+    OBJECT_CONFIG B31_0661,  $00, $45 ; 29 - Flagset See
+    OBJECT_CONFIG B31_0669,  $00, $45 ; 2A
+    OBJECT_CONFIG B31_08f5,  $0A, $c6 ; 2B - Shake collide?
+    OBJECT_CONFIG B31_08e8,  $09, $46 ; 2C - Shake spot?
+    OBJECT_CONFIG B31_071a,  $04, $46 ; 2D - Shake spot 2?
 
 ; $E1BD - TICK object types #0, #5 and #6
 DummyTick:
@@ -5480,15 +5481,15 @@ B31_03b4:
     rts
 
 B31_03cc:
-    .word B31_0428-1                       ; 00
-    .word B31_043c-1                       ; 01
-    .word B31_03de-1                       ; 02
-    .word B31_04b2-1                       ; 03
-    .word B31_049e-1                       ; 04
-    .word B31_04dc-1                       ; 05
-    .word B31_0403-1                       ; 06
-    .word B31_0466-1                       ; 07
-    .word B31_0490-1                       ; 08
+    .addr B31_0428-1                       ; 00
+    .addr B31_043c-1                       ; 01
+    .addr B31_03de-1                       ; 02
+    .addr B31_04b2-1                       ; 03
+    .addr B31_049e-1                       ; 04
+    .addr B31_04dc-1                       ; 05
+    .addr B31_0403-1                       ; 06
+    .addr B31_0466-1                       ; 07
+    .addr B31_0490-1                       ; 08
 
 ; EAST MOVEMENT
 B31_03de:
@@ -5715,8 +5716,8 @@ B31_0510:
     rts
 
 B31_0552:
-    jsr B31_0607 ; X = movement_direction * 8
-    ldy #$0c
+    jsr B31_0607 ; reg x = movement_direction * 8
+    ldy #object_m_sxvel
     lda xy_unknown+6, x ; X offset
     asl a
     sta (object_pointer), y
@@ -5727,28 +5728,28 @@ B31_0552:
     jmp B31_0577
 
 B31_0567:
-    jsr B31_0607 ; X = movement_direction * 8
-    ldy #$0c
+    jsr B31_0607 ; reg X = movement_direction * 8
+    ldy #object_m_sxvel
     lda xy_unknown+6, x ; X offset
     sta (object_pointer), y
     iny
     lda xy_unknown+7, x ; Y offset
     sta (object_pointer), y
 B31_0577:
-    ldy #$08
+    ldy #object_m_oam
     lda (object_pointer), y
-    and #$3f
-    ora #$40
+    and #%00111111
+    ora #%01000000
     sta $60
     lda movement_direction
     lsr a
-    and #$40
+    and #%01000000
     eor $60
     sta (object_pointer), y
-    ldy #$09
+    ldy #object_m_oam+1
     lda #$38
     sta (object_pointer), y
-    ldy #$15
+    ldy #object_m_direction
     lda (object_pointer), y
     asl a
     asl a
@@ -5757,14 +5758,14 @@ B31_0577:
     lda xy_unknown+4, x ; Flags
 B31_059b:
     clc
-    ldy #$16
+    ldy #object_m_sprite2
     adc (object_pointer), y
-    ldy #$0e
+    ldy #object_m_sprite
     sta (object_pointer), y
-    lda #$00
-    ldy #$17
+    lda #0
+    ldy #object_m_sprite2+1
     adc (object_pointer), y
-    ldy #$0f
+    ldy #object_m_sprite+1
     sta (object_pointer), y
     rts
 
@@ -5908,12 +5909,12 @@ B31_0678:
 
 ; $E681 - TICK object types #1 and #2
 B31_0681:
-    ldy #$15
+    ldy #object_m_direction
     lda (object_pointer), y
-    ora #$40
-    ldy #$1b
+    ora #%01000000
+    ldy #object_m_playerTouch
     eor (object_pointer), y
-    and #$4f
+    and #%01001111
     beq B31_0694
     jsr B31_072e
     clc
@@ -5921,34 +5922,37 @@ B31_0681:
 
 B31_0694:
     jsr GetObjectData
-    ldy #$04
+    ldy #4 ;set scripthead to after objectDef
     jsr B31_06a1
     jsr B31_072e
     sec
     rts
 
 ;obj_script_teleport
+object_data_rom = $60
 B31_06a1:
-    lda $32
-    sta $60
-    lda $33
-    sta $61
+    lda object_data
+    sta object_data_rom
+    lda object_data+1
+    sta object_data_rom+1
 B31_06a9:
+    ;get x and music
     sec
-    lda ($60), y
-    sbc #$00
+    lda (object_data_rom), y
+    sbc #0
     sta xpos_music
     iny
-    lda ($60), y
-    sbc #$02
+    lda (object_data_rom), y
+    sbc #2
     sta xpos_music+1
     iny
+    ;get y and direction
     sec
-    lda ($60), y
+    lda (object_data_rom), y
     sbc #$c0
     sta ypos_direction
     iny
-    lda ($60), y
+    lda (object_data_rom), y
     sbc #$01
     sta ypos_direction+1
     lda #$40
@@ -6025,23 +6029,26 @@ B31_072e:
     sta movement_direction
     rts
 
+;sets object_m_sxvel and object_m_syvel to 0
 B31_0733:
-    lda #$00
-    ldy #$0c
+    lda #0
+    ldy #object_m_sxvel
     sta (object_pointer), y
-    iny
+    iny ;change to object_m_syvel
     sta (object_pointer), y
     rts
 
+;sets object_m_oam:low
 B31_073d:
-    ldy #$08
+    ldy #object_m_oam
     lda (object_pointer), y
-    and #$3f
+    and #%00111111
     sta (object_pointer), y
     rts
 
+;sets object_m_oam:high
 B31_0746:
-    ldy #$09
+    ldy #object_m_oam+1
     lda #$38
     sta (object_pointer), y
     rts
@@ -6216,12 +6223,12 @@ B31_083f:
     ldy #$1e
     clc
     lda (object_pointer), y
-    sta $32
+    sta object_data
     adc #$02
     sta (object_pointer), y
     iny
     lda (object_pointer), y
-    sta $33
+    sta object_data+1
     adc #$00
     sta (object_pointer), y
     ldy #$00
@@ -6553,10 +6560,10 @@ B31_0a38:
     asl a
     tay
     lda ($60), y
-    sta $32
+    sta object_data
     iny
     lda ($60), y
-    sta $33
+    sta object_data+1
     ldy #$1f
     lda (object_pointer), y
     tay
@@ -6856,12 +6863,13 @@ All_Bits:
 
 B31_0c65:
     jsr B31_0ddc
-    ldx #$00
-    ldy #$08
+
+    ldx #0
+    ldy #8
     jsr SetScroll
-    lda #.LOBYTE(B31_0cec)
-    ldx #.HIBYTE(B31_0cec)
-    jsr BankswitchCHRFromTable
+
+    BankswitchCHR_Address B31_0cec
+
     lda #$01
     sta $a000
     lda #$80
@@ -6929,15 +6937,16 @@ B31_0cec:
 
 ; $ECF2 - IRQ routine table
 IRQ_Routines:
-    .word B31_0d22-1
-    .word B31_0d62-1
-    .word B31_0d22-1
-    .word B31_0d9b-1
-    .word 0
+    .addr B31_0d22-1
+    .addr B31_0d62-1
+    .addr B31_0d22-1
+    .addr B31_0d9b-1
+    .addr 0
 
 B31_0cfc:
     ldx #$fc
     .byte $2c ; BIT trick
+B31_0cff:
     ldx #$04
     jsr PpuSync
     stx $e9
@@ -7202,7 +7211,7 @@ LoadPalette:
     jsr PpuSync
     ldy #$1f
     @loop:
-    lda ($60), y
+    lda ($60), y ;$6160 is a palette address
     sta $0500, y
     dey
     bpl @loop
@@ -7768,8 +7777,10 @@ Battle:
     @B31_121c:
     txa
     jsr ChangeMusic
+
     jsr BankswitchLower_Bank20
-    jsr $9630
+    jsr B20_1630
+
     jsr BankswitchLower_Bank22
     jsr B31_1d5e
     jsr B31_1d80
@@ -8151,7 +8162,7 @@ LoadPaletteFrom:
     jsr PpuSync
     ldy #$1f
     @B31_149b:
-    lda ($60), y
+    lda ($60), y ;$61$60 is palette address
     sta $0500, y
     dey
     bpl @B31_149b
@@ -8493,10 +8504,10 @@ B31_16aa:
     pla
     jsr JSRTable
 
-    .word B31_16ba                         ; Return address
-    .word B31_16bf
-    .word B31_16c8
-    .word B31_16f0
+    .addr B31_16ba                         ; Return address
+    .addr B31_16bf
+    .addr B31_16c8
+    .addr B31_16f0
 
 B31_16ba:
     lda #$01
@@ -8569,16 +8580,18 @@ B31_1724:
     ldx #$08
     jmp WaitXFrames
 
+;do ppu command
+;see B20_1eaf or B25_0afd
 B31_1732:
     jsr PpuSync
     stx $60
     sty $61
     ldy #$1f
-    @B31_173b:
-    lda ($60), y
+    @fill:
+    lda ($60), y ;$61$60 is a ppu command?
     sta $0400, y
     dey
-    bpl @B31_173b
+    bpl @fill
     lda #$80
     sta $e5
     lda #$00
@@ -8745,7 +8758,7 @@ B31_17e5:
     dec melody_timer
     @B31_185f:
     jsr BankswitchMusic
-    jsr $8000
+    jsr B28_0000
     lda $e2
     bmi B31_188a
     lda $e7
@@ -8804,17 +8817,17 @@ B31_188a:
 ; $F8C1
 ; Unknown "RTS jump table"
 B31_18c1:
-.word B31_17ca-1 ; 00
-.word B31_18d7-1 ; 01
-.word B31_18db-1 ; 02
-.word B31_18e5-1 ; 03
-.word B31_18ed-1 ; 04
-.word B31_1916-1 ; 05
-.word B31_1923-1 ; 06
-.word B31_193c-1 ; 07
-.word B31_195c-1 ; 08
-.word B31_197c-1 ; 09
-.word B31_199f-1 ; 0A
+.addr B31_17ca-1 ; 00
+.addr B31_18d7-1 ; 01
+.addr B31_18db-1 ; 02
+.addr B31_18e5-1 ; 03
+.addr B31_18ed-1 ; 04
+.addr B31_1916-1 ; 05
+.addr B31_1923-1 ; 06
+.addr B31_193c-1 ; 07
+.addr B31_195c-1 ; 08
+.addr B31_197c-1 ; 09
+.addr B31_199f-1 ; 0A
 
 ; NMI command - [01]
 ; NOP
@@ -9839,8 +9852,8 @@ BANK_SWAP:
 
     ;vectors
     ; NMI
-    .word NmiHandler
+    .addr NmiHandler
     ; Reset
-    .word Reset_Vector
+    .addr Reset_Vector
     ; IRQ/BRK
-    .word IrqHandler
+    .addr IrqHandler

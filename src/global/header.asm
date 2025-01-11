@@ -5,7 +5,7 @@
 
 ;Bytes 0-3.
 ;      NES   EOF
-.byte "NES", $1A        ;ASCII NES followed by MS-DOS end-of-file.
+.literal "NES", $1A        ;ASCII NES followed by MS-DOS end-of-file.
 
 ;----------------------------------------------------------------------------------------------------
 

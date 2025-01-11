@@ -231,7 +231,7 @@ pc_count = $6707
 ; EVENT FLAG 139 -> Flight Plan C
 ; EVENT FLAG 144 -> Thrashed tank? (TODO: What's different from 120?)
 ; EVENT FLAG 224 -> Magicant has disappeared
-; EVENT FLAG 239 -> Constantly set to true while on Ellay
+; EVENT FLAG 239 -> Constantly set to  rue while on Ellay
 ; EVENT FLAG 240 -> Learned XX Stone's melody
 ; EVENT FLAG 241 -> Learned EVE's melody
 ; EVENT FLAG 242 -> Learned Dragon's melody
@@ -243,27 +243,29 @@ pc_count = $6707
 
 object_memory  = $6780
 ; $6780 - Object memory
-;  00    -> Type
-;  01    -> Area
-;  02    -> Data pointer
-;  04    -> X position
-;  06    -> Y position
-;  08~0D -> Data for $0300 (OAM stuff)
-;  0A    -> Screen X position
-;  0B    -> Screen Y position
-;  0C    -> X velocity (better: X displacement?)
-;  0D    -> Y velocity (better: Y displacement?)
-;  0E~0F -> Graphics data pointer (16-bit)
-;  10    -> Index to $0300 (OAM stuff)
-;  11    -> Collision data offset
-;  12    -> Collision data pointer? (16-bit)
-;  14    -> Bitfield: 'citpssss' => c=collidable; i=interactable; t=change direction when talked to; p=high priority; s=offset from object data where script data starts
-;  15    -> Direction
-;  16    -> Graphics offset (16-bit)
-;  18~1A -> Unknown
-;  1B    -> Player touched object flag (-t---ddd => t=touched, d=direction player is facing)
-;  1C    -> An offset to the object data (script)
-;  1D~1F -> Unknown
+object_m_type = 0 ;byte
+object_m_area = 1 ;byte
+object_m_data_pointer = 2 ;word
+object_m_xpos = 4 ;word (world)
+object_m_ypos = 6 ;word (world)
+object_m_oam = 8 ;word
+object_m_sxpos = $a ;byte (screen)
+object_m_sypos = $b ;byte (screen)
+object_m_sxvel = $c ;byte (screen)
+object_m_syvel = $d ;byte (screen)
+object_m_sprite = $e ;word
+object_m_oam2 = $10 ;byte
+object_m_colOffset = $11 ;byte
+object_m_colPointer = $12 ;word
+object_m_bitfield1 = $14 ;byte
+;'citpssss' => c=collidable; i=interactable; t=change direction when talked to; p=high priority; s=offset from object data where script data starts
+object_m_direction = $15 ;byte
+object_m_sprite2 = $16 ;word
+object_m_unk1 = $18 ;3 bytes
+object_m_playerTouch = $1b ;byte
+;(-t---ddd => t=touched, d=direction player is facing)
+object_m_scriptOffset = $1c; byte
+object_m_unk2 = $1d ;3 bytes
 
 ; EACH SAVED GAME TAKES 0x0300 BYTES
 ; SAVED GAMES ARE STORED AT $7700, $7A00 and $7D00

@@ -133,9 +133,9 @@ t_nop = 5
 .define attacker print_string $0580
 .define beingAttacked print_string $0588
 .define attackResult print_string $0590
-.define unk set_pos $08, $06
-.define unk2 set_pos $08, $07
-.define unk3 repeatTile $A0, 16
+.define unk set_pos 8, 6
+.define unk2 set_pos 8, 7
+.define unk3 repeatTile " ", 16
 
 ;i cant charmap these :(
 alpha = $BB ; α
@@ -143,6 +143,8 @@ beta  = $BC ; β
 gamma = $BD ; γ
 pi    = $BE ; π
 omega = $BF ; Ω
+c00 = $BA ; 00. even if i could i dont know how to do it
+arrow = $E0
 
 ;top
 uibox_tl = $DB
@@ -155,10 +157,18 @@ uibox_tc = $FE ;version cut off (save menus and whatnot)
 uibox_l = $24 ;is actually $DE
 uibox_r = $25 ;is actually $DF
 
+;middle
+;(For real this time)
+uibox_l_r = $DE
+uibox_r_r = $DF
+
 ;bottom
 uibox_bl = $FB
 uibox_b = $FC
 uibox_br = $FD
+
+radial_empty = $94
+radial_filled = $95
 
 .endif
 

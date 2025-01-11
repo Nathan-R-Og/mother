@@ -138,13 +138,9 @@
 .endenum
 
 ;eeeppppp
-.macro battlebyte8 position, encounter
-    .byte (encounter << 5) | position
-.endmacro
+.define battlebyte8(position, encounter) .byte (encounter << 5) | position
 ;mmmmpppp
-.macro battlebyte9 palette, music
-    .byte (music << 4) | palette
-.endmacro
+.define battlebyte9(palette, music) .byte (music << 4) | palette
 
 BATTLES_START:
 ;null/default

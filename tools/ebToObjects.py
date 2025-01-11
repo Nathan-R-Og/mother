@@ -150,7 +150,7 @@ while b < len(mainPointers):
             hasSprite = numba in range(0x8000, 0xFFFF+1)
             if hasSprite:
                 word3 = hex(numba).replace("0x","$").upper()
-                newObject.append(f".word {word3} ;sprite\n")
+                newObject.append(f".addr {word3} ;sprite\n")
                 i += 2
             #the rest is behavior scripting
             #THIS is the part i cared to automate.
@@ -338,7 +338,7 @@ while b < len(mainPointers):
                         #while len(label_position) < 5:
                         #    label_position = label_position.replace("$", "$0")
                         newObject.append(f".byte SCRIPTS::{name}\n")
-                        newObject.append(f".word {useName}\n")
+                        newObject.append(f".addr {useName}\n")
                         inc += 2
                     elif name == "DA_TELEPORT":
                         customhandle = True
@@ -400,7 +400,7 @@ while b < len(mainPointers):
                             objectLabels.append([label_position, useName, pointer, useobjectName])
                         args.insert(0, "SCRIPTS::"+name)
                         newObject.append(f".byte {args[0]}\n")
-                        newObject.append(f".word {args[1]}\n")
+                        newObject.append(f".addr {args[1]}\n")
                         newObject.append(f".byte {useName}-{useobjectName}\n")
                         inc += 3
                     elif name == "J_TALK":

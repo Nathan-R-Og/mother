@@ -1,27 +1,3 @@
-.enum music
-    melodies = 1
-    b_flippant = 2
-    b_dangerous = 3
-    b_hippie = 4
-    b_win = 5
-
-    pollyanna = 6
-    bein_friends = 7
-    yucca_desert = 8
-    magicant = 9
-    snowman = $a
-    mt_itoi = $b
-    factory = $c
-    ghastly_site = $d ;graveyard
-    twinkle_elementary = $e
-    humoresque_of_a_little_dog = $f ;shop
-    poltergeist = $10
-    underground = $11
-    home = $12
-    approaching_mt_itoi = $13
-    ;monkey_cave = ?
-.endenum
-
 ;Oct  C  C#   D  D#   E   F  F#   G  G#   A  A#   B  Max Detune at B
 ;1:                                       0*         0.96 cents
 ;2:   2   3   4   5   6   7   8   9   a   b   c   d  1.91 cents
@@ -98,116 +74,116 @@ B28_0006:
 
 
 ; Mystery pointer table ($8009)
-.word B28_03fa ; 00
-.word B28_043a ; 01
-.word B28_0393 ; 02
-.word B28_03dc ; 03
-.word B28_0420 ; 04
-.word B28_035c ; 05
-.word B28_0346 ; 06
-.word B28_0328 ; 07
-.word B28_047d ; 08
-.word B28_0321 ; 09
-.word B28_0401 ; 0A
-.word B28_0441 ; 0B
-.word B28_03a1 ; 0C
-.word B28_03e3 ; 0D
-.word B28_0427 ; 0E
-.word B28_0374 ; 0F
-.word B28_0410 ; 10
-.word B28_032f ; 11
-.word B28_0484 ; 12
-.word B28_0410 ; 13
+.addr B28_03fa ; 00
+.addr B28_043a ; 01
+.addr B28_0393 ; 02
+.addr B28_03dc ; 03
+.addr B28_0420 ; 04
+.addr B28_035c ; 05
+.addr B28_0346 ; 06
+.addr B28_0328 ; 07
+.addr B28_047d ; 08
+.addr B28_0321 ; 09
+.addr B28_0401 ; 0A
+.addr B28_0441 ; 0B
+.addr B28_03a1 ; 0C
+.addr B28_03e3 ; 0D
+.addr B28_0427 ; 0E
+.addr B28_0374 ; 0F
+.addr B28_0410 ; 10
+.addr B28_032f ; 11
+.addr B28_0484 ; 12
+.addr B28_0410 ; 13
 
 ; Mystery pointer table ($8031)
-.word B28_06c4 ; 00
-.word B28_0772 ; 01
-.word B28_0747 ; 02
-.word B28_067c
-.word B28_0726
-.word B28_07a9
-.word B28_075e
-.word B28_0610
-.word B28_0829
-.word B28_05eb
-.word B28_05e6
-.word B28_0699
-.word B28_05df
-.word B28_066e
-.word B28_05a4
-.word B28_0733
-.word B28_060d
+.addr B28_06c4 ; 00
+.addr B28_0772 ; 01
+.addr B28_0747 ; 02
+.addr B28_067c
+.addr B28_0726
+.addr B28_07a9
+.addr B28_075e
+.addr B28_0610
+.addr B28_0829
+.addr B28_05eb
+.addr B28_05e6
+.addr B28_0699
+.addr B28_05df
+.addr B28_066e
+.addr B28_05a4
+.addr B28_0733
+.addr B28_060d
 .ifndef VER_JP
-.word B28_0962
+.addr B28_0962
 .endif
-.word B28_06cb
-.word B28_077f
-.word B28_0752
-.word B28_0683
-.word B28_070f
-.word B28_07b7
+.addr B28_06cb
+.addr B28_077f
+.addr B28_0752
+.addr B28_0683
+.addr B28_070f
+.addr B28_07b7
 
 ;?
-.word B28_0769
-.word B28_061e
-.word B28_080e
-.word B28_05f2
-.word B28_05af
-.word B28_06a0
-.word B28_0683
-.word B28_0683
-.word B28_0683
-.word B28_073e
-.word B28_061e
+.addr B28_0769
+.addr B28_061e
+.addr B28_080e
+.addr B28_05f2
+.addr B28_05af
+.addr B28_06a0
+.addr B28_0683
+.addr B28_0683
+.addr B28_0683
+.addr B28_073e
+.addr B28_061e
 .ifndef VER_JP
-.word B28_096c
+.addr B28_096c
 .endif
-.word B28_085e
-.word B28_084e
-.word B28_08d4
-.word B28_08e5
-.word B28_087e
-.word B28_08b4
-.word B28_08ba
-.word B28_08ec
-.word B28_04f6
-.word B28_054d
-.word B28_0542
-.word B28_0509
-.word B28_0559
-.word B28_0559
+.addr B28_085e
+.addr B28_084e
+.addr B28_08d4
+.addr B28_08e5
+.addr B28_087e
+.addr B28_08b4
+.addr B28_08ba
+.addr B28_08ec
+.addr B28_04f6
+.addr B28_054d
+.addr B28_0542
+.addr B28_0509
+.addr B28_0559
+.addr B28_0559
 
 
 B28_0095:
     lda #$00
-    beq B28_00a3 ; f0 0a
+    beq B28_00a3
 
 B28_0099:
-    lda #$08        ; a9 08
-    bne B28_00a3 ; d0 06
+    lda #$08
+    bne B28_00a3
 
 B28_009d:
-    lda #$0c        ; a9 0c
-    bne B28_00a3 ; d0 02
+    lda #$0c
+    bne B28_00a3
 
 B28_00a1:
-    lda #$04        ; a9 04
+    lda #$04
     B28_00a3:
-    sta $b0         ; 85 b0
-    lda #$40        ; a9 40
-    sta $b1         ; 85 b1
-    sty $b2         ; 84 b2
-    lda #$81        ; a9 81
-    sta $b3         ; 85 b3
-    ldy #$00        ; a0 00
+    sta $b0
+    lda #$40
+    sta $b1
+    sty $b2
+    lda #$81
+    sta $b3
+    ldy #$00
     B28_00b1:
-    lda ($b2), y    ; b1 b2
-    sta ($b0), y    ; 91 b0
-    iny             ; c8
-    tya             ; 98
-    cmp #$04        ; c9 04
-    bne B28_00b1 ; d0 f6
-    rts             ; 60
+    lda ($b2), y
+    sta ($b0), y
+    iny
+    tya
+    cmp #$04
+    bne B28_00b1
+    rts
 
 ;???
 .ifdef VER_JP
@@ -244,45 +220,45 @@ B28_00D8:
 
 
 B28_00bc:
-    lda $bb         ; a5 bb
-    and #$02        ; 29 02
-    sta $07ff       ; 8d ff 07
-    lda $bc         ; a5 bc
-    and #$02        ; 29 02
-    eor $07ff       ; 4d ff 07
-    clc             ; 18
-    beq B28_00ce ; f0 01
-    sec             ; 38
+    lda $bb
+    and #$02
+    sta $07ff
+    lda $bc
+    and #$02
+    eor $07ff
+    clc
+    beq B28_00ce
+    sec
     B28_00ce:
-    ror $bb         ; 66 bb
-    ror $bc         ; 66 bc
-    rts             ; 60
+    ror $bb
+    ror $bc
+    rts
 
 B28_00d3:
-    ldx $bd         ; a6 bd
-    inc $07da, x    ; fe da 07
-    lda $07da, x    ; bd da 07
-    cmp $07d5, x    ; dd d5 07
-    bne B28_00e5 ; d0 05
-    lda #$00        ; a9 00
-    sta $07da, x    ; 9d da 07
+    ldx $bd
+    inc $07da, x
+    lda $07da, x
+    cmp $07d5, x
+    bne B28_00e5
+    lda #$00
+    sta $07da, x
     B28_00e5:
-    rts             ; 60
+    rts
 
 .ifndef VER_JP
 ; $80E6
 ; Mystery pointer table
 B28_00e6:
-.word B28_1353
-.word B28_1342
-.word B28_1342
-.word B28_1342
-.word B28_1342
-.word B28_1342
-.word B28_1342
-.word B28_1342
-.word B28_1342
-.word 0
+.addr B28_1353
+.addr B28_1342
+.addr B28_1342
+.addr B28_1342
+.addr B28_1342
+.addr B28_1342
+.addr B28_1342
+.addr B28_1342
+.addr B28_1342
+.addr 0
 
 B28_00fa:
 .byte $A4,$AC,$A3,$AC,$A4,$AC
@@ -319,76 +295,76 @@ B28_01a7:
 incbinRange "../../split/jp/prg/bank1c.bin", $1b1, $1BA
 
 B28_01b0:
-    ldx #$03        ; a2 03
+    ldx #$03
     .ifdef VER_JP
-    lda #$75        ; a9 79
-    ldy #$7d        ; a0 81
+    lda #$75
+    ldy #$7d
     .else
-    lda #$79        ; a9 79
-    ldy #$81        ; a0 81
+    lda #$79
+    ldy #$81
     .endif
-    bne B28_01d3 ; d0 1b
+    bne B28_01d3
 
 B28_01b8:
-    ldx #$04        ; a2 04
+    ldx #$04
     .ifdef VER_JP
-    lda #$85        ; a9 89
-    ldy #$8b        ; a0 8f
+    lda #$85
+    ldy #$8b
     .else
-    lda #$89        ; a9 89
-    ldy #$8f        ; a0 8f
+    lda #$89
+    ldy #$8f
     .endif
-    bne B28_01d3    ; d0 13    - Jump pointer table shenanigans
+    bne B28_01d3 ;Jump pointer table shenanigans
 
 B28_01c0:
-    lda $07fc       ; ad fc 07
-    bne B28_0237    ; d0 72    - Return
-    ldx #$01        ; a2 01
-    lda #$31        ; a9 31
+    lda $07fc
+    bne B28_0237 ;Return
+    ldx #$01
+    lda #$31
     .ifdef VER_JP
-    ldy #$53        ; a0 55
+    ldy #$53
     .else
-    ldy #$55        ; a0 55
+    ldy #$55
     .endif
-    bne B28_01d3    ; d0 06    - Jump pointer table shenanigans
+    bne B28_01d3; Jump pointer table shenanigans
 
 ; Executes code from a big pointer table at $8009
 B28_01cd:
-    ldx #$00        ; a2 00
-    lda #$09        ; a9 09
-    ldy #$1d        ; a0 1d
+    ldx #$00
+    lda #$09
+    ldy #$1d
     B28_01d3:
-    sta $b0         ; 85 b0
-    stx $bd         ; 86 bd
-    lda $07f0, x    ; bd f0 07
-    beq B28_020d    ; f0 31
+    sta $b0
+    stx $bd
+    lda $07f0, x
+    beq B28_020d
     B28_01dc:
     .ifndef VER_JP
-    sta $bf         ; 85 bf
-    sta $b2         ; 85 b2
-    ldy #$80        ; a0 80
-    sty $b1         ; 84 b1
-    and #$07        ; 29 07
-    tay             ; a8
-    lda B28_0205, y ; b9 05 82
-    tay             ; a8
-    dec $b2         ; c6 b2
-    lda $b2         ; a5 b2
-    and #$f8        ; 29 f8
-    sta $b2         ; 85 b2
-    asl $b2         ; 06 b2
-    tya             ; 98
-    ora $b2         ; 05 b2
-    tay             ; a8
-    lda ($b0), y    ; b1 b0
-    sta $b2         ; 85 b2
-    iny             ; c8
-    lda ($b0), y    ; b1 b0
-    sta $b3         ; 85 b3
+    sta $bf
+    sta $b2
+    ldy #$80
+    sty $b1
+    and #$07
+    tay
+    lda B28_0205, y
+    tay
+    dec $b2
+    lda $b2
+    and #$f8
+    sta $b2
+    asl $b2
+    tya
+    ora $b2
+    tay
+    lda ($b0), y
+    sta $b2
+    iny
+    lda ($b0), y
+    sta $b3
     .else
     jsr $80b8
     .endif
-    jmp ($00b2)     ; 6c b2 00
+    jmp ($00b2)
 
 .ifndef VER_JP
 B28_0205:
@@ -396,689 +372,689 @@ B28_0205:
 .endif
 
 B28_020d:
-    lda $07f8, x    ; bd f8 07
-    beq B28_0237    ; f0 25    - Return
-    sty $b0         ; 84 b0
-    bne B28_01dc    ; d0 c6    - Do over!
+    lda $07f8, x
+    beq B28_0237; Return
+    sty $b0
+    bne B28_01dc; Do over!
 
 B28_0216:
-    lda #$0f        ; a9 0f
-    sta $4015       ; 8d 15 40
-    lda #$55        ; a9 55
-    sta $bb         ; 85 bb
-    lda #$00        ; a9 00
-    sta $0786       ; 8d 86 07
-    sta $078b       ; 8d 8b 07
-    tay             ; a8
+    lda #$0f
+    sta $4015
+    lda #$55
+    sta $bb
+    lda #$00
+    sta $0786
+    sta $078b
+    tay
     B28_0228:
-    lda B28_00e6, y    ; b9 e6 80
-    sta $076c, y    ; 99 6c 07
-    iny             ; c8
-    tya             ; 98
-    cmp #$14        ; c9 14
-    bne B28_0228 ; d0 f4
-    jsr B28_0299       ; 20 99 82
+    lda B28_00e6, y
+    sta $076c, y
+    iny
+    tya
+    cmp #$14
+    bne B28_0228
+    jsr B28_0299
     B28_0237:
-    rts             ; 60
+    rts
 
 .ifdef VER_JP
 ; $80E6
 ; Mystery pointer table
 B28_00e6:
-.word B28_1353
-.word B28_1342
-.word B28_1342
-.word B28_1342
-.word B28_1342
-.word B28_1342
-.word B28_1342
-.word B28_1342
-.word B28_1342
-.word 0
+.addr B28_1353
+.addr B28_1342
+.addr B28_1342
+.addr B28_1342
+.addr B28_1342
+.addr B28_1342
+.addr B28_1342
+.addr B28_1342
+.addr B28_1342
+.addr 0
 .endif
 
 ; $8238 - Eight melodies music pointers
 B28_0238:
-    .word B28_135a
-    .word B28_1365
-    .word B28_1370
-    .word B28_137c
-    .word B28_1388
-    .word B28_1391
-    .word B28_139e
-    .word B28_13aa
+    .addr B28_135a
+    .addr B28_1365
+    .addr B28_1370
+    .addr B28_137c
+    .addr B28_1388
+    .addr B28_1391
+    .addr B28_139e
+    .addr B28_13aa
 
 B28_0248:
-    lda learned_melodies    ; ad 1e 76
-    sta $b0         ; 85 b0
-    ldy #$00        ; a0 00
-    beq B28_025d ; f0 0c
+    lda learned_melodies
+    sta $b0
+    ldy #$00
+    beq B28_025d
     B28_0251:
     .ifdef VER_JP
-    lda #$99        ; a9 93
+    lda #$99
     .else
-    lda #$42        ; a9 93
+    lda #$42
     .endif
-    sta $076e, y    ; 99 6e 07
-    iny             ; c8
+    sta $076e, y
+    iny
     .ifdef VER_JP
-    lda #$92        ; a9 93
+    lda #$92
     .else
-    lda #$93        ; a9 93
+    lda #$93
     .endif
-    sta $076e, y    ; 99 6e 07
-    iny             ; c8
+    sta $076e, y
+    iny
     B28_025d:
-    tya             ; 98
-    cmp #$10        ; c9 10
-    beq B28_0276 ; f0 14
-    lsr $b0         ; 46 b0
-    bcc B28_0251 ; 90 eb
-    lda B28_0238, y    ; b9 38 82
-    sta $076e, y    ; 99 6e 07
-    iny             ; c8
-    lda B28_0238, y    ; b9 38 82
-    sta $076e, y    ; 99 6e 07
-    iny             ; c8
-    bne B28_025d ; d0 e7
+    tya
+    cmp #$10
+    beq B28_0276
+    lsr $b0
+    bcc B28_0251
+    lda B28_0238, y
+    sta $076e, y
+    iny
+    lda B28_0238, y
+    sta $076e, y
+    iny
+    bne B28_025d
     B28_0276:
-    rts             ; 60
+    rts
 
 .ifdef VER_JP
 B27_007e:
-    lda new_music   ; ad f5 07
-    cmp #$25        ; c9 25
-    bne B27_0090    ; d0 0b
-    jsr B28_0299       ; 20 aa 80
-    sta new_music   ; 8d f5 07
-    lda #$11        ; a9 11
-    sta $07f1       ; 8d f1 07
+    lda new_music
+    cmp #$25
+    bne B27_0090
+    jsr B28_0299
+    sta new_music
+    lda #$11
+    sta $07f1
     B27_0090:
-    rts             ; 60
+    rts
 .endif
 
 ; PLAY entry point
 B28_0277:
-    lda #$c0        ; a9 c0
-    sta $4017       ; 8d 17 40 ; APU "frame counter". Select "one 5-step sequence" (whatever that means) and clear interrupt flag
-    jsr B28_00bc       ; 20 bc 80 ; Weird $BB shuffle-around
+    lda #$c0
+    sta $4017 ; APU "frame counter". Select "one 5-step sequence" (whatever that means) and clear interrupt flag
+    jsr B28_00bc ; Weird $BB shuffle-around
     .ifdef VER_JP
     jsr B27_007e
     .endif
-    jsr B28_01cd       ; 20 cd 81 ; Something about jump pointer table at $8009
-    jsr B28_01b8       ; 20 b8 81 ; Something about jump pointer table at $8089
-    jsr B28_01b0       ; 20 b0 81 ; Something about jump pointer table at $8079
-    jsr B28_01c0       ; 20 c0 81 ; Something about jump pointer table at $8031, but only if $07FC is zero!
-    jsr B28_0911       ; 20 11 89 ; Something. Don't know what though.
-    lda #$00        ; a9 00
-    ldx #$06        ; a2 06
+    jsr B28_01cd ; Something about jump pointer table at $8009
+    jsr B28_01b8 ; Something about jump pointer table at $8089
+    jsr B28_01b0 ; Something about jump pointer table at $8079
+    jsr B28_01c0 ; Something about jump pointer table at $8031, but only if $07FC is zero!
+    jsr B28_0911  ; Something. Don't know what though.
+    lda #$00
+    ldx #$06
     B28_0292:
-    sta $07ef, x    ; 9d ef 07 ; Clear $07F0-$07F5
-    dex             ; ca
-    bne B28_0292 ; d0 fa
-    rts             ; 60
+    sta $07ef, x ; Clear $07F0-$07F5
+    dex
+    bne B28_0292
+    rts
 
 B28_0299:
-    jsr B28_02a8       ; 20 a8 82
+    jsr B28_02a8
 
 B28_029c:
-    jsr B28_02c6       ; 20 c6 82
-    lda #$00        ; a9 00
-    sta $4011       ; 8d 11 40
-    sta $079c       ; 8d 9c 07
-    rts             ; 60
+    jsr B28_02c6
+    lda #$00
+    sta DMC_RAW
+    sta $079c
+    rts
 
 B28_02a8:
-    lda #$00        ; a9 00
-    sta $07c8       ; 8d c8 07
-    sta $07c9       ; 8d c9 07
-    sta $07ca       ; 8d ca 07
-    sta current_music   ; 8d 8c 07
-    sta $078a       ; 8d 8a 07
-    tay             ; a8
+    lda #$00
+    sta $07c8
+    sta $07c9
+    sta $07ca
+    sta current_music
+    sta $078a
+    tay
     B28_02ba:
-    lda #$00        ; a9 00
-    sta $07f8, y    ; 99 f8 07
-    iny             ; c8
-    tya             ; 98
-    cmp #$06        ; c9 06
-    bne B28_02ba ; d0 f5
-    rts             ; 60
+    lda #$00
+    sta $07f8, y
+    iny
+    tya
+    cmp #$06
+    bne B28_02ba
+    rts
 
 B28_02c6:
-    lda #$00        ; a9 00
-    sta $4011       ; 8d 11 40
-    lda #$10        ; a9 10
-    sta $4000       ; 8d 00 40
-    sta $4004       ; 8d 04 40
-    sta $400c       ; 8d 0c 40
-    lda #$00        ; a9 00
-    sta $4008       ; 8d 08 40
-    rts             ; 60
+    lda #$00
+    sta DMC_RAW
+    lda #$10
+    sta $4000
+    sta $4004
+    sta $400c
+    lda #$00
+    sta $4008
+    rts
 
 B28_02dc:
-    ldx $bd         ; a6 bd
-    sta $07d5, x    ; 9d d5 07
-    txa             ; 8a
-    sta $07c7, x    ; 9d c7 07
-    tya             ; 98
-    beq B28_030a ; f0 22
-    txa             ; 8a
-    beq B28_0307 ; f0 1c
-    cmp #$01        ; c9 01
-    beq B28_02f8 ; f0 09
-    cmp #$02        ; c9 02
-    beq B28_02fd ; f0 0a
-    cmp #$03        ; c9 03
-    beq B28_0302 ; f0 0b
-    rts             ; 60
+    ldx $bd
+    sta $07d5, x
+    txa
+    sta $07c7, x
+    tya
+    beq B28_030a
+    txa
+    beq B28_0307
+    cmp #$01
+    beq B28_02f8
+    cmp #$02
+    beq B28_02fd
+    cmp #$03
+    beq B28_0302
+    rts
 
 B28_02f8:
-    jsr B28_0095       ; 20 95 80
-    beq B28_030a ; f0 0d
+    jsr B28_0095
+    beq B28_030a
     B28_02fd:
-    jsr B28_00a1       ; 20 a1 80
-    beq B28_030a ; f0 08
+    jsr B28_00a1
+    beq B28_030a
     B28_0302:
-    jsr B28_0099       ; 20 99 80
-    beq B28_030a ; f0 03
+    jsr B28_0099
+    beq B28_030a
     B28_0307:
-    jsr B28_009d       ; 20 9d 80
+    jsr B28_009d
     B28_030a:
-    lda $bf         ; a5 bf
-    sta $07f8, x    ; 9d f8 07
-    lda #$00        ; a9 00
-    sta $07da, x    ; 9d da 07
+    lda $bf
+    sta $07f8, x
+    lda #$00
+    sta $07da, x
 
 B28_0314:
-    sta $07df, x    ; 9d df 07
-    sta $07e3, x    ; 9d e3 07
-    sta $07e7, x    ; 9d e7 07
-    sta $078a       ; 8d 8a 07
+    sta $07df, x
+    sta $07e3, x
+    sta $07e7, x
+    sta $078a
     B28_0320:
-    rts             ; 60
+    rts
 
 ; $8009 table, entry 09
 B28_0321:
-    lda #$30        ; a9 30
+    lda #$30
     .ifdef VER_JP
-    ldy #$2a        ; a0 1c
+    ldy #$2a
     .else
-    ldy #$1c        ; a0 1c
+    ldy #$1c
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 ; $8009 table, entry 07
 B28_0328:
-    lda #$0c        ; a9 0c
+    lda #$0c
     .ifdef VER_JP
-    ldy #$22        ; a0 1c
+    ldy #$22
     .else
-    ldy #$14        ; a0 1c
+    ldy #$14
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 B28_032f:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_0320 ; d0 ec
+    jsr B28_00d3
+    bne B28_0320
     .ifdef VER_JP
-    ldy #$22        ; a0 1c
+    ldy #$22
     .else
-    ldy #$14        ; a0 1c
+    ldy #$14
     .endif
-    jsr B28_009d       ; 20 9d 80
-    inc $07df       ; ee df 07
-    lda $07df       ; ad df 07
-    cmp #$04        ; c9 04
-    bne B28_0320 ; d0 dd
-    jmp B28_0415       ; 4c 15 84
+    jsr B28_009d
+    inc $07df
+    lda $07df
+    cmp #$04
+    bne B28_0320
+    jmp B28_0415
 
 ; $8009 table, entry 06
 B28_0346:
-    lda #$04        ; a9 04
+    lda #$04
     .ifdef VER_JP
-    ldy #$22        ; a0 1c
+    ldy #$22
     .else
-    ldy #$14        ; a0 1c
+    ldy #$14
     .endif
-    jsr B28_02dc       ; 20 dc 82
-    lda #$02        ; a9 02
-    sta $07f3       ; 8d f3 07
-    lda $bb         ; a5 bb
-    and #$f7        ; 29 f7
+    jsr B28_02dc
+    lda #$02
+    sta $07f3
+    lda $bb
+    and #$f7
     B28_0356:
-    and #$0f        ; 29 0f
-    sta $400e       ; 8d 0e 40
-    rts             ; 60
+    and #$0f
+    sta $400e
+    rts
 
 ; $8009 table, entry 05
 B28_035c:
-    lda #$06        ; a9 06
+    lda #$06
     .ifdef VER_JP
-    ldy #$26        ; a0 1c
+    ldy #$26
     .else
-    ldy #$18        ; a0 1c
+    ldy #$18
     .endif
-    jsr B28_02dc       ; 20 dc 82
-    lda B28_011a       ; ad 1a 81
-    sta $07df       ; 8d df 07
-    lda B28_0118       ; ad 18 81
-    sta $07e3       ; 8d e3 07
+    jsr B28_02dc
+    lda B28_011a
+    sta $07df
+    lda B28_0118
+    sta $07e3
     B28_036f:
-    rts             ; 60
+    rts
 
 B28_0370:
-    lda #$86        ; a9 86
-    bne B28_038f ; d0 1b
+    lda #$86
+    bne B28_038f
 
 ; $8009 table, entry 0F
 B28_0374:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_036f ; d0 f6
-    inc $07df       ; ee df 07
-    inc $07e3       ; ee e3 07
-    lda $07e3       ; ad e3 07
-    cmp #$19        ; c9 19
-    bne B28_0389 ; d0 03
-    jmp B28_0415       ; 4c 15 84
+    jsr B28_00d3
+    bne B28_036f
+    inc $07df
+    inc $07e3
+    lda $07e3
+    cmp #$19
+    bne B28_0389
+    jmp B28_0415
     B28_0389:
-    sta $400c       ; 8d 0c 40
-    lda $07df       ; ad df 07
+    sta $400c
+    lda $07df
     B28_038f:
-    sta $400e       ; 8d 0e 40
-    rts             ; 60
+    sta $400e
+    rts
 
 ; $8009 table, entry 02
 B28_0393:
-    lda #$05        ; a9 05
+    lda #$05
     .ifdef VER_JP
-    ldy #$1a        ; a0 08
+    ldy #$1a
     .else
-    ldy #$0c        ; a0 08
+    ldy #$0c
     .endif
-    jsr B28_02dc       ; 20 dc 82
-    lda B28_010e       ; ad 0e 81
-    sta $07df       ; 8d df 07
+    jsr B28_02dc
+    lda B28_010e
+    sta $07df
     B28_03a0:
-    rts             ; 60
+    rts
 
 ; $8009 table, entry 0C
 B28_03a1:
-    lda $07e7       ; ad e7 07
-    cmp #$02        ; c9 02
-    beq B28_03b1 ; f0 09
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_03a0 ; d0 f3
-    inc $07e7       ; ee e7 07
-    rts             ; 60
+    lda $07e7
+    cmp #$02
+    beq B28_03b1
+    jsr B28_00d3
+    bne B28_03a0
+    inc $07e7
+    rts
 
 B28_03b1:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_03cc ; d0 16
-    dec $07df       ; ce df 07
-    dec $07df       ; ce df 07
-    dec $07df       ; ce df 07
-    inc $07e3       ; ee e3 07
-    lda $07e3       ; ad e3 07
-    cmp #$0f        ; c9 0f
-    bne B28_03a0 ; d0 d7
-    jmp B28_0436       ; 4c 36 84
+    jsr B28_00d3
+    bne B28_03cc
+    dec $07df
+    dec $07df
+    dec $07df
+    inc $07e3
+    lda $07e3
+    cmp #$0f
+    bne B28_03a0
+    jmp B28_0436
     B28_03cc:
-    inc $07df       ; ee df 07
-    lda $07df       ; ad df 07
+    inc $07df
+    lda $07df
     B28_03d2:
-    sta $400e       ; 8d 0e 40
+    sta $400e
     B28_03d5:
-    rts             ; 60
+    rts
 
 
 B28_03d6:
-    jsr B28_045c       ; 20 5c 84
-    jmp B28_03d2       ; 4c d2 83
+    jsr B28_045c
+    jmp B28_03d2
 
 ; $8009 table, entry 03
 B28_03dc:
-    lda #$03        ; a9 03
+    lda #$03
     .ifdef VER_JP
-    ldy #$1e        ; a0 08
+    ldy #$1e
     .else
-    ldy #$10        ; a0 08
+    ldy #$10
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 ; $8009 table, entry 0D
 B28_03e3:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_03d5 ; d0 ed
-    inc $07df       ; ee df 07
-    lda $07df       ; ad df 07
-    ora #$10        ; 09 10
-    sta $400c       ; 8d 0c 40
-    cmp #$10        ; c9 10
-    bne B28_03d5 ; d0 de
-    jmp B28_0415       ; 4c 15 84
+    jsr B28_00d3
+    bne B28_03d5
+    inc $07df
+    lda $07df
+    ora #$10
+    sta $400c
+    cmp #$10
+    bne B28_03d5
+    jmp B28_0415
 
 ; $8009 table, entry 00
 B28_03fa:
-    lda #$10        ; a9 10
+    lda #$10
     .ifdef VER_JP
-    ldy #$16        ; a0 08
+    ldy #$16
     .else
-    ldy #$08        ; a0 08
+    ldy #$08
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 ; $8009 table, entry 0A
 B28_0401:
-    jsr B28_00d3       ; 20 d3 80
-    beq B28_0415 ; f0 0f
+    jsr B28_00d3
+    beq B28_0415
     .ifdef VER_JP
-    ldx #$a0        ; a0 08
+    ldx #$a0
     .else
-    ldx #$81        ; a0 08
+    ldx #$81
     .endif
-    jsr B28_03d6       ; 20 d6 83
+    jsr B28_03d6
     .ifdef VER_JP
-    ldx #$a8        ; a0 08
+    ldx #$a8
     .else
-    ldx #$89        ; a0 08
+    ldx #$89
     .endif
-    jmp B28_0450       ; 4c 50 84
+    jmp B28_0450
     B28_0410:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_041f ; d0 0a
+    jsr B28_00d3
+    bne B28_041f
     B28_0415:
-    lda #$00        ; a9 00
-    sta $07f8       ; 8d f8 07
-    lda #$10        ; a9 10
-    sta $400c       ; 8d 0c 40
+    lda #$00
+    sta $07f8
+    lda #$10
+    sta $400c
     B28_041f:
-    rts             ; 60
+    rts
 
 ; $8009 table, entry 04
 B28_0420:
-    lda #$20        ; a9 20
+    lda #$20
     .ifdef VER_JP
-    ldy #$16        ; a0 08
+    ldy #$16
     .else
-    ldy #$08        ; a0 08
+    ldy #$08
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 ; $8009 table, entry 0E
 B28_0427:
-    jsr B28_00d3       ; 20 d3 80
-    beq B28_0415 ; f0 e9
+    jsr B28_00d3
+    beq B28_0415
     .ifdef VER_JP
-    ldx #$b0        ; a0 08
+    ldx #$b0
     .else
-    ldx #$91        ; a0 08
+    ldx #$91
     .endif
-    jsr B28_03d6       ; 20 d6 83
+    jsr B28_03d6
     .ifdef VER_JP
-    ldx #$c0        ; a0 08
+    ldx #$c0
     .else
-    ldx #$a1        ; a0 08
+    ldx #$a1
     .endif
-    jmp B28_0450       ; 4c 50 84
+    jmp B28_0450
 
 B28_0436:
-    lda #$02        ; a9 02
-    sta $bf         ; 85 bf
+    lda #$02
+    sta $bf
 
 ; $8009 table, entry 01
 B28_043a:
     .ifdef VER_JP
-    lda #$30        ; a9 40
-    ldy #$16        ; a0 08
+    lda #$30
+    ldy #$16
     .else
-    lda #$40        ; a9 40
-    ldy #$08        ; a0 08
+    lda #$40
+    ldy #$08
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 ; $8009 table, entry 0B
 B28_0441:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_0449 ; d0 03
-    jmp B28_0415       ; 4c 15 84
+    jsr B28_00d3
+    bne B28_0449
+    jmp B28_0415
     B28_0449:
     .ifdef VER_JP
-    ldx #$d0        ; a2 b1
+    ldx #$d0
     .else
-    ldx #$b1        ; a2 b1
+    ldx #$b1
     .endif
-    jsr B28_03d6       ; 20 d6 83
+    jsr B28_03d6
     .ifdef VER_JP
-    ldx #$e8        ; a2 b1
+    ldx #$e8
     .else
-    ldx #$d1        ; a2 b1
+    ldx #$d1
     .endif
     B28_0450:
-    jsr B28_045c       ; 20 5c 84
-    ora #$10        ; 09 10
-    sta $400c       ; 8d 0c 40
-    inc $07df       ; ee df 07
-    rts             ; 60
+    jsr B28_045c
+    ora #$10
+    sta $400c
+    inc $07df
+    rts
 
 B28_045c:
-    stx $b0         ; 86 b0
-    ldy #$c1        ; a0 c1
-    sty $b1         ; 84 b1
-    ldx $07df       ; ae df 07
-    txa             ; 8a
-    lsr a           ; 4a
-    tay             ; a8
-    lda ($b0), y    ; b1 b0
-    sta $b4         ; 85 b4
-    txa             ; 8a
-    and #$01        ; 29 01
-    beq B28_0476 ; f0 05
-    lda $b4         ; a5 b4
-    and #$0f        ; 29 0f
-    rts             ; 60
+    stx $b0
+    ldy #$c1
+    sty $b1
+    ldx $07df
+    txa
+    lsr a
+    tay
+    lda ($b0), y
+    sta $b4
+    txa
+    and #$01
+    beq B28_0476
+    lda $b4
+    and #$0f
+    rts
 
 B28_0476:
-    lda $b4         ; a5 b4
-    lsr a           ; 4a
-    lsr a           ; 4a
-    lsr a           ; 4a
-    lsr a           ; 4a
+    lda $b4
+    lsr a
+    lsr a
+    lsr a
+    lsr a
     B28_047c:
-    rts             ; 60
+    rts
 
 ; $8009 table, entry 08
 B28_047d:
-    lda #$08        ; a9 08
+    lda #$08
     .ifdef VER_JP
-    ldy #$12        ; a0 04
+    ldy #$12
     .else
-    ldy #$04        ; a0 04
+    ldy #$04
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 B28_0484:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_047c ; d0 f3
-    lda $07df       ; ad df 07
-    inc $07df       ; ee df 07
+    jsr B28_00d3
+    bne B28_047c
+    lda $07df
+    inc $07df
     .ifdef VER_JP
     cmp #$10
     beq B28_04b9
     jmp $835F
     .else
-    cmp #$28        ; c9 28
-    beq B28_04b9 ; f0 26
-    cmp #$10        ; c9 10
-    beq B28_04ae ; f0 17
-    cmp #$18        ; c9 18
-    beq B28_04aa ; f0 0f
-    cmp #$20        ; c9 20
-    beq B28_04a6 ; f0 07
-    cmp #$10        ; c9 10
-    bcs B28_047c ; b0 d9
-    jmp B28_0356       ; 4c 56 83
+    cmp #$28
+    beq B28_04b9
+    cmp #$10
+    beq B28_04ae
+    cmp #$18
+    beq B28_04aa
+    cmp #$20
+    beq B28_04a6
+    cmp #$10
+    bcs B28_047c
+    jmp B28_0356
     B28_04a6:
-    lda #$31        ; a9 31
-    bne B28_04b0 ; d0 06
+    lda #$31
+    bne B28_04b0
     B28_04aa:
-    lda #$32        ; a9 32
-    bne B28_04b0 ; d0 02
+    lda #$32
+    bne B28_04b0
     B28_04ae:
-    lda #$33        ; a9 33
+    lda #$33
     B28_04b0:
-    sta $400c       ; 8d 0c 40
-    lda #$0f        ; a9 0f
-    sta $400e       ; 8d 0e 40
-    rts             ; 60
+    sta $400c
+    lda #$0f
+    sta $400e
+    rts
     .endif
 
 B28_04b9:
-    jmp B28_0415       ; 4c 15 84
+    jmp B28_0415
 
 B28_04bc:
-    sta $07d9       ; 8d d9 07
-    jsr B28_00a1       ; 20 a1 80
-    lda $bf         ; a5 bf
-    sta $07fc       ; 8d fc 07
-    ldx #$01        ; a2 01
-    stx $07c8       ; 8e c8 07
-    inx             ; e8
-    stx $07c9       ; 8e c9 07
-    lda #$00        ; a9 00
-    sta $07de       ; 8d de 07
-    sta $07f9       ; 8d f9 07
-    ldx #$01        ; a2 01
-    jmp B28_0314       ; 4c 14 83
+    sta $07d9
+    jsr B28_00a1
+    lda $bf
+    sta $07fc
+    ldx #$01
+    stx $07c8
+    inx
+    stx $07c9
+    lda #$00
+    sta $07de
+    sta $07f9
+    ldx #$01
+    jmp B28_0314
     B28_04dd:
-    jsr B28_0688       ; 20 88 86
-    jsr B28_0840       ; 20 40 88
-    inc $078a       ; ee 8a 07
-    lda #$00        ; a9 00
-    sta $07fc       ; 8d fc 07
-    ldx #$01        ; a2 01
-    lda #$7f        ; a9 7f
+    jsr B28_0688
+    jsr B28_0840
+    inc $078a
+    lda #$00
+    sta $07fc
+    ldx #$01
+    lda #$7f
     B28_04ef:
-    sta $4000, x    ; 9d 00 40
-    sta $4004, x    ; 9d 04 40
-    rts             ; 60
+    sta $4000, x
+    sta $4004, x
+    rts
 
 B28_04f6:
     .ifdef VER_JP
-    ldy #$32        ; a0 24
+    ldy #$32
     .else
-    ldy #$24        ; a0 24
+    ldy #$24
     .endif
-    jsr B28_0095       ; 20 95 80
-    lda #$0a        ; a9 0a
+    jsr B28_0095
+    lda #$0a
     .ifdef VER_JP
-    ldy #$2e        ; a0 24
+    ldy #$2e
     .else
-    ldy #$20        ; a0 24
+    ldy #$20
     .endif
-    jsr B28_04bc       ; 20 bc 84
-    lda B28_0120       ; ad 20 81
-    sta $07e0       ; 8d e0 07
+    jsr B28_04bc
+    lda B28_0120
+    sta $07e0
     B28_0508:
-    rts             ; 60
+    rts
 
 B28_0509:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_0533 ; d0 25
-    lda $07e4       ; ad e4 07
-    beq B28_0518 ; f0 05
-    dec $07e0       ; ce e0 07
-    bne B28_051b ; d0 03
+    jsr B28_00d3
+    bne B28_0533
+    lda $07e4
+    beq B28_0518
+    dec $07e0
+    bne B28_051b
     B28_0518:
-    inc $07e0       ; ee e0 07
+    inc $07e0
     B28_051b:
-    lda $07e0       ; ad e0 07
-    cmp #$b0        ; c9 b0
-    bne B28_0525 ; d0 03
-    jmp B28_04dd       ; 4c dd 84
+    lda $07e0
+    cmp #$b0
+    bne B28_0525
+    jmp B28_04dd
     B28_0525:
-    sta $4000       ; 8d 00 40
-    sta $4004       ; 8d 04 40
-    cmp #$bf        ; c9 bf
-    bne B28_0508 ; d0 d9
-    inc $07e4       ; ee e4 07
-    rts             ; 60
+    sta $4000
+    sta $4004
+    cmp #$bf
+    bne B28_0508
+    inc $07e4
+    rts
 
 B28_0533:
-    ldy #$1a        ; a0 1a
-    lda $07de       ; ad de 07
-    and #$01        ; 29 01
-    bne B28_053e ; d0 02
-    ldy #$1b        ; a0 1b
+    ldy #$1a
+    lda $07de
+    and #$01
+    bne B28_053e
+    ldy #$1b
     B28_053e:
-    sty $4002       ; 8c 02 40
-    rts             ; 60
+    sty $4002
+    rts
 
 B28_0542:
     .ifdef VER_JP
-    ldy #$3e        ; a0 30
+    ldy #$3e
     .else
-    ldy #$30        ; a0 30
+    ldy #$30
     .endif
-    jsr B28_0095       ; 20 95 80
-    lda #$08        ; a9 08
+    jsr B28_0095
+    lda #$08
     .ifdef VER_JP
-    ldy #$42        ; a0 30
+    ldy #$42
     .else
-    ldy #$34        ; a0 30
+    ldy #$34
     .endif
-    bne B28_0556 ; d0 09
+    bne B28_0556
 
 B28_054d:
     .ifdef VER_JP
-    ldy #$3a        ; a0 30
+    ldy #$3a
     .else
-    ldy #$2c        ; a0 30
+    ldy #$2c
     .endif
-    jsr B28_0095       ; 20 95 80
-    lda #$03        ; a9 03
+    jsr B28_0095
+    lda #$03
     .ifdef VER_JP
-    ldy #$36        ; a0 30
+    ldy #$36
     .else
-    ldy #$28        ; a0 30
+    ldy #$28
     .endif
     B28_0556:
-    jmp B28_04bc       ; 4c bc 84
+    jmp B28_04bc
 
 B28_0559:
-    jsr B28_057e       ; 20 7e 85
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_057e ; d0 1d
-    ldx #$00        ; a2 00
-    inc $07e0       ; ee e0 07
-    lda $07e0       ; ad e0 07
-    cmp #$12        ; c9 12
-    beq B28_0576 ; f0 09
-    cmp #$0e        ; c9 0e
-    bcc B28_0579 ; 90 08
-    lda #$be        ; a9 be
-    jmp B28_04ef       ; 4c ef 84
+    jsr B28_057e
+    jsr B28_00d3
+    bne B28_057e
+    ldx #$00
+    inc $07e0
+    lda $07e0
+    cmp #$12
+    beq B28_0576
+    cmp #$0e
+    bcc B28_0579
+    lda #$be
+    jmp B28_04ef
     B28_0576:
-    jmp B28_04dd       ; 4c dd 84
+    jmp B28_04dd
     B28_0579:
-    ora #$b0        ; 09 b0
-    jmp B28_04ef       ; 4c ef 84
+    ora #$b0
+    jmp B28_04ef
 
 B28_057e:
-    inc $07e4       ; ee e4 07
-    lda $07e4       ; ad e4 07
-    and #$07        ; 29 07
-    tay             ; a8
-    lda B28_059c, y    ; b9 9c 85
-    clc             ; 18
-    adc B28_012a       ; 6d 2a 81
-    sta $4002       ; 8d 02 40
-    lda B28_059c, y    ; b9 9c 85
-    clc             ; 18
-    adc B28_012e       ; 6d 2e 81
-    sta $4006       ; 8d 06 40
+    inc $07e4
+    lda $07e4
+    and #$07
+    tay
+    lda B28_059c, y
+    clc
+    adc B28_012a
+    sta $4002
+    lda B28_059c, y
+    clc
+    adc B28_012e
+    sta $4006
     B28_059b:
-    rts             ; 60
+    rts
 
 
 .ifndef VER_JP
@@ -1102,218 +1078,218 @@ B28_05ab:
 .endif
 
 B28_05af:
-    lda $07e4       ; ad e4 07
-    beq B28_05c1 ; f0 0d
-    inc $07e0       ; ee e0 07
-    lda $07e0       ; ad e0 07
-    cmp #$16        ; c9 16
-    bne B28_059b ; d0 dd
-    jmp B28_0688       ; 4c 88 86
+    lda $07e4
+    beq B28_05c1
+    inc $07e0
+    lda $07e0
+    cmp #$16
+    bne B28_059b
+    jmp B28_0688
 
 B28_05c1:
-    lda $07e0       ; ad e0 07
-    and #$03        ; 29 03
-    tay             ; a8
-    lda B28_05ab, y    ; b9 ab 85
-    sta $4000       ; 8d 00 40
-    inc $07e0       ; ee e0 07
-    lda $07e0       ; ad e0 07
-    cmp #$08        ; c9 08
-    bne B28_059b ; d0 c4
-    inc $07e4       ; ee e4 07
+    lda $07e0
+    and #$03
+    tay
+    lda B28_05ab, y
+    sta $4000
+    inc $07e0
+    lda $07e0
+    cmp #$08
+    bne B28_059b
+    inc $07e4
     .ifdef VER_JP
-    ldy #$86        ; a0 90
+    ldy #$86
     .else
-    ldy #$7c        ; a0 90
+    ldy #$7c
     .endif
-    jmp B28_0095       ; 4c 95 80
+    jmp B28_0095
 
 
 B28_05df:
-    lda #$02        ; a9 02
+    lda #$02
     .ifdef VER_JP
-    ldy #$9A        ; a0 90
+    ldy #$9A
     .else
-    ldy #$90        ; a0 90
+    ldy #$90
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 B28_05e6:
     .ifdef VER_JP
-    ldy #$82        ; a0 90
+    ldy #$82
     .else
-    ldy #$78        ; a0 90
+    ldy #$78
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 B28_05eb:
-    lda #$04        ; a9 04
+    lda #$04
     .ifdef VER_JP
-    ldy #$6e        ; a0 90
+    ldy #$6e
     .else
-    ldy #$64        ; a0 90
+    ldy #$64
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 B28_05f2:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_066d ; d0 76
-    inc $07e0       ; ee e0 07
-    lda $07e0       ; ad e0 07
-    cmp #$01        ; c9 01
-    beq B28_0608 ; f0 07
-    cmp #$04        ; c9 04
-    bne B28_066d ; d0 68
-    jmp B28_0688       ; 4c 88 86
+    jsr B28_00d3
+    bne B28_066d
+    inc $07e0
+    lda $07e0
+    cmp #$01
+    beq B28_0608
+    cmp #$04
+    bne B28_066d
+    jmp B28_0688
 
 B28_0608:
     .ifdef VER_JP
-    ldy #$72        ; a0 48
+    ldy #$72
     .else
-    ldy #$68        ; a0 48
+    ldy #$68
     .endif
-    jmp B28_0095       ; 4c 95 80
+    jmp B28_0095
 
 B28_060d:
-    inc $078b       ; ee 8b 07
+    inc $078b
 
 B28_0610:
-    lda #$0f        ; a9 0f
+    lda #$0f
     .ifdef VER_JP
-    ldy #$4e        ; a0 48
+    ldy #$4e
     .else
-    ldy #$44        ; a0 48
+    ldy #$44
     .endif
-    jsr B28_02dc       ; 20 dc 82
-    lda B28_0146       ; ad 46 81
+    jsr B28_02dc
+    lda B28_0146
     B28_061a:
-    sta $07e8       ; 8d e8 07
-    rts             ; 60
+    sta $07e8
+    rts
 
 B28_061e:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_0661 ; d0 3e
-    inc $07e4       ; ee e4 07
-    lda $07e4       ; ad e4 07
-    cmp #$08        ; c9 08
-    beq B28_065a ; f0 2d
-    cmp #$24        ; c9 24
-    beq B28_0648 ; f0 17
+    jsr B28_00d3
+    bne B28_0661
+    inc $07e4
+    lda $07e4
+    cmp #$08
+    beq B28_065a
+    cmp #$24
+    beq B28_0648
     B28_0631:
-    and #$01        ; 29 01
-    beq B28_063c ; f0 07
-    lda B28_014a       ; ad 4a 81
+    and #$01
+    beq B28_063c
+    lda B28_014a
     .ifdef VER_JP
-    ldy #$52        ; a0 48
+    ldy #$52
     .else
-    ldy #$48        ; a0 48
+    ldy #$48
     .endif
-    bne B28_0641 ; d0 05
+    bne B28_0641
     B28_063c:
-    lda B28_0146       ; ad 46 81
+    lda B28_0146
     .ifdef VER_JP
-    ldy #$4e        ; a0 48
+    ldy #$4e
     .else
-    ldy #$44        ; a0 48
+    ldy #$44
     .endif
     B28_0641:
-    pha             ; 48
-    jsr B28_0095       ; 20 95 80
-    pla             ; 68
-    bne B28_061a ; d0 d2
+    pha
+    jsr B28_0095
+    pla
+    bne B28_061a
     B28_0648:
-    lda $078b       ; ad 8b 07
-    beq B28_0657 ; f0 0a
-    lda #$00        ; a9 00
-    sta $078b       ; 8d 8b 07
-    lda #$25        ; a9 25
-    sta new_music   ; 8d f5 07
+    lda $078b
+    beq B28_0657
+    lda #$00
+    sta $078b
+    lda #$25
+    sta new_music
     B28_0657:
-    jmp B28_0688       ; 4c 88 86
+    jmp B28_0688
 
 B28_065a:
-    lda #$02        ; a9 02
-    sta $07d6       ; 8d d6 07
-    bne B28_0631 ; d0 d0
+    lda #$02
+    sta $07d6
+    bne B28_0631
     B28_0661:
-    dec $07e8       ; ce e8 07
-    dec $07e8       ; ce e8 07
-    lda $07e8       ; ad e8 07
-    sta $4002       ; 8d 02 40
+    dec $07e8
+    dec $07e8
+    lda $07e8
+    sta $4002
     B28_066d:
-    rts             ; 60
+    rts
 
 
 B28_066e:
-    lda $07f9       ; ad f9 07
-    cmp #$07        ; c9 07
-    beq B28_066d ; f0 f8
-    lda #$02        ; a9 02
+    lda $07f9
+    cmp #$07
+    beq B28_066d
+    lda #$02
     .ifdef VER_JP
-    ldy #$9e        ; a0 94
+    ldy #$9e
     .else
-    ldy #$94        ; a0 94
+    ldy #$94
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 B28_067c:
-    lda #$10        ; a9 10
+    lda #$10
     .ifdef VER_JP
-    ldy #$96        ; a0 94
+    ldy #$96
     .else
-    ldy #$8c        ; a0 94
+    ldy #$8c
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 B28_0683:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_0698 ; d0 10
+    jsr B28_00d3
+    bne B28_0698
 
 B28_0688:
-    lda #$10        ; a9 10
-    sta $4000       ; 8d 00 40
-    lda #$00        ; a9 00
-    sta $07c8       ; 8d c8 07
-    sta $07f9       ; 8d f9 07
-    inc $078a       ; ee 8a 07
+    lda #$10
+    sta $4000
+    lda #$00
+    sta $07c8
+    sta $07f9
+    inc $078a
     B28_0698:
-    rts             ; 60
+    rts
 
 B28_0699:
-    lda #$06        ; a9 06
+    lda #$06
     .ifdef VER_JP
-    ldy #$8A        ; a0 80
+    ldy #$8A
     .else
-    ldy #$80        ; a0 80
+    ldy #$80
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 B28_06a0:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_0698 ; d0 f3
-    inc $07e0       ; ee e0 07
-    lda $07e0       ; ad e0 07
-    cmp #$01        ; c9 01
-    beq B28_06ba ; f0 0b
-    cmp #$02        ; c9 02
-    beq B28_06bf ; f0 0c
-    cmp #$03        ; c9 03
-    bne B28_0698 ; d0 e1
-    jmp B28_0688       ; 4c 88 86
+    jsr B28_00d3
+    bne B28_0698
+    inc $07e0
+    lda $07e0
+    cmp #$01
+    beq B28_06ba
+    cmp #$02
+    beq B28_06bf
+    cmp #$03
+    bne B28_0698
+    jmp B28_0688
     B28_06ba:
     .ifdef VER_JP
-    ldy #$8e        ; a0 80
+    ldy #$8e
     .else
-    ldy #$84        ; a0 80
+    ldy #$84
     .endif
-    jmp B28_0095       ; 4c 95 80
+    jmp B28_0095
     B28_06bf:
     .ifdef VER_JP
-    ldy #$92        ; a0 80
+    ldy #$92
     .else
-    ldy #$88        ; a0 80
+    ldy #$88
     .endif
-    jmp B28_0095       ; 4c 95 80
+    jmp B28_0095
 
 
 .ifdef VER_JP
@@ -1322,234 +1298,234 @@ incbinRange "../../split/jp/prg/bank1c.bin", $69e, $6A4
 .endif
 
 B28_06c4:
-    lda #$08        ; a9 08
+    lda #$08
     .ifdef VER_JP
-    ldy #$76        ; a0 6c
+    ldy #$76
     .else
-    ldy #$6c        ; a0 6c
+    ldy #$6c
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 B28_06cb:
-    jsr B28_00d3       ; 20 d3 80
-    beq B28_06ed ; f0 1d
-    lda $07e8       ; ad e8 07
-    cmp #$02        ; c9 02
-    bne B28_06e9 ; d0 12
-    lda #$00        ; a9 00
-    sta $07e8       ; 8d e8 07
-    ldy $07e4       ; ac e4 07
-    inc $07e4       ; ee e4 07
-    lda B28_00fa, y    ; b9 fa 80
-    sta $4001       ; 8d 01 40
-    rts             ; 60
+    jsr B28_00d3
+    beq B28_06ed
+    lda $07e8
+    cmp #$02
+    bne B28_06e9
+    lda #$00
+    sta $07e8
+    ldy $07e4
+    inc $07e4
+    lda B28_00fa, y
+    sta $4001
+    rts
 
 B28_06e9:
-    inc $07e8       ; ee e8 07
-    rts             ; 60
+    inc $07e8
+    rts
 
 B28_06ed:
-    lda #$00        ; a9 00
-    sta $07e4       ; 8d e4 07
-    lda $07e0       ; ad e0 07
-    beq B28_0702 ; f0 0b
-    cmp #$01        ; c9 01
-    beq B28_0706 ; f0 0b
-    cmp #$02        ; c9 02
-    bne B28_070e ; d0 0f
-    jmp B28_0688       ; 4c 88 86
+    lda #$00
+    sta $07e4
+    lda $07e0
+    beq B28_0702
+    cmp #$01
+    beq B28_0706
+    cmp #$02
+    bne B28_070e
+    jmp B28_0688
     B28_0702:
     .ifdef VER_JP
-    ldy #$7a        ; a0 50
+    ldy #$7a
     .else
-    ldy #$70        ; a0 50
+    ldy #$70
     .endif
-    bne B28_0708 ; d0 02
+    bne B28_0708
     B28_0706:
     .ifdef VER_JP
-    ldy #$7e        ; a0 50
+    ldy #$7e
     .else
-    ldy #$74        ; a0 50
+    ldy #$74
     .endif
     B28_0708:
-    jsr B28_0095       ; 20 95 80
-    inc $07e0       ; ee e0 07
+    jsr B28_0095
+    inc $07e0
     B28_070e:
-    rts             ; 60
+    rts
 
 B28_070f:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_070e ; d0 fa
-    inc $07e0       ; ee e0 07
-    lda $07e0       ; ad e0 07
-    cmp #$02        ; c9 02
-    bne B28_0721 ; d0 03
-    jmp B28_0688       ; 4c 88 86
+    jsr B28_00d3
+    bne B28_070e
+    inc $07e0
+    lda $07e0
+    cmp #$02
+    bne B28_0721
+    jmp B28_0688
     B28_0721:
     .ifdef VER_JP
-    ldy #$5A        ; a0 50
+    ldy #$5A
     .else
-    ldy #$50        ; a0 50
+    ldy #$50
     .endif
-    jmp B28_0095       ; 4c 95 80
+    jmp B28_0095
 
 B28_0726:
     .ifndef VER_JP
-    lda $07f9       ; ad f9 07
-    cmp #$07        ; c9 07
-    beq B28_070e ; f0 e1
+    lda $07f9
+    cmp #$07
+    beq B28_070e
     .endif
-    lda #$03        ; a9 03
+    lda #$03
     .ifdef VER_JP
-    ldy #$56        ; a0 4c
+    ldy #$56
     .else
-    ldy #$4c        ; a0 4c
+    ldy #$4c
     .endif
-    bne B28_075b ; d0 28
+    bne B28_075b
 
 B28_0733:
-    lda #$10        ; a9 10
+    lda #$10
     .ifdef VER_JP
-    ldy #$46        ; a0 4c
+    ldy #$46
     .else
-    ldy #$3c        ; a0 4c
+    ldy #$3c
     .endif
-    jsr B28_075b       ; 20 5b 87
-    lda #$18        ; a9 18
-    bne B28_077b ; d0 3d
+    jsr B28_075b
+    lda #$18
+    bne B28_077b
 
 B28_073e:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_077e ; d0 3b
+    jsr B28_00d3
+    bne B28_077e
     .ifdef VER_JP
-    ldy #$46        ; a0 4c
+    ldy #$46
     .else
-    ldy #$3c        ; a0 4c
+    ldy #$3c
     .endif
-    bne B28_0786 ; d0 3f
+    bne B28_0786
 
 B28_0747:
-    lda #$06        ; a9 06
+    lda #$06
     .ifdef VER_JP
-    ldy #$62        ; a0 4c
+    ldy #$62
     .else
-    ldy #$58        ; a0 4c
+    ldy #$58
     .endif
-    jsr B28_075b       ; 20 5b 87
-    lda #$10        ; a9 10
-    bne B28_077b ; d0 29
+    jsr B28_075b
+    lda #$10
+    bne B28_077b
 
 B28_0752:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_077e ; d0 27
+    jsr B28_00d3
+    bne B28_077e
     .ifdef VER_JP
-    ldy #$62        ; a0 4c
+    ldy #$62
     .else
-    ldy #$58        ; a0 4c
+    ldy #$58
     .endif
-    bne B28_0786 ; d0 2b
+    bne B28_0786
 
 B28_075b:
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 B28_075e:
-    lda #$05        ; a9 05
+    lda #$05
     .ifdef VER_JP
-    ldy #$66        ; a0 60
+    ldy #$66
     .else
-    ldy #$5c        ; a0 60
+    ldy #$5c
     .endif
-    jsr B28_075b       ; 20 5b 87
-    lda #$08        ; a9 08
-    bne B28_077b ; d0 12
+    jsr B28_075b
+    lda #$08
+    bne B28_077b
 
 B28_0769:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_077e ; d0 10
+    jsr B28_00d3
+    bne B28_077e
     .ifdef VER_JP
-    ldy #$66        ; a0 60
+    ldy #$66
     .else
-    ldy #$5c        ; a0 60
+    ldy #$5c
     .endif
-    bne B28_0786 ; d0 14
+    bne B28_0786
 
 B28_0772:
-    lda #$06        ; a9 06
+    lda #$06
     .ifdef VER_JP
-    ldy #$6A        ; a0 60
+    ldy #$6A
     .else
-    ldy #$60        ; a0 60
+    ldy #$60
     .endif
-    jsr B28_075b       ; 20 5b 87
-    lda #$00        ; a9 00
+    jsr B28_075b
+    lda #$00
     B28_077b:
-    sta $07e4       ; 8d e4 07
+    sta $07e4
     B28_077e:
-    rts             ; 60
+    rts
 
 B28_077f:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_077e ; d0 fa
+    jsr B28_00d3
+    bne B28_077e
     .ifdef VER_JP
-    ldy #$6A        ; a0 60
+    ldy #$6A
     .else
-    ldy #$60        ; a0 60
+    ldy #$60
     .endif
     B28_0786:
-    jsr B28_0095       ; 20 95 80
-    clc             ; 18
-    lda $07e4       ; ad e4 07
-    adc $07e0       ; 6d e0 07
-    tay             ; a8
-    lda B28_07ee, y    ; b9 ee 87
-    sta $4002       ; 8d 02 40
-    ldy $07e0       ; ac e0 07
-    lda B28_07e5, y    ; b9 e5 87
-    sta $4000       ; 8d 00 40
-    bne B28_07a5 ; d0 03
-    jmp B28_0688       ; 4c 88 86
+    jsr B28_0095
+    clc
+    lda $07e4
+    adc $07e0
+    tay
+    lda B28_07ee, y
+    sta $4002
+    ldy $07e0
+    lda B28_07e5, y
+    sta $4000
+    bne B28_07a5
+    jmp B28_0688
 
 B28_07a5:
-    inc $07e0       ; ee e0 07
+    inc $07e0
     B28_07a8:
-    rts             ; 60
+    rts
 
 B28_07a9:
-    lda #$04        ; a9 04
+    lda #$04
     .ifdef VER_JP
-    ldy #$5E        ; a0 54
+    ldy #$5E
     .else
-    ldy #$54        ; a0 54
+    ldy #$54
     .endif
-    jsr B28_02dc       ; 20 dc 82
-    lda B28_0156       ; ad 56 81
-    sta $07e0       ; 8d e0 07
-    rts             ; 60
+    jsr B28_02dc
+    lda B28_0156
+    sta $07e0
+    rts
 
 B28_07b7:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_07a8 ; d0 ec
-    inc $07e4       ; ee e4 07
-    lda $07e4       ; ad e4 07
-    cmp #$05        ; c9 05
-    bne B28_07c9 ; d0 03
-    jmp B28_0688       ; 4c 88 86
+    jsr B28_00d3
+    bne B28_07a8
+    inc $07e4
+    lda $07e4
+    cmp #$05
+    bne B28_07c9
+    jmp B28_0688
     B28_07c9:
-    lda $07e0       ; ad e0 07
-    lsr a           ; 4a
-    lsr a           ; 4a
-    lsr a           ; 4a
-    sta $07e8       ; 8d e8 07
-    lda $07e0       ; ad e0 07
-    clc             ; 18
-    sbc $07e8       ; ede8 07
-    sta $07e0       ; 8d e0 07
-    sta $4002       ; 8d 02 40
-    lda #$28        ; a9 28
+    lda $07e0
+    lsr a
+    lsr a
+    lsr a
+    sta $07e8
+    lda $07e0
+    clc
+    sbc $07e8
+    sta $07e0
+    sta $4002
+    lda #$28
     B28_07e1:
-    sta $4003       ; 8d 03 40
+    sta $4003
     B28_07e4:
-    rts             ; 60
+    rts
 
 B28_07e5:
 incbinRange "../../split/jp/prg/bank1c.bin", $7be, $7C7
@@ -1557,63 +1533,63 @@ B28_07ee:
 incbinRange "../../split/jp/prg/bank1c.bin", $7C7, $7E7
 
 B28_080e:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_07e4 ; d0 d1
-    ldy $07e0       ; ac e0 07
-    inc $07e0       ; ee e0 07
-    lda B28_0830, y    ; b9 30 88
-    beq B28_0826 ; f0 08
-    sta $4002       ; 8d 02 40
-    lda #$88        ; a9 88
-    jmp B28_07e1       ; 4c e1 87
+    jsr B28_00d3
+    bne B28_07e4
+    ldy $07e0
+    inc $07e0
+    lda B28_0830, y
+    beq B28_0826
+    sta $4002
+    lda #$88
+    jmp B28_07e1
     B28_0826:
-    jmp B28_0688       ; 4c 88 86
+    jmp B28_0688
 
 B28_0829:
-    lda #$04        ; a9 04
+    lda #$04
     .ifdef VER_JP
-    ldy #$4A        ; a0 40
+    ldy #$4A
     .else
-    ldy #$40        ; a0 40
+    ldy #$40
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 B28_0830:
 incbinRange "../../split/jp/prg/bank1c.bin", $809, $819
 
 
 B28_0840:
-    lda #$10        ; a9 10
-    sta $4004       ; 8d 04 40
-    lda #$00        ; a9 00
-    sta $07c9       ; 8d c9 07
-    sta $07fa       ; 8d fa 07
-    rts             ; 60
+    lda #$10
+    sta $4004
+    lda #$00
+    sta $07c9
+    sta $07fa
+    rts
 
 B28_084e:
-    lda #$04        ; a9 04
+    lda #$04
     .ifdef VER_JP
-    ldy #$aa        ; a0 a0
+    ldy #$aa
     .else
-    ldy #$a0        ; a0 a0
+    ldy #$a0
     .endif
-    jsr B28_02dc       ; 20 dc 82
-    lda $bb         ; a5 bb
-    sta $400a       ; 8d 0a 40
-    lda #$0a        ; a9 0a
-    bne B28_08b0 ; d0 52
+    jsr B28_02dc
+    lda $bb
+    sta $400a
+    lda #$0a
+    bne B28_08b0
 
 B28_085e:
-    lda #$04        ; a9 04
+    lda #$04
     .ifdef VER_JP
-    ldy #$a6        ; a0 9c
+    ldy #$a6
     .else
-    ldy #$9c        ; a0 9c
+    ldy #$9c
     .endif
-    jsr B28_02dc       ; 20 dc 82
-    lda #$08        ; a9 08
-    sta $07e6       ; 8d e6 07
-    rts             ; 60
+    jsr B28_02dc
+    lda #$08
+    sta $07e6
+    rts
 
 .ifndef VER_JP
 B28_086b:
@@ -1638,42 +1614,42 @@ B28_087e:
     bne @loop
 
 B28_08a3:
-    lda #$00        ; a9 00
-    sta $4008       ; 8d 08 40
-    sta $07ca       ; 8d ca 07
-    sta $07fb       ; 8d fb 07
-    lda #$18        ; a9 18
+    lda #$00
+    sta $4008
+    sta $07ca
+    sta $07fb
+    lda #$18
     B28_08b0:
-    sta $400b       ; 8d 0b 40
+    sta $400b
     B28_08b3:
-    rts             ; 60
+    rts
 
 B28_08b4:
-    jsr B28_00d3       ; 20 d3 80
-    beq B28_08a3 ; f0 ea
+    jsr B28_00d3
+    beq B28_08a3
     B28_08b9:
-    rts             ; 60
+    rts
 
 B28_08ba:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_08b9 ; d0 fa
-    ldy $07e2       ; ac e2 07
-    inc $07e2       ; ee e2 07
-    lda B28_08db, y    ; b9 db 88
-    beq B28_08a3 ; f0 d9
-    sta $400a       ; 8d 0a 40
-    lda B28_01a7       ; ad a7 81
-    sta $400b       ; 8d 0b 40
-    rts             ; 60
+    jsr B28_00d3
+    bne B28_08b9
+    ldy $07e2
+    inc $07e2
+    lda B28_08db, y
+    beq B28_08a3
+    sta $400a
+    lda B28_01a7
+    sta $400b
+    rts
 
 B28_08d4:
-    lda #$03        ; a9 03
+    lda #$03
     .ifdef VER_JP
-    ldy #$ae        ; a0 a4
+    ldy #$ae
     .else
-    ldy #$a4        ; a0 a4
+    ldy #$a4
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 B28_08db:
     .byte $3f,$48,$52,$6d,$78,$84,$91,$ae,$bd,$00
@@ -1681,121 +1657,121 @@ B28_08db:
 B28_08e5:
     lda #$08
     .ifdef VER_JP
-    ldy #$B2        ; a0 ac
+    ldy #$B2
     .else
-    ldy #$a8        ; a0 ac
+    ldy #$a8
     .endif
-    jmp B28_02dc       ; 4c dc 82
+    jmp B28_02dc
 
 B28_08ec:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_08b3 ; d0 c2
-    inc $07e2       ; ee e2 07
-    lda $07e2       ; ad e2 07
-    cmp #$02        ; c9 02
-    bne B28_08fe ; d0 03
-    jmp B28_08a3       ; 4c a3 88
+    jsr B28_00d3
+    bne B28_08b3
+    inc $07e2
+    lda $07e2
+    cmp #$02
+    bne B28_08fe
+    jmp B28_08a3
     B28_08fe:
     .ifdef VER_JP
-    ldy #$B6        ; a0 ac
+    ldy #$B6
     .else
-    ldy #$ac        ; a0 ac
+    ldy #$ac
     .endif
-    jmp B28_0099       ; 4c 99 80
+    jmp B28_0099
 
 B28_0903:
-    jsr B28_0248       ; 20 48 82
-    lda #$01        ; a9 01
-    sta current_music   ; 8d 8c 07
-    jmp B28_0946       ; 4c 46 89
+    jsr B28_0248
+    lda #$01
+    sta current_music
+    jmp B28_0946
 
 B28_090e:
-    jmp B28_0299       ; 4c 99 82
+    jmp B28_0299
 
 B28_0911:
-    lda new_music   ; ad f5 07
-    tay             ; a8
+    lda new_music
+    tay
     .ifdef VER_JP
-    cmp #$ff        ; c9 3f
-    beq B28_090e ; b0 f5
+    cmp #$ff
+    beq B28_090e
     .else
-    cmp #$3f        ; c9 3f
-    bcs B28_090e ; b0 f5
+    cmp #$3f
+    bcs B28_090e
     .endif
-    cmp #$01        ; c9 01
-    beq B28_0903 ; f0 e6
-    tya             ; 98
-    beq B28_095c ; f0 3c
-    sta current_music   ; 8d 8c 07
-    cmp #$19        ; c9 19
-    beq B28_092b ; f0 04
-    cmp #$19        ; c9 19
-    bcc B28_0936 ; 90 0b
+    cmp #$01
+    beq B28_0903
+    tya
+    beq B28_095c
+    sta current_music
+    cmp #$19
+    beq B28_092b
+    cmp #$19
+    bcc B28_0936
     B28_092b:
-    sta $bf         ; 85 bf
-    sec             ; 38
-    sbc #$19        ; e9 19
-    sta $07cc       ; 8d cc 07
-    jmp B28_094e       ; 4c 4e 89
+    sta $bf
+    sec
+    sbc #$19
+    sta $07cc
+    jmp B28_094e
     B28_0936:
-    cmp #$06        ; c9 06
-    bne B28_0946 ; d0 0c
-    lda pc_count    ; ad 07 67
-    cmp #$01        ; c9 01
-    beq B28_0945 ; f0 04
-    lda #$07        ; a9 07
-    bne B28_0946 ; d0 01
+    cmp #$06
+    bne B28_0946
+    lda pc_count
+    cmp #$01
+    beq B28_0945
+    lda #$07
+    bne B28_0946
     B28_0945:
-    tya             ; 98
+    tya
     B28_0946:
-    sta $bf         ; 85 bf
-    sta $07cc       ; 8d cc 07
-    dec $07cc       ; ce cc 07
+    sta $bf
+    sta $07cc
+    dec $07cc
     B28_094e:
-    lda #$7f        ; a9 7f
-    sta $07c0       ; 8d c0 07
-    sta $07c1       ; 8d c1 07
-    jsr B28_0aec       ; 20 ec 8a
+    lda #$7f
+    sta $07c0
+    sta $07c1
+    jsr B28_0aec
     B28_0959:
-    jmp B28_0c7b       ; 4c 7b 8c
+    jmp B28_0c7b
     B28_095c:
-    lda $07fd       ; ad fd 07
-    bne B28_0959 ; d0 f8
-    rts             ; 60
+    lda $07fd
+    bne B28_0959
+    rts
 
 .ifndef VER_JP
 B28_0962:
-    lda #$03        ; a9 03
-    ldy #$38        ; a0 38
-    jsr B28_02dc       ; 20 dc 82
-    jmp B28_0971       ; 4c 71 89
+    lda #$03
+    ldy #$38
+    jsr B28_02dc
+    jmp B28_0971
 
 B28_096c:
-    jsr B28_00d3       ; 20 d3 80
-    bne B28_0995 ; d0 24
+    jsr B28_00d3
+    bne B28_0995
 
 B28_0971:
-    lda $07e0       ; ad e0 07
-    and #$07        ; 29 07
-    tay             ; a8
-    lda $07e0       ; ad e0 07
-    lsr a           ; 4a
-    lsr a           ; 4a
-    lsr a           ; 4a
-    tax             ; aa
-    inc $07e0       ; ee e0 07
-    lda B28_09a1, x    ; bd a1 89
-    beq B28_0996 ; f0 10
-    sta $4000       ; 8d 00 40
-    lda B28_0999, y    ; b9 99 89
-    sta $4002       ; 8d 02 40
-    lda B28_013b       ; ad 3b 81
-    sta $4003       ; 8d 03 40
+    lda $07e0
+    and #$07
+    tay
+    lda $07e0
+    lsr a
+    lsr a
+    lsr a
+    tax
+    inc $07e0
+    lda B28_09a1, x
+    beq B28_0996
+    sta $4000
+    lda B28_0999, y
+    sta $4002
+    lda B28_013b
+    sta $4003
     B28_0995:
-    rts             ; 60
+    rts
 
 B28_0996:
-    jmp B28_0688       ; 4c 88 86
+    jmp B28_0688
 
 B28_0999:
 incbinRange "../../split/us/prg/bank1c.bin", $999, $9a1
@@ -1820,118 +1796,118 @@ B28_09a7:
 .byte $18
 
 B28_09cc:
-    lda $07fd       ; ad fd 07
-    cmp #$01        ; c9 01
-    beq B28_09f5 ; f0 22
-    txa             ; 8a
-    cmp #$03        ; c9 03
-    beq B28_09f5 ; f0 1d
-    lda $079a, x    ; bd 9a 07
-    and #$e0        ; 29 e0
-    beq B28_09f5 ; f0 16
-    sta $b0         ; 85 b0
-    lda $07c3, x    ; bd c3 07
-    cmp #$02        ; c9 02
-    beq B28_09f2 ; f0 0a
-    ldy $be         ; a4 be
-    lda $0780, y    ; b9 80 07
-    sta $b1         ; 85 b1
-    jsr B28_0a33       ; 20 33 8a
+    lda $07fd
+    cmp #$01
+    beq B28_09f5
+    txa
+    cmp #$03
+    beq B28_09f5
+    lda $079a, x
+    and #$e0
+    beq B28_09f5
+    sta $b0
+    lda $07c3, x
+    cmp #$02
+    beq B28_09f2
+    ldy $be
+    lda $0780, y
+    sta $b1
+    jsr B28_0a33
     B28_09f2:
-    inc $07d1, x    ; fe d1 07
+    inc $07d1, x
     B28_09f5:
-    rts             ; 60
+    rts
 
 B28_09f6:
-    lda $b2         ; a5 b2
-    cmp #$31        ; c9 31
-    bne B28_09fe ; d0 02
-    lda #$27        ; a9 27
+    lda $b2
+    cmp #$31
+    bne B28_09fe
+    lda #$27
     B28_09fe:
-    tay             ; a8
-    lda B28_0a85, y    ; b9 85 8a
-    pha             ; 48
-    lda $07c3, x    ; bd c3 07
-    cmp #$46        ; c9 46
-    bne B28_0a0f ; d0 05
-    pla             ; 68
-    lda #$00        ; a9 00
-    beq B28_0a6d ; f0 5e
+    tay
+    lda B28_0a85, y
+    pha
+    lda $07c3, x
+    cmp #$46
+    bne B28_0a0f
+    pla
+    lda #$00
+    beq B28_0a6d
     B28_0a0f:
-    pla             ; 68
-    jmp B28_0a6d       ; 4c 6d 8a
+    pla
+    jmp B28_0a6d
     B28_0a13:
-    lda $b2         ; a5 b2
-    tay             ; a8
-    cmp #$10        ; c9 10
-    bcs B28_0a20 ; b0 06
-    lda B28_0abc, y    ; b9 bc 8a
-    jmp B28_0a73       ; 4c 73 8a
+    lda $b2
+    tay
+    cmp #$10
+    bcs B28_0a20
+    lda B28_0abc, y
+    jmp B28_0a73
     B28_0a20:
-    lda #$f6        ; a9 f6
-    bne B28_0a73 ; d0 4f
+    lda #$f6
+    bne B28_0a73
     B28_0a24:
-    lda $07c3, x    ; bd c3 07
-    cmp #$4c        ; c9 4c
-    bcc B28_0a2f ; 90 04
-    lda #$fe        ; a9 fe
-    bne B28_0a73 ; d0 44
+    lda $07c3, x
+    cmp #$4c
+    bcc B28_0a2f
+    lda #$fe
+    bne B28_0a73
     B28_0a2f:
-    lda #$fe        ; a9 fe
-    bne B28_0a73 ; d0 40
+    lda #$fe
+    bne B28_0a73
 
 B28_0a33:
-    lda $07d1, x    ; bd d1 07
-    sta $b2         ; 85 b2
-    lda $b0         ; a5 b0
-    cmp #$20        ; c9 20
-    beq B28_0a52 ; f0 14
-    cmp #$a0        ; c9 a0
-    beq B28_0a61 ; f0 1f
-    cmp #$60        ; c9 60
-    beq B28_0a24 ; f0 de
-    cmp #$40        ; c9 40
-    beq B28_0a13 ; f0 c9
-    cmp #$80        ; c9 80
-    beq B28_09f6 ; f0 a8
-    cmp #$c0        ; c9 c0
-    beq B28_09f6 ; f0 a4
+    lda $07d1, x
+    sta $b2
+    lda $b0
+    cmp #$20
+    beq B28_0a52
+    cmp #$a0
+    beq B28_0a61
+    cmp #$60
+    beq B28_0a24
+    cmp #$40
+    beq B28_0a13
+    cmp #$80
+    beq B28_09f6
+    cmp #$c0
+    beq B28_09f6
     B28_0a52:
-    lda $b2         ; a5 b2
-    cmp #$0a        ; c9 0a
-    bne B28_0a5a ; d0 02
-    lda #$00        ; a9 00
+    lda $b2
+    cmp #$0a
+    bne B28_0a5a
+    lda #$00
     B28_0a5a:
-    tay             ; a8
-    lda B28_0ab2, y    ; b9 b2 8a
-    jmp B28_0a6d       ; 4c 6d 8a
+    tay
+    lda B28_0ab2, y
+    jmp B28_0a6d
     B28_0a61:
-    lda $b2         ; a5 b2
-    cmp #$2b        ; c9 2b
-    bne B28_0a69 ; d0 02
-    lda #$21        ; a9 21
+    lda $b2
+    cmp #$2b
+    bne B28_0a69
+    lda #$21
     B28_0a69:
-    tay             ; a8
-    lda B28_0a91, y    ; b9 91 8a
+    tay
+    lda B28_0a91, y
     B28_0a6d:
-    pha             ; 48
-    tya             ; 98
-    sta $07d1, x    ; 9d d1 07
-    pla             ; 68
+    pha
+    tya
+    sta $07d1, x
+    pla
     B28_0a73:
-    pha             ; 48
-    lda $07c8, x    ; bd c8 07
-    bne B28_0a83 ; d0 0a
-    pla             ; 68
-    clc             ; 18
-    adc $b1         ; 65 b1
-    ldy $be         ; a4 be
-    sta $4002, y    ; 99 02 40
-    rts             ; 60
+    pha
+    lda $07c8, x
+    bne B28_0a83
+    pla
+    clc
+    adc $b1
+    ldy $be
+    sta $4002, y
+    rts
 
 B28_0a83:
-    pla             ; 68
-    rts             ; 60
+    pla
+    rts
 
 B28_0a85:
 incbinRange "../../split/jp/prg/bank1c.bin", $A06, $A12
@@ -1944,612 +1920,617 @@ incbinRange "../../split/jp/prg/bank1c.bin", $A3D, $A4d
 
 
 B28_0acc:
-    lda $07cc       ; ad cc 07
-    tay             ; a8
-    lda B28_10f4, y    ; b9 f4 90
-    tay             ; a8
-    ldx #$00        ; a2 00
+    lda $07cc
+    tay
+    lda B28_10f4, y
+    tay
+    ldx #$00
     B28_0ad6:
-    lda B28_11fe, y    ; b9 fe 91
-    sta $0790, x    ; 9d 90 07
-    iny             ; c8
-    inx             ; e8
-    txa             ; 8a
-    cmp #$0a        ; c9 0a
-    bne B28_0ad6 ; d0 f3
-    rts             ; 60
+    lda B28_11fe, y
+    sta $0790, x
+    iny
+    inx
+    txa
+    cmp #$0a
+    bne B28_0ad6
+    rts
 
 B28_0ae4:
-    lda #$ff        ; a9 ff
-    sta $07a0, x    ; 9d a0 07
+    lda #$ff
+    sta $07a0, x
     .ifdef VER_JP
-    bne B28_0b65       ; 4c 65 8b
+    bne B28_0b65
     .else
-    jmp B28_0b65       ; 4c 65 8b
+    jmp B28_0b65
     .endif
 
 B28_0aec:
-    jsr B28_029c       ; 20 9c 82
-    lda $bf         ; a5 bf
-    sta $07fd       ; 8d fd 07
+    jsr B28_029c
+    lda $bf
+    sta $07fd
     .ifndef VER_JP
-    cmp #$32        ; c9 32
-    beq B28_0b06 ; f0 0e
+    cmp #$32
+    beq B28_0b06
     .endif
-    cmp #$19        ; c9 19
-    beq B28_0b00 ; f0 04
-    cmp #$19        ; c9 19
-    bcc B28_0b1a ; 90 1a
+    cmp #$19
+    beq B28_0b00
+    cmp #$19
+    bcc B28_0b1a
     B28_0b00:
-    jsr B28_0acc       ; 20 cc 8a
-    jmp B28_0b31       ; 4c 31 8b
+    jsr B28_0acc
+    jmp B28_0b31
     .ifndef VER_JP
     B28_0b06:
-    ldx #$00        ; a2 00
-    ldy #$00        ; a0 00
+    ldx #$00
+    ldy #$00
     B28_0b0a:
-    lda B28_12f8, y    ; b9 f8 92
-    sta $0790, x    ; 9d 90 07
-    iny             ; c8
-    inx             ; e8
-    txa             ; 8a
-    cmp #$0a        ; c9 0a
-    bne B28_0b0a ; d0 f3
-    jmp B28_0b31       ; 4c 31 8b
+    lda B28_12f8, y
+    sta $0790, x
+    iny
+    inx
+    txa
+    cmp #$0a
+    bne B28_0b0a
+    jmp B28_0b31
     .endif
     B28_0b1a:
-    lda $07cc       ; ad cc 07
-    tay             ; a8
-    lda B28_10DC, y    ; b9 dc 90
-    tay             ; a8
-    ldx #$00        ; a2 00
+    lda $07cc
+    tay
+    lda B28_10DC, y
+    tay
+    ldx #$00
     B28_0b24:
-    lda B28_110e, y    ; b9 0e 91
-    sta $0790, x    ; 9d 90 07
-    iny             ; c8
-    inx             ; e8
-    txa             ; 8a
-    cmp #$0a        ; c9 0a
-    bne B28_0b24 ; d0 f3
+    lda B28_110e, y
+    sta $0790, x
+    iny
+    inx
+    txa
+    cmp #$0a
+    bne B28_0b24
     B28_0b31:
-    lda #$01        ; a9 01
-    sta $07b4       ; 8d b4 07
-    sta $07b5       ; 8d b5 07
-    sta $07b6       ; 8d b6 07
-    sta $07b7       ; 8d b7 07
-    lda #$00        ; a9 00
-    sta $ba         ; 85 ba
-    ldy #$08        ; a0 08
+    lda #$01
+    sta $07b4
+    sta $07b5
+    sta $07b6
+    sta $07b7
+    lda #$00
+    sta $ba
+    ldy #$08
     B28_0b45:
-    sta $07a7, y    ; 99 a7 07
-    dey             ; 88
-    bne B28_0b45 ; d0 fa
-    tax             ; aa
+    sta $07a7, y
+    dey
+    bne B28_0b45
+    tax
     B28_0b4c:
-    lda $0792, x    ; bd 92 07
-    sta $b6         ; 85 b6
-    lda $0793, x    ; bd 93 07
-    cmp #$ff        ; c9 ff
-    beq B28_0ae4 ; f0 8c
-    sta $b7         ; 85 b7
-    ldy $07a8       ; ac a8 07
-    lda ($b6), y    ; b1 b6
-    sta $07a0, x    ; 9d a0 07
-    iny             ; c8
-    lda ($b6), y    ; b1 b6
+    lda $0792, x
+    sta $b6
+    lda $0793, x
+    cmp #$ff
+    beq B28_0ae4
+    sta $b7
+    ldy $07a8
+    lda ($b6), y
+    sta $07a0, x
+    iny
+    lda ($b6), y
     B28_0b65:
-    sta $07a1, x    ; 9d a1 07
-    inx             ; e8
-    inx             ; e8
-    txa             ; 8a
-    cmp #$08        ; c9 08
-    bne B28_0b4c ; d0 dd
-    rts             ; 60
+    sta $07a1, x
+    inx
+    inx
+    txa
+    cmp #$08
+    bne B28_0b4c
+    rts
 
 B28_0b70:
-    lda $078a       ; ad 8a 07
-    beq B28_0ba0 ; f0 2b
-    cmp #$01        ; c9 01
-    beq B28_0b8a ; f0 11
-    lda #$7f        ; a9 7f
-    sta $4005       ; 8d 05 40
-    lda $0784       ; ad 84 07
-    sta $4006       ; 8d 06 40
-    lda $0785       ; ad 85 07
-    sta $4007       ; 8d 07 40
+    lda $078a
+    beq B28_0ba0
+    cmp #$01
+    beq B28_0b8a
+    lda #$7f
+    sta $4005
+    lda $0784
+    sta $4006
+    lda $0785
+    sta $4007
     B28_0b8a:
-    lda #$7f        ; a9 7f
-    sta $4001       ; 8d 01 40
-    lda $0780       ; ad 80 07
-    sta $4002       ; 8d 02 40
-    lda $0781       ; ad 81 07
-    sta $4003       ; 8d 03 40
-    lda #$00        ; a9 00
-    sta $078a       ; 8d 8a 07
+    lda #$7f
+    sta $4001
+    lda $0780
+    sta $4002
+    lda $0781
+    sta $4003
+    lda #$00
+    sta $078a
     B28_0ba0:
-    rts             ; 60
+    rts
 
 B28_0ba1:
-    txa             ; 8a
-    cmp #$02        ; c9 02
-    bcs B28_0ba0 ; b0 fa
-    lda $079a, x    ; bd 9a 07
-    and #$1f        ; 29 1f
-    beq B28_0c06 ; f0 59
-    sta $b1         ; 85 b1
-    lda $07c3, x    ; bd c3 07
-    cmp #$02        ; c9 02
-    beq B28_0c10 ; f0 5a
-    ldy #$00        ; a0 00
+    txa
+    cmp #$02
+    bcs B28_0ba0
+    lda $079a, x
+    and #$1f
+    beq B28_0c06
+    sta $b1
+    lda $07c3, x
+    cmp #$02
+    beq B28_0c10
+    ldy #$00
     B28_0bb8:
-    dec $b1         ; c6 b1
-    beq B28_0bc0 ; f0 04
-    iny             ; c8
-    iny             ; c8
-    bne B28_0bb8 ; d0 f8
+    dec $b1
+    beq B28_0bc0
+    iny
+    iny
+    bne B28_0bb8
     B28_0bc0:
-    lda B28_0e85, y    ; b9 85 8e
-    sta $b2         ; 85 b2
-    lda B28_0e85+1, y    ; b9 86 8e
-    sta $b3         ; 85 b3
-    lda $07cd, x    ; bd cd 07
-    lsr a           ; 4a
-    tay             ; a8
-    lda ($b2), y    ; b1 b2
-    sta $b4         ; 85 b4
-    cmp #$ff        ; c9 ff
-    beq B28_0c07 ; f0 30
-    cmp #$f0        ; c9 f0
-    beq B28_0c0c ; f0 31
-    lda $07cd, x    ; bd cd 07
-    and #$01        ; 29 01
-    bne B28_0bea ; d0 08
-    lsr $b4         ; 46 b4
-    lsr $b4         ; 46 b4
-    lsr $b4         ; 46 b4
-    lsr $b4         ; 46 b4
+    lda B28_0e85, y
+    sta $b2
+    lda B28_0e85+1, y
+    sta $b3
+    lda $07cd, x
+    lsr a
+    tay
+    lda ($b2), y
+    sta $b4
+    cmp #$ff
+    beq B28_0c07
+    cmp #$f0
+    beq B28_0c0c
+    lda $07cd, x
+    and #$01
+    bne B28_0bea
+    lsr $b4
+    lsr $b4
+    lsr $b4
+    lsr $b4
     B28_0bea:
-    lda $b4         ; a5 b4
-    and #$0f        ; 29 0f
-    sta $b0         ; 85 b0
-    lda $079d, x    ; bd 9d 07
-    and #$f0        ; 29 f0
-    ora $b0         ; 05 b0
-    tay             ; a8
+    lda $b4
+    and #$0f
+    sta $b0
+    lda $079d, x
+    and #$f0
+    ora $b0
+    tay
     B28_0bf8:
-    inc $07cd, x    ; fe cd 07
+    inc $07cd, x
     B28_0bfb:
-    lda $07c8, x    ; bd c8 07
-    bne B28_0c06 ; d0 06
-    tya             ; 98
-    ldy $be         ; a4 be
-    sta $4000, y    ; 99 00 40
+    lda $07c8, x
+    bne B28_0c06
+    tya
+    ldy $be
+    sta $4000, y
     B28_0c06:
-    rts             ; 60
+    rts
 
 B28_0c07:
-    ldy $079d, x    ; bc 9d 07
-    bne B28_0bfb ; d0 ef
+    ldy $079d, x
+    bne B28_0bfb
     B28_0c0c:
-    ldy #$10        ; a0 10
-    bne B28_0bfb ; d0 eb
+    ldy #$10
+    bne B28_0bfb
     B28_0c10:
-    ldy #$10        ; a0 10
-    bne B28_0bf8 ; d0 e4
+    ldy #$10
+    bne B28_0bf8
 
 B28_0c14:
-    iny             ; c8
-    lda ($b6), y    ; b1 b6
-    sta $0792, x    ; 9d 92 07
-    iny             ; c8
-    lda ($b6), y    ; b1 b6
-    sta $0793, x    ; 9d 93 07
-    lda $0792, x    ; bd 92 07
-    sta $b6         ; 85 b6
-    lda $0793, x    ; bd 93 07
-    sta $b7         ; 85 b7
-    txa             ; 8a
-    lsr a           ; 4a
-    tax             ; aa
-    lda #$00        ; a9 00
-    tay             ; a8
-    sta $07a8, x    ; 9d a8 07
-    jmp B28_0c53       ; 4c 53 8c
+    iny
+    lda ($b6), y
+    sta $0792, x
+    iny
+    lda ($b6), y
+    sta $0793, x
+    lda $0792, x
+    sta $b6
+    lda $0793, x
+    sta $b7
+    txa
+    lsr a
+    tax
+    lda #$00
+    tay
+    sta $07a8, x
+    jmp B28_0c53
 
 B28_0c36:
-    jsr B28_0299       ; 20 99 82
+    jsr B28_0299
     B28_0c39:
-    rts             ; 60
+    rts
 
 B28_0c3a:
-    txa             ; 8a
-    asl a           ; 0a
-    tax             ; aa
-    lda $0792, x    ; bd 92 07
-    sta $b6         ; 85 b6
-    lda $0793, x    ; bd 93 07
-    sta $b7         ; 85 b7
-    txa             ; 8a
-    lsr a           ; 4a
-    tax             ; aa
-    inc $07a8, x    ; fe a8 07
-    inc $07a8, x    ; fe a8 07
-    ldy $07a8, x    ; bc a8 07
+    txa
+    asl a
+    tax
+    lda $0792, x
+    sta $b6
+    lda $0793, x
+    sta $b7
+    txa
+    lsr a
+    tax
+    inc $07a8, x
+    inc $07a8, x
+    ldy $07a8, x
     B28_0c53:
-    txa             ; 8a
-    asl a           ; 0a
-    tax             ; aa
-    lda ($b6), y    ; b1 b6
-    sta $07a0, x    ; 9d a0 07
-    iny             ; c8
-    lda ($b6), y    ; b1 b6
-    sta $07a1, x    ; 9d a1 07
-    cmp #$00        ; c9 00
-    beq B28_0c36 ; f0 d1
-    cmp #$ff        ; c9 ff
-    beq B28_0c14 ; f0 ab
+    txa
+    asl a
+    tax
+    lda ($b6), y
+    sta $07a0, x
+    iny
+    lda ($b6), y
+    sta $07a1, x
+    cmp #$00
+    beq B28_0c36
+    cmp #$ff
+    beq B28_0c14
 
 B28_0c69:
-    txa             ; 8a
-    lsr a           ; 4a
-    tax             ; aa
-    lda #$00        ; a9 00
-    sta $07ac, x    ; 9d ac 07
-    lda #$01        ; a9 01
-    sta $07b4, x    ; 9d b4 07
-    bne B28_0c95 ; d0 1d
+    txa
+    lsr a
+    tax
+    lda #$00
+    sta $07ac, x
+    lda #$01
+    sta $07b4, x
+    bne B28_0c95
     B28_0c78:
-    jmp B28_0c3a       ; 4c 3a 8c
+    jmp B28_0c3a
 
 B28_0c7b:
-    jsr B28_0b70       ; 20 70 8b
-    lda #$00        ; a9 00
-    tax             ; aa
-    sta $be         ; 85 be
-    beq B28_0c95 ; f0 10
+    jsr B28_0b70
+    lda #$00
+    tax
+    sta $be
+    beq B28_0c95
     B28_0c85:
-    txa             ; 8a
-    lsr a           ; 4a
-    tax             ; aa
+    txa
+    lsr a
+    tax
     B28_0c88:
-    inx             ; e8
-    txa             ; 8a
-    cmp #$04        ; c9 04
-    beq B28_0c39 ; f0 ab
-    lda $be         ; a5 be
-    clc             ; 18
-    adc #$04        ; 69 04
-    sta $be         ; 85 be
+    inx
+    txa
+    cmp #$04
+    beq B28_0c39
+    lda $be
+    clc
+    adc #$04
+    sta $be
     B28_0c95:
-    txa             ; 8a
-    asl a           ; 0a
-    tax             ; aa
-    lda $07a0, x    ; bd a0 07
-    sta $b6         ; 85 b6
-    lda $07a1, x    ; bd a1 07
-    sta $b7         ; 85 b7
-    lda $07a1, x    ; bd a1 07
-    cmp #$ff        ; c9 ff
-    beq B28_0c85 ; f0 dc
-    txa             ; 8a
-    lsr a           ; 4a
-    tax             ; aa
-    dec $07b4, x    ; de b4 07
-    bne B28_0cfa ; d0 49
-    lda #$00        ; a9 00
-    sta $07cd, x    ; 9d cd 07
-    sta $07d1, x    ; 9d d1 07
+    txa
+    asl a
+    tax
+    lda $07a0, x
+    sta $b6
+    lda $07a1, x
+    sta $b7
+    lda $07a1, x
+    cmp #$ff
+    beq B28_0c85
+    txa
+    lsr a
+    tax
+    dec $07b4, x
+    bne B28_0cfa
+    lda #$00
+    sta $07cd, x
+    sta $07d1, x
     B28_0cb9:
-    jsr ReadByte    ; 20 7c 8e
-    beq B28_0c78 ; f0 ba
-    cmp #$9f        ; c9 9f
-    beq B28_0d09 ; f0 47
-    cmp #$9e        ; c9 9e
-    beq B28_0d21 ; f0 5b
-    cmp #$9c        ; c9 9c
-    beq B28_0d2a ; f0 60
-    tay             ; a8
-    cmp #$ff        ; c9 ff
-    beq B28_0cd8 ; f0 09
-    and #$c0        ; 29 c0
-    cmp #$c0        ; c9 c0
-    beq B28_0ce8 ; f0 13
-    jmp B28_0d33       ; 4c 33 8d
+    jsr ReadByte
+    beq B28_0c78
+    cmp #$9f
+    beq B28_0d09
+    cmp #$9e
+    beq B28_0d21
+    cmp #$9c
+    beq B28_0d2a
+    tay
+    cmp #$ff
+    beq B28_0cd8
+    and #$c0
+    cmp #$c0
+    beq B28_0ce8
+    jmp B28_0d33
 
 
 ; Command FF, end repeat section
 B28_0cd8:
-    lda $07bc, x    ; bd bc 07
-    beq B28_0cf7 ; f0 1a
-    dec $07bc, x    ; de bc 07
-    lda $07b0, x    ; bd b0 07
-    sta $07ac, x    ; 9d ac 07
-    bne B28_0cf7 ; d0 0f
+    lda $07bc, x
+    beq B28_0cf7
+    dec $07bc, x
+    lda $07b0, x
+    sta $07ac, x
+    bne B28_0cf7
 ; Commands C0-FE, repeat until FF
 B28_0ce8:
-    tya             ; 98
-    and #$3f        ; 29 3f
-    sta $07bc, x    ; 9d bc 07
-    dec $07bc, x    ; de bc 07
-    lda $07ac, x    ; bd ac 07
-    sta $07b0, x    ; 9d b0 07
+    tya
+    and #$3f
+    sta $07bc, x
+    dec $07bc, x
+    lda $07ac, x
+    sta $07b0, x
     B28_0cf7:
-    jmp B28_0cb9       ; 4c b9 8c
+    jmp B28_0cb9
 
 ; Note is still playing
 B28_0cfa:
-    jsr B28_0ba1       ; 20 a1 8b
-    jsr B28_09cc       ; 20 cc 89
-    jmp B28_0c88       ; 4c 88 8cs
+    jsr B28_0ba1
+    jsr B28_09cc
+    jmp B28_0c88
 
 ; Play noise note
 B28_0d03:
-    jmp B28_0e17       ; 4c 17 8e
+    jmp B28_0e17
 
 ; Set triangle note length
 B28_0d06:
-    jmp B28_0ded       ; 4c ed 8d
+    jmp B28_0ded
 
 ; Command 9F, set envelope
 B28_0d09:
-    jsr ReadByte    ; 20 7c 8e
-    sta $079a, x    ; 9d 9a 07
-    jsr ReadByte    ; 20 7c 8e
-    sta $079d, x    ; 9d 9d 07
-    jmp B28_0cb9       ; 4c b9 8c
+    jsr ReadByte
+    sta $079a, x
+    jsr ReadByte
+    sta $079d, x
+    jmp B28_0cb9
 
 ; Unreachable command, consume 2 bytes and do nothing
 B28_0d18:
-    jsr ReadByte    ; 20 7c 8e
-    jsr ReadByte    ; 20 7c 8e
-    jmp B28_0cb9       ; 4c b9 8c
+    jsr ReadByte
+    jsr ReadByte
+    jmp B28_0cb9
 
 ; Command 9E, set notelength table offset
 B28_0d21:
-    jsr ReadByte    ; 20 7c 8e
-    sta $0791       ; 8d 91 07
-    jmp B28_0cb9       ; 4c b9 8c
+    jsr ReadByte
+    sta $0791
+    jmp B28_0cb9
 
 ; Command 9C, set transpose
 B28_0d2a:
-    jsr ReadByte    ; 20 7c 8e
-    sta $0790       ; 8d 90 07
-    jmp B28_0cb9       ; 4c b9 8c
+    jsr ReadByte
+    sta $0790
+    jmp B28_0cb9
 
 B28_0d33:
-    tya             ; 98
-    and #$b0        ; 29 b0
-    cmp #$b0        ; c9 b0
-    bne B28_0d52 ; d0 18
+    tya
+    and #$b0
+    cmp #$b0
+    bne B28_0d52
 
 ; Command B0-BF, set notelength and play note
 B28_0d3a:
-    tya             ; 98
-    and #$0f        ; 29 0f
-    clc             ; 18
-    adc $0791       ; 6d 91 07
-    tay             ; a8
-    lda B28_1074, y    ; b9 74 90
-    sta $07b8, x    ; 9d b8 07
-    tay             ; a8
-    txa             ; 8a
-    cmp #$02        ; c9 02
-    beq B28_0d06 ; f0 b8
+    tya
+    and #$0f
+    clc
+    adc $0791
+    tay
+    lda B28_1074, y
+    sta $07b8, x
+    tay
+    txa
+    cmp #$02
+    beq B28_0d06
     B28_0d4e:
-    jsr ReadByte    ; 20 7c 8e
-    tay             ; a8
+    jsr ReadByte
+    tay
 ; Play note
     B28_0d52:
-    tya             ; 98
-    sta $07c3, x    ; 9d c3 07
-    txa             ; 8a
-    cmp #$03        ; c9 03
-    beq B28_0d03 ; f0 a8
-    pha             ; 48
-    ldx $be         ; a6 be
-    lda B28_0fea+1, y    ; b9 eb 8f
-    beq B28_0d87 ; f0 24
-    lda $0790       ; ad 90 07
-    bpl B28_0d73 ; 10 0b
-    and #$7f        ; 29 7f
-    sta $b3         ; 85 b3
-    tya             ; 98
-    clc             ; 18
-    sbc $b3         ; e5 b3
-    jmp B28_0d78       ; 4c 78 8d
+    tya
+    sta $07c3, x
+    txa
+    cmp #$03
+    beq B28_0d03
+    pha
+    ldx $be
+    lda B28_0fea+1, y
+    beq B28_0d87
+    lda $0790
+    bpl B28_0d73
+    and #$7f
+    sta $b3
+    tya
+    clc
+    sbc $b3
+    jmp B28_0d78
 
 B28_0d73:
-    tya             ; 98
-    clc             ; 18
-    adc $0790       ; 6d 90 07
+    tya
+    clc
+    adc $0790
     B28_0d78:
-    tay             ; a8
-    lda B28_0fea+1, y    ; b9 eb 8f
-    sta $0780, x    ; 9d 80 07
-    lda B28_0fea, y    ; b9 ea 8f
-    ora #$08        ; 09 08
-    sta $0781, x    ; 9d 81 07
+    tay
+    lda B28_0fea+1, y
+    sta $0780, x
+    lda B28_0fea, y
+    ora #$08
+    sta $0781, x
     B28_0d87:
-    tay             ; a8
-    pla             ; 68
-    tax             ; aa
-    tya             ; 98
-    bne B28_0d9c ; d0 0f
-    lda #$00        ; a9 00
-    sta $b0         ; 85 b0
-    txa             ; 8a
-    cmp #$02        ; c9 02
-    beq B28_0da1 ; f0 0b
-    lda #$10        ; a9 10
-    sta $b0         ; 85 b0
-    bne B28_0da1 ; d0 05
+    tay
+    pla
+    tax
+    tya
+    bne B28_0d9c
+    lda #$00
+    sta $b0
+    txa
+    cmp #$02
+    beq B28_0da1
+    lda #$10
+    sta $b0
+    bne B28_0da1
     B28_0d9c:
-    lda $079d, x    ; bd 9d 07
-    sta $b0         ; 85 b0
+    lda $079d, x
+    sta $b0
     B28_0da1:
-    txa             ; 8a
-    dec $07c8, x    ; de c8 07
-    cmp $07c8, x    ; dd c8 07
-    beq B28_0de7 ; f0 3d
-    inc $07c8, x    ; fe c8 07
-    ldy $be         ; a4 be
-    txa             ; 8a
-    cmp #$02        ; c9 02
-    beq B28_0dc7 ; f0 13
-    lda $079a, x    ; bd 9a 07
-    and #$1f        ; 29 1f
-    beq B28_0dc7 ; f0 0c
-    lda $b0         ; a5 b0
-    cmp #$10        ; c9 10
-    beq B28_0dc9 ; f0 08
-    and #$f0        ; 29 f0
-    ora #$00        ; 09 00
-    bne B28_0dc9 ; d0 02
+    txa
+    dec $07c8, x
+    cmp $07c8, x
+    beq B28_0de7
+    inc $07c8, x
+    ldy $be
+    txa
+    cmp #$02
+    beq B28_0dc7
+    lda $079a, x
+    and #$1f
+    beq B28_0dc7
+    lda $b0
+    cmp #$10
+    beq B28_0dc9
+    and #$f0
+    ora #$00
+    bne B28_0dc9
     B28_0dc7:
-    lda $b0         ; a5 b0
+    lda $b0
     B28_0dc9:
-    sta $4000, y    ; 99 00 40
-    lda $07c0, x    ; bd c0 07
-    sta $4001, y    ; 99 01 40
-    lda $0780, y    ; b9 80 07
-    sta $4002, y    ; 99 02 40
-    lda $0781, y    ; b9 81 07
-    sta $4003, y    ; 99 03 40
+    sta $4000, y
+    lda $07c0, x
+    sta $4001, y
+    lda $0780, y
+    sta $4002, y
+    lda $0781, y
+    sta $4003, y
     B28_0dde:
-    lda $07b8, x    ; bd b8 07
-    sta $07b4, x    ; 9d b4 07
-    jmp B28_0c88       ; 4c 88 8c
+    lda $07b8, x
+    sta $07b4, x
+    jmp B28_0c88
 
 B28_0de7:
-    inc $07c8, x    ; fe c8 07
-    jmp B28_0dde       ; 4c de 8d
+    inc $07c8, x
+    jmp B28_0dde
 
 ; Set triangle note length
 B28_0ded:
-    lda $079c       ; ad 9c 07
-    and #$1f        ; 29 1f
-    bne B28_0e11 ; d0 1d
-    lda $079c       ; ad 9c 07
-    and #$c0        ; 29 c0
-    bne B28_0dfe ; d0 03
+    lda $079c
+    and #$1f
+    bne B28_0e11
+    lda $079c
+    and #$c0
+    bne B28_0dfe
     B28_0dfb:
-    tya             ; 98
-    bne B28_0e06 ; d0 08
+    tya
+    bne B28_0e06
     B28_0dfe:
-    cmp #$c0        ; c9 c0
-    beq B28_0dfb ; f0 f9
-    lda #$ff        ; a9 ff
-    bne B28_0e11 ; d0 0b
+    cmp #$c0
+    beq B28_0dfb
+    lda #$ff
+    bne B28_0e11
     B28_0e06:
-    clc             ; 18
-    adc #$ff        ; 69 ff
-    asl a           ; 0a
-    asl a           ; 0a
-    cmp #$3c        ; c9 3c
-    bcc B28_0e11 ; 90 02
-    lda #$3c        ; a9 3c
+    clc
+    adc #$ff
+    asl a
+    asl a
+    cmp #$3c
+    bcc B28_0e11
+    lda #$3c
     B28_0e11:
-    sta $079f       ; 8d 9f 07
-    jmp B28_0d4e       ; 4c 4e 8d
+    sta $079f
+    jmp B28_0d4e
 
 ; Play noise note
 B28_0e17:
-    tya             ; 98
-    pha             ; 48
-    jsr B28_0e3e       ; 20 3e 8e
-    pla             ; 68
-    and #$3f        ; 29 3f
-    tay             ; a8
-    jsr B28_0e26       ; 20 26 8e
-    jmp B28_0dde       ; 4c de 8d
+    tya
+    pha
+    jsr B28_0e3e
+    pla
+    and #$3f
+    tay
+    jsr B28_0e26
+    jmp B28_0dde
 
 B28_0e26:
-    lda $07f8       ; ad f8 07
-    bne B28_0e3d ; d0 12
-    lda B28_09a7, y    ; b9 a7 89
-    sta $400c       ; 8d 0c 40
-    lda B28_09a7+1, y    ; b9 a8 89
-    sta $400e       ; 8d 0e 40
-    lda B28_09a7+2, y    ; b9 a9 89
-    sta $400f       ; 8d 0f 40
+    lda $07f8
+    bne B28_0e3d
+    lda B28_09a7, y
+    sta $400c
+    lda B28_09a7+1, y
+    sta $400e
+    lda B28_09a7+2, y
+    sta $400f
     B28_0e3d:
-    rts             ; 60
+    rts
 
 B28_0e3e:
-    tya             ; 98
-    and #$c0        ; 29 c0
-    cmp #$40        ; c9 40
-    beq B28_0e4a ; f0 05
-    cmp #$80        ; c9 80
-    beq B28_0e54 ; f0 0b
-    rts             ; 60
+    tya
+    and #%11000000
+    cmp #%01000000 ;is kick
+    beq B28_0e4a
+    cmp #%10000000 ;is snare
+    beq B28_0e54
+    rts
+
+.define dmc_sampleaddr(label) (label - $C000) / 64
+.define dmc_samplelen(labels, labele) ((labele - labels) -1 ) / 16
 
 B28_0e4a:
-    lda #$0e        ; a9 0e
-    sta $b1         ; 85 b1
-    lda #$07        ; a9 07
-    ldy #$00        ; a0 00
-    beq B28_0e5c ; f0 08
+    ;kick drum
+    lda #$0e
+    sta $b1
+    lda #dmc_samplelen B30_0000, B30_0071
+    ldy #dmc_sampleaddr B30_0000
+    beq B28_0e5c
     B28_0e54:
-    lda #$0e        ; a9 0e
-    sta $b1         ; 85 b1
-    lda #$0f        ; a9 0f
-    ldy #$02        ; a0 02
+    ;snare drum
+    lda #$0e
+    sta $b1
+    lda #dmc_samplelen B30_0080, B30_0171
+    ldy #dmc_sampleaddr B30_0080
     B28_0e5c:
-    sta $4013       ; 8d 13 40
-    sty $4012       ; 8c 12 40
-    lda disable_dmc ; ad f7 07
-    bne B28_0e7b    ; d0 14
-    lda $b1         ; a5 b1
-    sta $4010       ; 8d 10 40
-    lda #$0f        ; a9 0f
-    sta $4015       ; 8d 15 40
-    lda #$00        ; a9 00
-    sta $4011       ; 8d 11 40
-    lda #$1f        ; a9 1f
-    sta $4015       ; 8d 15 40
+    sta DMC_LEN
+    sty DMC_START
+    lda disable_dmc
+    bne B28_0e7b
+    lda $b1
+    sta DMC_FREQ
+    lda #$0f
+    sta $4015
+    lda #$00
+    sta DMC_RAW
+    lda #$1f
+    sta $4015
     B28_0e7b:
-    rts             ; 60
+    rts
 
 ReadByte:
-    ldy $07ac, x    ; bc ac 07
-    inc $07ac, x    ; fe ac 07
-    lda ($b6), y    ; b1 b6
-    rts             ; 60
+    ldy $07ac, x
+    inc $07ac, x
+    lda ($b6), y
+    rts
 
 
 ; $8E85
 ; Mystery table, related to envelope
 B28_0e85:
-    .word B28_0ee9 ; 00
-    .word B28_0ef0 ; 01
-    .word B28_0f14 ; 02
-    .word B28_0f27 ; 03
-    .word B28_0f30 ; 04
-    .word B28_0f36 ; 05
-    .word B28_0ee2 ; 06
-    .word B28_0f38 ; 07
-    .word B28_0f41 ; 08
-    .word B28_0f33 ; 09
-    .word B28_0f4a ; 0A
-    .word B28_0f53 ; 0B
-    .word B28_0f5b ; 0C
-    .word B28_0f63 ; 0D
-    .word B28_0f6a ; 0E
-    .word B28_0f73 ; 0F
-    .word B28_0fbe ; 10
-    .word B28_0fc6 ; 11
-    .word B28_0f8c ; 12
-    .word B28_0fda ; 13
-    .word B28_0fa1 ; 14
-    .word B28_0ebd ; 15
-    .word B28_0efa ; 16
-    .word B28_0ed9 ; 17
-    .word B28_0ed2 ; 18
-    .word B28_0ec7 ; 19
-    .word B28_0ec3 ; 1A
+    .addr B28_0ee9 ; 00
+    .addr B28_0ef0 ; 01
+    .addr B28_0f14 ; 02
+    .addr B28_0f27 ; 03
+    .addr B28_0f30 ; 04
+    .addr B28_0f36 ; 05
+    .addr B28_0ee2 ; 06
+    .addr B28_0f38 ; 07
+    .addr B28_0f41 ; 08
+    .addr B28_0f33 ; 09
+    .addr B28_0f4a ; 0A
+    .addr B28_0f53 ; 0B
+    .addr B28_0f5b ; 0C
+    .addr B28_0f63 ; 0D
+    .addr B28_0f6a ; 0E
+    .addr B28_0f73 ; 0F
+    .addr B28_0fbe ; 10
+    .addr B28_0fc6 ; 11
+    .addr B28_0f8c ; 12
+    .addr B28_0fda ; 13
+    .addr B28_0fa1 ; 14
+    .addr B28_0ebd ; 15
+    .addr B28_0efa ; 16
+    .addr B28_0ed9 ; 17
+    .addr B28_0ed2 ; 18
+    .addr B28_0ec7 ; 19
+    .addr B28_0ec3 ; 1A
     .ifndef VER_JP
-    .word B28_0f10 ; 1B
+    .addr B28_0f10 ; 1B
     .endif
 
 ; Envelope divider/volume table
@@ -2585,9 +2566,6 @@ B28_0fc6:   .byte $87,$65,$43,$21,$44,$33,$21,$11,$32,$21,$11,$11,$21,$11,$11,$1
 B28_0fda:   .byte $66,$65,$42,$21,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$ff
 
 
-
-
-
 ; $8FEA
 ; UNKNOWN
 B28_0fea:
@@ -2616,463 +2594,469 @@ B28_10f4:
 B28_110e:
     .byte $18
     .byte $18
-    .word -1
-    .word -1
-    .word $076c
-    .word -1
+    .addr -1
+    .addr -1
+    .addr $076c
+    .addr -1
 
 ; flippant battle song header
 .byte $00
 .byte $28
-.word mus_b_flippant_pulse1
-.word mus_b_flippant_pulse2
-.word mus_b_flippant_triangle
-.word mus_b_flippant_noise
+.addr mus_b_flippant_pulse1
+.addr mus_b_flippant_pulse2
+.addr mus_b_flippant_triangle
+.addr mus_b_flippant_noise
 
 ; dangerous battle song header
 .byte $00
 .byte $28
-.word mus_b_dangerous_pulse1
-.word mus_b_dangerous_pulse2
-.word mus_b_dangerous_triangle
-.word mus_b_dangerous_noise
+.addr mus_b_dangerous_pulse1
+.addr mus_b_dangerous_pulse2
+.addr mus_b_dangerous_triangle
+.addr mus_b_dangerous_noise
 
 ; hippie battle song header
 .byte $00
 .byte $28
-.word mus_b_hippie_pulse1
-.word mus_b_hippie_pulse2
-.word mus_b_hippie_triangle
-.word mus_b_hippie_noise
+.addr mus_b_hippie_pulse1
+.addr mus_b_hippie_pulse2
+.addr mus_b_hippie_triangle
+.addr mus_b_hippie_noise
 
 ; win battle song header
 .byte $00
 .byte $00
-.word mus_b_win_pulse1
-.word mus_b_win_pulse2
-.word mus_b_win_triangle
-.word -1
+.addr mus_b_win_pulse1
+.addr mus_b_win_pulse2
+.addr mus_b_win_triangle
+.addr -1
 
 ; bein friends song header
 .byte $00
 .byte $28
-.word mus_bein_friends_pulse1
-.word mus_bein_friends_pulse2
-.word mus_bein_friends_triangle
-.word mus_bein_friends_noise
+.addr mus_bein_friends_pulse1
+.addr mus_bein_friends_pulse2
+.addr mus_bein_friends_triangle
+.addr mus_bein_friends_noise
 
 ; pollyanna song header
 .byte $00
 .byte $35
-.word mus_pollyanna_pulse1
-.word mus_pollyanna_pulse2
-.word mus_pollyanna_triangle
-.word mus_pollyanna_noise
+.addr mus_pollyanna_pulse1
+.addr mus_pollyanna_pulse2
+.addr mus_pollyanna_triangle
+.addr mus_pollyanna_noise
 
 ; yucca desert song header
 .byte $81
 .byte $0C
-.word mus_yucca_desert_pulse1
-.word mus_yucca_desert_pulse2
-.word mus_yucca_desert_triangle
-.word mus_yucca_desert_noise
+.addr mus_yucca_desert_pulse1
+.addr mus_yucca_desert_pulse2
+.addr mus_yucca_desert_triangle
+.addr mus_yucca_desert_noise
 
 ; magicant song header
 .byte $00
 .byte $4C
-.word mus_magicant_pulse1
-.word mus_magicant_pulse2
-.word mus_magicant_triangle
-.word mus_magicant_noise
-
+.addr mus_magicant_pulse1
+.addr mus_magicant_pulse2
+.addr mus_magicant_triangle
+.addr mus_magicant_noise
 
 ; snowman song header
 .byte $00
 .byte $35
-.word mus_snowman_pulse1
-.word mus_snowman_pulse2
-.word mus_snowman_triangle
-.word -1
+.addr mus_snowman_pulse1
+.addr mus_snowman_pulse2
+.addr mus_snowman_triangle
+.addr -1
 
 ; mt itoi song header
 .byte $00
 .byte $4C
-.word mus_mt_itoi_pulse1
-.word mus_mt_itoi_pulse2
-.word mus_mt_itoi_triangle
-.word mus_mt_itoi_noise
+.addr mus_mt_itoi_pulse1
+.addr mus_mt_itoi_pulse2
+.addr mus_mt_itoi_triangle
+.addr mus_mt_itoi_noise
 
 ; factory song header
 .byte $00
 .byte $35
-.word mus_factory_pulse1
-.word mus_factory_pulse2
-.word mus_factory_triangle
-.word mus_factory_noise
+.addr mus_factory_pulse1
+.addr mus_factory_pulse2
+.addr mus_factory_triangle
+.addr mus_factory_noise
 
 ; ghastly site song header
 .byte $00
 .byte $35
-.word mus_ghastly_site_pulse1
-.word mus_ghastly_site_pulse2
-.word mus_ghastly_site_triangle
-.word mus_ghastly_site_noise
+.addr mus_ghastly_site_pulse1
+.addr mus_ghastly_site_pulse2
+.addr mus_ghastly_site_triangle
+.addr mus_ghastly_site_noise
 
-; song header
+; twinkle elementary song header
 .byte $00
 .byte $18
-.word mus_twinkle_elementary_pulse1
-.word mus_twinkle_elementary_pulse2
-.word mus_twinkle_elementary_triangle
-.word mus_twinkle_elementary_noise
+.addr mus_twinkle_elementary_pulse1
+.addr mus_twinkle_elementary_pulse2
+.addr mus_twinkle_elementary_triangle
+.addr mus_twinkle_elementary_noise
 
 ; humoresque of a little dog song header
 .byte $00
 .byte $18
-.word mus_humoresque_of_a_little_dog_pulse1
-.word mus_humoresque_of_a_little_dog_pulse2
-.word mus_humoresque_of_a_little_dog_triangle
-.word mus_humoresque_of_a_little_dog_noise
+.addr mus_humoresque_of_a_little_dog_pulse1
+.addr mus_humoresque_of_a_little_dog_pulse2
+.addr mus_humoresque_of_a_little_dog_triangle
+.addr mus_humoresque_of_a_little_dog_noise
 
 ; Poltergeist song header
 B28_11a4:
 .byte $87   ; Transpose
 .byte $18   ; Note length table offset
-.word mus_poltergeist_pulse1 ; Pulse1 phrase pointers
-.word mus_poltergeist_pulse2 ; Pulse2 phrase pointers
-.word mus_poltergeist_triangle ; Triangle phrase pointers
-.word mus_poltergeist_noise ; Noise phrase pointers
+.addr mus_poltergeist_pulse1 ; Pulse1 phrase pointers
+.addr mus_poltergeist_pulse2 ; Pulse2 phrase pointers
+.addr mus_poltergeist_triangle ; Triangle phrase pointers
+.addr mus_poltergeist_noise ; Noise phrase pointers
 
 ; underground song header
 .byte $00
 .byte $28
-.word mus_underground_pulse1
-.word mus_underground_pulse2
-.word mus_underground_triangle
-.word mus_underground_noise
+.addr mus_underground_pulse1
+.addr mus_underground_pulse2
+.addr mus_underground_triangle
+.addr mus_underground_noise
 
 ; home song header
 .byte $02
 .byte $43
-.word mus_home_pulse1
-.word mus_home_pulse2
-.word mus_home_triangle
-.word mus_home_noise
+.addr mus_home_pulse1
+.addr mus_home_pulse2
+.addr mus_home_triangle
+.addr mus_home_noise
 
 ; approaching mt. itoi song header
 .byte $00
 .byte $35
-.word mus_approaching_mt_itoi_pulse1
-.word mus_approaching_mt_itoi_pulse2
-.word mus_approaching_mt_itoi_triangle
-.word mus_approaching_mt_itoi_noise
+.addr mus_approaching_mt_itoi_pulse1
+.addr mus_approaching_mt_itoi_pulse2
+.addr mus_approaching_mt_itoi_triangle
+.addr mus_approaching_mt_itoi_noise
 
-
-
-; song header
+; paradise line song header
 .byte $00
 .byte $18
-.word B29_1C45
-.word B29_1C59
-.word B29_1C65
-.word B29_1C79
+.addr B29_1C45
+.addr B29_1C59
+.addr B29_1C65
+.addr B29_1C79
 
 ; fallin love song header
 .byte $00
 .byte $43
-.word mus_fallin_love_pulse1
-.word mus_fallin_love_pulse2
-.word mus_fallin_love_triangle
-.word mus_fallin_love_noise
+.addr mus_fallin_love_pulse1
+.addr mus_fallin_love_pulse2
+.addr mus_fallin_love_triangle
+.addr mus_fallin_love_noise
 
 ; Mother Earth song header
 B28_11e0:
 .byte $00   ; Transpose
 .byte $28   ; Note length table offset
-.word B29_1B29 ; Pulse1 phrase pointers
-.word B29_1B23 ; Pulse2 phrase pointers
-.word B29_1B2F ; Triangle phrase pointers
-.word B29_1B35 ; Noise phrase pointers
+.addr B29_1B29 ; Pulse1 phrase pointers
+.addr B29_1B23 ; Pulse2 phrase pointers
+.addr B29_1B2F ; Triangle phrase pointers
+.addr B29_1B35 ; Noise phrase pointers
 
-; song header
+; tank song header
 .byte $00
 .byte $18
-.word B29_0BE0
-.word B29_0BF0
-.word B29_0BFE
-.word B29_0C06
+.addr B29_0BE0
+.addr B29_0BF0
+.addr B29_0BFE
+.addr B29_0C06
 
-; song header
+; monkey cave song header
 .byte $00
 .byte $0C
-.word mus_monkey_cave_pulse1
-.word mus_monkey_cave_pulse2
-.word mus_monkey_cave_triangle
-.word -1
+.addr mus_monkey_cave_pulse1
+.addr mus_monkey_cave_pulse2
+.addr mus_monkey_cave_triangle
+.addr -1
 
 ; $91FE
 ; Music table
 ;...is this different at all???
+
+; queen mary's song song header
 B28_11fe:
 .byte $00
 .byte $28
-.word B29_0E84
-.word B29_0E6C
-.word -1
-.word -1
+.addr B29_0E84
+.addr B29_0E6C
+.addr -1
+.addr -1
 
-
+; wisdom of the world song header
 .byte $00
 .byte $5A
-.word B29_0EFB
-.word B29_0F01
-.word B29_0F07
-.word -1
+.addr B29_0EFB
+.addr B29_0F01
+.addr B29_0F07
+.addr -1
 
-
+; tombstone song header
 .byte $18
 .byte $4C
-.word B29_0FFF
-.word B29_0FF7
-.word -1
-.word -1
+.addr B29_0FFF
+.addr B29_0FF7
+.addr -1
+.addr -1
 
-
+; game over song header
 .byte $00
 .byte $4C
-.word B29_1012
-.word B29_101A
-.word B29_1022
-.word -1
+.addr B29_1012
+.addr B29_101A
+.addr B29_1022
+.addr -1
 
-
+; big victory song header
 .byte $00
 .byte $18
-.word B29_1061
-.word B29_1065
-.word B29_1067
-.word -1
+.addr B29_1061
+.addr B29_1065
+.addr B29_1067
+.addr -1
 
+; airplane song header
 .byte $00
 .byte $18
-.word B29_1992
-.word B29_1998
-.word B29_199E
-.word B29_19B0
+.addr B29_1992
+.addr B29_1998
+.addr B29_199E
+.addr B29_19B0
 
-
+; level up song header
 .byte $06
 .byte $00
-.word B29_0EC7
-.word B29_0ED1
-.word B29_0ED9
-.word -1
+.addr B29_0EC7
+.addr B29_0ED1
+.addr B29_0ED9
+.addr -1
 
-
+; recovery song header
 .byte $83
 .byte $18
-.word B29_0E98
-.word B29_0E9C
-.word B29_0E9E
-.word -1
+.addr B29_0E98
+.addr B29_0E9C
+.addr B29_0E9E
+.addr -1
 
+; fanfare song header
 B28_124E:
 .byte $83
 .byte $43
-.word B29_1438
-.word B29_143C
-.word B29_143E
-.word -1
+.addr B29_1438
+.addr B29_143C
+.addr B29_143E
+.addr -1
 
-
+; live house song header
 .byte $87
 .byte $18
-.word B29_109E
-.word B29_10A4
-.word B29_10B0
-.word B29_10BC
+.addr B29_109E
+.addr B29_10A4
+.addr B29_10B0
+.addr B29_10BC
 
-
+; all that i needed was you song header
 .byte $00
 .byte $18
-.word B29_113C
-.word B29_1152
-.word B29_1162
-.word B29_1174
+.addr B29_113C
+.addr B29_1152
+.addr B29_1162
+.addr B29_1174
 
-
+; melody 1 song header
 .byte $30
 .byte $28
-.word B28_1302
-.word B28_1306
-.word -1
-.word -1
+.addr B28_1302
+.addr B28_1306
+.addr -1
+.addr -1
 
-
+; melody 2 song header
 .byte $18
 .byte $28
-.word B28_130A
-.word B28_130E
-.word -1
-.word -1
+.addr B28_130A
+.addr B28_130E
+.addr -1
+.addr -1
 
+; melody 3 song header
 .byte $00
 .byte $28
-.word B28_1312
-.word B28_1316
-.word -1
-.word -1
+.addr B28_1312
+.addr B28_1316
+.addr -1
+.addr -1
 
-
+; melody 4 song header
 B28_128A:
 .byte $00
 .byte $28
-.word B28_131A
-.word B28_131E
-.word -1
-.word -1
+.addr B28_131A
+.addr B28_131E
+.addr -1
+.addr -1
 
-
+; melody 5 song header
 .byte $30
 .byte $28
-.word B28_1322
-.word B28_1326
-.word -1
-.word -1
+.addr B28_1322
+.addr B28_1326
+.addr -1
+.addr -1
 
+; melody 6 song header
 .byte $18
 .byte $28
-.word B28_132A
-.word B28_132E
-.word -1
-.word -1
+.addr B28_132A
+.addr B28_132E
+.addr -1
+.addr -1
 
-
+; melody 7 song header
 .byte $30
 .byte $28
-.word B28_1332
-.word B28_1336
-.word -1
-.word -1
+.addr B28_1332
+.addr B28_1336
+.addr -1
+.addr -1
 
-
+; melody 8 song header
 .byte $18
 .byte $28
-.word B28_133A
-.word B28_133E
-.word -1
-.word -1
+.addr B28_133A
+.addr B28_133E
+.addr -1
+.addr -1
 
+; vs giegue song header
 .byte $00
 .byte $43
-.word B29_1461
-.word B29_1467
-.word -1
-.word -1
+.addr B29_1461
+.addr B29_1467
+.addr -1
+.addr -1
 
-
+; ending (jp) song header
 .byte $00
 .byte $28
-.word B29_1825
-.word B29_1817
-.word B29_1839
-.word B29_1847
+.addr B29_1825
+.addr B29_1817
+.addr B29_1839
+.addr B29_1847
 
-
+; zoo song header
 .byte $00
 .byte $28
-.word B29_1479
-.word B29_147F
-.word B29_0827
-.word B29_082F
+.addr B29_1479
+.addr B29_147F
+.addr B29_0827
+.addr B29_082F
 
+; phone song header
 .byte $00
 .byte $18
-.word -1
-.word B29_1495
-.word -1
-.word -1
+.addr -1
+.addr B29_1495
+.addr -1
+.addr -1
 
+; youngtown song header
 B28_12ee:
 .byte $00
 .byte $28
-.word B29_14A3
-.word B29_14A9
-.word B29_14AF
-.word -1
+.addr B29_14A3
+.addr B29_14A9
+.addr B29_14AF
+.addr -1
 
-
+; cave 1 song header
 .ifdef VER_JP
 B28_12f8:
 .endif
 .byte $00
 .byte $28
-.word B29_1556
-.word B29_155E
-.word -1
-.word -1
+.addr B29_1556
+.addr B29_155E
+.addr -1
+.addr -1
 
 .ifndef VER_JP
 B28_12f8:
 .byte $00
 .byte $43
-.word B29_1580
-.word B29_1588
-.word B29_1590
-.word B29_1596
+.addr B29_1580
+.addr B29_1588
+.addr B29_1590
+.addr B29_1596
 .endif
 
 
 ; $9302
 ; Music data
 B28_1302:
-.word B28_1347
-.word B28_135a
+.addr B28_1347
+.addr B28_135a
 B28_1306:
-.word B28_1357
-.word 0
+.addr B28_1357
+.addr 0
 B28_130A:
-.word B28_134D
-.word B28_1365
+.addr B28_134D
+.addr B28_1365
 B28_130E:
-.word B28_1362
-.word 0
+.addr B28_1362
+.addr 0
 B28_1312:
-.word B28_134D
-.word B28_1370
+.addr B28_134D
+.addr B28_1370
 B28_1316:
-.word B28_136D
-.word 0
+.addr B28_136D
+.addr 0
 B28_131A:
-.word B28_1347
-.word B28_137c
+.addr B28_1347
+.addr B28_137c
 B28_131E:
-.word B28_1379
-.word 0
+.addr B28_1379
+.addr 0
 B28_1322:
-.word B28_134D
-.word B28_1388
+.addr B28_134D
+.addr B28_1388
 B28_1326:
-.word B28_1385
-.word 0
+.addr B28_1385
+.addr 0
 B28_132A:
-.word B28_134D
-.word B28_1391
+.addr B28_134D
+.addr B28_1391
 B28_132E:
-.word B28_138e
-.word 0
+.addr B28_138e
+.addr 0
 B28_1332:
-.word B28_1347
-.word B28_139e
+.addr B28_1347
+.addr B28_139e
 B28_1336:
-.word B28_139b
-.word 0
+.addr B28_139b
+.addr 0
 B28_133A:
-.word B28_134D
-.word B28_13aa
+.addr B28_134D
+.addr B28_13aa
 B28_133E:
-.word B28_13a7
-.word 0
+.addr B28_13a7
+.addr 0
 
 
 B28_1342:
@@ -3145,37 +3129,41 @@ B28_13aa:
 ;song 2 - flippant battle
 ; music::b_flippant pulse1 pointers
 mus_b_flippant_pulse1:
-    .word B28_163b ; 00
-B28_13b4:   .word B28_13de ; 01
-    .word -1
-    .word B28_13b4
+    .addr B28_163b ; 00
+    B28_13b4:
+    .addr B28_13de ; 01
+    .addr -1
+    .addr B28_13b4
 
 ; music::b_flippant pulse2 pointers
 mus_b_flippant_pulse2:
-    .word B28_164d ; 00
-B28_13bc:   .word B28_14b4 ; 01
-    .word B28_14f7 ; 02
-    .word -1
-    .word B28_13bc
+    .addr B28_164d ; 00
+    B28_13bc:
+    .addr B28_14b4 ; 01
+    .addr B28_14f7 ; 02
+    .addr -1
+    .addr B28_13bc
 
 ; music::b_flippant triangle pointers
 mus_b_flippant_triangle:
-    .word B28_165f ; 00
-B28_13c6:   .word B28_1590 ; 01
-    .word B28_15a2 ; 02
-    .word B28_1590 ; 03
-    .word B28_1590 ; 04
-    .word B28_15a2 ; 05
-    .word B28_15d3 ; 06
-    .word -1
-    .word B28_13c6
+    .addr B28_165f ; 00
+    B28_13c6:
+    .addr B28_1590 ; 01
+    .addr B28_15a2 ; 02
+    .addr B28_1590 ; 03
+    .addr B28_1590 ; 04
+    .addr B28_15a2 ; 05
+    .addr B28_15d3 ; 06
+    .addr -1
+    .addr B28_13c6
 
 ; music::b_flippant noise pointers
 mus_b_flippant_noise:
-    .word B28_1671 ; 00
-B28_13d8:   .word B28_15ec ; 01
-    .word -1
-    .word B28_13d8
+    .addr B28_1671 ; 00
+    B28_13d8:
+    .addr B28_15ec ; 01
+    .addr -1
+    .addr B28_13d8
 
 ;pulse1 phrase 01
 ;pulse1 phrase 01
@@ -3427,34 +3415,34 @@ B28_15ec:
 
 ;song 3 - dangerous
 mus_b_dangerous_pulse1:
-.word B28_163b
+.addr B28_163b
 song_3_second1:
-.word B28_1674
-.word B28_16b6
-.word -1
-.word song_3_second1
+.addr B28_1674
+.addr B28_16b6
+.addr -1
+.addr song_3_second1
 
 mus_b_dangerous_pulse2:
-.word B28_164d
+.addr B28_164d
 song_3_second2:
-.word B28_1695
-.word B28_175A
-.word -1
-.word song_3_second2
+.addr B28_1695
+.addr B28_175A
+.addr -1
+.addr song_3_second2
 
 mus_b_dangerous_triangle:
-.word B28_165f
+.addr B28_165f
 song_3_second3:
-.word B28_17C8
-.word -1
-.word song_3_second3
+.addr B28_17C8
+.addr -1
+.addr song_3_second3
 
 mus_b_dangerous_noise:
-.word B28_1671
+.addr B28_1671
 song_3_second4:
-.word B28_1823
-.word -1
-.word song_3_second4
+.addr B28_1823
+.addr -1
+.addr song_3_second4
 
 B28_163b:
     .byte $9F,$38,$31
@@ -3636,37 +3624,37 @@ B28_1823:
 
 ;song 4 - hippie battle
 mus_b_hippie_pulse1:
-.word B28_163b
+.addr B28_163b
 song_4_second1:
-.word B28_1871
-.word B28_18A9
-.word -1
-.word song_4_second1
+.addr B28_1871
+.addr B28_18A9
+.addr -1
+.addr song_4_second1
 
 mus_b_hippie_pulse2:
-.word B28_164d
+.addr B28_164d
 song_4_second2:
-.word B28_18BD
-.word B28_193E
-.word -1
-.word song_4_second2
+.addr B28_18BD
+.addr B28_193E
+.addr -1
+.addr song_4_second2
 
 mus_b_hippie_triangle:
-.word B28_165f
+.addr B28_165f
 song_4_second3:
-.word B28_1988
-.word B28_19A7
-.word B28_199C
-.word -1
-.word song_4_second3
+.addr B28_1988
+.addr B28_19A7
+.addr B28_199C
+.addr -1
+.addr song_4_second3
 
 mus_b_hippie_noise:
-.word B28_1671
+.addr B28_1671
 song_4_second4:
-.word B28_19D4
-.word B28_19D4
-.word -1
-.word song_4_second4
+.addr B28_19D4
+.addr B28_19D4
+.addr -1
+.addr song_4_second4
 
 B28_1871:
     .byte $9F,$04,$34
@@ -3838,13 +3826,13 @@ B28_19D4:
 ;song 5 - you win
 ;unsure about these orders
 mus_b_win_pulse1:
-.word B28_1A0B
+.addr B28_1A0B
 mus_b_win_noise:
-.word 0
+.addr 0
 mus_b_win_pulse2:
-.word B28_1A1A
+.addr B28_1A1A
 mus_b_win_triangle:
-.word B28_1A29
+.addr B28_1A29
 
 B28_1A0B:
     .byte $9F,$A7,$F3
@@ -3869,32 +3857,32 @@ B28_1A29:
 
 ;song 7 - yucca desert
 mus_yucca_desert_pulse1:
-.word B28_1A58
+.addr B28_1A58
 song_7_second1:
-.word B28_1A74
-.word -1
-.word song_7_second1
+.addr B28_1A74
+.addr -1
+.addr song_7_second1
 
 mus_yucca_desert_pulse2:
-.word B28_1A61
+.addr B28_1A61
 song_7_second2:
-.word B28_1AE6
-.word -1
-.word song_7_second2
+.addr B28_1AE6
+.addr -1
+.addr song_7_second2
 
 mus_yucca_desert_triangle:
-.word B28_1A6A
+.addr B28_1A6A
 song_7_second3:
-.word B28_1B93
-.word -1
-.word song_7_second3
+.addr B28_1B93
+.addr -1
+.addr song_7_second3
 
 mus_yucca_desert_noise:
-.word B28_1A70
+.addr B28_1A70
 song_7_second4:
-.word B28_1BAC
-.word -1
-.word song_7_second4
+.addr B28_1BAC
+.addr -1
+.addr song_7_second4
 
 B28_1A58:
     .byte $9F,$29,$73
@@ -4024,34 +4012,34 @@ B28_1BAC:
 
 ;song 6 - pollyanna
 mus_pollyanna_pulse1:
-.word B28_1BDB
+.addr B28_1BDB
 B28_1BB9:
-.word B28_1C54
-.word B28_1C98
-.word -1
-.word B28_1BB9
+.addr B28_1C54
+.addr B28_1C98
+.addr -1
+.addr B28_1BB9
 
 mus_pollyanna_pulse2:
-.word B28_1BFC
+.addr B28_1BFC
 B28_1BC3:
-.word B28_1D3F
-.word B28_1D76
-.word -1
-.word B28_1BC3
+.addr B28_1D3F
+.addr B28_1D76
+.addr -1
+.addr B28_1BC3
 
 mus_pollyanna_triangle:
-.word B28_1C1D
+.addr B28_1C1D
 B28_1BCD:
-.word B28_1DAE
-.word -1
-.word B28_1BCD
+.addr B28_1DAE
+.addr -1
+.addr B28_1BCD
 
 mus_pollyanna_noise:
-.word B28_1C35
+.addr B28_1C35
 B28_1BD5:
-.word B28_1CE8
-.word -1
-.word B28_1BD5
+.addr B28_1CE8
+.addr -1
+.addr B28_1BD5
 
 B28_1BDB:
     .byte $9F,$A9,$B2
@@ -4300,36 +4288,36 @@ B28_1DAE:
 
 ;song 7 - bein friends
 mus_bein_friends_pulse1:
-.word B28_1E5D
-.word B28_1ED2
-.word B28_1ED2
-.word B28_1F6B
-.word -1
-.word mus_bein_friends_pulse1
+.addr B28_1E5D
+.addr B28_1ED2
+.addr B28_1ED2
+.addr B28_1F6B
+.addr -1
+.addr mus_bein_friends_pulse1
 
 mus_bein_friends_pulse2:
-.word B28_1E84
-.word B28_1EF7
-.word B28_1EF7
-.word B28_1FC0
-.word -1
-.word mus_bein_friends_pulse2
+.addr B28_1E84
+.addr B28_1EF7
+.addr B28_1EF7
+.addr B28_1FC0
+.addr -1
+.addr mus_bein_friends_pulse2
 
 mus_bein_friends_triangle:
-.word B28_1EB0
-.word B28_1F1B
-.word B28_1F1B
-.word B29_0003
-.word -1
-.word mus_bein_friends_triangle
+.addr B28_1EB0
+.addr B28_1F1B
+.addr B28_1F1B
+.addr B29_0003
+.addr -1
+.addr mus_bein_friends_triangle
 
 mus_bein_friends_noise:
-.word B28_1EBE
-.word B28_1F57
-.word B28_1F57
-.word B29_0054
-.word -1
-.word mus_bein_friends_noise
+.addr B28_1EBE
+.addr B28_1F57
+.addr B28_1F57
+.addr B29_0054
+.addr -1
+.addr mus_bein_friends_noise
 
 B28_1E5D:
     .byte $9F,$05,$B1
@@ -4543,38 +4531,38 @@ B29_0054:
 ;song $10 - poltergeist
 ;pulse 1
 mus_poltergeist_pulse1:
-.word B29_00A9
+.addr B29_00A9
 B29_0085:
-.word B29_00AE
-.word B29_00C4
-.word -1
-.word B29_0085
+.addr B29_00AE
+.addr B29_00C4
+.addr -1
+.addr B29_0085
 
 ;pulse 2
 mus_poltergeist_pulse2:
-.word B29_00CC
+.addr B29_00CC
 B29_008f:
-.word B29_00CC
-.word B29_00E7
-.word -1
-.word B29_008f
+.addr B29_00CC
+.addr B29_00E7
+.addr -1
+.addr B29_008f
 
 ;triangle
 mus_poltergeist_triangle:
-.word B29_00EF
+.addr B29_00EF
 B29_0099:
-.word B29_00FA
-.word B29_0108
-.word -1
-.word B29_0099
+.addr B29_00FA
+.addr B29_0108
+.addr -1
+.addr B29_0099
 
 ;noise
 mus_poltergeist_noise:
-.word B29_0111
+.addr B29_0111
 B29_00a3:
-.word B29_0E06
-.word -1
-.word B29_00a3
+.addr B29_0E06
+.addr -1
+.addr B29_00a3
 
 B29_00A9:
 .byte $9F,$A4,$33
@@ -4671,30 +4659,30 @@ B29_0111:
 
 ;song 9 - magicant
 mus_magicant_pulse1:
-.word B29_014E
+.addr B29_014E
 B29_012E:
-.word B29_0158
-.word -1
-.word B29_012E
+.addr B29_0158
+.addr -1
+.addr B29_012E
 
 mus_magicant_pulse2:
-.word B29_0155
-.word -1
-.word mus_magicant_pulse2
+.addr B29_0155
+.addr -1
+.addr mus_magicant_pulse2
 
 mus_magicant_triangle:
-.word B29_01C4
-.word B29_01D0
-.word B29_01E1
-.word B29_01E1
-.word B29_01F2
-.word -1
-.word mus_magicant_triangle
+.addr B29_01C4
+.addr B29_01D0
+.addr B29_01E1
+.addr B29_01E1
+.addr B29_01F2
+.addr -1
+.addr mus_magicant_triangle
 
 mus_magicant_noise:
-.word B29_020A
-.word -1
-.word mus_magicant_noise
+.addr B29_020A
+.addr -1
+.addr mus_magicant_noise
 
 B29_014E:
 .byte $9F,$B9,$B1
@@ -4802,32 +4790,32 @@ B29_020A:
 
 ; song $a - snowman
 mus_snowman_pulse1:
-.word B29_02A6
+.addr B29_02A6
 B29_021C:
-.word B29_02B0
-.word B29_02D5
-.word B29_02B0
-.word B29_02FD
-.word B29_031B
+.addr B29_02B0
+.addr B29_02D5
+.addr B29_02B0
+.addr B29_02FD
+.addr B29_031B
 
 mus_snowman_noise:
-.word B29_0335
-.word B29_031B
-.word B29_0349
-.word -1
-.word B29_021C
+.addr B29_0335
+.addr B29_031B
+.addr B29_0349
+.addr -1
+.addr B29_021C
 
 mus_snowman_pulse2:
-.word B29_02AC
-.word -1
-.word B29_021C
+.addr B29_02AC
+.addr -1
+.addr B29_021C
 
 mus_snowman_triangle:
-.word B29_0240
-.word B29_0240
-.word B29_0279
-.word -1
-.word mus_snowman_triangle
+.addr B29_0240
+.addr B29_0240
+.addr B29_0279
+.addr -1
+.addr mus_snowman_triangle
 
 B29_0240:
 .byte $9F,$A0,$00
@@ -4969,24 +4957,24 @@ B29_0349:
 
 ;song $b - mt_itoi
 mus_mt_itoi_pulse1:
-.word B29_0385
-.word -1
-.word mus_mt_itoi_pulse1
+.addr B29_0385
+.addr -1
+.addr mus_mt_itoi_pulse1
 
 mus_mt_itoi_pulse2:
-.word B29_039F
-.word -1
-.word mus_mt_itoi_pulse2
+.addr B29_039F
+.addr -1
+.addr mus_mt_itoi_pulse2
 
 mus_mt_itoi_triangle:
-.word B29_03E8
-.word -1
-.word mus_mt_itoi_triangle
+.addr B29_03E8
+.addr -1
+.addr mus_mt_itoi_triangle
 
 mus_mt_itoi_noise:
-.word B29_0416
-.word -1
-.word mus_mt_itoi_noise
+.addr B29_0416
+.addr -1
+.addr mus_mt_itoi_noise
 
 B29_0385:
 .byte $9F,$B3,$31
@@ -5059,32 +5047,32 @@ B29_0416:
 
 ;song $d - ghastly site
 mus_ghastly_site_pulse1:
-.word B29_0445
+.addr B29_0445
 B29_0427:
-.word B29_04A6
-.word -1
-.word B29_0427
+.addr B29_04A6
+.addr -1
+.addr B29_0427
 
 mus_ghastly_site_pulse2:
-.word B29_045D
+.addr B29_045D
 B29_042F:
-.word B29_04A3
-.word -1
-.word B29_042F
+.addr B29_04A3
+.addr -1
+.addr B29_042F
 
 mus_ghastly_site_triangle:
-.word B29_0478
+.addr B29_0478
 B29_0437:
-.word B29_04EC
-.word -1
-.word B29_0437
+.addr B29_04EC
+.addr -1
+.addr B29_0437
 
 mus_ghastly_site_noise:
-.word B29_048B
+.addr B29_048B
 B29_043F:
-.word B29_0516
-.word -1
-.word B29_043F
+.addr B29_0516
+.addr -1
+.addr B29_043F
 
 B29_0445:
 .byte $9F,$27,$F6
@@ -5198,24 +5186,24 @@ B29_0516:
 
 ;song $e - twinkle elementary
 mus_twinkle_elementary_pulse1:
-.word B29_0541
-.word -1
-.word mus_twinkle_elementary_pulse1
+.addr B29_0541
+.addr -1
+.addr mus_twinkle_elementary_pulse1
 
 mus_twinkle_elementary_pulse2:
-.word B29_0585
-.word -1
-.word mus_twinkle_elementary_pulse2
+.addr B29_0585
+.addr -1
+.addr mus_twinkle_elementary_pulse2
 
 mus_twinkle_elementary_triangle:
-.word B29_05B1
-.word -1
-.word mus_twinkle_elementary_triangle
+.addr B29_05B1
+.addr -1
+.addr mus_twinkle_elementary_triangle
 
 mus_twinkle_elementary_noise:
-.word B29_05D7
-.word -1
-.word mus_twinkle_elementary_noise
+.addr B29_05D7
+.addr -1
+.addr mus_twinkle_elementary_noise
 
 B29_0541:
 .byte $9F,$0A,$B1
@@ -5291,26 +5279,26 @@ B29_05D7:
 
 ;song $f - humoresque of a little dog
 mus_humoresque_of_a_little_dog_pulse1:
-.word B29_06CA
+.addr B29_06CA
 B29_0610:
-.word B29_062B
-.word -1
-.word B29_0610
+.addr B29_062B
+.addr -1
+.addr B29_0610
 
 mus_humoresque_of_a_little_dog_pulse2:
-.word B29_0628
-.word -1
-.word mus_humoresque_of_a_little_dog_pulse2
+.addr B29_0628
+.addr -1
+.addr mus_humoresque_of_a_little_dog_pulse2
 
 mus_humoresque_of_a_little_dog_triangle:
-.word B29_06D0
-.word -1
-.word mus_humoresque_of_a_little_dog_triangle
+.addr B29_06D0
+.addr -1
+.addr mus_humoresque_of_a_little_dog_triangle
 
 mus_humoresque_of_a_little_dog_noise:
-.word B29_0708
-.word -1
-.word mus_humoresque_of_a_little_dog_noise
+.addr B29_0708
+.addr -1
+.addr mus_humoresque_of_a_little_dog_noise
 
 B29_0628:
 .byte $9F,$13,$F1
@@ -5374,33 +5362,33 @@ B29_0708:
 
 ;song $c - factory
 mus_factory_pulse2:
-.word B29_0757
-.word B29_079A
-.word -1
-.word mus_factory_pulse2
+.addr B29_0757
+.addr B29_079A
+.addr -1
+.addr mus_factory_pulse2
 
 mus_factory_pulse1:
-.word B29_07B0
+.addr B29_07B0
 B29_0739:
-.word B29_075A
-.word B29_079D
-.word -1
-.word B29_0739
+.addr B29_075A
+.addr B29_079D
+.addr -1
+.addr B29_0739
 
 mus_factory_triangle:
-.word B29_07B6
-.word B29_07BF
-.word -1
-.word mus_factory_triangle
+.addr B29_07B6
+.addr B29_07BF
+.addr -1
+.addr mus_factory_triangle
 
 mus_factory_noise:
-.word B29_07D3
-.word B29_07E6
-.word B29_07F8
-.word B29_07E6
-.word B29_07FE
-.word -1
-.word mus_factory_noise
+.addr B29_07D3
+.addr B29_07E6
+.addr B29_07F8
+.addr B29_07E6
+.addr B29_07FE
+.addr -1
+.addr mus_factory_noise
 
 B29_0757:
 .byte $9F,$A2,$36
@@ -5517,34 +5505,34 @@ B29_07FE:
 
 ;song $11 - underground
 mus_underground_pulse1:
-.word B29_0835
+.addr B29_0835
 B29_0813:
-.word B29_085A
-.word -1
-.word B29_0813
+.addr B29_085A
+.addr -1
+.addr B29_0813
 
 mus_underground_pulse2:
-.word B29_0840
+.addr B29_0840
 B29_081B:
-.word B29_0867
-.word B29_085D
-.word B29_088A
-.word -1
-.word B29_081B
+.addr B29_0867
+.addr B29_085D
+.addr B29_088A
+.addr -1
+.addr B29_081B
 
 mus_underground_triangle:
-.word B29_084B
+.addr B29_084B
 B29_0827:
-.word B29_0895
-.word -1
-.word B29_0827
+.addr B29_0895
+.addr -1
+.addr B29_0827
 
 mus_underground_noise:
-.word B29_0855
+.addr B29_0855
 B29_082F:
-.word B29_08AC
-.word -1
-.word B29_082F
+.addr B29_08AC
+.addr -1
+.addr B29_082F
 
 B29_0835:
 .byte $9F,$A1,$B3
@@ -5633,20 +5621,20 @@ B29_08AC:
 
 ;song ? - monkey cave
 mus_monkey_cave_pulse1:
-.word B29_08C9
-.word B29_08D0
-.word -1
-.word mus_monkey_cave_pulse1
+.addr B29_08C9
+.addr B29_08D0
+.addr -1
+.addr mus_monkey_cave_pulse1
 
 mus_monkey_cave_pulse2:
-.word B29_08CD
-.word -1
-.word mus_monkey_cave_pulse2
+.addr B29_08CD
+.addr -1
+.addr mus_monkey_cave_pulse2
 
 mus_monkey_cave_triangle:
-.word B29_093B
-.word -1
-.word mus_monkey_cave_triangle
+.addr B29_093B
+.addr -1
+.addr mus_monkey_cave_triangle
 
 ;this song has no noise channel
 
@@ -5723,24 +5711,24 @@ B29_093B:
 
 ; song $12 - home
 mus_home_pulse2:
-.word B29_09AC
-.word -1
-.word mus_home_pulse2
+.addr B29_09AC
+.addr -1
+.addr mus_home_pulse2
 
 mus_home_pulse1:
-.word B29_09E2
-.word -1
-.word mus_home_pulse1
+.addr B29_09E2
+.addr -1
+.addr mus_home_pulse1
 
 mus_home_triangle:
-.word B29_0A02
-.word -1
-.word mus_home_triangle
+.addr B29_0A02
+.addr -1
+.addr mus_home_triangle
 
 mus_home_noise:
-.word B29_09A7
-.word -1
-.word mus_home_noise
+.addr B29_09A7
+.addr -1
+.addr mus_home_noise
 
 
 B29_09A7:
@@ -5811,33 +5799,33 @@ B29_0A02:
 
 ;song $13 - approaching mt. itoi
 mus_approaching_mt_itoi_pulse1:
-.word B29_0A5A
-.word B29_0AB3
+.addr B29_0A5A
+.addr B29_0AB3
 B29_0A20:
-.word B29_0ABB
-.word -1
-.word B29_0A20
+.addr B29_0ABB
+.addr -1
+.addr B29_0A20
 
 mus_approaching_mt_itoi_pulse2:
-.word B29_0A3E
+.addr B29_0A3E
 B29_0A28:
-.word B29_0A98
-.word -1
-.word B29_0A28
+.addr B29_0A98
+.addr -1
+.addr B29_0A28
 
 mus_approaching_mt_itoi_triangle:
-.word B29_0A73
+.addr B29_0A73
 B29_0A30:
-.word B29_0AD3
-.word -1
-.word B29_0A30
+.addr B29_0AD3
+.addr -1
+.addr B29_0A30
 
 mus_approaching_mt_itoi_noise:
-.word B29_0A8B
+.addr B29_0A8B
 B29_0A38:
-.word B29_0AF5
-.word -1
-.word B29_0A38
+.addr B29_0AF5
+.addr -1
+.addr B29_0A38
 
 B29_0A3E:
 .byte $9F,$00,$F2
@@ -5947,31 +5935,31 @@ B29_0AF5:
 
 ;song ? - fallin' love
 mus_fallin_love_pulse1:
-.word B29_0B66
-.word B29_0B6E
-.word B29_0B6A
-.word B29_0B6E
-.word B29_0B50
-.word -1
-.word mus_fallin_love_pulse1
+.addr B29_0B66
+.addr B29_0B6E
+.addr B29_0B6A
+.addr B29_0B6E
+.addr B29_0B50
+.addr -1
+.addr mus_fallin_love_pulse1
 
 mus_fallin_love_pulse2:
-.word B29_0B42
+.addr B29_0B42
 B29_0B2E:
-.word B29_0B46
-.word B29_0B7D
-.word -1
-.word B29_0B2E
+.addr B29_0B46
+.addr B29_0B7D
+.addr -1
+.addr B29_0B2E
 
 mus_fallin_love_triangle:
-.word B29_0BB5
-.word -1
-.word mus_fallin_love_triangle
+.addr B29_0BB5
+.addr -1
+.addr mus_fallin_love_triangle
 
 mus_fallin_love_noise:
-.word B29_0BC4
-.word -1
-.word mus_fallin_love_noise
+.addr B29_0BC4
+.addr -1
+.addr mus_fallin_love_noise
 
 
 B29_0B42:
@@ -6051,35 +6039,35 @@ B29_0BC4:
 
 ;song ? - ?
 B29_0BE0:
-.word B29_0C77
-.word B29_0C7F
-.word B29_0C7F
-.word B29_0C91
-.word B29_0CEC
-.word B29_0C23
-.word -1
-.word B29_0BE0
+.addr B29_0C77
+.addr B29_0C7F
+.addr B29_0C7F
+.addr B29_0C91
+.addr B29_0CEC
+.addr B29_0C23
+.addr -1
+.addr B29_0BE0
 
 B29_0BF0:
-.word B29_0CB3
-.word B29_0CBB
-.word B29_0CBB
-.word B29_0CCD
-.word B29_0C0E
-.word -1
-.word B29_0BF0
+.addr B29_0CB3
+.addr B29_0CBB
+.addr B29_0CBB
+.addr B29_0CCD
+.addr B29_0C0E
+.addr -1
+.addr B29_0BF0
 
 B29_0BFE:
-.word B29_0D9C
-.word B29_0C3E
-.word -1
-.word B29_0BFE
+.addr B29_0D9C
+.addr B29_0C3E
+.addr -1
+.addr B29_0BFE
 
 B29_0C06:
-.word B29_0DE6
-.word B29_0C5B
-.word -1
-.word B29_0C06
+.addr B29_0DE6
+.addr B29_0C5B
+.addr -1
+.addr B29_0C06
 
 B29_0C0E:
 .byte $9F,$04,$13
@@ -6337,24 +6325,24 @@ B29_0E06:
 
 ;song ? - ?
 B29_0E6C:
-.word B29_0E94
+.addr B29_0E94
 B29_0E6E:
-.word B28_135a
-.word B28_1365
-.word B28_1370
-.word B28_137c
-.word B28_1388
-.word B28_1391
-.word B28_139e
-.word B28_13aa
-.word B29_0E8A
-.word -1
-.word B29_0E6E
+.addr B28_135a
+.addr B28_1365
+.addr B28_1370
+.addr B28_137c
+.addr B28_1388
+.addr B28_1391
+.addr B28_139e
+.addr B28_13aa
+.addr B29_0E8A
+.addr -1
+.addr B29_0E6E
 
 B29_0E84:
-.word B29_0E8E
-.word -1
-.word B29_0E6E
+.addr B29_0E8E
+.addr -1
+.addr B29_0E6E
 
 B29_0E8A:
 .byte $9F,$A9,$F3
@@ -6374,14 +6362,14 @@ B29_0E94:
 
 ;song ? - ?
 B29_0E98:
-.word B29_0EA0
-.word 0
+.addr B29_0EA0
+.addr 0
 
 B29_0E9C:
-.word B29_0EAD
+.addr B29_0EAD
 
 B29_0E9E:
-.word B29_0EB9
+.addr B29_0EB9
 
 B29_0EA0:
 .byte $9F,$A9,$B3
@@ -6410,26 +6398,26 @@ B29_0EB9:
 
 ;song ? - ?
 B29_0EC7:
-.word B29_1069
-.word B29_0EE1
+.addr B29_1069
+.addr B29_0EE1
 B29_0ECB:
-.word B29_0EEC
-.word -1
-.word B29_0ECB
+.addr B29_0EEC
+.addr -1
+.addr B29_0ECB
 
 B29_0ED1:
-.word B29_107B
+.addr B29_107B
 B29_0ED3:
-.word B29_0EE9
-.word -1
-.word B29_0ED3
+.addr B29_0EE9
+.addr -1
+.addr B29_0ED3
 
 B29_0ED9:
-.word B29_108F
+.addr B29_108F
 B29_0EDB:
-.word B29_0EF8
-.word -1
-.word B29_0EDB
+.addr B29_0EF8
+.addr -1
+.addr B29_0EDB
 
 B29_0EE1:
 .byte $9F,$0E,$F1
@@ -6455,19 +6443,19 @@ B29_0EF8:
 
 ;song ? - ?
 B29_0EFB:
-.word B29_0F0D
-.word -1
-.word B29_0EFB
+.addr B29_0F0D
+.addr -1
+.addr B29_0EFB
 
 B29_0F01:
-.word B29_0F69
-.word -1
-.word B29_0F01
+.addr B29_0F69
+.addr -1
+.addr B29_0F01
 
 B29_0F07:
-.word B29_0FCA
-.word -1
-.word B29_0F07
+.addr B29_0FCA
+.addr -1
+.addr B29_0F07
 
 B29_0F0D:
 .byte $9F,$29,$B3
@@ -6506,33 +6494,33 @@ B29_0FCA:
 
 ;song ? - ?
 B29_1992:
-.word B29_19B8
-.word -1
-.word B29_1992
+.addr B29_19B8
+.addr -1
+.addr B29_1992
 
 B29_1998:
-.word B29_19F8
-.word -1
-.word B29_1998
+.addr B29_19F8
+.addr -1
+.addr B29_1998
 
 B29_199E:
-.word B29_1A43
-.word B29_1A73
-.word B29_1A73
-.word B29_1AE3
-.word B29_1B00
-.word B29_1AE3
-.word B29_1B0A
-.word -1
-.word B29_199E
+.addr B29_1A43
+.addr B29_1A73
+.addr B29_1A73
+.addr B29_1AE3
+.addr B29_1B00
+.addr B29_1AE3
+.addr B29_1B0A
+.addr -1
+.addr B29_199E
 
 B29_19B0:
-.word B29_1A82
+.addr B29_1A82
 .ifndef VER_JP
-.word B29_1AA6
+.addr B29_1AA6
 .endif
-.word -1
-.word B29_19B0
+.addr -1
+.addr B29_19B0
 
 B29_19B8:
 .byte $9F,$04,$13
@@ -6611,17 +6599,17 @@ B29_1B0A:
 
 ;song ? - ?
 B29_0FF7:
-.word B29_1007
-.word B28_1D42
-.word -1
-.word B29_0FF7
+.addr B29_1007
+.addr B28_1D42
+.addr -1
+.addr B29_0FF7
 
 B29_0FFF:
-.word B29_100B
+.addr B29_100B
 B29_1001:
-.word B28_1D42
-.word -1
-.word B29_1001
+.addr B28_1D42
+.addr -1
+.addr B29_1001
 
 
 B29_1007:
@@ -6638,21 +6626,21 @@ B29_100B:
 
 ;song ? - ?
 B29_1012:
-.word B29_1026
-.word B29_102F
-.word -1
-.word B29_101C
+.addr B29_1026
+.addr B29_102F
+.addr -1
+.addr B29_101C
 
 B29_101A:
-.word B29_102C
+.addr B29_102C
 B29_101C:
-.word B29_1039
-.word -1
-.word B29_101C
+.addr B29_1039
+.addr -1
+.addr B29_101C
 
 B29_1022:
-.word B29_1049
-.word 0
+.addr B29_1049
+.addr 0
 
 B29_1026:
 .byte $9F,$00,$B1
@@ -6683,14 +6671,14 @@ B29_1049:
 
 ;song ? - ?
 B29_1061:
-.word B29_1069
-.word 0
+.addr B29_1069
+.addr 0
 
 B29_1065:
-.word B29_107B
+.addr B29_107B
 
 B29_1067:
-.word B29_108F
+.addr B29_108F
 
 B29_1069:
 .byte $9F,$AD,$B1
@@ -6717,30 +6705,30 @@ B29_108F:
 
 ;song ? - ?
 B29_109E:
-.word B29_10C2
-.word -1
-.word B29_109E
+.addr B29_10C2
+.addr -1
+.addr B29_109E
 
 B29_10A4:
-.word B29_10DE
-.word B29_10DE
-.word B29_10F4
-.word B29_10DE
-.word -1
-.word B29_10A4
+.addr B29_10DE
+.addr B29_10DE
+.addr B29_10F4
+.addr B29_10DE
+.addr -1
+.addr B29_10A4
 
 B29_10B0:
-.word B29_1107
-.word B29_1107
-.word B29_111B
-.word B29_1107
-.word -1
-.word B29_10B0
+.addr B29_1107
+.addr B29_1107
+.addr B29_111B
+.addr B29_1107
+.addr -1
+.addr B29_10B0
 
 B29_10BC:
-.word B29_112C
-.word -1
-.word B29_10BC
+.addr B29_112C
+.addr -1
+.addr B29_10BC
 
 B29_10C2:
 .byte $9F,$13,$31
@@ -6779,42 +6767,42 @@ B29_112C:
 
 ;song ? - ?
 B29_113C:
-.word B29_11DF
-.word B29_11F3
-.word B29_11F3
-.word B29_1238
-.word B29_1243
-.word B29_1243
-.word B29_1243
-.word B29_1268
-.word B29_11F3
-.word B29_1238
-.word B29_1178
+.addr B29_11DF
+.addr B29_11F3
+.addr B29_11F3
+.addr B29_1238
+.addr B29_1243
+.addr B29_1243
+.addr B29_1243
+.addr B29_1268
+.addr B29_11F3
+.addr B29_1238
+.addr B29_1178
 
 B29_1152:
-.word B29_11C8
-.word B29_1295
-.word B29_12CF
-.word B29_1295
-.word B29_12D2
-.word B29_1295
-.word B29_118C
-.word 0
+.addr B29_11C8
+.addr B29_1295
+.addr B29_12CF
+.addr B29_1295
+.addr B29_12D2
+.addr B29_1295
+.addr B29_118C
+.addr 0
 
 B29_1162:
-.word B29_11EB
-.word B29_1340
-.word B29_1340
-.word B29_135D
-.word B29_1360
-.word B29_1360
-.word B29_136D
-.word B29_1340
-.word B29_11B5
+.addr B29_11EB
+.addr B29_1340
+.addr B29_1340
+.addr B29_135D
+.addr B29_1360
+.addr B29_1360
+.addr B29_136D
+.addr B29_1340
+.addr B29_11B5
 
 B29_1174:
-.word B29_1384
-.word B29_13AB
+.addr B29_1384
+.addr B29_13AB
 
 B29_1178:
 .byte $9F,$A4,$33
@@ -6966,14 +6954,14 @@ B29_1400:
 
 ;song ? - ?
 B29_1438:
-.word B29_144C
-.word 0
+.addr B29_144C
+.addr 0
 
 B29_143C:
-.word B29_1440
+.addr B29_1440
 
 B29_143E:
-.word B29_1459
+.addr B29_1459
 
 B29_1440:
 .byte $9F,$A2,$B4
@@ -6990,14 +6978,14 @@ B29_1459:
 
 ;song ? - ?
 B29_1461:
-.word B29_146D
-.word -1
-.word B29_1461
+.addr B29_146D
+.addr -1
+.addr B29_1461
 
 B29_1467:
-.word B29_1473
-.word -1
-.word B29_1467
+.addr B29_1473
+.addr -1
+.addr B29_1467
 
 B29_146D:
 .byte $9F,$37,$F1
@@ -7014,14 +7002,14 @@ B29_1473:
 
 ;song ? - ?
 B29_1479:
-.word B29_1485
-.word -1
-.word B29_1479
+.addr B29_1485
+.addr -1
+.addr B29_1479
 
 B29_147F:
-.word B29_148D
-.word -1
-.word B29_147F
+.addr B29_148D
+.addr -1
+.addr B29_147F
 
 B29_1485:
 .byte $9F,$37,$B2
@@ -7038,9 +7026,9 @@ B29_148D:
 
 ;song ? - ?
 B29_1495:
-.word B29_149B
-.word -1
-.word B29_1495
+.addr B29_149B
+.addr -1
+.addr B29_1495
 
 B29_149B:
 .byte $9F,$1A,$F4
@@ -7053,24 +7041,24 @@ B29_149B:
 
 ;song ? - ?
 B29_14A3:
-.word B29_14BB
-.word -1
-.word B29_14A3
+.addr B29_14BB
+.addr -1
+.addr B29_14A3
 
 B29_14A9:
-.word B29_14E7
-.word -1
-.word B29_14A9
+.addr B29_14E7
+.addr -1
+.addr B29_14A9
 
 B29_14AF:
-.word B29_151C
-.word -1
-.word B29_14AF
+.addr B29_151C
+.addr -1
+.addr B29_14AF
 
 B29_14B5:
-.word B29_154C
-.word -1
-.word B29_14B5
+.addr B29_154C
+.addr -1
+.addr B29_14B5
 
 B29_14BB:
 .byte $9F,$32,$F1
@@ -7107,16 +7095,16 @@ B29_154C:
 
 ;song ? - ?
 B29_1556:
-.word B29_1564
+.addr B29_1564
 B29_163E:
-.word B29_156D
-.word -1
-.word B29_163E
+.addr B29_156D
+.addr -1
+.addr B29_163E
 
 B29_155E:
-.word B29_156A
-.word -1
-.word B29_155E
+.addr B29_156A
+.addr -1
+.addr B29_155E
 
 
 B29_1564:
@@ -7135,28 +7123,28 @@ B29_156D:
 
 ;song ? - ?
 B29_1580:
-.word B29_159C
+.addr B29_159C
 B29_1582:
-.word B29_159F
-.word -1
-.word B29_1582
+.addr B29_159F
+.addr -1
+.addr B29_1582
 
 B29_1588:
-.word B29_15A3
+.addr B29_15A3
 B29_158A:
-.word B29_15A6
-.word -1
-.word B29_158A
+.addr B29_15A6
+.addr -1
+.addr B29_158A
 
 B29_1590:
-.word B29_15AA
-.word -1
-.word B29_1590
+.addr B29_15AA
+.addr -1
+.addr B29_1590
 
 B29_1596:
-.word B29_15BC
-.word -1
-.word B29_1596
+.addr B29_15BC
+.addr -1
+.addr B29_1596
 
 
 
@@ -7292,48 +7280,48 @@ B29_17E7:
 
 ;song ? - ?
 B29_1817:
-.word B29_1605
-.word B29_1855
-.word B29_15CB
-.word B29_1693
+.addr B29_1605
+.addr B29_1855
+.addr B29_15CB
+.addr B29_1693
 B29_181F:
-.word B29_1605
-.word -1
-.word B29_181F
+.addr B29_1605
+.addr -1
+.addr B29_181F
 
 
 B29_1825:
-.word B29_1644
-.word B29_1896
-.word B29_15E1
-.word B29_16E6
-.word B29_172C
-.word B29_178A
-.word B29_1602
+.addr B29_1644
+.addr B29_1896
+.addr B29_15E1
+.addr B29_16E6
+.addr B29_172C
+.addr B29_178A
+.addr B29_1602
 B29_1833:
-.word B29_1644
-.word -1
-.word B29_1833
+.addr B29_1644
+.addr -1
+.addr B29_1833
 
 B29_1839:
-.word B29_1689
-.word B29_1964
-.word B29_15F8
-.word B29_17A0
+.addr B29_1689
+.addr B29_1964
+.addr B29_15F8
+.addr B29_17A0
 B29_1841:
-.word B29_1689
-.word -1
-.word B29_1841
+.addr B29_1689
+.addr -1
+.addr B29_1841
 
 B29_1847:
-.word B29_168E
-.word B29_1988
-.word B29_15FD
-.word B29_17E7
+.addr B29_168E
+.addr B29_1988
+.addr B29_15FD
+.addr B29_17E7
 B29_184F:
-.word B29_168E
-.word -1
-.word B29_184F
+.addr B29_168E
+.addr -1
+.addr B29_184F
 
 B29_1855:
 .byte $9F,$10,$B1
@@ -7384,31 +7372,31 @@ B29_1988:
 
 ;song ? - ?
 B29_1992:
-.word B29_19B8
-.word -1
-.word B29_1992
+.addr B29_19B8
+.addr -1
+.addr B29_1992
 
 B29_1998:
-.word B29_19F8
-.word -1
-.word B29_1998
+.addr B29_19F8
+.addr -1
+.addr B29_1998
 
 B29_199E:
-.word B29_1A43
-.word B29_1A73
-.word B29_1A73
-.word B29_1AE3
-.word B29_1B00
-.word B29_1AE3
-.word B29_1B0A
-.word -1
-.word B29_199E
+.addr B29_1A43
+.addr B29_1A73
+.addr B29_1A73
+.addr B29_1AE3
+.addr B29_1B00
+.addr B29_1AE3
+.addr B29_1B0A
+.addr -1
+.addr B29_199E
 
 B29_19B0:
-.word B29_1A82
-.word B29_1AA6
-.word -1
-.word B29_19B0
+.addr B29_1A82
+.addr B29_1AA6
+.addr -1
+.addr B29_19B0
 
 B29_19B8:
 .byte $9F,$04,$13
@@ -7482,24 +7470,24 @@ B29_1B0A:
 
 ;song ? - mother earth
 B29_1B23:
-.word B29_1B3B
-.word -1
-.word B29_1B23
+.addr B29_1B3B
+.addr -1
+.addr B29_1B23
 
 B29_1B29:
-.word B29_1B92
-.word -1
-.word B29_1B29
+.addr B29_1B92
+.addr -1
+.addr B29_1B29
 
 B29_1B2F:
-.word B29_1C0D
-.word -1
-.word B29_1B2F
+.addr B29_1C0D
+.addr -1
+.addr B29_1B2F
 
 B29_1B35:
-.word B29_1C3F
-.word -1
-.word B29_1B35
+.addr B29_1C3F
+.addr -1
+.addr B29_1B35
 
 
 B29_1B3B:
@@ -7544,46 +7532,46 @@ B29_1C3F:
 
 ;song ? - ?
 B29_1C45:
-.word B29_1C81
+.addr B29_1C81
 B29_1C47:
-.word B29_1D2A
-.word B29_1D2A
-.word B29_1D3E
-.word B29_1D2A
-.word B29_1D2A
-.word B29_1D3E
-.word B29_1D51
-.word -1
-.word B29_1C47
+.addr B29_1D2A
+.addr B29_1D2A
+.addr B29_1D3E
+.addr B29_1D2A
+.addr B29_1D2A
+.addr B29_1D3E
+.addr B29_1D51
+.addr -1
+.addr B29_1C47
 
 B29_1C59:
-.word B29_1CAE
+.addr B29_1CAE
 B29_1C5B:
-.word B29_1D9B
-.word B29_1D9B
-.word B29_1DF9
-.word -1
-.word B29_1C5B
+.addr B29_1D9B
+.addr B29_1D9B
+.addr B29_1DF9
+.addr -1
+.addr B29_1C5B
 
 B29_1C65:
-.word B29_1CCF
+.addr B29_1CCF
 B29_1C67:
-.word B29_1E43
-.word B29_1E43
-.word B29_1E51
-.word B29_1E43
-.word B29_1E43
-.word B29_1E51
-.word B29_1E5B
-.word -1
-.word B29_1C67
+.addr B29_1E43
+.addr B29_1E43
+.addr B29_1E51
+.addr B29_1E43
+.addr B29_1E43
+.addr B29_1E51
+.addr B29_1E5B
+.addr -1
+.addr B29_1C67
 
 B29_1C79:
-.word B29_1CFC
+.addr B29_1CFC
 B29_1C7B:
-.word B29_1E7C
-.word -1
-.word B29_1C7B
+.addr B29_1E7C
+.addr -1
+.addr B29_1C7B
 
 
 B29_1C81:

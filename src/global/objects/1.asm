@@ -1,37 +1,36 @@
-.include "include.asm"
 .segment        "PRG10": absolute
 
 OBJ_BANK_POINTERS1:
-.word OBJ_BANK_0
-.word OBJ_BANK_1
-.word OBJ_BANK_2
-.word OBJ_BANK_3
-.word OBJ_BANK_4
-.word OBJ_BANK_5
-.word OBJ_BANK_6
-.word OBJ_BANK_7
-.word OBJ_BANK_8
-.word OBJ_BANK_9
-.word OBJ_BANK_A
-.word OBJ_BANK_B
-.word OBJ_BANK_C
-.word OBJ_BANK_D
-.word OBJ_BANK_E
-.word OBJ_BANK_F
-.word OBJ_BANK_10
-.word OBJ_BANK_11
-.word OBJ_BANK_12
-.word OBJ_BANK_13
-.word OBJ_BANK_14
-.word OBJ_BANK_15
-.word OBJ_BANK_16
-.word OBJ_BANK_17
-.word OBJ_BANK_18
-.word OBJ_BANK_19
+.addr OBJ_BANK_0
+.addr OBJ_BANK_1
+.addr OBJ_BANK_2
+.addr OBJ_BANK_3
+.addr OBJ_BANK_4
+.addr OBJ_BANK_5
+.addr OBJ_BANK_6
+.addr OBJ_BANK_7
+.addr OBJ_BANK_8
+.addr OBJ_BANK_9
+.addr OBJ_BANK_A
+.addr OBJ_BANK_B
+.addr OBJ_BANK_C
+.addr OBJ_BANK_D
+.addr OBJ_BANK_E
+.addr OBJ_BANK_F
+.addr OBJ_BANK_10
+.addr OBJ_BANK_11
+.addr OBJ_BANK_12
+.addr OBJ_BANK_13
+.addr OBJ_BANK_14
+.addr OBJ_BANK_15
+.addr OBJ_BANK_16
+.addr OBJ_BANK_17
+.addr OBJ_BANK_18
+.addr OBJ_BANK_19
 
 OBJ_BANK_0:
-.word 0
-.word 0
+.addr 0
+.addr 0
 ;special 1
 .include "1/bank1.asm"
 ;podunk generic
@@ -73,7 +72,7 @@ OBJ_BANK_0:
 ;yucca generic
 .include "1/bank14.asm"
 OBJ_BANK_15:
-.word 0
+.addr 0
 ;ellay special
 .include "1/bank16.asm"
 ;hosptial generic

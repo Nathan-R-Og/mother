@@ -111,20 +111,20 @@ CHECK_LASTSTARMAN:
 
 .byte   stopText
 
-BSG_UNK:
+MSG_B_UNK:
 .byte   unk,unk3,unk2,unk3
 .byte   stopText
 
-BSG_APPROACH:
+MSG_B_APPROACH:
 .byte   attacker,newLine
 .byte   "draws near!"
 .byte   stopText
 
-BSG_ATTACK:
+MSG_B_ATTACK:
 .byte   attacker,"'s attack!"
 .byte   stopText
 
-BSG_TANKGUN:
+MSG_B_TANKGUN:
 .byte   attacker," fired the",newLine
 .byte   "tank gun!"
 .byte   stopText
@@ -247,7 +247,7 @@ BSG_TANKGUN:
 .byte   "meditating."
 .byte   stopText
 
-BSG_GROUCHOFUNNY:
+MSG_B_GROUCHOFUNNY:
 .byte   attacker," said",newLine
 .byte   '"Hello", then just',newLine
 .byte   "walked away."
@@ -487,7 +487,7 @@ BSG_GROUCHOFUNNY:
 .byte   " swiftly."
 .byte   stopText
 
-BSG_SMAAAAASH:
+MSG_B_SMAAAAASH:
 .byte   "  ",SMAAAAASH
 .byte   stopText
 
@@ -576,7 +576,7 @@ BSG_SMAAAAASH:
 .byte   " decreased by ",damageAmount,"."
 .byte   stopText
 
-BSG_GROUCHOFUNNY2:
+MSG_B_GROUCHOFUNNY2:
 .byte   " Don't know why, but",newLine
 .byte   " ",beingAttacked,"'s EXP",newLine
 .byte   " increased."
@@ -833,4 +833,9 @@ MSG_GIEGUE_CHECK_REAL:
 .byte   "with all your",newLine
 .byte   "heart.",newLine
 .byte   pauseText,waitThenOverwrite
+
+MSG_B_NULL:
+MSG_B_NULL_2:
+MSG_B_NULL_3:
+MSG_B_NULL_4:
 .byte   stopText
