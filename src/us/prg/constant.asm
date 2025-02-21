@@ -8433,14 +8433,14 @@ B31_1614:
     @B31_1630:
     jsr PpuSync
     ldy $66
-    lda battlers, y
+    lda BATTLER, y
     beq @B31_1660
-    lda battlers+ALLY_ID, y
+    lda BATTLER_PLAYER_ID, y
     and #$06
     eor #$06
     beq @B31_1660
     ldx #$02
-    lda battlers+AILMENTS, y
+    lda BATTLER_STATUS, y
     and #$80
     bne @B31_1655
     ldx #$01
@@ -8470,13 +8470,13 @@ B31_1614:
 B31_1673:
     tya
     pha
-    lda battlers+DATA_POINTER, y
+    lda BATTLER_FULLDATA_PTR, y
     sta $60
-    lda battlers+DATA_POINTER+1, y
+    lda BATTLER_FULLDATA_PTR+1, y
     sta $61
-    lda battlers+HP, y
+    lda BATTLER_CURR_HP, y
     sta $64
-    lda battlers+HP+1, y
+    lda BATTLER_CURR_HP+1, y
     sta $65
     ldy #$03
     lda ($60), y

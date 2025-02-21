@@ -1,4 +1,5 @@
 #!/bin/bash
+rm -rf mother_rebuilt.nes
 python3 build.py "$@"
 rm -rf example.o
 rm -rf mother_rebuilt.nes.deb

@@ -856,16 +856,16 @@ B25_07bb:
 DepleteAttackerPP:
     ldy attacker_offset
     sec
-    lda battlers+PP, y
+    lda BATTLER_CURR_PP, y
     sbc $4e
-    sta battlers+PP, y
-    lda battlers+PP+1, y
+    sta BATTLER_CURR_PP, y
+    lda BATTLER_CURR_PP+1, y
     sbc $4f
-    sta battlers+PP+1, y
+    sta BATTLER_CURR_PP+1, y
     bcs B25_0819
     lda #$00
-    sta battlers+PP, y
-    sta battlers+PP+1, y
+    sta BATTLER_CURR_PP, y
+    sta BATTLER_CURR_PP+1, y
     B25_0819:
     rts
 

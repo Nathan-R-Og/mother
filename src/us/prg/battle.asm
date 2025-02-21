@@ -1,7 +1,10 @@
-; import constant bank
+wordvar0590 = $0590
+
+
+
 
 PlayBattleSFX       = $f41f
-WaitABPressed       = $f29e
+;WaitABPressed       = $f29e
 
 ; used in Turn Order sorting to randomize speed (theorized effect)
 ; should be +-25%
@@ -13,27 +16,27 @@ SetBGColorBlack     = $f4b6
 SetBGColorA         = $f4b8
 
 ; super common unknown funcs
-B31_14ce            = $f4ce
-B31_15e5            = $f5e5
+;B31_14ce
+;B31_15e5
 ; uncommon funcs (2~4 hits)
-B31_0f34            = $ef34
-B31_0f3f            = $ef3f
-B31_126b            = $f26b
-B31_12ed            = $f2ed
+;B31_0f34
+;B31_0f3f
+;B31_126b
+;B31_12ed
+;B31_1673
 
-B31_1673            = $f673
 ; 1-call funcs
-B30_06db            = $e6db
-B30_07af            = $e7af
-B30_07c1            = $e7c1     ; used by displaytext
-B31_0cfc            = $ecfc
-B31_0cff            = $ecff
-B31_113d            = $f13d
-B31_15c2            = $f5c2
-B31_174c            = $f74c
-B31_1759            = $f759
-B31_1760            = $f760
-B31_1765            = $f765
+;B30_06db
+;B30_07af
+;B30_07c1 ; used by displaytext
+;B31_0cfc
+;B31_0cff
+;B31_113d
+;B31_15c2
+;B31_174c
+;B31_1759
+;B31_1760
+;B31_1765
 
 ; import table ids
 ; battle action ids
@@ -174,25 +177,25 @@ ENEMY3_OFFSET       = BATTLER_DATASIZE * 6
 ENEMY4_OFFSET       = BATTLER_DATASIZE * 7
 
 BATTLER_STATUS              = BATTLER + $1
-    UNCON           = $80
-    PETRIFICATION   = $40
-    PARALYSIS       = $20
-    SLEEP           = $10
-    CONFUSE         = $08
-    PUZZLE          = $04
-    POISON          = $02
-    COLD            = $01
-    NO_STATUS       = $00
+    UNCON           = %10000000
+    PETRIFICATION   = %01000000
+    PARALYSIS       = %00100000
+    SLEEP           = %00010000
+    CONFUSE         = %00001000
+    PUZZLE          = %00000100
+    POISON          = %00000010
+    COLD            = %00000001
+    NO_STATUS       = 0
 
 BATTLER_RESISTANCES         = BATTLER + $2
-    IMMUNITY    = $80       ; Immune to status, off/def lowering, and PK Beam Gamma
-    FIRE        = $40
-    ICE         = $20
-    ELECTRIC    = $10
-    ; unused    = $08
-    MENTAL      = $04       ; Also resists Def.Down
-    LIGHT       = $02
-    INSECT      = $01       ; not a resistance: if set, dies to Bug Sprays
+    IMMUNITY    = %10000000 ; Immune to status, off/def lowering, and PK Beam Gamma
+    FIRE        = %01000000
+    ICE         = %00100000
+    ELECTRIC    = %00010000
+    ; unused    = %00001000
+    MENTAL      = %00000100 ; Also resists Def.Down
+    LIGHT       = %00000010
+    INSECT      = %00000001 ; not a resistance: if set, dies to Bug Sprays
 
 BATTLER_CURR_HP             = BATTLER + $3
 BATTLER_CURR_PP             = BATTLER + $5
@@ -257,84 +260,84 @@ BATTLER_TARGET              = BATTLER + $1C
 BATTLER_ACTION_ID           = BATTLER + $1D
 ; Minor Status
 BATTLER_MINOR_STATUS        = BATTLER + $1E
-    BLIND       = $80
-    BLOCK       = $40
-    BIND        = $20
-    SHIELD      = $10
-    GUARD       = $08
-    BARRIER     = $04
-    ASTHMA      = $02
-    CALLABLE    = $01
+    BLIND       = %10000000
+    BLOCK       = %01000000
+    BIND        = %00100000
+    SHIELD      = %00010000
+    GUARD       = %00001000
+    BARRIER     = %00000100
+    ASTHMA      = %00000010
+    CALLABLE    = %00000001
 
 ; $1F goes unused
 
 ; Battle Instruction lut
 ; sound effects
-    SFX_Nothing         = $00
-    SFX_PlayerAttack    = $01
-    SFX_Hit             = $02
-    SFX_Crit            = $03
-    SFX_Thunder         = $04
-    SFX_Fire            = $05
-    SFX_Beam            = $06
-    SFX_Freeze          = $07
-    SFX_Bomb            = $08
-    SFX_StatBoost       = $09
-    SFX_Recovery        = $0a
-    SFX_Dodge           = $0b
-    SFX_DimensionSlip   = $0c
-    SFX_StatusDelay     = $0d
-    SFX_MenuBloop       = $0e
-    SFX_EnemyAttack     = $0f
-    SFX_TakeDamage      = $10
-    SFX_Run             = $11
-    SFX_Status          = $12
-    SFX_BlindMiss       = $13
-    SFX_GiegueAttack    = $14
-    SFX_Unconned        = $15
+SFX_Nothing         = $00
+SFX_PlayerAttack    = $01
+SFX_Hit             = $02
+SFX_Crit            = $03
+SFX_Thunder         = $04
+SFX_Fire            = $05
+SFX_Beam            = $06
+SFX_Freeze          = $07
+SFX_Bomb            = $08
+SFX_StatBoost       = $09
+SFX_Recovery        = $0a
+SFX_Dodge           = $0b
+SFX_DimensionSlip   = $0c
+SFX_StatusDelay     = $0d
+SFX_MenuBloop       = $0e
+SFX_EnemyAttack     = $0f
+SFX_TakeDamage      = $10
+SFX_Run             = $11
+SFX_Status          = $12
+SFX_BlindMiss       = $13
+SFX_GiegueAttack    = $14
+SFX_Unconned        = $15
 
 ; direct sfx (put into soundqueues)
 ; $0 : noise
 ; this is the only one directly used by battle engine bank
-    Noise_Hit                   = $1
-    Noise_Bomb                  = $2
-    Noise_Thunder               = $3
-    Noise_Fire                  = $4
-    Noise_Crit                  = $5
-    Noise_EnemyKilled           = $6
-    ; $7 not used (plays junk data)
-    Noise_Stairs                = $8
-    Noise_Rocket                = $9
-    Noise_RocketLand            = $A
+Noise_Hit                   = $1
+Noise_Bomb                  = $2
+Noise_Thunder               = $3
+Noise_Fire                  = $4
+Noise_Crit                  = $5
+Noise_EnemyKilled           = $6
+; $7 not used (plays junk data)
+Noise_Stairs                = $8
+Noise_Rocket                = $9
+Noise_RocketLand            = $A
 ; $1 : pulses group 0
-    PulseG0_EnemyAttack         = $1
-    PulseG0_Beam                = $2
-    PulseG0_StatBoost           = $3
-    PulseG0_TakeDamage          = $4
-    PulseG0_MenuBloop           = $5
-    PulseG0_ItemDropGet         = $6
-    PulseG0_Recovery            = $7
-    PulseG0_Canary              = $8
-    PulseG0_LearnedPSI          = $9
-    PulseG0_PlayerAttack        = $a
-    PulseG0_Purchase            = $b
-    PulseG0_Dodge               = $c
-    ; PulseG0_LowMenuBloop  = $e (unused)
-    ; PulseG0_HighMenuBloop = $f (unused)
-    PulseG0_Miss                = $f
-    PulseG0_MagicantWarp        = $10
-    PulseG0_Laura               = $11   ; plays canary then swaps track to 2nd melody (doesnt change track back)
-    PulseG0_XXStone             = $12
+PulseG0_EnemyAttack         = $1
+PulseG0_Beam                = $2
+PulseG0_StatBoost           = $3
+PulseG0_TakeDamage          = $4
+PulseG0_MenuBloop           = $5
+PulseG0_ItemDropGet         = $6
+PulseG0_Recovery            = $7
+PulseG0_Canary              = $8
+PulseG0_LearnedPSI          = $9
+PulseG0_PlayerAttack        = $a
+PulseG0_Purchase            = $b
+PulseG0_Dodge               = $c
+; PulseG0_LowMenuBloop  = $e (unused)
+; PulseG0_HighMenuBloop = $f (unused)
+PulseG0_Miss                = $f
+PulseG0_MagicantWarp        = $10
+PulseG0_Laura               = $11   ; plays canary then swaps track to 2nd melody (doesnt change track back)
+PulseG0_XXStone             = $12
 ; $2 : unused
 ; $3 : triangle
-    Triangle_Freeze             = $1    ; also used for teleport
-    ; $2 plays junk
-    Triangle_PlayerKilled       = $3
-    Triangle_Equipped           = $4
+Triangle_Freeze             = $1    ; also used for teleport
+; $2 plays junk
+Triangle_PlayerKilled       = $3
+Triangle_Equipped           = $4
 ; $4 pulse group 1
-    PulseG1_DimensionSlip       = $1    ; also used for teleport
-    PulseG1_Status              = $2
-    PulseG1_GiegueAttack        = $3
+PulseG1_DimensionSlip       = $1    ; also used for teleport
+PulseG1_Status              = $2
+PulseG1_GiegueAttack        = $3
 ; $5 : track (not listed here)
 
 
@@ -375,7 +378,7 @@ BattleMain:
     jsr InitializePlayerBattler
     clc
     lda attacker_offset
-    adc BATTLER_DATASIZE
+    adc #BATTLER_DATASIZE
     sta attacker_offset
 @JMPSkipInitialize:
     pla
@@ -385,7 +388,7 @@ BattleMain:
     bne @InitPlayerBattler
 ; init enemies
     jsr GetEnemyGroupPointer
-    lda BATTLER_DATASIZE * 4
+    lda #BATTLER_DATASIZE * 4
     sta attacker_offset
     ldy #$00
 @EnemyInitStart:
@@ -403,7 +406,7 @@ BattleMain:
     jsr B23_022d
 :   clc
     lda attacker_offset
-    adc BATTLER_DATASIZE
+    adc #BATTLER_DATASIZE
     sta attacker_offset
     pla
     tay
@@ -460,7 +463,7 @@ BattleMain:
 :   inc turn_counter
     clc
     lda attacker_offset
-    adc BATTLER_DATASIZE
+    adc #BATTLER_DATASIZE
     sta attacker_offset
     bcc :--                     ; --
     ldy #$00
@@ -516,7 +519,7 @@ BattleMain:
     sta enemy_group
     ldx #$80
 :   txa                     ; --
-    pha 
+    pha
     ldy #$04
 :   lda BATTLER_CURR_HP+1, x
     and #$03
@@ -533,7 +536,7 @@ BattleMain:
     ldx #$00
 ; check teddy script
     lda battle_script
-    cmp BSCRIPT_TEDDY
+    cmp #BSCRIPT_TEDDY
     bne :+                              ; + skip if not
 ; effects
     ldx #$04                            ; turn counter is set to 4
@@ -552,7 +555,7 @@ BattleMain:
     ldy #$00                            ; set battle script to 0 (in vanilla, the grey robo fight becomes normal)
     sty battle_script
 :   lda BATTLER_MINOR_STATUS, y         ; give players barrier
-    ora BARRIER
+    ora #BARRIER
     sta BATTLER_MINOR_STATUS, y
     tya
     clc
@@ -561,7 +564,7 @@ BattleMain:
     bpl :-
 ; check giegue script
 :   lda battle_script
-    cmp BSCRIPT_GIEGUE_YAPPING
+    cmp #BSCRIPT_GIEGUE_YAPPING
     bne :+
 ; effects
     lda #$96
@@ -690,7 +693,7 @@ B23_022d:
     lda battle_wordvar60+1
     bpl B23_0285
     lda BATTLER_MINOR_STATUS, x
-    ora CALLABLE
+    ora #CALLABLE
     sta BATTLER_MINOR_STATUS, x
     ldy #$00
     B23_0285:
@@ -702,7 +705,7 @@ B23_022d:
 ; some battle init function
 B23_028a:
     lda BATTLER_MINOR_STATUS, x
-    and CALLABLE
+    and #CALLABLE
     beq B23_0296
     lda #$00
     sta BATTLER, x
@@ -907,7 +910,7 @@ ClearNametableAttribute:
 ; $A3F8
 DisplayText_battle:
     cmp #$00
-    beq @DisplayText_RTS
+    beq DisplayText_RTS
     pha
     jsr B23_04bb
     jsr BankswitchLower_Bank00_Preserve
@@ -933,7 +936,7 @@ DisplayText_battle:
     lda #$00
     adc #$05
     sta $73
-    bcc @PrintChar
+    bcc PrintChar
     B23_042d:
     ldy #$00
     sty battle_wordvar60+1
@@ -951,7 +954,7 @@ DisplayText_battle:
     iny
     lda (battle_wordvar60), y
     sta $73
-@PrintChar: ; assumed function
+    PrintChar: ; assumed function
     jsr GetTextData
     lda $74
     sta battle_bytevar50
@@ -968,11 +971,11 @@ DisplayText_battle:
     beq :+
     inc battle_bytevar52
     cmp #$00
-    bne @PrintChar
+    bne PrintChar
 :   jsr BankswitchLower_Bank22
     ldx battle_message_responsedelay
     jsr WaitXFrames
-@DisplayText_RTS:
+    DisplayText_RTS:
     rts
 
 ; undocumented / unclean
@@ -1081,15 +1084,15 @@ SubroutinePlayerTurnInput:
     lda #$00
     sta BATTLER_ACTION_ID, y
     lda BATTLER_MINOR_STATUS, y
-    and ~GUARD
+    and #~GUARD
     sta BATTLER_MINOR_STATUS, y
     lda BATTLER, y
     beq @PlayerTurnInput_INC                                    ; skip turn if BATTLER ID is 0
     lda BATTLER_STATUS, y                                       ; skip turn if battler has bad status
-    and UNCON | PETRIFICATION | PARALYSIS | SLEEP | PUZZLE
+    and #UNCON | PETRIFICATION | PARALYSIS | SLEEP | PUZZLE
     bne @PlayerTurnInput_INC
     lda BATTLER_MINOR_STATUS, y                                 ; ditto for minor status (being bound by rope)
-    and BIND
+    and #BIND
     bne @PlayerTurnInput_INC
     jsr @PromptPlayerTurnInput                                  ; prompt player for input
     bcs @PlayerTurnInput_MainLoop
@@ -1108,8 +1111,8 @@ SubroutinePlayerTurnInput:
     ldy attacker_offset
     bmi @InputTurnAsAI
     lda BATTLER_PLAYER_ID, y
-    and EVE
-    eor EVE                     ; check for Flying Man
+    and #EVE
+    eor #EVE                     ; check for Flying Man
     beq @InputTurnAsAI
     jsr OpenPlayerInputMainMenu
     bcs :++                     ; ++ branch to RTS
@@ -1123,9 +1126,9 @@ SubroutinePlayerTurnInput:
 @PlayerInputtedTurn:
     ldy attacker_offset
     lda BATTLER_ACTION_ID, y
-    cmp BA_ENEMY_GUARD
+    cmp #BA_ENEMY_GUARD
     beq @AddGuardingStatus
-    cmp BA_PLAYER_GUARD
+    cmp #BA_PLAYER_GUARD
     bne :+                      ; +
 @AddGuardingStatus:
     lda BATTLER_MINOR_STATUS, y
@@ -1142,21 +1145,21 @@ SubroutinePlayerTurnInput:
 
 AutoFightRoutine:
     ldy #$00
-@AutoFight_MainLoop
+@AutoFight_MainLoop:
     sty target_offset
     lda BATTLER, y
     beq @AutoFight_LoopINC
     lda BATTLER_PLAYER_ID, y
-    and EVE
-    eor EVE                     ; check for Flying Man
+    and #EVE
+    eor #EVE                     ; check for Flying Man
     beq @AutoFight_LoopINC
 ; Try to use Super Healing
     lda BATTLER_STATUS, y
     bmi @AutoSuperHealing_JMP
-@AutoFight_LoopINC
+@AutoFight_LoopINC:
     tya
     clc
-    adc BATTLER_DATASIZE
+    adc #BATTLER_DATASIZE
     tay
     bpl @AutoFight_MainLoop
     bmi B23_05a0
@@ -1172,8 +1175,8 @@ B23_05a2:
     lda BATTLER_STATUS, y
     bmi B23_05bc                    ; branch if unconned
     lda BATTLER_PLAYER_ID, y
-    and EVE
-    eor EVE
+    and #EVE
+    eor #EVE
     beq B23_05bc
     jsr B31_1673
     bcc B23_05c5
@@ -1240,15 +1243,15 @@ B23_05c5:
     rts
 
 AutoLifeup:
-    lda LIFEUP_GAMMA
+    lda #LIFEUP_GAMMA
     jsr TryAddingPSIBattleAction
     bcc AutoLifeup_Store
 
-    lda LIFEUP_BETA
+    lda #LIFEUP_BETA
     jsr TryAddingPSIBattleAction
     bcc AutoLifeup_Store
 
-    lda LIFEUP_ALPHA
+    lda #LIFEUP_ALPHA
     jsr TryAddingPSIBattleAction
     bcc AutoLifeup_Store
 
@@ -1274,28 +1277,28 @@ AutoHealing:
     ldy target_offset
     lda BATTLER_STATUS, y
     tax
-    and PARALYSIS
+    and #PARALYSIS
     bne @AutoHealingBeta
     txa
-    and SLEEP
+    and #SLEEP
     bne @AutoHealingPi
     txa
-    and PETRIFICATION
+    and #PETRIFICATION
     bne @AutoHealingGamma
     jmp @JMPAutoBash
 
 @AutoHealingBeta:
-    lda HEALING_BETA
+    lda #HEALING_BETA
     jsr TryAddingPSIBattleAction
     bcc @AutoHealing_Store
 
 @AutoHealingPi:
-    lda HEALING_PI
+    lda #HEALING_PI
     jsr TryAddingPSIBattleAction
     bcc @AutoHealing_Store
 
 @AutoHealingGamma:
-    lda HEALING_GAMMA
+    lda #HEALING_GAMMA
     jsr TryAddingPSIBattleAction
     bcc @AutoHealing_Store
 
@@ -1316,7 +1319,7 @@ AutoHealing:
 ;       If Deadge: Try again
 AutoBash:
     ldy attacker_offset
-    lda BA_BASH
+    lda #BA_BASH
     sta BATTLER_ACTION_ID, y
 :   jsr Rand
     and #$e0                    ; get a random value from 0 to 3
@@ -1332,7 +1335,7 @@ AutoBash:
     rts
 
 AutoSuperHealing:
-    lda HEALING_SUPER
+    lda #HEALING_SUPER
     jsr TryAddingPSIBattleAction
     bcc :+
     jmp B23_05a0
@@ -1424,41 +1427,41 @@ AITargetsPlayerRoutine:
 
 AISelectTargetRoutine:
     lda attacker_offset
-    bpl @AISelectTarget_CheckNotNull        ; skip the battle script checks if the AI is player team (Auto, NPCs)
-    
+    bpl AISelectTarget_CheckNotNull        ; skip the battle script checks if the AI is player team (Auto, NPCs)
+
     lda battle_script
 ; red robo check
-    cmp BSCRIPT_REDROBO
+    cmp #BSCRIPT_REDROBO
     bne :++                                 ; bne blue robo check
 ; red robo targeting effect
 ; honestly this is pretty stupid. just target the end of party first, instead of writing a custom routine to target specific player ID
     ldx #$03
-:   lda EVE
+:   lda #EVE
     jsr TargetSpecificPlayer
     bcs JMP_AITargetRoutine_RTS
     dex
     bpl :-
 ; blue robo check
 :   lda battle_script
-    cmp BSCRIPT_BLUEROBO
+    cmp #BSCRIPT_BLUEROBO
     bne B23_078a
 ; blue robo targeting effect
 ; oh my god why is this one infinitely more stupid. why does it look for specifically Ninten, then Ana, then Teddy.
 ; just target leader to back like any sane programmer would
     ldx #$03
-:   lda NINTEN
+:   lda #NINTEN
     jsr TargetSpecificPlayer
     bcs JMP_AITargetRoutine_RTS
     dex
     bpl :-
     ldx #$03
-:   lda ANA
+:   lda #ANA
     jsr TargetSpecificPlayer
     bcs JMP_AITargetRoutine_RTS
     dex
     bpl :-
     ldx #$03
-:   lda TEDDY
+:   lda #TEDDY
     jsr TargetSpecificPlayer
     bcs JMP_AITargetRoutine_RTS
     dex
@@ -1472,10 +1475,10 @@ B23_078c:
     dex
     bpl B23_078c
 ; check to make sure target is not empty
-@AISelectTarget_CheckNotNull:
+    AISelectTarget_CheckNotNull:
     jsr B23_07ab
     lda target_offset
-    bmi @AISelectTarget_CheckNotNull
+    bmi AISelectTarget_CheckNotNull
     jmp AITargetRoutine_RTS
 
 JMP_AITargetRoutine_RTS:
@@ -1489,7 +1492,7 @@ AITargetRoutine_RTS:
 
 B23_07ab:
     jsr Rand
-    and %11100000
+    and #%11100000
     tay
     lda BATTLER, y
     beq B23_07ab
@@ -1548,7 +1551,7 @@ SelectRTS:
     rts
 
 SelectFight:
-    lda BA_BASH
+    lda #BA_BASH
     ldy attacker_offset
     sta BATTLER_ACTION_ID, y
     jsr B23_0962
@@ -1610,8 +1613,8 @@ LoadPlayerBattlerLearnedPSIs:
     rts
 
 SelectGuard:
-    lda BA_PLAYER_GUARD
-@TargetSelf:
+    lda #BA_PLAYER_GUARD
+    TargetSelf:
     ldy attacker_offset
     sta BATTLER_ACTION_ID, y
     clc
@@ -1644,7 +1647,7 @@ SelectItem:
 
 SelectRun:
     lda #$48
-    jmp @TargetSelf
+    jmp TargetSelf
 
 SelectCheck:
     lda #$80
@@ -1665,14 +1668,14 @@ SelectCheck:
 :   jmp UpdatePlayerinputMainMenu
 
 SelectSing:
-    lda BA_SING
-    jmp @TargetSelf
+    lda #BA_SING
+    jmp TargetSelf
 
 SelectBack:
     sec
     lda attacker_offset
     beq :+                          ; if at player 1, go "back" to player 1
-    sbc BATTLER_DATASIZE            ; go back 1 offset to prev. player slot
+    sbc #BATTLER_DATASIZE            ; go back 1 offset to prev. player slot
     sta attacker_offset
     tay
     lda BATTLER, y                  ; go back again if player doesn't exist somehow (useless code, since it's impossible for player team to have holes in it)
@@ -1680,10 +1683,10 @@ SelectBack:
     lda BATTLER_STATUS, y           ; go back again if player has status that makes them unable to move
     bmi SelectBack
     lda BATTLER_STATUS, y
-    and UNCON | PETRIFICATION | PARALYSIS | SLEEP | PUZZLE
+    and #UNCON | PETRIFICATION | PARALYSIS | SLEEP | PUZZLE
     bne SelectBack
     lda BATTLER_MINOR_STATUS, y
-    and BIND
+    and #BIND
     bne SelectBack
 :   sec
     jmp SelectRTS
@@ -1692,7 +1695,7 @@ SelectionMenuCheckTeddyScript:
     ldx #$73
     ldy #$9f
     lda battle_script
-    cmp BSCRIPT_TEDDY
+    cmp #BSCRIPT_TEDDY
     bne :+                      ; +
     ldx #$83
     ldy #$9f
@@ -1933,10 +1936,10 @@ GetItemPointer:
     dex
     bne :-
     clc
-    adc #.LOBYTE(ItemDataOffset)
+    adc #.LOBYTE(Item_Data)
     sta battle_wordvar62
     lda battle_wordvar62+1
-    adc #.HIBYTE(ItemDataOffset)
+    adc #.HIBYTE(Item_Data)
     sta battle_wordvar62+1
     rts
 
@@ -2210,7 +2213,7 @@ BattleTurnEngine:
     ldy attacker_offset
     sta BATTLER_ACTION_ID, y
     jsr ConcludeBattle
-    bcs +                       ; turn engine loop break out
+    bcs :+                       ; turn engine loop break out
     pla
     tax
     dex
@@ -2227,7 +2230,7 @@ BattleTurnEngine:
 ; called when turn counter hits 0
 BattleDrawEffect:
     lda battle_script
-    cmp BSCRIPT_TEDDY
+    cmp #BSCRIPT_TEDDY
     beq :+                      ; dont print draw msg if teddy script
     ldx #100
     jsr WaitXFrames
@@ -2243,7 +2246,7 @@ SortTurnOrder:
 @SortTurnOrder_LS:
     ldy battle_wordvar60
     lda BATTLER_ACTION_ID, y
-    cmp BA_COMPLETE
+    cmp #BA_COMPLETE
     beq @SortTurnOrder_INC
     cmp #$5e
     beq @SortTurnOrder_End
@@ -2276,35 +2279,35 @@ DoBattlerTurn:
 
 @CheckUncon:
     lda BATTLER_STATUS, y
-    and UNCON
+    and #UNCON
     beq @CheckPetrified
     lda #$00                    ; no msg
     jmp DisplayText_battle2
 
 @CheckPetrified:
     lda BATTLER_STATUS, y
-    and PETRIFICATION
+    and #PETRIFICATION
     beq @CheckParalyzed
     lda #$47                    ; battler is petrified msg
     jmp DisplayText_battle2
 
 @CheckParalyzed:
     lda BATTLER_STATUS, y
-    and PARALYSIS
+    and #PARALYSIS
     beq @CheckSleeped
     lda #$46                    ; battler is paralyzed msg
     jmp DisplayText_battle2
 
 @CheckSleeped:
     lda BATTLER_STATUS, y
-    and SLEEP
+    and #SLEEP
     beq @CheckPuzzled
 ; Sleep Wake Up Check
     jsr Rand
     and #$e0                    ; 1/8 chance of wake up (sleep is basically an ohko lmao)
     bne @SleepWakeupFail
     lda BATTLER_STATUS, y
-    and ~SLEEP
+    and #~SLEEP
     sta BATTLER_STATUS, y
     sty target_offset
     jsr B31_15e5
@@ -2319,30 +2322,30 @@ DoBattlerTurn:
 ; (that rare as shit drop from the Big Woodoh - atrocious game design)
 @CheckPuzzled:
     lda BATTLER_STATUS, y
-    and PUZZLE
+    and #PUZZLE
     beq @CheckAsthma
     lda #$68                    ; battler is puzzled msg
     jmp DisplayText_battle2
 
 @CheckAsthma:
     lda BATTLER_MINOR_STATUS, y
-    and ASTHMA
+    and #ASTHMA
     beq @CheckBound
     lda BATTLER_ACTION_ID, y
-    cmp BA_ASTHMA_SPRAY
+    cmp #BA_ASTHMA_SPRAY
     beq @CheckBound
     lda #$56                    ; battler has asthma msg
     jmp DisplayText_battle2
 
 @CheckBound:
     lda BATTLER_MINOR_STATUS, y
-    and BIND
+    and #BIND
     beq @CheckConfuse
     jsr Rand
     and #$c0                    ; 1/4 chance of escaping bind
     bne @BindBreakFail
     lda BATTLER_MINOR_STATUS, y
-    and ~BIND
+    and #~BIND
     sta BATTLER_MINOR_STATUS, y
     lda #$8b                    ; battler escaped bind msg
     jmp DisplayText_battle2
@@ -2354,7 +2357,7 @@ DoBattlerTurn:
 ; unlike the other status conditions, confuse still prints text but doesn't eat your turn
 @CheckConfuse:
     lda BATTLER_STATUS, y
-    and CONFUSE
+    and #CONFUSE
     beq @PerformBattlerAction
     lda #$3a                    ; battler is confused msg
     jsr DisplayText_battle
@@ -2363,7 +2366,7 @@ DoBattlerTurn:
 @PerformBattlerAction:
     ldy attacker_offset
     lda BATTLER_ACTION_ID, y
-@PerformBattleAction2:                      ; wip label
+    PerformBattleAction2:                      ; wip label
     ldy #$00
     sty battle_wordvar60+1
     asl a
@@ -2417,7 +2420,7 @@ DisplayText_battle2:
 ; Battle Instruction 0 : End
 BINST0_END:
     lda #$01                        ; advance script counter by 1
-    jmp AdvanceAndContinue
+    jmp AdvanceScriptPtr
 
 ; Battle Instruction 1 : Variety Effects
 ; lo bits : argument
@@ -2489,7 +2492,7 @@ BINST2_LUTPSI:
     lda #$00
     sta bytevar_0593
     jsr BankswitchLower_Bank22
-    
+
     lda #$64                        ; Attacker tried PSI msg
     jsr DisplayText_battle
 
@@ -2498,7 +2501,7 @@ BINST2_LUTPSI:
 
     jsr SubtractPP
     bcc @PSIFailedPowerCost         ; branch when Power cost is too high
-    
+
     jsr DepletePower
     lda battle_bytevar58
     jsr PlayBattleSFX
@@ -2534,7 +2537,7 @@ BINST3_LUTITEM:
 
 @PrintUseItemMsg:
     lda #$63                        ; Using item msg
-    jsr DisplayText_battle 
+    jsr DisplayText_battle
     lda battle_bytevar58
     jsr PlayBattleSFX
     lda #$00
@@ -2608,7 +2611,7 @@ BINST5_TARGETING:
     jsr JSRTable
 
     .addr BINST5_RETURN               ; Return Address
-    .addr BINST50_NOP     
+    .addr BINST50_NOP
     .addr BINST51_TARGET_SELECTED
     .addr BINST52_TARGET_OPPOSING_LEADER
     .addr BINST53_TARGET_OUR_LEADER
@@ -2797,7 +2800,7 @@ BINST11_RUN:
     ldy target_offset
     bpl :+
     jmp DoEnemyDeadAnimation
-:   lda ENDTYPE_RUN
+:   lda #ENDTYPE_RUN
     sta battle_endtype
     rts
 
@@ -2806,16 +2809,16 @@ BINST11_RUN:
 BINST12_ANIMATE_NORMAL:
     ldy target_offset
     bpl :+
-    jmp @ANIMATE_NORMAL_ENEMY
-:   jmp @ANIMATE_NORMAL_PLAYER
+    jmp ANIMATE_NORMAL_ENEMY
+:   jmp ANIMATE_NORMAL_PLAYER
 
 ; Different Animation from ANIMATE BLACK
 ; Used for Long moves like Status moves
 BINST13_ANIMATE_LONG:
     ldy target_offset
     bpl :+
-    jmp @ANIMATE_LONG_ENEMY
-:   jmp @ANIMATE_LONG_PLAYER
+    jmp ANIMATE_LONG_ENEMY
+:   jmp ANIMATE_LONG_PLAYER
 
 ; Enemy move that calls for help
 ; Callable enemies are predefined by enemy groups.
@@ -2842,50 +2845,50 @@ BINST15_SPROUT:
 
 ; has a different ending animation (fades screen after more delay) than the running endtype
 BINST16_DIMENSION_SLIP:
-    lda ENDTYPE_DIMENSION_SLIP
+    lda #ENDTYPE_DIMENSION_SLIP
     sta battle_endtype
     rts
 ; red
 BINST17_ANIMATE_FIRE:
     ldy target_offset
     bpl :+
-    jmp @ANIMATE_FIRE_ENEMY
-:   jmp @ANIMATE_FIRE_PLAYER
+    jmp ANIMATE_FIRE_ENEMY
+:   jmp ANIMATE_FIRE_PLAYER
 ; dark blue
 BINST18_ANIMATE_FREEZE:
     ldy target_offset
     bpl :+
-    jmp @ANIMATE_FREEZE_ENEMY
-:   jmp @ANIMATE_FREEZE_PLAYER
+    jmp ANIMATE_FREEZE_ENEMY
+:   jmp ANIMATE_FREEZE_PLAYER
 ; light blue
 BINST19_ANIMATE_THUNDER:
     ldy target_offset
     bpl :+
-    jmp @ANIMATE_THUNDER_ENEMY
-:   jmp @ANIMATE_THUNDER_PLAYER
+    jmp ANIMATE_THUNDER_ENEMY
+:   jmp ANIMATE_THUNDER_PLAYER
 ; yellow
 BINST1A_ANIMATE_BEAM:
     ldy target_offset
     bpl :+
-    jmp @ANIMATE_BEAM_ENEMY
-:   jmp @ANIMATE_BEAM_PLAYER
+    jmp ANIMATE_BEAM_ENEMY
+:   jmp ANIMATE_BEAM_PLAYER
 ; green, less frames of animation than the other ones
 BINST1B_ANIMATE_CRIT:
     ldy target_offset
     bpl :+
-    jmp @ANIMATE_CRIT_ENEMY
-:   jmp @ANIMATE_CRIT_PLAYER
+    jmp ANIMATE_CRIT_ENEMY
+:   jmp ANIMATE_CRIT_PLAYER
 
 TryEnemyCall:
-    ldy ENEMY1_OFFSET
+    ldy #ENEMY1_OFFSET
 :   cpy attacker_offset             ; --
     beq :+                          ; +
     lda BATTLER_MINOR_STATUS, y
-    and CALLABLE
+    and #CALLABLE
     bne EnemyJoins
 :   tya                             ; +
     clc
-    adc BATTLER_DATASIZE
+    adc #BATTLER_DATASIZE
     tay
     bne :--                         ; --
     clc
@@ -2897,9 +2900,9 @@ EnemyJoins:
     jsr EnemyLongFlashing
     ldy target_offset
     lda BATTLER_MINOR_STATUS, y
-    and ~CALLABLE
+    and #~CALLABLE
     sta BATTLER_MINOR_STATUS, y
-    lda BA_NONE
+    lda #BA_NONE
     sta BATTLER_ACTION_ID, y
     ldy attacker_offset
     lda BATTLER, y
@@ -2923,21 +2926,21 @@ DepletePower:
 BINSTCONDITION0_NOT_ATTACKER_TARGET_ALIVE:
     ldy attacker_offset
     lda BATTLER, y
-    beq @ConditionTrue
+    beq ConditionTrue
     lda BATTLER_STATUS, y
-    bmi @ConditionTrue
+    bmi ConditionTrue
 
 ; The more sensible conditional that only checks for target being deadge.
 BINSTCONDITION6_NOT_TARGET_ALIVE:
     ldy target_offset
     lda BATTLER, y
-    beq @ConditionTrue
+    beq ConditionTrue
     lda BATTLER_STATUS, y
-    bmi @ConditionTrue
+    bmi ConditionTrue
 ; Condition False
     clc                         ; clears carry
     rts
-@ConditionTrue:
+    ConditionTrue:
     sec                         ; sets carry
     rts
 
@@ -2950,14 +2953,14 @@ BINSTCONDITION1_DODGED:
     bne @DodgeFalse
     ldy target_offset
     lda BATTLER_STATUS, y
-    and PETRIFICATION | PARALYSIS | SLEEP
+    and #PETRIFICATION | PARALYSIS | SLEEP
     bne @DodgeFalse
     lda BATTLER_MINOR_STATUS, y
     bmi @DodgeFalse
-    lda BATTLER_CORE, y
+    lda BATTLER_CORES, y
     sta battle_wordvar60
     ldy attacker_offset
-    lda BATTLER_CORE, y
+    lda BATTLER_CORES, y
     sta battle_wordvar62
     jsr DoFightEquation
     lda battle_wordvar60
@@ -2976,10 +2979,10 @@ BINSTCONDITION2_CRIT:
     jsr SEC_IsInvinciblityOn
     bcs :+
     ldy attacker_offset
-    lda BATTLER_CORE, y
+    lda BATTLER_CORES, y
     sta battle_wordvar60
     ldy target_offset
-    lda BATTLER_CORE, y
+    lda BATTLER_CORES, y
     sta battle_wordvar62
     jsr DoFightEquation
     lda battle_wordvar62
@@ -2990,8 +2993,8 @@ BINSTCONDITION2_CRIT:
 BINSTCONDITION3_BLIND_MISS:
     ldy attacker_offset
     lda BATTLER_MINOR_STATUS, y
-    and BLIND
-    eor BLIND
+    and #BLIND
+    eor #BLIND
     rol a
     bcs :+
     jsr Rand
@@ -3020,17 +3023,17 @@ BINSTCONDITION5_NO_BADGE:
     sta battle_wordvar60
     lda BATTLER_FULLDATA_PTR+1, y
     sta battle_wordvar60+1
-    ldy INVENTORY_OFFSET
+    ldy #INVENTORY_OFFSET
 
 ; start of inventory loop
 :   lda (battle_wordvar60), y
-    cmp ITEM_BADGE
+    cmp #ITEM_BADGE
     beq @NoBadgeFalse
     iny                                 ; inc inventory counter
-    cpy INVENTORY_OFFSET+8              ; past final inv slot
+    cpy #INVENTORY_OFFSET+8              ; past final inv slot
     bne :-
     ; jmp @NoBadgeTrue
-    
+
 @NoBadgeTrue:                           ; does not have badge
     sec
     rts
@@ -3042,10 +3045,10 @@ BINSTCONDITION5_NO_BADGE:
 BINSTCONDITION7_NOT_INSECT:
     ldy target_offset
     lda BATTLER_RESISTANCES, y
-    and IMMUNITY
+    and #IMMUNITY
     bne @NotInsectTrue
     lda BATTLER_RESISTANCES, y
-    and INSECT
+    and #INSECT
     bne @NotInsectFalse
 @NotInsectTrue:                         ; is not an insect
     sec
@@ -3064,8 +3067,8 @@ BINSTCONDITION8_50_50:
 BINSTCONDITION9_NOT_HAS_IMMUNITY:
     ldy target_offset
     lda BATTLER_RESISTANCES, y
-    and IMMUNITY
-    eor IMMUNITY
+    and #IMMUNITY
+    eor #IMMUNITY
     rol a
     rts
 
@@ -3073,8 +3076,8 @@ BINSTCONDITION9_NOT_HAS_IMMUNITY:
 BINSTCONDITIONA_NOT_RESIST_MENTAL:
     ldy target_offset
     lda BATTLER_RESISTANCES, y
-    and MENTAL
-    eor MENTAL
+    and #MENTAL
+    eor #MENTAL
     cmp #$01
     rts
 
@@ -3092,17 +3095,17 @@ BINSTCONDITIONB_NOT_TRIGGERED_BATTLE:
 BINSTCONDITIONC_NOT_TARGET_PLAYERCHAR:
     ldy target_offset
     lda BATTLER_PLAYER_ID, y
-    and EVE
-    eor EVE
+    and #EVE
+    eor #EVE
     cmp #$01
     rts
 
 ; checks for bscript 5 or 6
 BINSTCONDITIOND_NOT_GIEGUE_FIGHT:
     lda battle_script
-    cmp BSCRIPT_GIEGUE_YAPPING
+    cmp #BSCRIPT_GIEGUE_YAPPING
     beq :+
-    cmp BSCRIPT_GIEGUE_FIGHTING
+    cmp #BSCRIPT_GIEGUE_FIGHTING
     beq :+
     sec
     rts
@@ -3136,8 +3139,8 @@ DoFightEquation:
 SetCarryAttackerNotBlocked:
     ldy attacker_offset
     lda BATTLER_MINOR_STATUS, y
-    and BLOCK
-    eor BLOCK
+    and #BLOCK
+    eor #BLOCK
     cmp #$01
     rts
 
@@ -3157,7 +3160,7 @@ BINST50_NOP:
 BINST51_TARGET_SELECTED:
     ldy attacker_offset
     lda BATTLER_STATUS, y
-    and CONFUSE
+    and #CONFUSE
     bne @TARGET_WHILE_CONFUSED
     lda BATTLER_TARGET, y
     sta target_offset
@@ -3178,12 +3181,12 @@ BINST51_TARGET_SELECTED:
 BINST52_TARGET_OPPOSING_LEADER:
     ldy attacker_offset
     lda BATTLER_STATUS, y
-    and CONFUSE
-    beq @TARGET_OPPOSING_LEADER
+    and #CONFUSE
+    beq TARGET_OPPOSING_LEADER
     jsr Rand
     and #$80                            ; 50-50
-    bne @TARGET_OUR_LEADER
-@TARGET_OPPOSING_LEADER:
+    bne TARGET_OUR_LEADER
+    TARGET_OPPOSING_LEADER:
     ldx #$80
     lda attacker_offset
     bpl :+
@@ -3197,11 +3200,11 @@ BINST53_TARGET_OUR_LEADER:
     ldy attacker_offset
     lda BATTLER_STATUS, y
     and #$08
-    beq @TARGET_OUR_LEADER
+    beq TARGET_OUR_LEADER
     jsr Rand
     and #$80
-    bne @TARGET_OPPOSING_LEADER
-@TARGET_OUR_LEADER:
+    bne TARGET_OPPOSING_LEADER
+    TARGET_OUR_LEADER:
     ldx #$00
     ldy attacker_offset
     bpl :+
@@ -3228,7 +3231,7 @@ BINST55_TARGET_OUR_LEADER_GUARANTEED:
 BINST56_TARGET_NEXT:
     clc
     lda target_offset
-    adc BATTLER_DATASIZE
+    adc #BATTLER_DATASIZE
     sta target_offset
     rts
 
@@ -3268,7 +3271,7 @@ BINST60_SETNUMBASH:
 ; if so, setnum to random(1, 8)
 @CheckTeddyScript:
     lda battle_script
-    cmp BSCRIPT_TEDDY
+    cmp #BSCRIPT_TEDDY
     bne :+
 ; do Teddy script setnum
     jsr Rand
@@ -3325,7 +3328,7 @@ BINST61_SETNUMCRIT:
     lda BATTLER_OFF+1, y
     sta battle_input_num+1
     lda battle_script
-    cmp BSCRIPT_TEDDY
+    cmp #BSCRIPT_TEDDY
     bne :+
     jsr Rand
     and #$0f
@@ -3349,7 +3352,7 @@ BINST62_SETNUM:
 ; Stops at hard coded value set to index of his final yap.
 BINST63_GIEGUE_SPEECH:
     lda battle_script
-    cmp BSCRIPT_GIEGUE_YAPPING
+    cmp #BSCRIPT_GIEGUE_YAPPING
     bne :++                     ; branch to rts
     lda battle_bytevar55
     jsr DisplayText_battle
@@ -3373,7 +3376,7 @@ BINST65_CHECK:
     lda #$6a                        ; attacker checked target msg
     jsr DisplayText_battle
     lda battle_script
-    cmp BSCRIPT_GREYROBO
+    cmp #BSCRIPT_GREYROBO
     bne :+  ; @CheckRedRobo
 ; Invincibility descriptions
 ; no diff from normal description except that it doesn't print stats or resistances, only description text
@@ -3382,25 +3385,25 @@ BINST65_CHECK:
     jmp DisplayText_battle
 
 ; @CheckRedRobo:
-:   cmp BSCRIPT_REDROBO
+:   cmp #BSCRIPT_REDROBO
     bne :+  ; @CheckBlueRobo
     lda #$94                        ; red robo desc
     jmp DisplayText_battle
 
 ; @CheckBlueRobo:
-:   cmp BSCRIPT_BLUEROBO
+:   cmp #BSCRIPT_BLUEROBO
     bne :+  ; @CheckGiegueYapping
     lda #$93                        ; blue robo desc
     jmp DisplayText_battle
 
 ; @CheckGiegueYapping:
-:   cmp BSCRIPT_GIEGUE_YAPPING
+:   cmp #BSCRIPT_GIEGUE_YAPPING
     bne :+  ; @CheckGiegueFighting
     lda #$01                        ; giegue desc (Queen Mary yapping at you)
     jmp DisplayText_battle
 
 ; @CheckGiegueFighting:
-:   cmp BSCRIPT_GIEGUE_FIGHTING
+:   cmp #BSCRIPT_GIEGUE_FIGHTING
     bne :+ ;  @CheckEnemy
     lda #$01                        ; ditto (why programmed in this way)
     jmp DisplayText_battle
@@ -3429,27 +3432,27 @@ BINST65_CHECK:
     jsr DisplayText_battle
     lda #$25                        ; print defense msg
     jsr DisplayText_battle
-    
+
     ; load target resistances
     ldy target_offset
     lda BATTLER_RESISTANCES, y
 
     pha                             ; copy value to stack
-    and FIRE
+    and #FIRE
     beq :+
     lda #$6b                        ; resists fire msg
     jsr DisplayText_battle
 
 :   pla                             ; retrieve original value from stack
     pha                             ; put new copy back in
-    and ICE
+    and #ICE
     beq :+
     lda #$6c                        ; resists ice msg
     jsr DisplayText_battle
 
 :   pla                             ; again
     pha
-    and ELECTRIC
+    and #ELECTRIC
     beq :+
     lda #$6d                        ; resists electric msg
     jsr DisplayText_battle
@@ -3459,13 +3462,13 @@ BINST65_CHECK:
 
 :   pla
     pha
-    and IMMUNITY
+    and #IMMUNITY
     bne :+          ; ??????
     ; They bothered to check for Immunity bit yet does nothing useful with it??
 
     pla
     pha
-    and INSECT
+    and #INSECT
     beq :+
     lda #$6f                        ; weak to bug spray msg
     jsr DisplayText_battle
@@ -3482,10 +3485,10 @@ BINST_ILLEGAL_MOVE_EFFECT:
 
 ; plays normal attack sound depending on if player or enemy
 BINST66_PLAYATTACKSOUND:
-    ldx SFX_EnemyAttack
+    ldx #SFX_EnemyAttack
     lda attacker_offset
     bmi :+
-    ldx SFX_PlayerAttack
+    ldx #SFX_PlayerAttack
 :   txa
     jmp PlayBattleSFX
 
@@ -3511,25 +3514,25 @@ DeathActionInterpreter:
     bmi @CheckFlames
 ; CheckEVE
     lda BATTLER_PLAYER_ID, y
-    cmp EVE
+    cmp #EVE
     bne @CheckFlames            ; ?? why not jump to return?? As if Players can Explode???
 ; EVE Death effect
-    lda BSCRIPT_NONE            ; sets battle script to 0, so the red robo dies to the ohko effect
+    lda #BSCRIPT_NONE            ; sets battle script to 0, so the red robo dies to the ohko effect
     sta battle_script
-    ldx BA_EVEEXPLOSION         ; id of EVE Death effect
+    ldx #BA_EVEEXPLOSION         ; id of EVE Death effect
     jmp DoDeathActionInX
 @CheckFlames:
     jsr GetDeathActionBits
-    cmp DEATHEFFECT_FLAMES
+    cmp #DEATHEFFECT_FLAMES
     bne @CheckExplode
 ; Flames death effect
-    ldx BA_FLAMES
+    ldx #BA_FLAMES
     jmp DoDeathActionInX
 @CheckExplode:
-    cmp DEATHEFFECT_EXPLODE
+    cmp #DEATHEFFECT_EXPLODE
     bne :+
 ; Explode death effect
-    ldx BA_EXPLODE
+    ldx #BA_EXPLODE
     jmp DoDeathActionInX
 ; make target do the unalive
 :   jsr KillTargetInY
@@ -3547,7 +3550,7 @@ DoDeathActionInX:
     pha
     sty attacker_offset
     txa
-    jsr @PerformBattleAction2
+    jsr PerformBattleAction2
     pla
     sta battle_var5e
     pla
@@ -3566,7 +3569,7 @@ KillTargetInY:
     lda #$00
     sta BATTLER_CURR_HP, y
     sta BATTLER_CURR_HP+1, y
-    lda UNCON
+    lda #UNCON
     sta BATTLER_STATUS, y
     tya
     bpl KillPlayerEffect
@@ -3603,17 +3606,17 @@ KillTargetInY:
     lda (battle_wordvar60), y
     beq :+
     sta enemy_group
-:   lda Noise_EnemyKilled
+:   lda #Noise_EnemyKilled
     sta soundqueue_noise
     pla
     tay
     jsr DoEnemyDeadAnimation
-    jmp @KillTargetReturn
+    jmp KillTargetReturn
 
 KillPlayerEffect:
-    lda SFX_Unconned
+    lda #SFX_Unconned
     jsr PlayBattleSFX
-@KillTargetReturn:
+    KillTargetReturn:
     jsr B31_15e5
     pla
     tay
@@ -3624,16 +3627,16 @@ PrintDeathMsg:
     pha
     bmi PrintDeathMsgEnemy              ; branch if enemy
     lda BATTLER_PLAYER_ID, y
-    cmp EVE                             ; eve has no death msg
-    beq @PrintDeathMsgReturn
+    cmp #EVE                             ; eve has no death msg
+    beq PrintDeathMsgReturn
 ; PrintDeathMsgPlayer
     lda #$10                            ; player died msg
-    jsr DisplayText_battle 
-    jmp @PrintDeathMsgReturn
+    jsr DisplayText_battle
+    jmp PrintDeathMsgReturn
 PrintDeathMsgEnemy:
     lda battle_script
-    cmp BSCRIPT_GIEGUE_FIGHTING
-    beq @PrintDeathMsgReturn
+    cmp #BSCRIPT_GIEGUE_FIGHTING
+    beq PrintDeathMsgReturn
     lda BATTLER_FULLDATA_PTR, y
     sta battle_wordvar60
     lda BATTLER_FULLDATA_PTR+1, y
@@ -3646,7 +3649,7 @@ PrintDeathMsgEnemy:
     clc
     adc #$79                            ; enemy defeat msg starting offset id
     jsr DisplayText_battle
-@PrintDeathMsgReturn:
+    PrintDeathMsgReturn:
     pla
     tay
     rts
@@ -3665,7 +3668,7 @@ GetDeathActionBits:
     sta battle_wordvar60
     lda BATTLER_FULLDATA_PTR+1, y
     sta battle_wordvar60+1
-    ldy OFF_OFFSET+1                    ; hi byte of Offense
+    ldy #OFF_OFFSET+1                    ; hi byte of Offense
     lda (battle_wordvar60), y
     and #$1c
     lsr a
@@ -3713,7 +3716,7 @@ OrganizeInv:
 EnemyLongFlashing:
     jsr LoadEnemyLetterExtrabits
     lda BATTLER_STATUS, y
-    and ~UNCON
+    and #~UNCON
     sta BATTLER_STATUS, y
     lda #$22
     sta battle_wordvar60
@@ -3817,32 +3820,32 @@ LoadEnemyLetterExtrabits:
     sta battle_wordvar64+1
     rts
 
-@ANIMATE_NORMAL_ENEMY:
+ANIMATE_NORMAL_ENEMY:
     lda #$0f                        ; transparent color
     ldx #$03
     jmp DoAnimateEnemyHit
 
-@ANIMATE_FIRE_ENEMY:
+ANIMATE_FIRE_ENEMY:
     lda #$16                        ; bright red
     ldx #$03
     jmp DoAnimateEnemyHit
 
-@ANIMATE_FREEZE_ENEMY:
+ANIMATE_FREEZE_ENEMY:
     lda #$12                        ; dark blue
     ldx #$03
     jmp DoAnimateEnemyHit
 
-@ANIMATE_THUNDER_ENEMY:
+ANIMATE_THUNDER_ENEMY:
     lda #$31                        ; light blue
     ldx #$03
     jmp DoAnimateEnemyHit
 
-@ANIMATE_BEAM_ENEMY:
+ANIMATE_BEAM_ENEMY:
     lda #$28                        ; bright yellow
     ldx #$03
     jmp DoAnimateEnemyHit
 
-@ANIMATE_CRIT_ENEMY:
+ANIMATE_CRIT_ENEMY:
     lda #$2a                        ; neon green
     ldx #$03
     jmp DoAnimateEnemyHit
@@ -3851,7 +3854,7 @@ AnimateGiegueDefeat:
     ldx #$03
 :   txa                         ; --
     pha
-    lda Noise_Crit
+    lda #Noise_Crit
     sta soundqueue_noise
     jsr Rand
     and #$03
@@ -3859,7 +3862,7 @@ AnimateGiegueDefeat:
     inx
 :   txa                         ; -
     pha
-    lda Noise_Hit
+    lda #Noise_Hit
     sta soundqueue_noise
     pla
     pha
@@ -3878,7 +3881,7 @@ AnimateGiegueDefeat:
 DoAnimateEnemyHit:
     sta battle_wordvar60+1
     stx battle_wordvar60
-    lda SFX_Hit
+    lda #SFX_Hit
     jsr PlayBattleSFX
     ldy target_offset
     jsr LoadEnemyLetterExtrabits
@@ -3918,8 +3921,8 @@ DoAnimateEnemyHit:
     bne :-                          ; while condition
     rts
 
-@ANIMATE_LONG_ENEMY:
-    lda SFX_Hit
+ANIMATE_LONG_ENEMY:
+    lda #SFX_Hit
     jsr PlayBattleSFX
     jsr LoadEnemyLetterExtrabits
     ldy target_offset
@@ -3944,49 +3947,49 @@ DoAnimateEnemyHit:
     sta BATTLER_TARGET, y
     rts
 
-@ANIMATE_NORMAL_PLAYER:
+ANIMATE_NORMAL_PLAYER:
     ldx #$41
     ldy #$9f
     lda #$0f                        ; transparent color
     jmp DoAnimatePlayerHit
 
-@ANIMATE_FIRE_PLAYER:
+ANIMATE_FIRE_PLAYER:
     ldx #$41
     ldy #$9f
     lda #$16                        ; bright red
     jmp DoAnimatePlayerHit
 
-@ANIMATE_FREEZE_PLAYER:
+ANIMATE_FREEZE_PLAYER:
     ldx #$41
     ldy #$9f
     lda #$12                        ; dark blue
     jmp DoAnimatePlayerHit
 
-@ANIMATE_THUNDER_PLAYER:
+ANIMATE_THUNDER_PLAYER:
     ldx #$41
     ldy #$9f
     lda #$31                        ; light blue
     jmp DoAnimatePlayerHit
 
-@ANIMATE_BEAM_PLAYER:
+ANIMATE_BEAM_PLAYER:
     ldx #$41
     ldy #$9f
     lda #$28                        ; bright yellow
     jmp DoAnimatePlayerHit
 
-@ANIMATE_CRIT_PLAYER:
+ANIMATE_CRIT_PLAYER:
     ldx #$61                        ; faster animation than #$41
     ldy #$9f
     lda #$2a                        ; neon green
     jmp DoAnimatePlayerHit
 
-@ANIMATE_FAST_PLAYER:
+ANIMATE_FAST_PLAYER:
     ldx #$61                        ; faster animation than #$41
     ldy #$9f
     lda #$0f                        ; transparent color
     jmp DoAnimatePlayerHit
 
-@ANIMATE_LONG_PLAYER:
+ANIMATE_LONG_PLAYER:
     ldx #$4b
     ldy #$9f
     lda #$0f                        ; transparent color
@@ -4050,9 +4053,9 @@ DoAnimatePlayerHit:
 ; Multiple different endings depending on what kind of scenario. Covers everything from winning, losing, running, Dimension Slipping, losing to Blue Robo, etc.
 ConcludeBattle:
     lda battle_endtype
-    cmp ENDTYPE_RUN
+    cmp #ENDTYPE_RUN
     beq @ConcludeBattleReturn
-    cmp ENDTYPE_DIMENSION_SLIP
+    cmp #ENDTYPE_DIMENSION_SLIP
     beq @ConcludeBattleReturn
     ldy #$00
 ; check for players losing (all non-NPCs are dead/petrify/para)
@@ -4062,18 +4065,18 @@ ConcludeBattle:
     beq @SkipDeadgeCheck
     ; ignore NPCs EVE and Flying Man
     lda BATTLER_PLAYER_ID, y
-    and EVE
-    eor EVE
+    and #EVE
+    eor #EVE
     beq @SkipDeadgeCheck
     ; see if every PC is deadge or equivalent in battle
     lda BATTLER_STATUS, y
-    and UNCON | PETRIFICATION | PARALYSIS
+    and #UNCON | PETRIFICATION | PARALYSIS
     beq PlayersWinRoutine
 @SkipDeadgeCheck:
     ; check the next player
     tya
     clc
-    adc BATTLER_DATASIZE
+    adc #BATTLER_DATASIZE
     tay
     bpl @CheckPlayersLose           ; clever since enemies start at offset $80
 
@@ -4083,15 +4086,15 @@ ConcludeBattle:
     sta $0641
     sta $0661
     lda battle_script
-    cmp BSCRIPT_BLUEROBO
+    cmp #BSCRIPT_BLUEROBO
     bne @NormalL
-    lda ENDTYPE_BLUEROBO_SLIP
+    lda #ENDTYPE_BLUEROBO_SLIP
     sta battle_endtype              ; set endtype so overworld knows to play the lloyd scene and teddy deadge flags
 ; Do BlueRobo defeat script (in-battle, overworld effects handled by overworld engine)
-    lda SFX_Thunder
+    lda #SFX_Thunder
     jsr PlayBattleSFX
     lda #$8f                        ; blue robo escapes msg
-    jsr DisplayText_battle 
+    jsr DisplayText_battle
     jmp @ConcludeBattleReturn
 @NormalL:
     lda #$00
@@ -4117,34 +4120,34 @@ PlayersWinRoutine:
     jsr DisplayText_battle
     ; continue
 :   lda battle_script
-    cmp BSCRIPT_GIEGUE_FIGHTING
+    cmp #BSCRIPT_GIEGUE_FIGHTING
     bne NormalWin
 ; Giegue Fight Win
 ; Full Restores Party
-    lda PLAYER1_OFFSET              ; 00
+    lda #PLAYER1_OFFSET              ; 00
     sta target_offset
     jsr BINST_FullRestore
-    lda PLAYER2_OFFSET
+    lda #PLAYER2_OFFSET
     sta target_offset
     jsr BINST_FullRestore
-    lda PLAYER3_OFFSET
+    lda #PLAYER3_OFFSET
     sta target_offset
     jsr BINST_FullRestore
-    jmp @WinReturn
+    jmp WinReturn
 
 NormalWin:
-    lda MUSIC_WIN
+    lda #MUSIC_WIN
     jsr ChangeMusic
     lda #$0d                        ; players win msg
     jsr DisplayText_battle
-@WinReturn:
+    WinReturn:
     sec
     rts
 
 ; Set Carry to is Teddy Script
 SetCarryIsBSCRIPTTeddy:
     lda battle_script
-    cmp BSCRIPT_TEDDY
+    cmp #BSCRIPT_TEDDY
     bne :+
     ldy #$00
     jsr B31_1673
@@ -4216,11 +4219,11 @@ BINST4_RETURN:
 ; restores HP by num
 BINST4_00_RestoreHP:
     jsr MOV_input_output
-@RestoreHPEffect:                   ; jump location used by MaxHP
+    RestoreHPEffect:                   ; jump location used by MaxHP
     ldx target_offset
-    ldy HP_OFFSET
+    ldy #HP_OFFSET
     jsr RaiseBigStatByNum
-    ldx SFX_Recovery
+    ldx #SFX_Recovery
     lda #$3e                        ; restored hp text
     jmp PlaySFX_X_PrintText_A
 
@@ -4228,9 +4231,9 @@ BINST4_00_RestoreHP:
 BINST4_01_RestorePP:
     jsr MOV_input_output
     ldx target_offset
-    ldy PP_OFFSET
+    ldy #PP_OFFSET
     jsr RaiseBigStatByNum
-    ldx SFX_Recovery
+    ldx #SFX_Recovery
     lda #$3d                        ; restored pp text
     jmp PlaySFX_X_PrintText_A
 
@@ -4239,7 +4242,7 @@ BINST4_01_RestorePP:
 BINST4_11_RaiseOff:
     jsr MOV_input_output
     ldx target_offset
-    ldy OFF_OFFSET
+    ldy #OFF_OFFSET
     jsr RaiseBigStat
     lda #$20                        ; off raised msg
     jmp DisplayText_battle
@@ -4250,9 +4253,9 @@ BINST4_11_RaiseOff:
 BINST4_02_RaiseSpd:
     jsr MOV_input_output
     ldx target_offset
-    ldy SPD_OFFSET
+    ldy #SPD_OFFSET
     jsr RaiseSmallStat
-    ldx SFX_StatBoost
+    ldx #SFX_StatBoost
     lda #$23                        ; spd raised msg
     jmp PlaySFX_X_PrintText_A
 
@@ -4265,18 +4268,18 @@ BINST4_0E_Suicide:
 ; They knew this effect was broken, because no enemies have access to it.
 BINST4_03_BolsterOff:
     ldx target_offset
-    ldy OFF_OFFSET
+    ldy #OFF_OFFSET
     jsr BolsterBigStat
-    ldx SFX_StatBoost
+    ldx #SFX_StatBoost
     lda #$20                        ; off raised msg
     jmp PlaySFX_X_PrintText_A
 
 ; Defense boosting is great for Zoo & early game, but completely falls off a cliff after.
 BINST4_04_BolsterDef:
     ldx target_offset
-    ldy DEF_OFFSET
+    ldy #DEF_OFFSET
     jsr BolsterBigStat
-    ldx SFX_StatBoost
+    ldx #SFX_StatBoost
     lda #$22                        ; def raised msg
     jmp PlaySFX_X_PrintText_A
 
@@ -4285,7 +4288,7 @@ BINST4_05_MaxHP:
     lda #$ff
     sta battle_input_num
     sta battle_input_num+1
-    jmp @RestoreHPEffect
+    jmp RestoreHPEffect
 
 ; Effect only used at end of Giegue fight
 ; Full restores the target. Only diff from MaxHP & Heal Uncon is that it also cures all status.
@@ -4293,12 +4296,12 @@ BINST_FullRestore:
     lda #$ff
     sta battle_input_num
     sta battle_input_num+1
-    lda NO_STATUS
+    lda #NO_STATUS
     ldx target_offset
     sta BATTLER_STATUS, x
-    ldy HP_OFFSET
+    ldy #HP_OFFSET
     jsr RaiseBigStatByNum
-    ldx SFX_Recovery
+    ldx #SFX_Recovery
     lda #$00                        ; doesn't print msg
     jsr PlaySFX_X_PrintText_A
     ldx #20                         ; add lag
@@ -4326,20 +4329,20 @@ BINST4_0F_Recoil:
 ; In addition to lowering HP, it also runs cure chances for sleep, confuse, and puzzle
 BINST4_06_DoDamage:
     lda battle_script
-    cmp BSCRIPT_GIEGUE_YAPPING
-    beq @DoDamage
-    cmp BSCRIPT_GIEGUE_FIGHTING
-    beq @DoDamage
+    cmp #BSCRIPT_GIEGUE_YAPPING
+    beq DoDamage
+    cmp #BSCRIPT_GIEGUE_FIGHTING
+    beq DoDamage
     jsr SEC_IsInvinciblityOn
-    bcc @DoDamage
+    bcc DoDamage
 ; sets damage number to fake arbitrary constants (not follow normal damage numbers)
 ; this is different from actually dealing HP damage, which is handled below.
 ; Giegue is a notable fight that obeys normal damage numbers; he just doesn't take HP damage.
-@DoFakeDamage:
+DoFakeDamage:
     ldx #$03
     ldy attacker_offset
     lda BATTLER_PLAYER_ID, y
-    cmp EVE
+    cmp #EVE
     bne :+
     ldx #$3f
 :   stx battle_wordvar60
@@ -4350,14 +4353,14 @@ BINST4_06_DoDamage:
     sta battle_input_num+1
 
 ; does damage routine
-@DoDamage:
+DoDamage:
     lda target_offset
     pha
     jsr MOV_input_output
     ; check for barrier status
     ldy target_offset
     lda BATTLER_MINOR_STATUS, y
-    and BARRIER
+    and #BARRIER
     beq @DoDamageCont
 ; Barrier routine
     lda battle_wordvar60+1
@@ -4376,13 +4379,13 @@ BINST4_06_DoDamage:
 @DoDamageCont:
     ; halve damage if shielded
     lda BATTLER_MINOR_STATUS, y
-    and SHIELD
+    and #SHIELD
     beq :+
     lsr battle_wordvar60+1
     ror battle_wordvar60
     ; halve damage if guarding (stacks)
 :   lda BATTLER_MINOR_STATUS, y
-    and GUARD
+    and #GUARD
     beq :+
     lsr battle_wordvar60+1
     ror battle_wordvar60
@@ -4410,7 +4413,7 @@ BINST4_06_DoDamage:
 ; @UpdateHP Start
     ; check for invincibility
     lda battle_script
-    cmp BSCRIPT_REDROBO
+    cmp #BSCRIPT_REDROBO
     beq :+
     jsr SEC_IsTargetEVE
     bcs @StatusCureOnHitRoutines
@@ -4431,25 +4434,25 @@ BINST4_06_DoDamage:
 
 @StatusCureOnHitRoutines:               ; try cure confuse & puzzle
     lda BATTLER_STATUS, y
-    and CONFUSE | PUZZLE
+    and #CONFUSE | PUZZLE
     beq @CheckSleepCure
     jsr Rand
     and #$c0                            ; 1/4 chance of cure confuse & puzzle when hit
     bne @CheckSleepCure
     lda BATTLER_STATUS, y               ; confuse & puzzle cure success
-    and ~(CONFUSE | PUZZLE)
+    and #~(CONFUSE | PUZZLE)
     sta BATTLER_STATUS, y
     lda #$8d                            ; cure confuse msg
     jsr DisplayText_battle
 @CheckSleepCure:                        ; try cure sleep
     lda BATTLER_STATUS, y
-    and SLEEP
+    and #SLEEP
     beq :+
     jsr Rand
     and #$c0                            ; 1/4 chance of waking up when hit
     bne :+
     lda BATTLER_STATUS, y               ; sleep cure success
-    and ~SLEEP
+    and #~SLEEP
     sta BATTLER_STATUS, y
     lda #$61                            ; cure sleep msg
     jsr DisplayText_battle
@@ -4470,7 +4473,7 @@ BINST4_07_LowerDef:
     ldy target_offset
     jsr ApplyResistance
     ldx target_offset
-    ldy DEF_OFFSET
+    ldy #DEF_OFFSET
     jsr LowerBigStat
     lda #$27                            ; defense lowered msg
     jmp DisplayText_battle
@@ -4479,7 +4482,7 @@ BINST4_07_LowerDef:
 BINST4_08_LowerFit:
     jsr MOV_input_output
     ldx target_offset
-    ldy FIT_OFFSET
+    ldy #FIT_OFFSET
     jsr LowerSmallStat
     lda #$26                            ; fight lowered msg
     jmp DisplayText_battle
@@ -4493,7 +4496,7 @@ BINST4_09_OHKO:
     bcs :+
     ldy target_offset
     jmp DeathActionInterpreter
-:   jmp @DoFakeDamage
+:   jmp DoFakeDamage
 
 ; sets target's HP to number between 1 and 4
 ; it can only fail on invincibility
@@ -4525,7 +4528,7 @@ BINST4_0A_Cryo:
 ; drops off by ~50% additive
 BINST4_0B_CrippleOff:
     ldx target_offset
-    ldy OFF_OFFSET
+    ldy #OFF_OFFSET
     jsr CrippleBigStat
     lda #$21                            ; offense lowered msg
     jmp DisplayText_battle
@@ -4533,7 +4536,7 @@ BINST4_0B_CrippleOff:
 ; drops def by ~50% additive
 BINST4_0C_CrippleDef:
     ldx target_offset
-    ldy DEF_OFFSET
+    ldy #DEF_OFFSET
     jsr CrippleBigStat
     lda #$27                            ; defense lowered msg
     jmp DisplayText_battle
@@ -4546,7 +4549,7 @@ BINST4_0C_CrippleDef:
 BINST4_10_Approach:
     jsr MOV_input_output
     ldx attacker_offset
-    ldy OFF_OFFSET
+    ldy #OFF_OFFSET
     jsr RaiseBigStat
     lda #$5c                            ; print useless flavor text instead of telling the player why the hell the Zoo gators are slamming Ninten for double their base attack power
     jmp DisplayText_battle
@@ -4606,128 +4609,128 @@ BINST4_0D_BonusEXP:
 ;       Y : SFX to play
 BINST4_12_Blind:
     jsr SEC_IsInvinciblityOn
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     jsr SEC_StrengthResisted
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     lda #$1b                            ; blinded target msg
-    ldy SFX_Nothing
-    ldx BLIND
+    ldy #SFX_Nothing
+    ldx #BLIND
     jmp GiveMinorStatus
-@BranchNoEffect1:
+    BranchNoEffect1:
     jmp PrintNoEffect
 
 BINST4_13_Poison:
     jsr SEC_IsInvinciblityOn
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     jsr SEC_StrengthResisted
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     lda #$4b                            ; poisoned target msg
-    ldy SFX_Nothing
-    ldx POISON
+    ldy #SFX_Nothing
+    ldx #POISON
     jmp GiveMajorStatus
 
 BINST4_14_Confuse:
     jsr SEC_IsInvinciblityOn
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     jsr SEC_IsTargetEVE
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     jsr SEC_ForceResisted
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     lda #$39                            ; confused target msg
-    ldy SFX_Nothing
-    ldx CONFUSE
+    ldy #SFX_Nothing
+    ldx #CONFUSE
     jmp GiveMajorStatus
 
 BINST4_15_Sleep:
     jsr SEC_IsInvinciblityOn
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     jsr SEC_IsTargetEVE
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     jsr SEC_ForceResisted
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     lda #$3b                            ; sleeped target msg
-    ldy SFX_Nothing
-    ldx SLEEP
+    ldy #SFX_Nothing
+    ldx #SLEEP
     jmp GiveMajorStatus
 
 BINST4_16_Paralyze:
     jsr SEC_IsInvinciblityOn
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     jsr SEC_IsTargetEVE
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     jsr SEC_StrengthResisted
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     lda #$49                            ; paralyzed target msg
-    ldy SFX_Nothing
-    ldx PARALYSIS
+    ldy #SFX_Nothing
+    ldx #PARALYSIS
     jmp GiveMajorStatus
 
 BINST4_17_Block:
     jsr SEC_IsInvinciblityOn             ; this check is useless since all invincible foes have no power lol
-    bcs @BranchNoEffect1
+    bcs BranchNoEffect1
     ldy target_offset                   ; get target's full data
     lda BATTLER_FULLDATA_PTR, y
     sta battle_wordvar60
     lda BATTLER_FULLDATA_PTR+1, y
     sta battle_wordvar60+1
-    ldy PP_OFFSET                       ; see if target has power; move fails if they don't
+    ldy #PP_OFFSET                       ; see if target has power; move fails if they don't
     lda (battle_wordvar60), y
     iny
     ora (battle_wordvar60), y
-    beq @BranchNoEffect1
+    beq BranchNoEffect1
     lda #$4d                            ; blocked target msg
-    ldy SFX_Nothing
-    ldx BLOCK
+    ldy #SFX_Nothing
+    ldx #BLOCK
     jmp GiveMinorStatus
 
 ; This effect is completely useless as both Guarding moves have priority given to them via hard coding in the higher level main loops.
 BINST4_18_Guard:
     ldy target_offset
     lda BATTLER_MINOR_STATUS, y
-    ora GUARD
+    ora #GUARD
     sta BATTLER_MINOR_STATUS, y
     rts
 
 BINST4_19_Shield:
     lda #$4f                            ; shielded target msg
-    ldy SFX_Recovery
-    ldx SHIELD
+    ldy #SFX_Recovery
+    ldx #SHIELD
     jmp GiveMinorStatus
 
 BINST4_1A_Barrier:                         ; Powershield
-    jsr @SEC_IsBattleScriptOn
-    bcs @BranchNoEffect2
+    jsr SEC_IsBattleScriptOn
+    bcs BranchNoEffect2
     lda #$17                            ; barriered target msg
-    ldy SFX_Recovery
-    ldx BARRIER
+    ldy #SFX_Recovery
+    ldx #BARRIER
     jmp GiveMinorStatus
-@BranchNoEffect2:
+    BranchNoEffect2:
     jmp PrintNoEffect
 
 BINST4_1B_Bind:
     jsr SEC_IsInvinciblityOn          ; This one's relevant since there is no normal way to be immune to bind. Rope is an incredibly broken item that would be worth using if the ropes weren't laced with silver.
-    bcs @BranchNoEffect2
+    bcs BranchNoEffect2
     jsr SEC_IsTargetEVE                 ; I guess your confused party can't bind EVE? An astronomically niche scenario that I can bet nobody in the history of the world has accidently tried, despite this game being ancient.
-    bcs @BranchNoEffect2
+    bcs BranchNoEffect2
     lda #$4e                            ; bound target msg
-    ldy SFX_Nothing
-    ldx BIND
+    ldy #SFX_Nothing
+    ldx #BIND
     jmp GiveMinorStatus
 
 ; Petrify has a weird quirk where it doubles Defense. There is no mention of this mechanic anywhere in-game or even in the manuals afaik, a truly MOTHER series staple.
 ; It's not really beneficial to get your characters (Lloyd) petrified to use as a damage sponge, since being petrified means he can't Guard, which is just better.
 BINST4_1C_Petrify:
     jsr SEC_IsInvinciblityOn
-    bcs @BranchNoEffect2
+    bcs BranchNoEffect2
     jsr SEC_IsTargetEVE
-    bcs @BranchNoEffect2
+    bcs BranchNoEffect2
     lda #$19                            ; petrified targetg msg
-    ldy SFX_Nothing
-    ldx PETRIFICATION
+    ldy #SFX_Nothing
+    ldx #PETRIFICATION
     jsr GiveMajorStatus
     bcs :+
     ldx target_offset
-    ldy DEF_OFFSET
+    ldy #DEF_OFFSET
     jsr BolsterBigStat
 :   rts
 
@@ -4736,13 +4739,13 @@ BINST4_1C_Petrify:
 BINST4_1D_Asthma:
     ldy target_offset
     lda BATTLER_PLAYER_ID, y
-    cmp NINTEN
+    cmp #NINTEN
     bne :+
     lda BATTLER_MINOR_STATUS, y
-    and ASTHMA
+    and #ASTHMA
     bne :+
     lda BATTLER_MINOR_STATUS, y
-    ora ASTHMA
+    ora #ASTHMA
     sta BATTLER_MINOR_STATUS, y
     lda #$74                        ; asthmaed target msg
     jmp DisplayText_battle
@@ -4753,18 +4756,18 @@ BINST4_1D_Asthma:
 ; Suffice to say, it's a completely uncurable KO. There is no (actually valid) way to cure Confusion or Puzzling at all in this game. Truly immaculate.
 BINST4_1E_Puzzle:
     jsr SEC_ForceResisted
-    bcs @BranchNoEffect2
+    bcs BranchNoEffect2
     lda #$67                        ; target puzzled msg
-    ldy SFX_Nothing
-    ldx PUZZLE
+    ldy #SFX_Nothing
+    ldx #PUZZLE
     jmp GiveMajorStatus
 
 ; Poison literally does nothing in battle, so honestly, this effect could not exist. Even the developers' own Auto Fight routine doesn't bother curing poison.
 ; Cold isn't curable in battle, though. Because they forgot or something.
 BINST4_1f_CurePoison:
     lda #$5d                        ; cured poison msg
-    ldy SFX_Recovery
-    ldx POISON
+    ldy #SFX_Recovery
+    ldx #POISON
     jmp CureMajorStatus
 
 ; Infamous game design where Healings are a complete abomination.
@@ -4774,30 +4777,30 @@ BINST4_1f_CurePoison:
 ; There is no logic for enemies to cure status either, meaning the fact that Para and Petrify don't count as dead on enemies when determining the end of a fight is dumb as hell. Oh, but they remembered to program that aspect for the players. Fun.
 BINST4_20_CureSleep:
     lda #$61                        ; cured sleep msg
-    ldy SFX_Recovery
-    ldx SLEEP
+    ldy #SFX_Recovery
+    ldx #SLEEP
     jmp CureMajorStatus
 
 ; There is literally only 1 enemy that uses Paralysis in the entire game (normal Mooks).
 BINST4_21_CureParalysis:
     lda #$60                        ; cured paralysis msg
-    ldy SFX_Recovery
-    ldx PARALYSIS
+    ldy #SFX_Recovery
+    ldx #PARALYSIS
     jmp CureMajorStatus
 
 ; I've probably done over 100 runs and I can't even remember the last time I bought the Inhaler. The single car encounters are so weak that Ninten can 1 or 2 tap them anyways, so this only has a chance of helping you against double car encounters. Except, the item is uber expensive & doesn't even stuff the stunlocking aspect of the exhaust attack. You can just use the free and infinitely more consistent option called Dimension Slip, or even just open running away.
 BINST4_22_CureAsthma:
     lda #$70                        ; cured asthma msg
-    ldy SFX_Recovery
-    ldx ASTHMA
+    ldy #SFX_Recovery
+    ldx #ASTHMA
     jmp CureMinorStatus
 
 ; One of the most baffling and terrible decisions of all time in the series. Confuse and Puzzle are the only real status conditions in this game besides petrification, because the amount of enemies that sleep/paralyze you are countable on 1 hand, and Poison literally does nothing whatsoever.
 ; So, then, why in the world is one of the most useful status curing moves tied to an exceedingly rare, random-ass item drop you can only get from a single low-level enemy, the Big Woodoh??? It's possible to go the entire game without even seeing this thing, considering how small the actual walkable parts of the map are.
 BINST4_23_CureConfusePuzzle:
     lda #$5e                        ; cured confuse & puzzle msg
-    ldy SFX_Recovery
-    ldx CONFUSE | PUZZLE
+    ldy #SFX_Recovery
+    ldx #CONFUSE | PUZZLE
     jmp CureMajorStatus
 
 ; Named "Cure" for consistency, it removes Shields. Used by Shield Off.
@@ -4805,15 +4808,15 @@ BINST4_23_CureConfusePuzzle:
 ; Why this move is exclusive to Ana is beyond me. There's no animation to PSI Shield Off either, even though it targets one and makes the hit received sfx.
 BINST4_24_CureShield:
     lda #$69                        ; shield broken msg
-    ldy SFX_Hit
-    ldx SHIELD
+    ldy #SFX_Hit
+    ldx #SHIELD
     jmp CureMinorStatus
 
 ; One of the only useful status Healing spells in this game, second only to Super Healing.
 BINST4_26_CurePetrification:
     lda #$71                        ; cured petrify msg
-    ldy SFX_Recovery
-    ldx PETRIFICATION
+    ldy #SFX_Recovery
+    ldx #PETRIFICATION
     jmp CureMajorStatus
 
 ; Ana the GOAT support character for learning this, Shields, and Lifeup!
@@ -4821,17 +4824,17 @@ BINST4_26_CurePetrification:
 BINST4_25_CureUncon:
     ldy target_offset
     lda BATTLER_STATUS, y
-    and UNCON
+    and #UNCON
     beq :+
-    lda NO_STATUS
+    lda #NO_STATUS
     sta BATTLER_STATUS, y
     lda #$ff                        ; why they don't reuse the MaxHP effect??
     sta battle_input_num
     sta battle_input_num+1
     ldx target_offset
-    ldy HP_OFFSET
+    ldy #HP_OFFSET
     jsr RaiseBigStatByNum
-    ldx SFX_Recovery
+    ldx #SFX_Recovery
     lda #$62                        ; revived msg
     jmp PlaySFX_X_PrintText_A
 :   jmp PrintNoEffect
@@ -4839,42 +4842,42 @@ BINST4_25_CureUncon:
 ; This effect is really unclean, unlike all the other effects. It's basically all hard-coding.
 BINST4_29_Sing:
     ldx battle_script
-    cpx BSCRIPT_GIEGUE_FIGHTING
+    cpx #BSCRIPT_GIEGUE_FIGHTING
     beq SingFighting
 ; SingYapping
 ; while Giegue is yapping, he doesn't "take damage" from the song. it still plays the animation, though.
 ; the check for not giegue fight is in the Sing BA. If that's true it just displays no effect msg
-    lda MUSIC_SING
+    lda #MUSIC_SING
     jsr ChangeMusic
-    lda current_track
+    lda current_music
     pha
     ldx #$00
     jsr B31_126b
-    lda Noise_Thunder
+    lda #Noise_Thunder
     sta soundqueue_noise
     ldx #56
     jsr WaitXFrames
     pla
-    cmp current_track
+    cmp current_music
     beq :+
     sta new_music
 :   rts
 ; "real" sing routine that runs after Giegue shuts up.
 ; advances the counter towards Giegue's demise (it's also used to determine what he says)
 SingFighting:
-    lda MUSIC_SING
+    lda #MUSIC_SING
     jsr ChangeMusic
     sec
     lda battle_bytevar55
     sbc #$9e
     tax
     jsr B31_126b
-    lda Noise_Thunder
+    lda #Noise_Thunder
     sta soundqueue_noise
-    jsr @ANIMATE_FAST_PLAYER
+    jsr ANIMATE_FAST_PLAYER
     lda battle_bytevar55
     jsr DisplayText_battle
-    lda MUSIC_BATTLE_GIEGUE
+    lda #MUSIC_BATTLE_GIEGUE
     jsr ChangeMusic
     ldx battle_bytevar55
     inx
@@ -4884,8 +4887,8 @@ SingFighting:
     rts
 
 BINST_GIEGUELOSE:
-:   jsr AnimateGiegueDefeat
-    lda MUSIC_NONE
+    jsr AnimateGiegueDefeat
+    lda #MUSIC_NONE
     jsr ChangeMusic
     ldx #200
     jsr WaitXFrames
@@ -4900,7 +4903,7 @@ BINST_GIEGUELOSE:
     cpx #$ac
     bne :-
 ; @GiegueDefeatEffect
-    ldy ENEMY1_OFFSET
+    ldy #ENEMY1_OFFSET
     jmp DeathActionInterpreter
 
 ; Unlike pretty much every single other number, Magnet has no randomness applied to it. It is hard coded to yoink 10 power. It can steal less only if the target doesn't have enough.
@@ -4936,7 +4939,7 @@ BINST4_27_Magnet:
     lda bytevar_0591
     sta battle_wordvar60+1
     ldx attacker_offset
-    ldy PP_OFFSET
+    ldy #PP_OFFSET
     jsr RaiseBigStatByNum
     lda attacker_offset
     sta target_offset
@@ -4957,7 +4960,7 @@ BINST4_28_Steal:
     jsr OrganizeInv
     jsr StoreItemName
     lda #$81                        ; steal msg
-    jmp DisplayText_battle 
+    jmp DisplayText_battle
 :   lda #$59                        ; enemy guard msg
     jmp DisplayText_battle
 
@@ -4966,10 +4969,10 @@ BINST4_28_Steal:
 BINST4_2A_ConfuseSelf:
     ldy target_offset
     lda BATTLER_STATUS, y
-    and CONFUSE
+    and #CONFUSE
     bne :+
     lda BATTLER_STATUS, y
-    ora CONFUSE
+    ora #CONFUSE
     sta BATTLER_STATUS, y
     lda #$39                        ; confused target msg
     jsr DisplayText_battle
@@ -5073,7 +5076,7 @@ MOV_input_output:
 
 RaiseBigStat:
     jsr GetValueFromBattlerFulldata
-@RaiseBigStatAlreadyLoaded:
+    RaiseBigStatAlreadyLoaded:
     clc
     lda BATTLER, x
     adc battle_wordvar60
@@ -5211,7 +5214,7 @@ RaiseBigStatByNum:
     sta battle_wordvar64
     lda battle_wordvar62+1
     sta battle_wordvar64+1
-    jmp @RaiseBigStatAlreadyLoaded
+    jmp RaiseBigStatAlreadyLoaded
 
 ; increases a 16-bit stat by 100% additive
 ; Ninten is the GOAT!
@@ -5377,7 +5380,7 @@ CLR_wordvar0590:
 SEC_IsInvinciblityOn:
     lda target_offset
     bpl :+
-@SEC_IsBattleScriptOn:          ; used by cast barrier routine to see if move is valid
+    SEC_IsBattleScriptOn:          ; used by cast barrier routine to see if move is valid
     lda battle_script
     lsr a
     bne :++
@@ -5391,7 +5394,7 @@ SEC_IsTargetEVE:
     ldy target_offset
     bmi :+
     lda BATTLER_PLAYER_ID, y
-    cmp EVE
+    cmp #EVE
     bne :+
     sec
     rts

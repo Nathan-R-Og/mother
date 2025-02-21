@@ -1,4 +1,12 @@
 .feature force_range
+
+
+.globalzp is_scripted, is_tank, menucursor_pos
+.global pad1_forced, pad2_forced
+.global current_track
+.global soundqueue, soundqueue_noise_sfx, soundqueue_pulse_sfx_g0, soundqueue_pulse_sfx_g1, soundqueue_triangle_sfx, soundqueue_track, soundactive, soundactive_noise_sfx, soundactive_pulse_sfx_g0, soundactive_pulse_sfx_g1, soundactive_triangle_sfx, soundactive_track
+.global battle_message_lagframes
+
 ; *** RAM DEFINES ***
 
 melody_timer       = $08 ; Trippy background timer on melody
@@ -87,6 +95,9 @@ scroll_y         = $fd
 ram_PPUMASK      = $fe
 ram_PPUCTRL      = $ff
 
+; Length    = 0x40 (64) bytes
+; Area      = $0110 ~ $014F
+; Zone where text data from CHR is stored to write into PPU
 text_data_buffer = $0110
 
 ; $0540 = IRQ routine pointers (-1 because of it uses the RTS trick)
@@ -278,7 +289,10 @@ object_m_unk2 = $1d ;3 bytes
 ;wallet_money         = $7410 ; Wallet money (2 bytes)
 ;bank_money           = $7412 ; Bank money (3 bytes)
 ;dad_money            = $7415 ; Money earned since last Dad call
-;battle_message_speed = $7418
+
+; response delay - stores no. of frames to lag after printing a battle msg
+; anything not named speed 5 (1 frame lag) is unbearably slow
+battle_message_responsedelay    = $7418
 
 ;big_bag_uses         = $741F
 
@@ -337,15 +351,61 @@ item_storage = $76B0
 ; SOUND STUFF: https://pastebin.com/F3hkv8Cw
 ; $0780 = Sound driver RAM
 
+; Pointers used by music engine
+; Yes, there are spaces of 2 bytes between each ptr. As far as I can tell, they are completely useless and go unused. Grrr....
+currptr_pulse0      = $0780     ; $0780 ~ 0781
+currptr_pulse1      = $0784     ; $0784 ~ 0785
+currptr_triangle    = $0788     ; $0787 ~ 0788
+; Noise & DPCM ptr is read straight from MusicHeader
 current_music = $078C ; Current music track
+
+
+
+; Length    = 10 bytes
+; Area      = $0790 ~ $0799
+; Music Header data from ROM is copied to here
+; Format:
+;   $0      : (signed) KeySig Modifier ($02 = 1 Half Step)
+;   $1      : Tempo (Based on LUT)
+;   $2, $3  : PTR to Pulse 0 data start
+;   $4, $5  : PTR to Pulse 1 data start
+;   $6, $7  : PTR to Triangle data start
+;   $8, $9  : PTR to Noise & DPCM data
+;       DPCM uses upper 2 bits of a byte for data to rep. what sample to play (Snare and Kick Drum, don't remember which is which)
+;       Noise uses the rest of the bits
+MusicHeader             = $0790
 
 ; $0790 = Music transpose
 ; $0791 = Music note length table offset
 ; $0792 = Music channel music data pointer (2 bytes per channel)
+
+; Length    = 3 bytes each
+; Area      = $079A ~ $079F
+ME_Envelopes            = $079a
+    ME_Envelopes0       = ME_Envelopes
+    ME_Envelopes1       = ME_Envelopes+3    ; $079D
+
 ; $079A = Envelope #1 (3 bytes, noise not included!)
 ; $079D = Envelope #2 (3 bytes, noise not included!)
 ; $07A0 = Unknown pointer (2 bytes per channel)
 ; $07A8 = Unknown offset (1 byte per channel)
+
+; Music Channel variables
+; RAM reserved for the music engine to do its thing
+; Length    = 4 bytes each
+; Format:
+;   $0 : Pulse 0
+;   $1 : Pulse 1
+;   $2 : Triangle
+;   $3 : Noise & DPCM
+
+; Current Offset in Channel Music Banks
+MusicChannel_Counter                = $07AC
+; loop start offset
+MusicChannel_LSOffset               = $07B0
+MusicChannel_NoteLengthCounter      = $07B4
+MusicChannel_NewNoteLength          = $07B8
+
 ; $07AC = Music channel music data offset (added to $0792[x])
 ; $07B0 = Music channel loop start offset
 ; $07B4 = Music channel note length counter
@@ -356,6 +416,24 @@ current_music = $078C ; Current music track
 ; $07CC = Current music ID (gets value from $07F5 minus one)
 
 ; $07EF = Unknown (initialized to $C0)
+
+; Length    = 6 bytes
+; Area      = $07F0 ~ $07F5
+; Place to store sounds to play. On main loop, move from queue to active (overrides current playing sfx/track) SFX takes priority of Sound Channels over the Track.
+; Format:
+;   $0 : Noise SFX
+;   $1 : Pulse SFX group 0 (the sfx can use both pulse channels)
+;   $2 : unused (does nothing)
+;   $3 : Triangle SFX
+;   $4 : Pulse SFX group 1 (ties in with there being 2 playSFX commands for objects)
+;   $5 : Track (changes track on next mainloop)
+soundqueue                      = $07F0
+    soundqueue_noise            = soundqueue
+    soundqueue_pulseg0          = soundqueue+1
+    soundqueue_triangle         = soundqueue+3
+    soundqueue_pulseg1          = soundqueue+4
+    soundqueue_track            = soundqueue+5
+
 ; $07F0 = New noise sound effect
 ; $07F1 = New square1 sound effect
 ; $07F2 = New ????? sound effect
@@ -366,9 +444,32 @@ new_music   = $07F5 ; New music track
 
 disable_dmc = $07F7 ; If not zero, DMC is disabled
 
+
+; Same format as soundqueue. Holds the current playing SFX/Track until it ends. Almost all tracks don't "end," but loop a large number of times, so the value gets stuck in there, effectively making it a clone of curr_track_id
+soundactive                     = $07F8
+    soundactive_noise           = soundactive
+    soundactive_pulseg0         = soundactive+1
+    soundactive_triangle        = soundactive+3
+    soundactive_pulseg1         = soundactive+4
+    soundactive_track           = soundactive+5
+
 ; $07F8 = Current noise sound effect
 ; $07F9 = Current square1 sound effect
 ; $07FA = Current ????? sound effect
 ; $07FB = Current triangle sound effect
 ; $07FC = Current ????? sound effect
 ; $07FD = Current music track
+
+; zeropage global variables
+is_scripted                 = $21
+is_tank                     = $23
+
+global_wordvar              = $2a
+
+; Position of menu cursor in whole numbers, incrementing by 1 per step
+menucursor_pos              = $82
+menu_x_pos                  = $86       ; X pos in whole numbers
+menu_y_pos                  = $87       ; Y pos in whole numbers
+
+; global variable that ignores controller input while set
+input_blocker               = $EA
