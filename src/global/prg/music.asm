@@ -264,35 +264,40 @@ B28_00fa:
 .byte $A4,$AC,$A3,$AC,$A4,$AC
 .endif
 
-incbinRange "../../split/jp/prg/bank1c.bin", $10e, $11c
+.byte $16,$7F,$0E,$80,$3E,$7F,$0E,$08,$1F,$7F,$0F,$C0,$3F,$7F
 B28_010e:
-incbinRange "../../split/jp/prg/bank1c.bin", $11c, $126
+.byte $00,$B0,$11,$7F,$0E,$30,$9B,$7F,$0C,$28
 B28_0118:
-incbinRange "../../split/jp/prg/bank1c.bin", $126, $128
+.byte $10,$7F
 B28_011a:
-incbinRange "../../split/jp/prg/bank1c.bin", $128, $12e
+.byte $87,$B0,$0A,$7F,$0F,$08
 B28_0120:
-incbinRange "../../split/jp/prg/bank1c.bin", $12e, $138
+.byte $B0,$7F,$1C,$40,$B0,$7F,$32,$40,$B1,$7F
 B28_012a:
-incbinRange "../../split/jp/prg/bank1c.bin", $138, $13c
+.byte $40,$40,$B1,$7F
 B28_012e:
-incbinRange "../../split/jp/prg/bank1c.bin", $13c, $146
+.byte $42,$40,$B1,$8E,$A0,$47,$B1,$7F,$FF,$47
 .ifndef VER_JP
-incbinRange "../../split/us/prg/bank1c.bin", $138, $13b
+.byte $1F,$7F,$30
 .endif
 B28_013b:
 .ifndef VER_JP
-incbinRange "../../split/us/prg/bank1c.bin", $13b, $13c
+.byte $08
 .endif
-incbinRange "../../split/jp/prg/bank1c.bin", $146, $150
+.byte $1F,$BB,$D4,$08,$81,$A7,$E1,$88,$99,$7F
 B28_0146:
-incbinRange "../../split/jp/prg/bank1c.bin", $150, $154
+.byte $15,$88,$9B,$7F
 B28_014a:
-incbinRange "../../split/jp/prg/bank1c.bin", $154, $160
+.byte $1F,$88,$D8,$7F,$20,$28,$D1,$7F,$20,$28,$D9,$7F
 B28_0156:
-incbinRange "../../split/jp/prg/bank1c.bin", $160, $1b1
+.byte $54,$28,$9E,$9D,$C0,$08,$9C,$9A,$E8,$08,$9E,$7F,$40,$08,$94,$C6
+.byte $67,$28,$96,$CE,$47,$28,$D9,$A5,$7B,$F9,$D6,$A5,$90,$F9,$DA,$96
+.byte $46,$F9,$96,$7F,$76,$20,$82,$7F,$27,$F8,$94,$A5,$89,$48,$96,$AD
+.byte $7A,$58,$93,$A5,$99,$28,$9F,$84,$80,$FA,$94,$84,$24,$18,$94,$7F
+.byte $94,$18,$95,$B4,$57,$F8,$02,$7F,$67,$09,$7F,$7F,$E1,$0A,$7F,$7F
+.byte $21
 B28_01a7:
-incbinRange "../../split/jp/prg/bank1c.bin", $1b1, $1BA
+.byte $09,$04,$7F,$5D,$28,$03,$7F,$38,$28
 
 B28_01b0:
     ldx #$03
@@ -1528,9 +1533,10 @@ B28_07b7:
     rts
 
 B28_07e5:
-incbinRange "../../split/jp/prg/bank1c.bin", $7be, $7C7
+.byte $9E,$9B,$99,$96,$94,$93,$92,$91,$00
 B28_07ee:
-incbinRange "../../split/jp/prg/bank1c.bin", $7C7, $7E7
+.byte $20,$40,$20,$40,$20,$40,$20,$40,$90,$60,$90,$90,$60,$80,$90,$60
+.byte $B0,$79,$A8,$58,$90,$40,$80,$30,$76,$9F,$58,$76,$42,$58,$31,$42
 
 B28_080e:
     jsr B28_00d3
@@ -1555,7 +1561,7 @@ B28_0829:
     jmp B28_02dc
 
 B28_0830:
-incbinRange "../../split/jp/prg/bank1c.bin", $809, $819
+.byte $A8,$96,$70,$53,$4A,$37,$29,$E1,$A8,$96,$70,$53,$4A,$37,$29,$00
 
 
 B28_0840:
@@ -1910,13 +1916,15 @@ B28_0a83:
     rts
 
 B28_0a85:
-incbinRange "../../split/jp/prg/bank1c.bin", $A06, $A12
+.byte $09,$08,$07,$06,$05,$04,$03,$02,$02,$01,$01,$00
 B28_0a91:
-incbinRange "../../split/jp/prg/bank1c.bin", $A12, $A33
+.byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$01
+.byte $00,$00,$00,$00,$FF,$00,$00,$00,$00,$01,$01,$00,$00,$00,$FF,$FF
+.byte $00
 B28_0ab2:
-incbinRange "../../split/jp/prg/bank1c.bin", $A33, $A3D
+.byte $00,$01,$01,$02,$01,$00,$FF,$FF,$FE,$FF
 B28_0abc:
-incbinRange "../../split/jp/prg/bank1c.bin", $A3D, $A4d
+.byte $00,$FF,$FE,$FD,$FC,$FB,$FA,$F9,$F8,$F7,$F6,$F5,$F6,$F7,$F6,$F5
 
 
 B28_0acc:
@@ -2569,7 +2577,15 @@ B28_0fda:   .byte $66,$65,$42,$21,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$f
 ; $8FEA
 ; UNKNOWN
 B28_0fea:
-    incbinRange "../../split/jp/prg/bank1c.bin", $f4c, $fd6
+    .byte $07,$F0,$00,$00,$06,$AE,$06,$4E,$05,$F3,$05,$9E,$05,$4D,$05,$01
+    .byte $04,$B9,$04,$75,$04,$35,$03,$F8,$03,$BF,$03,$89,$03,$57,$03,$27
+    .byte $02,$F9,$02,$CF,$02,$A6,$02,$80,$02,$5C,$02,$3A,$02,$1A,$01,$FC
+    .byte $01,$DF,$01,$C4,$01,$AB,$01,$93,$01,$7C,$01,$67,$01,$52,$01,$3F
+    .byte $01,$2D,$01,$1C,$01,$0C,$00,$FD,$00,$EE,$00,$E1,$00,$D4,$00,$C8
+    .byte $00,$BD,$00,$B2,$00,$A8,$00,$9F,$00,$96,$00,$8D,$00,$85,$00,$7E
+    .byte $00,$76,$00,$70,$00,$69,$00,$63,$00,$5E,$00,$58,$00,$53,$00,$4F
+    .byte $00,$4A,$00,$46,$00,$42,$00,$3E,$00,$3A,$00,$37,$00,$34,$00,$31
+    .byte $00,$2E,$00,$2B,$00,$29,$00,$0A,$00,$01
 B28_1074:
     .byte $04,$08,$10,$20,$40,$18,$30,$0c,$0a,$05,$02,$01 ; 00
     .byte $05,$0a,$14,$28,$50,$1e,$3c,$0f,$0c,$06,$03,$02

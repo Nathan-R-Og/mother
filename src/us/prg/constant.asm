@@ -403,71 +403,74 @@ B30_0226:
     rts
 
 ; DATA NOW!
+; control codes
 B30_022c:
-    .byte $00 ; 00
-    .byte $01 ; 01
-    .byte $02 ; 02
-    .byte $03 ; 03
-    .byte $08 ; [04 XX XX] (GOTO)
-    .byte $09 ; [05] (NOP)
-    .byte $96 ; 06
-    .byte $97 ; 07
-    .byte $98 ; 08
-    .byte $99 ; 09
-    .byte $9a ; 0A
-    .byte $9b ; 0B
-    .byte $9c ; 0C
-    .byte $9d ; 0D
-    .byte $9e ; 0E
-    .byte $9f ; 0F
-    .byte $a0 ; 10
-    .byte $a1 ; 11
-    .byte $a2 ; 12
-    .byte $a3 ; 13
-    .byte $a4 ; 14
-    .byte $2a ; 15
-    .byte $2b ; 16
-    .byte $2c ; 17
-    .byte $2d ; 18
-    .byte $2e ; 19
-    .byte $aa ; 1A
-    .byte $ab ; 1B
-    .byte $ac ; 1C
-    .byte $ad ; 1D
-    .byte $ae ; 1E
+    .byte $00 ; 00 stopText
+    .byte $01 ; 01 newLine
+    .byte $02 ; 02 waitThenOverwrite
+    .byte $03 ; 03 pauseText
+    .byte $08 ; 04 XX XX goto
+    .byte $09 ; 05 t_nop
+    .byte $96 ; 06 が
+    .byte $97 ; 07 ぎ
+    .byte $98 ; 08 ぐ
+    .byte $99 ; 09 げ
+    .byte $9a ; 0A ご
+    .byte $9b ; 0B ざ
+    .byte $9c ; 0C じ
+    .byte $9d ; 0D ず
+    .byte $9e ; 0E ぜ
+    .byte $9f ; 0F ぞ
+    .byte $a0 ; 10 だ
+    .byte $a1 ; 11 ぢ
+    .byte $a2 ; 12 づ
+    .byte $a3 ; 13 で
+    .byte $a4 ; 14 ど
+    .byte $2a ; 15 ぱ
+    .byte $2b ; 16 ぴ
+    .byte $2c ; 17 ぷ
+    .byte $2d ; 18 ぺ
+    .byte $2e ; 19 ぽ
+    .byte $aa ; 1A ば
+    .byte $ab ; 1B び
+    .byte $ac ; 1C ぶ
+    .byte $ad ; 1D べ hirigana
+    .byte $ae ; 1E ぼ
+
     .byte $93 ; 1F
-    .byte $04 ; [20 XX YY] (set X, Y position)
-    .byte $05 ; [21 XX XX] (print name XXXX)
-    .byte $06 ; [22 XX YY] (repeat tile XX, YY times)
-    .byte $07 ; [23 XX XX YY YY] (probably number)
-    .byte $0e ; 24
-    .byte $0f ; 25
-    .byte $d6 ; 26
-    .byte $d7 ; 27
-    .byte $d8 ; 28
-    .byte $d9 ; 29
-    .byte $da ; 2A
-    .byte $db ; 2B
-    .byte $dc ; 2C
-    .byte $dd ; 2D
-    .byte $de ; 2E
-    .byte $df ; 2F
-    .byte $e0 ; 30
-    .byte $e1 ; 31
-    .byte $e2 ; 32
-    .byte $e3 ; 33
-    .byte $e4 ; 34
-    .byte $6a ; 35
-    .byte $6b ; 36
-    .byte $6c ; 37
-    .byte $6d ; 38
-    .byte $6e ; 39
-    .byte $ea ; 3A
-    .byte $eb ; 3B
-    .byte $ec ; 3C
-    .byte $ed ; 3D
-    .byte $ee ; 3E
-    .byte $d3 ; 3F
+    .byte $04 ; [20 XX YY] set_pos
+    .byte $05 ; [21 XX XX] print_string
+    .byte $06 ; [22 XX YY] repeatTile
+    .byte $07 ; [23 XX XX YY ZZ AA] print_number
+    .byte $0e ; 24 uibox_l
+    .byte $0f ; 25 uibox_r
+
+    .byte $d6 ; 26 ガ
+    .byte $d7 ; 27 ギ
+    .byte $d8 ; 28 グ
+    .byte $d9 ; 29 ゲ
+    .byte $da ; 2A ゴ
+    .byte $db ; 2B ザ
+    .byte $dc ; 2C ジ
+    .byte $dd ; 2D ズ
+    .byte $de ; 2E ゼ
+    .byte $df ; 2F ゾ
+    .byte $e0 ; 30 ダ
+    .byte $e1 ; 31 ヂ
+    .byte $e2 ; 32 ヅ
+    .byte $e3 ; 33 デ
+    .byte $e4 ; 34 ド
+    .byte $6a ; 35 パ
+    .byte $6b ; 36 ピ
+    .byte $6c ; 37 プ
+    .byte $6d ; 38 ペ katakana
+    .byte $6e ; 39 ポ
+    .byte $ea ; 3A バ
+    .byte $eb ; 3B ビ
+    .byte $ec ; 3C ブ
+    .byte $ed ; 3D ベ katakana
+    .byte $ee ; 3E ボ
+    .byte $d3 ; 3F ヴ
 
 ; MORE CODE!
 B30_026c:
@@ -1731,24 +1734,43 @@ B30_0a79:
     B30_0a7b:
     rts
 
+
+;convert control codes
 B30_0a7c:
     iny
+    ;push y
     sty $7a
+
+    ;not a control code
     cmp #$40
     bcs B30_0a9f
+
     tay
+    ;load index in control codes
     lda B30_022c, y
+    ;pop y
     ldy $7a
+
     cmp #$80
     bcs B30_0a9c
+
     cmp #$20
     bcs B30_0a99
+
+
+    ;is ui piece
     cmp #$0a
     bcs B30_0a96
+
     rts
 
+;fix ui offset
 B30_0a96:
+    .ifdef VER_JP
+    ora #$b0
+    .else
     ora #$d0
+    .endif
     rts
 
 B30_0a99:
@@ -4687,7 +4709,8 @@ NextObjectPointer:
     jmp NextEntity
 
 ; $DE6C - Bankswitch to object bank from given "area"
-SetObjectBank:  cmp #$2b
+SetObjectBank:
+    cmp #$2b
     bcc B30_1e76
     ldx #$12
     sbc #$2b
