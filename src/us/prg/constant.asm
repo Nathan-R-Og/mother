@@ -7871,7 +7871,7 @@ B31_126c:
     dex
     bne B31_126c
     jsr B31_127c
-    jmp B31_14b6
+    jmp SetBGColorBlack
 
 B31_127c:
     ldx #$2f
@@ -7882,7 +7882,7 @@ B31_127e:
     lsr a
     tax
     lda B31_1296, x
-    jsr B31_14b8
+    jsr SetBGColorA
     jsr WaitFrame
     jsr WaitFrame
     pla
@@ -8082,7 +8082,10 @@ B31_137d:
     .byte 23                                     ; 1
     .byte 24                                     ; 1
 
-B31_13fd:
+; used in Turn Order sorting to randomize speed (theorized effect)
+; should be +-25%
+; A should have the Speed value to modify
+RNGifySpeed:
     tax
     lda $61
     pha
@@ -8105,8 +8108,7 @@ B31_13fd:
     txa
     rts
 
-; TODO: UNKNOWN BATTLE SOMETHING
-B31_141f:
+PlayBattleSFX:
     pha
     asl a
     asl a
@@ -8200,9 +8202,9 @@ QueuePaletteUpdate:
     sta $e5
     rts
 
-B31_14b6:
+SetBGColorBlack:
     lda #$0f
-B31_14b8:
+SetBGColorA:
     pha
     jsr PpuSync
     pla

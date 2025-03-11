@@ -9,92 +9,6 @@
 
 ; *** RAM DEFINES ***
 
-melody_timer       = $08 ; Trippy background timer on melody
-
-player_direction   = $0C
-
-fade_type          = $0E
-
-; $10 -> Field CHR bank 2
-; $11 -> $10 & 3
-; $12 -> Field CHR bank 3
-; $13 -> $12 & 3
-; $14 -> Current "tileset"?
-; $15 -> Current area??
-
-player_x           = $18
-player_y           = $1A
-
-; $1F -> 1 when run button is held?
-
-fade_flag            = $20
-
-; $21 -> An object index?
-
-autowalk_direction   = $22 ; For cutscenes? If bit 4 is set, then walks through other objects
-
-; $25 -> Cutscene flag? Doesn't allow run button and NPCs are frozen
-
-random_num           = $26 ; 2 bytes
-
-; $28 -> Object script character ID
-; $29 -> Object script item ID
-; $2A -> Object script 16-bit number
-
-object_pointer       = $30 ; Pointer to object_memory
-object_data          = $32 ; Pointer to ROM object data
-; $34 -> Object script interaction type
-object_script_offset = $35 ; TODO: APPLY ALL LABELS
-
-movement_direction   = $3E
-
-; $40 -> CHR bank 2 during IRQ?
-; $41 -> CHR bank 3 during IRQ?
-; $42 -> CHR bank 4 during IRQ? -- ALSO: Another party member? Seems related to $28
-; $43 -> CHR bank 5 during IRQ?
-
-; $46 -> Some scanline for IRQ?
-
-enemy_group        = $48
-
-; $4E -> Damage (16-bit) -- only during battle?
-
-; $53 -> Attacker offset -- in battles
-; $54 -> Target offset -- in battles
-
-; $58 -> Move type -- only during battle?
-
-; $a0 -> Player movement direction?
-
-; $aa -> X position for collision detection?
-; $ac -> Y position for collision detection?
-
-; $bb -> Something to do with music (2 bytes). Interacts with $07FF
-; $bd -> Current music channel? (1=noise, 2=pulse1, 3=pulse2, 4=triangle, 5=dmc)?
-
-frame_counter    = $d0 ; 24 bit
-; $d3 -> How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the frame counter also stops counting (wtf...?)
-
-; $d7 has a JMP instruction (if zero, then don't jump)
-pad1_forced      = $da
-pad2_forced      = $db
-pad1_press       = $dc
-pad2_press       = $dd
-pad1_hold        = $de
-pad2_hold        = $df
-
-nmi_flag         = $ea ; 01 = waiting for NMI, 80 = is running NMI handler
-
-irq_index        = $ed ; IRQ routine index (multiple of 2)
-bankswitch_mode  = $ee ; Bankswitch "mode"  (-----mmm), $8000 MMC3 register
-bankswitch_flags = $ef ; Bankswitch "flags" (ff------), $8000 MMC3 register
-current_banks    = $f0 ; Current banks for each "mode" (8 bytes)
-; $F8, etc.
-scroll_x         = $fc
-scroll_y         = $fd
-ram_PPUMASK      = $fe
-ram_PPUCTRL      = $ff
-
 ; Length    = 0x40 (64) bytes
 ; Area      = $0110 ~ $014F
 ; Zone where text data from CHR is stored to write into PPU
@@ -357,8 +271,8 @@ currptr_pulse0      = $0780     ; $0780 ~ 0781
 currptr_pulse1      = $0784     ; $0784 ~ 0785
 currptr_triangle    = $0788     ; $0787 ~ 0788
 ; Noise & DPCM ptr is read straight from MusicHeader
-current_music = $078C ; Current music track
 
+current_music = $078C ; Current music track
 
 
 ; Length    = 10 bytes
@@ -375,20 +289,34 @@ current_music = $078C ; Current music track
 ;       Noise uses the rest of the bits
 MusicHeader             = $0790
 
-; $0790 = Music transpose
-; $0791 = Music note length table offset
-; $0792 = Music channel music data pointer (2 bytes per channel)
+ME_Transpose = $0790 ; Music transpose
+ME_NoteLengthOffset = $0791 ; Music note length table offset
+ME_DataPointer = $0792 ; Music channel music data pointer (2 bytes per channel)
+    ME_Pulse1Channel = ME_DataPointer
+    ME_Pulse2Channel = ME_DataPointer+2
+    ME_TriangleChannel = ME_DataPointer+4
+    ME_NoiseChannel = ME_DataPointer+6
 
 ; Length    = 3 bytes each
 ; Area      = $079A ~ $079F
-ME_Envelopes            = $079a
+ME_Envelopes            = $079a ; $079A = Envelope #1 (3 bytes, noise not included!)
     ME_Envelopes0       = ME_Envelopes
-    ME_Envelopes1       = ME_Envelopes+3    ; $079D
+    ME_Envelopes1       = ME_Envelopes+3    ; $079D Envelope #2 (3 bytes, noise not included!)
 
-; $079A = Envelope #1 (3 bytes, noise not included!)
-; $079D = Envelope #2 (3 bytes, noise not included!)
-; $07A0 = Unknown pointer (2 bytes per channel)
-; $07A8 = Unknown offset (1 byte per channel)
+;guess
+ME_CurrentPhrases = $07a0
+    ME_CurrentPulse1Phrase = ME_CurrentPhrases
+    ME_CurrentPulse2Phrase = ME_CurrentPhrases+2
+    ME_CurrentTrianglePhrase = ME_CurrentPhrases+4
+    ME_CurrentNoisePhrase = ME_CurrentPhrases+6
+
+;guess
+;if looped, sets head to loop point
+ME_CurrentPhraseIndex = $07a8
+    ME_Pulse1Index = ME_CurrentPhraseIndex
+    ME_Pulse2Index = ME_CurrentPhraseIndex+1
+    ME_TriangleIndex = ME_CurrentPhraseIndex+2
+    ME_NoiseIndex = ME_CurrentPhraseIndex+3
 
 ; Music Channel variables
 ; RAM reserved for the music engine to do its thing
@@ -400,17 +328,11 @@ ME_Envelopes            = $079a
 ;   $3 : Noise & DPCM
 
 ; Current Offset in Channel Music Banks
-MusicChannel_Counter                = $07AC
-; loop start offset
-MusicChannel_LSOffset               = $07B0
-MusicChannel_NoteLengthCounter      = $07B4
-MusicChannel_NewNoteLength          = $07B8
-
-; $07AC = Music channel music data offset (added to $0792[x])
-; $07B0 = Music channel loop start offset
-; $07B4 = Music channel note length counter
-; $07B8 = Music channel new note length
-; $07BC = Music channel loop counter
+MusicChannel_Counter = $07AC ; Music channel music data offset (added to $0792[x])
+MusicChannel_LSOffset = $07B0 ; Music channel loop start offset
+MusicChannel_NoteLengthCounter = $07B4 ; Music channel note length counter
+MusicChannel_NewNoteLength = $07B8 ; Music channel new note length
+MusicChannel_LoopCounter = $07BC ; Music channel loop counter
 ; $07C0 = Music channel sweep ($4001/$4005), not used for triangle and noise since sweep only exists for pulse
 
 ; $07CC = Current music ID (gets value from $07F5 minus one)
@@ -449,6 +371,7 @@ disable_dmc = $07F7 ; If not zero, DMC is disabled
 soundactive                     = $07F8
     soundactive_noise           = soundactive
     soundactive_pulseg0         = soundactive+1
+    soundactive_unk             = soundactive+2
     soundactive_triangle        = soundactive+3
     soundactive_pulseg1         = soundactive+4
     soundactive_track           = soundactive+5
@@ -460,16 +383,114 @@ soundactive                     = $07F8
 ; $07FC = Current ????? sound effect
 ; $07FD = Current music track
 
-; zeropage global variables
-is_scripted                 = $21
-is_tank                     = $23
 
-global_wordvar              = $2a
+.segment        "ZP": zeropage
+; zeropage global variables
+UNK_0: .res 8
+melody_timer: .res 1 ; $8
+UNK_9: .res 3
+player_direction: .res 1 ;$C
+UNK_d: .res 1
+fade_type: .res 1 ;$E
+UNK_f: .res 1
+UNK_10: .res 8
+; $10 -> Field CHR bank 2
+; $11 -> $10 & 3
+; $12 -> Field CHR bank 3
+; $13 -> $12 & 3
+; $14 -> Current "tileset"?
+; $15 -> Current area??
+player_x: .res 2 ; $18
+player_y: .res 2 ; $1A
+UNK_1c: .res 4
+; $1F -> 1 when run button is held?
+fade_flag: .res 1 ; $20
+is_scripted: .res 1
+; $21 -> An object index?
+autowalk_direction: .res 1 ; $22 ; For cutscenes? If bit 4 is set, then walks through other objects
+is_tank: .res 1
+UNK_24: .res 2
+; $25 -> Cutscene flag? Doesn't allow run button and NPCs are frozen
+random_num: .res 2 ; $26
+UNK_28: .res 2
+global_wordvar: .res 2 ; $2A ; Object script 16-bit number
+UNK_2C: .res 4
+; $28 -> Object script character ID
+; $29 -> Object script item ID
+object_pointer: .res 2 ; $30 ; Pointer to object_memory
+object_data: .res 2 ; $32 ; Pointer to ROM object data
+UNK_34: .res 1
+; $34 -> Object script interaction type
+object_script_offset: .res 1 ; $35 ; TODO: APPLY ALL LABELS
+UNK_36: .res 8
+movement_direction: .res 2 ; $3E
+UNK_40: .res 8
+; $40 -> CHR bank 2 during IRQ?
+; $41 -> CHR bank 3 during IRQ?
+; $42 -> CHR bank 4 during IRQ? -- ALSO: Another party member? Seems related to $28
+; $43 -> CHR bank 5 during IRQ?
+; $46 -> Some scanline for IRQ?
+enemy_group: .res 1 ; $48
+UNK_49: .res 7
+; $4E -> Damage (16-bit) -- only during battle?
+UNK_50: .res $10
+; $53 -> Attacker offset -- in battles
+; $54 -> Target offset -- in battles
+; $58 -> Move type -- only during battle?
+UNK_60: .res $10
+UNK_70: .res $10
+UNK_80: .res 2
 
 ; Position of menu cursor in whole numbers, incrementing by 1 per step
-menucursor_pos              = $82
-menu_x_pos                  = $86       ; X pos in whole numbers
-menu_y_pos                  = $87       ; Y pos in whole numbers
+menucursor_pos: .res 2 ; $82
+UNK_84: .res 2
+menu_x_pos: .res 1 ; $86 ; X pos in whole numbers
+menu_y_pos: .res 1 ; $87 ; Y pos in whole numbers
+UNK_88: .res 8
+UNK_90: .res $10
+UNK_A0: .res $10
+unk_b0: .res 1 ; $b0
+unk_b1: .res 1 ; $b1
+unk_b2: .res 1 ; $b2
+unk_b3: .res 1 ; $b3
+unk_b4: .res 1 ; $b4
+UNK_b5: .res 1 ; $b5
+unk_b6: .res 2 ; $b6 ;two byte
+UNK_b8: .res 2 ; $b7
+unk_ba: .res 1 ; $ba
+unk_bb: .res 2 ; $bb ;SOMETIMES two byte???? lohi??? probably
+unk_bd: .res 1 ; $bd
+unk_be: .res 1 ; $be
+unk_bf: .res 1 ; $bf
+UNK_C0: .res $10
+; $a0 -> Player movement direction?
+; $aa -> X position for collision detection?
+; $ac -> Y position for collision detection?
+; $bb -> Something to do with music (2 bytes). Interacts with $07FF
+; $bd -> Current music channel? (1=noise, 2=pulse1, 3=pulse2, 4=triangle, 5=dmc)?
+frame_counter: .res 3 ; $d0 ; 24 bit
+UNK_D3: .res 7
+; $d3 -> How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the frame counter also stops counting (wtf...?)
+; $d7 has a JMP instruction (if zero, then don't jump)
+pad1_forced: .res 1 ; $da
+pad2_forced: .res 1 ; $db
+pad1_press: .res 1 ; $dc
+pad2_press: .res 1 ; $dd
+pad1_hold: .res 1 ; $de
+pad2_hold: .res 1 ; $df
+UNK_E0: .res $A
+nmi_flag: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running NMI handler ;ignores controller input while set
+UNK_EB: .res 2
+irq_index: .res 1 ; $ed ; IRQ routine index (multiple of 2)
+bankswitch_mode: .res 1 ; $ee ; Bankswitch "mode"  (-----mmm), $8000 MMC3 register
+bankswitch_flags: .res 1 ; $ef ; Bankswitch "flags" (ff------), $8000 MMC3 register
+current_banks: .res 1 ; $f0 ; Current banks for each "mode" (8 bytes)
+UNK_F1: .res $b
+; $F8, etc.
+scroll_x: .res 1 ; $fc
+scroll_y: .res 1 ; $fd
+ram_PPUMASK: .res 1 ; $fe
+ram_PPUCTRL: .res 1 ; $ff
 
-; global variable that ignores controller input while set
-input_blocker               = $EA
+
+.segment        "RAM": absolute
