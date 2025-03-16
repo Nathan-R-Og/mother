@@ -467,11 +467,11 @@ B28_0248:
 
 .ifdef VER_JP
 B27_007e:
-    lda new_music
+    lda soundqueue_track
     cmp #$25
     bne B27_0090
     jsr B28_0299
-    sta new_music
+    sta soundqueue_track
     lda #$11
     sta $07f1
     B27_0090:
@@ -1208,7 +1208,7 @@ B28_061e:
     lda #$00
     sta $078b
     lda #$25
-    sta new_music
+    sta soundqueue_track
     B28_0657:
     jmp B28_0688
 
@@ -1695,7 +1695,7 @@ B28_090e:
     jmp B28_0299
 
 B28_0911:
-    lda new_music
+    lda soundqueue_track
     tay
     .ifdef VER_JP
     cmp #$ff

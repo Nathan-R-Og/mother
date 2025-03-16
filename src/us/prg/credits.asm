@@ -106,7 +106,7 @@ B26_00a0:
     rts
 
 B26_00b1:
-    jsr B31_0ddc
+    jsr OT0_DefaultTransition
     jsr B31_1d5e
     jsr B31_1d80
     ldy #$01

@@ -1432,7 +1432,7 @@ B20_1a4d:
     ldy #.HIBYTE(IntroText1)
     jsr do_story_print ;prints each line
     lda #$ff
-    sta new_music
+    sta soundqueue_track
     jsr B31_0e30
     lda #$06
     sta $76
@@ -1848,7 +1848,7 @@ B20_1d0a:
     rts
 
 B20_1d50:
-    jsr B31_0ddc
+    jsr OT0_DefaultTransition
     jsr B31_1d5e
     jsr B31_1d80
     ldx #.LOBYTE(B25_0afd)
@@ -1874,14 +1874,14 @@ B20_1d60:
     sta $61
     jsr LoadPaletteFrom
 
-    jsr B31_0ddc
+    jsr OT0_DefaultTransition
 
     ;if mother earth playing, dont switch
     lda #music::mother_earth
     cmp current_music
     beq B20_1d93
     ;else switch
-    sta new_music
+    sta soundqueue_track
     B20_1d93:
 
     ldx #.LOBYTE(B20_1eaf)
@@ -1906,7 +1906,7 @@ B20_1d60:
     sta $61
     jsr LoadPaletteFrom
 
-    jsr B31_0ddc
+    jsr OT0_DefaultTransition
 
     BankswitchCHR_Address B20_1e69
 
@@ -1958,7 +1958,7 @@ B20_1d60:
     @escape:
     ldx #0
     stx pad1_forced
-    jsr B31_0ddc
+    jsr OT0_DefaultTransition
     lda #$19
     ldx #.LOBYTE(ANTI_PIRACY-1)
     ldy #.HIBYTE(ANTI_PIRACY-1)
@@ -1977,7 +1977,7 @@ DoIntroTransition:
     ldx #64
     jsr AdvanceIfPressStart
 
-    jsr B31_0ddc
+    jsr OT0_DefaultTransition
 
     ;fade wait
     ldx #64

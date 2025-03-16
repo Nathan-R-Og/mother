@@ -123,7 +123,7 @@ B25_00e4:
 incbinRange "../../split/us/antipiracy.bin", $e4, $1f8
 
 B25_01f8:
-    jsr B31_0ddc
+    jsr OT0_DefaultTransition
     jsr B31_1dc0
     jsr B31_1d5e
     jsr B31_1d80
@@ -482,7 +482,7 @@ B25_042d:
     jmp BANK_SWAP
 
 B25_0480:
-    jsr B31_0ddc
+    jsr OT0_DefaultTransition
     jsr B31_1dc0
     jsr B31_1d5e
     jsr B31_1d80
@@ -546,12 +546,12 @@ B25_04cc:
     ldy #.HIBYTE(B19_0d1a-1)
     jsr TempUpperBankswitch
     lda #19
-    ldx #.LOBYTE(B19_0b30-1)
-    ldy #.HIBYTE(B19_0b30-1)
+    ldx #.LOBYTE(OINST00_END-1)
+    ldy #.HIBYTE(OINST00_END-1)
     jsr TempUpperBankswitch
     lda #19
-    ldx #.LOBYTE(B30_03f4-1)
-    ldy #.HIBYTE(B30_03f4-1)
+    ldx #.LOBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
+    ldy #.HIBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
     jsr TempUpperBankswitch
     jmp BankswitchLower_Bank20
 
@@ -566,8 +566,8 @@ B25_05cc:
     lda #$00
     sta $2c
     lda #19
-    ldx #.LOBYTE(B30_03f4-1)
-    ldy #.HIBYTE(B30_03f4-1)
+    ldx #.LOBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
+    ldy #.HIBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
     jsr TempUpperBankswitch
     lda #$6a
     ldx #$01
@@ -683,7 +683,7 @@ B25_06c2:
     ldx #60
     jsr WaitXFrames_Min1
     lda #$23
-    sta new_music
+    sta soundqueue_track
     lda #$f8
     ldx #$ff
     jsr B25_075e
@@ -919,7 +919,7 @@ B25_081a:
     jmp BANK_SWAP
 
 B25_086d:
-    jsr B31_0ddc
+    jsr OT0_DefaultTransition
     jsr B31_1dc0
     jsr B31_1d5e
     jsr B31_1d80
