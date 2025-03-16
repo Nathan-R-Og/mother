@@ -4330,7 +4330,7 @@ DoLevelUp:
     adc #20                         ; target val for hp = 20 + 2*Str
     bcc :+
     lda #255                        ; target val for hp = 255 + Str
-:   ldy HP_Offset
+:   ldy #HP_Offset
     jsr SaveTargetVal
     lda #$84                        ; "HP went up [Num]!"
     jsr TryPrintPointsIncrease
@@ -4342,7 +4342,7 @@ DoLevelUp:
     sta $60
     lsr a
     clc
-    ldy PP_Offset
+    ldy #$05
     jsr SaveTargetVal
     lda #$85                        ; "PP went up [Num]!"
     jsr TryPrintPointsIncrease

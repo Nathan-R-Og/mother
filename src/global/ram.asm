@@ -269,6 +269,7 @@ disable_dmc = $07F7 ; If not zero, DMC is disabled
 soundactive                     = $07F8
     soundactive_noise           = soundactive
     soundactive_pulseg0         = soundactive+1
+    soundactive_unknown         = soundactive+2
     soundactive_triangle        = soundactive+3
     soundactive_pulseg1         = soundactive+4
     soundactive_track           = soundactive+5

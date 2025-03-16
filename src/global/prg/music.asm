@@ -1629,7 +1629,7 @@ B28_0840:
     sta SQ2_VOL
     lda #$00
     sta unk_7c8+1
-    sta soundactive_unk
+    sta soundactive_unknown
     rts
 
 B28_084e:

@@ -724,7 +724,7 @@ OA_BREAD:
     ldx #$46                    ; "You need to toss your old crumbs first!"
     jmp DisplayText
 @BreadEat:
-    lda #30                     ; for some reason, eating bread in overworld is stronger than in battle (possibly unintentional behavior)
+    lda #20
     jmp OA_Eat
 
 OA_TOFU:
@@ -977,7 +977,7 @@ RestoreHP:
     sta soundqueue_pulseg0
     ldx #$34
     jsr DisplayText
-    ldx #$32
+    ldx #$30
     jmp OA_Print_ByNum
 
 ; Parameters
