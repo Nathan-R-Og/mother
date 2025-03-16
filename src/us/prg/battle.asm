@@ -64,9 +64,6 @@ MUSIC_BATTLE_GIEGUE = $2c
 MUSIC_NONE          = $ff
 
 ; zeropage ram variables
-is_scripted                 = $21
-; .importzp is_tank         ; $23
-
 ; $40 series : battle variables
 battle_endtype              = $47
     ENDTYPE_RUN             = $1
@@ -178,10 +175,6 @@ SFX_Status          = $12
 SFX_BlindMiss       = $13
 SFX_GiegueAttack    = $14
 SFX_Unconned        = $15
-
-
-; full data offsets
-Inventory_Offset        = $20
 
 .segment        "PRG17": absolute
 

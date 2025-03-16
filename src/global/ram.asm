@@ -518,13 +518,13 @@ object_m_unk2 = $1d ;3 bytes
 ; SAVED GAMES ARE STORED AT $7700, $7A00 and $7D00
 
 ;save_slot            = $7402 ; TODO: CONFIRM AND LABEL
-xpos_music           = $7404 ; xxxxxxxx.xxmmmmmm (x=xpos;m=music)
-ypos_direction       = $7406 ; yyyyyyyy.yydddddd (y=ypos;d=direction)
-party_members        = $7408 ; Array of party members (4 bytes)
-save_coordinates     = $740C ; Saved game coordinates (copied from $7404, 4 bytes)
-wallet_money         = $7410 ; Wallet money (2 bytes)
-bank_money           = $7412 ; Bank money (3 bytes)
-dad_money            = $7415 ; Money earned since last Dad call
+;xpos_music           = $7404 ; xxxxxxxx.xxmmmmmm (x=xpos;m=music)
+;ypos_direction       = $7406 ; yyyyyyyy.yydddddd (y=ypos;d=direction)
+;party_members        = $7408 ; Array of party members (4 bytes)
+;save_coordinates     = $740C ; Saved game coordinates (copied from $7404, 4 bytes)
+;wallet_money         = $7410 ; Wallet money (2 bytes)
+;bank_money           = $7412 ; Bank money (3 bytes)
+;dad_money            = $7415 ; Money earned since last Dad call
 
 ; response delay - stores no. of frames to lag after printing a battle msg
 ; anything not named speed 5 (1 frame lag) is unbearably slow

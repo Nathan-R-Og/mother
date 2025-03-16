@@ -1714,7 +1714,7 @@ OverworldScriptLUT:
     .addr OINST_JMP_ItemNotInCurrentCharaInv-1 ; 23
     .addr OINST_JMP_ItemNotInStorage-1 ; 24
     .addr OINST_LoadItem-1 ; 25
-    .addr OINST_JMP_NotItem-1 ; 26
+    .addr OINST_JMP_NotItemSelected-1 ; 26
     .addr OINST_JMP_ItemNotInInv-1 ; 27
     .addr OINST_JMP_WalletOverflows-1 ; 28
     .addr OINST_JMP_NotEnoughMoney-1 ; 29
@@ -2238,7 +2238,7 @@ OINST_JMP_Compare2Inputs:
     jmp JumpCS
 
 ; Instruction 26 - Jump to J if item I isnt selected
-OINST_JMP_NotItem:
+OINST_JMP_NotItemSelected:
     iny
     lda $29
     cmp (object_data), y
