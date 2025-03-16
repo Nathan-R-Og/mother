@@ -1,40 +1,5 @@
 wordvar0590 = $0590
 
-PlayBattleSFX       = $f41f
-;WaitABPressed       = $f29e
-
-; used in Turn Order sorting to randomize speed (theorized effect)
-; should be +-25%
-; A should have the Speed value to modify
-RNGifySpeed         = $f3fd
-
-; used by various functions to produce the famous nes flashing effect when PSI and other moves are used
-SetBGColorBlack     = $f4b6
-SetBGColorA         = $f4b8
-
-; super common unknown funcs
-;B31_14ce
-;B31_15e5
-; uncommon funcs (2~4 hits)
-;B31_0f34
-;B31_0f3f
-;B31_126b
-;B31_12ed
-;B31_1673
-
-; 1-call funcs
-;B30_06db
-;B30_07af
-;B30_07c1 ; used by displaytext
-;B31_0cfc
-;B31_0cff
-;B31_113d
-;B31_15c2
-;B31_174c
-;B31_1759
-;B31_1760
-;B31_1765
-
 ; import table ids
 ; battle action ids
 BA_NONE             = $00
@@ -188,7 +153,8 @@ Inventory_Offset        = $20
 ; $A000
 ; Battle engine
 BattleMain:
-    lda #$00
+    ;clear values
+    lda #0
     sta pad1_forced
     sta pad2_forced
     sta battle_bytevar52
@@ -198,22 +164,28 @@ BattleMain:
     sta battle_reward_vars+2
     sta battle_reward_vars+3
     sta battle_reward_vars+4
+    ;x = 0
     tax
-:   sta BATTLER, x
+    @clear_loop:
+    sta BATTLER, x
     inx
-    bne :-
+    bne @clear_loop
+
     ldx #$1f
-:   sta BATTLER_1BASED, x
+    @clear_loop2:
+    sta BATTLER_1BASED, x
     dex
-    bpl :-
-    lda #$00
+    bpl @clear_loop2
+
+    lda #0
     sta attacker_offset
-    ldx #$00
-@InitPlayerBattler:                     ; loop thru all party members to init data
+
+    ldx #0
+@InitPlayerBattler: ; loop thru all party members to init data
     txa
     pha
     lda party_members, x
-    beq @JMPSkipInitialize              ; skip init if party member ID is 0
+    beq @JMPSkipInitialize ; skip init if party member ID is 0
     jsr InitializePlayerBattler
     clc
     lda attacker_offset
@@ -223,9 +195,9 @@ BattleMain:
     pla
     tax
     inx
-    cpx #$04                            ; loop thru party members 4 times
+    cpx #$04 ; loop thru party members 4 times
     bne @InitPlayerBattler
-; init enemies
+    ; init enemies
     jsr GetEnemyGroupPointer
     lda #BATTLER_DATASIZE * 4
     sta attacker_offset
@@ -2857,21 +2829,21 @@ BINSTCONDITION4_NOT_USING_TANK:
 BINSTCONDITION5_NO_BADGE:
     ldy target_offset
     bmi @NoBadgeTrue                   ; skip logic if target is an enemy
-; load target's inventory
+    ; load target's inventory
     lda BATTLER_FULLDATA_PTR, y
     sta battle_wordvar60
     lda BATTLER_FULLDATA_PTR+1, y
     sta battle_wordvar60+1
-    ldy #Inventory_Offset
-
-; start of inventory loop
-:   lda (battle_wordvar60), y
+    
+    ldy #INVENTORY_OFFSET
+ @loop:
+    lda (battle_wordvar60), y
     cmp #ITEM_BADGE
     beq @NoBadgeFalse
     iny                                 ; inc inventory counter
-    cpy #Inventory_Offset+8              ; past final inv slot
-    bne :-
-    ; jmp @NoBadgeTrue
+    cpy #INVENTORY_OFFSET+8              ; past final inv slot
+    bne @loop
+ ;  jmp @NoBadgeTrue
 
 @NoBadgeTrue:                           ; does not have badge
     sec
