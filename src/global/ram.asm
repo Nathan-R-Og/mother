@@ -1,108 +1,5 @@
 .feature force_range
 ; *** RAM DEFINES ***
-; zeropage global variables
-melody_timer                = $08           ; Trippy background timer on melody
-player_direction            = $0C
-fade_type                   = $0E
-can_enter_doors             = $0F           ; $00 (TRUE) when normal, $FF (FALSE) when teleporting
-; $10 -> Field CHR bank 2
-; $11 -> $10 & 3
-; $12 -> Field CHR bank 3
-; $13 -> $12 & 3
-; $14 -> Current "tileset"?
-; $15 -> Current area??
-
-player_x                    = $18           ; 16-bit
-player_y                    = $1A           ; 16-bit
-player_localx               = $1B           ; local offset in NES tilemap; steps in $10
-player_localy               = $1C           ; local offset in NES tilemap; steps in $10
-
-overworld_tick_speed        = $1F           ; 0 = normal, set to 1 when B is held, increases during Teleport run
-
-
-fade_flag                   = $20
-;bytevar21                  = $21
-    ; battle    : is_scripted
-    ; overworld : is_cutscene
-autowalk_direction          = $22           ; For cutscenes? If bit 4 is set, then walks through other objects
-
-is_tank                     = $23           ; set when tank is being used
-
-; $25 -> Cutscene flag? Doesn't allow run button and NPCs are frozen
-
-random_num                  = $26           ; 2 bytes, updates every gametick
-
-; $28 -> Object script character ID
-; $29 -> Object script item ID
-
-global_wordvar2a            = $2a                 ; always used for variables
-
-; More Documentation Needed
-text_printing_state         = $2C
-; 00 = Clear (Initial string prints textbox and gets printed at default spot)
-; 08 = Continuing (adds break at end -> next string is printed)
-; 09 = Yes / No Menu
-; 18 = Selection Menu (Who? Menu)
-; 1C = Input Number (used for ATM)
-; 20 = opens Inventory for item selection
-; 21 = opens Storage for item selection
-; 22 = Shop Menu
-; 37 = Custom Yes / No Menu
-
-object_pointer       = $30 ; Pointer to object_memory
-object_data          = $32 ; Pointer to ROM object data
-; $34 -> Object script interaction type
-object_script_offset = $35 ; TODO: APPLY ALL LABELS
-
-movement_direction   = $3E
-
-; $40 -> CHR bank 2 during IRQ?
-; $41 -> CHR bank 3 during IRQ?
-; $42 -> CHR bank 4 during IRQ? -- ALSO: Another party member? Seems related to $28
-; $43 -> CHR bank 5 during IRQ?
-
-; $46 -> Some scanline for IRQ?
-
-enemy_group                 = $48       ; EG when an encounter happens
-
-
-
-menu_cursor_pos             = $82       ; position of menu cursor in whole numbers, incrementing by 1 per step
-menu_x_pos                  = $86       ; X pos in whole numbers
-menu_y_pos                  = $87       ; Y pos in whole numbers
-
-
-
-; $a0 -> Player movement direction?
-
-; $aa -> X position for collision detection?
-; $ac -> Y position for collision detection?
-
-; $bb -> Something to do with music (2 bytes). Interacts with $07FF
-; $bd -> Current music channel? (1=noise, 2=pulse1, 3=pulse2, 4=triangle, 5=dmc)?
-
-frame_counter    = $d0 ; 24 bit
-; $d3 -> How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the frame counter also stops counting (wtf...?)
-
-; $d7 has a JMP instruction (if zero, then don't jump)
-pad1_forced      = $da
-pad2_forced      = $db
-pad1_press       = $dc
-pad2_press       = $dd
-pad1_hold        = $de
-pad2_hold        = $df
-
-nmi_flag         = $ea ; 01 = waiting for NMI, 80 = is running NMI handler
-
-irq_index        = $ed ; IRQ routine index (multiple of 2)
-bankswitch_mode  = $ee ; Bankswitch "mode"  (-----mmm), $8000 MMC3 register
-bankswitch_flags = $ef ; Bankswitch "flags" (ff------), $8000 MMC3 register
-current_banks    = $f0 ; Current banks for each "mode" (8 bytes)
-; $F8, etc.
-scroll_x         = $fc
-scroll_y         = $fd
-ram_PPUMASK      = $fe
-ram_PPUCTRL      = $ff
 
 ; Length    = 0x40 (64) bytes
 ; Area      = $0110 ~ $014F
@@ -597,6 +494,116 @@ fav_food = $7689
 
 item_storage = $76B0
 
-
 repel_counter = $7419
 
+
+.segment        "ZP": zeropage
+; zeropage global variables
+UNK_0: .res 8
+melody_timer: .res 1 ; $8
+UNK_9: .res 3
+player_direction: .res 1 ;$C
+UNK_d: .res 1
+fade_type: .res 1 ;$E
+UNK_f: .res 1
+UNK_10: .res 8
+; $10 -> Field CHR bank 2
+; $11 -> $10 & 3
+; $12 -> Field CHR bank 3
+; $13 -> $12 & 3
+; $14 -> Current "tileset"?
+; $15 -> Current area??
+player_x: .res 2 ; $18
+player_y: .res 2 ; $1A
+UNK_1c: .res 4
+; $1F -> 1 when run button is held?
+fade_flag: .res 1 ; $20
+is_scripted: .res 1
+; $21 -> An object index?
+autowalk_direction: .res 1 ; $22 ; For cutscenes? If bit 4 is set, then walks through other objects
+is_tank: .res 1
+UNK_24: .res 2
+; $25 -> Cutscene flag? Doesn't allow run button and NPCs are frozen
+random_num: .res 2 ; $26
+UNK_28: .res 2
+global_wordvar: .res 2 ; $2A ; Object script 16-bit number
+UNK_2C: .res 4
+; $28 -> Object script character ID
+; $29 -> Object script item ID
+object_pointer: .res 2 ; $30 ; Pointer to object_memory
+object_data: .res 2 ; $32 ; Pointer to ROM object data
+UNK_34: .res 1
+; $34 -> Object script interaction type
+object_script_offset: .res 1 ; $35 ; TODO: APPLY ALL LABELS
+UNK_36: .res 8
+movement_direction: .res 2 ; $3E
+UNK_40: .res 8
+; $40 -> CHR bank 2 during IRQ?
+; $41 -> CHR bank 3 during IRQ?
+; $42 -> CHR bank 4 during IRQ? -- ALSO: Another party member? Seems related to $28
+; $43 -> CHR bank 5 during IRQ?
+; $46 -> Some scanline for IRQ?
+enemy_group: .res 1 ; $48
+UNK_49: .res 7
+; $4E -> Damage (16-bit) -- only during battle?
+UNK_50: .res $10
+; $53 -> Attacker offset -- in battles
+; $54 -> Target offset -- in battles
+; $58 -> Move type -- only during battle?
+UNK_60: .res $10
+UNK_70: .res $10
+UNK_80: .res 2
+
+; Position of menu cursor in whole numbers, incrementing by 1 per step
+menucursor_pos: .res 2 ; $82
+UNK_84: .res 2
+menu_x_pos: .res 1 ; $86 ; X pos in whole numbers
+menu_y_pos: .res 1 ; $87 ; Y pos in whole numbers
+UNK_88: .res 8
+UNK_90: .res $10
+UNK_A0: .res $10
+unk_b0: .res 1 ; $b0
+unk_b1: .res 1 ; $b1
+unk_b2: .res 1 ; $b2
+unk_b3: .res 1 ; $b3
+unk_b4: .res 1 ; $b4
+UNK_b5: .res 1 ; $b5
+unk_b6: .res 2 ; $b6 ;two byte
+UNK_b8: .res 2 ; $b7
+unk_ba: .res 1 ; $ba
+unk_bb: .res 2 ; $bb ;SOMETIMES two byte???? lohi??? probably
+unk_bd: .res 1 ; $bd
+unk_be: .res 1 ; $be
+unk_bf: .res 1 ; $bf
+UNK_C0: .res $10
+; $a0 -> Player movement direction?
+; $aa -> X position for collision detection?
+; $ac -> Y position for collision detection?
+; $bb -> Something to do with music (2 bytes). Interacts with $07FF
+; $bd -> Current music channel? (1=noise, 2=pulse1, 3=pulse2, 4=triangle, 5=dmc)?
+frame_counter: .res 3 ; $d0 ; 24 bit
+UNK_D3: .res 7
+; $d3 -> How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the frame counter also stops counting (wtf...?)
+; $d7 has a JMP instruction (if zero, then don't jump)
+pad1_forced: .res 1 ; $da
+pad2_forced: .res 1 ; $db
+pad1_press: .res 1 ; $dc
+pad2_press: .res 1 ; $dd
+pad1_hold: .res 1 ; $de
+pad2_hold: .res 1 ; $df
+UNK_E0: .res $A
+nmi_flag: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running NMI handler ;ignores controller input while set
+UNK_EB: .res 2
+irq_index: .res 1 ; $ed ; IRQ routine index (multiple of 2)
+bankswitch_mode: .res 1 ; $ee ; Bankswitch "mode"  (-----mmm), $8000 MMC3 register
+bankswitch_flags: .res 1 ; $ef ; Bankswitch "flags" (ff------), $8000 MMC3 register
+current_banks: .res 1 ; $f0 ; Current banks for each "mode" (8 bytes)
+UNK_F1: .res $b
+; $F8, etc.
+scroll_x: .res 1 ; $fc
+scroll_y: .res 1 ; $fd
+ram_PPUMASK: .res 1 ; $fe
+ram_PPUCTRL: .res 1 ; $ff
+
+
+.segment        "RAM": absolute
