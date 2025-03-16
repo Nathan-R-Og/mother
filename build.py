@@ -213,8 +213,8 @@ if __name__ == "__main__":
     if args.japanese:
         linker = "linker-j.cfg"
 
-    subprocess.run(f"ca65 {DEFINES} -o example.o -g src/{dir}/main.asm -t nes".strip(), shell = True)
-    subprocess.run(f"ld65 -Ln linked.txt -C {linker} -o mother_rebuilt.nes example.o", shell = True)
+    subprocess.run(f"ca65 {DEFINES} -o example.o -g src/{dir}/main.asm -t nes".strip(), shell = True, executable="/bin/bash")
+    subprocess.run(f"ld65 -Ln linked.txt -C {linker} -o mother_rebuilt.nes example.o", shell = True, executable="/bin/bash")
 
     resultTime = (time.time() - start_time)
     print(f"Assembly took {resultTime} seconds!")
