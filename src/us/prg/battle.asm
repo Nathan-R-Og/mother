@@ -1458,7 +1458,7 @@ SelectCheck:
     sta target_offset
     jsr B23_0991
     bcs :+
-    ldx menu_cursor_pos
+    ldx menucursor_pos
     lda bytevar_0591, x
     tax
     dex
@@ -1519,20 +1519,20 @@ SelectionMenuCheckTeddyScript:
     bvs :+
     lda #$09
     jsr B23_0945
-    lda menu_cursor_pos
+    lda menucursor_pos
     rts
 :   lda #$08
     rts
 
 B23_0945:
     sta battle_wordvar60
-    lda menu_cursor_pos
+    lda menucursor_pos
     lsr a
     asl a
     clc
     adc $77
     sta $77
-    lda menu_cursor_pos
+    lda menucursor_pos
     and #$01
     beq B23_095d
     clc
@@ -1557,7 +1557,7 @@ B23_0945:
     sta target_offset
     jsr B23_0991
     bcs B23_098f
-    ldx menu_cursor_pos
+    ldx menucursor_pos
     lda bytevar_0591, x
     tax
     dex
@@ -1587,7 +1587,7 @@ B23_0991:
     jmp B23_0991
 
 B23_09ad:
-    lda menu_cursor_pos
+    lda menucursor_pos
     clc
     rts
     B23_09b1:
@@ -1652,9 +1652,9 @@ B23_0a08:
     jsr B23_0ae9
     bcs B23_0a65
     ldy attacker_offset
-    lda menu_cursor_pos
+    lda menucursor_pos
     sta BATTLER_TEMP_VARS, y
-    ldy menu_cursor_pos
+    ldy menucursor_pos
     lda (battle_var5c), y
     jsr GetItemPointer
     ldy attacker_offset
@@ -1793,7 +1793,7 @@ B23_0ae9:
     B23_0b05:
     lda #$0c
     jsr B23_0945
-    lda menu_cursor_pos
+    lda menucursor_pos
     clc
     rts
     B23_0b0e:
@@ -1825,7 +1825,7 @@ B23_0b10:
     beq B23_0b10
     bne B23_0b12
     B23_0b39:
-    ldy menu_cursor_pos
+    ldy menucursor_pos
     lda BATTLER_1BASED, y
     jsr GetPsiDataPointer
     jsr BankswitchLower_Bank00_Preserve
@@ -2828,13 +2828,13 @@ BINSTCONDITION5_NO_BADGE:
     lda BATTLER_FULLDATA_PTR+1, y
     sta battle_wordvar60+1
     
-    ldy #INVENTORY_OFFSET
+    ldy #Inventory_Offset
  @loop:
     lda (battle_wordvar60), y
     cmp #ITEM_BADGE
     beq @NoBadgeFalse
     iny                                 ; inc inventory counter
-    cpy #INVENTORY_OFFSET+8              ; past final inv slot
+    cpy #Inventory_Offset+8              ; past final inv slot
     bne @loop
  ;  jmp @NoBadgeTrue
 

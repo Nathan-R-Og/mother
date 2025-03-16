@@ -460,53 +460,68 @@ SELECTION_GIVE:
     dex
     beq @GiveFail
     lda $29
-    cmp #$03
-    beq B19_0365
+    cmp #$03            ; bread crumbs id
+    beq @CantGiveItem
     jsr PromptWho
-    bcs B19_037a
-    jsr B19_0979
-    bcs B19_036a
+    bcs @CancelGive
+    jsr IsTargetInventoryFull
+    bcs @ReceiverFull
     jsr RemoveItem
     cmp $42
-    beq B19_0356
+    beq @ReceiverWeird
     jsr PlayerStatusCheck
-    bne B19_0349
+    bne @GiverIsDead
     jsr MOV_word60_word40
     jsr PlayerStatusCheck
-    bne B19_0344
+    bne @AliveToDead
+
+; @AliveToAlive ; (1 person to another)
     ldx #$24
     jmp DisplayTextAndFinishRoutine
-    B19_0344:
+
+@AliveToDead:
     ldx #$4c
     jmp DisplayTextAndFinishRoutine
-    B19_0349:
+
+@GiverIsDead:
     jsr MOV_word60_word40
     jsr PlayerStatusCheck
-    bne B19_0360
+    bne @DeadToDead
+; @DeadToAlive
     ldx #$4e
     jmp DisplayTextAndFinishRoutine
-    B19_0356:
+
+; funky logic where this location gets jumped to in 2 different locations
+; parses between player giving item to self (when the target is alive)
+; or giving between dead to dead (when the target is dead)
+@ReceiverWeird:
     jsr PlayerStatusCheck
-    bne B19_0360
+    bne @DeadToDead
+; @GiveToSelf
     ldx #$50
     jmp DisplayTextAndFinishRoutine
-    B19_0360:
+
+@DeadToDead:
     ldx #$52
     jmp DisplayTextAndFinishRoutine
-    B19_0365:
+
+; used by bread crumbs only in vania
+@CantGiveItem:
     ldx #$26
     jmp DisplayTextAndFinishRoutine
-    B19_036a:
+
+@ReceiverFull:
     lda $28
     cmp $42
-    beq B19_0356
+    beq @ReceiverWeird
+; @ReceiverFull
     ldx #$28
     jmp DisplayTextAndFinishRoutine
 
 @GiveFail:
     ldx #$0c                            ; "You don't have any friends to give items to yet."
     jmp DisplayTextAndFinishRoutine
-    B19_037a:
+@CancelGive:
     jmp B19_026a
 
 SELECTION_EAT:
@@ -684,7 +699,7 @@ OA_CRUMBS:
     jmp DisplayText
 
 OA_BREAD:
-    lda menu_cursor_pos
+    lda menucursor_pos
     bne @BreadEat
 ; @BreadUse
     lda #$03
@@ -713,7 +728,7 @@ OA_BREAD:
     jmp OA_Eat
 
 OA_TOFU:
-    lda menu_cursor_pos
+    lda menucursor_pos
     bne @TofuEat
     jmp OA_INTERACT
 @TofuEat:
@@ -950,12 +965,12 @@ OA_TryHealingPSI:
     jmp OA_CureStatusEffect
 
 RestoreHP:
-    ldy HP_Offset
+    ldy #CurrHP_Offset
     jsr LoadBigStat
-    ldy MAX_HP_OFFSET
+    ldy #HP_Offset
     jsr SetBigStatCap
     jsr EnablePRGRam
-    ldy HP_Offset
+    ldy #CurrHP_Offset
     jsr IncreaseBigStat
     jsr WriteProtectPRGRam
     lda #PulseG0_Recovery
@@ -1383,7 +1398,7 @@ PlayerStatusCheck:
     and #$f0
     rts
 
-B19_0979:
+IsTargetInventoryFull:
     lda #$00
     jsr GetItemInventorySlot
     bcs OLocal_SEC_RTS
@@ -1478,7 +1493,7 @@ B19_0a05:
     sta $28
     txa
     pha
-    jsr B19_0979
+    jsr IsTargetInventoryFull
     pla
     tax
     bcc B19_0a2c
@@ -3140,7 +3155,7 @@ OINST_RemoveChara:
     lda $31
     pha
     lda $28
-    jsr B30_178d
+    jsr REMOVE_PARTY_MEMBER
     pla
     sta $31
     pla

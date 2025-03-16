@@ -542,12 +542,12 @@ B25_04cc:
     lda #$06
     sta $73
     lda #19
-    ldx #.LOBYTE(B19_0d1a-1)
-    ldy #.HIBYTE(B19_0d1a-1)
+    ldx #.LOBYTE(O_PrintText-1)
+    ldy #.HIBYTE(O_PrintText-1)
     jsr TempUpperBankswitch
     lda #19
-    ldx #.LOBYTE(OINST00_END-1)
-    ldy #.HIBYTE(OINST00_END-1)
+    ldx #.LOBYTE(OINST_END-1)
+    ldy #.HIBYTE(OINST_END-1)
     jsr TempUpperBankswitch
     lda #19
     ldx #.LOBYTE(CLEAR_TEXTBOXES_ROUTINE-1)

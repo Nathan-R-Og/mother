@@ -6,7 +6,7 @@ B25_02b3 := $a2b3
 DisplayText_battle := $a3f8
 B20_1630 := $963d
 B19_1bc3 := $bcaa
-B19_0979 := $a92f
+IsTargetInventoryFull := $a92f
 B19_1b8c := $bc73
 Map_Palettes := $9000
 
@@ -4169,14 +4169,14 @@ B30_1768:
     clc
     jmp WriteProtectPRGRam
 
-B30_178d:
+REMOVE_PARTY_MEMBER:
     ldx #$00
-    B30_178f:
+    @Loop:
     cmp party_members, x
     beq B30_179a
     inx
     cpx #$04
-    bcc B30_178f
+    bcc @Loop
     rts
 
 B30_179a:
@@ -4359,21 +4359,21 @@ B30_18ba:
 
 B30_18c9:
     lda #$07
-    jsr B30_178d
+    jsr REMOVE_PARTY_MEMBER
 B30_18ce:
     lda #$06
-    jmp B30_178d
+    jmp REMOVE_PARTY_MEMBER
 
 RECONFIGURE_PARTY:
     lda $7581
     bpl B30_18dd
     lda #$06
-    jsr B30_178d
+    jsr REMOVE_PARTY_MEMBER
     B30_18dd:
     lda $75c1
     bpl B30_18e7
     lda #$07
-    jsr B30_178d
+    jsr REMOVE_PARTY_MEMBER
     B30_18e7:
     ldx #$00
     stx $37
@@ -4698,7 +4698,7 @@ B30_1a48:
     sta $28
     txa
     pha
-    jsr B19_0979
+    jsr IsTargetInventoryFull
     pla
     tax
     bcc B30_1b33

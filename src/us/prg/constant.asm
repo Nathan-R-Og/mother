@@ -3680,12 +3680,12 @@ B30_1768:
 
 REMOVE_PARTY_MEMBER:
     ldx #$00
-    B30_178f:
+    @Loop:
     cmp party_members, x
     beq B30_179a
     inx
     cpx #$04
-    bcc B30_178f
+    bcc @Loop
     rts
 
 B30_179a:
@@ -3898,10 +3898,9 @@ RECONFIGURE_PARTY:
     jsr B30_18ba
     jsr EnablePRGRam
     jsr B30_1840
-    bcs B30_18fe
+    bcs :+
     inc $37
-    B30_18fe:
-    jsr WriteProtectPRGRam
+:   jsr WriteProtectPRGRam
     inx
     cpx #$04
     bcc @CountLivingPartyMembersLoop
@@ -3941,7 +3940,7 @@ GAME_OVER:
     lda #$01
     sta $37
     lda #$00
-    sta is_cutscene
+    sta is_scripted
     sta is_tank
     ldx $47
     ldy B30_196b, x
@@ -4197,38 +4196,38 @@ BattleRewardsRoutine:
     jsr BankswitchUpper_Bank19
     jsr B19_1bc3
     lda #$ff
-    sta global_wordvar2a
-    lda global_wordvar2a+1
+    sta global_wordvar
+    lda global_wordvar+1
     ora #$1f
-:   asl global_wordvar2a
+:   asl global_wordvar
     asl a
     bcc :-
 ; @TryItemDrop
     jsr Rand
-    and global_wordvar2a
+    and global_wordvar
     bne @RewardsEnd
 ; @ItemDropSuccess
     jsr B19_1b8c
     ldx #$00
-    B30_1b1b:
+@B30_1b1b:
     jsr B30_19f1
-    bcs B30_1b2b
+    bcs @B30_1b2b
     sta $28
     txa
     pha
-    jsr B19_0979
+    jsr IsTargetInventoryFull
     pla
     tax
-    bcc @ItemDropGetFX
-    B30_1b2b:
+    bcc ItemDropGetFX
+@B30_1b2b:
     inx
     cpx #$04
-    bcc B30_1b1b
+    bcc @B30_1b1b
 @RewardsEnd:
     jmp WriteProtectPRGRam
 
 ; play sfx for item get and print text
-@ItemDropGetFX:
+ItemDropGetFX:
     jsr BankswitchUpper_Bank23
     lda #PulseG0_ItemDropGet
     sta soundqueue_pulseg0

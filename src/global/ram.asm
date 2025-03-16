@@ -144,10 +144,13 @@ current_music = $078C ; Current music track
 ;       DPCM uses upper 2 bits of a byte for data to rep. what sample to play (Snare and Kick Drum, don't remember which is which)
 ;       Noise uses the rest of the bits
 MusicHeader             = $0790
-
-; $0790 = Music transpose
-; $0791 = Music note length table offset
-; $0792 = Music channel music data pointer (2 bytes per channel)
+    ME_Transpose = $0790                    ; Music transpose
+    ME_NoteLengthOffset = $0791             ; Music note length table offset
+    ME_DataPointer = $0792                  ; Music channel music data pointer (2 bytes per channel)
+    ME_Pulse1Channel = ME_DataPointer
+    ME_Pulse2Channel = ME_DataPointer+2
+    ME_TriangleChannel = ME_DataPointer+4
+    ME_NoiseChannel = ME_DataPointer+6
 
 ; Length    = 3 bytes each
 ; Area      = $079A ~ $079F
@@ -155,10 +158,20 @@ ME_Envelopes            = $079a
     ME_Envelopes0       = ME_Envelopes
     ME_Envelopes1       = ME_Envelopes+3    ; $079D
 
-; $079A = Envelope #1 (3 bytes, noise not included!)
-; $079D = Envelope #2 (3 bytes, noise not included!)
-; $07A0 = Unknown pointer (2 bytes per channel)
-; $07A8 = Unknown offset (1 byte per channel)
+;guess
+ME_CurrentPhrases = $07a0
+    ME_CurrentPulse1Phrase = ME_CurrentPhrases
+    ME_CurrentPulse2Phrase = ME_CurrentPhrases+2
+    ME_CurrentTrianglePhrase = ME_CurrentPhrases+4
+    ME_CurrentNoisePhrase = ME_CurrentPhrases+6
+
+;guess
+;if looped, sets head to loop point
+ME_CurrentPhraseIndex = $07a8
+    ME_Pulse1Index = ME_CurrentPhraseIndex
+    ME_Pulse2Index = ME_CurrentPhraseIndex+1
+    ME_TriangleIndex = ME_CurrentPhraseIndex+2
+    ME_NoiseIndex = ME_CurrentPhraseIndex+3
 
 ; Music Channel variables
 ; RAM reserved for the music engine to do its thing
@@ -170,17 +183,13 @@ ME_Envelopes            = $079a
 ;   $3 : Noise & DPCM
 
 ; Current Offset in Channel Music Banks
-MusicChannel_Counter                = $07AC
-; loop start offset
-MusicChannel_LSOffset               = $07B0
-MusicChannel_NoteLengthCounter      = $07B4
-MusicChannel_NewNoteLength          = $07B8
+MusicChannel_Counter = $07AC ; Music channel music data offset (added to $0792[x])
+MusicChannel_LSOffset = $07B0 ; Music channel loop start offset
+MusicChannel_NoteLengthCounter = $07B4 ; Music channel note length counter
+MusicChannel_NewNoteLength = $07B8 ; Music channel new note length
+MusicChannel_LoopCounter = $07BC ; Music channel loop counter
+; $07C0 = Music channel sweep ($4001/$4005), not used for triangle and noise since sweep only exists for pulse
 
-; $07AC = Music channel music data offset (added to $0792[x])
-; $07B0 = Music channel loop start offset
-; $07B4 = Music channel note length counter
-; $07B8 = Music channel new note length
-; $07BC = Music channel loop counter
 ; $07C0 = Music channel sweep ($4001/$4005), not used for triangle and noise since sweep only exists for pulse
 
 ; $07CC = Current music ID (gets value from $07F5 minus one)
@@ -248,6 +257,7 @@ Track_Clear                 = $ff
 soundqueue                      = $07F0
     soundqueue_noise            = soundqueue
     soundqueue_pulseg0          = soundqueue+1
+    soundactive_unk             = soundqueue+2
     soundqueue_triangle         = soundqueue+3
     soundqueue_pulseg1          = soundqueue+4
     soundqueue_track            = soundqueue+5
