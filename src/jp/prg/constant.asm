@@ -4752,16 +4752,15 @@ DoLevelUp:
     sta ($38), y
     jsr B30_043f
     jsr EnablePRGRam
-    lda #$ff
+    lda #Track_Clear
     jsr PlayMusic
-    lda #$1f
+    lda #Track_LevelUp
     jsr PlayMusic
-    lda #$82
+    lda #$82                    ; "[Name] leveled up!"
     jsr DisplayText_battle
     jsr B30_1cdf
     ldy #$03
-    B30_1b93:
-    jsr Rand
+:   jsr Rand
     lsr a
     lsr a
     lsr a
@@ -4774,9 +4773,9 @@ DoLevelUp:
     sta $55, y
     iny
     cpy #$08
-    bcc B30_1b93
+    bcc :-
     ldy #$0b
-    @CoreStatsLoop:
+@CoreStatsLoop:
     clc
     lda ($38), y
     adc $4D, y
@@ -4785,20 +4784,20 @@ DoLevelUp:
     eor #$ff
     sta $4D, y
     lda #$ff
-    @IncCoreStats:
+@IncCoreStats:
     sta ($38), y
     lda $4D, y
-    beq B30_1bcd
+    beq :+
     tya
     pha
     clc
-    adc #$7b
+    adc #$7b                        ; "Fight went up [Num]!"
     jsr DisplayText_battle
     pla
     tay
-    B30_1bcd:
-    iny
-    cpy #$10
+; @IncrementLoop
+:   iny
+    cpy #Fce_Offset + 1             ; stop when Y is past core stats offset
     bcc @CoreStatsLoop
     ldy #$07
     lda $58
@@ -4810,13 +4809,12 @@ DoLevelUp:
     lda ($38), y
     sta $60
     clc
-    adc #$14
-    bcc B30_1bed
-    lda #$ff
-    B30_1bed:
-    ldy #$03
+    adc #20                         ; target val for hp = 20 + 2*Str
+    bcc :+
+    lda #255                        ; target val for hp = 255 + Str
+:   ldy #HP_Offset
     jsr SaveTargetVal
-    lda #$84
+    lda #$84                        ; "HP went up [Num]!"
     jsr TryPrintPointsIncrease
     lda $28
     cmp #$03
@@ -4828,7 +4826,7 @@ DoLevelUp:
     clc
     ldy #$05
     jsr SaveTargetVal
-    lda #$85
+    lda #$85                        ; "PP went up [Num]!"
     jsr TryPrintPointsIncrease
     B30_1c0f:
     clc
@@ -4837,22 +4835,24 @@ DoLevelUp:
 StoreRewardMoney:
     clc
     lda $4c
-    adc $7400, x
-    sta $7400, x
+    adc starting_sram, x
+    sta starting_sram, x
     lda $4d
-    adc $7401, x
-    sta $7401, x
+    adc starting_sram+1, x
+    sta starting_sram+1, x
     lda #$00
-    adc $7402, x
-    sta $7402, x
+    adc starting_sram+2, x
+    sta starting_sram+2, x
     bcc B30_1c37
     lda #$ff
-    sta $7400, x
-    sta $7401, x
-    sta $7402, x
+    sta starting_sram, x
+    sta starting_sram+1, x
+    sta save_slot, x
     B30_1c37:
     rts
 
+; Try printing HP, PP went up [Num]!
+; Prints nothing if increase is 0.
 TryPrintPointsIncrease:
     ldx $5d
     beq SaveTargetValRTS
@@ -4872,12 +4872,11 @@ SaveTargetVal:
     iny
     lda $61
     sbc ($38), y
-    beq B30_1c5c
+    beq :+
     ldx #$08
-    bcs B30_1c5c
+    bcs :+
     ldx #$01
-    B30_1c5c:
-    dey
+:   dey
     txa
     asl a
     jsr B30_1c71
@@ -4890,7 +4889,7 @@ SaveTargetVal:
     lda #$00
     adc ($38), y
     sta ($38), y
-    SaveTargetValRTS:
+SaveTargetValRTS:
     rts
 
 B30_1c71:
