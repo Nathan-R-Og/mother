@@ -6,7 +6,7 @@ B25_02b3 := $a2b3
 DisplayText_battle := $a3f8
 B20_1630 := $963d
 B19_1bc3 := $bcaa
-B19_0979 := $a92f
+IsTargetInventoryFull := $a92f
 B19_1b8c := $bc73
 Map_Palettes := $9000
 
@@ -22,7 +22,7 @@ B20_17a3 := $97b0
 
 B19_0123 := $a123
 B19_01c6 := $a1b6
-B19_1cec := $bdd3
+OverworldTransitionIntepreter := $bdd3
 intro := $9400
 
 ;bank $1e-$1f start
@@ -815,7 +815,7 @@ B30_0306:
     ldy #.HIBYTE(B25_031e-1)
     .endif
     jsr F3C6D4
-    jmp B31_1d4a
+    jmp SUPRESS_INPUT
 
 BankswitchLower_Bank00:
     lda #0
@@ -969,9 +969,9 @@ B30_03e6:
     jmp B30_03a4
 
 
-B30_03f4:
+CLEAR_TEXTBOXES_ROUTINE:
     php
-    jsr B30_0fac
+    jsr STORE_COORDINATES
     jsr B31_1dc0
     lda #$01
     sta $e5
@@ -2383,7 +2383,7 @@ PostInit:
     sta $07ef
     B30_0b57:
     jsr BankswitchUpper_Bank19
-    jsr B19_1cec
+    jsr OverworldTransitionIntepreter
     B30_0b5d:
     jsr B30_0542
     jsr B30_0efc
@@ -2395,7 +2395,7 @@ PostInit:
     sta $0d
     B30_0b70:
     jsr B31_1d5e
-    jsr B30_0fac
+    jsr STORE_COORDINATES
     B30_0b76:
     jsr B30_1e99
     jsr B31_0ef0
@@ -2455,7 +2455,7 @@ B30_0bcd:
     and #$a0
     beq B30_0be5
     bmi B30_0bdc
-    jsr B19_082f
+    jsr OpenMapWithButton
     jmp B30_0be5
 .endif
 
@@ -2594,7 +2594,7 @@ B30_0cb1:
     lda #$1e
     and ram_PPUMASK
     sta ram_PPUMASK
-    jsr B31_1d4f
+    jsr WAIT_CLOSE_MENU
     jmp B30_0d79
 
 B30_0cd8:
@@ -2603,7 +2603,7 @@ B30_0cd8:
     lda #$ff
     sta $0f
     jsr PlayMusic
-    jsr B30_03f4
+    jsr CLEAR_TEXTBOXES_ROUTINE
     lda #$01
     sta $07f4
     jsr B30_0d9d
@@ -2668,7 +2668,7 @@ B30_0cd8:
     jsr B30_0542
     jsr B30_0efc
     jsr B31_1d5e
-    jsr B30_0fac
+    jsr STORE_COORDINATES
     jsr B30_0d9d
     ldx #$2c
     B30_0d70:
@@ -2980,7 +2980,7 @@ Field_Sprite_Palette:
     .byte $0F,$0F,$24,$37
     .byte $0F,$0F,$12,$37
 
-B30_0fac:
+STORE_COORDINATES:
     jsr PpuSync
     clc
     lda $1c
@@ -3037,7 +3037,7 @@ B30_0fac:
     lda $9b
     asl a
     tax
-    jsr B31_1d4a
+    jsr SUPRESS_INPUT
     lda #$25
     sta $053e, x
     sec
@@ -4169,14 +4169,14 @@ B30_1768:
     clc
     jmp WriteProtectPRGRam
 
-B30_178d:
+REMOVE_PARTY_MEMBER:
     ldx #$00
-    B30_178f:
+    @Loop:
     cmp party_members, x
     beq B30_179a
     inx
     cpx #$04
-    bcc B30_178f
+    bcc @Loop
     rts
 
 B30_179a:
@@ -4359,21 +4359,21 @@ B30_18ba:
 
 B30_18c9:
     lda #$07
-    jsr B30_178d
+    jsr REMOVE_PARTY_MEMBER
 B30_18ce:
     lda #$06
-    jmp B30_178d
+    jmp REMOVE_PARTY_MEMBER
 
-B30_18d3:
+RECONFIGURE_PARTY:
     lda $7581
     bpl B30_18dd
     lda #$06
-    jsr B30_178d
+    jsr REMOVE_PARTY_MEMBER
     B30_18dd:
     lda $75c1
     bpl B30_18e7
     lda #$07
-    jsr B30_178d
+    jsr REMOVE_PARTY_MEMBER
     B30_18e7:
     ldx #$00
     stx $37
@@ -4653,7 +4653,7 @@ B30_1a48:
     lda ($38), y
     sbc $66
     bcc B30_1ad8
-    jsr B30_1b6c
+    jsr TryLevelUp
     bcc B30_1ab9
     B30_1ad8:
     jsr B30_1c87
@@ -4669,9 +4669,9 @@ B30_1a48:
     bne B30_1b30
     jsr EnablePRGRam
     ldx #$12
-    jsr B30_1c11
+    jsr StoreRewardMoney
     ldx #$15
-    jsr B30_1c11
+    jsr StoreRewardMoney
     lda enemy_group
     beq B30_1b30
     sta $29
@@ -4698,7 +4698,7 @@ B30_1a48:
     sta $28
     txa
     pha
-    jsr B19_0979
+    jsr IsTargetInventoryFull
     pla
     tax
     bcc B30_1b33
@@ -4740,14 +4740,14 @@ B30_1b40:
     sta $66
     rts
 
-B30_1b6c:
+TryLevelUp:
     ldy #$10
     lda ($38), y
     cmp #$63
-    bcc B30_1b75
+    bcc DoLevelUp
     rts
 
-B30_1b75:
+DoLevelUp:
     adc #$01
     sta ($38), y
     jsr B30_043f
@@ -4776,16 +4776,16 @@ B30_1b75:
     cpy #$08
     bcc B30_1b93
     ldy #$0b
-    B30_1baa:
+    @CoreStatsLoop:
     clc
     lda ($38), y
     adc $4D, y
-    bcc B30_1bbc
+    bcc @IncCoreStats
     sbc $4D, y
     eor #$ff
     sta $4D, y
     lda #$ff
-    B30_1bbc:
+    @IncCoreStats:
     sta ($38), y
     lda $4D, y
     beq B30_1bcd
@@ -4799,7 +4799,7 @@ B30_1b75:
     B30_1bcd:
     iny
     cpy #$10
-    bcc B30_1baa
+    bcc @CoreStatsLoop
     ldy #$07
     lda $58
     jsr B30_1c64
@@ -4815,9 +4815,9 @@ B30_1b75:
     lda #$ff
     B30_1bed:
     ldy #$03
-    jsr B30_1c3f
+    jsr SaveTargetVal
     lda #$84
-    jsr B30_1c38
+    jsr TryPrintPointsIncrease
     lda $28
     cmp #$03
     bcs B30_1c0f
@@ -4827,14 +4827,14 @@ B30_1b75:
     lsr a
     clc
     ldy #$05
-    jsr B30_1c3f
+    jsr SaveTargetVal
     lda #$85
-    jsr B30_1c38
+    jsr TryPrintPointsIncrease
     B30_1c0f:
     clc
     rts
 
-B30_1c11:
+StoreRewardMoney:
     clc
     lda $4c
     adc $7400, x
@@ -4853,12 +4853,12 @@ B30_1c11:
     B30_1c37:
     rts
 
-B30_1c38:
+TryPrintPointsIncrease:
     ldx $5d
-    beq B30_1c70
+    beq SaveTargetValRTS
     jmp DisplayText_battle
 
-B30_1c3f:
+SaveTargetVal:
     clc
     adc $60
     sta $60
@@ -4890,7 +4890,7 @@ B30_1c3f:
     lda #$00
     adc ($38), y
     sta ($38), y
-    B30_1c70:
+    SaveTargetValRTS:
     rts
 
 B30_1c71:
@@ -7386,7 +7386,7 @@ All_Bits:
 .byte %00001000, %00000100, %00000010, %00000001
 
 B31_0c65:
-    jsr B31_0ddc
+    jsr OT0_DefaultTransition
     ldx #$00
     ldy #$08
     jsr SetScroll
@@ -7420,7 +7420,7 @@ B31_0ca3:
     jsr B30_0408
     ldx #30
     jsr WaitXFrames_Min1
-    jsr B30_18d3
+    jsr RECONFIGURE_PARTY
     bcs @B31_0cb6
     jsr B30_1a48
     clc
@@ -7591,7 +7591,7 @@ B31_0dcb:
     sta PPUADDR
     rts
 
-B31_0ddc:
+OT0_DefaultTransition:
     jsr BackupPalette
 B31_0ddf:
     ldy #$05
@@ -8361,7 +8361,7 @@ BankswitchLower_Bank00_Preserve:
 ChangeMusic:
     cmp current_music
     beq @end
-    sta new_music
+    sta soundqueue_track
     @end:
     rts
 
@@ -10100,7 +10100,7 @@ MusicInit:
 PlayMusic:
     cmp current_music
     beq @unchanged
-    sta new_music
+    sta soundqueue_track
     @unchanged:
     jmp WaitFrame
 
@@ -10124,13 +10124,13 @@ WaitFrame:
     bne @loop
     rts
 
-B31_1d4a:
+SUPRESS_INPUT:
     lda $eb
-    bne B31_1d4a
+    bne SUPRESS_INPUT
     rts
 
 ; TODO: WAIT FORCED INPUT
-B31_1d4f:
+WAIT_CLOSE_MENU:
     lda #$00
     sta pad1_forced
     @B31_1d53:

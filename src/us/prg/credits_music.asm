@@ -88,11 +88,11 @@ B27_005a:
 .byte 0,0
 
 B27_007e:
-    lda new_music
+    lda soundqueue_track
     cmp #$25
     bne B27_0090
     jsr B27_00aa
-    sta new_music
+    sta soundqueue_track
     lda #$11
     sta $07f1
     B27_0090:
@@ -238,7 +238,7 @@ B27_01a0:
     jmp B27_00aa
 
 B27_01a3:
-    lda new_music
+    lda soundqueue_track
     tay
     cmp #$3f
     bcs B27_01a0

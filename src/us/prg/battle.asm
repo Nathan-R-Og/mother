@@ -35,7 +35,7 @@ battle_endtype              = $47
     ENDTYPE_DIMENSION_SLIP  = $2
     ENDTYPE_BLUEROBO_SLIP   = $3
 
-encounter_group             = $48
+; .importzp enemy_group     ; $48
 
 ; length 5 ($49 ~ $4D) used to hold battle rewards
 battle_reward_vars          = $49
@@ -114,124 +114,7 @@ wordvar_0591                = $0591
 wordvar_0592                = $0592
 
 
-; Length : 0x20 (32) bytes per battler, 8 battlers total
-; Battler Data Structure (in RAM)
-; The data starts at $0600, but much of the code uses 1-Based indexing, hence the $0580 entry.
-BATTLER_1BASED              = $0580
-BATTLER                     = $0600             ; should always be 00 for player, EnemyTableID when enemy, FF when enemy deadge
-BATTLER_DATASIZE            = $20
-BATTLER_PLAYER2             = BATTLER + (BATTLER_DATASIZE)      ; $0620
-BATTLER_PLAYER3             = BATTLER + (BATTLER_DATASIZE * 2)  ; $0640
-BATTLER_PLAYER4             = BATTLER + (BATTLER_DATASIZE * 3)  ; $0660
-BATTLER_ENEMY1              = BATTLER + (BATTLER_DATASIZE * 4)  ; $0680
-BATTLER_ENEMY2              = BATTLER + (BATTLER_DATASIZE * 5)  ; $06A0
-BATTLER_ENEMY3              = BATTLER + (BATTLER_DATASIZE * 6)  ; $06C0
-BATTLER_ENEMY4              = BATTLER + (BATTLER_DATASIZE * 7)  ; $06E0
-
-; offsets used by various functions, most notably attacker & target offset vars
-PLAYER1_OFFSET      = $00
-PLAYER2_OFFSET      = BATTLER_DATASIZE
-PLAYER3_OFFSET      = BATTLER_DATASIZE * 2
-PLAYER4_OFFSET      = BATTLER_DATASIZE * 3
-ENEMY1_OFFSET       = BATTLER_DATASIZE * 4
-ENEMY2_OFFSET       = BATTLER_DATASIZE * 5
-ENEMY3_OFFSET       = BATTLER_DATASIZE * 6
-ENEMY4_OFFSET       = BATTLER_DATASIZE * 7
-
-BATTLER_STATUS              = BATTLER + $1
-    UNCON           = %10000000
-    PETRIFICATION   = %01000000
-    PARALYSIS       = %00100000
-    SLEEP           = %00010000
-    CONFUSE         = %00001000
-    PUZZLE          = %00000100
-    POISON          = %00000010
-    COLD            = %00000001
-    NO_STATUS       = 0
-
-BATTLER_RESISTANCES         = BATTLER + $2
-    IMMUNITY    = %10000000 ; Immune to status, off/def lowering, and PK Beam Gamma
-    FIRE        = %01000000
-    ICE         = %00100000
-    ELECTRIC    = %00010000
-    ; unused    = %00001000
-    MENTAL      = %00000100 ; Also resists Def.Down
-    LIGHT       = %00000010
-    INSECT      = %00000001 ; not a resistance: if set, dies to Bug Sprays
-
-BATTLER_CURR_HP             = BATTLER + $3
-BATTLER_CURR_PP             = BATTLER + $5
-BATTLER_OFF                 = BATTLER + $7
-    ; 2 hi bits are used to store enemy death effects (but not EVE's, cause fuck logic)
-    DEATHEFFECT_FLAMES      = $1
-    DEATHEFFECT_EXPLODE     = $2
-BATTLER_DEF                 = BATTLER + $9
-
-BATTLER_CORES               = BATTLER + $B
-    BATTLER_FIT             = BATTLER_CORES
-    BATTLER_SPD             = BATTLER_CORES + $1
-    BATTLER_WIS             = BATTLER_CORES + $2
-    BATTLER_STR             = BATTLER_CORES + $3
-    BATTLER_FCE             = BATTLER_CORES + $4
-
-; stat offsets
-HP_OFFSET = $3
-PP_OFFSET = $5
-OFF_OFFSET = $7
-DEF_OFFSET = $9
-FIT_OFFSET = $B
-SPD_OFFSET = $C
-WIS_OFFSET = $D
-STR_OFFSET = $E
-FCE_OFFSET = $F
-
-; for enemies, $10 - $17 = moveset
-BATTLER_MOVESET             = BATTLER + $10
-
-; for players, they are just used as variables
-BATTLER_TEMP_VARS           = BATTLER_MOVESET
-    BATTLER_INVENTORY_SLOT  = BATTLER_MOVESET           ; used when item being used; 0~7
-    BATTLER_PLAYER_ID       = BATTLER_MOVESET + $1
-        NINTEN              = $1
-        ANA                 = $2
-        LLOYD               = $3
-        TEDDY               = $4
-        PIPPI               = $5
-        EVE                 = $6
-        FLYING_MAN          = $7
-    ; rest goes unused
-
-; pointer to battler's full data, whether it be player (player data in ram) or enemy (enemy data from table)
-BATTLER_FULLDATA_PTR        = BATTLER + $18
-
-; Letter that Suffixes multiple battlers of same enemy, e.g. StarmanA, StarmanB
-; lower 2 bits are used for other purposes, so every +4 = new letter
-BATTLER_LETTER              = BATTLER + $1A
-    ; 0 is no letter
-    BATTLER_LETTER_A        = $04
-    BATTLER_LETTER_B        = $08
-    BATTLER_LETTER_C        = $0C
-    BATTLER_LETTER_D        = $10
-    ; has functionality for E and beyond
-
-; $1B goes unused
-
-; Targeting for Action
-BATTLER_TARGET              = BATTLER + $1C
-; Changes to FF when action completed
-BATTLER_ACTION_ID           = BATTLER + $1D
-; Minor Status
-BATTLER_MINOR_STATUS        = BATTLER + $1E
-    BLIND       = %10000000
-    BLOCK       = %01000000
-    BIND        = %00100000
-    SHIELD      = %00010000
-    GUARD       = %00001000
-    BARRIER     = %00000100
-    ASTHMA      = %00000010
-    CALLABLE    = %00000001
-
-; $1F goes unused
+; $0600 battler data in src/global/ram.asm
 
 ; Battle Instruction lut
 ; sound effects
@@ -257,54 +140,6 @@ SFX_Status          = $12
 SFX_BlindMiss       = $13
 SFX_GiegueAttack    = $14
 SFX_Unconned        = $15
-
-; direct sfx (put into soundqueues)
-; $0 : noise
-; this is the only one directly used by battle engine bank
-Noise_Hit                   = $1
-Noise_Bomb                  = $2
-Noise_Thunder               = $3
-Noise_Fire                  = $4
-Noise_Crit                  = $5
-Noise_EnemyKilled           = $6
-; $7 not used (plays junk data)
-Noise_Stairs                = $8
-Noise_Rocket                = $9
-Noise_RocketLand            = $A
-; $1 : pulses group 0
-PulseG0_EnemyAttack         = $1
-PulseG0_Beam                = $2
-PulseG0_StatBoost           = $3
-PulseG0_TakeDamage          = $4
-PulseG0_MenuBloop           = $5
-PulseG0_ItemDropGet         = $6
-PulseG0_Recovery            = $7
-PulseG0_Canary              = $8
-PulseG0_LearnedPSI          = $9
-PulseG0_PlayerAttack        = $a
-PulseG0_Purchase            = $b
-PulseG0_Dodge               = $c
-; PulseG0_LowMenuBloop  = $e (unused)
-; PulseG0_HighMenuBloop = $f (unused)
-PulseG0_Miss                = $f
-PulseG0_MagicantWarp        = $10
-PulseG0_Laura               = $11   ; plays canary then swaps track to 2nd melody (doesnt change track back)
-PulseG0_XXStone             = $12
-; $2 : unused
-; $3 : triangle
-Triangle_Freeze             = $1    ; also used for teleport
-; $2 plays junk
-Triangle_PlayerKilled       = $3
-Triangle_Equipped           = $4
-; $4 pulse group 1
-PulseG1_DimensionSlip       = $1    ; also used for teleport
-PulseG1_Status              = $2
-PulseG1_GiegueAttack        = $3
-; $5 : track (not listed here)
-
-
-; full data offsets
-INVENTORY_OFFSET        = $20
 
 .segment        "PRG17": absolute
 
@@ -510,8 +345,8 @@ BattleMain:
 ; effects
     ldx #$04                            ; turn counter is set to 4
     lda #$ff                            ; set enemy1 hp to 16-bit max
-    sta BATTLER_ENEMY1 + HP_OFFSET
-    sta BATTLER_ENEMY1 + HP_OFFSET+1
+    sta BATTLER_ENEMY1 + HP_Offset
+    sta BATTLER_ENEMY1 + HP_Offset+1
     lda #$00
     sta BATTLER_PLAYER2
     sta BATTLER_PLAYER3
@@ -2992,16 +2827,16 @@ BINSTCONDITION5_NO_BADGE:
     sta battle_wordvar60
     lda BATTLER_FULLDATA_PTR+1, y
     sta battle_wordvar60+1
-    ldy #INVENTORY_OFFSET
-    ; start of inventory loop
-    @loop:
+    
+    ldy #Inventory_Offset
+ @loop:
     lda (battle_wordvar60), y
     cmp #ITEM_BADGE
     beq @NoBadgeFalse
     iny                                 ; inc inventory counter
-    cpy #INVENTORY_OFFSET+8              ; past final inv slot
+    cpy #Inventory_Offset+8              ; past final inv slot
     bne @loop
-    ; jmp @NoBadgeTrue
+ ;  jmp @NoBadgeTrue
 
 @NoBadgeTrue:                           ; does not have badge
     sec
@@ -3637,7 +3472,7 @@ GetDeathActionBits:
     sta battle_wordvar60
     lda BATTLER_FULLDATA_PTR+1, y
     sta battle_wordvar60+1
-    ldy #OFF_OFFSET+1                    ; hi byte of Offense
+    ldy #Off_Offset+1                    ; hi byte of Offense
     lda (battle_wordvar60), y
     and #$1c
     lsr a
@@ -4190,7 +4025,7 @@ BINST4_00_RestoreHP:
     jsr MOV_input_output
     RestoreHPEffect:                   ; jump location used by MaxHP
     ldx target_offset
-    ldy #HP_OFFSET
+    ldy #HP_Offset
     jsr RaiseBigStatByNum
     ldx #SFX_Recovery
     lda #$3e                        ; restored hp text
@@ -4200,7 +4035,7 @@ BINST4_00_RestoreHP:
 BINST4_01_RestorePP:
     jsr MOV_input_output
     ldx target_offset
-    ldy #PP_OFFSET
+    ldy #PP_Offset
     jsr RaiseBigStatByNum
     ldx #SFX_Recovery
     lda #$3d                        ; restored pp text
@@ -4211,7 +4046,7 @@ BINST4_01_RestorePP:
 BINST4_11_RaiseOff:
     jsr MOV_input_output
     ldx target_offset
-    ldy #OFF_OFFSET
+    ldy #Off_Offset
     jsr RaiseBigStat
     lda #$20                        ; off raised msg
     jmp DisplayText_battle
@@ -4222,7 +4057,7 @@ BINST4_11_RaiseOff:
 BINST4_02_RaiseSpd:
     jsr MOV_input_output
     ldx target_offset
-    ldy #SPD_OFFSET
+    ldy #Spd_Offset
     jsr RaiseSmallStat
     ldx #SFX_StatBoost
     lda #$23                        ; spd raised msg
@@ -4237,7 +4072,7 @@ BINST4_0E_Suicide:
 ; They knew this effect was broken, because no enemies have access to it.
 BINST4_03_BolsterOff:
     ldx target_offset
-    ldy #OFF_OFFSET
+    ldy #Off_Offset
     jsr BolsterBigStat
     ldx #SFX_StatBoost
     lda #$20                        ; off raised msg
@@ -4246,7 +4081,7 @@ BINST4_03_BolsterOff:
 ; Defense boosting is great for Zoo & early game, but completely falls off a cliff after.
 BINST4_04_BolsterDef:
     ldx target_offset
-    ldy #DEF_OFFSET
+    ldy #Def_Offset
     jsr BolsterBigStat
     ldx #SFX_StatBoost
     lda #$22                        ; def raised msg
@@ -4268,7 +4103,7 @@ BINST_FullRestore:
     lda #NO_STATUS
     ldx target_offset
     sta BATTLER_STATUS, x
-    ldy #HP_OFFSET
+    ldy #HP_Offset
     jsr RaiseBigStatByNum
     ldx #SFX_Recovery
     lda #$00                        ; doesn't print msg
@@ -4442,7 +4277,7 @@ BINST4_07_LowerDef:
     ldy target_offset
     jsr ApplyResistance
     ldx target_offset
-    ldy #DEF_OFFSET
+    ldy #Def_Offset
     jsr LowerBigStat
     lda #$27                            ; defense lowered msg
     jmp DisplayText_battle
@@ -4451,7 +4286,7 @@ BINST4_07_LowerDef:
 BINST4_08_LowerFit:
     jsr MOV_input_output
     ldx target_offset
-    ldy #FIT_OFFSET
+    ldy #Fit_Offset
     jsr LowerSmallStat
     lda #$26                            ; fight lowered msg
     jmp DisplayText_battle
@@ -4497,7 +4332,7 @@ BINST4_0A_Cryo:
 ; drops off by ~50% additive
 BINST4_0B_CrippleOff:
     ldx target_offset
-    ldy #OFF_OFFSET
+    ldy #Off_Offset
     jsr CrippleBigStat
     lda #$21                            ; offense lowered msg
     jmp DisplayText_battle
@@ -4505,7 +4340,7 @@ BINST4_0B_CrippleOff:
 ; drops def by ~50% additive
 BINST4_0C_CrippleDef:
     ldx target_offset
-    ldy #DEF_OFFSET
+    ldy #Def_Offset
     jsr CrippleBigStat
     lda #$27                            ; defense lowered msg
     jmp DisplayText_battle
@@ -4518,7 +4353,7 @@ BINST4_0C_CrippleDef:
 BINST4_10_Approach:
     jsr MOV_input_output
     ldx attacker_offset
-    ldy #OFF_OFFSET
+    ldy #Off_Offset
     jsr RaiseBigStat
     lda #$5c                            ; print useless flavor text instead of telling the player why the hell the Zoo gators are slamming Ninten for double their base attack power
     jmp DisplayText_battle
@@ -4642,7 +4477,7 @@ BINST4_17_Block:
     sta battle_wordvar60
     lda BATTLER_FULLDATA_PTR+1, y
     sta battle_wordvar60+1
-    ldy #PP_OFFSET                       ; see if target has power; move fails if they don't
+    ldy #PP_Offset                       ; see if target has power; move fails if they don't
     lda (battle_wordvar60), y
     iny
     ora (battle_wordvar60), y
@@ -4699,7 +4534,7 @@ BINST4_1C_Petrify:
     jsr GiveMajorStatus
     bcs :+
     ldx target_offset
-    ldy #DEF_OFFSET
+    ldy #Def_Offset
     jsr BolsterBigStat
 :   rts
 
@@ -4801,7 +4636,7 @@ BINST4_25_CureUncon:
     sta battle_input_num
     sta battle_input_num+1
     ldx target_offset
-    ldy #HP_OFFSET
+    ldy #HP_Offset
     jsr RaiseBigStatByNum
     ldx #SFX_Recovery
     lda #$62                        ; revived msg
@@ -4829,7 +4664,7 @@ BINST4_29_Sing:
     pla
     cmp current_music
     beq :+
-    sta new_music
+    sta soundqueue_track
 :   rts
 ; "real" sing routine that runs after Giegue shuts up.
 ; advances the counter towards Giegue's demise (it's also used to determine what he says)
@@ -4908,7 +4743,7 @@ BINST4_27_Magnet:
     lda bytevar_0591
     sta battle_wordvar60+1
     ldx attacker_offset
-    ldy #PP_OFFSET
+    ldy #PP_Offset
     jsr RaiseBigStatByNum
     lda attacker_offset
     sta target_offset
