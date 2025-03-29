@@ -777,7 +777,7 @@ DisplayText_battle:
     cmp #$00
     bne PrintChar
 :   jsr BankswitchLower_Bank22
-    ldx battle_message_responsedelay
+    ldx battle_message_speed
     jsr WaitXFrames
     DisplayText_RTS:
     rts
@@ -2827,7 +2827,7 @@ BINSTCONDITION5_NO_BADGE:
     sta battle_wordvar60
     lda BATTLER_FULLDATA_PTR+1, y
     sta battle_wordvar60+1
-    
+
     ldy #Inventory_Offset
  @loop:
     lda (battle_wordvar60), y

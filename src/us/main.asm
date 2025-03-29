@@ -24,11 +24,11 @@
 .include "prg/battle.asm"
 
 ;
-.segment        "PRG18": absolute
+.segment "PRG18": absolute
 .include "text_pointers.asm"
 
-.segment "SRAM": absolute
-.include "../global/starting_sram.asm"
+.segment "SAVEFILE": absolute
+.include "../global/starting_save.asm"
 .include "../global/starting_characters.asm"
 ;
 
@@ -72,7 +72,7 @@
 .include "chr/bank1a.asm"
 .include "chr/bank1b.asm"
 
-.segment        "CHR1C": absolute
-.segment        "CHR1D": absolute
-.segment        "CHR1E": absolute
-.segment        "CHR1F": absolute
+.segment "CHR1C": absolute
+.segment "CHR1D": absolute
+.segment "CHR1E": absolute
+.segment "CHR1F": absolute

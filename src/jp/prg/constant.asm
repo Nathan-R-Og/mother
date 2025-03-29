@@ -31,7 +31,7 @@ intro := $9400
 ; $C000
 ; DPCM samples
 ;kick
-B30_0000:
+sample_kick:
     .byte $ff
     .byte $ff
     .byte $ff
@@ -119,7 +119,7 @@ B30_0071:
     .byte $00
     .byte $00
 ;snare
-B30_0080:
+sample_snare:
     .byte $ff
     .byte $b7
     .byte $20, $0b, $00
@@ -578,7 +578,7 @@ B30_024F:
 
 
 ; DATA NOW!
-B30_022c:
+control_codes:
     .byte $00 ; 00 stopText
     .byte $01 ; 01 newLine
     .byte $02 ; 02 waitThenOverwrite
@@ -824,7 +824,7 @@ BankswitchLower_Bank00:
 
 
 ; $C329 - Unknown
-B30_0329:
+party_menu_1char:
     .byte set_pos 1, 23
     .byte print_string $952f
     .byte $01, $c1, $16
@@ -833,11 +833,11 @@ B30_0329:
     .byte $c1,$18,$83
     .byte repeatTile $84, $1c
     .byte $85
-    B30_033d:
+    party_menu_nochar:
     .byte $00
 
 ; $C33E - Unknown
-B30_033e:
+party_menu_2char:
     .byte set_pos 1, 21
     .byte print_string $952f
     .byte $01, $c1, $14
@@ -851,7 +851,7 @@ B30_033e:
     .byte $00
 
 ; $C359 - Unknown
-B30_0359:
+party_menu_3char:
     .byte set_pos 1, 19
     .byte print_string $952f
     .byte $01, $c1, $12
@@ -1288,13 +1288,6 @@ F3C6D4:
     asl $E2
     rts
 
-
-.ifdef VER_JP
-something = $6D00
-.else
-something = $6700
-.endif
-
 B30_0542:
     jsr EnablePRGRam
     ldx #$10
@@ -1333,10 +1326,10 @@ B30_0542:
     bne B30_0572
     pla
     tay
-    lda B30_061e, y
+    lda battle_status_string_lut, y
     sta something, x
     inx
-    lda B30_061e+1, y
+    lda battle_status_string_lut+1, y
     sta something, x
     inx
     ldy #$1b
@@ -1397,9 +1390,9 @@ B30_0542:
     lda #$00
     B30_05ee:
     sta something+$d
-    lda B30_0616, x
+    lda party_menu_layouts, x
     sta something+1
-    lda B30_0616+1, x
+    lda party_menu_layouts+1, x
     sta something+2
     lda something+$13
     sta something+$b
@@ -1412,13 +1405,13 @@ B30_0542:
     jmp WriteProtectPRGRam
 
 
-B30_0616:
-    .addr B30_033d ; 0 characters
-    .addr B30_0329 ; 1 character
-    .addr B30_033e ; 2 characters
-    .addr B30_0359 ; 3 characters
+party_menu_layouts:
+    .addr party_menu_nochar ; 0 characters
+    .addr party_menu_1char ; 1 character
+    .addr party_menu_2char ; 2 characters
+    .addr party_menu_3char ; 3 characters
 
-B30_061e:
+battle_status_string_lut:
     .addr STATUS_COLD ; "  Cold"
     .addr STATUS_POISON ; "Poison"
     .addr STATUS_PUZZLD ; "Puzzld"
@@ -2166,7 +2159,7 @@ B30_0a5c:
     cmp #$40
     bcs B30_0a7b
     tay
-    lda B30_022c, y
+    lda control_codes, y
     ldy $7a
     cmp #$80
     bcs B30_0a7b
@@ -2201,7 +2194,7 @@ B30_0a7c:
 
     tay
     ;load index in control codes
-    lda B30_022c, y
+    lda control_codes, y
     ;pop y
     ldy $7a
 

@@ -142,8 +142,13 @@ splits:
       #splits:
       #- [0]
     - bank: 0x1E
-      #splits:
-      #- [0]
+      splits:
+      - [0, sample/kick]
+      - [0x71]
+      - [0x80, sample/snare]
+      - [0x171]
+      - [0x200]
+      - [0x22c, txt_ctrl_codes]
     - bank: 0x1F
       splits:
       - [0]

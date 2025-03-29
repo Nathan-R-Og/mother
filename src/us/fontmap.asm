@@ -124,9 +124,9 @@ t_nop = 5
 .define result print_string $6d00
 .define favFood print_string $7689
 .define nintenName print_string ninten_name
-.define lloydName print_string $74F8
-.define anaName print_string $74B8
-.define teddyName print_string $7538
+.define lloydName print_string lloyd_name
+.define anaName print_string ana_name
+.define teddyName print_string teddy_name
 .define partyLead print_string $670A
 .define item print_string $6D04
 .define playerName print_string $7420

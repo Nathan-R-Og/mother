@@ -2591,15 +2591,15 @@ B28_0e4a:
     ;kick drum
     lda #$0e
     sta unk_b1
-    lda #dmc_samplelen B30_0000, B30_0071
-    ldy #dmc_sampleaddr B30_0000
+    lda #dmc_samplelen sample_kick, B30_0071
+    ldy #dmc_sampleaddr sample_kick
     beq B28_0e5c
     B28_0e54:
     ;snare drum
     lda #$0e
     sta unk_b1
-    lda #dmc_samplelen B30_0080, B30_0171
-    ldy #dmc_sampleaddr B30_0080
+    lda #dmc_samplelen sample_snare, B30_0171
+    ldy #dmc_sampleaddr sample_snare
     B28_0e5c:
     sta DMC_LEN
     sty DMC_START

@@ -4,267 +4,14 @@
 ; $C000
 ; DPCM samples
 ;kick
-B30_0000:
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $b6, $42
-    .byte $04
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $20, $49, $b5
-    .byte $aa
-    .byte $aa
-    .byte $4a
-    .byte $24, $01
-    .byte $51, $da
-    .byte $b6, $aa
-    .byte $6d, $f7, $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $f6, $76
-    .byte $db
-    .byte $ab
-    .byte $55, $a5
-    .byte $44
-    .byte $10, $20
-    .byte $00
-    .byte $00
-    .byte $04
-    .byte $08
-    .byte $90, $28
-    .byte $51, $aa
-    .byte $5a
-    .byte $b5, $6d
-    .byte $7b
-    .byte $f7
-    .byte $ee, $dd, $b7
-    .byte $77
-    .byte $5b
-    .byte $5b
-    .byte $b5, $52
-    .byte $49, $12
-    .byte $12
-    .byte $09, $12
-    .byte $22
-    .byte $49, $48
-    .byte $a5, $2a
-    .byte $55, $65
-    .byte $b5, $b5
-    .byte $ad, $b6, $6d
-    .byte $db
-    .byte $b6, $6d
-    .byte $db
-    .byte $b6, $b5
-    .byte $ad, $d6, $aa
-    .byte $2a
-    .byte $55, $4a
-    .byte $a5, $24
-    .byte $49, $2a
-    .byte $09, $95
-    .byte $a2, $54
-    .byte $49, $53
-    .byte $b5, $44
-    .byte $6a
-    .byte $d5, $6a
-    .byte $ad, $d6, $44
-    .byte $00
-    .byte $ab
+sample_kick:
+    .incbin "split/us/sample/kick.bin"
 B30_0071:
-    .byte $6a
-    .byte $d5, $44
-    .byte $44
-    .byte $ad, $44, $44
-    .byte $44
-    .byte $54
-    .byte $44
-    .byte $95, $44
-    .byte $52
-    .byte $00
-    .byte $00
+    .byte $6a, $d5, $44, $44, $ad, $44, $44, $44
+    .byte $54, $44, $95, $44, $52, $00, $00
 ;snare
-B30_0080:
-    .byte $ff ;133
-    .byte $b7
-    .byte $20, $0b, $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $c0, $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $c0, $0b
-    .byte $00
-    .byte $00
-    .byte $80
-    .byte $fd, $ff, $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $17
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $f0, $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $7e, $51, $ed
-    .byte $44
-    .byte $81, $10
-    .byte $01, $82
-    .byte $18
-    .byte $2b
-    .byte $42
-    .byte $53
-    .byte $81, $6f
-    .byte $d8
-    .byte $db
-    .byte $eb
-    .byte $e7
-    .byte $bf
-    .byte $eb
-    .byte $1f
-    .byte $fb
-    .byte $95, $24
-    .byte $48
-    .byte $00
-    .byte $02
-    .byte $00
-    .byte $e0, $c5
-    .byte $c0, $bf
-    .byte $f8
-    .byte $ff
-    .byte $ff
-    .byte $ba
-    .byte $0e, $7e, $c4
-    .byte $50, $68
-    .byte $2a
-    .byte $56, $02
-    .byte $6f
-    .byte $77
-    .byte $4e, $f8, $45
-    .byte $95, $20
-    .byte $56, $50
-    .byte $63
-    .byte $3f
-    .byte $f4
-    .byte $ff
-    .byte $f0, $9d
-    .byte $f8
-    .byte $21, $b2
-    .byte $20, $8e, $0d
-    .byte $18
-    .byte $cf
-    .byte $82
-    .byte $af
-    .byte $8a
-    .byte $e3
-    .byte $3f
-    .byte $78
-    .byte $fd, $18, $ce
-    .byte $02
-    .byte $87
-    .byte $58
-    .byte $e0, $c4
-    .byte $47
-    .byte $e9, $df
-    .byte $f1, $53
-    .byte $3b
-    .byte $8a
-    .byte $97
-    .byte $38
-    .byte $08
-    .byte $a9, $03
-    .byte $de, $e2, $f8
-    .byte $0f
-    .byte $9e
-    .byte $ec, $89, $b2
-    .byte $07
-    .byte $38
-    .byte $e2
-    .byte $63
-    .byte $f1, $e3
-    .byte $c3
-    .byte $7b
-    .byte $42
-    .byte $af
-    .byte $28
-    .byte $8e, $2a, $8e
-    .byte $42
-    .byte $83
-    .byte $5a
-    .byte $1d, $fa, $b1
-    .byte $eb
-    .byte $ab
-    .byte $d6, $62
-    .byte $da
-    .byte $a1, $e2
-    .byte $d0, $34
-    .byte $9c
-    .byte $85, $8e
-    .byte $ae, $c4, $7a
-    .byte $72
-    .byte $1d, $a6, $55
-    .byte $1c
-    .byte $b9, $52, $3d
-    .byte $8b
-    .byte $9e
-    .byte $9d, $4e, $96
-    .byte $2a
-    .byte $0b
-    .byte $e2
-    .byte $a8
-    .byte $a4, $95
-    .byte $2d, $bb, $72
-    .byte $ad, $f4, $91
-    .byte $5a
-    .byte $8b
-    .byte $52
-    .byte $25, $4e
-    .byte $9c
-    .byte $5a
-    .byte $79, $6a, $d7
-    .byte $a4, $8e
-    .byte $9c
-    .byte $74
-    .byte $b0, $a2
-    .byte $b4, $89
-    .byte $67
-    .byte $35, $6d
-    .byte $2b
-    .byte $37
-    .byte $b6, $45
-    .byte $a5, $a9
-    .byte $c5, $a4
+sample_snare:
+    .incbin "split/us/sample/snare.bin"
 B30_0171:
     .byte $42
     .byte $34
@@ -404,7 +151,7 @@ B30_0226:
 
 ; DATA NOW!
 ; control codes
-B30_022c:
+control_codes:
     .byte $00 ; 00 stopText
     .byte $01 ; 01 newLine
     .byte $02 ; 02 waitThenOverwrite
@@ -570,68 +317,61 @@ B30_0306:
     jsr TempUpperBankswitch
     jmp SUPRESS_INPUT
 
+;literally a macro
 BankswitchLower_Bank00:
     lda #0
     ldx #BANK::PRG8000
     jmp BANK_SWAP
 
-; $C329 - Unknown
-B30_0329:
-    .byte $20, $01, $17
-    .byte $21
-    .word $924b
-    .byte $01, $25, $16
-    .byte $21
-    .word $6710
-    .byte $00
-    .byte $25
-    .byte $18
-    .byte $fb
-    .byte $22, $fc, $1c
-    .byte $fd
-    B30_033d:
-    .byte $00
+; $C329
+party_menu_1char:
+    .byte set_pos 1, 23
+    .byte print_string battle_statbar_top
+    .byte newLine
+    .byte uibox_r,$16
+    .byte print_string party_member_1_stats
+    .byte stopText
+    .byte uibox_r,$18,uibox_bl
+    .byte repeatTile uibox_b, 28
+    .byte uibox_br
+    party_menu_nochar:
+    .byte stopText
 
-; $C33E - Unknown
-B30_033e:
-    .byte $20
-    .byte $01, $15
-    .byte $21, $4b
-    .byte $92
-    .byte $01, $25
-    .byte $14
-    .byte $21, $10
-    .byte $67
-    .byte $01, $25
-    .byte $16, $21
-    .byte $2e, $67, $00
-    .byte $25, $18
-    .byte $fb
-    .byte $22
-    .byte $fc
-    .byte $1c
-    .byte $fd
-    .byte $00
+; $C33E
+party_menu_2char:
+    .byte set_pos 1, 21
+    .byte print_string battle_statbar_top
+    .byte newLine
+    .byte uibox_r, $14
+    .byte print_string party_member_1_stats
+    .byte newLine
+    .byte uibox_r, $16
+    .byte print_string party_member_2_stats
+    .byte stopText
+    .byte uibox_r, $18, uibox_bl
+    .byte repeatTile uibox_b, 28
+    .byte uibox_br
+    .byte stopText
 
-; $C359 - Unknown
-B30_0359:
+; $C359
+party_menu_3char:
     .byte set_pos 1, 19
-    .byte print_string $924b
+    .byte print_string battle_statbar_top
     .byte 1
     .byte incrementor
     .byte 18
 
-    .byte print_string $6710
+    .byte print_string party_member_1_stats
     .byte 1
     .byte incrementor
     .byte 20
 
-    .byte print_string $672e
+    .byte print_string party_member_2_stats
     .byte 1
     .byte incrementor
     .byte 22
 
-    .byte print_string $674c
+    .byte print_string party_member_3_stats
     .byte 0
     .byte incrementor
     .byte 24
@@ -658,13 +398,13 @@ B30_039d:
 B30_03a0:
     lda #.LOBYTE(window_unk_2)
     ldx #.HIBYTE(window_unk_2)
-    B30_03a4:
+B30_03a4:
     sta $74
     stx $75
     lda $ec
-    beq B30_03af
+    beq @B30_03af
     jmp B30_02b3
-    B30_03af:
+    @B30_03af:
     jmp B30_0274
 
 B30_03b2:
@@ -910,12 +650,6 @@ B30_0531:
     sta $79
     jmp B30_04e5
 
-.ifdef VER_JP
-something = $6D00
-.else
-something = $6700
-.endif
-
 B30_0542:
     jsr EnablePRGRam
     ldx #$10
@@ -954,10 +688,10 @@ B30_0542:
     bne B30_0572
     pla
     tay
-    lda B30_061e, y
+    lda battle_status_string_lut, y
     sta something, x
     inx
-    lda B30_061e+1, y
+    lda battle_status_string_lut+1, y
     sta something, x
     inx
     ldy #$1b
@@ -1018,9 +752,9 @@ B30_0542:
     lda #$00
     B30_05ee:
     sta something+$d
-    lda B30_0616, x
+    lda party_menu_layouts, x
     sta something+1
-    lda B30_0616+1, x
+    lda party_menu_layouts+1, x
     sta something+2
     lda something+$13
     sta something+$b
@@ -1032,13 +766,13 @@ B30_0542:
     sta something+$f
     jmp WriteProtectPRGRam
 
-B30_0616:
-    .addr B30_033d ; 0 characters
-    .addr B30_0329 ; 1 character
-    .addr B30_033e ; 2 characters
-    .addr B30_0359 ; 3 characters
+party_menu_layouts:
+    .addr party_menu_nochar ; 0 characters
+    .addr party_menu_1char ; 1 character
+    .addr party_menu_2char ; 2 characters
+    .addr party_menu_3char ; 3 characters
 
-B30_061e:
+battle_status_string_lut:
     .addr STATUS_COLD ; "  Cold"
     .addr STATUS_POISON ; "Poison"
     .addr STATUS_PUZZLD ; "Puzzld"
@@ -1094,10 +828,10 @@ GetPartyMemberData:
     ror a
     lsr $61
     ror a
-    adc #.LOBYTE(Player_Data-$40)
+    adc #.LOBYTE(party_data-$40)
     sta $60
     lda $61
-    adc #.HIBYTE(Player_Data-$40)
+    adc #.HIBYTE(party_data-$40)
     sta $61
     rts
 
@@ -1716,7 +1450,7 @@ B30_0a5c:
     cmp #$40
     bcs B30_0a7b
     tay
-    lda B30_022c, y
+    lda control_codes, y
     ldy $7a
     cmp #$80
     bcs B30_0a7b
@@ -1744,29 +1478,29 @@ B30_0a7c:
 
     ;not a control code
     cmp #$40
-    bcs B30_0a9f
+    bcs @normal_tile
 
     tay
     ;load index in control codes
-    lda B30_022c, y
+    lda control_codes, y
     ;pop y
     ldy $7a
 
+    ;kana
     cmp #$80
-    bcs B30_0a9c
+    bcs @kana_implementation
 
+    ;output
     cmp #$20
-    bcs B30_0a99
-
+    bcs @output_tiles
 
     ;is ui piece
-    cmp #$0a
-    bcs B30_0a96
+    cmp #$a
+    bcs @fix_ui_offset
 
     rts
 
-;fix ui offset
-B30_0a96:
+    @fix_ui_offset:
     .ifdef VER_JP
     ora #$b0
     .else
@@ -1774,15 +1508,15 @@ B30_0a96:
     .endif
     rts
 
-B30_0a99:
+    @output_tiles:
     lda #$ff
     rts
 
-B30_0a9c:
+    @kana_implementation:
     lda #$fe
     rts
 
-B30_0a9f:
+    @normal_tile:
     lda #$a0
     rts
 
@@ -3761,7 +3495,7 @@ B30_1813:
     ldy #$02
     and #$07
     sta $39
-    lda #.LOBYTE(Player_Data-$40)
+    lda #.LOBYTE(party_data-$40)
     lsr $39
     ror a
     lsr $39
@@ -3770,7 +3504,7 @@ B30_1813:
     sta (object_pointer), y
     iny
     lda $39
-    adc #.HIBYTE(Player_Data-$40)
+    adc #.HIBYTE(party_data-$40)
     sta $39
     sta (object_pointer), y
     ldy #$1d
