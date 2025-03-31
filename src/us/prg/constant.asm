@@ -2042,32 +2042,42 @@ B30_0e08:
     rts
 
 B30_0e6d:
-    lda #$00
-    ldx #$00
+    ;clear word
+    lda #0
+    ldx #0
     sta $60
     stx $61
-    lda #$00
+
+    ;0x2000
+    lda #0
     ldx #$20
     sta $64
     stx $65
+
     lda #$10
     sta $68
+
     B30_0e81:
     lda $60
     ldx $61
-    ldy #$09
+
+    ldy #9
     jsr B30_0eb2
+
     lda $64
     ldx $65
+
     ldy #$05
     jsr B30_0eb2
+
     clc
     lda #$40
     adc $60
     sta $60
-    lda #$00
+    lda #0
     adc $61
     sta $61
+
     clc
     lda #$40
     adc $64
@@ -2075,6 +2085,7 @@ B30_0e6d:
     lda #$00
     adc $65
     sta $65
+
     dec $68
     bne B30_0e81
     rts
@@ -2083,17 +2094,21 @@ B30_0eb2:
     pha
     jsr PpuSync
     pla
-    sta $0400+3
-    stx $0400+2
-    sty $0400
+
+    sta UNK_400+3
+    stx UNK_400+2
+    sty UNK_400
     lda #64
-    sta $0400+1
+    sta UNK_400+1
     lda #$00
-    sta $0400+4+64
-    lda #$00
+    sta UNK_400+4+64
+
+    ;0080
+    lda #0
     sta $e6
     lda #$80
     sta $e5
+
     rts
 
 BankswitchUpper_Bank19:
@@ -4781,30 +4796,35 @@ B31_0065:
     bcc @B31_0067
     rts
 
+;party animate?
 B31_0087:
     jsr BeginPartyObjectIteration ; object_pointer = 0x6780, $36 = 0xFC
-    ldx #$04
+
+    ldx #4
     stx $36
-    lda #$00
+
+    lda #0
     sta $62
-    ldx #$08
+
+    ldx #8
     @B31_0094:
-    ldy #$00
+    ldy #0
     lda (object_pointer), y
     beq @B31_00e3
     bmi @B31_00e3
+
     ldy $62
-    lda ($60), y
+    lda (UNK_60), y
     sta $0302, x
     iny
-    lda ($60), y
+    lda (UNK_60), y
     sta $0303, x
     iny
-    lda ($60), y
+    lda (UNK_60), y
     sta $63
     iny
     clc
-    lda ($60), y
+    lda (UNK_60), y
     ldy #$16
     adc (object_pointer), y
     sta $0306, x
@@ -7060,27 +7080,28 @@ DarkenPalette:
     bpl @B31_0f1d
     jmp UpdatePalette
 
+;do choicer
 B31_0f34:
     ldy #$08
-    lda ($80), y
+    lda (UNK_80), y
     sta $84
     iny
-    lda ($80), y
+    lda (UNK_80), y
     sta $85
 B31_0f3f:
     ldy #$06
-    lda ($80), y
+    lda (UNK_80), y
     sta $76
     ldy #$07
-    lda ($80), y
+    lda (UNK_80), y
     sta $77
 B31_0f4b:
     ldy #$00
-    lda ($80), y
+    lda (UNK_80), y
     sta $86
     tax
     ldy #$01
-    lda ($80), y
+    lda (UNK_80), y
     jsr Mult8x8
     sta $82
     ldy #$00
@@ -7114,10 +7135,10 @@ B31_0f6d:
     sta $0202
 B31_0f88:
     ldy #$05
-    lda ($80), y
+    lda (UNK_80), y
     sta $0201
     ldy #$02
-    lda ($80), y
+    lda (UNK_80), y
     ldx $86
     jsr Mult8x8
     clc
@@ -7127,7 +7148,7 @@ B31_0f88:
     asl a
     sta $0203
     ldy #$03
-    lda ($80), y
+    lda (UNK_80), y
     ldx $87
     jsr Mult8x8
     clc
@@ -7150,7 +7171,7 @@ B31_0f88:
     dey
     bne @B31_0fbc
     ldy #$05
-    lda ($80), y
+    lda (UNK_80), y
     eor $0201
     sta $0201
     lda pad1_hold
@@ -7167,7 +7188,7 @@ B31_0f88:
     tax
     ldy #$04
     and #$f0
-    and ($80), y
+    and (UNK_80), y
     beq B31_0ffb
     sta $83
     lda #$05
@@ -7194,7 +7215,7 @@ B31_1010:
     lda Cardinal_XY+1, x
     adc $69
     ldy #$01
-    cmp ($80), y
+    cmp (UNK_80), y
     bcs B31_1055
     sta $69
     sta $60
@@ -7202,11 +7223,11 @@ B31_1010:
     lda Cardinal_XY, x
     adc $68
     ldy #$00
-    cmp ($80), y
+    cmp (UNK_80), y
     bcs B31_1055
     sta $68
     sta $6a
-    lda ($80), y
+    lda (UNK_80), y
     ldx $60
     jsr Mult8x8
 
@@ -7232,7 +7253,7 @@ B31_1052:
 B31_1055:
     ldy #$04
     lda $83
-    and ($80), y
+    and (UNK_80), y
     beq B31_1052
     sta $83
     lda #$0d
@@ -7265,7 +7286,7 @@ B31_1067:
     sec
     adc $0086, y
     sta $0068, y
-    cmp ($80), y
+    cmp (UNK_80), y
     bcc @B31_10a1
     @B31_1099:
     lda #$00
@@ -7285,14 +7306,14 @@ B31_1067:
 B31_10b0:
     pha
     ldy #$02
-    lda ($80), y
+    lda (UNK_80), y
     ldx $86
     jsr Mult8x8
     clc
     adc $76
     sta $76
     ldy #$03
-    lda ($80), y
+    lda (UNK_80), y
     ldx $87
     jsr Mult8x8
     clc
@@ -7302,20 +7323,22 @@ B31_10b0:
     jmp B30_068b
 
 ; $F0D1
+; Generic Choicer LUT
+; literally only exists for a generic 1-8 choicer. can be sliced
 B31_10d1:
     .byte 1, 2, 3, 4, 5, 6, 7, 8
 
 ; $F0D9 - D-Pad to direction table (no diagonals)
 Cardinal_By_Input:
     .byte $88 ; None
-    .byte $02 ; R
-    .byte $06 ; L
+    .byte DIRECTIONS::RIGHT ; R
+    .byte DIRECTIONS::LEFT ; L
     .byte $88 ; L+R
-    .byte $04 ; D
+    .byte DIRECTIONS::DOWN ; D
     .byte $88 ; D+R
     .byte $88 ; D+L
     .byte $88 ; D+L+R
-    .byte $00 ; U
+    .byte DIRECTIONS::UP ; U
     .byte $88 ; U+R
     .byte $88 ; U+L
     .byte $88 ; U+L+R
@@ -8130,9 +8153,9 @@ B31_15c2:
     lda #.HIBYTE(B31_15df)
     sta $85
     lda #.LOBYTE(B31_15df)
-    sta $80
+    sta UNK_80
     lda #.HIBYTE(B31_15df)
-    sta $81
+    sta UNK_80+1
     jsr B31_0f4b
     pla
     sta $5a

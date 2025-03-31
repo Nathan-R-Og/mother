@@ -523,9 +523,9 @@ B23_028a:
     lsr a
     lsr a
     tay
-    lda $960a, y
+    lda ENEMY_TILE_POINTERS, y
     sta battle_wordvar60
-    lda $960b, y
+    lda ENEMY_TILE_POINTERS+1, y
     sta battle_wordvar60+1
     lda BATTLER_OFF+1, x
     and #$e0
@@ -1496,22 +1496,22 @@ SelectBack:
     jmp SelectRTS
 
 SelectionMenuCheckTeddyScript:
-    ldx #$73
-    ldy #$9f
+    ldx #.LOBYTE(B22_1f73)
+    ldy #.HIBYTE(B22_1f73)
     lda battle_script
     cmp #BSCRIPT_TEDDY
     bne :+                      ; +
-    ldx #$83
-    ldy #$9f
+    ldx #.LOBYTE(B22_1f83)
+    ldy #.HIBYTE(B22_1f83)
     jmp :++                     ; ++
 :   lda event_flags+28          ; +
     bpl :+                      ; ++
-    ldx #$7b
-    ldy #$9f
+    ldx #.LOBYTE(B22_1f7b)
+    ldy #.HIBYTE(B22_1f7b)
 :   stx $84                     ; ++
     sty $85
-    ldx #$6b
-    ldy #$9f
+    ldx #.LOBYTE(B22_1f6b)
+    ldy #.HIBYTE(B22_1f6b)
     stx $80
     sty $81
     jsr B31_0f3f
@@ -1701,12 +1701,12 @@ B23_0a67:
     pha
     and #$01
     tax
-    lda $9fb2, x
+    lda B22_1fb1+1, x
     sta $76
     tya
     lsr a
     tax
-    lda $9fb4, x
+    lda B22_1fb1+3, x
     sta $77
     lda (battle_var5c), y
     beq B23_0a9c
@@ -1777,9 +1777,9 @@ StoreItemName:
     jmp BankswitchLower_Bank22
 
 B23_0ae9:
-    lda #$95
+    lda #.LOBYTE(B22_1f95)
     sta $80
-    lda #$9f
+    lda #.HIBYTE(B22_1f95)
     sta $81
     lda battle_var5c
     sta $84
@@ -1875,12 +1875,12 @@ B23_0b86:
     pha
     and #$01
     tax
-    lda $9fb2, x
+    lda B22_1fb1+1, x
     sta $76
     tya
     lsr a
     tax
-    lda $9fb4, x
+    lda B22_1fb1+3, x
     sta $77
     lda BATTLER_1BASED, y
     beq B23_0bba
@@ -3181,46 +3181,46 @@ BINST65_CHECK:
     jsr DisplayText_battle
     lda battle_script
     cmp #BSCRIPT_GREYROBO
-    bne :+  ; @CheckRedRobo
+    bne @CheckRedRobo
 ; Invincibility descriptions
 ; no diff from normal description except that it doesn't print stats or resistances, only description text
 ; Multiple separate conditionals likely holdout from JP version, where normal enemies don't have descriptions. Needlessly complicated code in US version.
     lda #$95
     jmp DisplayText_battle
 
-; @CheckRedRobo:
-:   cmp #BSCRIPT_REDROBO
-    bne :+  ; @CheckBlueRobo
+@CheckRedRobo:
+    cmp #BSCRIPT_REDROBO
+    bne @CheckBlueRobo
     lda #$94                        ; red robo desc
     jmp DisplayText_battle
 
-; @CheckBlueRobo:
-:   cmp #BSCRIPT_BLUEROBO
-    bne :+  ; @CheckGiegueYapping
+@CheckBlueRobo:
+    cmp #BSCRIPT_BLUEROBO
+    bne @CheckGiegueYapping
     lda #$93                        ; blue robo desc
     jmp DisplayText_battle
 
-; @CheckGiegueYapping:
-:   cmp #BSCRIPT_GIEGUE_YAPPING
-    bne :+  ; @CheckGiegueFighting
+@CheckGiegueYapping:
+    cmp #BSCRIPT_GIEGUE_YAPPING
+    bne @CheckGiegueFighting
     lda #$01                        ; giegue desc (Queen Mary yapping at you)
     jmp DisplayText_battle
 
-; @CheckGiegueFighting:
-:   cmp #BSCRIPT_GIEGUE_FIGHTING
-    bne :+ ;  @CheckEnemy
+@CheckGiegueFighting:
+    cmp #BSCRIPT_GIEGUE_FIGHTING
+    bne @CheckEnemy
     lda #$01                        ; ditto (why programmed in this way)
     jmp DisplayText_battle
 
-; @CheckEnemy:
-:   ldy target_offset
-    bmi :+  ; @DoCheck              ; Checking fails on player characters
+@CheckEnemy:
+    ldy target_offset
+    bmi @DoCheck              ; Checking fails on player characters
     lda #$90                        ; Move failed msg
     jmp DisplayText_battle
 
-;@DoCheck:
+@DoCheck:
     ; load target off and def & store to 0590~0593
-:   ldy target_offset
+    ldy target_offset
     ; offense -> $0590
     lda BATTLER_OFF, y
     sta wordvar_0590
@@ -3752,51 +3752,51 @@ ANIMATE_LONG_ENEMY:
     rts
 
 ANIMATE_NORMAL_PLAYER:
-    ldx #$41
-    ldy #$9f
-    lda #$0f                        ; transparent color
+    ldx #.LOBYTE(battleanim_Generic_Shake)
+    ldy #.HIBYTE(battleanim_Generic_Shake)
+    lda #$0f ; transparent color
     jmp DoAnimatePlayerHit
 
 ANIMATE_FIRE_PLAYER:
-    ldx #$41
-    ldy #$9f
-    lda #$16                        ; bright red
+    ldx #.LOBYTE(battleanim_Generic_Shake)
+    ldy #.HIBYTE(battleanim_Generic_Shake)
+    lda #$16 ; dark red
     jmp DoAnimatePlayerHit
 
 ANIMATE_FREEZE_PLAYER:
-    ldx #$41
-    ldy #$9f
-    lda #$12                        ; dark blue
+    ldx #.LOBYTE(battleanim_Generic_Shake)
+    ldy #.HIBYTE(battleanim_Generic_Shake)
+    lda #$12 ; dark blue
     jmp DoAnimatePlayerHit
 
 ANIMATE_THUNDER_PLAYER:
-    ldx #$41
-    ldy #$9f
-    lda #$31                        ; light blue
+    ldx #.LOBYTE(battleanim_Generic_Shake)
+    ldy #.HIBYTE(battleanim_Generic_Shake)
+    lda #$31 ; light blue
     jmp DoAnimatePlayerHit
 
 ANIMATE_BEAM_PLAYER:
-    ldx #$41
-    ldy #$9f
-    lda #$28                        ; bright yellow
+    ldx #.LOBYTE(battleanim_Generic_Shake)
+    ldy #.HIBYTE(battleanim_Generic_Shake)
+    lda #$28 ; yellow
     jmp DoAnimatePlayerHit
 
 ANIMATE_CRIT_PLAYER:
-    ldx #$61                        ; faster animation than #$41
-    ldy #$9f
-    lda #$2a                        ; neon green
+    ldx #.LOBYTE(battleanim_Generic_Shake2) ; faster animation than #$41
+    ldy #.HIBYTE(battleanim_Generic_Shake2)
+    lda #$2a ; green
     jmp DoAnimatePlayerHit
 
 ANIMATE_FAST_PLAYER:
-    ldx #$61                        ; faster animation than #$41
-    ldy #$9f
-    lda #$0f                        ; transparent color
+    ldx #.LOBYTE(battleanim_Generic_Shake2) ; faster animation than #$41
+    ldy #.HIBYTE(battleanim_Generic_Shake2)
+    lda #$0f ; transparent color
     jmp DoAnimatePlayerHit
 
 ANIMATE_LONG_PLAYER:
-    ldx #$4b
-    ldy #$9f
-    lda #$0f                        ; transparent color
+    ldx #.LOBYTE(battleanim_Wobble)
+    ldy #.HIBYTE(battleanim_Wobble)
+    lda #$0f ; transparent color
     jmp DoAnimatePlayerHit
 
 DoAnimatePlayerHit:

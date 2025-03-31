@@ -146,26 +146,130 @@ obj_incs = 0
     MOVE = $F; just moves the tiles, nothing else
     ABOUTFACE = $1E; turns on a dime to the direction
 .endenum
-.macro moveDef direction, cmd, tiles
-    .word (tiles << 8) | (cmd << 3) | direction
-.endmacro
 
-.macro objectDef type, posX, direction, posY
-    .word (posX << 6) | type
-    .word (posY << 6) | direction
-.endmacro
+.define moveDef(direction, cmd, tiles) .word (tiles << 8) | (cmd << 3) | direction
 
+.define objectDef(type, posX, direction, posY) .word (posX << 6) | type, (posY << 6) | direction
 ;top left of the map is 0, $80. why?
-.macro doorArgDef music, targetPosX, targetDirection, targetPosY
-    .word (targetPosX << 6) | music
-    .word (targetPosY << 6) | targetDirection
-.endmacro
+.define doorArgDef(music, targetPosX, targetDirection, targetPosY) .word (targetPosX << 6) | music, (targetPosY << 6) | targetDirection
 
 ;APPARENTLY they made the teleport gaining object based??????
 ;i mean. sure man
 ;cant this technically be used for any flag?
 ;bbbbbfff
-.macro teleportFlagDef flag, byte
-    .byte (byte << 3) | flag
+.define teleportFlagDef(flag, byte) .byte (byte << 3) | flag
+
+;labels
+.define OBJ_JUMP(label) .byte SCRIPTS::J_JUMP, label
+.define OBJ_IS_SIGNAL(label) .byte SCRIPTS::J_SIGNALED, label
+.define OBJ_IS_NOT_TALKING(label) .byte SCRIPTS::J_TALK, label
+.define OBJ_IS_NOT_CHECKING(label) .byte SCRIPTS::J_CHECK, label
+.define OBJ_IS_NOT_TOUCHING(label) .byte SCRIPTS::J_TOUCH, label
+.define OBJ_IS_NOT_USING(itemX, label) .byte SCRIPTS::IJ_USE, itemX, label
+.define OBJ_IS_NOT_CASTING(psiX, label) .byte SCRIPTS::PJ_USE, psiX, label
+.define OBJ_IS_NOT_SELECTED(itemX, label) .byte SCRIPTS::IJ_SELECTEDITEM, itemX, label
+.define OBJ_TAKE_WEAPON(label) .byte SCRIPTS::J_REMOVEWEAPON, label
+.define OBJ_GIVE_WEAPON(label) .byte SCRIPTS::J_GIVEMONEY, label
+.define OBJ_SELECT_CONFWEAPON(label) .byte SCRIPTS::J_CONFISC, label
+.define OBJ_IS_NOT_FLAG(flag, label) .byte SCRIPTS::FJ_JUMP, flag, label
+.define OBJ_NOT_HAS_ITEM(itemX, label) .byte SCRIPTS::IJ_HASITEM, itemX, label
+.define OBJ_NOT_MAX_HEALTH(label) .byte SCRIPTS::J_NOTMAX, label
+.define OBJ_NOT_CHARACTER_SELECTED(characterX, label) .byte SCRIPTS::CJ_CHARSELECTED, characterX, label
+.define OBJ_ADD_CHARACTER(characterX, label) .byte SCRIPTS::CJ_ADDCHAR, characterX, label
+.define OBJ_NOT_MAX_PP(label) .byte SCRIPTS::J_NOTMAXPP, label
+.define OBJ_TAKE_MONEY(label) .byte SCRIPTS::J_TAKEMONEY, label
+.define OBJ_NO_NEW_MONEY(label) .byte SCRIPTS::J_NONEWMONEY, label
+.define OBJ_HAS_STATUS(statusX, label) .byte SCRIPTS::SJ_PRESENT, statusX, label
+.define OBJ_AND_STATUS(statusX) .byte SCRIPTS::S_REMOVEBUT, statusX
+.define OBJ_GIVE_STATUS(statusX) .byte SCRIPTS::S_GIVESTATUS, statusX
+.define OBJ_NOT_HAS_CHARACTER(characterX, label) .byte SCRIPTS::CJ_PRESENT, characterX, label
+.define OBJ_GIVE_ITEM(label) .byte SCRIPTS::J_GIVEITEM, label
+.define OBJ_PICK_ITEM(itemX) .byte SCRIPTS::I_PICKITEM, itemX
+.define OBJ_PICK_CHARACTER_ITEM(itemX, label) .byte SCRIPTS::IJ_PICKCHARITEM, itemX, label
+.define OBJ_PICK_CHARACTER(characterX) .byte SCRIPTS::C_SELECT, characterX
+.define OBJ_PICK_CHARACTER_J(characterX, label) .byte SCRIPTS::CJ_SELECTPARTY, characterX, label
+.define OBJ_REMOVE_ITEM(label) .byte SCRIPTS::J_REMOVEITEM, label
+.define OBJ_REMOVE_CHARACTER(characterX, label) .byte SCRIPTS::CJ_REMOVECHAR, characterX, label
+.define OBJ_YESNO_IS_NO(label) .byte SCRIPTS::J_YESNO, label
+.define OBJ_CHOOSE_ITEM(label) .byte SCRIPTS::J_CHOOSEITEM, label
+.define OBJ_UNSELLABLE(label) .byte SCRIPTS::J_UNSELLABLE, label
+
+;flag manip
+.define OBJ_FLAG_APPEAR(flag) .byte SCRIPTS::F_APPEAR, flag
+.define OBJ_FLAG_DISAPPEAR(flag) .byte SCRIPTS::F_DISAPPEAR, flag
+
+;counters
+.define OBJ_RESET_COUNTER(counter) .byte SCRIPTS::C_RESETCOUNTER, counter
+.define OBJ_INCREMENT_COUNTER(counter) .byte SCRIPTS::C_INCCOUNTER, counter
+.define OBJ_DECREMENT_COUNTER(counter) .byte SCRIPTS::C_DECCOUNTER, counter
+.define OBJ_COUNTERLESSTHAN(counter, int, label) .byte SCRIPTS::CNJ_COMPCOUNTER, counter, int, label
+
+.define OBJ_DISPLAY_ITEMS(item1, item2, item3, item4, label) .byte SCRIPTS::IIIIJ_LIST, item1, item2, item3, item4, label
+
+;words
+.macro OPJ_LOAD_NUMBER int
+    .byte SCRIPTS::N_LOADNUMBER
+    .word int
 .endmacro
+
+.macro OBJ_DIALOGUE addrOrId
+    .byte SCRIPTS::DIALOGUE
+    .word addrOrId
+.endmacro
+
+.macro OBJ_MOVE addr
+    .byte SCRIPTS::M_MOVE
+    .addr addr
+.endmacro
+
+;heals
+.define OBJ_HEAL(amount) .byte SCRIPTS::N_HEAL, amount
+.define OBJ_PPHEAL(amount) .byte SCRIPTS::N_HEALPP, amount
+
+;singlestuff
+.define OBJ_BATTLE(group) .byte SCRIPTS::B_BATTLE, group
+.define OBJ_SET_FLAG(flag) .byte SCRIPTS::F_SETFLAG, flag
+.define OBJ_CLEAR_FLAG(flag) .byte SCRIPTS::F_CLEARFLAG, flag
+.define OBJ_DELAY(frames) .byte SCRIPTS::T_DELAY, frames
+.define OBJ_PLAY_MUSIC(song) .byte SCRIPTS::M_MUSIC, song
+.define OBJ_PLAY_SOUND(sound) .byte SCRIPTS::S_PLAYSOUND, sound
+.define OBJ_PLAY_SOUND2(sound) .byte SCRIPTS::S_PLAYSOUND2, sound
+.define OBJ_SIGNAL(objectX) .byte SCRIPTS::O_SIGNAL, objectX
+.define OBJ_TANK(direction) .byte SCRIPTS::D_TANK, direction
+.define OBJ_AIRPLANE(direction) .byte SCRIPTS::D_AIRPLANE, direction
+.define OBJ_EXIT_VEHICLE(direction) .byte SCRIPTS::D_NOVEC, direction
+.define OBJ_CHANGE_TYPE(type) .byte SCRIPTS::T_CHANGETYPE, type
+
+;multi macros
+.macro OBJ_TELEPORT aX,bX,cX,dX
+    .byte SCRIPTS::DA_TELEPORT
+    doorArgDef aX,bX,cX,dX
+.endmacro
+
+.macro OBJ_SUBROUTINE object, label
+    .byte SCRIPTS::OJ_SUBROUTINE
+    .addr object
+    .byte label
+.endmacro
+
+.macro OBJ_MENU addrOrId, label2, labelB
+    .byte SCRIPTS::JJ_CUSTOMMENU
+    .word addrOrId
+    .byte label2
+    .byte labelB
+.endmacro
+
+;oneshots
+.define OBJ_STOP .byte 0
+.define OBJ_RETURN .byte SCRIPTS::RETURN
+.define OBJ_SAVE .byte SCRIPTS::SAVE
+.define OBJ_RESET .byte SCRIPTS::RESET
+.define OBJ_GET_NEXT_EXP .byte SCRIPTS::GETCHARNEXTEXP
+.define OBJ_DO_LIVE_SHOW .byte SCRIPTS::LIVESHOW
+.define OBJ_SLEEP .byte SCRIPTS::SLEEP
+.define OBJ_SHOW_MONEY .byte SCRIPTS::SHOWMONEY
+.define OBJ_MULTIPLY_BY_PARTY .byte SCRIPTS::CHARMULT
+.define OBJ_END_PLANE .byte SCRIPTS::PLANEEND
+.define OBJ_LAND_MINE .byte SCRIPTS::LANDMINE
+
 .endif

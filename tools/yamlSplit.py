@@ -26,29 +26,43 @@ def doSplit(dir):
 
     output = f"split/{dir}/"
 
-    prgs = data_loaded["options"]["prgs"]
-    chrs = data_loaded["options"]["chrs"]
-    bankspace = 0x2000
+    bankspace = 0
+
+    mapper = data_loaded["mapper"]
+    bankspace = -1
+    if mapper in ["NROM", "UxROM"]:
+        bankspace = 0x4000
+    elif mapper == "MMC3":
+        bankspace = 0x2000
 
     if os.path.exists(output):
         shutil.rmtree(output)
     os.makedirs(output)
-    for side in ["prg", "chr"]:
+
+    x = 0
+    if "header" in list(data_loaded.keys()):
+        open(output+'header.bin', "wb").write(rom_bytes[0:0x10])
+        x += 0x10
+
+    sideList = ["prg", "chr"]
+
+    for side in sideList:
         myside = side
         if not side in list(data_loaded["splits"].keys()):
             continue
+        os.makedirs(output+myside+"/")
         for entry in data_loaded["splits"][side]:
             mybank = entry["bank"]
-            if mybank == "header":
-                open(output+'header.bin', "wb").write(rom_bytes[0:0x10])
-                continue
             atI = mybank
-            if myside == 'chr':
-                atI += prgs
+            if sideList.index(myside) > 0:
+                i = 0
+                while i < len(sideList) and i < sideList.index(myside):
+                    atI += len(data_loaded["splits"][sideList[i]])
+                    i += 1
             opposite = atI+1
             atI *= bankspace
             opposite *= bankspace
-            bankData = rom_bytes[atI+0x10:opposite+0x10]
+            bankData = rom_bytes[atI+x:opposite+x]
             bankend = bankspace
             if "end" in list(entry.keys()):
                 bankend = entry["end"]
@@ -59,8 +73,7 @@ def doSplit(dir):
                 end_result = f'{output}{usename}.bin'
                 open(end_result, "wb").write(bankData[0:bankend])
                 continue
-            i = 0
-            while i < len(entry["splits"]):
+            for i in range(len(entry["splits"])):
                 real_entry = entry["splits"][i]
                 start = real_entry[0]
                 end = 0
@@ -82,4 +95,3 @@ def doSplit(dir):
                 if not os.path.exists(pathOnly):
                     os.makedirs(pathOnly)
                 open(end_result, "ab").write(bankData[start:end])
-                i += 1

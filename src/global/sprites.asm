@@ -1429,7 +1429,7 @@ SPRITEDEF_2BD:
 spritePointerDef SPRITE_60, $C6, 3, 3, 0, 0
 SPRITEDEF_2BE:
 spritePointerDef SPRITE_60, $C6, 1, 1, 1, 0
-SPRITEDEF_2BF:
+PLANE_SPRITEDEF:
 spritePointerDef SPRITE_2BF, $80, 1, 1, 1, 2
 SPRITEDEF_2C0:
 spritePointerDef SPRITE_2C0, $80, 1, 1, 1, 2
@@ -1445,7 +1445,7 @@ SPRITEDEF_2C5:
 spritePointerDef SPRITE_2C5, $80, 1, 1, 1, 2
 SPRITEDEF_2C6:
 spritePointerDef SPRITE_2C6, $80, 1, 1, 1, 2
-SPRITEDEF_2C7:
+TANK_SPRITEDEF:
 spritePointerDef SPRITE_2C7, $E0, 0, 0, 0, 0
 SPRITEDEF_2C8:
 spritePointerDef SPRITE_2C8, $E0, 0, 0, 0, 0
@@ -1461,7 +1461,7 @@ SPRITEDEF_2CD:
 spritePointerDef SPRITE_2CD, $E0, 0, 0, 0, 0
 SPRITEDEF_2CE:
 spritePointerDef SPRITE_2CE, $E0, 0, 0, 0, 0
-SPRITEDEF_2CF:
+BOAT_SPRITEDEF:
 spritePointerDef SPRITE_2C7, $A0, 3, 3, 1, 7
 SPRITEDEF_2D0:
 spritePointerDef SPRITE_2C8, $A0, 3, 3, 1, 7

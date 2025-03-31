@@ -4,6 +4,7 @@ from glob import glob
 import os
 import shutil
 import tools.yamlSplit
+import tools.sameFileRetriever
 
 
 versions = ["jp", "us"]
@@ -85,6 +86,7 @@ if __name__ == "__main__":
     for version in versions:
         tools.yamlSplit.doSplit(version)
 
+    tools.sameFileRetriever.do()
     splitMerger()
 
     ##convert to asm from those banks

@@ -4,7 +4,7 @@
 ;could probably ifdef this??? fix up the ui commands first then try it
 
 ;map gfx
-incbinRange "../../split/us/chr/bankb.bin", 0, $C00
+.incbin "../../split/us/map_gfx.bin"
 
 ;map tiles
 .byte $02,$02,$03,$02,$03,$02,$03,$02,$03,$02,$03,$02,$03,$02,$03,$02,$03,$02,$03,$02,$03,$02,$03,$02,$03,$02,$03,$02,$03,$02,$03,$02
@@ -45,7 +45,7 @@ incbinRange "../../split/us/chr/bankb.bin", 0, $C00
 .byte $55,$55,$DD,$FF,$FF,$FF,$FF,$FF,$05,$05,$0D,$0F,$0F,$0F,$0F,$0F
 
 ;whirlpool gfx
-incbinRange "../../split/us/chr/bankb.bin", $1000, $1400
+.incbin "../../split/us/drain_gfx.bin"
 
 ;whirlpool tiles
 .byte $21,$22,$21,$22,$21,$22,$08,$09,$09,$0A,$08,$09,$09,$09,$0A,$0A,$09,$0A,$0B,$0A,$0A,$0B,$0A,$0B,$0E,$0E,$21,$22,$21,$22,$21,$22

@@ -564,7 +564,7 @@ UNK_6730: .res $1c
 party_member_3_stats: .res 4
 UNK_6750: .res $30
 
-object_memory: .res $C80
+object_memory: .res $C80 ; $6780
 object_m_type = 0 ;byte
 object_m_area = 1 ;byte
 object_m_data_pointer = 2 ;word
@@ -588,6 +588,7 @@ object_m_playerTouch = $1b ;byte
 ;(-t---ddd => t=touched, d=direction player is facing)
 object_m_scriptOffset = $1c; byte
 object_m_unk2 = $1d ;3 bytes
+object_m_sizeof = $20
 
 save_file_current: .res $200
 

@@ -1013,26 +1013,82 @@ battle_sfx:
     .byte 3,  3, 140, 0 ; 14
     .byte 2,  3,  60, 0 ; 15
 
+;battle animations
+battleanim_Generic_Shake:
+    ;loop/length
+    .byte 5, 4*2
+    ;y/x move
+    .byte 2,3
+    .byte -2,-3
+    .byte -2,3
+    .byte 2,-3
 
-incbinRange "../../split/us/prg/bank16/unk1ec7.bin",$7A,$C4
+battleanim_Wobble:
+    .byte 3, 10*2
+
+    .byte 0, -2
+    .byte 0, -1
+    .byte 0, 0
+    .byte 0, 1
+    .byte 0, 2
+    .byte 0, 2
+    .byte 0, 1
+    .byte 0, 0
+    .byte 0, -1
+    .byte 0, -2
+
+battleanim_Generic_Shake2:
+    .byte 3, 4*2
+
+    .byte  2,6
+    .byte -2,-6
+    .byte -2,6
+    .byte  2,-6
+
+B22_1f6b:
+    .byte  2,4
+    .byte  9,2
+    .byte 192,94
+    .byte 12,19
+B22_1f73:
+    .byte 1,2
+    .byte 3,4
+    .byte 5,6
+    .byte 7,0
+B22_1f7b:
+    .byte 1,2
+    .byte 3,4
+    .byte 5,6
+    .byte 7,8
+B22_1f83:
+    .byte 1,0
+    .byte 0,0
+    .byte 0,0
+    .byte 0,0
 
 ; $9F8B - UNKNOWN
 B22_1f8b:
     .byte $01, $04
-    .byte $00       ; X
-    .byte $02       ; Y
+    .byte 0       ; X
+    .byte 2       ; Y
     .byte %11000000 ; Input mask
     .byte $5e       ; Tile
     .byte $10, $13
     .word $0591
 
-incbinRange "../../split/us/prg/bank16/unk1ec7.bin",$ce,$d6
+B22_1f95:
+    .byte $02, $04
+    .byte 12
+    .byte 2
+    .byte %11000000
+    .byte $5E
+    .byte $06, $13
 
 ; $9F9D - UNKNOWN
 B22_1f9d:
     .byte $02, $04
-    .byte $0c       ; X
-    .byte $02       ; Y
+    .byte 12       ; X
+    .byte 2       ; Y
     .byte %11001000 ; Input mask
     .byte $5e       ; Tile
     .byte $06, $13
@@ -1041,8 +1097,8 @@ B22_1f9d:
 ; $9FA7 - UNKNOWN
 B22_1fa7:
     .byte $01, $01
-    .byte $00       ; X
-    .byte $00       ; Y
+    .byte 0       ; X
+    .byte 0       ; Y
     .byte %11000101 ; Input mask
     .byte $5e       ; Tile
     .byte $07, $11

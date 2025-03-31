@@ -1123,7 +1123,7 @@ B28_057e:
 
 .ifndef VER_JP
 B28_059c:
-incbinRange "../../split/us/prg/bank1c.bin", $59c, $5a4
+incbinRange "../../split/us/music.bin", $59c, $5a4
 .endif
 
 B28_05a4:
@@ -1359,7 +1359,7 @@ B28_06a0:
 
 .ifdef VER_JP
 B28_00fa:
-incbinRange "../../split/jp/prg/bank1c.bin", $69e, $6A4
+incbinRange "../../split/jp/music.bin", $69e, $6A4
 .endif
 
 B28_06c4:
@@ -1661,7 +1661,7 @@ B28_085e:
 
 .ifndef VER_JP
 B28_086b:
-incbinRange "../../split/us/prg/bank1c.bin", $86b, $87e
+incbinRange "../../split/us/music.bin", $86b, $87e
 .endif
 B28_087e:
     jsr B28_00d3
@@ -1842,9 +1842,9 @@ B28_0996:
     jmp B28_0688
 
 B28_0999:
-incbinRange "../../split/us/prg/bank1c.bin", $999, $9a1
+incbinRange "../../split/us/music.bin", $999, $9a1
 B28_09a1:
-incbinRange "../../split/us/prg/bank1c.bin", $9a1, $9a7
+incbinRange "../../split/us/music.bin", $9a1, $9a7
 
 .endif
 
