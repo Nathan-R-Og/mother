@@ -28,57 +28,29 @@ B30_0171:
     .byte $00
     .byte $00
     .byte $00
-    .byte $ed, $ba, $98
-    .byte $76, $78
-    .byte $97
-    .byte $ab
-    .byte $cd, $a7, $47
-    .byte $76, $48
-    .byte $45, $66
-    .byte $77
-    .byte $89
-    .byte $fc
-    .byte $97
-    .byte $64
-    .byte $fc
-    .byte $97
-    .byte $65, $fc
-    .byte $86, $01
-    .byte $23
-    .byte $45, $67
-    .byte $89
-    .byte $ab
-    .byte $cd, $ef, $fe
+
+C1NybbleTables:
+B30_0181:
+    .byte $ed, $ba, $98, $76, $78, $97, $ab, $cd
+B30_0189:
+    .byte $a7, $47, $76, $48, $45, $66, $77, $89
+B30_0191:
+    .byte $fc, $97, $64, $fc, $97, $65, $fc, $86
+    .byte $01, $23, $45, $67, $89, $ab, $cd, $ef
+B30_01A1:
+    .byte $fe
     .byte $a9, $ed
     .byte $fd, $79, $bd
     .byte $fe, $d9, $45
     .byte $78
     .byte $99, $aa, $bb
     .byte $cc, $dd, $ef
-    .byte $7a
-    .byte $de, $ff, $ef
-    .byte $fd, $df, $fe
-    .byte $ef
-    .byte $ef
-    .byte $fd, $ef, $fe
-    .byte $df
-    .byte $ff
-    .byte $ee, $ee, $ff
-    .byte $ef
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ef
-    .byte $ef
-    .byte $ff
-    .byte $ff
-    .byte $ef
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ef
-    .byte $ef
-    .byte $ff
+B30_01B1:
+    .byte $7a, $de, $ff, $ef, $fd, $df, $fe, $ef
+    .byte $ef, $fd, $ef, $fe, $df, $ff, $ee, $ee
+    .byte $ff, $ef, $ff, $ff, $ff, $ef, $ef, $ff
+    .byte $ff, $ef, $ff, $ff, $ff, $ef, $ef, $ff
+B30_01D1:
     .byte $bf
     .byte $ff
     .byte $ee, $ee, $ed
@@ -116,6 +88,8 @@ B30_0171:
     .byte $ff
     .byte $ff
     .byte $ff
+
+.assert >B30_01D1 = >C1NybbleTables, error, "C1 nybble tables not all in same page"
 
 ; THIS HERE IS CODE.
 B30_0200:

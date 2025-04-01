@@ -102,14 +102,6 @@ unk_7e8 = $07e8
 unk_7ff = $07ff
 
 
-.ifdef VER_JP
-;externs
-B28_086b := $c18d
-B28_05ab := $c189
-B28_059c := $c181
-.endif
-
-
 .segment        "MUSIC": absolute
 ;.segment        "PRG1C": absolute
 
@@ -123,107 +115,124 @@ B28_0006:
     jmp B28_0216
 
 
-; Mystery pointer table ($8009)
-.addr B28_03fa ; 00
-.addr B28_043a ; 01
-.addr B28_0393 ; 02
-.addr B28_03dc ; 03
-.addr B28_0420 ; 04
-.addr B28_035c ; 05
-.addr B28_0346 ; 06
-.addr B28_0328 ; 07
-.addr B28_047d ; 08
-.addr B28_0321 ; 09
-.addr B28_0401 ; 0A
-.addr B28_0441 ; 0B
-.addr B28_03a1 ; 0C
-.addr B28_03e3 ; 0D
-.addr B28_0427 ; 0E
-.addr B28_0374 ; 0F
-.addr B28_0410 ; 10
-.addr B28_032f ; 11
-.addr B28_0484 ; 12
-.addr B28_0410 ; 13
+SFXPointerTables:
+NoiseSFXTable_SetUp:
+    .addr NoiseSFX_Hit_SetUp ; 01
+    .addr NoiseSFX_Bomb_SetUp ; 02
+    .addr NoiseSFX_Thunder_SetUp ; 03
+    .addr NoiseSFX_Fire_SetUp ; 04
+    .addr NoiseSFX_Crit_SetUp ; 05
+    .addr NoiseSFX_EnemyKilled_SetUp ; 06
+    .addr NoiseSFX_Unk07_SetUp ; 07
+    .addr NoiseSFX_Stairs_SetUp ; 08
+    .addr NoiseSFX_Rocket_SetUp ; 09
+    .addr NoiseSFX_RocketLand_SetUp ; 0A
+NoiseSFXTable_Continue:
+    .addr NoiseSFX_Hit_Continue ; 01
+    .addr NoiseSFX_Bomb_Continue ; 02
+    .addr NoiseSFX_Thunder_Continue ; 03
+    .addr NoiseSFX_Fire_Continue ; 04
+    .addr NoiseSFX_Crit_Continue ; 05
+    .addr NoiseSFX_EnemyKilled_Continue ; 06
+    .addr NoiseSFX_Unk07_RocketLand_Continue ; 07
+    .addr NoiseSFX_Stairs_Continue ; 08
+    .addr NoiseSFX_Rocket_Continue ; 09
+    .addr NoiseSFX_Unk07_RocketLand_Continue ; 0A
 
-; Mystery pointer table ($8031)
-.addr B28_06c4 ; 00
-.addr B28_0772 ; 01
-.addr B28_0747 ; 02
-.addr B28_067c
-.addr B28_0726
-.addr B28_07a9
-.addr B28_075e
-.addr B28_0610
-.addr B28_0829
-.addr B28_05eb
-.addr B28_05e6
-.addr B28_0699
-.addr B28_05df
-.addr B28_066e
-.addr B28_05a4
-.addr B28_0733
-.addr B28_060d
-.ifndef VER_JP
-.addr B28_0962
-.endif
-.addr B28_06cb
-.addr B28_077f
-.addr B28_0752
-.addr B28_0683
-.addr B28_070f
-.addr B28_07b7
+PulseGroup0SFXTable_SetUp:
+    .addr PulseGroup0SFX_EnemyAttack_SetUp ; 01
+    .addr PulseGroup0SFX_Beam_SetUp ; 02
+    .addr PulseGroup0SFX_StatBoost_SetUp ; 03
+    .addr PulseGroup0SFX_TakeDamage_SetUp ; 04
+    .addr PulseGroup0SFX_MenuBloop_SetUp ; 05
+    .addr PulseGroup0SFX_ItemDropGet_SetUp ; 06
+    .addr PulseGroup0SFX_Recovery_SetUp ; 07
+    .addr PulseGroup0SFX_Canary_SetUp ; 08
+    .addr PulseGroup0SFX_LearnedPSI_SetUp ; 09
+    .addr PulseGroup0SFX_PlayerAttack_SetUp ; 0A
+    .addr PulseGroup0SFX_Purchase_SetUp ; 0B
+    .addr PulseGroup0SFX_Dodge_SetUp ; 0C
+    .addr PulseGroup0SFX_Unk0D_SetUp ; 0D
+    .addr PulseGroup0SFX_Unk0E_SetUp ; 0E
+    .addr PulseGroup0SFX_Miss_SetUp ; 0F
+    .addr PulseGroup0SFX_MagicantWarp_SetUp ; 10
+    .addr PulseGroup0SFX_Laura_SetUp ; 11
+    .ifndef VER_JP
+        .addr PulseGroup0SFX_XXStone_SetUp ; 12
+    .endif
+PulseGroup0SFXTable_Continue:
+    .addr PulseGroup0SFX_EnemyAttack_Continue ; 01
+    .addr PulseGroup0SFX_Beam_Continue ; 02
+    .addr PulseGroup0SFX_StatBoost_Continue ; 03
+    .addr PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue ; 04
+    .addr PulseGroup0SFX_MenuBloop_Continue ; 05
+    .addr PulseGroup0SFX_ItemDropGet_Continue ; 06
+    .addr PulseGroup0SFX_Recovery_Continue ; 07
+    .addr PulseGroup0SFX_Canary_Laura_Continue ; 08
+    .addr PulseGroup0SFX_LearnedPSI_Continue ; 09
+    .addr PulseGroup0SFX_PlayerAttack_Continue ; 0A
+    .addr PulseGroup0SFX_Purchase_Continue ; 0B
+    .addr PulseGroup0SFX_Dodge_Continue ; 0C
+    .addr PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue ; 0D
+    .addr PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue ; 0E
+    .addr PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue ; 0F
+    .addr PulseGroup0SFX_MagicantWarp_Continue ; 10
+    .addr PulseGroup0SFX_Canary_Laura_Continue ; 11
+    .ifndef VER_JP
+        .addr PulseGroup0SFX_XXStone_Continue ; 12
+    .endif
 
-;?
-.addr B28_0769
-.addr B28_061e
-.addr B28_080e
-.addr B28_05f2
-.addr B28_05af
-.addr B28_06a0
-.addr B28_0683
-.addr B28_0683
-.addr B28_0683
-.addr B28_073e
-.addr B28_061e
-.ifndef VER_JP
-.addr B28_096c
-.endif
-.addr B28_085e
-.addr B28_084e
-.addr B28_08d4
-.addr B28_08e5
-.addr B28_087e
-.addr B28_08b4
-.addr B28_08ba
-.addr B28_08ec
-.addr B28_04f6
-.addr B28_054d
-.addr B28_0542
-.addr B28_0509
-.addr B28_0559
-.addr B28_0559
+TriangleSFXTable_SetUp:
+    .addr TriangleSFX_Freeze_SetUp ; 01
+    .addr TriangleSFX_Unk02_SetUp ; 02
+    .addr TriangleSFX_PlayerKilled_SetUp ; 03
+    .addr TriangleSFX_Equip_SetUp ; 04
+TriangleSFXTable_Continue:
+    .addr TriangleSFX_Freeze_Continue ; 01
+    .addr TriangleSFX_Unk02_Continue ; 02
+    .addr TriangleSFX_PlayerKilled_Continue ; 03
+    .addr TriangleSFX_Equip_Continue ; 04
+
+PulseGroup1SFXTable_SetUp:
+    .addr PulseG1SFX_DimensionSlip_SetUp ; 01
+    .addr PulseG1SFX_Status_SetUp ; 02
+    .addr PulseG1SFX_GiegueAttack_SetUp ; 03
+PulseGroup1SFXTable_Continue:
+    .addr PulseG1SFX_DimensionSlip_Continue ; 01
+    .addr PulseG1SFX_Status_GiegueAttack_Continue ; 02
+    .addr PulseG1SFX_Status_GiegueAttack_Continue ; 03
 
 
-B28_0095:
-    lda #$00
+SetSQ1Registers:
+    lda #<SQ1
     beq B28_00a3
 
-B28_0099:
-    lda #$08
+SetTRIRegisters:
+    lda #<TRI
     bne B28_00a3
 
-B28_009d:
-    lda #$0c
+SetNOISERegisters:
+    lda #<NOISE
     bne B28_00a3
 
-B28_00a1:
-    lda #$04
-    B28_00a3:
+SetSQ2Registers:
+    lda #<SQ2
+    ; fallthrough
+
+;Inputs:
+;  A: low byte to a pointer to sound registers for a given channel (in page $40xx)
+;  Y: low byte to a pointer to values to set the sound registers to (in the SFXInstrumentInitData page)
+;Effects:
+;  Copy 4 bytes of sound channel data from *Y to *A
+;  Z flag = 0
+;Clobbers:
+;  A, Y, $B0-$B3
+B28_00a3:
     sta unk_b0
     lda #$40
     sta unk_b1
     sty unk_b2
-    lda #$81
+    lda #>SFXInstrumentInitData
     sta unk_b3
     ldy #$00
     B28_00b1:
@@ -235,41 +244,60 @@ B28_00a1:
     bne B28_00b1
     rts
 
-;???
 .ifdef VER_JP
-B28_00B8:
+;Inputs:
+;  A:   a 1-based index into a pointer table, up to 0x11
+;  $B0: the low byte of a sound effect pointer table in $80XX
+;Outputs:
+;  $B2: the pointer at index A in the table, or a dummy function if A is out of range
+;  $BF: the original value of A
+;Clobbers:
+;  Y
+SFXTablePtrRead:
+    ; Save the value of A
     sta unk_bf
     pha
-    ldy #$80
+    ldy #>SFXPointerTables
     sty unk_b1
+    ; Set y to (index - 1) * 2, that is, the offset to add to the table
     ldy #$00
-B28_00C1:
+@double_index_loop:
     dec unk_bf
-    beq B28_00D8
+    beq @load_ptr
     iny
     iny
     tya
+    ; But check if the index was actually in range, too...
     cmp #$22
-    bne B28_00C1
-    lda #$D7
+    bne @double_index_loop
+    ; The table index was too big.
+    ; Fill in a dummy code pointer instead that immediately returns.
+    lda #<@oops
     sta unk_b2
-    lda #$80
+    lda #>@oops
     sta unk_b3
-B28_00D4:
+@return:
     pla
     sta unk_bf
+@oops:
     rts
-B28_00D8:
+@load_ptr:
+    ; The index is set up, so read from the table
     lda (unk_b0),Y
     sta unk_b2
     iny
     lda (unk_b0),Y
     sta unk_b3
-    jmp B28_00D4
+    jmp @return
 .endif
 
-
-B28_00bc:
+;Effects:
+;  Advances the RNG state at unk_bb used for sound purposes.
+;  The RNG is a Fibonacci LFSR with taps on bits 1 and 8 (or going by the conventions on Wikipedia, bits 15 and 7).
+;  The state is stored big-endian.
+;Clobbers:
+;  A, unk_7ff
+TickRNG:
     lda unk_bb
     and #%00000010
     sta unk_7ff
@@ -279,9 +307,9 @@ B28_00bc:
     eor unk_7ff
 
     clc
-    beq B28_00ce
+    beq @shift_in_carry
     sec
-    B28_00ce:
+    @shift_in_carry:
     ror unk_bb
     ror unk_bb+1
     rts
@@ -298,8 +326,7 @@ B28_00d3:
     rts
 
 .ifndef VER_JP
-; $80E6
-; Mystery pointer table
+; $80E6 - Ocarina "melody missing" music pointers
 B28_00e6:
 .addr B28_1353
 .addr B28_1342
@@ -316,96 +343,147 @@ B28_00fa:
 .byte $A4,$AC,$A3,$AC,$A4,$AC
 .endif
 
-.byte $16,$7F,$0E,$80,$3E,$7F,$0E,$08,$1F,$7F,$0F,$C0,$3F,$7F
-B28_010e:
-.byte $00,$B0,$11,$7F,$0E,$30,$9B,$7F,$0C,$28
-B28_0118:
-.byte $10,$7F
-B28_011a:
-.byte $87,$B0,$0A,$7F,$0F,$08
-B28_0120:
-.byte $B0,$7F,$1C,$40,$B0,$7F,$32,$40,$B1,$7F
-B28_012a:
-.byte $40,$40,$B1,$7F
-B28_012e:
-.byte $42,$40,$B1,$8E,$A0,$47,$B1,$7F,$FF,$47
-.ifndef VER_JP
-.byte $1F,$7F,$30
-.endif
-B28_013b:
-.ifndef VER_JP
-.byte $08
-.endif
-.byte $1F,$BB,$D4,$08,$81,$A7,$E1,$88,$99,$7F
-B28_0146:
-.byte $15,$88,$9B,$7F
-B28_014a:
-.byte $1F,$88,$D8,$7F,$20,$28,$D1,$7F,$20,$28,$D9,$7F
-B28_0156:
-.byte $54,$28,$9E,$9D,$C0,$08,$9C,$9A,$E8,$08,$9E,$7F,$40,$08,$94,$C6
-.byte $67,$28,$96,$CE,$47,$28,$D9,$A5,$7B,$F9,$D6,$A5,$90,$F9,$DA,$96
-.byte $46,$F9,$96,$7F,$76,$20,$82,$7F,$27,$F8,$94,$A5,$89,$48,$96,$AD
-.byte $7A,$58,$93,$A5,$99,$28,$9F,$84,$80,$FA,$94,$84,$24,$18,$94,$7F
-.byte $94,$18,$95,$B4,$57,$F8,$02,$7F,$67,$09,$7F,$7F,$E1,$0A,$7F,$7F
-.byte $21
-B28_01a7:
-.byte $09,$04,$7F,$5D,$28,$03,$7F,$38,$28
+SFXInstrumentInitData:
 
-B28_01b0:
+.byte $16,$7F,$0E,$80
+B28_0104:
+.byte $3E,$7F,$0E,$08
+B28_0108:
+.byte $1F,$7F,$0F,$C0
+B28_010c:
+.byte $3F,$7F,$00,$B0
+B28_0110:
+.byte $11,$7F,$0E,$30
+B28_0114:
+.byte $9B,$7F,$0C,$28
+B28_0118:
+.byte $10,$7F,$87,$B0
+B28_011c:
+.byte $0A,$7F,$0F,$08
+B28_0120:
+.byte $B0,$7F,$1C,$40
+B28_0124:
+.byte $B0,$7F,$32,$40
+B28_0128:
+.byte $B1,$7F,$40,$40
+B28_012c:
+.byte $B1,$7F,$42,$40
+B28_0130:
+.byte $B1,$8E,$A0,$47
+B28_0134:
+.byte $B1,$7F,$FF,$47
+.ifndef VER_JP
+B28_0138:
+.byte $1F,$7F,$30,$08
+.endif
+B28_013c:
+.byte $1F,$BB,$D4,$08
+B28_0140:
+.byte $81,$A7,$E1,$88
+B28_0144:
+.byte $99,$7F,$15,$88
+B28_0148:
+.byte $9B,$7F,$1F,$88
+B28_014c:
+.byte $D8,$7F,$20,$28
+B28_0150:
+.byte $D1,$7F,$20,$28
+B28_0154:
+.byte $D9,$7F,$54,$28
+B28_0158:
+.byte $9E,$9D,$C0,$08
+B28_015c:
+.byte $9C,$9A,$E8,$08
+B28_0160:
+.byte $9E,$7F,$40,$08
+B28_0164:
+.byte $94,$C6,$67,$28
+B28_0168:
+.byte $96,$CE,$47,$28
+B28_016c:
+.byte $D9,$A5,$7B,$F9
+B28_0170:
+.byte $D6,$A5,$90,$F9
+B28_0174:
+.byte $DA,$96,$46,$F9
+B28_0178:
+.byte $96,$7F,$76,$20
+B28_017c:
+.byte $82,$7F,$27,$F8
+B28_0180:
+.byte $94,$A5,$89,$48
+B28_0184:
+.byte $96,$AD,$7A,$58
+B28_0188:
+.byte $93,$A5,$99,$28
+B28_018c:
+.byte $9F,$84,$80,$FA
+B28_0190:
+.byte $94,$84,$24,$18
+B28_0194:
+.byte $94,$7F,$94,$18
+B28_0198:
+.byte $95,$B4,$57,$F8
+B28_019c:
+.byte $02,$7F,$67,$09
+B28_01a0:
+.byte $7F,$7F,$E1,$0A
+B28_01a4:
+.byte $7F,$7F,$21,$09
+B28_01a8:
+.byte $04,$7F,$5D,$28
+B28_01ac:
+.byte $03,$7F,$38,$28
+
+.assert >B28_01ac = >SFXInstrumentInitData, error, "SFX init data not all in same page"
+
+HandleTriangleSFX:
     ldx #$03
-    .ifdef VER_JP
-    lda #$75
-    ldy #$7d
-    .else
-    lda #$79
-    ldy #$81
-    .endif
+    lda #<TriangleSFXTable_SetUp
+    ldy #<TriangleSFXTable_Continue
     bne B28_01d3
 
-B28_01b8:
+HandlePulseGroup1SFX:
     ldx #$04
-    .ifdef VER_JP
-    lda #$85
-    ldy #$8b
-    .else
-    lda #$89
-    ldy #$8f
-    .endif
+    lda #<PulseGroup1SFXTable_SetUp
+    ldy #<PulseGroup1SFXTable_Continue
     bne B28_01d3 ;Jump pointer table shenanigans
 
-B28_01c0:
+HandlePulseGroup0SFX:
+    ; "Group 1" sound effects take priority; ignore and drop group 0 sound effects when they would interfere.
     lda soundactive_pulseg1
     bne B28_0237 ;Return
     ldx #$01
-    lda #$31
-    .ifdef VER_JP
-    ldy #$53
-    .else
-    ldy #$55
-    .endif
+    lda #<PulseGroup0SFXTable_SetUp
+    ldy #<PulseGroup0SFXTable_Continue
     bne B28_01d3; Jump pointer table shenanigans
 
-; Executes code from a big pointer table at $8009
-B28_01cd:
+HandleNoiseSFX:
     ldx #$00
-    lda #$09
-    ldy #$1d
-    B28_01d3:
-    sta unk_b0
-    stx unk_bd
+    lda #<NoiseSFXTable_SetUp
+    ldy #<NoiseSFXTable_Continue
+    ; fallthrough
+B28_01d3:
+    sta unk_b0          ; $B0 = in_A
+    stx unk_bd          ; $BD = in_X
+    ; If there's a new sound effect cued to play in this slot, then set it up.
     lda soundqueue, x
-    beq B28_020d
-    B28_01dc:
+    beq @B28_020d
+    @B28_01dc:
     .ifdef VER_JP
-    jsr B28_00B8
+    jsr SFXTablePtrRead
     .else
     sta unk_bf
     sta unk_b2
-    ldy #$80
+    ; Set the high byte of the pointer to the page that all the SFX pointer tables are in
+    ldy #>SFXPointerTables
     sty unk_b1
+    ; Turn the index into an offset.
+    ; But make it look really complicated and difficult.
+    ; (...Why is this not just `DEC : ASL : TAY`? What's the difference, processor flags?)
     and #$07
     tay
-    lda B28_0205, y
+    lda @B28_0205, y
     tay
     dec unk_b2
     lda unk_b2
@@ -415,6 +493,7 @@ B28_01cd:
     tya
     ora unk_b2
     tay
+    ; Load the pointer for this sound effect from its table and call its code.
     lda (unk_b0), y
     sta unk_b2
     iny
@@ -424,15 +503,17 @@ B28_01cd:
     jmp (unk_b2)
 
 .ifndef VER_JP
-B28_0205:
+@B28_0205:
     .byte $0e, $00, $02, $04, $06, $08, $0a, $0c
 .endif
 
-B28_020d:
+@B28_020d:
+    ; If no sound effect is playing, return.
     lda soundactive, x
-    beq B28_0237; Return
+    beq B28_0237
+    ; There's a sound effect currently playing. Continue it.
     sty unk_b0
-    bne B28_01dc; Do over!
+    bne @B28_01dc
 
 B28_0216:
     lda #$0f
@@ -457,8 +538,7 @@ B28_0216:
     rts
 
 .ifdef VER_JP
-; $80E6
-; Mystery pointer table
+; $80E6 - Ocarina "melody missing" music pointers
 B28_00e6:
 .addr B28_1353
 .addr B28_1342
@@ -472,7 +552,7 @@ B28_00e6:
 .addr 0
 .endif
 
-; $8238 - Eight melodies music pointers
+; $8238 - Ocarina "melody present" music pointers
 B28_0238:
     .addr B28_135a
     .addr B28_1365
@@ -489,18 +569,10 @@ B28_0248:
     ldy #$00
     beq B28_025d
     B28_0251:
-    .ifdef VER_JP
-    lda #$99
-    .else
-    lda #$42
-    .endif
+    lda #<B28_1342
     sta unk_76e, y
     iny
-    .ifdef VER_JP
-    lda #$92
-    .else
-    lda #$93
-    .endif
+    lda #>B28_1342
     sta unk_76e, y
     iny
     B28_025d:
@@ -520,15 +592,17 @@ B28_0248:
     rts
 
 .ifdef VER_JP
-B27_007e:
+; Overrides the song for learning melody 2 to instead begin with a tweet sound effect.
+; (A generic Canary sound effect is added to the script in EB:B instead.)
+InsertLauraPreMelodyTweeting:
     lda soundqueue_track
     cmp #$25
-    bne B27_0090
+    bne @B27_0090
     jsr B28_0299
     sta soundqueue_track
-    lda #$11
+    lda #PulseG0_Laura
     sta soundqueue_pulseg0
-    B27_0090:
+    @B27_0090:
     rts
 .endif
 
@@ -536,15 +610,15 @@ B27_007e:
 B28_0277:
     lda #$c0
     sta FRAME_COUNTER ; APU "frame counter". Select "one 5-step sequence" (whatever that means) and clear interrupt flag
-    jsr B28_00bc ; Weird $BB shuffle-around
+    jsr TickRNG
     .ifdef VER_JP
-    jsr B27_007e
+    jsr InsertLauraPreMelodyTweeting
     .endif
-    jsr B28_01cd ; Something about jump pointer table at $8009
-    jsr B28_01b8 ; Something about jump pointer table at $8089
-    jsr B28_01b0 ; Something about jump pointer table at $8079
-    jsr B28_01c0 ; Something about jump pointer table at $8031, but only if $07FC is zero!
-    jsr B28_0911  ; Something. Don't know what though.
+    jsr HandleNoiseSFX
+    jsr HandlePulseGroup1SFX
+    jsr HandleTriangleSFX
+    jsr HandlePulseGroup0SFX
+    jsr HandleMusic
     lda #$00
     ldx #$06
     B28_0292:
@@ -556,7 +630,7 @@ B28_0277:
 ;End song?
 B28_0299:
     jsr B28_02a8
-
+    ; fallthrough
 B28_029c:
     jsr B28_02c6
     lda #$00
@@ -572,14 +646,15 @@ B28_02a8:
 
     sta current_music
     sta unk_78a
+    ; Set all sounds and music to be inactive
     tay
-    B28_02ba:
+    @loop:
     lda #$00
     sta soundactive, y
     iny
     tya
     cmp #$06
-    bne B28_02ba
+    bne @loop
     rts
 
 B28_02c6:
@@ -611,22 +686,26 @@ B28_02dc:
     rts
 
 B28_02f8:
-    jsr B28_0095
-    beq B28_030a
-    B28_02fd:
-    jsr B28_00a1
-    beq B28_030a
-    B28_0302:
-    jsr B28_0099
-    beq B28_030a
-    B28_0307:
-    jsr B28_009d
-    B28_030a:
+    jsr SetSQ1Registers
+    beq B28_030a ; unconditional branch
+
+B28_02fd:
+    jsr SetSQ2Registers
+    beq B28_030a ; unconditional branch
+
+B28_0302:
+    jsr SetTRIRegisters
+    beq B28_030a ; unconditional branch
+
+B28_0307:
+    jsr SetNOISERegisters
+    ; fallthrough
+B28_030a:
     lda unk_bf
     sta soundactive, x
     lda #$00
     sta unk_7da, x
-
+    ; fallthrough
 B28_0314:
     sta unk_7df, x
     sta unk_7e3, x
@@ -635,70 +714,47 @@ B28_0314:
     B28_0320:
     rts
 
-; $8009 table, entry 09
-B28_0321:
+NoiseSFX_RocketLand_SetUp:
     lda #$30
-    .ifdef VER_JP
-    ldy #$2a
-    .else
-    ldy #$1c
-    .endif
+    ldy #<B28_011c
     jmp B28_02dc
 
-; $8009 table, entry 07
-B28_0328:
+NoiseSFX_Stairs_SetUp:
     lda #$0c
-    .ifdef VER_JP
-    ldy #$22
-    .else
-    ldy #$14
-    .endif
+    ldy #<B28_0114
     jmp B28_02dc
 
-B28_032f:
+NoiseSFX_Stairs_Continue:
     jsr B28_00d3
     bne B28_0320
-    .ifdef VER_JP
-    ldy #$22
-    .else
-    ldy #$14
-    .endif
-    jsr B28_009d
+    ldy #<B28_0114
+    jsr SetNOISERegisters
     inc unk_7df
     lda unk_7df
     cmp #$04
     bne B28_0320
-    jmp B28_0415
+    jmp EndNoiseSFX
 
-; $8009 table, entry 06
-B28_0346:
+NoiseSFX_Unk07_SetUp:
     lda #$04
-    .ifdef VER_JP
-    ldy #$22
-    .else
-    ldy #$14
-    .endif
+    ldy #<B28_0114
     jsr B28_02dc
     lda #$02
     sta soundqueue_triangle
 
     lda unk_bb
     and #%11110111
-    B28_0356:
+    ; fallthrough
+SFX_SetNoisePeriod:
     and #%00001111
     sta NOISE_LO
     rts
 
-; $8009 table, entry 05
-B28_035c:
+NoiseSFX_EnemyKilled_SetUp:
     lda #$06
-    .ifdef VER_JP
-    ldy #$26
-    .else
-    ldy #$18
-    .endif
+    ldy #<B28_0118
     jsr B28_02dc
-    lda B28_011a
+    lda B28_0118+2
     sta unk_7df
     lda B28_0118
     sta unk_7e3
@@ -709,8 +765,7 @@ B28_0370:
     lda #$86
     bne B28_038f
 
-; $8009 table, entry 0F
-B28_0374:
+NoiseSFX_EnemyKilled_Continue:
     jsr B28_00d3
     bne B28_036f
     inc unk_7df
@@ -718,7 +773,7 @@ B28_0374:
     lda unk_7e3
     cmp #$19
     bne B28_0389
-    jmp B28_0415
+    jmp EndNoiseSFX
     B28_0389:
     sta NOISE_VOL
     lda unk_7df
@@ -726,33 +781,26 @@ B28_0374:
     sta NOISE_LO
     rts
 
-; $8009 table, entry 02
-B28_0393:
+NoiseSFX_Thunder_SetUp:
     lda #$05
-    .ifdef VER_JP
-    ldy #$1a
-    .else
-    ldy #$0c
-    .endif
+    ldy #<B28_010c
     jsr B28_02dc
-    lda B28_010e
+    lda B28_010c+2
     sta unk_7df
     B28_03a0:
     rts
 
-; $8009 table, entry 0C
-B28_03a1:
+NoiseSFX_Thunder_Continue:
     lda unk_7e7
     cmp #$02
-    beq B28_03b1
+    beq @B28_03b1
     jsr B28_00d3
     bne B28_03a0
     inc unk_7e7
     rts
-
-B28_03b1:
+@B28_03b1:
     jsr B28_00d3
-    bne B28_03cc
+    bne @B28_03cc
     dec unk_7df
     dec unk_7df
     dec unk_7df
@@ -761,7 +809,7 @@ B28_03b1:
     cmp #$0f
     bne B28_03a0
     jmp B28_0436
-    B28_03cc:
+    @B28_03cc:
     inc unk_7df
     lda unk_7df
     B28_03d2:
@@ -769,23 +817,16 @@ B28_03b1:
     B28_03d5:
     rts
 
-
-B28_03d6:
-    jsr B28_045c
+SFX_SetNoisePeriodFromC1Table:
+    jsr SFX_ReadNybbleFromC1Table
     jmp B28_03d2
 
-; $8009 table, entry 03
-B28_03dc:
+NoiseSFX_Fire_SetUp:
     lda #$03
-    .ifdef VER_JP
-    ldy #$1e
-    .else
-    ldy #$10
-    .endif
+    ldy #<B28_0110
     jmp B28_02dc
 
-; $8009 table, entry 0D
-B28_03e3:
+NoiseSFX_Fire_Continue:
     jsr B28_00d3
     bne B28_03d5
     inc unk_7df
@@ -794,38 +835,26 @@ B28_03e3:
     sta NOISE_VOL
     cmp #$10
     bne B28_03d5
-    jmp B28_0415
+    jmp EndNoiseSFX
 
-; $8009 table, entry 00
-B28_03fa:
+NoiseSFX_Hit_SetUp:
     lda #$10
-    .ifdef VER_JP
-    ldy #$16
-    .else
-    ldy #$08
-    .endif
+    ldy #<B28_0108
     jmp B28_02dc
 
 ; $8009 table, entry 0A
-B28_0401:
+NoiseSFX_Hit_Continue:
     jsr B28_00d3
-    beq B28_0415
-    .ifdef VER_JP
-    ldx #$a0
-    .else
-    ldx #$81
-    .endif
-    jsr B28_03d6
-    .ifdef VER_JP
-    ldx #$a8
-    .else
-    ldx #$89
-    .endif
-    jmp B28_0450
-    B28_0410:
+    beq EndNoiseSFX
+    ldx #<B30_0181
+    jsr SFX_SetNoisePeriodFromC1Table
+    ldx #<B30_0189
+    jmp SFX_SetNoiseVolumeFromC1TableAndTickIndex
+
+NoiseSFX_Unk07_RocketLand_Continue:
     jsr B28_00d3
     bne B28_041f
-    B28_0415:
+    EndNoiseSFX:
     lda #$00
     sta soundactive_noise
     lda #$10
@@ -833,90 +862,76 @@ B28_0401:
     B28_041f:
     rts
 
-; $8009 table, entry 04
-B28_0420:
+NoiseSFX_Crit_SetUp:
     lda #$20
-    .ifdef VER_JP
-    ldy #$16
-    .else
-    ldy #$08
-    .endif
+    ldy #<B28_0108
     jmp B28_02dc
 
-; $8009 table, entry 0E
-B28_0427:
+NoiseSFX_Crit_Continue:
     jsr B28_00d3
-    beq B28_0415
-    .ifdef VER_JP
-    ldx #$b0
-    .else
-    ldx #$91
-    .endif
-    jsr B28_03d6
-    .ifdef VER_JP
-    ldx #$c0
-    .else
-    ldx #$a1
-    .endif
-    jmp B28_0450
+    beq EndNoiseSFX
+    ldx #<B30_0191
+    jsr SFX_SetNoisePeriodFromC1Table
+    ldx #<B30_01A1
+    jmp SFX_SetNoiseVolumeFromC1TableAndTickIndex
 
 B28_0436:
     lda #$02
     sta unk_bf
 
-; $8009 table, entry 01
-B28_043a:
+NoiseSFX_Bomb_SetUp:
     .ifdef VER_JP
     lda #$30
-    ldy #$16
     .else
     lda #$40
-    ldy #$08
     .endif
+    ldy #<B28_0108
     jmp B28_02dc
 
-; $8009 table, entry 0B
-B28_0441:
+NoiseSFX_Bomb_Continue:
     jsr B28_00d3
     bne B28_0449
-    jmp B28_0415
+    jmp EndNoiseSFX
     B28_0449:
-    .ifdef VER_JP
-    ldx #$d0
-    .else
-    ldx #$b1
-    .endif
-    jsr B28_03d6
-    .ifdef VER_JP
-    ldx #$e8
-    .else
-    ldx #$d1
-    .endif
-    B28_0450:
-    jsr B28_045c
+    ldx #<B30_01B1
+    jsr SFX_SetNoisePeriodFromC1Table
+    ldx #<B30_01D1
+    ; fallthrough
+SFX_SetNoiseVolumeFromC1TableAndTickIndex:
+    jsr SFX_ReadNybbleFromC1Table
+    ; $10 = constant volume (no envelope), because we're handling the envelope in software
     ora #$10
     sta NOISE_VOL
     inc unk_7df
     rts
 
-B28_045c:
+;Inputs:
+;  X: pointer in page C1 (ptr = $C100 + X) to a table of nybble values
+;  unk_7df: index of the nybble to read
+;Outputs:
+;  A:     The value of the nybble at that index
+;Clobbers:
+;  X, Y, unk_b0, unk_b1, unk_b4
+SFX_ReadNybbleFromC1Table:
     stx unk_b0
-    ldy #$c1
+    ldy #>C1NybbleTables
     sty unk_b1
+    ; There are two nybbles in a byte, so divide by 2 to get the correct byte address
     ldx unk_7df
     txa
     lsr a
     tay
     lda (unk_b0), y
     sta unk_b4
+    ; If the index is even, use the most significant nybble
     txa
     and #%00000001
-    beq B28_0476
+    beq @use_high_nybble
+    ; Otherwise, the index is odd, so use the least significant nybble
     lda unk_b4
     and #%00001111
     rts
-
-B28_0476:
+@use_high_nybble:
     lda unk_b4
     lsr a
     lsr a
@@ -925,17 +940,12 @@ B28_0476:
     B28_047c:
     rts
 
-; $8009 table, entry 08
-B28_047d:
+NoiseSFX_Rocket_SetUp:
     lda #$08
-    .ifdef VER_JP
-    ldy #$12
-    .else
-    ldy #$04
-    .endif
+    ldy #<B28_0104
     jmp B28_02dc
 
-B28_0484:
+NoiseSFX_Rocket_Continue:
     jsr B28_00d3
     bne B28_047c
     lda unk_7df
@@ -943,7 +953,7 @@ B28_0484:
     .ifdef VER_JP
     cmp #$10
     beq B28_04b9
-    jmp B28_0356
+    jmp SFX_SetNoisePeriod
     .else
     cmp #$28
     beq B28_04b9
@@ -955,28 +965,27 @@ B28_0484:
     beq B28_04a6
     cmp #$10
     bcs B28_047c
-    jmp B28_0356
-    B28_04a6:
+    jmp SFX_SetNoisePeriod
+B28_04a6:
     lda #$31
     bne B28_04b0
-    B28_04aa:
+B28_04aa:
     lda #$32
     bne B28_04b0
-    B28_04ae:
+B28_04ae:
     lda #$33
-    B28_04b0:
+B28_04b0:
     sta NOISE_VOL
     lda #$0f
     sta NOISE_LO
     rts
     .endif
-
 B28_04b9:
-    jmp B28_0415
+    jmp EndNoiseSFX
 
 B28_04bc:
     sta unk_7d9
-    jsr B28_00a1
+    jsr SetSQ2Registers
     lda unk_bf
     sta soundactive_pulseg1
 
@@ -991,7 +1000,7 @@ B28_04bc:
     ldx #$01
     jmp B28_0314
     B28_04dd:
-    jsr B28_0688
+    jsr EndPulseGroup0SFX
     jsr B28_0840
     inc unk_78a
     lda #$00
@@ -999,30 +1008,22 @@ B28_04bc:
     ldx #$01
     lda #$7f
     B28_04ef:
-    sta SQ1_VOL, x
-    sta SQ2_VOL, x
+    sta SQ1, x
+    sta SQ2, x
     rts
 
-B28_04f6:
-    .ifdef VER_JP
-    ldy #$32
-    .else
-    ldy #$24
-    .endif
-    jsr B28_0095
+PulseG1SFX_DimensionSlip_SetUp:
+    ldy #<B28_0124
+    jsr SetSQ1Registers
     lda #$0a
-    .ifdef VER_JP
-    ldy #$2e
-    .else
-    ldy #$20
-    .endif
+    ldy #<B28_0120
     jsr B28_04bc
     lda B28_0120
     sta unk_7e0
     B28_0508:
     rts
 
-B28_0509:
+PulseG1SFX_DimensionSlip_Continue:
     jsr B28_00d3
     bne B28_0533
     lda unk_7e4
@@ -1054,38 +1055,22 @@ B28_0533:
     sty SQ1_LO
     rts
 
-B28_0542:
-    .ifdef VER_JP
-    ldy #$3e
-    .else
-    ldy #$30
-    .endif
-    jsr B28_0095
+PulseG1SFX_GiegueAttack_SetUp:
+    ldy #<B28_0130
+    jsr SetSQ1Registers
     lda #$08
-    .ifdef VER_JP
-    ldy #$42
-    .else
-    ldy #$34
-    .endif
+    ldy #<B28_0134
     bne B28_0556
 
-B28_054d:
-    .ifdef VER_JP
-    ldy #$3a
-    .else
-    ldy #$2c
-    .endif
-    jsr B28_0095
+PulseG1SFX_Status_SetUp:
+    ldy #<B28_012c
+    jsr SetSQ1Registers
     lda #$03
-    .ifdef VER_JP
-    ldy #$36
-    .else
-    ldy #$28
-    .endif
+    ldy #<B28_0128
     B28_0556:
     jmp B28_04bc
 
-B28_0559:
+PulseG1SFX_Status_GiegueAttack_Continue:
     jsr B28_057e
     jsr B28_00d3
     bne B28_057e
@@ -1109,128 +1094,98 @@ B28_057e:
     lda unk_7e4
     and #$07
     tay
-    lda B28_059c, y
+    lda GiegueAttack_PeriodDifferences, y
     clc
-    adc B28_012a
+    adc B28_0128+2
     sta SQ1_LO
-    lda B28_059c, y
+    lda GiegueAttack_PeriodDifferences, y
     clc
-    adc B28_012e
+    adc B28_012c+2
     sta SQ2_LO
     B28_059b:
     rts
 
 
 .ifndef VER_JP
-B28_059c:
+GiegueAttack_PeriodDifferences:
 incbinRange "../../split/us/music.bin", $59c, $5a4
 .endif
 
-B28_05a4:
+PulseGroup0SFX_Miss_SetUp:
     lda #$0A
-    .ifdef VER_JP
-    ldy #$A2
-    .else
-    ldy #$98
-    .endif
+    ldy #<B28_0198
     jmp B28_02dc
 
 .ifndef VER_JP
-B28_05ab:
-.word $9314
-.byte $94,$d3
+Purchase_Volumes:
+.byte $14,$93,$94,$d3
 .endif
 
-B28_05af:
+PulseGroup0SFX_Purchase_Continue:
     lda unk_7e4
     beq B28_05c1
     inc unk_7e0
     lda unk_7e0
     cmp #$16
     bne B28_059b
-    jmp B28_0688
+    jmp EndPulseGroup0SFX
 
 B28_05c1:
     lda unk_7e0
     and #$03
     tay
-    lda B28_05ab, y
+    lda Purchase_Volumes, y
     sta SQ1_VOL
     inc unk_7e0
     lda unk_7e0
     cmp #$08
     bne B28_059b
     inc unk_7e4
-    .ifdef VER_JP
-    ldy #$86
-    .else
-    ldy #$7c
-    .endif
-    jmp B28_0095
+    ldy #<B28_017c
+    jmp SetSQ1Registers
 
 
-B28_05df:
+PulseGroup0SFX_Unk0D_SetUp:
     lda #$02
-    .ifdef VER_JP
-    ldy #$9A
-    .else
-    ldy #$90
-    .endif
+    ldy #<B28_0190
     jmp B28_02dc
 
-B28_05e6:
-    .ifdef VER_JP
-    ldy #$82
-    .else
-    ldy #$78
-    .endif
+PulseGroup0SFX_Purchase_SetUp:
+    ldy #<B28_0178
     jmp B28_02dc
 
-B28_05eb:
+PulseGroup0SFX_PlayerAttack_SetUp:
     lda #$04
-    .ifdef VER_JP
-    ldy #$6e
-    .else
-    ldy #$64
-    .endif
+    ldy #<B28_0164
     jmp B28_02dc
 
-B28_05f2:
+PulseGroup0SFX_PlayerAttack_Continue:
     jsr B28_00d3
     bne B28_066d
     inc unk_7e0
     lda unk_7e0
     cmp #$01
-    beq B28_0608
+    beq @B28_0608
     cmp #$04
     bne B28_066d
-    jmp B28_0688
+    jmp EndPulseGroup0SFX
+@B28_0608:
+    ldy #<B28_0168
+    jmp SetSQ1Registers
 
-B28_0608:
-    .ifdef VER_JP
-    ldy #$72
-    .else
-    ldy #$68
-    .endif
-    jmp B28_0095
-
-B28_060d:
+PulseGroup0SFX_Laura_SetUp:
     inc unk_78b
-
-B28_0610:
+    ; fallthrough
+PulseGroup0SFX_Canary_SetUp:
     lda #$0f
-    .ifdef VER_JP
-    ldy #$4e
-    .else
-    ldy #$44
-    .endif
+    ldy #<B28_0144
     jsr B28_02dc
-    lda B28_0146
+    lda B28_0144+2
     B28_061a:
     sta unk_7e8
     rts
 
-B28_061e:
+PulseGroup0SFX_Canary_Laura_Continue:
     jsr B28_00d3
     bne B28_0661
     inc unk_7e4
@@ -1242,23 +1197,15 @@ B28_061e:
     B28_0631:
     and #$01
     beq B28_063c
-    lda B28_014a
-    .ifdef VER_JP
-    ldy #$52
-    .else
-    ldy #$48
-    .endif
+    lda B28_0148+2
+    ldy #<B28_0148
     bne B28_0641
     B28_063c:
-    lda B28_0146
-    .ifdef VER_JP
-    ldy #$4e
-    .else
-    ldy #$44
-    .endif
+    lda B28_0144+2
+    ldy #<B28_0144
     B28_0641:
     pha
-    jsr B28_0095
+    jsr SetSQ1Registers
     pla
     bne B28_061a
     B28_0648:
@@ -1269,8 +1216,7 @@ B28_061e:
     lda #$25
     sta soundqueue_track
     B28_0657:
-    jmp B28_0688
-
+    jmp EndPulseGroup0SFX
 B28_065a:
     lda #$02
     sta unk_7d6
@@ -1284,32 +1230,24 @@ B28_065a:
     rts
 
 
-B28_066e:
+PulseGroup0SFX_Unk0E_SetUp:
     lda soundactive_pulseg0
-    cmp #$07
+    cmp #PulseG0_Recovery
     beq B28_066d
     lda #$02
-    .ifdef VER_JP
-    ldy #$9e
-    .else
-    ldy #$94
-    .endif
+    ldy #<B28_0194
     jmp B28_02dc
 
-B28_067c:
+PulseGroup0SFX_TakeDamage_SetUp:
     lda #$10
-    .ifdef VER_JP
-    ldy #$96
-    .else
-    ldy #$8c
-    .endif
+    ldy #<B28_018c
     jmp B28_02dc
 
-B28_0683:
+PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue:
     jsr B28_00d3
     bne B28_0698
-
-B28_0688:
+    ; fallthrough
+EndPulseGroup0SFX:
     lda #$10
     sta SQ1_VOL
 
@@ -1320,16 +1258,12 @@ B28_0688:
     B28_0698:
     rts
 
-B28_0699:
+PulseGroup0SFX_Dodge_SetUp:
     lda #$06
-    .ifdef VER_JP
-    ldy #$8A
-    .else
-    ldy #$80
-    .endif
+    ldy #<B28_0180
     jmp B28_02dc
 
-B28_06a0:
+PulseGroup0SFX_Dodge_Continue:
     jsr B28_00d3
     bne B28_0698
     inc unk_7e0
@@ -1340,21 +1274,13 @@ B28_06a0:
     beq B28_06bf
     cmp #$03
     bne B28_0698
-    jmp B28_0688
+    jmp EndPulseGroup0SFX
     B28_06ba:
-    .ifdef VER_JP
-    ldy #$8e
-    .else
-    ldy #$84
-    .endif
-    jmp B28_0095
+    ldy #<B28_0184
+    jmp SetSQ1Registers
     B28_06bf:
-    .ifdef VER_JP
-    ldy #$92
-    .else
-    ldy #$88
-    .endif
-    jmp B28_0095
+    ldy #<B28_0188
+    jmp SetSQ1Registers
 
 
 .ifdef VER_JP
@@ -1362,16 +1288,12 @@ B28_00fa:
 incbinRange "../../split/jp/music.bin", $69e, $6A4
 .endif
 
-B28_06c4:
+PulseGroup0SFX_EnemyAttack_SetUp:
     lda #$08
-    .ifdef VER_JP
-    ldy #$76
-    .else
-    ldy #$6c
-    .endif
+    ldy #<B28_016c
     jmp B28_02dc
 
-B28_06cb:
+PulseGroup0SFX_EnemyAttack_Continue:
     jsr B28_00d3
     beq B28_06ed
     lda unk_7e8
@@ -1384,11 +1306,9 @@ B28_06cb:
     lda B28_00fa, y
     sta SQ1_SWEEP
     rts
-
 B28_06e9:
     inc unk_7e8
     rts
-
 B28_06ed:
     lda #$00
     sta unk_7e4
@@ -1398,129 +1318,85 @@ B28_06ed:
     beq B28_0706
     cmp #$02
     bne B28_070e
-    jmp B28_0688
+    jmp EndPulseGroup0SFX
     B28_0702:
-    .ifdef VER_JP
-    ldy #$7a
-    .else
-    ldy #$70
-    .endif
+    ldy #<B28_0170
     bne B28_0708
     B28_0706:
-    .ifdef VER_JP
-    ldy #$7e
-    .else
-    ldy #$74
-    .endif
+    ldy #<B28_0174
     B28_0708:
-    jsr B28_0095
+    jsr SetSQ1Registers
     inc unk_7e0
     B28_070e:
     rts
 
-B28_070f:
+PulseGroup0SFX_MenuBloop_Continue:
     jsr B28_00d3
     bne B28_070e
     inc unk_7e0
     lda unk_7e0
     cmp #$02
     bne B28_0721
-    jmp B28_0688
+    jmp EndPulseGroup0SFX
     B28_0721:
-    .ifdef VER_JP
-    ldy #$5A
-    .else
-    ldy #$50
-    .endif
-    jmp B28_0095
+    ldy #<B28_0150
+    jmp SetSQ1Registers
 
-B28_0726:
+PulseGroup0SFX_MenuBloop_SetUp:
     .ifndef VER_JP
     lda soundactive_pulseg0
-    cmp #$07
+    cmp #PulseG0_Recovery
     beq B28_070e
     .endif
     lda #$03
-    .ifdef VER_JP
-    ldy #$56
-    .else
-    ldy #$4c
-    .endif
+    ldy #<B28_014c
     bne B28_075b
 
-B28_0733:
+PulseGroup0SFX_MagicantWarp_SetUp:
     lda #$10
-    .ifdef VER_JP
-    ldy #$46
-    .else
-    ldy #$3c
-    .endif
+    ldy #<B28_013c
     jsr B28_075b
     lda #$18
     bne B28_077b
 
-B28_073e:
+PulseGroup0SFX_MagicantWarp_Continue:
     jsr B28_00d3
     bne B28_077e
-    .ifdef VER_JP
-    ldy #$46
-    .else
-    ldy #$3c
-    .endif
+    ldy #<B28_013c
     bne B28_0786
 
-B28_0747:
+PulseGroup0SFX_StatBoost_SetUp:
     lda #$06
-    .ifdef VER_JP
-    ldy #$62
-    .else
-    ldy #$58
-    .endif
+    ldy #<B28_0158
     jsr B28_075b
     lda #$10
     bne B28_077b
 
-B28_0752:
+PulseGroup0SFX_StatBoost_Continue:
     jsr B28_00d3
     bne B28_077e
-    .ifdef VER_JP
-    ldy #$62
-    .else
-    ldy #$58
-    .endif
+    ldy #<B28_0158
     bne B28_0786
 
 B28_075b:
     jmp B28_02dc
 
-B28_075e:
+PulseGroup0SFX_Recovery_SetUp:
     lda #$05
-    .ifdef VER_JP
-    ldy #$66
-    .else
-    ldy #$5c
-    .endif
+    ldy #<B28_015c
     jsr B28_075b
     lda #$08
     bne B28_077b
 
-B28_0769:
+PulseGroup0SFX_Recovery_Continue:
     jsr B28_00d3
     bne B28_077e
-    .ifdef VER_JP
-    ldy #$66
-    .else
-    ldy #$5c
-    .endif
+    ldy #<B28_015c
     bne B28_0786
 
-B28_0772:
+PulseGroup0SFX_Beam_SetUp:
     lda #$06
-    .ifdef VER_JP
-    ldy #$6A
-    .else
-    ldy #$60
-    .endif
+    ldy #<B28_0160
     jsr B28_075b
     lda #$00
     B28_077b:
@@ -1528,54 +1404,45 @@ B28_0772:
     B28_077e:
     rts
 
-B28_077f:
+PulseGroup0SFX_Beam_Continue:
     jsr B28_00d3
     bne B28_077e
-    .ifdef VER_JP
-    ldy #$6A
-    .else
-    ldy #$60
-    .endif
+    ldy #<B28_0160
     B28_0786:
-    jsr B28_0095
+    jsr SetSQ1Registers
     clc
     lda unk_7e4
     adc unk_7e0
     tay
-    lda B28_07ee, y
+    lda PKBeam_Periods, y
     sta SQ1_LO
     ldy unk_7e0
-    lda B28_07e5, y
+    lda PKBeam_Volumes, y
     sta SQ1_VOL
     bne B28_07a5
-    jmp B28_0688
-
+    jmp EndPulseGroup0SFX
 B28_07a5:
     inc unk_7e0
     B28_07a8:
     rts
 
-B28_07a9:
+PulseGroup0SFX_ItemDropGet_SetUp:
     lda #$04
-    .ifdef VER_JP
-    ldy #$5E
-    .else
-    ldy #$54
-    .endif
+    ldy #<B28_0154
     jsr B28_02dc
-    lda B28_0156
+    lda B28_0154+2
     sta unk_7e0
     rts
 
-B28_07b7:
+PulseGroup0SFX_ItemDropGet_Continue:
     jsr B28_00d3
     bne B28_07a8
     inc unk_7e4
     lda unk_7e4
     cmp #$05
-    bne B28_07c9
-    jmp B28_0688
-    B28_07c9:
+    bne @B28_07c9
+    jmp EndPulseGroup0SFX
+    @B28_07c9:
     lda unk_7e0
     lsr a
     lsr a
@@ -1592,36 +1459,33 @@ B28_07b7:
     B28_07e4:
     rts
 
-B28_07e5:
+PKBeam_Volumes:
 .byte $9E,$9B,$99,$96,$94,$93,$92,$91,$00
-B28_07ee:
+PKBeam_Periods:
 .byte $20,$40,$20,$40,$20,$40,$20,$40,$90,$60,$90,$90,$60,$80,$90,$60
 .byte $B0,$79,$A8,$58,$90,$40,$80,$30,$76,$9F,$58,$76,$42,$58,$31,$42
 
-B28_080e:
+PulseGroup0SFX_LearnedPSI_Continue:
     jsr B28_00d3
     bne B28_07e4
     ldy unk_7e0
     inc unk_7e0
-    lda B28_0830, y
+    lda LearnedPSI_Periods, y
     beq B28_0826
     sta SQ1_LO
     lda #$88
     jmp B28_07e1
     B28_0826:
-    jmp B28_0688
+    jmp EndPulseGroup0SFX
 
-B28_0829:
+PulseGroup0SFX_LearnedPSI_SetUp:
     lda #$04
-    .ifdef VER_JP
-    ldy #$4A
-    .else
-    ldy #$40
-    .endif
+    ldy #<B28_0140
     jmp B28_02dc
 
-B28_0830:
-.byte $A8,$96,$70,$53,$4A,$37,$29,$E1,$A8,$96,$70,$53,$4A,$37,$29,$00
+LearnedPSI_Periods:
+.byte     $A8,$96,$70,$53,$4A,$37,$29
+.byte $E1,$A8,$96,$70,$53,$4A,$37,$29,$00
 
 
 B28_0840:
@@ -1632,13 +1496,9 @@ B28_0840:
     sta soundactive_unknown
     rts
 
-B28_084e:
+TriangleSFX_Unk02_SetUp:
     lda #$04
-    .ifdef VER_JP
-    ldy #$aa
-    .else
-    ldy #$a0
-    .endif
+    ldy #<B28_01a0
     jsr B28_02dc
 
     lda unk_bb
@@ -1647,41 +1507,37 @@ B28_084e:
     lda #$0a
     bne B28_08b0
 
-B28_085e:
+TriangleSFX_Freeze_SetUp:
     lda #$04
-    .ifdef VER_JP
-    ldy #$a6
-    .else
-    ldy #$9c
-    .endif
+    ldy #<B28_019c
     jsr B28_02dc
     lda #$08
     sta unk_7e6
     rts
 
 .ifndef VER_JP
-B28_086b:
+Freeze_Periods:
 incbinRange "../../split/us/music.bin", $86b, $87e
 .endif
-B28_087e:
+
+TriangleSFX_Freeze_Continue:
     jsr B28_00d3
     bne B28_08b3
     @loop:
     ldy unk_7e2
-    lda B28_086b,Y
-    beq @out
+    lda Freeze_Periods,Y
+    beq @inc_period_high_byte
     cmp #$FF
-    beq B28_08a3
+    beq EndTriangleSFX
     inc unk_7e2
     sta TRI_LO
     lda unk_7e6
     jmp B28_08b0
-    @out:
+    @inc_period_high_byte:
     inc unk_7e6
     inc unk_7e2
     bne @loop
-
-B28_08a3:
+EndTriangleSFX:
     lda #$00
     sta TRI_LINEAR
     sta unk_7c8+2
@@ -1692,60 +1548,48 @@ B28_08a3:
     B28_08b3:
     rts
 
-B28_08b4:
+TriangleSFX_Unk02_Continue:
     jsr B28_00d3
-    beq B28_08a3
+    beq EndTriangleSFX
     B28_08b9:
     rts
 
-B28_08ba:
+TriangleSFX_PlayerKilled_Continue:
     jsr B28_00d3
     bne B28_08b9
     ldy unk_7e2
     inc unk_7e2
-    lda B28_08db, y
-    beq B28_08a3
+    lda PlayerKilled_Periods, y
+    beq EndTriangleSFX
     sta TRI_LO
-    lda B28_01a7
+    lda B28_01a4+3
     sta TRI_HI
     rts
 
-B28_08d4:
+TriangleSFX_PlayerKilled_SetUp:
     lda #$03
-    .ifdef VER_JP
-    ldy #$ae
-    .else
-    ldy #$a4
-    .endif
+    ldy #<B28_01a4
     jmp B28_02dc
 
-B28_08db:
+PlayerKilled_Periods:
     .byte $3f,$48,$52,$6d,$78,$84,$91,$ae,$bd,$00
 
-B28_08e5:
+TriangleSFX_Equip_SetUp:
     lda #$08
-    .ifdef VER_JP
-    ldy #$B2
-    .else
-    ldy #$a8
-    .endif
+    ldy #<B28_01a8
     jmp B28_02dc
 
-B28_08ec:
+TriangleSFX_Equip_Continue:
     jsr B28_00d3
     bne B28_08b3
     inc unk_7e2
     lda unk_7e2
     cmp #$02
-    bne B28_08fe
-    jmp B28_08a3
-    B28_08fe:
-    .ifdef VER_JP
-    ldy #$B6
-    .else
-    ldy #$ac
-    .endif
-    jmp B28_0099
+    bne @B28_08fe
+    jmp EndTriangleSFX
+    @B28_08fe:
+    ldy #<B28_01ac
+    jmp SetTRIRegisters
 
 B28_0903:
     jsr B28_0248
@@ -1756,7 +1600,7 @@ B28_0903:
 B28_090e:
     jmp B28_0299
 
-B28_0911:
+HandleMusic:
     lda soundqueue_track
     tay
     .ifdef VER_JP
@@ -1808,17 +1652,17 @@ B28_0911:
     rts
 
 .ifndef VER_JP
-B28_0962:
+PulseGroup0SFX_XXStone_SetUp:
     lda #$03
-    ldy #$38
+    ldy #<B28_0138
     jsr B28_02dc
-    jmp B28_0971
+    jmp PulseGroup0SFX_XXStone_Common
 
-B28_096c:
+PulseGroup0SFX_XXStone_Continue:
     jsr B28_00d3
     bne B28_0995
-
-B28_0971:
+    ; fallthrough
+PulseGroup0SFX_XXStone_Common:
     lda unk_7e0
     and #$07
     tay
@@ -1828,22 +1672,22 @@ B28_0971:
     lsr a
     tax
     inc unk_7e0
-    lda B28_09a1, x
+    lda XXStone_Volumes, x
     beq B28_0996
     sta SQ1_VOL
-    lda B28_0999, y
+    lda XXStone_PeriodLowBytes, y
     sta SQ1_LO
-    lda B28_013b
+    lda B28_0138+3
     sta SQ1_HI
     B28_0995:
     rts
 
 B28_0996:
-    jmp B28_0688
+    jmp EndPulseGroup0SFX
 
-B28_0999:
+XXStone_PeriodLowBytes:
 incbinRange "../../split/us/music.bin", $999, $9a1
-B28_09a1:
+XXStone_Volumes:
 incbinRange "../../split/us/music.bin", $9a1, $9a7
 
 .endif
