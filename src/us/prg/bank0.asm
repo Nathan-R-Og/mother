@@ -783,6 +783,7 @@ window_unk:
 
 
 ;stat bar top
+battle_statbar_top:
 .byte uibox_tl,uibox_tc
 .byte "Name"
 .byte uibox_t,uibox_t,uibox_tc

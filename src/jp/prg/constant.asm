@@ -6,7 +6,7 @@ B25_02b3 := $a2b3
 DisplayText_battle := $a3f8
 B20_1630 := $963d
 B19_1bc3 := $bcaa
-B19_0979 := $a92f
+IsTargetInventoryFull := $a92f
 B19_1b8c := $bc73
 Map_Palettes := $9000
 
@@ -22,7 +22,7 @@ B20_17a3 := $97b0
 
 B19_0123 := $a123
 B19_01c6 := $a1b6
-B19_1cec := $bdd3
+OverworldTransitionIntepreter := $bdd3
 intro := $9400
 
 ;bank $1e-$1f start
@@ -31,7 +31,7 @@ intro := $9400
 ; $C000
 ; DPCM samples
 ;kick
-B30_0000:
+sample_kick:
     .byte $ff
     .byte $ff
     .byte $ff
@@ -119,7 +119,7 @@ B30_0071:
     .byte $00
     .byte $00
 ;snare
-B30_0080:
+sample_snare:
     .byte $ff
     .byte $b7
     .byte $20, $0b, $00
@@ -592,7 +592,7 @@ B30_024F:
 
 
 ; DATA NOW!
-B30_022c:
+control_codes:
     .byte $00 ; 00 stopText
     .byte $01 ; 01 newLine
     .byte $02 ; 02 waitThenOverwrite
@@ -829,7 +829,7 @@ B30_0306:
     ldy #.HIBYTE(B25_031e-1)
     .endif
     jsr F3C6D4
-    jmp B31_1d4a
+    jmp SUPRESS_INPUT
 
 BankswitchLower_Bank00:
     lda #0
@@ -838,7 +838,7 @@ BankswitchLower_Bank00:
 
 
 ; $C329 - Unknown
-B30_0329:
+party_menu_1char:
     .byte set_pos 1, 23
     .byte print_string $952f
     .byte $01, $c1, $16
@@ -847,11 +847,11 @@ B30_0329:
     .byte $c1,$18,$83
     .byte repeatTile $84, $1c
     .byte $85
-    B30_033d:
+    party_menu_nochar:
     .byte $00
 
 ; $C33E - Unknown
-B30_033e:
+party_menu_2char:
     .byte set_pos 1, 21
     .byte print_string $952f
     .byte $01, $c1, $14
@@ -865,7 +865,7 @@ B30_033e:
     .byte $00
 
 ; $C359 - Unknown
-B30_0359:
+party_menu_3char:
     .byte set_pos 1, 19
     .byte print_string $952f
     .byte $01, $c1, $12
@@ -983,9 +983,9 @@ B30_03e6:
     jmp B30_03a4
 
 
-B30_03f4:
+CLEAR_TEXTBOXES_ROUTINE:
     php
-    jsr B30_0fac
+    jsr STORE_COORDINATES
     jsr B31_1dc0
     lda #$01
     sta $e5
@@ -1302,13 +1302,6 @@ F3C6D4:
     asl $E2
     rts
 
-
-.ifdef VER_JP
-something = $6D00
-.else
-something = $6700
-.endif
-
 B30_0542:
     jsr EnablePRGRam
     ldx #$10
@@ -1347,10 +1340,10 @@ B30_0542:
     bne B30_0572
     pla
     tay
-    lda B30_061e, y
+    lda battle_status_string_lut, y
     sta something, x
     inx
-    lda B30_061e+1, y
+    lda battle_status_string_lut+1, y
     sta something, x
     inx
     ldy #$1b
@@ -1411,9 +1404,9 @@ B30_0542:
     lda #$00
     B30_05ee:
     sta something+$d
-    lda B30_0616, x
+    lda party_menu_layouts, x
     sta something+1
-    lda B30_0616+1, x
+    lda party_menu_layouts+1, x
     sta something+2
     lda something+$13
     sta something+$b
@@ -1426,13 +1419,13 @@ B30_0542:
     jmp WriteProtectPRGRam
 
 
-B30_0616:
-    .addr B30_033d ; 0 characters
-    .addr B30_0329 ; 1 character
-    .addr B30_033e ; 2 characters
-    .addr B30_0359 ; 3 characters
+party_menu_layouts:
+    .addr party_menu_nochar ; 0 characters
+    .addr party_menu_1char ; 1 character
+    .addr party_menu_2char ; 2 characters
+    .addr party_menu_3char ; 3 characters
 
-B30_061e:
+battle_status_string_lut:
     .addr STATUS_COLD ; "  Cold"
     .addr STATUS_POISON ; "Poison"
     .addr STATUS_PUZZLD ; "Puzzld"
@@ -2180,7 +2173,7 @@ B30_0a5c:
     cmp #$40
     bcs B30_0a7b
     tay
-    lda B30_022c, y
+    lda control_codes, y
     ldy $7a
     cmp #$80
     bcs B30_0a7b
@@ -2215,7 +2208,7 @@ B30_0a7c:
 
     tay
     ;load index in control codes
-    lda B30_022c, y
+    lda control_codes, y
     ;pop y
     ldy $7a
 
@@ -2397,7 +2390,7 @@ PostInit:
     sta $07ef
     B30_0b57:
     jsr BankswitchUpper_Bank19
-    jsr B19_1cec
+    jsr OverworldTransitionIntepreter
     B30_0b5d:
     jsr B30_0542
     jsr B30_0efc
@@ -2409,7 +2402,7 @@ PostInit:
     sta $0d
     B30_0b70:
     jsr B31_1d5e
-    jsr B30_0fac
+    jsr STORE_COORDINATES
     B30_0b76:
     jsr B30_1e99
     jsr B31_0ef0
@@ -2469,7 +2462,7 @@ B30_0bcd:
     and #$a0
     beq B30_0be5
     bmi B30_0bdc
-    jsr B19_082f
+    jsr OpenMapWithButton
     jmp B30_0be5
 .endif
 
@@ -2608,7 +2601,7 @@ B30_0cb1:
     lda #$1e
     and ram_PPUMASK
     sta ram_PPUMASK
-    jsr B31_1d4f
+    jsr WAIT_CLOSE_MENU
     jmp B30_0d79
 
 B30_0cd8:
@@ -2617,7 +2610,7 @@ B30_0cd8:
     lda #$ff
     sta $0f
     jsr PlayMusic
-    jsr B30_03f4
+    jsr CLEAR_TEXTBOXES_ROUTINE
     lda #$01
     sta $07f4
     jsr B30_0d9d
@@ -2682,7 +2675,7 @@ B30_0cd8:
     jsr B30_0542
     jsr B30_0efc
     jsr B31_1d5e
-    jsr B30_0fac
+    jsr STORE_COORDINATES
     jsr B30_0d9d
     ldx #$2c
     B30_0d70:
@@ -2994,7 +2987,7 @@ Field_Sprite_Palette:
     .byte $0F,$0F,$24,$37
     .byte $0F,$0F,$12,$37
 
-B30_0fac:
+STORE_COORDINATES:
     jsr PpuSync
     clc
     lda $1c
@@ -3051,7 +3044,7 @@ B30_0fac:
     lda $9b
     asl a
     tax
-    jsr B31_1d4a
+    jsr SUPRESS_INPUT
     lda #$25
     sta $053e, x
     sec
@@ -4183,14 +4176,14 @@ B30_1768:
     clc
     jmp WriteProtectPRGRam
 
-B30_178d:
+REMOVE_PARTY_MEMBER:
     ldx #$00
-    B30_178f:
+    @Loop:
     cmp party_members, x
     beq B30_179a
     inx
     cpx #$04
-    bcc B30_178f
+    bcc @Loop
     rts
 
 B30_179a:
@@ -4373,21 +4366,21 @@ B30_18ba:
 
 B30_18c9:
     lda #$07
-    jsr B30_178d
+    jsr REMOVE_PARTY_MEMBER
 B30_18ce:
     lda #$06
-    jmp B30_178d
+    jmp REMOVE_PARTY_MEMBER
 
-B30_18d3:
+RECONFIGURE_PARTY:
     lda $7581
     bpl B30_18dd
     lda #$06
-    jsr B30_178d
+    jsr REMOVE_PARTY_MEMBER
     B30_18dd:
     lda $75c1
     bpl B30_18e7
     lda #$07
-    jsr B30_178d
+    jsr REMOVE_PARTY_MEMBER
     B30_18e7:
     ldx #$00
     stx $37
@@ -4667,7 +4660,7 @@ B30_1a48:
     lda ($38), y
     sbc $66
     bcc B30_1ad8
-    jsr B30_1b6c
+    jsr TryLevelUp
     bcc B30_1ab9
     B30_1ad8:
     jsr B30_1c87
@@ -4683,9 +4676,9 @@ B30_1a48:
     bne B30_1b30
     jsr EnablePRGRam
     ldx #$12
-    jsr B30_1c11
+    jsr StoreRewardMoney
     ldx #$15
-    jsr B30_1c11
+    jsr StoreRewardMoney
     lda enemy_group
     beq B30_1b30
     sta $29
@@ -4712,7 +4705,7 @@ B30_1a48:
     sta $28
     txa
     pha
-    jsr B19_0979
+    jsr IsTargetInventoryFull
     pla
     tax
     bcc B30_1b33
@@ -4754,28 +4747,27 @@ B30_1b40:
     sta $66
     rts
 
-B30_1b6c:
+TryLevelUp:
     ldy #$10
     lda ($38), y
     cmp #$63
-    bcc B30_1b75
+    bcc DoLevelUp
     rts
 
-B30_1b75:
+DoLevelUp:
     adc #$01
     sta ($38), y
     jsr B30_043f
     jsr EnablePRGRam
-    lda #$ff
+    lda #Track_Clear
     jsr PlayMusic
-    lda #$1f
+    lda #Track_LevelUp
     jsr PlayMusic
-    lda #$82
+    lda #$82                    ; "[Name] leveled up!"
     jsr DisplayText_battle
     jsr B30_1cdf
     ldy #$03
-    B30_1b93:
-    jsr Rand
+:   jsr Rand
     lsr a
     lsr a
     lsr a
@@ -4788,32 +4780,32 @@ B30_1b75:
     sta $55, y
     iny
     cpy #$08
-    bcc B30_1b93
+    bcc :-
     ldy #$0b
-    B30_1baa:
+@CoreStatsLoop:
     clc
     lda ($38), y
     adc $4D, y
-    bcc B30_1bbc
+    bcc @IncCoreStats
     sbc $4D, y
     eor #$ff
     sta $4D, y
     lda #$ff
-    B30_1bbc:
+@IncCoreStats:
     sta ($38), y
     lda $4D, y
-    beq B30_1bcd
+    beq :+
     tya
     pha
     clc
-    adc #$7b
+    adc #$7b                        ; "Fight went up [Num]!"
     jsr DisplayText_battle
     pla
     tay
-    B30_1bcd:
-    iny
-    cpy #$10
-    bcc B30_1baa
+; @IncrementLoop
+:   iny
+    cpy #Fce_Offset + 1             ; stop when Y is past core stats offset
+    bcc @CoreStatsLoop
     ldy #$07
     lda $58
     jsr B30_1c64
@@ -4824,14 +4816,13 @@ B30_1b75:
     lda ($38), y
     sta $60
     clc
-    adc #$14
-    bcc B30_1bed
-    lda #$ff
-    B30_1bed:
-    ldy #$03
-    jsr B30_1c3f
-    lda #$84
-    jsr B30_1c38
+    adc #20                         ; target val for hp = 20 + 2*Str
+    bcc :+
+    lda #255                        ; target val for hp = 255 + Str
+:   ldy #HP_Offset
+    jsr SaveTargetVal
+    lda #$84                        ; "HP went up [Num]!"
+    jsr TryPrintPointsIncrease
     lda $28
     cmp #$03
     bcs B30_1c0f
@@ -4841,38 +4832,40 @@ B30_1b75:
     lsr a
     clc
     ldy #$05
-    jsr B30_1c3f
-    lda #$85
-    jsr B30_1c38
+    jsr SaveTargetVal
+    lda #$85                        ; "PP went up [Num]!"
+    jsr TryPrintPointsIncrease
     B30_1c0f:
     clc
     rts
 
-B30_1c11:
+StoreRewardMoney:
     clc
     lda $4c
-    adc $7400, x
-    sta $7400, x
+    adc starting_sram, x
+    sta starting_sram, x
     lda $4d
-    adc $7401, x
-    sta $7401, x
+    adc starting_sram+1, x
+    sta starting_sram+1, x
     lda #$00
-    adc $7402, x
-    sta $7402, x
+    adc starting_sram+2, x
+    sta starting_sram+2, x
     bcc B30_1c37
     lda #$ff
-    sta $7400, x
-    sta $7401, x
-    sta $7402, x
+    sta starting_sram, x
+    sta starting_sram+1, x
+    sta save_slot, x
     B30_1c37:
     rts
 
-B30_1c38:
+; Try printing HP, PP went up [Num]!
+; Prints nothing if increase is 0.
+TryPrintPointsIncrease:
     ldx $5d
-    beq B30_1c70
+    beq SaveTargetValRTS
     jmp DisplayText_battle
 
-B30_1c3f:
+SaveTargetVal:
     clc
     adc $60
     sta $60
@@ -4886,12 +4879,11 @@ B30_1c3f:
     iny
     lda $61
     sbc ($38), y
-    beq B30_1c5c
+    beq :+
     ldx #$08
-    bcs B30_1c5c
+    bcs :+
     ldx #$01
-    B30_1c5c:
-    dey
+:   dey
     txa
     asl a
     jsr B30_1c71
@@ -4904,7 +4896,7 @@ B30_1c3f:
     lda #$00
     adc ($38), y
     sta ($38), y
-    B30_1c70:
+SaveTargetValRTS:
     rts
 
 B30_1c71:
@@ -7400,7 +7392,7 @@ All_Bits:
 .byte %00001000, %00000100, %00000010, %00000001
 
 B31_0c65:
-    jsr B31_0ddc
+    jsr OT0_DefaultTransition
     ldx #$00
     ldy #$08
     jsr SetScroll
@@ -7434,7 +7426,7 @@ B31_0ca3:
     jsr B30_0408
     ldx #30
     jsr WaitXFrames_Min1
-    jsr B30_18d3
+    jsr RECONFIGURE_PARTY
     bcs @B31_0cb6
     jsr B30_1a48
     clc
@@ -7605,7 +7597,7 @@ B31_0dcb:
     sta PPUADDR
     rts
 
-B31_0ddc:
+OT0_DefaultTransition:
     jsr BackupPalette
 B31_0ddf:
     ldy #$05
@@ -8375,7 +8367,7 @@ BankswitchLower_Bank00_Preserve:
 ChangeMusic:
     cmp current_music
     beq @end
-    sta new_music
+    sta soundqueue_track
     @end:
     rts
 
@@ -10114,7 +10106,7 @@ MusicInit:
 PlayMusic:
     cmp current_music
     beq @unchanged
-    sta new_music
+    sta soundqueue_track
     @unchanged:
     jmp WaitFrame
 
@@ -10138,13 +10130,13 @@ WaitFrame:
     bne @loop
     rts
 
-B31_1d4a:
+SUPRESS_INPUT:
     lda $eb
-    bne B31_1d4a
+    bne SUPRESS_INPUT
     rts
 
 ; TODO: WAIT FORCED INPUT
-B31_1d4f:
+WAIT_CLOSE_MENU:
     lda #$00
     sta pad1_forced
     @B31_1d53:

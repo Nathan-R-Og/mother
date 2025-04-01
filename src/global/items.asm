@@ -7,16 +7,21 @@ ITEMUSE_ANA = 1 << 1
 ITEMUSE_LLOYD = 1 << 2
 ITEMUSE_TEDDY = 1 << 3
 ;guesses????
-ITEMUSE_EVE = 1 << 4
-ITEMUSE_FLYINGMAN = 1 << 5
+ITEMUSE_PIPPI = 1 << 4
+ITEMUSE_EVE = 1 << 5
+ITEMUSE_FLYINGMAN = 0
 ;
-ITEMUSE_ALL = ITEMUSE_NINTEN | ITEMUSE_ANA | ITEMUSE_LLOYD | ITEMUSE_TEDDY | ITEMUSE_EVE | ITEMUSE_FLYINGMAN
+ITEMUSE_ALL = ITEMUSE_NINTEN | ITEMUSE_ANA | ITEMUSE_LLOYD | ITEMUSE_TEDDY | ITEMUSE_PIPPI | ITEMUSE_EVE | ITEMUSE_FLYINGMAN
 
-.macro itemDef name, usableBy, edible, keyitem, type1, type2, overworldAction, battleAction, msgPrice
+.macro itemDef name, usableBy, edible, keyitem, effectValue, armorType, overworldAction, battleAction, msgPrice
     .addr name
     .byte (keyitem << 7) | (edible << 6) | usableBy
-    .byte (type2 << 6) | type1
-    .byte overworldAction,battleAction
+    ;armor 0 == null
+    ;armor 1 == coin
+    ;armor 2 == ring
+    ;armor 3 == pendant
+    .byte (armorType << 6) | effectValue
+    .byte overworldAction, battleAction
     .word msgPrice
 .endmacro
 

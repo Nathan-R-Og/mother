@@ -5,6 +5,7 @@
 party_data:
 
 ;ninten
+Ninten_Data:
 ;?
 .byte $00
 ;status
@@ -54,6 +55,7 @@ kanafix "しょうねんA"
 .endif
 
 ;ana
+Ana_Data:
 ;?
 .byte $00
 ;status
@@ -103,6 +105,7 @@ kanafix "しょうじょB"
 .endif
 
 ;lloyd
+Lloyd_Data:
 ;?
 .byte $00
 ;status
@@ -152,6 +155,7 @@ kanafix "しょうねんC"
 .endif
 
 ;teddy
+Teddy_Data:
 ;?
 .byte $00
 ;status
@@ -201,6 +205,7 @@ kanafix "しょうねんD"
 .endif
 
 ;pippi
+Pippi_Data:
 ;?
 .byte $00
 ;status
@@ -250,6 +255,7 @@ kanafix "ピッピ"
 .endif
 
 ;eve
+EVE_Data:
 ;?
 .byte $00
 ;status
@@ -299,6 +305,7 @@ kanafix "イヴ"
 .endif
 
 ;flying man
+FlyingMan_Data:
 ;?
 .byte $00
 ;status

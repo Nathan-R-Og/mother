@@ -1,433 +1,604 @@
 .segment        "CREDITS": absolute
 
-B26_0000:
+Credits_Entry:
     ldx #120
     jsr WaitXFrames_Min1
-    jsr B26_00b1
+
+    jsr credits_cmd_fade_out
+
     jsr PpuSync
-    lda #$00
-    sta $a000
-    lda #$00
-    sta $ec
-    lda $e7
-    and #$bf
-    sta $e7
-    lda #$00
-    sta $e8
-    sta $e9
+
+    lda #0
+    sta MIRROR
+
+    lda #0
+    sta UNK_EC
+
+    lda UNK_E7
+    and #%10111111
+    sta UNK_E7
+
+    lda #0
+    sta UNK_E8
+    sta UNK_E9
+
+    ;reset Base nametable address
     lda ram_PPUCTRL
-    and #$fc
+    and #%11111100
     ldx #$10
-    ldy #$08
+    ldy #8
     sta ram_PPUCTRL
     stx scroll_y
     sty scroll_x
+
+    ;clear music?
     lda #$ff
     jsr PlayMusic
+
     lda #$1b
-    sta $07
+    sta UNK_7
+
     jsr WaitFrame
-    lda #<B26_02d3
-    sta $40
-    lda #>B26_02d3
-    sta $41
+
+    ;load pointer
+    lda #.LOBYTE(Credits_Script)
+    sta UNK_40
+    lda #.HIBYTE(Credits_Script)
+    sta UNK_40+1
+
     B26_0042:
-    ldy #$00
-    lda ($40), y
-    beq B26_005a
-    jsr B26_005d
+
+    ;if byte == 0, loop
+    ldy #0
+    lda (UNK_40), y
+    beq force_loop
+
+    jsr do_credits_eval
     clc
     tya
-    adc $40
-    sta $40
+    adc UNK_40
+    sta UNK_40
     lda #$00
-    adc $41
-    sta $41
+    adc UNK_40+1
+    sta UNK_40+1
     jmp B26_0042
 
-B26_005a:
-    jmp B26_005a
+    force_loop:
+    jmp force_loop
 
-B26_005d:
+do_credits_eval:
+    ;x = a * 2
     asl a
     tax
-    lda B26_0068+1, x
+
+    ;jmp credits_lut[a]
+    lda credits_lut+1, x
     pha
-    lda B26_0068, x
+    lda credits_lut, x
     pha
     rts
 
-B26_0068:
-    .addr B26_005a-1 ; [00]                      - END, locks up the game
-    .addr B26_0090-1 ; [01 XX]                   - Wait XX frames
-    .addr B26_00a0-1 ; [02 XX]                   - Waits for a specific input??
-    .addr B26_00b1-1 ; [03]                      - Fades out
-    .addr B26_00cd-1 ; [04 AA BB CC DD]          - CHR bankswitch (R2, R3, R0, R1)
-    .addr B26_00f3-1 ; [05 AA BB CC DD (XX*BB)]  - Load nametable tile data
-    .addr B26_00ef-1 ; [06 AA BB CC DD (XX*BB)]  - Load metatile properites
-    .addr B26_0152-1 ; [07 (XX*10)]              - Set color palette
-    .addr B26_0206-1 ; [08 XXXX]                 - Unconditional jump
-    .addr B26_018a-1 ; [09 AA BB CC DD EE FF GG] - Init "Sprite" object
-    .addr B26_01c4-1 ; [0A AA BB CC DD EE]       - Edit "Sprite" object
-    .addr B26_01f0-1 ; [0B XX]                   - Play music XX? Sfx? idk
-    .addr B26_00e5-1 ; [0C XX]                   - CHR bankswitch (R1)
-    .addr B26_00bd-1 ; [0D AA BB CC DD EE FF]    - CHR bankswitch (R4, R5, R2, R3, R0, R1)
-    .addr B26_01f8-1 ; [0E XX]                   - Set $47 loop variable
-    .addr B26_01ff-1 ; [0F XXXX]                 - Conditional branch on $47. Decrement it and branch if still not zero
-    .addr B26_0215-1 ; [10 XX]                   - Wait frame then remove OAM entry?
-    .addr B26_0226-1 ; [11 AA BB (CC*??)]        - Display text
-    .addr B26_029a-1 ; [12 AA BB CC DD]          - Display text with a position
-    .addr B26_02bd-1 ; [13]                      - Fades in
+credits_lut:
+    .addr force_loop-1 ; [00]                      - END, locks up the game
+    .addr credits_cmd_delay-1 ; [01 XX]                   - Wait XX frames
+    .addr credits_cmd_unk2-1 ; [02 XX]                   - Waits for a specific input??
+    .addr credits_cmd_fade_out-1 ; [03]                      - Fades out
+    .addr credits_cmd_load_tilesets-1 ; [04 AA BB CC DD]          - CHR bankswitch (R2, R3, R0, R1)
+    .addr credits_cmd_load_bg2map-1 ; [05 AA BB CC DD (XX*BB)]  - Load nametable tile data
+    .addr credits_cmd_set_metatileprops-1 ; [06 AA BB CC DD (XX*BB)]  - Load metatile properites
+    .addr credits_cmd_set_palette-1 ; [07 (XX*10)]              - Set color palette
+    .addr credits_cmd_unk8-1 ; [08 XXXX]                 - Unconditional jump
+    .addr credits_cmd_init_sprite-1 ; [09 AA BB CC DD EE FF GG] - Init "Sprite" object
+    .addr credits_cmd_move_sprite-1 ; [0A AA BB CC DD EE]       - Edit "Sprite" object
+    .addr credits_cmd_play_sfx-1 ; [0B XX]                   - Play music XX? Sfx? idk
+    .addr credits_cmd_load_secondarytilesets-1 ; [0C XX]                   - CHR bankswitch (R1)
+    .addr credits_cmd_set_alltilesets-1 ; [0D AA BB CC DD EE FF]    - CHR bankswitch (R4, R5, R2, R3, R0, R1)
+    .addr credits_cmd_begin_loop-1 ; [0E XX]                   - Set $47 loop variable
+    .addr credits_cmd_end_loop-1 ; [0F XXXX]                 - Conditional branch on $47. Decrement it and branch if still not zero
+    .addr credits_cmd_clear_sprite-1 ; [10 XX]                   - Wait frame then remove OAM entry?
+    .addr credits_cmd_draw_text-1 ; [11 AA BB (CC*??)]        - Display text
+    .addr credits_cmd_draw_text_xy-1 ; [12 AA BB CC DD]          - Display text with a position
+    .addr credits_cmd_fade_in-1 ; [13]                      - Fades in
 
-B26_0090:
+credits_cmd_delay:
+    ;get next byte
     iny
-    lda ($40), y
+    lda (UNK_40), y
+
+    ;x = a
     tax
+
+    ;do ppu syncs until x == 0
     @loop:
     jsr PpuSync
-    lda #$01
-    sta $e5
+    lda #1
+    sta UNK_E5
     dex
     bne @loop
+
+    ;get next byte
     iny
+
+    ;bye
     rts
 
-B26_00a0:
-    lda #$00
+
+;wait until button pressed?
+credits_cmd_unk2:
+    ;clear pad1_forced
+    lda #0
     sta pad1_forced
+
+    ;get next byte
     iny
-    lda ($40), y
-    B26_00a7:
+    lda (UNK_40), y
+
+    ;loop until pad1_forced == arg1
+    @wait:
     bit pad1_forced
-    beq B26_00a7
-    lda #$00
+    beq @wait
+
+    ;clear pad1_forced
+    lda #0
     sta pad1_forced
+
+    ;get next byte
     iny
+
+    ;bye
     rts
 
-B26_00b1:
-    jsr B31_0ddc
+credits_cmd_fade_out:
+    jsr OT0_DefaultTransition
     jsr B31_1d5e
     jsr B31_1d80
-    ldy #$01
+
+    ;set y to after this
+    ldy #1
+
+    ;bye
     rts
 
-B26_00bd:
+credits_cmd_set_alltilesets:
+    ;get next byte
     iny
-    lda ($40), y
-    ldx #$04
+    lda (UNK_40), y
+
+    ;swap to that bank
+    ldx #BANK::CHR1800
     jsr BANK_SWAP
+
+    ;get next byte
     iny
-    lda ($40), y
-    ldx #$05
+    lda (UNK_40), y
+
+    ;swap to that bank
+    ldx #BANK::CHR1C00
     jsr BANK_SWAP
-    B26_00cd:
+    ;fallthrough
+
+credits_cmd_load_tilesets:
+    ;get next byte
     iny
-    lda ($40), y
-    ldx #$02
+    lda (UNK_40), y
+
+    ;swap to that bank
+    ldx #BANK::CHR1000
     jsr BANK_SWAP
+
+    ;get next byte
     iny
-    lda ($40), y
-    ldx #$03
+    lda (UNK_40), y
+
+    ;swap to that bank
+    ldx #BANK::CHR1400
     jsr BANK_SWAP
+
+    ;get next byte
     iny
-    lda ($40), y
-    ldx #$00
+    lda (UNK_40), y
+
+    ;swap to that bank
+    ldx #BANK::CHR0000
     jsr BANK_SWAP
-    B26_00e5:
+
+    credits_cmd_load_secondarytilesets:
+    ;get next byte
     iny
-    lda ($40), y
-    ldx #$01
+    lda (UNK_40), y
+
+    ;swap to that bank
+    ldx #BANK::CHR0800
     jsr BANK_SWAP
+
+    ;goto next byte
     iny
+
+    ;byte
     rts
 
-B26_00ef:
+credits_cmd_set_metatileprops:
     lda #$08
     bne B26_00f5
-    B26_00f3:
+    credits_cmd_load_bg2map:
     lda #$20
     B26_00f5:
-    sta $43
+    sta UNK_43
     jsr PpuSync
     lda #$05
-    sta $0400 ; TODO: UNKNOWN NMI COMMAND
+    sta UNK_400 ; TODO: UNKNOWN NMI COMMAND
     ldy #$04
-    lda ($40), y
-    sta $42
+    lda (UNK_40), y
+    sta UNK_42
     dey
-    lda ($40), y
-    sta $0401
+    lda (UNK_40), y
+    sta UNK_400+1
     dey
-    lda ($40), y
-    sta $0402
+    lda (UNK_40), y
+    sta UNK_400+2
     dey
-    lda ($40), y
-    sta $0403
+    lda (UNK_40), y
+    sta UNK_400+3
     ldy #$05
     B26_0119:
     ldx #$00
     B26_011b:
-    lda ($40), y
-    sta $0404, x
+    lda (UNK_40), y
+    sta UNK_400+4, x
     iny
     bne B26_0125
-    inc $41
+    inc UNK_41
     B26_0125:
     inx
-    cpx $0401
+    cpx UNK_400+1
     bne B26_011b
     lda #$00
-    sta $0404, x
-    sta $e6
+    sta UNK_400+4, x
+    sta UNK_E6
     lda #$80
-    sta $e5
-    dec $42
+    sta UNK_E5
+    dec UNK_42
     beq B26_0151
     jsr PpuSync
     clc
-    lda $43
-    adc $0403
-    sta $0403
+    lda UNK_43
+    adc UNK_400+3
+    sta UNK_400+3
     lda #$00
-    adc $0402
-    sta $0402
+    adc UNK_400+2
+    sta UNK_400+2
     jmp B26_0119
     B26_0151:
     rts
 
-B26_0152:
+credits_cmd_set_palette:
     jsr PpuSync
+
+    ;palette size
     ldy #$10
+
     ldx #$0f
-    B26_0159:
-    lda ($40), y
-    sta $0500, x
-    lda B26_02c3, x
-    sta $0510, x
+    @loop:
+    ;read/write byte
+    lda (UNK_40), y
+    sta UNK_500, x
+
+    ;copy and write default sprite palette
+    lda credits_generic_sprite_pal, x
+    sta UNK_500+$10, x
+
     dey
     dex
-    bpl B26_0159
-    lda $0500
-    sta $0510
-    sta $0514
-    sta $0518
-    sta $051c
-    lda #$04
-    sta $0400 ; UPDATE_PALETTE
-    lda #$00
-    sta $0401 ; END
-    sta $e6
+    bpl @loop
+
+    ;get transparency of first bg, copy to sprite transparency
+    ;emergency case basically
+    lda UNK_500
+    sta UNK_500+$10
+    sta UNK_500+$14
+    sta UNK_500+$18
+    sta UNK_500+$1c
+
+    lda #4
+    sta UNK_400 ; UPDATE_PALETTE
+
+    lda #0
+    sta UNK_400+1 ; END
+    sta UNK_E6
+
     lda #$80
-    sta $e5
+    sta UNK_E5
+
+    ;set to after command
     ldy #$11
+
+    ;bye
     rts
 
-B26_018a:
+credits_cmd_init_sprite:
     jsr PpuSync
+
+    ;get next byte (Slot)
     iny
-    lda ($40), y
+    lda (UNK_40), y
+
+    ;x = a * 8
     asl a
     asl a
     asl a
     tax
-    lda ($40), y
-    and #$80
-    sta $0301, x
+
+    ;write byte
+    lda (UNK_40), y
+    and #%10000000
+    sta shadow_something+1, x
+
+    ;get next byte (????)
     iny
-    lda ($40), y
-    sta $0300, x
+    lda (UNK_40), y
+    sta shadow_something, x
+
+    ;get next byte (X pos)
     iny
-    lda ($40), y
-    sta $0302, x
+    lda (UNK_40), y
+    sta shadow_something+2, x
+
+    ;get next byte (Y pos)
     iny
-    lda ($40), y
-    sta $0303, x
+    lda (UNK_40), y
+    sta shadow_something+3, x
+
+    ;get next addr (sprite pointer)
     iny
-    lda ($40), y
-    sta $0306, x
+    lda (UNK_40), y
+    sta shadow_something+6, x
     iny
-    lda ($40), y
-    sta $0307, x
-    lda #$00
-    sta $0304, x
-    sta $0305, x
-    ldy #$07
+    lda (UNK_40), y
+    sta shadow_something+7, x
+
+    ;?
+    lda #0
+    sta shadow_something+4, x
+    sta shadow_something+5, x
+
+    ;set to after macro
+    ldy #7
+
+    ;bye
     rts
 
-B26_01c4:
+credits_cmd_move_sprite:
     jsr PpuSync
+
+    ;get next byte (Slot)
     iny
-    lda ($40), y
+    lda (UNK_40), y
+
+    ;x = a * 8
     asl a
     asl a
     asl a
     tax
+
+    ;clear
     clc
+
+    ;get next word (def move)
     iny
-    lda ($40), y
-    adc $0306, x
-    sta $0306, x
+    lda (UNK_40), y
+    adc shadow_something+6, x
+    sta shadow_something+6, x
     iny
-    lda ($40), y
-    adc $0307, x
-    sta $0307, x
+    lda (UNK_40), y
+    adc shadow_something+7, x
+    sta shadow_something+7, x
+
+    ;get next byte (move x)
     iny
-    lda ($40), y
-    sta $0304, x
+    lda (UNK_40), y
+    sta shadow_something+4, x
+
+    ;get next byte (move y)
     iny
-    lda ($40), y
-    sta $0305, x
-    ldy #$06
+    lda (UNK_40), y
+    sta shadow_something+5, x
+
+    ;bye
+    ldy #6
     rts
 
-B26_01f0:
+credits_cmd_play_sfx:
+    ;get and play byte
     iny
-    lda ($40), y
+    lda (UNK_40), y
     jsr PlayMusic
+
+    ;bye
     iny
     rts
 
-B26_01f8:
+credits_cmd_begin_loop:
+    ;write byte to $47
     iny
-    lda ($40), y
-    sta $47
+    lda (UNK_40), y
+    sta UNK_47
+
+    ;bye
     iny
     rts
 
-B26_01ff:
-    dec $47
-    bne B26_0206
-    ldy #$03
+credits_cmd_end_loop:
+    ;loop count down
+    dec UNK_47
+    ;if loop count == 0, do a jump to this pointer
+    bne credits_cmd_unk8
+    ;else, bye
+    ldy #3
     rts
 
-B26_0206:
+credits_cmd_unk8:
+    ;push addr to stack
+    ;this is some funky stuff because this is a subroutine so it has to write over the data
+    ;it is BASICALLY a push to the stack. so
+    ;whatever
     iny
-    lda ($40), y
+    lda (UNK_40), y
     pha
     iny
-    lda ($40), y
-    sta $41
+    lda (UNK_40), y
+    sta UNK_40+1
     pla
-    sta $40
-    ldy #$00
+    sta UNK_40
+    ldy #0
     rts
 
-B26_0215:
+credits_cmd_clear_sprite:
     jsr PpuSync
+
+    ;get byte
     iny
-    lda ($40), y
+    lda (UNK_40), y
+
+    ;x = a * 8
     asl a
     asl a
     asl a
     tax
-    lda #$00
-    sta $0300, x
+
+    ;reset
+    lda #0
+    sta shadow_something, x
     iny
     rts
 
-B26_0226:
+credits_cmd_draw_text:
+    ;get next word
     iny
-    lda ($40), y
-    sta $74
+    lda (UNK_40), y
+    sta UNK_74
     iny
-    lda ($40), y
-    sta $73
-    lda #$02
-    sta $76
-    lda #$13
-    sta $77
-    lda #$1c
-    sta $70
-    lda #$00
-    sta $71
-    B26_0240:
-    jsr GetTextData
-    jsr B30_06db
-    cmp #$00
-    beq B26_0252
-    ldy #$00
-    lda ($74), y
-    cmp #$00
-    bne B26_0240
-    B26_0252:
-    jsr PpuSync
-    lda #$08
-    sta $0400 ; PPU_FILL
-    lda #$07
-    sta $0401 ; Fill 7 bytes...
-    lda #<$23e9
-    sta $0403
-    lda #>$23e9
-    sta $0402 ; at $23E9...
-    lda #$ff
-    sta $0404 ; with $FF
-    lda #$00
-    sta $0405 ; END
-    ldx #$02
-    B26_0275:
-    lda #$00
-    sta $e6
-    lda #$80
-    sta $e5
-    dex
-    beq B26_0297
-    jsr PpuSync
-    clc
-    lda #$08
-    adc $0403
-    sta $0403
-    lda #$00
-    adc $0402
-    sta $0402
-    jmp B26_0275
+    lda (UNK_40), y
+    sta UNK_73
 
-B26_0297:
+    lda #2
+    sta UNK_76
+    lda #$13
+    sta UNK_77
+
+    lda #$1c
+    sta UNK_70
+    lda #0
+    sta UNK_71
+
+    @loop:
+    jsr GetTextData
+
+    jsr B30_06db
+    cmp #0
+    beq @break
+    ldy #0
+    lda (UNK_74), y
+    cmp #0
+    bne @loop
+
+    @break:
+    jsr PpuSync
+
+    lda #8
+    sta UNK_400 ; PPU_FILL
+
+    lda #7
+    sta UNK_400+1 ; Fill 7 bytes...
+
+    lda #.LOBYTE($23e9)
+    sta UNK_400+3
+    lda #.HIBYTE($23e9)
+    sta UNK_400+2 ; at $23E9...
+
+    lda #$ff
+    sta UNK_400+4 ; with $FF
+
+    lda #0
+    sta UNK_400+5 ; END
+
+    ldx #2
+    @loop2:
+    lda #0
+    sta UNK_E6
+    lda #$80
+    sta UNK_E5
+
+    dex
+    beq @break2
+    jsr PpuSync
+
+    clc
+
+    lda #8
+    adc UNK_400+3
+    sta UNK_400+3
+    lda #0
+    adc UNK_400+2
+    sta UNK_400+2
+    jmp @loop2
+
+    @break2:
     ldy #$03
     rts
 
-B26_029a:
+credits_cmd_draw_text_xy:
+    ;get next umsg
     iny
-    lda ($40), y
-    sta $74
+    lda (UNK_40), y
+    sta UNK_74
     iny
-    lda ($40), y
-    sta $73
+    lda (UNK_40), y
+    sta UNK_73
+
+    ;get next byte (x pos)
     iny
-    lda ($40), y
-    sta $76
+    lda (UNK_40), y
+    sta UNK_76
+
+    ;get next byte (y pos)
     iny
-    lda ($40), y
-    sta $77
-    lda #$00
-    sta $70
-    sta $71
+    lda (UNK_40), y
+    sta UNK_77
+
+    lda #0
+    sta UNK_70
+    sta UNK_71
+
     jsr GetTextData
     jsr B30_06db
+
+    ;bye
     ldy #$05
     rts
 
-B26_02bd:
+credits_cmd_fade_in:
     jsr RestoreAndUpdatePalette
-    ldy #$01
+
+    ;bye
+    ldy #1
     rts
 
-B26_02c3:
+credits_generic_sprite_pal:
     .byte $0f, $0f, $00, $30
     .byte $0f, $0f, $16, $37
     .byte $0f, $0f, $24, $37
     .byte $0f, $0f, $12, $37
 
-.define ENDING_CMD_00_END .byte $00
+.define ENDING_CMD_00_END .byte 0
 
-.define ENDING_CMD_01_DELAY(frames) .byte $01, frames
+.define ENDING_CMD_01_DELAY(frames) .byte 1, frames
 
-.define ENDING_CMD_02(arg1) .byte $02, arg1
+.define ENDING_CMD_02(arg1) .byte 2, arg1
 
-.define ENDING_CMD_03_FADEOUT .byte $03
+.define ENDING_CMD_03_FADEOUT .byte 3
 
 .macro ENDING_CMD_04_LOADTILESETS arg1, arg2, arg3, arg4
-    .byte $04
+    .byte 4
     .byte arg1
     .byte arg2
     .byte arg3
@@ -435,51 +606,51 @@ B26_02c3:
 .endmacro
 
 .macro ENDING_CMD_05_LOADBG2MAP arg1, arg2, arg3
-    .byte $05
+    .byte 5
     .addr arg1
     .byte arg2, arg3
 .endmacro
 
 .macro ENDING_CMD_06_SETMETATILEPROPERTIES arg1, arg2, arg3
-    .byte $06
+    .byte 6
     .addr arg1
     .byte arg2, arg3
 .endmacro
 
-.define ENDING_CMD_07_SETPAL .byte $07
+.define ENDING_CMD_07_SETPAL .byte 7
 
 .macro ENDING_CMD_08 arg1
-    .byte $08
+    .byte 8
     .word arg1
 .endmacro
 
 .macro ENDING_CMD_09_INITSPRITE id, tiles, arg_x, arg_y, sprite_pointer
-    .byte $09, id, tiles
+    .byte 9, id, tiles
     .byte arg_x,arg_y
     .addr sprite_pointer
 .endmacro
 
 .macro ENDING_CMD_0A_MOVESPRITE id, arg2, arg3, arg4
-    .byte $0A, id
+    .byte $A, id
     .word arg2
     .byte arg3, arg4
 .endmacro
 
-.define ENDING_CMD_0B_PLAYSFX(arg1) .byte $0B, arg1
+.define ENDING_CMD_0B_PLAYSFX(arg1) .byte $B, arg1
 
-.define ENDING_CMD_0C_LOADSECONDARYSPRITETILES(arg1) .byte $0C, arg1
+.define ENDING_CMD_0C_LOADSECONDARYSPRITETILES(arg1) .byte $C, arg1
 
 .macro ENDING_CMD_0D_SETALLTILESETS arg1, arg2, arg3, arg4, arg5, arg6
-    .byte $0D
+    .byte $D
     .byte arg1, arg2
     .byte arg3, arg4
     .byte arg5, arg6
 .endmacro
 
-.define ENDING_CMD_0E_BEGINLOOP(iterations) .byte $0E, iterations
+.define ENDING_CMD_0E_BEGINLOOP(iterations) .byte $E, iterations
 
 .macro ENDING_CMD_0F_ENDLOOP pointer
-    .byte $0F
+    .byte $F
     .addr pointer
 .endmacro
 
@@ -500,7 +671,7 @@ B26_02c3:
 
 ;byte code begin
 ;TODO: link sprite.asm pointers
-B26_02d3:
+Credits_Script:
     ENDING_CMD_01_DELAY 120
     ENDING_CMD_0B_PLAYSFX $2D
     ENDING_CMD_01_DELAY 120

@@ -595,11 +595,11 @@ B28_0248:
 ; Overrides the song for learning melody 2 to instead begin with a tweet sound effect.
 ; (A generic Canary sound effect is added to the script in EB:B instead.)
 InsertLauraPreMelodyTweeting:
-    lda new_music
+    lda soundqueue_track
     cmp #$25
     bne @B27_0090
     jsr B28_0299
-    sta new_music
+    sta soundqueue_track
     lda #PulseG0_Laura
     sta soundqueue_pulseg0
     @B27_0090:
@@ -1108,7 +1108,7 @@ B28_057e:
 
 .ifndef VER_JP
 GiegueAttack_PeriodDifferences:
-incbinRange "../../split/us/prg/bank1c.bin", $59c, $5a4
+incbinRange "../../split/us/music.bin", $59c, $5a4
 .endif
 
 PulseGroup0SFX_Miss_SetUp:
@@ -1214,7 +1214,7 @@ PulseGroup0SFX_Canary_Laura_Continue:
     lda #$00
     sta unk_78b
     lda #$25
-    sta new_music
+    sta soundqueue_track
     B28_0657:
     jmp EndPulseGroup0SFX
 B28_065a:
@@ -1285,7 +1285,7 @@ PulseGroup0SFX_Dodge_Continue:
 
 .ifdef VER_JP
 B28_00fa:
-incbinRange "../../split/jp/prg/bank1c.bin", $69e, $6A4
+incbinRange "../../split/jp/music.bin", $69e, $6A4
 .endif
 
 PulseGroup0SFX_EnemyAttack_SetUp:
@@ -1493,7 +1493,7 @@ B28_0840:
     sta SQ2_VOL
     lda #$00
     sta unk_7c8+1
-    sta soundactive_unk
+    sta soundactive_unknown
     rts
 
 TriangleSFX_Unk02_SetUp:
@@ -1517,7 +1517,7 @@ TriangleSFX_Freeze_SetUp:
 
 .ifndef VER_JP
 Freeze_Periods:
-incbinRange "../../split/us/prg/bank1c.bin", $86b, $87e
+incbinRange "../../split/us/music.bin", $86b, $87e
 .endif
 
 TriangleSFX_Freeze_Continue:
@@ -1601,7 +1601,7 @@ B28_090e:
     jmp B28_0299
 
 HandleMusic:
-    lda new_music
+    lda soundqueue_track
     tay
     .ifdef VER_JP
     cmp #$ff
@@ -1686,9 +1686,9 @@ B28_0996:
     jmp EndPulseGroup0SFX
 
 XXStone_PeriodLowBytes:
-incbinRange "../../split/us/prg/bank1c.bin", $999, $9a1
+incbinRange "../../split/us/music.bin", $999, $9a1
 XXStone_Volumes:
-incbinRange "../../split/us/prg/bank1c.bin", $9a1, $9a7
+incbinRange "../../split/us/music.bin", $9a1, $9a7
 
 .endif
 
@@ -2435,15 +2435,15 @@ B28_0e4a:
     ;kick drum
     lda #$0e
     sta unk_b1
-    lda #dmc_samplelen B30_0000, B30_0071
-    ldy #dmc_sampleaddr B30_0000
+    lda #dmc_samplelen sample_kick, B30_0071
+    ldy #dmc_sampleaddr sample_kick
     beq B28_0e5c
     B28_0e54:
     ;snare drum
     lda #$0e
     sta unk_b1
-    lda #dmc_samplelen B30_0080, B30_0171
-    ldy #dmc_sampleaddr B30_0080
+    lda #dmc_samplelen sample_snare, B30_0171
+    ldy #dmc_sampleaddr sample_snare
     B28_0e5c:
     sta DMC_LEN
     sty DMC_START
