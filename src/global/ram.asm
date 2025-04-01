@@ -2,7 +2,14 @@
 
 .segment        "ZP": zeropage
 ; zeropage global variables
-UNK_0: .res 8
+UNK_0: .res 1
+UNK_1: .res 1
+UNK_2: .res 1
+UNK_3: .res 1
+UNK_4: .res 1
+UNK_5: .res 1
+UNK_6: .res 1
+UNK_7: .res 1
 melody_timer: .res 1 ; $8
 UNK_9: .res 3
 player_direction: .res 1 ;$C
@@ -40,12 +47,14 @@ UNK_34: .res 1
 object_script_offset: .res 1 ; $35 ; TODO: APPLY ALL LABELS
 UNK_36: .res 8
 movement_direction: .res 2 ; $3E
-UNK_40: .res 8
-; $40 -> CHR bank 2 during IRQ?
-; $41 -> CHR bank 3 during IRQ?
-; $42 -> CHR bank 4 during IRQ? -- ALSO: Another party member? Seems related to $28
-; $43 -> CHR bank 5 during IRQ?
-; $46 -> Some scanline for IRQ?
+UNK_40: .res 1 ; $40 -> CHR bank 2 during IRQ?
+UNK_41: .res 1 ; $41 -> CHR bank 3 during IRQ?
+UNK_42: .res 1 ; $42 -> CHR bank 4 during IRQ? -- ALSO: Another party member? Seems related to $28
+UNK_43: .res 1 ; $43 -> CHR bank 5 during IRQ?
+UNK_44: .res 1
+UNK_45: .res 1
+UNK_46: .res 1 ; $46 -> Some scanline for IRQ?
+UNK_47: .res 1
 enemy_group: .res 1 ; $48
 UNK_49: .res 7
 ; $4E -> Damage (16-bit) -- only during battle?
@@ -54,7 +63,22 @@ UNK_50: .res $10
 ; $54 -> Target offset -- in battles
 ; $58 -> Move type -- only during battle?
 UNK_60: .res $10
-UNK_70: .res $10
+UNK_70: .res 1
+UNK_71: .res 1
+UNK_72: .res 1
+UNK_73: .res 1
+UNK_74: .res 1
+UNK_75: .res 1
+UNK_76: .res 1
+UNK_77: .res 1
+UNK_78: .res 1
+UNK_79: .res 1
+UNK_7A: .res 1
+UNK_7B: .res 1
+UNK_7C: .res 1
+UNK_7D: .res 1
+UNK_7E: .res 1
+UNK_7F: .res 1
 UNK_80: .res 2
 
 ; Position of menu cursor in whole numbers, incrementing by 1 per step
@@ -94,9 +118,19 @@ pad1_press: .res 1 ; $dc
 pad2_press: .res 1 ; $dd
 pad1_hold: .res 1 ; $de
 pad2_hold: .res 1 ; $df
-UNK_E0: .res $A
+UNK_E0: .res 1
+UNK_E1: .res 1
+UNK_E2: .res 1
+UNK_E3: .res 1
+UNK_E4: .res 1
+UNK_E5: .res 1
+UNK_E6: .res 1
+UNK_E7: .res 1
+UNK_E8: .res 1
+UNK_E9: .res 1
 nmi_flag: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running NMI handler ;ignores controller input while set
-UNK_EB: .res 2
+UNK_EB: .res 1
+UNK_EC: .res 1
 irq_index: .res 1 ; $ed ; IRQ routine index (multiple of 2)
 bankswitch_mode: .res 1 ; $ee ; Bankswitch "mode"  (-----mmm), $8000 MMC3 register
 bankswitch_flags: .res 1 ; $ef ; Bankswitch "flags" (ff------), $8000 MMC3 register
@@ -118,7 +152,8 @@ text_data_buffer: .res $40 ;$0110 ~ $014F
 stack: .res $B0 ; $150
 shadow_oam: .res $100 ; $200
 shadow_something: .res $100 ; $300 / ??? overworld sprites????
-UNK_400: .res $140
+UNK_400: .res $100 ;nmi queue???
+UNK_500: .res $40 ;palette queue???
 irq_pointers: .res $40 ; $540 / (-1 because of it uses the RTS trick)
 UNK_580: .res $80
 
