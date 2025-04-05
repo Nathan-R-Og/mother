@@ -25,7 +25,9 @@ ninten_level:
 ;name pointer (why exactly?)
 .addr ninten_name
 ;?
-.byte $00,$00,$08,$64,$00,$80
+.byte $00,$00,$08,$64
+;sprite
+.addr SPRITEDEF_0
 ;items
 .byte $6E,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -75,7 +77,9 @@ Ana_Data:
 ;name pointer (why exactly?)
 .addr ana_name
 ;?
-.byte $00,$00,$08,$64,$20,$80
+.byte $00,$00,$08,$64
+;sprite
+.addr SPRITEDEF_8
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -125,7 +129,9 @@ Lloyd_Data:
 ;name pointer (why exactly?)
 .addr lloyd_name
 ;?
-.byte $00,$00,$08,$64,$40,$80
+.byte $00,$00,$08,$64
+;sprite
+.addr SPRITEDEF_10
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -175,7 +181,9 @@ Teddy_Data:
 ;name pointer (why exactly?)
 .addr teddy_name
 ;?
-.byte $00,$00,$08,$64,$60,$80
+.byte $00,$00,$08,$64
+;sprite
+.addr SPRITEDEF_18
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -225,7 +233,9 @@ Pippi_Data:
 ;name pointer (why exactly?)
 .addr pippi_name
 ;?
-.byte $00,$00,$08,$64,$80,$80
+.byte $00,$00,$08,$64
+;sprite
+.addr SPRITEDEF_20
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -275,7 +285,9 @@ EVE_Data:
 ;name pointer (why exactly?)
 .addr eve_name
 ;?
-.byte $00,$00,$08,$3A,$60,$81
+.byte $00,$00,$08,$0
+;sprite
+.addr SPRITEDEF_58
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -325,7 +337,9 @@ FlyingMan_Data:
 ;name pointer (why exactly?)
 .addr flyingman_name
 ;?
-.byte $00,$00,$08,$64,$40,$81
+.byte $00,$00,$08,$64
+;sprite
+.addr SPRITEDEF_50
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant

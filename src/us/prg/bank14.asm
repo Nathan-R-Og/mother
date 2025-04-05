@@ -1928,38 +1928,66 @@ B20_1d60:
     ldx #.HIBYTE(title_screen_tiles)
     jsr B20_1e44
 
+    earth_oam = shadow_something+$e0
+    ;get stuff set up for the earth animation
     lda #0
     sta $60
-    lda #$10
-    sta $03e0
+
+    ;7 = ?
+    ;6 = ?
+    ;tiles = 16
+    lda #16
+    sta earth_oam+0
+
+    ;blank out
+    ;- oam
+    ;- pointer 1
     lda #0
-    sta $03e1
-    sta $03e4
-    sta $03e5
-    lda #$58
-    sta $03e2
-    lda #$57
-    sta $03e3
+    sta earth_oam+1
+    sta earth_oam+4
+    sta earth_oam+5
+
+    ;set x
+    lda #88
+    sta earth_oam+2
+
+    ;set y
+    lda #87
+    sta earth_oam+3
+
+    ;reset input?
     lda #0
     sta pad1_forced
-    B20_1ded:
+
+    ;$60 is used here to keep track of the current 'frame'.
+    @anim_loop:
     clc
+
+    ;get current frame
     lda $60
-    adc #$b0
-    sta $03e6
-    lda #$00
-    adc #$96
-    sta $03e7
-    lda #$0a
+    ;+= .LOBYTE(SPRITEDEF_EARTH)
+    adc #.LOBYTE(SPRITEDEF_EARTH)
+    sta earth_oam+6
+    ;why isnt this just a lda #.HIBYTE(SPRITEDEF_EARTH)????
+    lda #0
+    adc #.HIBYTE(SPRITEDEF_EARTH)
+    sta earth_oam+7
+
+    lda #10
     sta $e5
     clc
+
+    ;tiles += 4
     lda $60
-    adc #$04
+    adc #4
+
+    ;if $60 is at 1c it should be 0. set accordingly
     cmp #$1c
-    bne B20_1e0b
+    bne @skip_reset
     lda #0
-    B20_1e0b:
+    @skip_reset:
     sta $60
+
     @wait_for_start:
     ;check if start pressed at title
     lda pad1_forced
@@ -1968,7 +1996,7 @@ B20_1d60:
     lda $e5
     ora $e0
     bne @wait_for_start
-    beq B20_1ded
+    beq @anim_loop
     @escape:
     ldx #0
     stx pad1_forced

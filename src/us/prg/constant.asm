@@ -1847,8 +1847,8 @@ B30_0cd8:
     lda #$20
     B30_0d18:
     tax
-    asl $0304, x
-    asl $0305, x
+    asl shadow_something+4, x
+    asl shadow_something+5, x
     sec
     sbc #$08
     bne B30_0d18
@@ -3801,10 +3801,13 @@ B30_1a16:
     ldy #$10
     lda (object_pointer), y
     tay
-    lda #$80
-    sta $0306, y
-    lda #$81
-    sta $0307, y
+
+    ;set spritedef to teleport fry
+    lda #.LOBYTE(SPRITEDEF_60)
+    sta shadow_something+6, y
+    lda #.HIBYTE(SPRITEDEF_60)
+    sta shadow_something+7, y
+
     B30_1a3c:
     inx
     cpx #$04
@@ -4682,7 +4685,7 @@ B30_1fda:
     lda #$18
     sta $e3
     lda #$00
-    sta $0300
+    sta shadow_something+0
     ldx #$08
     jsr EnablePRGRam
 
@@ -4711,7 +4714,7 @@ B30_1fda:
     ldy #$08
     B31_0024:
     lda (object_pointer), y
-    sta $0300, x
+    sta shadow_something+0, x
     inx
     iny
     cpy #$0e
@@ -4723,12 +4726,12 @@ B30_1fda:
     lda #$04
     B31_0039:
     adc (object_pointer), y
-    sta $0300, x
+    sta shadow_something+0, x
     inx
     iny
     lda #$00
     adc (object_pointer), y
-    sta $0300, x
+    sta shadow_something+0, x
     inx
     beq B31_0062
     lda $37
@@ -4740,7 +4743,7 @@ B30_1fda:
     bne B31_0000
     B31_0056:
     lda #$00
-    sta $0300, x
+    sta shadow_something+0, x
     clc
     txa
     adc #$08
@@ -4752,16 +4755,16 @@ B30_1fda:
 B31_0065:
     ldx #$00
     @B31_0067:
-    lda $0300, x
+    lda shadow_something+0, x
     and #$40
     beq @B31_007f
     sec
-    lda $0306, x
+    lda shadow_something+6, x
     sbc #$04
-    sta $0306, x
-    lda $0307, x
+    sta shadow_something+6, x
+    lda shadow_something+7, x
     sbc #$00
-    sta $0307, x
+    sta shadow_something+7, x
     @B31_007f:
     clc
     txa
@@ -4789,10 +4792,10 @@ B31_0087:
 
     ldy $62
     lda (UNK_60), y
-    sta $0302, x
+    sta shadow_something+2, x
     iny
     lda (UNK_60), y
-    sta $0303, x
+    sta shadow_something+3, x
     iny
     lda (UNK_60), y
     sta $63
@@ -4801,25 +4804,25 @@ B31_0087:
     lda (UNK_60), y
     ldy #$16
     adc (object_pointer), y
-    sta $0306, x
+    sta shadow_something+6, x
     iny
     lda #$00
     adc (object_pointer), y
-    sta $0307, x
+    sta shadow_something+7, x
     ldy #$08
     lda (object_pointer), y
     and #$3f
     asl a
     asl $63
     ror a
-    sta $0300, x
+    sta shadow_something+0, x
     lda #$70
     asl $63
     ror a
-    sta $0301, x
+    sta shadow_something+1, x
     lda #$00
-    sta $0304, x
-    sta $0305, x
+    sta shadow_something+4, x
+    sta shadow_something+5, x
     clc
     txa
     adc #$08
@@ -5088,19 +5091,19 @@ B31_02c2:
     ldy #$10
     lda (object_pointer), y
     tay
-    lda $0300, y
+    lda shadow_something+0, y
     and #$3f
     sta $3f
     beq B31_02a1
     lda $60
-    sta $0306, y
+    sta shadow_something+6, y
     lda $61
-    sta $0307, y
-    lda $0302, y
+    sta shadow_something+7, y
+    lda shadow_something+2, y
     sta $68
-    lda $0303, y
+    lda shadow_something+3, y
     sta $69
-    lda $0301, y
+    lda shadow_something+1, y
     asl a
     asl a
     tax
@@ -8286,7 +8289,7 @@ B31_16bf:
 
 B31_16c8:
     ldx $68
-    lda $0300, x
+    lda shadow_something+0, x
     pha
     lda #$03
     ldx #$0c
@@ -8320,25 +8323,25 @@ B31_16f9:
     stx $60
     sty $61
     ldx $68
-    sta $0300, x
+    sta shadow_something+0, x
     lda #$08
-    sta $0301, x
+    sta shadow_something+1, x
     lda #$70
-    sta $0302, x
+    sta shadow_something+2, x
     lda $69
-    sta $0303, x
+    sta shadow_something+3, x
     lda #$00
-    sta $0304, x
-    sta $0305, x
+    sta shadow_something+4, x
+    sta shadow_something+5, x
     lda $60
-    sta $0306, x
+    sta shadow_something+6, x
     lda $61
-    sta $0307, x
+    sta shadow_something+7, x
     rts
 
 B31_1724:
     ldx $68
-    sta $0300, x
+    sta shadow_something+0, x
     lda #$01
     sta $e5
     ldx #$08
@@ -8933,7 +8936,7 @@ B31_1ac9:
     ldx #$10
 B31_1b0b:
     ldy $cc
-    lda $0300, y
+    lda shadow_something+0, y
     and #$3f
     bne B31_1b17
     jmp B31_1c5c
@@ -8941,14 +8944,14 @@ B31_1b0b:
 B31_1b17:
     sta $c0
     stx $c2
-    lda $0301, y
+    lda shadow_something+1, y
     and #$c0
     sta $c1
     txa
     lsr a
     lsr a
     ora $c1
-    sta $0301, y
+    sta shadow_something+1, y
     sec
     lda #$00
     sbc $ce
@@ -8960,9 +8963,9 @@ B31_1b17:
     ldx $e1
     bit $c1
     bvc B31_1b70
-    lda $0304, y
+    lda shadow_something+4, y
     sta $c4
-    lda $0305, y
+    lda shadow_something+5, y
     sta $c5
     ldy #$00
     @B31_1b4a:
@@ -8982,19 +8985,19 @@ B31_1b17:
     tya
     adc $c4
     ldy $cc
-    sta $0304, y
+    sta shadow_something+4, y
     lda #$00
     adc $c5
-    sta $0305, y
+    sta shadow_something+5, y
     jmp B31_1b83
 
 B31_1b70:
     clc
-    lda $0304, y
+    lda shadow_something+4, y
     adc $c8
     sta $c8
     clc
-    lda $0305, y
+    lda shadow_something+5, y
     adc $ca
     sta $ca
     dex
@@ -9004,48 +9007,48 @@ B31_1b83:
     clc
     lda $c8
     bmi @B31_1b96
-    adc $0302, y
+    adc shadow_something+2, y
     sta $c8
-    sta $0302, y
+    sta shadow_something+2, y
     bcc @B31_1ba8
     bcs @B31_1ba0
     @B31_1b96:
-    adc $0302, y
+    adc shadow_something+2, y
     sta $c8
-    sta $0302, y
+    sta shadow_something+2, y
     bcs @B31_1ba8
     @B31_1ba0:
-    lda $0300, y
+    lda shadow_something+0, y
     eor #$80
-    sta $0300, y
+    sta shadow_something+0, y
     @B31_1ba8:
     clc
     lda $ca
     bmi @B31_1bb9
-    adc $0303, y
+    adc shadow_something+3, y
     sta $ca
-    sta $0303, y
+    sta shadow_something+3, y
     bcc @B31_1bcb
     bcs @B31_1bc3
     @B31_1bb9:
-    adc $0303, y
+    adc shadow_something+3, y
     sta $ca
-    sta $0303, y
+    sta shadow_something+3, y
     bcs @B31_1bcb
     @B31_1bc3:
-    lda $0301, y
+    lda shadow_something+1, y
     eor #$80
-    sta $0301, y
+    sta shadow_something+1, y
     @B31_1bcb:
-    lda $0300, y
+    lda shadow_something+0, y
     and #$80
     sta $c9
-    lda $0301, y
+    lda shadow_something+1, y
     and #$80
     sta $cb
-    lda $0306, y
+    lda shadow_something+6, y
     sta $c6
-    lda $0307, y
+    lda shadow_something+7, y
     sta $c7
     ldy #$00
     lda ($c6), y
@@ -9304,7 +9307,7 @@ B31_1d5e:
     ldx #$00
     @B31_1d66:
     lda #$00
-    sta $0300, x
+    sta shadow_something+0, x
     lda #$f0
     sta $0200, x
     inx
@@ -9361,12 +9364,12 @@ B31_1dc0:
     clc
     @B31_1dd0:
     tax
-    lda $0301, x
+    lda shadow_something+1, x
     and #$bf
-    sta $0301, x
+    sta shadow_something+1, x
     lda #$00
-    sta $0304, x
-    sta $0305, x
+    sta shadow_something+4, x
+    sta shadow_something+5, x
     txa
     adc #$08
     bcc @B31_1dd0
