@@ -285,7 +285,7 @@ EVE_Data:
 ;name pointer (why exactly?)
 .addr eve_name
 ;?
-.byte $00,$00,$08,$0
+.byte $00,$00,$08,$3a
 ;sprite
 .addr SPRITEDEF_58
 ;items
