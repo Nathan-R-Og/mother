@@ -14,9 +14,10 @@ def doSplit(dir):
     rom = ""
     for mrom in glob("*.nes"):
         hash = hashlib.md5(open(mrom,'rb').read()).hexdigest()
-        if hash == data_loaded["md5"]:
-            rom = mrom
-            break
+        for expect_hash in data_loaded["md5"]:
+            if hash == expect_hash:
+                rom = mrom
+                break
     if rom == "":
         return
 

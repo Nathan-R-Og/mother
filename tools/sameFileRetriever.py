@@ -16,6 +16,10 @@ def do():
     for jp_file in files_jp:
         hashes_jp.append([jp_file, hashlib.md5(open(jp_file,'rb').read()).hexdigest()])
 
+    if len(hashes_us) == 0 or len(hashes_jp) == 0:
+        print("Not bothering with globalList.txt regen.")
+        return
+
     samers = []
     for us_hash in hashes_us:
         for jp_hash in hashes_jp:
