@@ -7,6 +7,7 @@ import shutil
 import time
 
 DEFINES = ""
+output = "mother_rebuilt.nes"
 
 def addDefine(define):
     global DEFINES
@@ -33,7 +34,6 @@ def ca65HasNoUnicodeSupport(dir:str):
         for line in lines:
             if line.find("kanafix") != -1:
                 kanaToBytes.append(file)
-                print("charmapping "+file+"....")
                 break
     if len(kanaToBytes) == 0: return
 
@@ -41,6 +41,7 @@ def ca65HasNoUnicodeSupport(dir:str):
         os.makedirs("build_artifacts/")
 
     for file in kanaToBytes:
+        print("charmapping "+file+"....")
         outfile = file.replace("src/", "build_artifacts/")
         justdir = outfile.split("/")
         justdir.pop(-1)
@@ -52,7 +53,6 @@ def ca65HasNoUnicodeSupport(dir:str):
         dots = ""
         for i in range(len(justdir.split("/"))):
             dots += "../"
-
 
         i = 0
         while i < len(lines):
@@ -171,6 +171,9 @@ def simplifyPointers(dir:str):
     print("UMSG_list generated!")
 
 if __name__ == "__main__":
+    #pre cleanup
+    if os.path.exists(output):
+        os.remove(output)
 
     start_time = time.time()
     parser = argparse.ArgumentParser(description="Configure the project")
@@ -214,8 +217,18 @@ if __name__ == "__main__":
         linker = "linker-j.cfg"
 
     subprocess.run(f"ca65 {DEFINES} -o example.o -g src/{dir}/main.asm -t nes".strip(), shell = True)
-    subprocess.run(f"ld65 -Ln linked.txt -C {linker} -o mother_rebuilt.nes example.o", shell = True)
+    subprocess.run(f"ld65 -Ln linked.txt -C {linker} -o {output} example.o", shell = True)
 
     resultTime = (time.time() - start_time)
     print(f"Assembly took {resultTime} seconds!")
 
+
+    #post cleanup
+    if os.path.exists(output):
+        print(f"rom made!")
+    else:
+        print(f"ERR!")
+        #fail cleanup
+        os.remove("mother_rebuilt.nes.deb")
+
+    os.remove("example.o")
