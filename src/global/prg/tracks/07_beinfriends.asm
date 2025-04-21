@@ -1,0 +1,236 @@
+mus_bein_friends_pulse1:
+.addr B28_1E5D
+.addr B28_1ED2
+.addr B28_1ED2
+.addr B28_1F6B
+.addr -1
+.addr mus_bein_friends_pulse1
+
+mus_bein_friends_pulse2:
+.addr B28_1E84
+.addr B28_1EF7
+.addr B28_1EF7
+.addr B28_1FC0
+.addr -1
+.addr mus_bein_friends_pulse2
+
+mus_bein_friends_triangle:
+.addr B28_1EB0
+.addr B28_1F1B
+.addr B28_1F1B
+.addr B29_0003
+.addr -1
+.addr mus_bein_friends_triangle
+
+mus_bein_friends_noise:
+.addr B28_1EBE
+.addr B28_1F57
+.addr B28_1F57
+.addr B29_0054
+.addr -1
+.addr mus_bein_friends_noise
+
+B28_1E5D:
+    .byte $9F,$05,$B1
+    .byte $B1,$5E
+    .byte $B2,$5E
+    .byte $B1,$60,$02
+    .byte $B5,$60
+    .byte $B1,$5A
+    .byte $B2,$5A
+    .byte $B1,$5E,$02
+    .byte $B5,$5E
+    .byte $B1,$56
+    .byte $B2,$56
+    .byte $B1,$5A,$02
+    .byte $B5,$5A
+    .byte $B1,$54
+    .byte $B2,$54
+    .byte $B3,$56
+    .byte $B1,$02
+    .byte $00
+B28_1E84:
+    .byte $9F,$AA,$B1
+    .byte $B1,$4C
+    .byte $B2,$4C
+    .byte $B1,$50,$02
+    .byte $B5,$50
+    .byte $B1,$48
+    .byte $B2,$48
+    .byte $B1,$4C,$02
+    .byte $B5,$4C
+    .byte $B1,$46
+    .byte $B2,$46
+    .byte $B1,$48,$02
+    .byte $B5,$48
+    .byte $B1,$42
+    .byte $B2,$42
+    .byte $B2,$46
+    .byte $9F,$05,$F1
+    .byte $B1,$20,$18,$12
+    .byte $00
+B28_1EB0:
+    .byte $9F,$00,$00
+    .byte $C7
+        .byte $B2,$02,$38
+    .byte $FF
+    .byte $B1,$02,$38,$30,$2A
+    .byte $00
+B28_1EBE:
+    .byte $C7
+        .byte $B0,$04,$04,$07,$04,$44,$04,$07,$04
+    .byte $FF
+    .byte $B1,$01,$81
+    .byte $B0,$81,$81
+    .byte $B1,$41
+    .byte $00
+B28_1ED2:
+    .byte $9F,$0A,$B1
+    .byte $B1,$02,$56,$46,$4C,$02,$50,$3E,$48,$02,$54,$42,$4C,$02,$56,$46,$4C,$02,$50,$3E,$48,$02,$50,$42,$48,$02,$54,$46,$4E,$02,$56,$46,$50
+    .byte $00
+B28_1EF7:
+    .byte $9F,$A2,$B4
+    .byte $B1,$46,$3E,$46,$48,$02
+    .byte $B5,$48
+    .byte $B1,$4C,$42,$48
+    .byte $B3,$46
+    .byte $B1,$02,$48,$4C,$48,$46,$02,$42,$02,$48
+    .byte $B1,$46,$3C,$42,$3E,$02
+    .byte $B5,$02
+    .byte $00
+B28_1F1B:
+    .byte $9F,$00,$00
+    .byte $B7,$26
+    .byte $B0,$26
+    .byte $B1,$2E,$26
+    .byte $B7,$30
+    .byte $B0,$30
+    .byte $B1,$38,$30
+    .byte $B7,$34
+    .byte $B0,$34
+    .byte $B1,$3C,$34
+    .byte $B7,$26
+    .byte $B0,$26
+    .byte $B1,$2E,$26
+    .byte $B7,$30
+    .byte $B0,$30
+    .byte $B1,$3E,$26
+    .byte $B7,$2A
+    .byte $B0,$2A
+    .byte $B1,$38,$2A
+    .byte $B7,$2E
+    .byte $B0,$2E
+    .byte $B1,$24,$2E
+    .byte $B7,$38
+    .byte $B0,$38
+    .byte $B1,$2E,$38
+    .byte $00
+B28_1F57:
+    .byte $C4
+        .byte $B1,$44
+        .byte $B0,$04,$41
+        .byte $B1,$84,$44,$44
+        .byte $B0,$04,$41
+        .byte $B1,$84
+        .byte $B0,$04,$04
+    .byte $FF
+    .byte $00
+B28_1F6B:
+    .byte $9F,$B6,$B1
+    .byte $C3
+        .byte $B1,$46,$4C,$56,$46,$48,$56,$48,$4C
+    .byte $FF
+    .byte $9F,$0D,$B2
+    .byte $B1,$56,$54,$54,$4C
+    .byte $B2,$56,$56
+    .byte $9F,$B6,$B1
+    .byte $C2
+        .byte $B1,$46,$4C,$56,$46,$48,$56,$48,$4C
+    .byte $FF
+    .byte $46,$4C,$54,$46,$4C,$54,$46,$4C
+    .byte $9F,$0D,$B2
+    .byte $B1,$56,$54,$54,$4C
+    .byte $B2,$56,$54
+    .byte $B2,$3E,$38,$3C
+    .byte $B1,$3C,$3C
+    .byte $B2,$3E,$34
+    .byte $B3,$2E
+    .byte $B1,$3E,$3C,$38,$34
+    .byte $B2,$3C
+    .byte $B1,$2A,$2A
+    .byte $B6,$2E
+    .byte $B2,$02
+    .byte $00
+B28_1FC0:
+    .byte $C2
+        .byte $9F,$A2,$F4
+        .byte $B2,$02
+        .byte $B1,$3E,$3E,$46,$4C,$4C,$4C
+        .byte $B2,$56,$54,$50,$54
+        .byte $B1,$50
+        .byte $B0,$54,$50
+        .byte $B6,$4C
+        .byte $9F,$13,$B3
+        .byte $B1,$68,$64,$64,$5E
+        .byte $B2,$68,$64
+    .byte $FF
+    .byte $9F,$A7,$F4
+    .byte $B2,$50,$3E,$42
+    .byte $B1,$4C,$48
+    .byte $B2,$46,$3E
+    .byte $B3,$34
+    .byte $B1,$50,$4C,$48,$46
+    .byte $B2,$42
+    .byte $B1,$3E,$3C
+    .byte $B6,$3E
+;.segment        "PRG1D": absolute
+    .byte $B2,$02
+    .byte $00
+B29_0003:
+    .byte $9F,$12,$00
+    .byte $C3
+        .byte $B1,$26,$26,$26
+        .byte $B0,$26,$26
+        .byte $B1,$2A,$2A,$2A
+        .byte $B0,$2A,$2A
+        .byte $B1,$2E,$2E,$2E
+        .byte $B0,$2E,$2E
+        .byte $B1,$30,$30,$30
+        .byte $B0,$30,$30
+    .byte $FF
+    .byte $C4
+        .byte $B1,$2E,$2E,$2E
+        .byte $B0,$2E,$2E
+    .byte $FF
+    .byte $9F,$00,$00
+    .byte $B2,$30
+    .byte $B1,$38,$30
+    .byte $B2,$34
+    .byte $B1,$24,$2A
+    .byte $B5,$26
+    .byte $B1,$26,$26,$26,$2C,$2E
+    .byte $B2,$30
+    .byte $B1,$38,$30
+    .byte $B2,$34
+    .byte $B1,$2A,$2A
+    .byte $9F,$00,$00
+    .byte $B6,$26
+    .byte $B2,$02
+    .byte $00
+B29_0054:
+    .byte $C8
+        .byte $B1,$44
+        .byte $B0,$04,$04
+        .byte $B1,$84
+        .byte $B0,$44,$04
+        .byte $B1,$04
+        .byte $B0,$44,$04
+        .byte $B1,$84
+        .byte $B0,$04,$04
+    .byte $FF
+    .byte $C3
+        .byte $B1,$44,$04,$84,$44,$44,$04,$84,$04
+    .byte $FF
+    .byte $44,$04,$84,$04
+    .byte $B0,$81,$81,$01,$41,$81,$01,$01,$01
+    .byte $00
