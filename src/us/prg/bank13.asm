@@ -1,12 +1,3 @@
-; zeropage variables
-input_wordvar           = $2a       ; 16-bit var often used to "input" values for use in upcoming functions
-
-tableentry_var          = $40       ; area in zpage ram where table entry's data is often stored (but can be used for other purposes, ofc)
-
-temp_vars               = $60       ; area in zpage ram where temp vars are stored
-temp_word               = $60       ; different label when $60 being used as a word (16-bit)
-    temp_word_lo        = $60
-    temp_word_hi        = $61
 
 .segment        "PRG13": absolute
 
@@ -56,10 +47,10 @@ SelectOpenFullStats:
     lda #$c0
     sta $29
     jsr B19_00b3
-    lda #.LOBYTE(B19_0119)
-    ldx #.HIBYTE(B19_0119)
-    sta $80
-    stx $81
+    lda #.LOBYTE(State_Choicer)
+    ldx #.HIBYTE(State_Choicer)
+    sta UNK_80
+    stx UNK_80+1
     jsr B31_0f34
     B19_0064:
     bit $83
@@ -165,15 +156,13 @@ B19_00f5:
     .byte $23,$60,$06,$00,$0b,$01,$23,$70
     .byte $06,$00,$0b,$00
 
-; UNKNOWN
-B19_0119:
-    .byte $02,$01
-    .byte $09       ; X
-    .byte $00       ; Y
-    .byte %11000101 ; Input mask
-    .byte $3a       ; Tile
-    .byte $0a,$03
-    .addr B31_10d1
+State_Choicer:
+    .byte 2, 1 ; choicer array size
+    .byte 9, 0 ; X/Y inc
+    .byte PAD_A | PAD_B | PAD_DOWN | PAD_RIGHT ; Input mask
+    .byte $3a ; Tile
+    .byte 10, 3 ;X/Y start
+    .addr B31_10d1 ; choices
 
 B19_0123:
     lda #$80
@@ -221,10 +210,10 @@ B19_0178:
     lda #$05
     sta soundqueue_pulseg0
     jsr B30_026c
-    lda #.LOBYTE(B19_01b0)
-    ldx #.HIBYTE(B19_01b0)
-    sta $80
-    stx $81
+    lda #.LOBYTE(Command_Choicer)
+    ldx #.HIBYTE(Command_Choicer)
+    sta UNK_80
+    stx UNK_80+1
     jsr B31_0f34
     bit $83
     bmi B19_0192
@@ -249,15 +238,13 @@ B19_01a4:
     .addr B19_0238-1 ; 04
     .addr B19_01ba-1 ; 05
 
-; UNKNOWN
-B19_01b0:
-    .byte $02,$03
-    .byte $06       ; X
-    .byte $02       ; Y
-    .byte %11000000 ; Input mask
-    .byte $3a       ; Tile
-    .byte $02,$03
-    .addr B31_10d1
+Command_Choicer:
+    .byte 2, 3 ; choicer array size
+    .byte 6, 2 ; X/Y inc
+    .byte PAD_A | PAD_B ; Input mask
+    .byte $3a ; Tile
+    .byte 2, 3 ; X/Y start
+    .addr B31_10d1 ; choices
 
 B19_01ba:
     lda #25
@@ -382,16 +369,22 @@ B19_026a:
     stx $85
     lda #$9a
     ldx #$a2
-    sta $80
-    stx $81
+    sta UNK_80
+    stx UNK_80+1
     jsr B31_0f3f
     bit $83
     bmi B19_02a7
     bpl B19_0262
 
-B19_029a:
-    .byte $01,$05,$00,$02,$c0,$3a,$18,$07
-    .byte $00,$00,$03,$04,$00
+ItemUse_Choicer:
+    .byte 1, 5 ; choicer array size
+    .byte 0, 2 ; X/Y inc
+    .byte PAD_A | PAD_B ; Input mask
+    .byte $3a ; Tile
+    .byte 24, 7 ;X/Y start
+    .addr 0 ; choices
+
+    .byte $03,$04,$00
 
 B19_02a7:
     lda #$ff
@@ -574,63 +567,58 @@ OverworldActionInterpreter:
     pha
     rts
 
-;the reason these are all -1 are because of NES accessing stuff. needs to be even or odd or whatever
+;the reason these are all -1 are because of NES accessing stuff.
+;needs to be even or odd or whatever
 OVERWORLD_ACTIONS_POINTERS:
-.addr OA_NothingHappened-1              ; ID 00
-.addr OA_INTERACT-1
-.addr OA_NothingHappened-1
-.addr OA_NothingHappened-1
-.addr OA_NothingHappened-1
-.addr OA_BREAD-1
-.addr OA_TOFU-1
-.addr OA_INTERACT-1                     ; ID 07 Phone Card
+.addr OVERWORLD_ACTION2-1 ;$0 Nothing
+.addr OVERWORLD_ACTION3-1 ;$1 Nothing (Situational)
+.addr OVERWORLD_ACTION2-1 ;$2 Equippable
+.addr OVERWORLD_ACTION2-1 ;$3
+.addr OVERWORLD_ACTION2-1 ;$4
+.addr OVERWORLD_ACTION6-1 ;$5 Bread
+.addr OVERWORLD_ACTION7-1 ;$6 berry Tofu
+.addr OVERWORLD_ACTION3-1 ;$7 Phone Card
+.addr OVERWORLD_ACTION4-1 ;$8 Repel Ring
+.addr OVERWORLD_ACTION2-1 ;$9 Debug
+.addr OVERWORLD_ACTIONB-1 ;$A Orange Juice
+.addr OVERWORLD_ACTIONC-1 ;$B French Fries
+.addr OVERWORLD_ACTIOND-1 ;$C Magic Herb
+.addr OVERWORLD_ACTIONE-1 ;$D Hamburger
+.addr OVERWORLD_ACTIONF-1 ;$E Sports Drink
+.addr OVERWORLD_ACTION10-1 ;$F LifeUp Cream
+.addr OVERWORLD_ACTION11-1 ;$10 Big Bag
+.addr OVERWORLD_ACTION15-1 ;$11 Antidote
+.addr OVERWORLD_ACTION16-1 ;$12 Mouthwash
+.addr OVERWORLD_ACTION17-1 ;$13 PSI STone
+.addr OVERWORLD_ACTION18-1 ;$14 Magic Ribbon
+.addr OVERWORLD_ACTION19-1 ;$15 Magic Candy
+.addr OVERWORLD_ACTION1A-1 ;$16 QUICK Capsule
+.addr OVERWORLD_ACTION1B-1 ;$17 WISDOM Capsule
+.addr OVERWORLD_ACTION1C-1 ;$18 PHYSICAL Capsule
+.addr OVERWORLD_ACTION1D-1 ;$19 FORCE Capsule
+.addr OVERWORLD_ACTION1E-1 ;$1a FIGHT Capsule
+.addr OVERWORLD_ACTION22-1 ;$1b GGF's Diary
+.addr OVERWORLD_ACTION2-1 ;$1c
+.addr OVERWORLD_ACTION2-1 ;$1d
+.addr OVERWORLD_ACTION1F-1 ;$1e Onyx Hook
+.addr OVERWORLD_ACTION5-1 ;$1f Crumbs
+.addr OVERWORLD_ACTION20-1 ;$20 Last Weapon
+.addr OVERWORLD_ACTION21-1 ;$21 Ruler
+.addr OVERWORLD_ACTION24-1 ;$22 Map
+.addr OVERWORLD_ACTION23-1 ;$23 Ocarina
+.addr OVERWORLD_ACTION1-1 ;$24
+.addr OVERWORLD_ACTION0-1 ;$25 Telepathy (events only work through psi)
+.addr OVERWORLD_ACTION12-1 ;$26 Teleport
+.addr OVERWORLD_ACTION8-1 ;$27 LifeUp Alpha
+.addr OVERWORLD_ACTION9-1 ;$28 LifeUp Beta
+.addr OVERWORLD_ACTIONA-1 ;$29 LifeUp Gamma
+.addr OVERWORLD_ACTION14-1 ;$2A Healing Gamma
+.addr OVERWORLD_ACTION1-1 ;$2B
+.addr OVERWORLD_ACTION13-1 ;$2C Healing Alpha
+.addr OVERWORLD_ACTION25-1
 
-.addr OA_REPEL_RING-1
-.addr OA_NothingHappened-1              ; ID 09 Debug (removed in US)
-.addr OA_JUICE-1
-.addr OA_FRIES-1
-.addr OA_HERB-1
-.addr OA_BURGER-1
-.addr OA_SPORTS_DRINK-1
-.addr OA_OINTMENT-1
-
-.addr OA_BIG_BAG-1
-.addr OA_ANTIDOTE-1
-.addr OA_MOUTHWASH-1
-.addr OA_PSI_STONE-1
-.addr OA_RIBBON-1
-.addr OA_CANDY-1
-.addr OA_SPD_CAPSULE-1
-.addr OA_WIS_CAPSULE-1
-
-.addr OA_STR_CAPSULE-1
-.addr OA_FCE_CAPSULE-1
-.addr OA_FIT_CAPSULE-1
-.addr OA_DIARY-1
-.addr OA_NothingHappened-1
-.addr OA_NothingHappened-1
-.addr OA_HOOK-1
-.addr OA_CRUMBS-1
-
-.addr OA_FINAL_WEAPON-1
-.addr OA_RULER-1
-.addr OA_MAP-1
-.addr OA_OCARINA-1
-.addr OA_TriedUselessPSI-1
-.addr OA25_TELEPATHY-1
-.addr OA26_TELEPORT-1
-.addr OA_LIFEUP_ALPHA-1
-
-.addr OA_LIFEUP_BETA-1
-.addr OA_LIFEUP_GAMMA-1
-.addr OA_HEALING_GAMMA-1
-.addr OA_TriedUselessPSI-1
-.addr OA_HEALING_ALPHA-1
-.addr OA_SUPER_HEALING-1
-; ends at 2D
-
-OA25_TELEPATHY:
-    jsr PromptWhoConfirm
+OVERWORLD_ACTION0:
+    jsr B19_09b1
     jsr B31_020f
     asl a
     bpl OA_TriedUselessPSI
@@ -1262,12 +1250,12 @@ OpenMapEffect:
     lda #$00
     sta $0202
     ldx #$40
-    lda $6785
+    lda object_memory+object_m_xpos+1
     jsr B19_08d4
     sbc #$08
     sta $0203
     ldx #$80
-    lda $6787
+    lda object_memory+object_m_ypos+1
     jsr B19_08d4
     sbc #$21
     sta $0200
@@ -1917,7 +1905,7 @@ OINST_RTS:
 ; Instruction 04 - Delay
 OINST_Delay:
     lda xpos_music
-    and #$3f
+    and #%00111111
     cmp #$24
     bcc B19_0d05
     cmp #$2c
@@ -2072,10 +2060,10 @@ B19_0dc1:
     lda #.LOBYTE(B19_0df3)
     ldx #.HIBYTE(B19_0df3)
 B19_0dc5:
-    sta $80
-    stx $81
+    sta UNK_80
+    stx UNK_80+1
     ldy #6
-    lda ($80), y
+    lda (UNK_80), y
     sta $76
     lda #$d1
     ldx #$f0
@@ -2626,8 +2614,8 @@ B19_10eb:
     jsr B19_0d27
     lda #.LOBYTE(B19_116C)
     ldx #.HIBYTE(B19_116C)
-    sta $80
-    stx $81
+    sta UNK_80
+    stx UNK_80+1
     lda #$6c
     ldx #0
     sta $84
@@ -2858,7 +2846,7 @@ OINST_MoveObject:
     ldy #$1c
     lda $35
     sta (object_pointer), y
-    lda $6795
+    lda object_memory+object_m_direction
     asl a
     asl a
     asl a
@@ -2866,7 +2854,7 @@ OINST_MoveObject:
     lda xy_unknown+4, x ; Flags
     lsr a
     lsr a
-    sta $6799
+    sta object_memory+object_m_unk1+1
     jsr WriteProtectPRGRam
     pla
     pla
@@ -2946,11 +2934,11 @@ OINST_DoPlane:
     lda #$74
     jsr B19_129c
     lda #9
-    ldx #$fc
-    ldy #$8a
+    ldx #.LOBYTE(PLANE_SPRITEDEF)
+    ldy #.HIBYTE(PLANE_SPRITEDEF)
     jsr B19_12d8
     lda #$f
-    sta $679a
+    sta object_memory+object_m_unk1+2
     ldx #$10
     jsr B30_0daf
     jmp B19_1295
@@ -2959,7 +2947,7 @@ OINST_DoPlane:
 OINST_EndPlane:
     jsr EnablePRGRam
     lda #$f8
-    sta $679a
+    sta object_memory+object_m_unk1+2
     iny
     jmp WriteProtectPRGRam
 
@@ -2968,8 +2956,8 @@ OINST_DoTank:
     lda #$74
     jsr B19_129c
     lda #$a
-    ldx #$1c
-    ldy #$8b
+    ldx #.LOBYTE(TANK_SPRITEDEF)
+    ldy #.HIBYTE(TANK_SPRITEDEF)
     jsr B19_12d8
     ldx #8
     jsr B30_0daf
@@ -2980,8 +2968,8 @@ OINST_DoBoat:
     lda #$74
     jsr B19_129c
     lda #$b
-    ldx #$3c
-    ldy #$8b
+    ldx #.LOBYTE(BOAT_SPRITEDEF)
+    ldy #.HIBYTE(BOAT_SPRITEDEF)
     jsr B19_12d8
     jmp B19_1295
 
@@ -2994,8 +2982,8 @@ OINST_DoTrain:
     sta $15
     jsr EnablePRGRam
     lda #0
-    sta $67c0
-    sta $67e0
+    sta object_memory+(object_m_sizeof*2)+object_m_type
+    sta object_memory+(object_m_sizeof*3)+object_m_type
     lda #$d
     ldy #0
     jsr B19_138b
@@ -3005,10 +2993,10 @@ OINST_DoTrain:
     sec
     lda $29
     sbc #$8f
-    sta $679e
+    sta object_memory+object_m_unk2+1
     lda #0
-    sta $679f
-    sta $679a
+    sta object_memory+object_m_unk2+2
+    sta object_memory+object_m_unk1+2
     jsr B19_1bd4
     ldx #$10
     jsr B30_0daf
@@ -3017,18 +3005,18 @@ OINST_DoTrain:
     jmp WriteProtectPRGRam
 
 B19_138b:
-    sta $6780, y
+    sta object_memory+object_m_type, y
     asl a
     asl a
     tax
     lda #$28
-    sta $6796, y
+    sta object_memory+object_m_sprite2, y
     lda #$8a
-    sta $6797, y
+    sta object_memory+object_m_sprite2+1, y
     lda B31_0105+2, x
-    sta $6788, y
+    sta object_memory+object_m_oam, y
     lda B31_0105+3, x
-    sta $6794, y
+    sta object_memory+object_m_bitfield1, y
     rts
 
 ; Instruction 4B - Elevator
@@ -3069,7 +3057,7 @@ B19_13d8:
     lda (object_data), y
     and #$3f
     ldy $35
-    cmp $6795
+    cmp object_memory+object_m_direction
     jmp JumpNE
 
 ; Instruction 4F - Unknown Jump 2
@@ -3675,10 +3663,10 @@ B19_1763:
     sta $77
     jsr B30_03c0
     jsr B19_0b41
-    lda #.LOBYTE(B19_17ac)
-    ldx #.HIBYTE(B19_17ac)
-    sta $80
-    stx $81
+    lda #.LOBYTE(Who_Choicer)
+    ldx #.HIBYTE(Who_Choicer)
+    sta UNK_80
+    stx UNK_80+1
     jsr B31_0f34
     bit $83
     bmi B19_179e
@@ -3693,15 +3681,15 @@ B19_1763:
     clc
     rts
 
-; UNKNOWN
-B19_17ac:
-    .byte $01,$03
-    .byte $00       ; X
-    .byte $02       ; Y
-    .byte %11000000 ; Input mask
-    .byte $3A       ; Tile
-    .byte $02,$15
-    .word $6704
+; The options are the party members
+; Who?
+Who_Choicer:
+    .byte 1, 3 ; choicer array size
+    .byte 0, 2 ; X/Y inc
+    .byte PAD_A | PAD_B ; Input mask
+    .byte $3A ; Tile
+    .byte 2, 21 ;X/Y start
+    .addr $6704 ; choices
 
 B19_17b6:
     jsr B30_03b2
@@ -3796,8 +3784,8 @@ B19_1814:
     bcc B19_1829
     lda #$77
     ldx #$b8
-    sta $80
-    stx $81
+    sta UNK_80
+    stx UNK_80+1
     jsr B31_0f3f
     bit $83
     bmi B19_186c
@@ -4116,10 +4104,10 @@ B19_1a8d:
     asl a
     adc #$48
     sta $0207
-    lda #.LOBYTE(B19_1aef)
-    ldx #.HIBYTE(B19_1aef)
-    sta $80
-    stx $81
+    lda #.LOBYTE(RegisterName_Choicer)
+    ldx #.HIBYTE(RegisterName_Choicer)
+    sta UNK_80
+    stx UNK_80+1
     rts
 
 B19_1ab6:
@@ -4143,50 +4131,46 @@ B19_1ae5:
     .byte $20,$09,$05,$21,$20,$74,$20,$08
     .byte $09,$00
 
-
-; UNKNOWN
-B19_1aef:
-    .byte $16,$02
-    .byte $01       ; X
-    .byte $02       ; Y
-    .byte %11010000 ; Input mask
-    .byte $01       ; Tile
-    .byte $08,$09
-    .word $0580
+RegisterName_Choicer:
+    .byte 22, 2 ; choicer array size
+    .byte 1, 2 ; X/Y inc
+    .byte PAD_A | PAD_B | PAD_START ; Input mask
+    .byte 1 ; Tile
+    .byte 8, 9 ;X/Y start
+    .word $0580 ; choices
 
 B19_1af9:
-    lda #.LOBYTE(B19_1b04)
-    ldx #.HIBYTE(B19_1b04)
-    sta $80
-    stx $81
+    lda #.LOBYTE(PartyContent_Choicer)
+    ldx #.HIBYTE(PartyContent_Choicer)
+    sta UNK_80
+    stx UNK_80+1
     jmp B31_0f34
 
-; UNKNOWN
-B19_1b04:
-    .byte $01,$01
-    .byte $00       ; X
-    .byte $00       ; Y
-    .byte %11000101 ; Input mask
-    .byte $3a
-    .byte $07,$03
-    .addr B31_10d1
+;"content" as in the Goods and PSI menu. what the party member has, in otherwords.
+PartyContent_Choicer:
+    .byte 1, 1 ; choicer array size
+    .byte 0, 0 ; X/Y inc
+    .byte PAD_A | PAD_B | PAD_DOWN | PAD_RIGHT ; Input mask
+    .byte $3a ; Tile
+    .byte 7, 3 ; X/Y start
+    .addr B31_10d1 ; choices
 
 B19_1b0e:
-    lda #.LOBYTE(B19_1b19)
-    ldx #.HIBYTE(B19_1b19)
+    lda #.LOBYTE(PartyContentTrue_Choicer)
+    ldx #.HIBYTE(PartyContentTrue_Choicer)
 B19_1b12:
-    sta $80
-    stx $81
+    sta UNK_80
+    stx UNK_80+1
     jmp B31_0f3f
 
-; UNKNOWN
-B19_1b19:
-    .byte $02,$04
-    .byte $0c       ; X
-    .byte $02       ; Y
-    .byte %11001000 ; Input mask
-    .byte $3a       ; Tile
-    .byte $06,$05
+;the actual items in the list
+;see PartyContent_Choicer for name explanation
+PartyContentTrue_Choicer:
+    .byte 2, 4 ; choicer array size
+    .byte 12, 2 ; X/Y inc
+    .byte PAD_A | PAD_B | PAD_UP ; Input mask
+    .byte $3a ; Tile
+    .byte 6, 5 ; X/Y start
 
 B19_1b21:
     jsr GetPartyMemberData
@@ -4541,20 +4525,26 @@ OT4_Whirlpool:
     jsr B31_0e21
     jsr B31_1d5e
     jsr ResetScroll
+
+    ;load drain tiles
     lda #$5d
-    ldx #$02
+    ldx #BANK::CHR1000
     jsr BANK_SWAP
+
+    ;copy drain tiles
     jsr B30_0e6d
+
+    ;load drain gfx
     lda #$5c
-    ldx #$02
+    ldx #BANK::CHR1000
     jsr BANK_SWAP
     lda #$1f
     ldx #$be
-    sta temp_word
-    stx temp_word+1
+    sta $60
+    stx $61
     jsr B31_0087
 
-    LoadPalette_Address B19_1e2f
+    LoadPalette_Address DrainAnimation_Palette
 
     ldy #$16
     B19_1d91:
@@ -4608,10 +4598,10 @@ OT5_Flood:
     ldx #$08
     ldy #$07
     B19_1dea:
-    lda B19_1e4f, y
+    lda EVE_Fling, y
     sta $0305, x
     dey
-    lda B19_1e4f, y
+    lda EVE_Fling, y
     sta $0304, x
     clc
     txa
@@ -4634,26 +4624,31 @@ B19_1e0f:
     jsr WaitXFrames_Min1
     jmp B19_1561
 
+B19_1E1F:
+; X, Y (but also sprite????), ????, ?????
 .byte $60,$e0,$40,$18
 .byte $68,$c8,$40,$00
 .byte $58,$b0,$40,$08
 .byte $60,$98,$40,$10
 
-B19_1e2f:
+DrainAnimation_Palette:
 .byte $0f,$22,$20,$11
 .byte $0f,$10,$1a,$11
 .byte $0f,$30,$00,$11
 .byte $0f,$00,$10,$30
+
 .byte $0f,$0f,$01,$31
 .byte $0f,$0f,$13,$32
 .byte $0f,$0f,$22,$32
 .byte $0f,$0f,$11,$32
 
-B19_1e4f:
-    .byte $fe,$ff
-    .byte $02,$ff
-    .byte $ff,$fe
-    .byte $01,$fe
+;lut for each party member
+;'velocities' to fling each party member after the underwater lab floods.
+EVE_Fling:
+    .byte -2,-1
+    .byte 2,-1
+    .byte -1,-2
+    .byte 1,-2
 
 B19_1e57:
     lda save_slot

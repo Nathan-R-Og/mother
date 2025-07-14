@@ -4,267 +4,14 @@
 ; $C000
 ; DPCM samples
 ;kick
-B30_0000:
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $b6, $42
-    .byte $04
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $20, $49, $b5
-    .byte $aa
-    .byte $aa
-    .byte $4a
-    .byte $24, $01
-    .byte $51, $da
-    .byte $b6, $aa
-    .byte $6d, $f7, $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $f6, $76
-    .byte $db
-    .byte $ab
-    .byte $55, $a5
-    .byte $44
-    .byte $10, $20
-    .byte $00
-    .byte $00
-    .byte $04
-    .byte $08
-    .byte $90, $28
-    .byte $51, $aa
-    .byte $5a
-    .byte $b5, $6d
-    .byte $7b
-    .byte $f7
-    .byte $ee, $dd, $b7
-    .byte $77
-    .byte $5b
-    .byte $5b
-    .byte $b5, $52
-    .byte $49, $12
-    .byte $12
-    .byte $09, $12
-    .byte $22
-    .byte $49, $48
-    .byte $a5, $2a
-    .byte $55, $65
-    .byte $b5, $b5
-    .byte $ad, $b6, $6d
-    .byte $db
-    .byte $b6, $6d
-    .byte $db
-    .byte $b6, $b5
-    .byte $ad, $d6, $aa
-    .byte $2a
-    .byte $55, $4a
-    .byte $a5, $24
-    .byte $49, $2a
-    .byte $09, $95
-    .byte $a2, $54
-    .byte $49, $53
-    .byte $b5, $44
-    .byte $6a
-    .byte $d5, $6a
-    .byte $ad, $d6, $44
-    .byte $00
-    .byte $ab
+sample_kick:
+    .incbin "split/us/sample/kick.bin"
 B30_0071:
-    .byte $6a
-    .byte $d5, $44
-    .byte $44
-    .byte $ad, $44, $44
-    .byte $44
-    .byte $54
-    .byte $44
-    .byte $95, $44
-    .byte $52
-    .byte $00
-    .byte $00
+    .byte $6a, $d5, $44, $44, $ad, $44, $44, $44
+    .byte $54, $44, $95, $44, $52, $00, $00
 ;snare
-B30_0080:
-    .byte $ff ;133
-    .byte $b7
-    .byte $20, $0b, $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $c0, $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $c0, $0b
-    .byte $00
-    .byte $00
-    .byte $80
-    .byte $fd, $ff, $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $17
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $f0, $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $7e, $51, $ed
-    .byte $44
-    .byte $81, $10
-    .byte $01, $82
-    .byte $18
-    .byte $2b
-    .byte $42
-    .byte $53
-    .byte $81, $6f
-    .byte $d8
-    .byte $db
-    .byte $eb
-    .byte $e7
-    .byte $bf
-    .byte $eb
-    .byte $1f
-    .byte $fb
-    .byte $95, $24
-    .byte $48
-    .byte $00
-    .byte $02
-    .byte $00
-    .byte $e0, $c5
-    .byte $c0, $bf
-    .byte $f8
-    .byte $ff
-    .byte $ff
-    .byte $ba
-    .byte $0e, $7e, $c4
-    .byte $50, $68
-    .byte $2a
-    .byte $56, $02
-    .byte $6f
-    .byte $77
-    .byte $4e, $f8, $45
-    .byte $95, $20
-    .byte $56, $50
-    .byte $63
-    .byte $3f
-    .byte $f4
-    .byte $ff
-    .byte $f0, $9d
-    .byte $f8
-    .byte $21, $b2
-    .byte $20, $8e, $0d
-    .byte $18
-    .byte $cf
-    .byte $82
-    .byte $af
-    .byte $8a
-    .byte $e3
-    .byte $3f
-    .byte $78
-    .byte $fd, $18, $ce
-    .byte $02
-    .byte $87
-    .byte $58
-    .byte $e0, $c4
-    .byte $47
-    .byte $e9, $df
-    .byte $f1, $53
-    .byte $3b
-    .byte $8a
-    .byte $97
-    .byte $38
-    .byte $08
-    .byte $a9, $03
-    .byte $de, $e2, $f8
-    .byte $0f
-    .byte $9e
-    .byte $ec, $89, $b2
-    .byte $07
-    .byte $38
-    .byte $e2
-    .byte $63
-    .byte $f1, $e3
-    .byte $c3
-    .byte $7b
-    .byte $42
-    .byte $af
-    .byte $28
-    .byte $8e, $2a, $8e
-    .byte $42
-    .byte $83
-    .byte $5a
-    .byte $1d, $fa, $b1
-    .byte $eb
-    .byte $ab
-    .byte $d6, $62
-    .byte $da
-    .byte $a1, $e2
-    .byte $d0, $34
-    .byte $9c
-    .byte $85, $8e
-    .byte $ae, $c4, $7a
-    .byte $72
-    .byte $1d, $a6, $55
-    .byte $1c
-    .byte $b9, $52, $3d
-    .byte $8b
-    .byte $9e
-    .byte $9d, $4e, $96
-    .byte $2a
-    .byte $0b
-    .byte $e2
-    .byte $a8
-    .byte $a4, $95
-    .byte $2d, $bb, $72
-    .byte $ad, $f4, $91
-    .byte $5a
-    .byte $8b
-    .byte $52
-    .byte $25, $4e
-    .byte $9c
-    .byte $5a
-    .byte $79, $6a, $d7
-    .byte $a4, $8e
-    .byte $9c
-    .byte $74
-    .byte $b0, $a2
-    .byte $b4, $89
-    .byte $67
-    .byte $35, $6d
-    .byte $2b
-    .byte $37
-    .byte $b6, $45
-    .byte $a5, $a9
-    .byte $c5, $a4
+sample_snare:
+    .incbin "split/us/sample/snare.bin"
 B30_0171:
     .byte $42
     .byte $34
@@ -281,57 +28,29 @@ B30_0171:
     .byte $00
     .byte $00
     .byte $00
-    .byte $ed, $ba, $98
-    .byte $76, $78
-    .byte $97
-    .byte $ab
-    .byte $cd, $a7, $47
-    .byte $76, $48
-    .byte $45, $66
-    .byte $77
-    .byte $89
-    .byte $fc
-    .byte $97
-    .byte $64
-    .byte $fc
-    .byte $97
-    .byte $65, $fc
-    .byte $86, $01
-    .byte $23
-    .byte $45, $67
-    .byte $89
-    .byte $ab
-    .byte $cd, $ef, $fe
+
+C1NybbleTables:
+B30_0181:
+    .byte $ed, $ba, $98, $76, $78, $97, $ab, $cd
+B30_0189:
+    .byte $a7, $47, $76, $48, $45, $66, $77, $89
+B30_0191:
+    .byte $fc, $97, $64, $fc, $97, $65, $fc, $86
+    .byte $01, $23, $45, $67, $89, $ab, $cd, $ef
+B30_01A1:
+    .byte $fe
     .byte $a9, $ed
     .byte $fd, $79, $bd
     .byte $fe, $d9, $45
     .byte $78
     .byte $99, $aa, $bb
     .byte $cc, $dd, $ef
-    .byte $7a
-    .byte $de, $ff, $ef
-    .byte $fd, $df, $fe
-    .byte $ef
-    .byte $ef
-    .byte $fd, $ef, $fe
-    .byte $df
-    .byte $ff
-    .byte $ee, $ee, $ff
-    .byte $ef
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ef
-    .byte $ef
-    .byte $ff
-    .byte $ff
-    .byte $ef
-    .byte $ff
-    .byte $ff
-    .byte $ff
-    .byte $ef
-    .byte $ef
-    .byte $ff
+B30_01B1:
+    .byte $7a, $de, $ff, $ef, $fd, $df, $fe, $ef
+    .byte $ef, $fd, $ef, $fe, $df, $ff, $ee, $ee
+    .byte $ff, $ef, $ff, $ff, $ff, $ef, $ef, $ff
+    .byte $ff, $ef, $ff, $ff, $ff, $ef, $ef, $ff
+B30_01D1:
     .byte $bf
     .byte $ff
     .byte $ee, $ee, $ed
@@ -370,6 +89,8 @@ B30_0171:
     .byte $ff
     .byte $ff
 
+.assert >B30_01D1 = >C1NybbleTables, error, "C1 nybble tables not all in same page"
+
 ; THIS HERE IS CODE.
 B30_0200:
     lda #$0f
@@ -404,7 +125,7 @@ B30_0226:
 
 ; DATA NOW!
 ; control codes
-B30_022c:
+control_codes:
     .byte $00 ; 00 stopText
     .byte $01 ; 01 newLine
     .byte $02 ; 02 waitThenOverwrite
@@ -570,68 +291,61 @@ B30_0306:
     jsr TempUpperBankswitch
     jmp SUPRESS_INPUT
 
+;literally a macro
 BankswitchLower_Bank00:
     lda #0
     ldx #BANK::PRG8000
     jmp BANK_SWAP
 
-; $C329 - Unknown
-B30_0329:
-    .byte $20, $01, $17
-    .byte $21
-    .word $924b
-    .byte $01, $25, $16
-    .byte $21
-    .word $6710
-    .byte $00
-    .byte $25
-    .byte $18
-    .byte $fb
-    .byte $22, $fc, $1c
-    .byte $fd
-    B30_033d:
-    .byte $00
+; $C329
+party_menu_1char:
+    .byte set_pos 1, 23
+    .byte print_string battle_statbar_top
+    .byte newLine
+    .byte uibox_r,$16
+    .byte print_string party_member_1_stats
+    .byte stopText
+    .byte uibox_r,$18,uibox_bl
+    .byte repeatTile uibox_b, 28
+    .byte uibox_br
+    party_menu_nochar:
+    .byte stopText
 
-; $C33E - Unknown
-B30_033e:
-    .byte $20
-    .byte $01, $15
-    .byte $21, $4b
-    .byte $92
-    .byte $01, $25
-    .byte $14
-    .byte $21, $10
-    .byte $67
-    .byte $01, $25
-    .byte $16, $21
-    .byte $2e, $67, $00
-    .byte $25, $18
-    .byte $fb
-    .byte $22
-    .byte $fc
-    .byte $1c
-    .byte $fd
-    .byte $00
+; $C33E
+party_menu_2char:
+    .byte set_pos 1, 21
+    .byte print_string battle_statbar_top
+    .byte newLine
+    .byte uibox_r, $14
+    .byte print_string party_member_1_stats
+    .byte newLine
+    .byte uibox_r, $16
+    .byte print_string party_member_2_stats
+    .byte stopText
+    .byte uibox_r, $18, uibox_bl
+    .byte repeatTile uibox_b, 28
+    .byte uibox_br
+    .byte stopText
 
-; $C359 - Unknown
-B30_0359:
+; $C359
+party_menu_3char:
     .byte set_pos 1, 19
-    .byte print_string $924b
+    .byte print_string battle_statbar_top
     .byte 1
     .byte incrementor
     .byte 18
 
-    .byte print_string $6710
+    .byte print_string party_member_1_stats
     .byte 1
     .byte incrementor
     .byte 20
 
-    .byte print_string $672e
+    .byte print_string party_member_2_stats
     .byte 1
     .byte incrementor
     .byte 22
 
-    .byte print_string $674c
+    .byte print_string party_member_3_stats
     .byte 0
     .byte incrementor
     .byte 24
@@ -658,13 +372,13 @@ B30_039d:
 B30_03a0:
     lda #.LOBYTE(window_unk_2)
     ldx #.HIBYTE(window_unk_2)
-    B30_03a4:
+B30_03a4:
     sta $74
     stx $75
     lda $ec
-    beq B30_03af
+    beq @B30_03af
     jmp B30_02b3
-    B30_03af:
+    @B30_03af:
     jmp B30_0274
 
 B30_03b2:
@@ -910,12 +624,6 @@ B30_0531:
     sta $79
     jmp B30_04e5
 
-.ifdef VER_JP
-something = $6D00
-.else
-something = $6700
-.endif
-
 B30_0542:
     jsr EnablePRGRam
     ldx #$10
@@ -954,10 +662,10 @@ B30_0542:
     bne B30_0572
     pla
     tay
-    lda B30_061e, y
+    lda battle_status_string_lut, y
     sta something, x
     inx
-    lda B30_061e+1, y
+    lda battle_status_string_lut+1, y
     sta something, x
     inx
     ldy #$1b
@@ -1018,9 +726,9 @@ B30_0542:
     lda #$00
     B30_05ee:
     sta something+$d
-    lda B30_0616, x
+    lda party_menu_layouts, x
     sta something+1
-    lda B30_0616+1, x
+    lda party_menu_layouts+1, x
     sta something+2
     lda something+$13
     sta something+$b
@@ -1032,13 +740,13 @@ B30_0542:
     sta something+$f
     jmp WriteProtectPRGRam
 
-B30_0616:
-    .addr B30_033d ; 0 characters
-    .addr B30_0329 ; 1 character
-    .addr B30_033e ; 2 characters
-    .addr B30_0359 ; 3 characters
+party_menu_layouts:
+    .addr party_menu_nochar ; 0 characters
+    .addr party_menu_1char ; 1 character
+    .addr party_menu_2char ; 2 characters
+    .addr party_menu_3char ; 3 characters
 
-B30_061e:
+battle_status_string_lut:
     .addr STATUS_COLD ; "  Cold"
     .addr STATUS_POISON ; "Poison"
     .addr STATUS_PUZZLD ; "Puzzld"
@@ -1716,7 +1424,7 @@ B30_0a5c:
     cmp #$40
     bcs B30_0a7b
     tay
-    lda B30_022c, y
+    lda control_codes, y
     ldy $7a
     cmp #$80
     bcs B30_0a7b
@@ -1744,29 +1452,29 @@ B30_0a7c:
 
     ;not a control code
     cmp #$40
-    bcs B30_0a9f
+    bcs @normal_tile
 
     tay
     ;load index in control codes
-    lda B30_022c, y
+    lda control_codes, y
     ;pop y
     ldy $7a
 
+    ;kana
     cmp #$80
-    bcs B30_0a9c
+    bcs @kana_implementation
 
+    ;output
     cmp #$20
-    bcs B30_0a99
-
+    bcs @output_tiles
 
     ;is ui piece
-    cmp #$0a
-    bcs B30_0a96
+    cmp #$a
+    bcs @fix_ui_offset
 
     rts
 
-;fix ui offset
-B30_0a96:
+    @fix_ui_offset:
     .ifdef VER_JP
     ora #$b0
     .else
@@ -1774,15 +1482,15 @@ B30_0a96:
     .endif
     rts
 
-B30_0a99:
+    @output_tiles:
     lda #$ff
     rts
 
-B30_0a9c:
+    @kana_implementation:
     lda #$fe
     rts
 
-B30_0a9f:
+    @normal_tile:
     lda #$a0
     rts
 
@@ -2139,8 +1847,8 @@ B30_0cd8:
     lda #$20
     B30_0d18:
     tax
-    asl $0304, x
-    asl $0305, x
+    asl shadow_something+4, x
+    asl shadow_something+5, x
     sec
     sbc #$08
     bne B30_0d18
@@ -2308,32 +2016,42 @@ B30_0e08:
     rts
 
 B30_0e6d:
-    lda #$00
-    ldx #$00
+    ;clear word
+    lda #0
+    ldx #0
     sta $60
     stx $61
-    lda #$00
+
+    ;0x2000
+    lda #0
     ldx #$20
     sta $64
     stx $65
+
     lda #$10
     sta $68
+
     B30_0e81:
     lda $60
     ldx $61
-    ldy #$09
+
+    ldy #9
     jsr B30_0eb2
+
     lda $64
     ldx $65
+
     ldy #$05
     jsr B30_0eb2
+
     clc
     lda #$40
     adc $60
     sta $60
-    lda #$00
+    lda #0
     adc $61
     sta $61
+
     clc
     lda #$40
     adc $64
@@ -2341,6 +2059,7 @@ B30_0e6d:
     lda #$00
     adc $65
     sta $65
+
     dec $68
     bne B30_0e81
     rts
@@ -2349,17 +2068,21 @@ B30_0eb2:
     pha
     jsr PpuSync
     pla
-    sta $0400+3
-    stx $0400+2
-    sty $0400
+
+    sta UNK_400+3
+    stx UNK_400+2
+    sty UNK_400
     lda #64
-    sta $0400+1
+    sta UNK_400+1
     lda #$00
-    sta $0400+4+64
-    lda #$00
+    sta UNK_400+4+64
+
+    ;0080
+    lda #0
     sta $e6
     lda #$80
     sta $e5
+
     rts
 
 BankswitchUpper_Bank19:
@@ -4078,10 +3801,13 @@ B30_1a16:
     ldy #$10
     lda (object_pointer), y
     tay
-    lda #$80
-    sta $0306, y
-    lda #$81
-    sta $0307, y
+
+    ;set spritedef to teleport fry
+    lda #.LOBYTE(SPRITEDEF_60)
+    sta shadow_something+6, y
+    lda #.HIBYTE(SPRITEDEF_60)
+    sta shadow_something+7, y
+
     B30_1a3c:
     inx
     cpx #$04
@@ -4959,7 +4685,7 @@ B30_1fda:
     lda #$18
     sta $e3
     lda #$00
-    sta $0300
+    sta shadow_something+0
     ldx #$08
     jsr EnablePRGRam
 
@@ -4988,7 +4714,7 @@ B30_1fda:
     ldy #$08
     B31_0024:
     lda (object_pointer), y
-    sta $0300, x
+    sta shadow_something+0, x
     inx
     iny
     cpy #$0e
@@ -5000,12 +4726,12 @@ B30_1fda:
     lda #$04
     B31_0039:
     adc (object_pointer), y
-    sta $0300, x
+    sta shadow_something+0, x
     inx
     iny
     lda #$00
     adc (object_pointer), y
-    sta $0300, x
+    sta shadow_something+0, x
     inx
     beq B31_0062
     lda $37
@@ -5017,7 +4743,7 @@ B30_1fda:
     bne B31_0000
     B31_0056:
     lda #$00
-    sta $0300, x
+    sta shadow_something+0, x
     clc
     txa
     adc #$08
@@ -5029,16 +4755,16 @@ B30_1fda:
 B31_0065:
     ldx #$00
     @B31_0067:
-    lda $0300, x
+    lda shadow_something+0, x
     and #$40
     beq @B31_007f
     sec
-    lda $0306, x
+    lda shadow_something+6, x
     sbc #$04
-    sta $0306, x
-    lda $0307, x
+    sta shadow_something+6, x
+    lda shadow_something+7, x
     sbc #$00
-    sta $0307, x
+    sta shadow_something+7, x
     @B31_007f:
     clc
     txa
@@ -5047,51 +4773,56 @@ B31_0065:
     bcc @B31_0067
     rts
 
+;party animate?
 B31_0087:
     jsr BeginPartyObjectIteration ; object_pointer = 0x6780, $36 = 0xFC
-    ldx #$04
+
+    ldx #4
     stx $36
-    lda #$00
+
+    lda #0
     sta $62
-    ldx #$08
+
+    ldx #8
     @B31_0094:
-    ldy #$00
+    ldy #0
     lda (object_pointer), y
     beq @B31_00e3
     bmi @B31_00e3
+
     ldy $62
-    lda ($60), y
-    sta $0302, x
+    lda (UNK_60), y
+    sta shadow_something+2, x
     iny
-    lda ($60), y
-    sta $0303, x
+    lda (UNK_60), y
+    sta shadow_something+3, x
     iny
-    lda ($60), y
+    lda (UNK_60), y
     sta $63
     iny
     clc
-    lda ($60), y
+    lda (UNK_60), y
     ldy #$16
     adc (object_pointer), y
-    sta $0306, x
+    sta shadow_something+6, x
     iny
     lda #$00
     adc (object_pointer), y
-    sta $0307, x
+    sta shadow_something+7, x
     ldy #$08
     lda (object_pointer), y
     and #$3f
     asl a
     asl $63
     ror a
-    sta $0300, x
+    sta shadow_something+0, x
     lda #$70
     asl $63
     ror a
-    sta $0301, x
+    sta shadow_something+1, x
     lda #$00
-    sta $0304, x
-    sta $0305, x
+    sta shadow_something+4, x
+    sta shadow_something+5, x
     clc
     txa
     adc #$08
@@ -5360,19 +5091,19 @@ B31_02c2:
     ldy #$10
     lda (object_pointer), y
     tay
-    lda $0300, y
+    lda shadow_something+0, y
     and #$3f
     sta $3f
     beq B31_02a1
     lda $60
-    sta $0306, y
+    sta shadow_something+6, y
     lda $61
-    sta $0307, y
-    lda $0302, y
+    sta shadow_something+7, y
+    lda shadow_something+2, y
     sta $68
-    lda $0303, y
+    lda shadow_something+3, y
     sta $69
-    lda $0301, y
+    lda shadow_something+1, y
     asl a
     asl a
     tax
@@ -7326,27 +7057,28 @@ DarkenPalette:
     bpl @B31_0f1d
     jmp UpdatePalette
 
+;do choicer
 B31_0f34:
     ldy #$08
-    lda ($80), y
+    lda (UNK_80), y
     sta $84
     iny
-    lda ($80), y
+    lda (UNK_80), y
     sta $85
 B31_0f3f:
     ldy #$06
-    lda ($80), y
+    lda (UNK_80), y
     sta $76
     ldy #$07
-    lda ($80), y
+    lda (UNK_80), y
     sta $77
 B31_0f4b:
     ldy #$00
-    lda ($80), y
+    lda (UNK_80), y
     sta $86
     tax
     ldy #$01
-    lda ($80), y
+    lda (UNK_80), y
     jsr Mult8x8
     sta $82
     ldy #$00
@@ -7380,10 +7112,10 @@ B31_0f6d:
     sta $0202
 B31_0f88:
     ldy #$05
-    lda ($80), y
+    lda (UNK_80), y
     sta $0201
     ldy #$02
-    lda ($80), y
+    lda (UNK_80), y
     ldx $86
     jsr Mult8x8
     clc
@@ -7393,7 +7125,7 @@ B31_0f88:
     asl a
     sta $0203
     ldy #$03
-    lda ($80), y
+    lda (UNK_80), y
     ldx $87
     jsr Mult8x8
     clc
@@ -7416,7 +7148,7 @@ B31_0f88:
     dey
     bne @B31_0fbc
     ldy #$05
-    lda ($80), y
+    lda (UNK_80), y
     eor $0201
     sta $0201
     lda pad1_hold
@@ -7433,7 +7165,7 @@ B31_0f88:
     tax
     ldy #$04
     and #$f0
-    and ($80), y
+    and (UNK_80), y
     beq B31_0ffb
     sta $83
     lda #$05
@@ -7460,7 +7192,7 @@ B31_1010:
     lda Cardinal_XY+1, x
     adc $69
     ldy #$01
-    cmp ($80), y
+    cmp (UNK_80), y
     bcs B31_1055
     sta $69
     sta $60
@@ -7468,11 +7200,11 @@ B31_1010:
     lda Cardinal_XY, x
     adc $68
     ldy #$00
-    cmp ($80), y
+    cmp (UNK_80), y
     bcs B31_1055
     sta $68
     sta $6a
-    lda ($80), y
+    lda (UNK_80), y
     ldx $60
     jsr Mult8x8
 
@@ -7498,7 +7230,7 @@ B31_1052:
 B31_1055:
     ldy #$04
     lda $83
-    and ($80), y
+    and (UNK_80), y
     beq B31_1052
     sta $83
     lda #$0d
@@ -7531,7 +7263,7 @@ B31_1067:
     sec
     adc $0086, y
     sta $0068, y
-    cmp ($80), y
+    cmp (UNK_80), y
     bcc @B31_10a1
     @B31_1099:
     lda #$00
@@ -7551,14 +7283,14 @@ B31_1067:
 B31_10b0:
     pha
     ldy #$02
-    lda ($80), y
+    lda (UNK_80), y
     ldx $86
     jsr Mult8x8
     clc
     adc $76
     sta $76
     ldy #$03
-    lda ($80), y
+    lda (UNK_80), y
     ldx $87
     jsr Mult8x8
     clc
@@ -7568,20 +7300,22 @@ B31_10b0:
     jmp B30_068b
 
 ; $F0D1
+; Generic Choicer LUT
+; literally only exists for a generic 1-8 choicer. can be sliced
 B31_10d1:
     .byte 1, 2, 3, 4, 5, 6, 7, 8
 
 ; $F0D9 - D-Pad to direction table (no diagonals)
 Cardinal_By_Input:
     .byte $88 ; None
-    .byte $02 ; R
-    .byte $06 ; L
+    .byte DIRECTIONS::RIGHT ; R
+    .byte DIRECTIONS::LEFT ; L
     .byte $88 ; L+R
-    .byte $04 ; D
+    .byte DIRECTIONS::DOWN ; D
     .byte $88 ; D+R
     .byte $88 ; D+L
     .byte $88 ; D+L+R
-    .byte $00 ; U
+    .byte DIRECTIONS::UP ; U
     .byte $88 ; U+R
     .byte $88 ; U+L
     .byte $88 ; U+L+R
@@ -8396,9 +8130,9 @@ B31_15c2:
     lda #.HIBYTE(B31_15df)
     sta $85
     lda #.LOBYTE(B31_15df)
-    sta $80
+    sta UNK_80
     lda #.HIBYTE(B31_15df)
-    sta $81
+    sta UNK_80+1
     jsr B31_0f4b
     pla
     sta $5a
@@ -8555,7 +8289,7 @@ B31_16bf:
 
 B31_16c8:
     ldx $68
-    lda $0300, x
+    lda shadow_something+0, x
     pha
     lda #$03
     ldx #$0c
@@ -8589,25 +8323,25 @@ B31_16f9:
     stx $60
     sty $61
     ldx $68
-    sta $0300, x
+    sta shadow_something+0, x
     lda #$08
-    sta $0301, x
+    sta shadow_something+1, x
     lda #$70
-    sta $0302, x
+    sta shadow_something+2, x
     lda $69
-    sta $0303, x
+    sta shadow_something+3, x
     lda #$00
-    sta $0304, x
-    sta $0305, x
+    sta shadow_something+4, x
+    sta shadow_something+5, x
     lda $60
-    sta $0306, x
+    sta shadow_something+6, x
     lda $61
-    sta $0307, x
+    sta shadow_something+7, x
     rts
 
 B31_1724:
     ldx $68
-    sta $0300, x
+    sta shadow_something+0, x
     lda #$01
     sta $e5
     ldx #$08
@@ -9202,7 +8936,7 @@ B31_1ac9:
     ldx #$10
 B31_1b0b:
     ldy $cc
-    lda $0300, y
+    lda shadow_something+0, y
     and #$3f
     bne B31_1b17
     jmp B31_1c5c
@@ -9210,14 +8944,14 @@ B31_1b0b:
 B31_1b17:
     sta $c0
     stx $c2
-    lda $0301, y
+    lda shadow_something+1, y
     and #$c0
     sta $c1
     txa
     lsr a
     lsr a
     ora $c1
-    sta $0301, y
+    sta shadow_something+1, y
     sec
     lda #$00
     sbc $ce
@@ -9229,9 +8963,9 @@ B31_1b17:
     ldx $e1
     bit $c1
     bvc B31_1b70
-    lda $0304, y
+    lda shadow_something+4, y
     sta $c4
-    lda $0305, y
+    lda shadow_something+5, y
     sta $c5
     ldy #$00
     @B31_1b4a:
@@ -9251,19 +8985,19 @@ B31_1b17:
     tya
     adc $c4
     ldy $cc
-    sta $0304, y
+    sta shadow_something+4, y
     lda #$00
     adc $c5
-    sta $0305, y
+    sta shadow_something+5, y
     jmp B31_1b83
 
 B31_1b70:
     clc
-    lda $0304, y
+    lda shadow_something+4, y
     adc $c8
     sta $c8
     clc
-    lda $0305, y
+    lda shadow_something+5, y
     adc $ca
     sta $ca
     dex
@@ -9273,48 +9007,48 @@ B31_1b83:
     clc
     lda $c8
     bmi @B31_1b96
-    adc $0302, y
+    adc shadow_something+2, y
     sta $c8
-    sta $0302, y
+    sta shadow_something+2, y
     bcc @B31_1ba8
     bcs @B31_1ba0
     @B31_1b96:
-    adc $0302, y
+    adc shadow_something+2, y
     sta $c8
-    sta $0302, y
+    sta shadow_something+2, y
     bcs @B31_1ba8
     @B31_1ba0:
-    lda $0300, y
+    lda shadow_something+0, y
     eor #$80
-    sta $0300, y
+    sta shadow_something+0, y
     @B31_1ba8:
     clc
     lda $ca
     bmi @B31_1bb9
-    adc $0303, y
+    adc shadow_something+3, y
     sta $ca
-    sta $0303, y
+    sta shadow_something+3, y
     bcc @B31_1bcb
     bcs @B31_1bc3
     @B31_1bb9:
-    adc $0303, y
+    adc shadow_something+3, y
     sta $ca
-    sta $0303, y
+    sta shadow_something+3, y
     bcs @B31_1bcb
     @B31_1bc3:
-    lda $0301, y
+    lda shadow_something+1, y
     eor #$80
-    sta $0301, y
+    sta shadow_something+1, y
     @B31_1bcb:
-    lda $0300, y
+    lda shadow_something+0, y
     and #$80
     sta $c9
-    lda $0301, y
+    lda shadow_something+1, y
     and #$80
     sta $cb
-    lda $0306, y
+    lda shadow_something+6, y
     sta $c6
-    lda $0307, y
+    lda shadow_something+7, y
     sta $c7
     ldy #$00
     lda ($c6), y
@@ -9573,7 +9307,7 @@ B31_1d5e:
     ldx #$00
     @B31_1d66:
     lda #$00
-    sta $0300, x
+    sta shadow_something+0, x
     lda #$f0
     sta $0200, x
     inx
@@ -9630,12 +9364,12 @@ B31_1dc0:
     clc
     @B31_1dd0:
     tax
-    lda $0301, x
+    lda shadow_something+1, x
     and #$bf
-    sta $0301, x
+    sta shadow_something+1, x
     lda #$00
-    sta $0304, x
-    sta $0305, x
+    sta shadow_something+4, x
+    sta shadow_something+5, x
     txa
     adc #$08
     bcc @B31_1dd0

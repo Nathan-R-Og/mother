@@ -1,39 +1,221 @@
 .feature force_range
+
+.segment        "ZP": zeropage
+; zeropage global variables
+UNK_0: .res 1
+UNK_1: .res 1
+UNK_2: .res 1
+UNK_3: .res 1
+UNK_4: .res 1
+UNK_5: .res 1
+UNK_6: .res 1
+UNK_7: .res 1
+melody_timer: .res 1 ; $8
+UNK_9: .res 3
+player_direction: .res 1 ;$C
+UNK_d: .res 1
+fade_type: .res 1 ;$E
+UNK_f: .res 1
+UNK_10: .res 8
+; $10 -> Field CHR bank 2
+; $11 -> $10 & 3
+; $12 -> Field CHR bank 3
+; $13 -> $12 & 3
+; $14 -> Current "tileset"?
+; $15 -> Current area??
+player_x: .res 2 ; $18
+player_y: .res 2 ; $1A
+UNK_1c: .res 4
+; $1F -> 1 when run button is held?
+fade_flag: .res 1 ; $20
+is_scripted: .res 1
+; $21 -> An object index?
+autowalk_direction: .res 1 ; $22 ; For cutscenes? If bit 4 is set, then walks through other objects
+is_tank: .res 1
+UNK_24: .res 2
+; $25 -> Cutscene flag? Doesn't allow run button and NPCs are frozen
+random_num: .res 2 ; $26
+UNK_28: .res 2
+global_wordvar: .res 2 ; $2A ; Object script 16-bit number
+UNK_2C: .res 4
+; $28 -> Object script character ID
+; $29 -> Object script item ID
+object_pointer: .res 2 ; $30 ; Pointer to object_memory
+object_data: .res 2 ; $32 ; Pointer to ROM object data
+UNK_34: .res 1
+; $34 -> Object script interaction type
+object_script_offset: .res 1 ; $35 ; TODO: APPLY ALL LABELS
+UNK_36: .res 8
+movement_direction: .res 2 ; $3E
+UNK_40: .res 1 ; $40 -> CHR bank 2 during IRQ?
+UNK_41: .res 1 ; $41 -> CHR bank 3 during IRQ?
+UNK_42: .res 1 ; $42 -> CHR bank 4 during IRQ? -- ALSO: Another party member? Seems related to $28
+UNK_43: .res 1 ; $43 -> CHR bank 5 during IRQ?
+UNK_44: .res 1
+UNK_45: .res 1
+UNK_46: .res 1 ; $46 -> Some scanline for IRQ?
+UNK_47: .res 1
+enemy_group: .res 1 ; $48
+UNK_49: .res 7
+; $4E -> Damage (16-bit) -- only during battle?
+UNK_50: .res $10
+; $53 -> Attacker offset -- in battles
+; $54 -> Target offset -- in battles
+; $58 -> Move type -- only during battle?
+UNK_60: .res $10
+UNK_70: .res 1
+UNK_71: .res 1
+UNK_72: .res 1
+UNK_73: .res 1
+UNK_74: .res 1
+UNK_75: .res 1
+UNK_76: .res 1
+UNK_77: .res 1
+UNK_78: .res 1
+UNK_79: .res 1
+UNK_7A: .res 1
+UNK_7B: .res 1
+UNK_7C: .res 1
+UNK_7D: .res 1
+UNK_7E: .res 1
+UNK_7F: .res 1
+UNK_80: .res 2
+
+; Position of menu cursor in whole numbers, incrementing by 1 per step
+menucursor_pos: .res 2 ; $82
+UNK_84: .res 2
+menu_x_pos: .res 1 ; $86 ; X pos in whole numbers
+menu_y_pos: .res 1 ; $87 ; Y pos in whole numbers
+UNK_88: .res 8
+UNK_90: .res $10
+UNK_A0: .res $10
+unk_b0: .res 1 ; $b0
+unk_b1: .res 1 ; $b1
+unk_b2: .res 1 ; $b2
+unk_b3: .res 1 ; $b3
+unk_b4: .res 1 ; $b4
+UNK_b5: .res 1 ; $b5
+unk_b6: .res 2 ; $b6 ;two byte
+UNK_b8: .res 2 ; $b7
+unk_ba: .res 1 ; $ba
+unk_bb: .res 2 ; $bb ;SOMETIMES two byte???? lohi??? probably
+unk_bd: .res 1 ; $bd
+unk_be: .res 1 ; $be
+unk_bf: .res 1 ; $bf
+UNK_C0: .res $10
+; $a0 -> Player movement direction?
+; $aa -> X position for collision detection?
+; $ac -> Y position for collision detection?
+; $bb -> Something to do with music (2 bytes). Interacts with $07FF
+; $bd -> Current music channel? (1=noise, 2=pulse1, 3=pulse2, 4=triangle, 5=dmc)?
+frame_counter: .res 3 ; $d0 ; 24 bit
+UNK_D3: .res 7
+; $d3 -> How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the frame counter also stops counting (wtf...?)
+; $d7 has a JMP instruction (if zero, then don't jump)
+pad1_forced: .res 1 ; $da
+pad2_forced: .res 1 ; $db
+pad1_press: .res 1 ; $dc
+pad2_press: .res 1 ; $dd
+pad1_hold: .res 1 ; $de
+pad2_hold: .res 1 ; $df
+UNK_E0: .res 1
+UNK_E1: .res 1
+UNK_E2: .res 1
+UNK_E3: .res 1
+UNK_E4: .res 1
+UNK_E5: .res 1
+UNK_E6: .res 1
+UNK_E7: .res 1
+UNK_E8: .res 1
+UNK_E9: .res 1
+nmi_flag: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running NMI handler ;ignores controller input while set
+UNK_EB: .res 1
+UNK_EC: .res 1
+irq_index: .res 1 ; $ed ; IRQ routine index (multiple of 2)
+bankswitch_mode: .res 1 ; $ee ; Bankswitch "mode"  (-----mmm), $8000 MMC3 register
+bankswitch_flags: .res 1 ; $ef ; Bankswitch "flags" (ff------), $8000 MMC3 register
+current_banks: .res 1 ; $f0 ; Current banks for each "mode" (8 bytes)
+UNK_F1: .res $b
+; $F8, etc.
+scroll_x: .res 1 ; $fc
+scroll_y: .res 1 ; $fd
+ram_PPUMASK: .res 1 ; $fe
+ram_PPUCTRL: .res 1 ; $ff
+
+
 ; *** RAM DEFINES ***
+.segment        "RAM": absolute
+UNK_100: .res $10
 
-; Length    = 0x40 (64) bytes
-; Area      = $0110 ~ $014F
 ; Zone where text data from CHR is stored to write into PPU
-text_data_buffer = $0110
-
-; $0540 = IRQ routine pointers (-1 because of it uses the RTS trick)
+text_data_buffer: .res $40 ;$0110 ~ $014F
+stack: .res $B0 ; $150
+shadow_oam: .res $100 ; $200
+shadow_something: .res $100 ; $300 / ??? overworld sprites????
+UNK_400: .res $100 ;nmi queue???
+UNK_500: .res $40 ;palette queue???
+irq_pointers: .res $40 ; $540 / (-1 because of it uses the RTS trick)
+UNK_580: .res $80
 
 ; ====================================================================================================
 ; Length : 0x20 (32) bytes per battler, 8 battlers total
+
+.struct battler_struct
+    unk_0 .byte
+    status .byte
+    resistances .byte
+    curr_hp .word
+    curr_pp .word
+    offense .word
+    defense .word
+    fight .byte
+    speed .byte
+    wisdom .byte
+    strength .byte
+    force .byte
+    .union
+        moveset .res 8
+
+        .struct ;player
+            inventory_slot .byte
+            player_id .byte
+            unused .res 6
+        .endstruct
+    .endunion
+    fulldata .addr
+    enemy_letter .byte
+    unk_1b .byte
+    target .byte
+    action .byte
+    m_status .byte
+    unk_1f .byte
+.endstruct
+
+BATTLER_DATASIZE = $20
 ; Battler Data Structure (in RAM)
 ; The data starts at $0600, but much of the code uses 1-Based indexing, hence the $0580 entry.
-BATTLER_1BASED              = $0580
-BATTLER                     = $0600             ; should always be 00 for player, EnemyTableID when enemy, FF when enemy deadge
-BATTLER_DATASIZE            = $20
-BATTLER_PLAYER2             = BATTLER + (BATTLER_DATASIZE)      ; $0620
-BATTLER_PLAYER3             = BATTLER + (BATTLER_DATASIZE * 2)  ; $0640
-BATTLER_PLAYER4             = BATTLER + (BATTLER_DATASIZE * 3)  ; $0660
-BATTLER_ENEMY1              = BATTLER + (BATTLER_DATASIZE * 4)  ; $0680
-BATTLER_ENEMY2              = BATTLER + (BATTLER_DATASIZE * 5)  ; $06A0
-BATTLER_ENEMY3              = BATTLER + (BATTLER_DATASIZE * 6)  ; $06C0
-BATTLER_ENEMY4              = BATTLER + (BATTLER_DATASIZE * 7)  ; $06E0
+BATTLER: .tag battler_struct ; should always be 00 for player, EnemyTableID when enemy, FF when enemy deadge
+BATTLER_1BASED = BATTLER - (BATTLER_DATASIZE * 4) ; $580
+
+BATTLER_PLAYER2: .tag battler_struct ; $0620
+BATTLER_PLAYER3: .tag battler_struct ; $0640
+BATTLER_PLAYER4: .tag battler_struct ; $0660
+BATTLER_ENEMY1: .tag battler_struct ; $0680
+BATTLER_ENEMY2: .tag battler_struct ; $06A0
+BATTLER_ENEMY3: .tag battler_struct ; $06C0
+BATTLER_ENEMY4: .tag battler_struct ; $06E0
 
 ; offsets used by various functions, most notably attacker & target offset vars
-PLAYER1_OFFSET      = $00
-PLAYER2_OFFSET      = BATTLER_DATASIZE
-PLAYER3_OFFSET      = BATTLER_DATASIZE * 2
-PLAYER4_OFFSET      = BATTLER_DATASIZE * 3
-ENEMY1_OFFSET       = BATTLER_DATASIZE * 4
-ENEMY2_OFFSET       = BATTLER_DATASIZE * 5
-ENEMY3_OFFSET       = BATTLER_DATASIZE * 6
-ENEMY4_OFFSET       = BATTLER_DATASIZE * 7
+PLAYER1_OFFSET := BATTLER - BATTLER
+PLAYER2_OFFSET := BATTLER_PLAYER2 - BATTLER
+PLAYER3_OFFSET := BATTLER_PLAYER3 - BATTLER
+PLAYER4_OFFSET := BATTLER_PLAYER4 - BATTLER
+ENEMY1_OFFSET := BATTLER_ENEMY1 - BATTLER
+ENEMY2_OFFSET := BATTLER_ENEMY2 - BATTLER
+ENEMY3_OFFSET := BATTLER_ENEMY3 - BATTLER
+ENEMY4_OFFSET := BATTLER_ENEMY4 - BATTLER
 
-BATTLER_STATUS              = BATTLER + $1
+BATTLER_STATUS := BATTLER + battler_struct::status ;$600+1
     UNCON           = %10000000
     PETRIFICATION   = %01000000
     PARALYSIS       = %00100000
@@ -44,7 +226,7 @@ BATTLER_STATUS              = BATTLER + $1
     COLD            = %00000001
     NO_STATUS       = 0
 
-BATTLER_RESISTANCES         = BATTLER + $2
+BATTLER_RESISTANCES         := BATTLER + battler_struct::resistances
     IMMUNITY    = %10000000 ; Immune to status, off/def lowering, and PK Beam Gamma
     FIRE        = %01000000
     ICE         = %00100000
@@ -54,58 +236,58 @@ BATTLER_RESISTANCES         = BATTLER + $2
     LIGHT       = %00000010
     INSECT      = %00000001 ; not a resistance: if set, dies to Bug Sprays
 
-BATTLER_CURR_HP             = BATTLER + $3
-BATTLER_CURR_PP             = BATTLER + $5
-BATTLER_OFF                 = BATTLER + $7
+BATTLER_CURR_HP             := BATTLER + battler_struct::curr_hp
+BATTLER_CURR_PP             := BATTLER + battler_struct::curr_pp
+BATTLER_OFF                 := BATTLER + battler_struct::offense
     ; 2 hi bits are used to store enemy death effects (but not EVE's, cause fuck logic)
-    DEATHEFFECT_FLAMES      = $1
-    DEATHEFFECT_EXPLODE     = $2
-BATTLER_DEF                 = BATTLER + $9
+    DEATHEFFECT_FLAMES      = %01
+    DEATHEFFECT_EXPLODE     = %10
+BATTLER_DEF                 := BATTLER + battler_struct::defense
 
-BATTLER_CORES               = BATTLER + $B
-    BATTLER_FIT             = BATTLER_CORES
-    BATTLER_SPD             = BATTLER_CORES + $1
-    BATTLER_WIS             = BATTLER_CORES + $2
-    BATTLER_STR             = BATTLER_CORES + $3
-    BATTLER_FCE             = BATTLER_CORES + $4
+BATTLER_CORES               := BATTLER + battler_struct::fight
+    BATTLER_FIT             := BATTLER_CORES
+    BATTLER_SPD             := BATTLER + battler_struct::speed
+    BATTLER_WIS             := BATTLER + battler_struct::wisdom
+    BATTLER_STR             := BATTLER + battler_struct::strength
+    BATTLER_FCE             := BATTLER + battler_struct::force
 
 ; for enemies, $10 - $17 = moveset
-BATTLER_MOVESET             = BATTLER + $10
+BATTLER_MOVESET             := BATTLER + battler_struct::moveset
 
 ; for players, they are just used as variables
-BATTLER_TEMP_VARS           = BATTLER_MOVESET
-    BATTLER_INVENTORY_SLOT  = BATTLER_MOVESET           ; used when item being used; 0~7
-    BATTLER_PLAYER_ID       = BATTLER_MOVESET + $1
-        NINTEN              = $1
-        ANA                 = $2
-        LLOYD               = $3
-        TEDDY               = $4
-        PIPPI               = $5
-        EVE                 = $6
-        FLYING_MAN          = $7
+BATTLER_TEMP_VARS           := BATTLER + battler_struct::inventory_slot
+    BATTLER_INVENTORY_SLOT  := BATTLER + battler_struct::inventory_slot ; used when item being used; 0~7
+    BATTLER_PLAYER_ID       := BATTLER + battler_struct::player_id
+        NINTEN     = 1
+        ANA        = 2
+        LLOYD      = 3
+        TEDDY      = 4
+        PIPPI      = 5
+        EVE        = 6
+        FLYING_MAN = 7
     ; rest goes unused
 
 ; pointer to battler's full data, whether it be player (player data in ram) or enemy (enemy data from table)
-BATTLER_FULLDATA_PTR        = BATTLER + $18
+BATTLER_FULLDATA_PTR := BATTLER + battler_struct::fulldata
 
 ; Letter that Suffixes multiple battlers of same enemy, e.g. StarmanA, StarmanB
 ; lower 2 bits are used for other purposes, so every +4 = new letter
-BATTLER_LETTER              = BATTLER + $1A
+BATTLER_LETTER := BATTLER + battler_struct::enemy_letter
     ; 0 is no letter
-    BATTLER_LETTER_A        = $04
-    BATTLER_LETTER_B        = $08
-    BATTLER_LETTER_C        = $0C
-    BATTLER_LETTER_D        = $10
+    BATTLER_LETTER_A        = %00000100
+    BATTLER_LETTER_B        = %00001000
+    BATTLER_LETTER_C        = %00010000
+    BATTLER_LETTER_D        = %00100000
     ; has functionality for E and beyond
 
 ; $1B goes unused
 
 ; Targeting for Action
-BATTLER_TARGET              = BATTLER + $1C
+BATTLER_TARGET := BATTLER + battler_struct::target
 ; Changes to FF when action completed
-BATTLER_ACTION_ID           = BATTLER + $1D
+BATTLER_ACTION_ID := BATTLER + battler_struct::action
 ; Minor Status
-BATTLER_MINOR_STATUS        = BATTLER + $1E
+BATTLER_MINOR_STATUS := BATTLER + battler_struct::m_status
     BLIND       = %10000000
     BLOCK       = %01000000
     BIND        = %00100000
@@ -118,21 +300,27 @@ BATTLER_MINOR_STATUS        = BATTLER + $1E
 ; $1F goes unused
 ; ====================================================================================================
 
+UNK_700: .res $80
+
 ; SOUND STUFF: https://pastebin.com/F3hkv8Cw
 ; $0780 = Sound driver RAM
 
 ; Pointers used by music engine
 ; Yes, there are spaces of 2 bytes between each ptr. As far as I can tell, they are completely useless and go unused. Grrr....
-currptr_pulse0      = $0780     ; $0780 ~ 0781
-currptr_pulse1      = $0784     ; $0784 ~ 0785
-currptr_triangle    = $0788     ; $0787 ~ 0788
+
+currptr_pulse0: .res 2 ; $780
+currptr_pulse0_blank: .res 2 ; $782
+currptr_pulse1: .res 2 ; $0784
+currptr_pulse1_blank: .res 2 ; $0786
+currptr_triangle: .res 2 ; $0788
+currptr_triangle_blank: .res 2 ; $078A
 ; Noise & DPCM ptr is read straight from MusicHeader
-current_music = $078C ; Current music track
+current_music: .res 2 ; $078C / Current music track
+current_music_blank: .res 2 ; $078E
 
 
 
 ; Length    = 10 bytes
-; Area      = $0790 ~ $0799
 ; Music Header data from ROM is copied to here
 ; Format:
 ;   $0      : (signed) KeySig Modifier ($02 = 1 Half Step)
@@ -143,35 +331,33 @@ current_music = $078C ; Current music track
 ;   $8, $9  : PTR to Noise & DPCM data
 ;       DPCM uses upper 2 bits of a byte for data to rep. what sample to play (Snare and Kick Drum, don't remember which is which)
 ;       Noise uses the rest of the bits
-MusicHeader             = $0790
-    ME_Transpose = $0790                    ; Music transpose
-    ME_NoteLengthOffset = $0791             ; Music note length table offset
-    ME_DataPointer = $0792                  ; Music channel music data pointer (2 bytes per channel)
-    ME_Pulse1Channel = ME_DataPointer
-    ME_Pulse2Channel = ME_DataPointer+2
-    ME_TriangleChannel = ME_DataPointer+4
-    ME_NoiseChannel = ME_DataPointer+6
+MusicHeader: ; $0790
+    ME_Transpose: .res 1 ; Music transpose
+    ME_NoteLengthOffset: .res 1 ; $0791 / Music note length table offset
+    ME_DataPointer: ; $0792 / Music channel music data pointer (2 bytes per channel)
+    ME_Pulse1Channel: .res 2
+    ME_Pulse2Channel: .res 2
+    ME_TriangleChannel: .res 2
+    ME_NoiseChannel: .res 2
 
-; Length    = 3 bytes each
-; Area      = $079A ~ $079F
-ME_Envelopes            = $079a
-    ME_Envelopes0       = ME_Envelopes
-    ME_Envelopes1       = ME_Envelopes+3    ; $079D
+ME_Envelopes: ; $079a
+    ME_Envelopes0: .res 3
+    ME_Envelopes1: .res 3 ; $079D
 
 ;guess
-ME_CurrentPhrases = $07a0
-    ME_CurrentPulse1Phrase = ME_CurrentPhrases
-    ME_CurrentPulse2Phrase = ME_CurrentPhrases+2
-    ME_CurrentTrianglePhrase = ME_CurrentPhrases+4
-    ME_CurrentNoisePhrase = ME_CurrentPhrases+6
+ME_CurrentPhrases: ; $07a0
+    ME_CurrentPulse1Phrase: .res 2
+    ME_CurrentPulse2Phrase: .res 2 ; $07a2
+    ME_CurrentTrianglePhrase: .res 2 ; $07a4
+    ME_CurrentNoisePhrase: .res 2 ; $07a6
 
 ;guess
 ;if looped, sets head to loop point
-ME_CurrentPhraseIndex = $07a8
-    ME_Pulse1Index = ME_CurrentPhraseIndex
-    ME_Pulse2Index = ME_CurrentPhraseIndex+1
-    ME_TriangleIndex = ME_CurrentPhraseIndex+2
-    ME_NoiseIndex = ME_CurrentPhraseIndex+3
+ME_CurrentPhraseIndex: ; $07a8
+    ME_Pulse1Index: .res 1
+    ME_Pulse2Index: .res 1 ; $07a9
+    ME_TriangleIndex: .res 1 ; $07aa
+    ME_NoiseIndex: .res 1 ; $07ab
 
 ; Music Channel variables
 ; RAM reserved for the music engine to do its thing
@@ -183,11 +369,12 @@ ME_CurrentPhraseIndex = $07a8
 ;   $3 : Noise & DPCM
 
 ; Current Offset in Channel Music Banks
-MusicChannel_Counter = $07AC ; Music channel music data offset (added to $0792[x])
-MusicChannel_LSOffset = $07B0 ; Music channel loop start offset
-MusicChannel_NoteLengthCounter = $07B4 ; Music channel note length counter
-MusicChannel_NewNoteLength = $07B8 ; Music channel new note length
-MusicChannel_LoopCounter = $07BC ; Music channel loop counter
+MusicChannel_Counter: .res 4 ; $07AC / Music channel music data offset (added to $0792[x])
+MusicChannel_LSOffset: .res 4 ; $07B0 / Music channel loop start offset
+MusicChannel_NoteLengthCounter: .res 4 ; $07B4 / Music channel note length counter
+MusicChannel_NewNoteLength: .res 4 ; $07B8 / Music channel new note length
+MusicChannel_LoopCounter: .res 4 ; $07BC / Music channel loop counter
+UNK_7C0: .res $30
 ; $07C0 = Music channel sweep ($4001/$4005), not used for triangle and noise since sweep only exists for pulse
 
 ; $07C0 = Music channel sweep ($4001/$4005), not used for triangle and noise since sweep only exists for pulse
@@ -254,33 +441,44 @@ Track_Clear                 = $ff
 ;   $3 : Triangle SFX
 ;   $4 : Pulse SFX group 1 (ties in with there being 2 playSFX commands for objects)
 ;   $5 : Track (changes track on next mainloop)
-soundqueue                      = $07F0
-    soundqueue_noise            = soundqueue
-    soundqueue_pulseg0          = soundqueue+1
-    soundactive_unk             = soundqueue+2
-    soundqueue_triangle         = soundqueue+3
-    soundqueue_pulseg1          = soundqueue+4
-    soundqueue_track            = soundqueue+5
+soundqueue: ; $07F0
+    soundqueue_noise: .res 1
+    soundqueue_pulseg0: .res 1 ; $07F1
+    soundactive_unk: .res 1 ; $07F2
+    soundqueue_triangle: .res 1 ; $07F3
+    soundqueue_pulseg1: .res 1 ; $07F4
+    soundqueue_track: .res 1 ; $07F5
 
-disable_dmc = $07F7 ; If not zero, DMC is disabled
+UNK_7f6: .res 1
+
+disable_dmc: .res 1 ; $07F7 / If not zero, DMC is disabled
 
 
 ; Same format as soundqueue. Holds the current playing SFX/Track until it ends. Almost all tracks don't "end," but loop a large number of times, so the value gets stuck in there, effectively making it a clone of curr_track_id
-soundactive                     = $07F8
-    soundactive_noise           = soundactive
-    soundactive_pulseg0         = soundactive+1
-    soundactive_unknown         = soundactive+2
-    soundactive_triangle        = soundactive+3
-    soundactive_pulseg1         = soundactive+4
-    soundactive_track           = soundactive+5
+soundactive: ; $07F8
+    soundactive_noise: .res 1
+    soundactive_pulseg0: .res 1 ; $07F9
+    soundactive_unknown: .res 1 ; $07FA
+    soundactive_triangle: .res 1 ; $07FB
+    soundactive_pulseg1: .res 1 ; $07FC
+    soundactive_track: .res 1 ; $07FD
+
+UNK_7FE: .res 2
+UNK_800: .res $5800
 
 
+.segment "SRAM": absolute
+;sram start
+UNK_6000: .res $700
 
 ;todo: verify
 .ifdef VER_JP
+something = $6D00
 pc_count = $6D07
+unkx: .res 8
 .else
-pc_count = $6707
+something: .res 7
+pc_count: .res 1 ; $6707
 .endif
 
 ;;;; TODO: AREAS
@@ -394,9 +592,14 @@ pc_count = $6707
 ; EVENT FLAG 245 -> Learned Singing Monkey's melody
 ; EVENT FLAG 246 -> Learned Laura's melody
 ; EVENT FLAG 247 -> Learned Doll's melody
+UNK_6708: .res 8
+party_member_1_stats: .res $1e
+party_member_2_stats: .res 2
+UNK_6730: .res $1c
+party_member_3_stats: .res 4
+UNK_6750: .res $30
 
-object_memory  = $6780
-; $6780 - Object memory
+object_memory: .res $C80 ; $6780
 object_m_type = 0 ;byte
 object_m_area = 1 ;byte
 object_m_data_pointer = 2 ;word
@@ -420,35 +623,9 @@ object_m_playerTouch = $1b ;byte
 ;(-t---ddd => t=touched, d=direction player is facing)
 object_m_scriptOffset = $1c; byte
 object_m_unk2 = $1d ;3 bytes
+object_m_sizeof = $20
 
-; SRAM
-; EACH SAVED GAME TAKES 0x0300 BYTES
-; SAVED GAMES ARE STORED AT $7700, $7A00 and $7D00
-
-;save_slot            = $7402 ; TODO: CONFIRM AND LABEL
-;xpos_music           = $7404 ; xxxxxxxx.xxmmmmmm (x=xpos;m=music)
-;ypos_direction       = $7406 ; yyyyyyyy.yydddddd (y=ypos;d=direction)
-;party_members        = $7408 ; Array of party members (4 bytes)
-;save_coordinates     = $740C ; Saved game coordinates (copied from $7404, 4 bytes)
-;wallet_money         = $7410 ; Wallet money (2 bytes)
-;bank_money           = $7412 ; Bank money (3 bytes)
-;dad_money            = $7415 ; Money earned since last Dad call
-
-; response delay - stores no. of frames to lag after printing a battle msg
-; anything not named speed 5 (1 frame lag) is unbearably slow
-battle_message_responsedelay    = $7418
-
-;big_bag_uses         = $741F
-
-; Player Data ($40 bytes)
-Player_Data     = $7440
-Ninten_Data     = Player_Data
-Ana_Data        = $7480
-Lloyd_Data      = $74C0
-Teddy_Data      = $7500
-Pippi_Data      = $7540
-EVE_Data        = $7580
-FlyingMan_Data  = $75C0
+save_file_current: .res $200
 
 ; $00 : Unused (always 00)
 Status_Offset               = $1
@@ -481,7 +658,7 @@ PSILearned_Offset           = $30
 Name_Offset                 = $38
 ; Terminator_Offset         = $3F   ; always 00
 
-event_flags      = $7600
+event_flags = $7600
 learned_melodies = event_flags+$1e
 ; $7620[64] = UNKNOWN BITFLAGS
 
@@ -505,116 +682,11 @@ fav_food = $7689
 
 item_storage = $76B0
 
-repel_counter = $7419
 
 
-.segment        "ZP": zeropage
-; zeropage global variables
-UNK_0: .res 8
-melody_timer: .res 1 ; $8
-UNK_9: .res 3
-player_direction: .res 1 ;$C
-UNK_d: .res 1
-fade_type: .res 1 ;$E
-UNK_f: .res 1
-UNK_10: .res 8
-; $10 -> Field CHR bank 2
-; $11 -> $10 & 3
-; $12 -> Field CHR bank 3
-; $13 -> $12 & 3
-; $14 -> Current "tileset"?
-; $15 -> Current area??
-player_x: .res 2 ; $18
-player_y: .res 2 ; $1A
-UNK_1c: .res 4
-; $1F -> 1 when run button is held?
-fade_flag: .res 1 ; $20
-is_scripted: .res 1
-; $21 -> An object index?
-autowalk_direction: .res 1 ; $22 ; For cutscenes? If bit 4 is set, then walks through other objects
-is_tank: .res 1
-UNK_24: .res 2
-; $25 -> Cutscene flag? Doesn't allow run button and NPCs are frozen
-random_num: .res 2 ; $26
-UNK_28: .res 2
-global_wordvar: .res 2 ; $2A ; Object script 16-bit number
-UNK_2C: .res 4
-; $28 -> Object script character ID
-; $29 -> Object script item ID
-object_pointer: .res 2 ; $30 ; Pointer to object_memory
-object_data: .res 2 ; $32 ; Pointer to ROM object data
-UNK_34: .res 1
-; $34 -> Object script interaction type
-object_script_offset: .res 1 ; $35 ; TODO: APPLY ALL LABELS
-UNK_36: .res 8
-movement_direction: .res 2 ; $3E
-UNK_40: .res 8
-; $40 -> CHR bank 2 during IRQ?
-; $41 -> CHR bank 3 during IRQ?
-; $42 -> CHR bank 4 during IRQ? -- ALSO: Another party member? Seems related to $28
-; $43 -> CHR bank 5 during IRQ?
-; $46 -> Some scanline for IRQ?
-enemy_group: .res 1 ; $48
-UNK_49: .res 7
-; $4E -> Damage (16-bit) -- only during battle?
-UNK_50: .res $10
-; $53 -> Attacker offset -- in battles
-; $54 -> Target offset -- in battles
-; $58 -> Move type -- only during battle?
-UNK_60: .res $10
-UNK_70: .res $10
-UNK_80: .res 2
+save_file_fill: .res $100
 
-; Position of menu cursor in whole numbers, incrementing by 1 per step
-menucursor_pos: .res 2 ; $82
-UNK_84: .res 2
-menu_x_pos: .res 1 ; $86 ; X pos in whole numbers
-menu_y_pos: .res 1 ; $87 ; Y pos in whole numbers
-UNK_88: .res 8
-UNK_90: .res $10
-UNK_A0: .res $10
-unk_b0: .res 1 ; $b0
-unk_b1: .res 1 ; $b1
-unk_b2: .res 1 ; $b2
-unk_b3: .res 1 ; $b3
-unk_b4: .res 1 ; $b4
-UNK_b5: .res 1 ; $b5
-unk_b6: .res 2 ; $b6 ;two byte
-UNK_b8: .res 2 ; $b7
-unk_ba: .res 1 ; $ba
-unk_bb: .res 2 ; $bb ;SOMETIMES two byte???? lohi??? probably
-unk_bd: .res 1 ; $bd
-unk_be: .res 1 ; $be
-unk_bf: .res 1 ; $bf
-UNK_C0: .res $10
-; $a0 -> Player movement direction?
-; $aa -> X position for collision detection?
-; $ac -> Y position for collision detection?
-; $bb -> Something to do with music (2 bytes). Interacts with $07FF
-; $bd -> Current music channel? (1=noise, 2=pulse1, 3=pulse2, 4=triangle, 5=dmc)?
-frame_counter: .res 3 ; $d0 ; 24 bit
-UNK_D3: .res 7
-; $d3 -> How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the frame counter also stops counting (wtf...?)
-; $d7 has a JMP instruction (if zero, then don't jump)
-pad1_forced: .res 1 ; $da
-pad2_forced: .res 1 ; $db
-pad1_press: .res 1 ; $dc
-pad2_press: .res 1 ; $dd
-pad1_hold: .res 1 ; $de
-pad2_hold: .res 1 ; $df
-UNK_E0: .res $A
-nmi_flag: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running NMI handler ;ignores controller input while set
-UNK_EB: .res 2
-irq_index: .res 1 ; $ed ; IRQ routine index (multiple of 2)
-bankswitch_mode: .res 1 ; $ee ; Bankswitch "mode"  (-----mmm), $8000 MMC3 register
-bankswitch_flags: .res 1 ; $ef ; Bankswitch "flags" (ff------), $8000 MMC3 register
-current_banks: .res 1 ; $f0 ; Current banks for each "mode" (8 bytes)
-UNK_F1: .res $b
-; $F8, etc.
-scroll_x: .res 1 ; $fc
-scroll_y: .res 1 ; $fd
-ram_PPUMASK: .res 1 ; $fe
-ram_PPUCTRL: .res 1 ; $ff
+save_file_1: .res $300
+save_file_2: .res $300
+save_file_3: .res $300
 
-
-.segment        "RAM": absolute

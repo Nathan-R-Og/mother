@@ -173,39 +173,39 @@ SPRITEDEF_4E:
 spritePointerDef SPRITE_4E, $0, 0, 0, 0, 0
 SPRITEDEF_4F:
 spritePointerDef SPRITE_4F, $0, 0, 0, 0, 0
-SPRITEDEF_50:
+SPRITEDEF_50: ;flying man up
 spritePointerDef SPRITE_CHARUP1, $A0, 1, 2, 0, 0
-SPRITEDEF_51:
+SPRITEDEF_51: ;flying man up 2
 spritePointerDef SPRITE_CHARUP2, $A0, 1, 2, 0, 0
-SPRITEDEF_52:
+SPRITEDEF_52: ;flying man right
 spritePointerDef SPRITE_CHARRIGHT1, $A0, 1, 2, 0, 0
-SPRITEDEF_53:
+SPRITEDEF_53: ;flying man right 2
 spritePointerDef SPRITE_CHARRIGHT2, $A0, 1, 2, 0, 0
-SPRITEDEF_54:
+SPRITEDEF_54: ;flying man down
 spritePointerDef SPRITE_CHARDOWN1, $A0, 1, 2, 0, 0
-SPRITEDEF_55:
+SPRITEDEF_55: ;flying man down 2
 spritePointerDef SPRITE_CHARDOWN2, $A0, 1, 2, 0, 0
-SPRITEDEF_56:
+SPRITEDEF_56: ;flying man left
 spritePointerDef SPRITE_CHARLEFT1, $A0, 1, 2, 0, 0
-SPRITEDEF_57:
+SPRITEDEF_57: ;flying man left 2
 spritePointerDef SPRITE_CHARLEFT2, $A0, 1, 2, 0, 0
-SPRITEDEF_58:
+SPRITEDEF_58: ;EVE up
 spritePointerDef SPRITE_58, $80, 1, 1, 0, 0
-SPRITEDEF_59:
+SPRITEDEF_59: ;EVE up 2
 spritePointerDef SPRITE_58, $82, 1, 1, 0, 0
-SPRITEDEF_5A:
+SPRITEDEF_5A: ;EVE right
 spritePointerDef SPRITE_58, $84, 1, 1, 0, 0
-SPRITEDEF_5B:
+SPRITEDEF_5B: ;EVE right 2
 spritePointerDef SPRITE_58, $86, 1, 1, 0, 0
-SPRITEDEF_5C:
+SPRITEDEF_5C: ;EVE down
 spritePointerDef SPRITE_58, $88, 1, 1, 0, 0
-SPRITEDEF_5D:
+SPRITEDEF_5D: ;EVE down 2
 spritePointerDef SPRITE_58, $8A, 1, 1, 0, 0
-SPRITEDEF_5E:
+SPRITEDEF_5E: ;EVE left
 spritePointerDef SPRITE_58, $8C, 1, 1, 0, 0
-SPRITEDEF_5F:
+SPRITEDEF_5F: ;EVE left 2
 spritePointerDef SPRITE_58, $8E, 1, 1, 0, 0
-SPRITEDEF_60:
+SPRITEDEF_60: ;teleport fry
 spritePointerDef SPRITE_60, $68, 0, 0, 0, 0
 SPRITEDEF_61:
 spritePointerDef SPRITE_60, $68, 0, 0, 0, 0
@@ -1429,7 +1429,7 @@ SPRITEDEF_2BD:
 spritePointerDef SPRITE_60, $C6, 3, 3, 0, 0
 SPRITEDEF_2BE:
 spritePointerDef SPRITE_60, $C6, 1, 1, 1, 0
-SPRITEDEF_2BF:
+PLANE_SPRITEDEF:
 spritePointerDef SPRITE_2BF, $80, 1, 1, 1, 2
 SPRITEDEF_2C0:
 spritePointerDef SPRITE_2C0, $80, 1, 1, 1, 2
@@ -1445,7 +1445,7 @@ SPRITEDEF_2C5:
 spritePointerDef SPRITE_2C5, $80, 1, 1, 1, 2
 SPRITEDEF_2C6:
 spritePointerDef SPRITE_2C6, $80, 1, 1, 1, 2
-SPRITEDEF_2C7:
+TANK_SPRITEDEF:
 spritePointerDef SPRITE_2C7, $E0, 0, 0, 0, 0
 SPRITEDEF_2C8:
 spritePointerDef SPRITE_2C8, $E0, 0, 0, 0, 0
@@ -1461,7 +1461,7 @@ SPRITEDEF_2CD:
 spritePointerDef SPRITE_2CD, $E0, 0, 0, 0, 0
 SPRITEDEF_2CE:
 spritePointerDef SPRITE_2CE, $E0, 0, 0, 0, 0
-SPRITEDEF_2CF:
+BOAT_SPRITEDEF:
 spritePointerDef SPRITE_2C7, $A0, 3, 3, 1, 7
 SPRITEDEF_2D0:
 spritePointerDef SPRITE_2C8, $A0, 3, 3, 1, 7
@@ -2354,13 +2354,17 @@ spriteTile $18, $18, 0, 4, 0, 1, 0, $85
 spriteTile $18, $20, 0, 4, 0, 0, 1, $85
 spriteTile $10, $28, 0, 4, 0, 1, 0, $85
 spriteTile $18, $28, 0, 4, 0, 0, 0, $85
-spriteTile $CC, $96, 0, 1, 0, 0, 0, $00
-spriteTile $CC, $96, 0, 2, 0, 0, 0, $00
-spriteTile $CC, $96, 0, 3, 0, 0, 0, $00
-spriteTile $CC, $96, 0, 0, 0, 1, 0, $00
-spriteTile $CC, $96, 0, 1, 0, 1, 0, $00
-spriteTile $CC, $96, 0, 2, 0, 1, 0, $00
-spriteTile $CC, $96, 0, 3, 0, 1, 0, $00
+
+SPRITEDEF_EARTH:
+spritePointerDef SPRITE_EARTH, 4, 0, 0, 0, 0
+spritePointerDef SPRITE_EARTH, 8, 0, 0, 0, 0
+spritePointerDef SPRITE_EARTH, $c, 0, 0, 0, 0
+spritePointerDef SPRITE_EARTH, $40, 0, 0, 0, 0
+spritePointerDef SPRITE_EARTH, $44, 0, 0, 0, 0
+spritePointerDef SPRITE_EARTH, $48, 0, 0, 0, 0
+spritePointerDef SPRITE_EARTH, $4c, 0, 0, 0, 0
+
+SPRITE_EARTH:
 spriteTile $00, $00, 0, 4, 0, 0, 0, $00
 spriteTile $08, $00, 0, 4, 0, 0, 0, $01
 spriteTile $10, $00, 0, 4, 0, 0, 0, $02
@@ -2377,52 +2381,66 @@ spriteTile $00, $18, 0, 4, 0, 0, 0, $30
 spriteTile $08, $18, 0, 4, 0, 0, 0, $31
 spriteTile $10, $18, 0, 4, 0, 0, 0, $32
 spriteTile $18, $18, 0, 4, 0, 0, 0, $33
-spriteTile $18, $97, 1, 3, 1, 1, 0, $00
-spriteTile $18, $97, 2, 3, 1, 1, 0, $00
-spriteTile $30, $97, 0, 0, 0, 0, 0, $00
+
+SPRITEDEF_UNK_MISPLACED:
+spritePointerDef SPRITEDEF_UNK_MISPLACED_TILES, $6D, 0, 0, 0, 0
+spritePointerDef SPRITEDEF_UNK_MISPLACED_TILES, $6E, 0, 0, 0, 0
+spritePointerDef SPRITEDEF_UNK_MISPLACED_TILES2,  0, 0, 0, 0, 0
+
+SPRITEDEF_UNK_MISPLACED_TILES:
 spriteTile $00, $00, 0, 4, 1, 0, 0, $00
 spriteTile $08, $00, 0, 4, 1, 0, 0, $00
 spriteTile $10, $00, 0, 4, 1, 0, 0, $00
 spriteTile $18, $00, 0, 4, 1, 0, 0, $00
 spriteTile $20, $00, 0, 4, 1, 0, 0, $00
 spriteTile $28, $00, 0, 4, 1, 0, 0, $00
+
+SPRITEDEF_UNK_MISPLACED_TILES2:
 spriteTile $00, $00, 0, 4, 0, 0, 0, $6F
 spriteTile $08, $00, 0, 4, 0, 0, 0, $7D
 spriteTile $10, $00, 0, 4, 0, 0, 0, $7E
 spriteTile $18, $00, 0, 4, 0, 0, 0, $7F
-spriteTile $80, $97, 0, 0, 0, 0, 0, $39
-spriteTile $90, $97, 0, 0, 0, 0, 0, $39
-spriteTile $A0, $97, 0, 0, 0, 0, 0, $39
-spriteTile $B4, $97, 0, 0, 0, 0, 0, $39
-spriteTile $C4, $97, 0, 0, 0, 0, 0, $39
-spriteTile $04, $98, 0, 0, 0, 0, 0, $39
-spriteTile $64, $98, 0, 0, 0, 0, 0, $39
-spriteTile $88, $98, 0, 0, 0, 0, 0, $39
-spriteTile $A4, $98, 0, 0, 0, 0, 0, $39
-spriteTile $B8, $98, 0, 0, 0, 0, 0, $39
-spriteTile $C8, $98, 0, 0, 0, 0, 0, $39
-spriteTile $D8, $98, 0, 0, 0, 0, 0, $39
-spriteTile $F4, $98, 0, 0, 0, 0, 0, $39
-spriteTile $F8, $98, 0, 0, 0, 0, 0, $39
-spriteTile $18, $99, 0, 0, 0, 0, 0, $39
-spriteTile $A0, $99, 0, 0, 0, 0, 0, $39
+
+SPRITEDEF_UNK2_MISPLACED:
+spritePointerDef   SPRITEDEF_UNK2_MISPLACED_TILES, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES2, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES3, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES4, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES5, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES6, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES7, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES8, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES9, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILESA, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILESB, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILESC, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILESD, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILESE, 0, 1, 2, 1, 1
+spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILESF, 0, 1, 2, 1, 1
+spritePointerDef SPRITEDEF_UNK2_MISPLACED_TILES10, 0, 1, 2, 1, 1
+
+SPRITEDEF_UNK2_MISPLACED_TILES:
 spriteTile $0F, $0C, 0, 4, 0, 0, 0, $20
 spriteTile $17, $0C, 0, 4, 0, 0, 0, $21
 spriteTile $20, $0C, 0, 4, 0, 1, 0, $21
 spriteTile $28, $0C, 0, 4, 0, 1, 0, $20
+SPRITEDEF_UNK2_MISPLACED_TILES2:
 spriteTile $0F, $0C, 0, 4, 0, 0, 0, $30
 spriteTile $17, $0C, 0, 4, 0, 0, 0, $31
 spriteTile $20, $0C, 0, 4, 0, 1, 0, $31
 spriteTile $28, $0C, 0, 4, 0, 1, 0, $30
+SPRITEDEF_UNK2_MISPLACED_TILES3:
 spriteTile $10, $20, 0, 4, 0, 0, 0, $01
 spriteTile $10, $28, 0, 4, 0, 0, 0, $11
 spriteTile $40, $18, 0, 4, 0, 0, 0, $03
 spriteTile $48, $18, 0, 4, 0, 0, 0, $04
 spriteTile $48, $20, 0, 4, 0, 0, 0, $14
+SPRITEDEF_UNK2_MISPLACED_TILES4:
 spriteTile $28, $28, 1, 4, 0, 0, 0, $29
 spriteTile $30, $28, 1, 4, 0, 0, 0, $2A
 spriteTile $28, $30, 1, 4, 0, 0, 0, $39
 spriteTile $30, $30, 1, 4, 0, 0, 0, $3A
+SPRITEDEF_UNK2_MISPLACED_TILES5:
 spriteTile $10, $18, 0, 4, 0, 0, 0, $07
 spriteTile $18, $18, 0, 4, 0, 0, 0, $08
 spriteTile $10, $20, 0, 4, 0, 0, 0, $17
@@ -2439,6 +2457,7 @@ spriteTile $28, $28, 2, 4, 0, 0, 0, $29
 spriteTile $30, $28, 2, 4, 0, 0, 0, $2A
 spriteTile $28, $30, 2, 4, 0, 0, 0, $39
 spriteTile $30, $30, 2, 4, 0, 0, 0, $3A
+SPRITEDEF_UNK2_MISPLACED_TILES6:
 spriteTile $10, $18, 0, 4, 0, 0, 0, $07
 spriteTile $18, $18, 0, 4, 0, 0, 0, $08
 spriteTile $10, $20, 0, 4, 0, 0, 0, $17
@@ -2463,6 +2482,7 @@ spriteTile $28, $28, 2, 4, 0, 0, 0, $29
 spriteTile $30, $28, 2, 4, 0, 0, 0, $2A
 spriteTile $28, $30, 2, 4, 0, 0, 0, $39
 spriteTile $30, $30, 2, 4, 0, 0, 0, $3A
+SPRITEDEF_UNK2_MISPLACED_TILES7:
 spriteTile $18, $28, 0, 4, 0, 0, 0, $1D
 spriteTile $10, $30, 0, 4, 0, 0, 0, $0C
 spriteTile $18, $30, 0, 4, 0, 0, 0, $0D
@@ -2472,6 +2492,7 @@ spriteTile $28, $20, 1, 4, 0, 0, 0, $0E
 spriteTile $30, $20, 1, 4, 0, 0, 0, $0F
 spriteTile $28, $28, 1, 4, 0, 0, 0, $1E
 spriteTile $30, $28, 1, 4, 0, 0, 0, $1F
+SPRITEDEF_UNK2_MISPLACED_TILES8:
 spriteTile $18, $18, 0, 4, 0, 0, 0, $10
 spriteTile $10, $20, 0, 4, 0, 0, 0, $02
 spriteTile $18, $20, 0, 4, 0, 0, 0, $00
@@ -2479,19 +2500,23 @@ spriteTile $10, $28, 0, 4, 0, 0, 0, $12
 spriteTile $28, $20, 0, 4, 0, 0, 0, $13
 spriteTile $20, $28, 0, 4, 0, 0, 0, $19
 spriteTile $28, $28, 0, 4, 0, 0, 0, $1A
+SPRITEDEF_UNK2_MISPLACED_TILES9:
 spriteTile $10, $18, 1, 4, 0, 0, 0, $40
 spriteTile $20, $18, 1, 4, 0, 0, 0, $41
 spriteTile $18, $38, 1, 4, 0, 0, 0, $42
 spriteTile $20, $38, 1, 4, 0, 0, 0, $43
 spriteTile $28, $38, 1, 4, 0, 0, 0, $44
+SPRITEDEF_UNK2_MISPLACED_TILESA:
 spriteTile $10, $10, 0, 4, 0, 0, 0, $09
 spriteTile $18, $10, 0, 4, 0, 0, 0, $0A
 spriteTile $28, $10, 0, 4, 0, 0, 0, $0B
 spriteTile $28, $18, 0, 4, 0, 0, 0, $1B
+SPRITEDEF_UNK2_MISPLACED_TILESB:
 spriteTile $28, $2F, 2, 4, 0, 0, 0, $45
 spriteTile $30, $2F, 2, 4, 0, 0, 0, $46
 spriteTile $28, $37, 2, 4, 0, 0, 0, $47
 spriteTile $30, $37, 2, 4, 0, 0, 0, $48
+SPRITEDEF_UNK2_MISPLACED_TILESC:
 spriteTile $38, $20, 0, 4, 0, 0, 0, $49
 spriteTile $40, $20, 0, 4, 0, 0, 0, $4A
 spriteTile $40, $28, 0, 4, 0, 0, 0, $4B
@@ -2499,7 +2524,9 @@ spriteTile $18, $10, 1, 4, 0, 0, 0, $4C
 spriteTile $20, $10, 1, 4, 0, 0, 0, $4D
 spriteTile $18, $18, 1, 4, 0, 0, 0, $0E
 spriteTile $20, $18, 1, 4, 0, 0, 0, $4F
+SPRITEDEF_UNK2_MISPLACED_TILESD:
 spriteTile $20, $10, 0, 4, 0, 0, 0, $22
+SPRITEDEF_UNK2_MISPLACED_TILESE:
 spriteTile $10, $10, 1, 4, 0, 0, 0, $23
 spriteTile $18, $10, 1, 4, 0, 0, 0, $24
 spriteTile $20, $10, 1, 4, 0, 0, 0, $25
@@ -2508,6 +2535,7 @@ spriteTile $10, $18, 1, 4, 0, 0, 0, $33
 spriteTile $18, $18, 1, 4, 0, 0, 0, $34
 spriteTile $20, $18, 1, 4, 0, 0, 0, $35
 spriteTile $28, $18, 1, 4, 0, 0, 0, $36
+SPRITEDEF_UNK2_MISPLACED_TILESF:
 spriteTile $28, $10, 1, 4, 0, 0, 0, $58
 spriteTile $30, $10, 1, 4, 0, 0, 0, $59
 spriteTile $28, $18, 1, 4, 0, 0, 0, $68
@@ -2542,6 +2570,7 @@ spriteTile $58, $38, 0, 4, 0, 0, 0, $67
 spriteTile $48, $40, 0, 4, 0, 0, 0, $75
 spriteTile $50, $40, 0, 4, 0, 0, 0, $76
 spriteTile $58, $40, 0, 4, 0, 0, 0, $77
+SPRITEDEF_UNK2_MISPLACED_TILES10:
 spriteTile $10, $10, 1, 4, 0, 0, 0, $05
 spriteTile $18, $10, 1, 4, 0, 0, 0, $06
 spriteTile $10, $18, 1, 4, 0, 0, 0, $15
@@ -2550,14 +2579,19 @@ spriteTile $30, $10, 1, 4, 0, 1, 0, $06
 spriteTile $38, $10, 1, 4, 0, 1, 0, $05
 spriteTile $30, $18, 1, 4, 0, 1, 0, $16
 spriteTile $38, $18, 1, 4, 0, 1, 0, $15
-spriteTile $C8, $99, 0, 0, 0, 0, 0, $01
-spriteTile $E0, $99, 0, 0, 0, 0, 0, $01
+
+SPRITEDEF_UNK3_MISPLACED:
+spritePointerDef  SPRITEDEF_UNK3_MISPLACED_TILES, 0, 1, 0, 0, 0
+spritePointerDef SPRITEDEF_UNK3_MISPLACED_TILES2, 0, 1, 0, 0, 0
+
+SPRITEDEF_UNK3_MISPLACED_TILES:
 spriteTile $10, $20, 0, 4, 0, 0, 0, $6A
 spriteTile $18, $20, 0, 4, 0, 0, 0, $6B
 spriteTile $20, $20, 0, 0, 0, 0, 0, $00
 spriteTile $10, $28, 0, 4, 0, 0, 0, $7A
 spriteTile $18, $28, 0, 4, 0, 0, 0, $7B
 spriteTile $20, $28, 0, 4, 0, 0, 0, $7C
+SPRITEDEF_UNK3_MISPLACED_TILES2:
 spriteTile $08, $20, 0, 4, 0, 0, 0, $6D
 spriteTile $10, $20, 0, 4, 0, 0, 0, $6A
 spriteTile $18, $20, 0, 4, 0, 0, 0, $6B

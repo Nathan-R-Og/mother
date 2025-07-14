@@ -31,7 +31,7 @@ intro := $9400
 ; $C000
 ; DPCM samples
 ;kick
-B30_0000:
+sample_kick:
     .byte $ff
     .byte $ff
     .byte $ff
@@ -119,7 +119,7 @@ B30_0071:
     .byte $00
     .byte $00
 ;snare
-B30_0080:
+sample_snare:
     .byte $ff
     .byte $b7
     .byte $20, $0b, $00
@@ -310,20 +310,28 @@ B30_0171:
     .byte $00
 
     .ifdef VER_JP
-    .byte $00,$01,$02,$01,$00,$FF,$FE,$FF,$14,$93,$94,$D3,$31,$3A,$42,$4A
-    .byte $58,$63,$76,$85,$96,$B2,$C8,$EE,$00,$0C,$2D,$67,$93,$DF,$FF
+GiegueAttack_PeriodDifferences:
+    .byte $00,$01,$02,$01,$00,$FF,$FE,$FF
+Purchase_Volumes:
+    .byte $14,$93,$94,$D3
+Freeze_Periods:
+    .byte $31,$3A,$42,$4A,$58,$63,$76,$85,$96,$B2,$C8,$EE,$00,$0C,$2D,$67,$93,$DF,$FF
     .endif
 
-
+C1NybbleTables:
+B30_0181:
     .byte $ed, $ba, $98
     .byte $76, $78
     .byte $97
     .byte $ab
-    .byte $cd, $a7, $47
+    .byte $cd
+B30_0189:
+    .byte $a7, $47
     .byte $76, $48
     .byte $45, $66
     .byte $77
     .byte $89
+B30_0191:
     .byte $fc
     .byte $97
     .byte $64
@@ -335,13 +343,16 @@ B30_0171:
     .byte $45, $67
     .byte $89
     .byte $ab
-    .byte $cd, $ef, $fe
+    .byte $cd, $ef
+B30_01A1:
+    .byte $fe
     .byte $a9, $ed
     .byte $fd, $79, $bd
     .byte $fe, $d9, $45
     .byte $78
     .byte $99, $aa, $bb
     .byte $cc, $dd, $ef
+B30_01B1:
     .byte $7a
     .byte $de, $ff, $ef
     .byte $fd, $df, $fe
@@ -370,6 +381,7 @@ B30_0171:
     .byte $ff
     .endif
 
+B30_01D1:
     .byte $bf
     .byte $ff
     .byte $ee, $ee, $ed
@@ -412,6 +424,8 @@ B30_0171:
     .byte $ff
     .byte $ff
     .endif
+
+.assert >B30_01D1 = >C1NybbleTables, error, "C1 nybble tables not all in same page"
 
 ; THIS HERE IS CODE.
 B30_0200:
@@ -578,7 +592,7 @@ B30_024F:
 
 
 ; DATA NOW!
-B30_022c:
+control_codes:
     .byte $00 ; 00 stopText
     .byte $01 ; 01 newLine
     .byte $02 ; 02 waitThenOverwrite
@@ -824,7 +838,7 @@ BankswitchLower_Bank00:
 
 
 ; $C329 - Unknown
-B30_0329:
+party_menu_1char:
     .byte set_pos 1, 23
     .byte print_string $952f
     .byte $01, $c1, $16
@@ -833,11 +847,11 @@ B30_0329:
     .byte $c1,$18,$83
     .byte repeatTile $84, $1c
     .byte $85
-    B30_033d:
+    party_menu_nochar:
     .byte $00
 
 ; $C33E - Unknown
-B30_033e:
+party_menu_2char:
     .byte set_pos 1, 21
     .byte print_string $952f
     .byte $01, $c1, $14
@@ -851,7 +865,7 @@ B30_033e:
     .byte $00
 
 ; $C359 - Unknown
-B30_0359:
+party_menu_3char:
     .byte set_pos 1, 19
     .byte print_string $952f
     .byte $01, $c1, $12
@@ -1288,13 +1302,6 @@ F3C6D4:
     asl $E2
     rts
 
-
-.ifdef VER_JP
-something = $6D00
-.else
-something = $6700
-.endif
-
 B30_0542:
     jsr EnablePRGRam
     ldx #$10
@@ -1333,10 +1340,10 @@ B30_0542:
     bne B30_0572
     pla
     tay
-    lda B30_061e, y
+    lda battle_status_string_lut, y
     sta something, x
     inx
-    lda B30_061e+1, y
+    lda battle_status_string_lut+1, y
     sta something, x
     inx
     ldy #$1b
@@ -1397,9 +1404,9 @@ B30_0542:
     lda #$00
     B30_05ee:
     sta something+$d
-    lda B30_0616, x
+    lda party_menu_layouts, x
     sta something+1
-    lda B30_0616+1, x
+    lda party_menu_layouts+1, x
     sta something+2
     lda something+$13
     sta something+$b
@@ -1412,13 +1419,13 @@ B30_0542:
     jmp WriteProtectPRGRam
 
 
-B30_0616:
-    .addr B30_033d ; 0 characters
-    .addr B30_0329 ; 1 character
-    .addr B30_033e ; 2 characters
-    .addr B30_0359 ; 3 characters
+party_menu_layouts:
+    .addr party_menu_nochar ; 0 characters
+    .addr party_menu_1char ; 1 character
+    .addr party_menu_2char ; 2 characters
+    .addr party_menu_3char ; 3 characters
 
-B30_061e:
+battle_status_string_lut:
     .addr STATUS_COLD ; "  Cold"
     .addr STATUS_POISON ; "Poison"
     .addr STATUS_PUZZLD ; "Puzzld"
@@ -2166,7 +2173,7 @@ B30_0a5c:
     cmp #$40
     bcs B30_0a7b
     tay
-    lda B30_022c, y
+    lda control_codes, y
     ldy $7a
     cmp #$80
     bcs B30_0a7b
@@ -2201,7 +2208,7 @@ B30_0a7c:
 
     tay
     ;load index in control codes
-    lda B30_022c, y
+    lda control_codes, y
     ;pop y
     ldy $7a
 
@@ -4752,16 +4759,15 @@ DoLevelUp:
     sta ($38), y
     jsr B30_043f
     jsr EnablePRGRam
-    lda #$ff
+    lda #Track_Clear
     jsr PlayMusic
-    lda #$1f
+    lda #Track_LevelUp
     jsr PlayMusic
-    lda #$82
+    lda #$82                    ; "[Name] leveled up!"
     jsr DisplayText_battle
     jsr B30_1cdf
     ldy #$03
-    B30_1b93:
-    jsr Rand
+:   jsr Rand
     lsr a
     lsr a
     lsr a
@@ -4774,9 +4780,9 @@ DoLevelUp:
     sta $55, y
     iny
     cpy #$08
-    bcc B30_1b93
+    bcc :-
     ldy #$0b
-    @CoreStatsLoop:
+@CoreStatsLoop:
     clc
     lda ($38), y
     adc $4D, y
@@ -4785,20 +4791,20 @@ DoLevelUp:
     eor #$ff
     sta $4D, y
     lda #$ff
-    @IncCoreStats:
+@IncCoreStats:
     sta ($38), y
     lda $4D, y
-    beq B30_1bcd
+    beq :+
     tya
     pha
     clc
-    adc #$7b
+    adc #$7b                        ; "Fight went up [Num]!"
     jsr DisplayText_battle
     pla
     tay
-    B30_1bcd:
-    iny
-    cpy #$10
+; @IncrementLoop
+:   iny
+    cpy #Fce_Offset + 1             ; stop when Y is past core stats offset
     bcc @CoreStatsLoop
     ldy #$07
     lda $58
@@ -4810,13 +4816,12 @@ DoLevelUp:
     lda ($38), y
     sta $60
     clc
-    adc #$14
-    bcc B30_1bed
-    lda #$ff
-    B30_1bed:
-    ldy #$03
+    adc #20                         ; target val for hp = 20 + 2*Str
+    bcc :+
+    lda #255                        ; target val for hp = 255 + Str
+:   ldy #HP_Offset
     jsr SaveTargetVal
-    lda #$84
+    lda #$84                        ; "HP went up [Num]!"
     jsr TryPrintPointsIncrease
     lda $28
     cmp #$03
@@ -4828,7 +4833,7 @@ DoLevelUp:
     clc
     ldy #$05
     jsr SaveTargetVal
-    lda #$85
+    lda #$85                        ; "PP went up [Num]!"
     jsr TryPrintPointsIncrease
     B30_1c0f:
     clc
@@ -4837,22 +4842,24 @@ DoLevelUp:
 StoreRewardMoney:
     clc
     lda $4c
-    adc $7400, x
-    sta $7400, x
+    adc starting_sram, x
+    sta starting_sram, x
     lda $4d
-    adc $7401, x
-    sta $7401, x
+    adc starting_sram+1, x
+    sta starting_sram+1, x
     lda #$00
-    adc $7402, x
-    sta $7402, x
+    adc starting_sram+2, x
+    sta starting_sram+2, x
     bcc B30_1c37
     lda #$ff
-    sta $7400, x
-    sta $7401, x
-    sta $7402, x
+    sta starting_sram, x
+    sta starting_sram+1, x
+    sta save_slot, x
     B30_1c37:
     rts
 
+; Try printing HP, PP went up [Num]!
+; Prints nothing if increase is 0.
 TryPrintPointsIncrease:
     ldx $5d
     beq SaveTargetValRTS
@@ -4872,12 +4879,11 @@ SaveTargetVal:
     iny
     lda $61
     sbc ($38), y
-    beq B30_1c5c
+    beq :+
     ldx #$08
-    bcs B30_1c5c
+    bcs :+
     ldx #$01
-    B30_1c5c:
-    dey
+:   dey
     txa
     asl a
     jsr B30_1c71
@@ -4890,7 +4896,7 @@ SaveTargetVal:
     lda #$00
     adc ($38), y
     sta ($38), y
-    SaveTargetValRTS:
+SaveTargetValRTS:
     rts
 
 B30_1c71:

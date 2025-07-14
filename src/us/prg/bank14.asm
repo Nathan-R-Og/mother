@@ -835,7 +835,7 @@ B20_1630:
     sta $60
     B20_164d:
     ldx $60
-    lda B20_16f1, x
+    lda Battle_circle, x
     cmp #$ff
     beq B20_1675_escape_loop
     lsr a
@@ -843,7 +843,7 @@ B20_1630:
     lsr a
     lsr a
     sta $61 ;store high nybble in $61 (could just be an and #%11110000???)
-    lda B20_16f1, x
+    lda Battle_circle, x
     and #%00001111
     sta $62 ;store low nybble in $62
     jsr B20_1685
@@ -924,7 +924,7 @@ B20_1685:
     rts
 
 ; $96F1 - battle circle
-B20_16f1:
+Battle_circle:
     .byte $00
     ;ringlayer high     ;ring layer????
     ;each nybble represents a layer
@@ -975,34 +975,44 @@ B20_1779:
 B20_17a3:
     lda #$0e
     jsr B20_1920
+
     lda #.LOBYTE(B20_19d5)
     ldx #.HIBYTE(B20_19d5)
     jsr B20_17d6
+
+    ;clear music?
     lda #$ff
     jsr PlayMusic
+
     lda #.LOBYTE(B20_19e0)
     ldx #.HIBYTE(B20_19e0)
     jsr B20_17d6
-    lda #$09
+
+    lda #9
     sta $07f0
-    lda #$01
+
+    lda #1
     sta $07f4
+
     lda #.LOBYTE(B20_19e9)
     ldx #.HIBYTE(B20_19e9)
     jsr B20_17d6
 
+    ;swap to credits
     lda #$1a
     ldx #BANK::PRGA000
     jsr BANK_SWAP
-    jmp B26_0000
+    jmp Credits_Entry
 
 B20_17d6:
     sta $68
     stx $69
-    ldy #$00
+
+    ldy #0
     sty $6b
     B20_17de:
     lda ($68), y
+    ;break if 0
     beq B20_183c
     sta $6c
     iny
@@ -1020,7 +1030,7 @@ B20_17d6:
     and #$03
     beq B20_1808
     tax
-    lda B20_1a05, x
+    lda GiegueCliff_BGFlash, x
     jsr FillBackgroundColor
     jsr WaitFrame
     lda #$0f
@@ -1222,7 +1232,7 @@ B20_1920:
     lda #$54
     jsr B20_19ad
 
-    BankswitchCHR_Address B20_19f9
+    BankswitchCHR_Address GiegueCliff_CHR
 
     lda #$01
     sta $e5
@@ -1240,19 +1250,19 @@ B20_1920:
     bpl B20_195b
     jsr B20_198b
     ldx #$03
-    B20_1970:
+    @B20_1970:
     lda B20_1a09, x
     sta $0540, x
     dex
-    bpl B20_1970
+    bpl @B20_1970
     lda #$9f
     sta $ec
     ldx #$1f
-    B20_197f:
-    lda B20_1a0d, x
+    @copy:
+    lda GiegueCliff_BGPal, x
     sta $0520, x
     dex
-    bpl B20_197f
+    bpl @copy
     jmp B31_0e30
 
 B20_198b:
@@ -1335,27 +1345,31 @@ B20_19f2:
     .byte $04,$80,$00,$a9,$a9,$ab,$aa
 
 ; $99F9 - CHR bank table
-B20_19f9:
+;mainchar - evemisc - gieguecliff1 - gieguecliff2 - gieguecliff3 - gieguecliff4
+GiegueCliff_CHR:
     .byte $76, $70, $50, $51, $52, $53
 
 ; $99FF - CHR bank table
-B20_19ff:
+;mainchar - evemisc - jpcred1 - jpcred2 - jpcred3 - jpcred4
+Credits_CHR:
     .byte $76, $70, $48, $49, $4a, $4b
 
-; $9A05 - Unknown background fill colors
-B20_1a05:
+; $9A05 - Giegue background flash colors
+;transparent - yellow - light blue - pink
+GiegueCliff_BGFlash:
     .byte $0f, $38, $21, $34
 
 ; $9A09 - Unknown
 B20_1a09:
     .byte $ca, $ed, $00, $00
 
-; $9A0D - Unknown palette
-B20_1a0d:
+; $9A0D
+GiegueCliff_BGPal:
     .byte $0f, $12, $30, $00
     .byte $0f, $10, $30, $00
     .byte $0f, $17, $37, $16
     .byte $0f, $38, $30, $00
+    ;this is just the generic sprite palette
     .byte $0f, $0f, $00, $30
     .byte $0f, $0f, $16, $37
     .byte $0f, $0f, $24, $37
@@ -1866,11 +1880,11 @@ B20_1d60:
     stx scroll_y
     sty scroll_x
 
-    BankswitchCHR_Address B20_1e63
+    BankswitchCHR_Address Title_CHR_Old
 
-    lda #.LOBYTE(B20_1e6f)
+    lda #.LOBYTE(Title_Palette_Old)
     sta $60
-    lda #.HIBYTE(B20_1e6f)
+    lda #.HIBYTE(Title_Palette_Old)
     sta $61
     jsr LoadPaletteFrom
 
@@ -1900,52 +1914,80 @@ B20_1d60:
     ldx #.HIBYTE(presented_by_tiles)
     jsr DoIntroTransition
 
-    lda #.LOBYTE(B20_1e8f)
+    lda #.LOBYTE(Title_Palette)
     sta $60
-    lda #.HIBYTE(B20_1e8f)
+    lda #.HIBYTE(Title_Palette)
     sta $61
     jsr LoadPaletteFrom
 
     jsr OT0_DefaultTransition
 
-    BankswitchCHR_Address B20_1e69
+    BankswitchCHR_Address Title_CHR
 
     lda #.LOBYTE(title_screen_tiles)
     ldx #.HIBYTE(title_screen_tiles)
     jsr B20_1e44
 
+    earth_oam = shadow_something+$e0
+    ;get stuff set up for the earth animation
     lda #0
     sta $60
-    lda #$10
-    sta $03e0
+
+    ;7 = ?
+    ;6 = ?
+    ;tiles = 16
+    lda #16
+    sta earth_oam+0
+
+    ;blank out
+    ;- oam
+    ;- pointer 1
     lda #0
-    sta $03e1
-    sta $03e4
-    sta $03e5
-    lda #$58
-    sta $03e2
-    lda #$57
-    sta $03e3
+    sta earth_oam+1
+    sta earth_oam+4
+    sta earth_oam+5
+
+    ;set x
+    lda #88
+    sta earth_oam+2
+
+    ;set y
+    lda #87
+    sta earth_oam+3
+
+    ;reset input?
     lda #0
     sta pad1_forced
-    B20_1ded:
+
+    ;$60 is used here to keep track of the current 'frame'.
+    @anim_loop:
     clc
+
+    ;get current frame
     lda $60
-    adc #$b0
-    sta $03e6
-    lda #$00
-    adc #$96
-    sta $03e7
-    lda #$0a
+    ;+= .LOBYTE(SPRITEDEF_EARTH)
+    adc #.LOBYTE(SPRITEDEF_EARTH)
+    sta earth_oam+6
+    ;why isnt this just a lda #.HIBYTE(SPRITEDEF_EARTH)????
+    lda #0
+    adc #.HIBYTE(SPRITEDEF_EARTH)
+    sta earth_oam+7
+
+    lda #10
     sta $e5
     clc
+
+    ;tiles += 4
     lda $60
-    adc #$04
+    adc #4
+
+    ;if $60 is at 1c it should be 0. set accordingly
     cmp #$1c
-    bne B20_1e0b
+    bne @skip_reset
     lda #0
-    B20_1e0b:
+    @skip_reset:
     sta $60
+
     @wait_for_start:
     ;check if start pressed at title
     lda pad1_forced
@@ -1954,7 +1996,7 @@ B20_1d60:
     lda $e5
     ora $e0
     bne @wait_for_start
-    beq B20_1ded
+    beq @anim_loop
     @escape:
     ldx #0
     stx pad1_forced
@@ -2010,15 +2052,17 @@ AdvanceIfPressStart:
     rts
 
 ; $9E63 - CHR bankswitch table
-B20_1e63:
+; spinning earth - evemisc - bold_font - bold_font - mother_title - rTospinning earth
+Title_CHR_Old:
     .byte $42, $72, $7c, $7c, $40, $41
 
 ; $9E69 - CHR bankswitch table
-B20_1e69:
+; spinning earth - evemisc - bold_font - rTospinning earth - earthbound1 - earthbound2
+Title_CHR:
     .byte $42, $72, $7c, $41, $d8, $d9
 
-; $9E6F - Unknown palette
-B20_1e6f:
+; $9E6F
+Title_Palette_Old:
     .byte $0f, $28, $30, $18
     .byte $0f, $21, $30, $12
     .byte $0f, $16, $30, $12
@@ -2029,8 +2073,8 @@ B20_1e6f:
     .byte $0f, $21, $30, $12
     .byte $0f, $21, $30, $12
 
-; $9E8F - Unknown palette
-B20_1e8f:
+; $9E8F
+Title_Palette:
     .byte $0f, $21, $30, $16
     .byte $0f, $21, $30, $16
     .byte $0f, $21, $30, $16
@@ -2043,15 +2087,25 @@ B20_1e8f:
 
 ; $9EAF - Unknown (transfered to $0400)
 B20_1eaf:
-    .byte $08    ; PPU_FILL
+    .byte 8    ; PPU_FILL
     .byte $40     ; Fill 64 bytes
-    .addr $c023  ; at $c023
+    .byte $23,$c0  ; at $23c0
     .byte $aa    ; with $AA
-    .byte $00    ; END
+    .byte 0    ; END
 
-    .byte $07, $04, $23, $d2, $40, $23
-    .byte $d3, $10, $23, $da
-    .byte $04, $23, $db, $01, $00
+;????
+B20_1EB5:
+    .byte 7 ; PPU_WRITE loop
+    .byte 4 ; loop count
+    .byte $23,$d2 ; at $23d2
+    .byte $40 ; with $40
+    .byte $23,$d3 ; at $23d3
+    .byte $10 ; with $10
+    .byte $23,$da ; at $23da
+    .byte $04 ; with $04
+    .byte $23,$db ; at $23db
+    .byte $01 ; with $01
+    .byte 0
 
 ; $9EC4 - produced by Nintendo
 produced_by_tiles:

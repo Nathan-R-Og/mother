@@ -38,8 +38,8 @@ binclude "text/dialogue4.asm"
 
 .include "../global/prg/music.asm"
 
-.segment        "SRAM": absolute
-.include "../global/starting_sram.asm"
+.segment "SAVEFILE": absolute
+.include "../global/starting_save.asm"
 binclude "../global/starting_characters.asm"
 
 

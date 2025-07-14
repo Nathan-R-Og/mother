@@ -5,6 +5,7 @@
 party_data:
 
 ;ninten
+Ninten_Data:
 ;?
 .byte $00
 ;status
@@ -24,7 +25,9 @@ ninten_level:
 ;name pointer (why exactly?)
 .addr ninten_name
 ;?
-.byte $00,$00,$08,$64,$00,$80
+.byte $00,$00,$08,$64
+;sprite
+.addr SPRITEDEF_0
 ;items
 .byte $6E,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -54,6 +57,7 @@ kanafix "しょうねんA"
 .endif
 
 ;ana
+Ana_Data:
 ;?
 .byte $00
 ;status
@@ -73,7 +77,9 @@ kanafix "しょうねんA"
 ;name pointer (why exactly?)
 .addr ana_name
 ;?
-.byte $00,$00,$08,$64,$20,$80
+.byte $00,$00,$08,$64
+;sprite
+.addr SPRITEDEF_8
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -103,6 +109,7 @@ kanafix "しょうじょB"
 .endif
 
 ;lloyd
+Lloyd_Data:
 ;?
 .byte $00
 ;status
@@ -122,7 +129,9 @@ kanafix "しょうじょB"
 ;name pointer (why exactly?)
 .addr lloyd_name
 ;?
-.byte $00,$00,$08,$64,$40,$80
+.byte $00,$00,$08,$64
+;sprite
+.addr SPRITEDEF_10
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -152,6 +161,7 @@ kanafix "しょうねんC"
 .endif
 
 ;teddy
+Teddy_Data:
 ;?
 .byte $00
 ;status
@@ -171,7 +181,9 @@ kanafix "しょうねんC"
 ;name pointer (why exactly?)
 .addr teddy_name
 ;?
-.byte $00,$00,$08,$64,$60,$80
+.byte $00,$00,$08,$64
+;sprite
+.addr SPRITEDEF_18
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -201,6 +213,7 @@ kanafix "しょうねんD"
 .endif
 
 ;pippi
+Pippi_Data:
 ;?
 .byte $00
 ;status
@@ -220,7 +233,9 @@ kanafix "しょうねんD"
 ;name pointer (why exactly?)
 .addr pippi_name
 ;?
-.byte $00,$00,$08,$64,$80,$80
+.byte $00,$00,$08,$64
+;sprite
+.addr SPRITEDEF_20
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -250,6 +265,7 @@ kanafix "ピッピ"
 .endif
 
 ;eve
+EVE_Data:
 ;?
 .byte $00
 ;status
@@ -269,7 +285,9 @@ kanafix "ピッピ"
 ;name pointer (why exactly?)
 .addr eve_name
 ;?
-.byte $00,$00,$08,$3A,$60,$81
+.byte $00,$00,$08,$3a
+;sprite
+.addr SPRITEDEF_58
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -299,6 +317,7 @@ kanafix "イヴ"
 .endif
 
 ;flying man
+FlyingMan_Data:
 ;?
 .byte $00
 ;status
@@ -318,7 +337,9 @@ kanafix "イヴ"
 ;name pointer (why exactly?)
 .addr flyingman_name
 ;?
-.byte $00,$00,$08,$64,$40,$81
+.byte $00,$00,$08,$64
+;sprite
+.addr SPRITEDEF_50
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant

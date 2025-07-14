@@ -1,9 +1,45 @@
 ;the only difference between jp and us stats is whether or not
 ;unused slots have blank names
 
+
+;enemy graphics are divided between every 0x400 bytes.
+;its exactly the same size as a tileset. uses the same system? probably
+;therefore, some are shared. will be noted accordingly (with _A_)
+;these numbers are just n = (ADDR - CHR_START) / 0x400
+; (same as tilesets)
 .enum ENEMY_GRAPHICS
     BIGWOODOH = $20
-    MAGIC_SNAIL = $30
+    DRAGON = $21
+    R703 = $22
+    ELEPHANT = $23
+    GIEGUE = $24
+    BIG_FOOT = $25
+    TRUCK_A_GROUCHO = $26
+    ROBOT_A_FOUREYES = $27
+    BORG_A_UFO = $28
+    GARGOYLE_A_BAT = $29
+    GABILAN_A_SPIDER = $2A
+    BEAR_A_FLY = $2B
+    BISON_A_ENERGY = $2C
+    TIGER_A_SKUNK = $2D
+    FISH_A_CAR = $2E
+    ARMOR_A_TEDDY = $2F
+    WOODOH_A_MAGIC_SNAIL = $30
+    BARBOT_A_CROCODILE = $31
+    NANCY_A_GORILLA = $32
+    STARMAN_A_TITANIAN = $33
+    MOOK_A_SHROUDLEY = $34
+    FUGITIVE_A_EAGLE = $35
+    ULLRICH_A_DOG = $36
+    TEDDY_A_SEAGULL = $37
+    CEREBRUM_A_PILLOW_A_DOLL_A_LAMP = $38
+    HIPPIE_A_WALLY_A_FIREBALL = $39
+    BAGLADY_A_CENTIPEDE_A_GHOST = $3A
+    DUSTBALL_A_BBGANG_A_BOMBER = $3B
+    GANGZOMBIE_A_ZOMBIE_A_STARMANJR = $3C
+    COUGAR_A_SNAKE_A_SCORPION = $3D
+    HYENA_A_CROW_A_RAT = $3E
+    DRDISTORTO_A_BETADOLL_A_ROPE = $3F
 .endenum
 
 .enum ENEMY_FLAGS
@@ -48,16 +84,8 @@ STATS_UNKENEMY0:
     ething3 300, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 300, 0, 0
-    ;fight
-    .byte 100
-    ;speed
-    .byte 100
-    ;wisdom
-    .byte 100
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 100, 100, 100, 100, 100
     ;battle actions
     .byte $00,$00,$00,$00,$00,$00,$00,$00
     ;name pointer
@@ -69,7 +97,7 @@ STATS_UNKENEMY0:
     ;item
     .byte $00
     ;graphic
-    .byte $00
+    .byte 0
 
 STATS_BIGWOODOH:
     .byte $00
@@ -85,16 +113,8 @@ STATS_BIGWOODOH:
     ething3 18, 2, 0
     ;defense, messageDefeat, unkParam
     ething4 50, 2, 0
-    ;FIGHT
-    .byte 20
-    ;SPEED
-    .byte 23
-    ;WISDOM
-    .byte 60
-    ;STRENGTH
-    .byte 60
-    ;FORCE
-    .byte 18
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 23, 60, 60, 18
     ;battle actions
     .byte $01,$34,$41,$41,$01,$01,$01,$01
     ;name pointer
@@ -122,16 +142,8 @@ STATS_DRAGON:
     ething3 180, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 200, 1, 0
-    ;fight
-    .byte 60
-    ;speed
-    .byte 60
-    ;wisdom
-    .byte 20
-    ;strength
-    .byte 100
-    ;force
-    .byte 60
+    ;fight, speed, wisdom, strength, force
+    .byte 60, 60, 20, 100, 60
     ;battle actions
     .byte $6C,$0A,$6C,$01,$0A,$01,$01,$83
     ;name pointer
@@ -143,7 +155,7 @@ STATS_DRAGON:
     ;item
     .byte $00
     ;graphic
-    .byte $21
+    .byte ENEMY_GRAPHICS::DRAGON
 
 STATS_R7038:
     .byte $0
@@ -159,16 +171,8 @@ STATS_R7038:
     ething3 600, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 1000, 3, 0
-    ;fight
-    .byte 40
-    ;speed
-    .byte 50
-    ;wisdom
-    .byte 60
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 40, 50, 60, 100, 100
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -180,7 +184,7 @@ STATS_R7038:
     ;item
     .byte $00
     ;graphic
-    .byte $22
+    .byte ENEMY_GRAPHICS::R703
 
 STATS_ELEPHANT:
     .byte $0
@@ -196,16 +200,8 @@ STATS_ELEPHANT:
     ething3 20, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 34, 1, 0
-    ;fight
-    .byte 30
-    ;speed
-    .byte 10
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 30
-    ;force
-    .byte 8
+    ;fight, speed, wisdom, strength, force
+    .byte 30, 10, 5, 30, 8
     ;battle actions
     .byte $05,$05,$05,$01,$01,$01,$01,$01
     ;name pointer
@@ -217,7 +213,7 @@ STATS_ELEPHANT:
     ;item
     .byte $00
     ;graphic
-    .byte $23
+    .byte ENEMY_GRAPHICS::ELEPHANT
 
 STATS_BEAR:
     .byte $0
@@ -233,16 +229,8 @@ STATS_BEAR:
     ething3 42, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 64, 1, 0
-    ;fight
-    .byte 30
-    ;speed
-    .byte 28
-    ;wisdom
-    .byte 20
-    ;strength
-    .byte 40
-    ;force
-    .byte 10
+    ;fight, speed, wisdom, strength, force
+    .byte 30, 28, 20, 40, 10
     ;battle actions
     .byte $01,$01,$01,$04,$05,$4F,$01,$01
     ;name pointer
@@ -254,7 +242,7 @@ STATS_BEAR:
     ;item
     .byte $00
     ;graphic
-    .byte $2B
+    .byte ENEMY_GRAPHICS::BEAR_A_FLY
 
 STATS_BIG_FOOT:
     .byte $0
@@ -270,16 +258,8 @@ STATS_BIG_FOOT:
     ething3 50, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 90, 1, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 38
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 60
-    ;force
-    .byte 15
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 38, 30, 60, 15
     ;battle actions
     .byte $0F,$0D,$0C,$0C,$0C,$0C,$0C,$0C
     ;name pointer
@@ -291,7 +271,7 @@ STATS_BIG_FOOT:
     ;item
     .byte $00
     ;graphic
-    .byte $25
+    .byte ENEMY_GRAPHICS::BIG_FOOT
 
 STATS_MAD_TRUCK:
     .byte $0
@@ -307,16 +287,8 @@ STATS_MAD_TRUCK:
     ething3 22, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 40, 6, 0
-    ;fight
-    .byte 38
-    ;speed
-    .byte 35
-    ;wisdom
-    .byte 35
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 38, 35, 35, 100, 100
     ;battle actions
     .byte $06,$06,$06,$06,$06,$06,$32,$32
     ;name pointer
@@ -328,7 +300,7 @@ STATS_MAD_TRUCK:
     ;item
     .byte $00
     ;graphic
-    .byte $26
+    .byte ENEMY_GRAPHICS::TRUCK_A_GROUCHO
 
 STATS_OLD_ROBOT:
     .byte $0
@@ -344,16 +316,8 @@ STATS_OLD_ROBOT:
     ething3 48, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 72, 3, 0
-    ;fight
-    .byte 25
-    ;speed
-    .byte 20
-    ;wisdom
-    .byte 20
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 25, 20, 20, 100, 100
     ;battle actions
     .byte $01,$12,$12,$53,$01,$01,$01,$01
     ;name pointer
@@ -365,7 +329,7 @@ STATS_OLD_ROBOT:
     ;item
     .byte $00
     ;graphic
-    .byte $27
+    .byte ENEMY_GRAPHICS::ROBOT_A_FOUREYES
 
 STATS_MEGABORG:
     .byte $0
@@ -381,16 +345,8 @@ STATS_MEGABORG:
     ething3 80, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 170, 3, 0
-    ;fight
-    .byte 60
-    ;speed
-    .byte 50
-    ;wisdom
-    .byte 60
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 60, 50, 60, 100, 100
     ;battle actions
     .byte $12,$13,$12,$12,$12,$12,$12,$01
     ;name pointer
@@ -402,7 +358,7 @@ STATS_MEGABORG:
     ;item
     .byte $00
     ;graphic
-    .byte $28
+    .byte ENEMY_GRAPHICS::BORG_A_UFO
 
 STATS_GARGOYLE:
     .byte $0
@@ -418,16 +374,8 @@ STATS_GARGOYLE:
     ething3 90, 0, 2
     ;defense, messageDefeat, unkParam
     ething4 160, 2, 0
-    ;fight
-    .byte 80
-    ;speed
-    .byte 70
-    ;wisdom
-    .byte 70
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 80, 70, 70, 100, 100
     ;battle actions
     .byte $0A,$01,$0B,$0A,$01,$0B,$01,$3E
     ;name pointer
@@ -439,7 +387,7 @@ STATS_GARGOYLE:
     ;item
     .byte $00
     ;graphic
-    .byte $29
+    .byte ENEMY_GRAPHICS::GARGOYLE_A_BAT
 
 STATS_GABILAN:
     .byte $0
@@ -455,16 +403,8 @@ STATS_GABILAN:
     ething3 62, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 100, 2, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 68
-    ;wisdom
-    .byte 70
-    ;strength
-    .byte 15
-    ;force
-    .byte 15
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 68, 70, 15, 15
     ;battle actions
     .byte $01,$3F,$3F,$01,$02,$01,$01,$34
     ;name pointer
@@ -476,7 +416,7 @@ STATS_GABILAN:
     ;item
     .byte $00
     ;graphic
-    .byte $2A
+    .byte ENEMY_GRAPHICS::GABILAN_A_SPIDER
 
 STATS_GORILLA:
     .byte $0
@@ -492,16 +432,8 @@ STATS_GORILLA:
     ething3 20, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 26, 1, 0
-    ;fight
-    .byte 35
-    ;speed
-    .byte 15
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 10
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 35, 15, 5, 10, 20
     ;battle actions
     .byte $4B,$01,$01,$28,$01,$01,$01,$01
     ;name pointer
@@ -513,7 +445,7 @@ STATS_GORILLA:
     ;item
     .byte $00
     ;graphic
-    .byte $32
+    .byte ENEMY_GRAPHICS::NANCY_A_GORILLA
 
 STATS_BISON:
     .byte $0
@@ -529,16 +461,8 @@ STATS_BISON:
     ething3 70, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 160, 1, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 50
-    ;wisdom
-    .byte 80
-    ;strength
-    .byte 80
-    ;force
-    .byte 80
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 50, 80, 80, 80
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$02
     ;name pointer
@@ -550,7 +474,7 @@ STATS_BISON:
     ;item
     .byte $00
     ;graphic
-    .byte $2C
+    .byte ENEMY_GRAPHICS::BISON_A_ENERGY
 
 STATS_TIGER:
     .byte $0
@@ -566,16 +490,8 @@ STATS_TIGER:
     ething3 26, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 24, 1, 0
-    ;fight
-    .byte 40
-    ;speed
-    .byte 20
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 10
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 40, 20, 5, 10, 20
     ;battle actions
     .byte $03,$02,$02,$03,$03,$03,$03,$02
     ;name pointer
@@ -587,7 +503,7 @@ STATS_TIGER:
     ;item
     .byte $00
     ;graphic
-    .byte $2D
+    .byte ENEMY_GRAPHICS::TIGER_A_SKUNK
 
 STATS_MAD_CAR:
     .byte $0
@@ -603,16 +519,8 @@ STATS_MAD_CAR:
     ething3 20, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 38, 6, 0
-    ;fight
-    .byte 45
-    ;speed
-    .byte 40
-    ;wisdom
-    .byte 35
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 45, 40, 35, 100, 100
     ;battle actions
     .byte $06,$06,$06,$06,$06,$06,$06,$32
     ;name pointer
@@ -624,7 +532,7 @@ STATS_MAD_CAR:
     ;item
     .byte $00
     ;graphic
-    .byte $2E
+    .byte ENEMY_GRAPHICS::FISH_A_CAR
 
 STATS_RAEB_YDDET:
     .byte $0
@@ -640,16 +548,8 @@ STATS_RAEB_YDDET:
     ething3 22, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 38, 2, 0
-    ;fight
-    .byte 25
-    ;speed
-    .byte 25
-    ;wisdom
-    .byte 18
-    ;strength
-    .byte 25
-    ;force
-    .byte 18
+    ;fight, speed, wisdom, strength, force
+    .byte 25, 25, 18, 25, 18
     ;battle actions
     .byte $49,$49,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -661,7 +561,7 @@ STATS_RAEB_YDDET:
     ;item
     .byte $00
     ;graphic
-    .byte $2F
+    .byte ENEMY_GRAPHICS::ARMOR_A_TEDDY
 
 STATS_MAGIC_SNAIL:
     .byte $00
@@ -677,16 +577,8 @@ STATS_MAGIC_SNAIL:
     ething3 20, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 90, 2, 0
-    ;fight
-    .byte 20
-    ;speed
-    .byte 18
-    ;wisdom
-    .byte 18
-    ;strength
-    .byte 40
-    ;force
-    .byte 18
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 18, 18, 40, 18
     ;attacks
     .byte $01,$5D,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -698,7 +590,7 @@ STATS_MAGIC_SNAIL:
     ;item drop
     .byte 0
     ;gfx
-    .byte ENEMY_GRAPHICS::MAGIC_SNAIL
+    .byte ENEMY_GRAPHICS::WOODOH_A_MAGIC_SNAIL
 
 STATS_TITANEES:
     .byte $0
@@ -714,16 +606,8 @@ STATS_TITANEES:
     ething3 54, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 200, 2, 0
-    ;fight
-    .byte 30
-    ;speed
-    .byte 58
-    ;wisdom
-    .byte 80
-    ;strength
-    .byte 60
-    ;force
-    .byte 10
+    ;fight, speed, wisdom, strength, force
+    .byte 30, 58, 80, 60, 10
     ;battle actions
     .byte $44,$44,$44,$01,$01,$01,$01,$01
     ;name pointer
@@ -735,7 +619,7 @@ STATS_TITANEES:
     ;item
     .byte $00
     ;graphic
-    .byte $33
+    .byte ENEMY_GRAPHICS::STARMAN_A_TITANIAN
 
 STATS_GIEGUE:
     .byte $0
@@ -751,16 +635,8 @@ STATS_GIEGUE:
     ething3 15, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 20, 2, 0
-    ;fight
-    .byte 20
-    ;speed
-    .byte 100
-    ;wisdom
-    .byte 14
-    ;strength
-    .byte 10
-    ;force
-    .byte 23
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 100, 14, 10, 23
     ;battle actions
     .byte $08,$08,$08,$08,$08,$08,$08,$08
     ;name pointer
@@ -772,7 +648,7 @@ STATS_GIEGUE:
     ;item
     .byte $00
     ;graphic
-    .byte $24
+    .byte ENEMY_GRAPHICS::GIEGUE
 
 STATS_EAGLE:
     .byte $0
@@ -788,16 +664,8 @@ STATS_EAGLE:
     ething3 32, 0, 2
     ;defense, messageDefeat, unkParam
     ething4 44, 1, 0
-    ;fight
-    .byte 20
-    ;speed
-    .byte 60
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 20
-    ;force
-    .byte 40
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 60, 30, 20, 40
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -809,7 +677,7 @@ STATS_EAGLE:
     ;item
     .byte $00
     ;graphic
-    .byte $35
+    .byte ENEMY_GRAPHICS::FUGITIVE_A_EAGLE
 
 STATS_WOLF:
     .byte $0
@@ -825,16 +693,8 @@ STATS_WOLF:
     ething3 30, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 46, 1, 0
-    ;fight
-    .byte 25
-    ;speed
-    .byte 30
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 30
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 25, 30, 30, 30, 30
     ;battle actions
     .byte $03,$03,$03,$03,$03,$03,$03,$03
     ;name pointer
@@ -846,7 +706,7 @@ STATS_WOLF:
     ;item
     .byte $00
     ;graphic
-    .byte $36
+    .byte ENEMY_GRAPHICS::ULLRICH_A_DOG
 
 STATS_SEAGULL:
     .byte $0
@@ -862,16 +722,8 @@ STATS_SEAGULL:
     ething3 68, 0, 1
     ;defense, messageDefeat, unkParam
     ething4 90, 1, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 70
-    ;wisdom
-    .byte 40
-    ;strength
-    .byte 20
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 70, 40, 20, 20
     ;battle actions
     .byte $4B,$4C,$01,$53,$01,$01,$01,$01
     ;name pointer
@@ -883,7 +735,7 @@ STATS_SEAGULL:
     ;item
     .byte $00
     ;graphic
-    .byte $37
+    .byte ENEMY_GRAPHICS::TEDDY_A_SEAGULL
 
 STATS_ALLIGATOR:
     .byte $0
@@ -899,16 +751,8 @@ STATS_ALLIGATOR:
     ething3 18, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 22, 1, 0
-    ;fight
-    .byte 10
-    ;speed
-    .byte 15
-    ;wisdom
-    .byte 10
-    ;strength
-    .byte 15
-    ;force
-    .byte 5
+    ;fight, speed, wisdom, strength, force
+    .byte 10, 15, 10, 15, 5
     ;battle actions
     .byte $5D,$5D,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -920,7 +764,7 @@ STATS_ALLIGATOR:
     ;item
     .byte $00
     ;graphic
-    .byte $31
+    .byte ENEMY_GRAPHICS::BARBOT_A_CROCODILE
 
 STATS_ENERGYROBOT:
     .byte $0
@@ -936,16 +780,8 @@ STATS_ENERGYROBOT:
     ething3 60, 1, 0
     ;defense, messageDefeat, unkParam
     ething4 90, 3, 0
-    ;fight
-    .byte 20
-    ;speed
-    .byte 20
-    ;wisdom
-    .byte 40
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 20, 40, 100, 100
     ;battle actions
     .byte $53,$2E,$2E,$2E,$2E,$01,$01,$01
     ;name pointer
@@ -957,7 +793,7 @@ STATS_ENERGYROBOT:
     ;item
     .byte $00
     ;graphic
-    .byte $2C
+    .byte ENEMY_GRAPHICS::BISON_A_ENERGY
 
 STATS_THE_FISH:
     .byte $0
@@ -973,16 +809,8 @@ STATS_THE_FISH:
     ething3 38, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 60, 2, 0
-    ;fight
-    .byte 45
-    ;speed
-    .byte 30
-    ;wisdom
-    .byte 20
-    ;strength
-    .byte 40
-    ;force
-    .byte 40
+    ;fight, speed, wisdom, strength, force
+    .byte 45, 30, 20, 40, 40
     ;battle actions
     .byte $02,$02,$02,$02,$02,$02,$02,$02
     ;name pointer
@@ -994,7 +822,7 @@ STATS_THE_FISH:
     ;item
     .byte $00
     ;graphic
-    .byte $2E
+    .byte ENEMY_GRAPHICS::FISH_A_CAR
 
 STATS_FUGITIVE:
     .byte $0
@@ -1010,16 +838,8 @@ STATS_FUGITIVE:
     ething3 32, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 45, 0, 0
-    ;fight
-    .byte 20
-    ;speed
-    .byte 22
-    ;wisdom
-    .byte 6
-    ;strength
-    .byte 18
-    ;force
-    .byte 8
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 22, 6, 18, 8
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -1031,7 +851,7 @@ STATS_FUGITIVE:
     ;item
     .byte $00
     ;graphic
-    .byte $35
+    .byte ENEMY_GRAPHICS::FUGITIVE_A_EAGLE
 
 STATS_BBS_BOSS:
     .byte $0
@@ -1047,16 +867,8 @@ STATS_BBS_BOSS:
     ething3 57, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 51, 0, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 81
-    ;wisdom
-    .byte 18
-    ;strength
-    .byte 54
-    ;force
-    .byte 36
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 81, 18, 54, 36
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -1068,7 +880,7 @@ STATS_BBS_BOSS:
     ;item
     .byte $00
     ;graphic
-    .byte $37
+    .byte ENEMY_GRAPHICS::TEDDY_A_SEAGULL
 
 STATS_BARBOT:
     .byte $0
@@ -1084,16 +896,8 @@ STATS_BARBOT:
     ething3 24, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 36, 3, 0
-    ;fight
-    .byte 30
-    ;speed
-    .byte 35
-    ;wisdom
-    .byte 35
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 30, 35, 35, 100, 100
     ;battle actions
     .byte $01,$01,$01,$15,$01,$01,$01,$01
     ;name pointer
@@ -1105,7 +909,7 @@ STATS_BARBOT:
     ;item
     .byte $00
     ;graphic
-    .byte $31
+    .byte ENEMY_GRAPHICS::BARBOT_A_CROCODILE
 
 STATS_NANCY:
     .byte $0
@@ -1121,16 +925,8 @@ STATS_NANCY:
     ething3 62, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 170, 3, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 72
-    ;wisdom
-    .byte 60
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 72, 60, 100, 100
     ;battle actions
     .byte $6B,$01,$36,$0F,$6B,$01,$01,$01
     ;name pointer
@@ -1142,7 +938,7 @@ STATS_NANCY:
     ;item
     .byte $00
     ;graphic
-    .byte $32
+    .byte ENEMY_GRAPHICS::NANCY_A_GORILLA
 
 STATS_STARMAN:
     .byte $0
@@ -1158,16 +954,8 @@ STATS_STARMAN:
     ething3 45, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 80, 2, 0
-    ;fight
-    .byte 30
-    ;speed
-    .byte 40
-    ;wisdom
-    .byte 60
-    ;strength
-    .byte 40
-    ;force
-    .byte 35
+    ;fight, speed, wisdom, strength, force
+    .byte 30, 40, 60, 40, 35
     ;battle actions
     .byte $12,$12,$38,$01,$01,$53,$53,$15
     ;name pointer
@@ -1179,7 +967,7 @@ STATS_STARMAN:
     ;item
     .byte $49
     ;graphic
-    .byte $33
+    .byte ENEMY_GRAPHICS::STARMAN_A_TITANIAN
 
 STATS_ULLRICH:
     .byte $0
@@ -1195,16 +983,8 @@ STATS_ULLRICH:
     ething3 18, 0, 1
     ;defense, messageDefeat, unkParam
     ething4 40, 2, 0
-    ;fight
-    .byte 40
-    ;speed
-    .byte 30
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 10
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 40, 30, 30, 10, 20
     ;battle actions
     .byte $17,$17,$17,$17,$17,$17,$17,$17
     ;name pointer
@@ -1216,7 +996,7 @@ STATS_ULLRICH:
     ;item
     .byte $00
     ;graphic
-    .byte $36
+    .byte ENEMY_GRAPHICS::ULLRICH_A_DOG
 
 STATS_CEREBRUM:
     .byte $0
@@ -1232,16 +1012,8 @@ STATS_CEREBRUM:
     ething3 60, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 280, 2, 0
-    ;fight
-    .byte 120
-    ;speed
-    .byte 120
-    ;wisdom
-    .byte 80
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 120, 120, 80, 100, 100
     ;battle actions
     .byte $12,$13,$82,$0A,$36,$30,$38,$18
     ;name pointer
@@ -1253,7 +1025,7 @@ STATS_CEREBRUM:
     ;item
     .byte $00
     ;graphic
-    .byte $38
+    .byte ENEMY_GRAPHICS::CEREBRUM_A_PILLOW_A_DOLL_A_LAMP
 
 STATS_MOOK:
     .byte $0
@@ -1269,16 +1041,8 @@ STATS_MOOK:
     ething3 50, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 110, 2, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 40
-    ;wisdom
-    .byte 100
-    ;strength
-    .byte 30
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 40, 100, 30, 30
     ;battle actions
     .byte $0C,$0D,$42,$29,$1D,$31,$44,$45
     ;name pointer
@@ -1290,7 +1054,7 @@ STATS_MOOK:
     ;item
     .byte $00
     ;graphic
-    .byte $34
+    .byte ENEMY_GRAPHICS::MOOK_A_SHROUDLEY
 
 STATS_ARMOR:
     .byte $0
@@ -1306,16 +1070,8 @@ STATS_ARMOR:
     ething3 68, 4, 0
     ;defense, messageDefeat, unkParam
     ething4 150, 2, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 60
-    ;wisdom
-    .byte 50
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 60, 50, 100, 100
     ;battle actions
     .byte $01,$18,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -1327,7 +1083,7 @@ STATS_ARMOR:
     ;item
     .byte $00
     ;graphic
-    .byte $2F
+    .byte ENEMY_GRAPHICS::ARMOR_A_TEDDY
 
 STATS_WOODOH:
     .byte $0
@@ -1343,16 +1099,8 @@ STATS_WOODOH:
     ething3 20, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 38, 2, 0
-    ;fight
-    .byte 25
-    ;speed
-    .byte 25
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 40
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 25, 25, 30, 40, 20
     ;battle actions
     .byte $4A,$4A,$4A,$62,$01,$01,$01,$01
     ;name pointer
@@ -1364,7 +1112,7 @@ STATS_WOODOH:
     ;item
     .byte $00
     ;graphic
-    .byte $30
+    .byte ENEMY_GRAPHICS::WOODOH_A_MAGIC_SNAIL
 
 STATS_WALLY:
     .byte $0
@@ -1380,16 +1128,8 @@ STATS_WALLY:
     ething3 8, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 12, 0, 0
-    ;fight
-    .byte 6
-    ;speed
-    .byte 4
-    ;wisdom
-    .byte 1
-    ;strength
-    .byte 1
-    ;force
-    .byte 2
+    ;fight, speed, wisdom, strength, force
+    .byte 6, 4, 1, 1, 2
     ;battle actions
     .byte $28,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -1401,7 +1141,7 @@ STATS_WALLY:
     ;item
     .byte $00
     ;graphic
-    .byte $39
+    .byte ENEMY_GRAPHICS::HIPPIE_A_WALLY_A_FIREBALL
 
 STATS_THE_HIPPIE:
     .byte $0
@@ -1417,16 +1157,8 @@ STATS_THE_HIPPIE:
     ething3 8, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 14, 0, 0
-    ;fight
-    .byte 3
-    ;speed
-    .byte 6
-    ;wisdom
-    .byte 1
-    ;strength
-    .byte 1
-    ;force
-    .byte 3
+    ;fight, speed, wisdom, strength, force
+    .byte 3, 6, 1, 1, 3
     ;battle actions
     .byte $3C,$50,$28,$01,$01,$01,$01,$01
     ;name pointer
@@ -1438,7 +1170,7 @@ STATS_THE_HIPPIE:
     ;item
     .byte $00
     ;graphic
-    .byte $39
+    .byte ENEMY_GRAPHICS::HIPPIE_A_WALLY_A_FIREBALL
 
 STATS_BAG_LADY:
     .byte $0
@@ -1454,16 +1186,8 @@ STATS_BAG_LADY:
     ething3 12, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 38, 0, 0
-    ;fight
-    .byte 20
-    ;speed
-    .byte 40
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 30
-    ;force
-    .byte 10
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 40, 30, 30, 10
     ;battle actions
     .byte $02,$02,$02,$22,$01,$01,$01,$01
     ;name pointer
@@ -1475,7 +1199,7 @@ STATS_BAG_LADY:
     ;item
     .byte $3F
     ;graphic
-    .byte $3A
+    .byte ENEMY_GRAPHICS::BAGLADY_A_CENTIPEDE_A_GHOST
 
 STATS_BB_GANG:
     .byte $0
@@ -1491,16 +1215,8 @@ STATS_BB_GANG:
     ething3 60, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 125, 0, 0
-    ;fight
-    .byte 40
-    ;speed
-    .byte 40
-    ;wisdom
-    .byte 20
-    ;strength
-    .byte 20
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 40, 40, 20, 20, 20
     ;battle actions
     .byte $23,$23,$02,$02,$01,$01,$01,$01
     ;name pointer
@@ -1512,7 +1228,7 @@ STATS_BB_GANG:
     ;item
     .byte $22
     ;graphic
-    .byte $3B
+    .byte ENEMY_GRAPHICS::DUSTBALL_A_BBGANG_A_BOMBER
 
 STATS_DR_DISTORTO:
     .byte $0
@@ -1528,16 +1244,8 @@ STATS_DR_DISTORTO:
     ething3 38, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 48, 0, 0
-    ;fight
-    .byte 25
-    ;speed
-    .byte 45
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 30
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 25, 45, 30, 30, 30
     ;battle actions
     .byte $48,$28,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -1549,7 +1257,7 @@ STATS_DR_DISTORTO:
     ;item
     .byte $00
     ;graphic
-    .byte $3F
+    .byte ENEMY_GRAPHICS::DRDISTORTO_A_BETADOLL_A_ROPE
 
 STATS_UNKENEMY1:
     .byte $0
@@ -1565,16 +1273,8 @@ STATS_UNKENEMY1:
     ething3 13, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 13, 0, 0
-    ;fight
-    .byte 9
-    ;speed
-    .byte 9
-    ;wisdom
-    .byte 2
-    ;strength
-    .byte 6
-    ;force
-    .byte 4
+    ;fight, speed, wisdom, strength, force
+    .byte 9, 9, 2, 6, 4
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -1590,7 +1290,7 @@ STATS_UNKENEMY1:
     ;item
     .byte $00
     ;graphic
-    .byte $3F
+    .byte ENEMY_GRAPHICS::DRDISTORTO_A_BETADOLL_A_ROPE
 
 STATS_GANG_ZOMBIE:
     .byte $0
@@ -1606,16 +1306,8 @@ STATS_GANG_ZOMBIE:
     ething3 18, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 20, 4, 0
-    ;fight
-    .byte 8
-    ;speed
-    .byte 8
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 40
-    ;force
-    .byte 5
+    ;fight, speed, wisdom, strength, force
+    .byte 8, 8, 5, 40, 5
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -1627,7 +1319,7 @@ STATS_GANG_ZOMBIE:
     ;item
     .byte $00
     ;graphic
-    .byte $3C
+    .byte ENEMY_GRAPHICS::GANGZOMBIE_A_ZOMBIE_A_STARMANJR
 
 STATS_PSEUDOZOMBI:
     .byte $0
@@ -1643,16 +1335,8 @@ STATS_PSEUDOZOMBI:
     ething3 16, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 16, 4, 0
-    ;fight
-    .byte 10
-    ;speed
-    .byte 12
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 40
-    ;force
-    .byte 7
+    ;fight, speed, wisdom, strength, force
+    .byte 10, 12, 5, 40, 7
     ;battle actions
     .byte $04,$03,$05,$04,$03,$05,$04,$03
     ;name pointer
@@ -1664,7 +1348,7 @@ STATS_PSEUDOZOMBI:
     ;item
     .byte $00
     ;graphic
-    .byte $3C
+    .byte ENEMY_GRAPHICS::GANGZOMBIE_A_ZOMBIE_A_STARMANJR
 
 STATS_CROW:
     .byte $0
@@ -1680,16 +1364,8 @@ STATS_CROW:
     ething3 8, 0, 1
     ;defense, messageDefeat, unkParam
     ething4 12, 1, 0
-    ;fight
-    .byte 8
-    ;speed
-    .byte 12
-    ;wisdom
-    .byte 1
-    ;strength
-    .byte 5
-    ;force
-    .byte 10
+    ;fight, speed, wisdom, strength, force
+    .byte 8, 12, 1, 5, 10
     ;battle actions
     .byte $4B,$4C,$4C,$01,$01,$01,$01,$01
     ;name pointer
@@ -1701,7 +1377,7 @@ STATS_CROW:
     ;item
     .byte $00
     ;graphic
-    .byte $3E
+    .byte ENEMY_GRAPHICS::HYENA_A_CROW_A_RAT
 
 STATS_SNAKE:
     .byte $0
@@ -1717,16 +1393,8 @@ STATS_SNAKE:
     ething3 6, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 8, 1, 0
-    ;fight
-    .byte 5
-    ;speed
-    .byte 10
-    ;wisdom
-    .byte 1
-    ;strength
-    .byte 10
-    ;force
-    .byte 1
+    ;fight, speed, wisdom, strength, force
+    .byte 5, 10, 1, 10, 1
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -1738,7 +1406,7 @@ STATS_SNAKE:
     ;item
     .byte $3E
     ;graphic
-    .byte $3D
+    .byte ENEMY_GRAPHICS::COUGAR_A_SNAKE_A_SCORPION
 
 STATS_HYENA:
     .byte $0
@@ -1754,16 +1422,8 @@ STATS_HYENA:
     ething3 10, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 16, 1, 0
-    ;fight
-    .byte 10
-    ;speed
-    .byte 22
-    ;wisdom
-    .byte 18
-    ;strength
-    .byte 10
-    ;force
-    .byte 5
+    ;fight, speed, wisdom, strength, force
+    .byte 10, 22, 18, 10, 5
     ;battle actions
     .byte $4F,$4F,$4F,$48,$03,$03,$03,$03
     ;name pointer
@@ -1775,7 +1435,7 @@ STATS_HYENA:
     ;item
     .byte $00
     ;graphic
-    .byte $3E
+    .byte ENEMY_GRAPHICS::HYENA_A_CROW_A_RAT
 
 STATS_COUGAR:
     .byte $0
@@ -1791,16 +1451,8 @@ STATS_COUGAR:
     ething3 28, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 40, 1, 0
-    ;fight
-    .byte 35
-    ;speed
-    .byte 78
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 20
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 35, 78, 30, 20, 20
     ;battle actions
     .byte $04,$04,$04,$04,$04,$04,$04,$04
     ;name pointer
@@ -1812,7 +1464,7 @@ STATS_COUGAR:
     ;item
     .byte $00
     ;graphic
-    .byte $3D
+    .byte ENEMY_GRAPHICS::COUGAR_A_SNAKE_A_SCORPION
 
 STATS_CENTIPEDE:
     .byte $0
@@ -1828,16 +1480,8 @@ STATS_CENTIPEDE:
     ething3 4, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 12, 1, 0
-    ;fight
-    .byte 3
-    ;speed
-    .byte 17
-    ;wisdom
-    .byte 40
-    ;strength
-    .byte 20
-    ;force
-    .byte 1
+    ;fight, speed, wisdom, strength, force
+    .byte 3, 17, 40, 20, 1
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -1849,7 +1493,7 @@ STATS_CENTIPEDE:
     ;item
     .byte $00
     ;graphic
-    .byte $3A
+    .byte ENEMY_GRAPHICS::BAGLADY_A_CENTIPEDE_A_GHOST
 
 STATS_DUST_BALL:
     .byte $0
@@ -1865,16 +1509,8 @@ STATS_DUST_BALL:
     ething3 40, 2, 0
     ;defense, messageDefeat, unkParam
     ething4 120, 7, 0
-    ;fight
-    .byte 30
-    ;speed
-    .byte 50
-    ;wisdom
-    .byte 50
-    ;strength
-    .byte 60
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 30, 50, 50, 60, 20
     ;battle actions
     .byte $4F,$4F,$4F,$4F,$4F,$4F,$4F,$4F
     ;name pointer
@@ -1886,7 +1522,7 @@ STATS_DUST_BALL:
     ;item
     .byte $00
     ;graphic
-    .byte $3B
+    .byte ENEMY_GRAPHICS::DUSTBALL_A_BBGANG_A_BOMBER
 
 STATS_FLY:
     .byte $0
@@ -1902,16 +1538,8 @@ STATS_FLY:
     ething3 1, 0, 4
     ;defense, messageDefeat, unkParam
     ething4 40, 1, 0
-    ;fight
-    .byte 32
-    ;speed
-    .byte 40
-    ;wisdom
-    .byte 10
-    ;strength
-    .byte 1
-    ;force
-    .byte 40
+    ;fight, speed, wisdom, strength, force
+    .byte 32, 40, 10, 1, 40
     ;battle actions
     .byte $49,$49,$49,$01,$48,$01,$01,$01
     ;name pointer
@@ -1923,7 +1551,7 @@ STATS_FLY:
     ;item
     .byte $00
     ;graphic
-    .byte $2B
+    .byte ENEMY_GRAPHICS::BEAR_A_FLY
 
 STATS_SPIDER:
     .byte $0
@@ -1939,16 +1567,8 @@ STATS_SPIDER:
     ething3 45, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 95, 1, 0
-    ;fight
-    .byte 60
-    ;speed
-    .byte 80
-    ;wisdom
-    .byte 80
-    ;strength
-    .byte 60
-    ;force
-    .byte 15
+    ;fight, speed, wisdom, strength, force
+    .byte 60, 80, 80, 60, 15
     ;battle actions
     .byte $49,$3D,$3D,$49,$49,$01,$01,$23
     ;name pointer
@@ -1960,7 +1580,7 @@ STATS_SPIDER:
     ;item
     .byte $00
     ;graphic
-    .byte $2A
+    .byte ENEMY_GRAPHICS::GABILAN_A_SPIDER
 
 STATS_SCORPION:
     .byte $0
@@ -1976,16 +1596,8 @@ STATS_SCORPION:
     ething3 60, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 80, 1, 0
-    ;fight
-    .byte 40
-    ;speed
-    .byte 60
-    ;wisdom
-    .byte 80
-    ;strength
-    .byte 60
-    ;force
-    .byte 15
+    ;fight, speed, wisdom, strength, force
+    .byte 40, 60, 80, 60, 15
     ;battle actions
     .byte $3D,$3D,$3D,$03,$03,$03,$03,$03
     ;name pointer
@@ -1997,7 +1609,7 @@ STATS_SCORPION:
     ;item
     .byte $00
     ;graphic
-    .byte $3D
+    .byte ENEMY_GRAPHICS::COUGAR_A_SNAKE_A_SCORPION
 
 STATS_ROPE:
     .byte $0
@@ -2013,16 +1625,8 @@ STATS_ROPE:
     ething3 35, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 50, 5, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 30
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 80
-    ;force
-    .byte 80
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 30, 5, 80, 80
     ;battle actions
     .byte $47,$47,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -2034,7 +1638,7 @@ STATS_ROPE:
     ;item
     .byte $28
     ;graphic
-    .byte $3F
+    .byte ENEMY_GRAPHICS::DRDISTORTO_A_BETADOLL_A_ROPE
 
 STATS_FIRE_BALL:
     .byte $0
@@ -2050,16 +1654,8 @@ STATS_FIRE_BALL:
     ething3 24, 0, 2
     ;defense, messageDefeat, unkParam
     ething4 58, 2, 0
-    ;fight
-    .byte 35
-    ;speed
-    .byte 40
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 50
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 35, 40, 30, 50, 30
     ;battle actions
     .byte $09,$09,$09,$09,$09,$09,$09,$09
     ;name pointer
@@ -2071,7 +1667,7 @@ STATS_FIRE_BALL:
     ;item
     .byte $00
     ;graphic
-    .byte $39
+    .byte ENEMY_GRAPHICS::HIPPIE_A_WALLY_A_FIREBALL
 
 STATS_WATCHER:
     .byte $0
@@ -2087,16 +1683,8 @@ STATS_WATCHER:
     ething3 16, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 24, 2, 0
-    ;fight
-    .byte 25
-    ;speed
-    .byte 30
-    ;wisdom
-    .byte 20
-    ;strength
-    .byte 20
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 25, 30, 20, 20, 20
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -2108,7 +1696,7 @@ STATS_WATCHER:
     ;item
     .byte $00
     ;graphic
-    .byte $27
+    .byte ENEMY_GRAPHICS::ROBOT_A_FOUREYES
 
 STATS_GROUCHO:
     .byte $0
@@ -2124,16 +1712,8 @@ STATS_GROUCHO:
     ething3 12, 0, 2
     ;defense, messageDefeat, unkParam
     ething4 40, 2, 0
-    ;fight
-    .byte 20
-    ;speed
-    .byte 20
-    ;wisdom
-    .byte 20
-    ;strength
-    .byte 20
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 20, 20, 20, 20
     ;battle actions
     .byte $51,$51,$51,$51,$01,$01,$01,$01
     ;name pointer
@@ -2145,7 +1725,7 @@ STATS_GROUCHO:
     ;item
     .byte $00
     ;graphic
-    .byte $26
+    .byte ENEMY_GRAPHICS::TRUCK_A_GROUCHO
 
 STATS_GHOST:
     .byte $0
@@ -2161,16 +1741,8 @@ STATS_GHOST:
     ething3 12, 0, 2
     ;defense, messageDefeat, unkParam
     ething4 24, 7, 0
-    ;fight
-    .byte 6
-    ;speed
-    .byte 22
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 40
-    ;force
-    .byte 15
+    ;fight, speed, wisdom, strength, force
+    .byte 6, 22, 5, 40, 15
     ;battle actions
     .byte $48,$48,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -2182,7 +1754,7 @@ STATS_GHOST:
     ;item
     .byte $00
     ;graphic
-    .byte $3A
+    .byte ENEMY_GRAPHICS::BAGLADY_A_CENTIPEDE_A_GHOST
 
 STATS_LIL_SAUCER:
     .byte $0
@@ -2198,16 +1770,8 @@ STATS_LIL_SAUCER:
     ething3 20, 0, 4
     ;defense, messageDefeat, unkParam
     ething4 30, 3, 0
-    ;fight
-    .byte 15
-    ;speed
-    .byte 20
-    ;wisdom
-    .byte 18
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 15, 20, 18, 100, 100
     ;battle actions
     .byte $01,$36,$01,$01,$38,$01,$01,$01
     ;name pointer
@@ -2219,7 +1783,7 @@ STATS_LIL_SAUCER:
     ;item
     .byte $00
     ;graphic
-    .byte $28
+    .byte ENEMY_GRAPHICS::BORG_A_UFO
 
 STATS_MR_BAT:
     .byte $0
@@ -2235,16 +1799,8 @@ STATS_MR_BAT:
     ething3 8, 0, 4
     ;defense, messageDefeat, unkParam
     ething4 10, 1, 0
-    ;fight
-    .byte 8
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 4
-    ;force
-    .byte 8
+    ;fight, speed, wisdom, strength, force
+    .byte 8, 5, 5, 4, 8
     ;battle actions
     .byte $54,$54,$54,$01,$01,$01,$01,$01
     ;name pointer
@@ -2256,7 +1812,7 @@ STATS_MR_BAT:
     ;item
     .byte $00
     ;graphic
-    .byte $29
+    .byte ENEMY_GRAPHICS::GARGOYLE_A_BAT
 
 STATS_STARMAN_JR:
     .byte $0
@@ -2272,16 +1828,8 @@ STATS_STARMAN_JR:
     ething3 32, 0, 2
     ;defense, messageDefeat, unkParam
     ething4 52, 2, 0
-    ;fight
-    .byte 35
-    ;speed
-    .byte 20
-    ;wisdom
-    .byte 18
-    ;strength
-    .byte 30
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 35, 20, 18, 30, 30
     ;battle actions
     .byte $12,$12,$15,$01,$01,$01,$01,$53
     ;name pointer
@@ -2293,7 +1841,7 @@ STATS_STARMAN_JR:
     ;item
     .byte $00
     ;graphic
-    .byte $3C
+    .byte ENEMY_GRAPHICS::GANGZOMBIE_A_ZOMBIE_A_STARMANJR
 
 STATS_SKUNK:
     .byte $0
@@ -2309,16 +1857,8 @@ STATS_SKUNK:
     ething3 26, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 48, 1, 0
-    ;fight
-    .byte 52
-    ;speed
-    .byte 30
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 20
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 52, 30, 30, 20, 20
     ;battle actions
     .byte $01,$01,$01,$01,$46,$01,$01,$01
     ;name pointer
@@ -2330,7 +1870,7 @@ STATS_SKUNK:
     ;item
     .byte $00
     ;graphic
-    .byte $2D
+    .byte ENEMY_GRAPHICS::TIGER_A_SKUNK
 
 STATS_SHROUDLEY:
     .byte $0
@@ -2346,16 +1886,8 @@ STATS_SHROUDLEY:
     ething3 42, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 128, 4, 0
-    ;fight
-    .byte 25
-    ;speed
-    .byte 35
-    ;wisdom
-    .byte 55
-    ;strength
-    .byte 70
-    ;force
-    .byte 10
+    ;fight, speed, wisdom, strength, force
+    .byte 25, 35, 55, 70, 10
     ;battle actions
     .byte $34,$34,$07,$01,$01,$01,$01,$01
     ;name pointer
@@ -2367,7 +1899,7 @@ STATS_SHROUDLEY:
     ;item
     .byte $00
     ;graphic
-    .byte $34
+    .byte ENEMY_GRAPHICS::MOOK_A_SHROUDLEY
 
 STATS_RAT:
     .byte $0
@@ -2383,16 +1915,8 @@ STATS_RAT:
     ething3 4, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 8, 1, 0
-    ;fight
-    .byte 6
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 1
-    ;strength
-    .byte 3
-    ;force
-    .byte 7
+    ;fight, speed, wisdom, strength, force
+    .byte 6, 5, 1, 3, 7
     ;battle actions
     .byte $23,$23,$23,$03,$03,$03,$03,$03
     ;name pointer
@@ -2404,7 +1928,7 @@ STATS_RAT:
     ;item
     .byte $00
     ;graphic
-    .byte $3E
+    .byte ENEMY_GRAPHICS::HYENA_A_CROW_A_RAT
 
 STATS_BOMBER:
     .byte $0
@@ -2420,16 +1944,8 @@ STATS_BOMBER:
     ething3 10, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 64, 3, 0
-    ;fight
-    .byte 20
-    ;speed
-    .byte 35
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 35, 30, 100, 100
     ;battle actions
     .byte $46,$46,$46,$10,$10,$01,$01,$01
     ;name pointer
@@ -2441,7 +1957,7 @@ STATS_BOMBER:
     ;item
     .byte $23
     ;graphic
-    .byte $3B
+    .byte ENEMY_GRAPHICS::DUSTBALL_A_BBGANG_A_BOMBER
 
 STATS_UNKENEMY2:
     .byte $0
@@ -2457,16 +1973,8 @@ STATS_UNKENEMY2:
     ething3 3, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 5, 5, 0
-    ;fight
-    .byte 1
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 3
-    ;strength
-    .byte 3
-    ;force
-    .byte 3
+    ;fight, speed, wisdom, strength, force
+    .byte 1, 5, 3, 3, 3
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -2482,7 +1990,7 @@ STATS_UNKENEMY2:
     ;item
     .byte $00
     ;graphic
-    .byte $38
+    .byte ENEMY_GRAPHICS::CEREBRUM_A_PILLOW_A_DOLL_A_LAMP
 
 STATS_DOLL:
     .byte $0
@@ -2498,16 +2006,8 @@ STATS_DOLL:
     ething3 4, 0, 2
     ;defense, messageDefeat, unkParam
     ething4 5, 5, 0
-    ;fight
-    .byte 3
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 1
-    ;strength
-    .byte 1
-    ;force
-    .byte 1
+    ;fight, speed, wisdom, strength, force
+    .byte 3, 5, 1, 1, 1
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -2519,7 +2019,7 @@ STATS_DOLL:
     ;item
     .byte $00
     ;graphic
-    .byte $38
+    .byte ENEMY_GRAPHICS::CEREBRUM_A_PILLOW_A_DOLL_A_LAMP
 
 STATS_LAMP:
     .byte $0
@@ -2535,16 +2035,8 @@ STATS_LAMP:
     ething3 3, 0, 2
     ;defense, messageDefeat, unkParam
     ething4 5, 5, 0
-    ;fight
-    .byte 1
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 3
-    ;strength
-    .byte 3
-    ;force
-    .byte 3
+    ;fight, speed, wisdom, strength, force
+    .byte 1, 5, 3, 3, 3
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -2556,7 +2048,7 @@ STATS_LAMP:
     ;item
     .byte $00
     ;graphic
-    .byte $38
+    .byte ENEMY_GRAPHICS::CEREBRUM_A_PILLOW_A_DOLL_A_LAMP
 
 STATS_UNKENEMY3:
     .byte $0
@@ -2572,16 +2064,8 @@ STATS_UNKENEMY3:
     ething3 35, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 20, 0, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 45
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 5, 5, 45, 30
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -2597,7 +2081,7 @@ STATS_UNKENEMY3:
     ;item
     .byte $00
     ;graphic
-    .byte $00
+    .byte 0
 
 STATS_UNKENEMY4:
     .byte $0
@@ -2613,16 +2097,8 @@ STATS_UNKENEMY4:
     ething3 35, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 20, 0, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 45
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 5, 5, 45, 30
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -2638,7 +2114,7 @@ STATS_UNKENEMY4:
     ;item
     .byte $00
     ;graphic
-    .byte $00
+    .byte 0
 
 STATS_BIONICCENTI:
     .byte $0
@@ -2654,16 +2130,8 @@ STATS_BIONICCENTI:
     ething3 16, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 32, 1, 0
-    ;fight
-    .byte 15
-    ;speed
-    .byte 28
-    ;wisdom
-    .byte 60
-    ;strength
-    .byte 30
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 15, 28, 60, 30, 30
     ;battle actions
     .byte $01,$3D,$3D,$01,$01,$01,$01,$01
     ;name pointer
@@ -2675,7 +2143,7 @@ STATS_BIONICCENTI:
     ;item
     .byte $00
     ;graphic
-    .byte $3A
+    .byte ENEMY_GRAPHICS::BAGLADY_A_CENTIPEDE_A_GHOST
 
 STATS_BIONICSCORP:
     .byte $0
@@ -2691,16 +2159,8 @@ STATS_BIONICSCORP:
     ething3 60, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 150, 1, 0
-    ;fight
-    .byte 40
-    ;speed
-    .byte 70
-    ;wisdom
-    .byte 80
-    ;strength
-    .byte 60
-    ;force
-    .byte 60
+    ;fight, speed, wisdom, strength, force
+    .byte 40, 70, 80, 60, 60
     ;battle actions
     .byte $3D,$3E,$3D,$3E,$01,$01,$01,$01
     ;name pointer
@@ -2712,7 +2172,7 @@ STATS_BIONICSCORP:
     ;item
     .byte $00
     ;graphic
-    .byte $3D
+    .byte ENEMY_GRAPHICS::COUGAR_A_SNAKE_A_SCORPION
 
 STATS_UNKENEMY5:
     .byte $0
@@ -2728,16 +2188,8 @@ STATS_UNKENEMY5:
     ething3 35, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 20, 0, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 45
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 5, 5, 45, 30
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -2753,7 +2205,7 @@ STATS_UNKENEMY5:
     ;item
     .byte $00
     ;graphic
-    .byte $00
+    .byte 0
 
 STATS_UNKENEMY6:
     .byte $0
@@ -2769,16 +2221,8 @@ STATS_UNKENEMY6:
     ething3 35, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 20, 0, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 45
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 5, 5, 45, 30
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -2794,7 +2238,7 @@ STATS_UNKENEMY6:
     ;item
     .byte $00
     ;graphic
-    .byte $00
+    .byte 0
 
 STATS_RED_SNAKE:
     .byte $0
@@ -2810,16 +2254,8 @@ STATS_RED_SNAKE:
     ething3 50, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 160, 1, 0
-    ;fight
-    .byte 90
-    ;speed
-    .byte 100
-    ;wisdom
-    .byte 60
-    ;strength
-    .byte 60
-    ;force
-    .byte 40
+    ;fight, speed, wisdom, strength, force
+    .byte 90, 100, 60, 60, 40
     ;battle actions
     .byte $48,$48,$48,$48,$48,$48,$01,$01
     ;name pointer
@@ -2831,7 +2267,7 @@ STATS_RED_SNAKE:
     ;item
     .byte $2F
     ;graphic
-    .byte $3D
+    .byte ENEMY_GRAPHICS::COUGAR_A_SNAKE_A_SCORPION
 
 STATS_LONE_WOLF:
     .byte $0
@@ -2847,16 +2283,8 @@ STATS_LONE_WOLF:
     ething3 60, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 150, 1, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 60
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 30
-    ;force
-    .byte 60
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 60, 30, 30, 60
     ;battle actions
     .byte $03,$03,$03,$03,$03,$03,$03,$03
     ;name pointer
@@ -2868,7 +2296,7 @@ STATS_LONE_WOLF:
     ;item
     .byte $00
     ;graphic
-    .byte $36
+    .byte ENEMY_GRAPHICS::ULLRICH_A_DOG
 
 STATS_POLAR_BEAR:
     .byte $0
@@ -2884,16 +2312,8 @@ STATS_POLAR_BEAR:
     ething3 52, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 180, 1, 0
-    ;fight
-    .byte 30
-    ;speed
-    .byte 40
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 40
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 30, 40, 30, 40, 30
     ;battle actions
     .byte $01,$01,$01,$04,$05,$4F,$01,$01
     ;name pointer
@@ -2905,7 +2325,7 @@ STATS_POLAR_BEAR:
     ;item
     .byte $00
     ;graphic
-    .byte $2B
+    .byte ENEMY_GRAPHICS::BEAR_A_FLY
 
 STATS_UNKENEMY7:
     .byte $0
@@ -2921,16 +2341,8 @@ STATS_UNKENEMY7:
     ething3 65, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 60, 1, 0
-    ;fight
-    .byte 55
-    ;speed
-    .byte 45
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 30
-    ;force
-    .byte 45
+    ;fight, speed, wisdom, strength, force
+    .byte 55, 45, 30, 30, 45
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -2946,7 +2358,7 @@ STATS_UNKENEMY7:
     ;item
     .byte $00
     ;graphic
-    .byte $3C
+    .byte ENEMY_GRAPHICS::GANGZOMBIE_A_ZOMBIE_A_STARMANJR
 
 STATS_UNKENEMY8:
     .byte $0
@@ -2962,16 +2374,8 @@ STATS_UNKENEMY8:
     ething3 60, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 55, 1, 0
-    ;fight
-    .byte 40
-    ;speed
-    .byte 55
-    ;wisdom
-    .byte 40
-    ;strength
-    .byte 40
-    ;force
-    .byte 60
+    ;fight, speed, wisdom, strength, force
+    .byte 40, 55, 40, 40, 60
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -2987,7 +2391,7 @@ STATS_UNKENEMY8:
     ;item
     .byte $00
     ;graphic
-    .byte $2C
+    .byte ENEMY_GRAPHICS::BISON_A_ENERGY
 
 STATS_UNKENEMY9:
     .byte $0
@@ -3003,16 +2407,8 @@ STATS_UNKENEMY9:
     ething3 70, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 90, 0, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 50
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 30
-    ;force
-    .byte 40
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 50, 30, 30, 40
     ;battle actions
     .byte $37,$3D,$3D,$01,$01,$01,$01,$01
     ;name pointer
@@ -3028,7 +2424,7 @@ STATS_UNKENEMY9:
     ;item
     .byte $00
     ;graphic
-    .byte $00
+    .byte 0
 
 STATS_UNKENEMYA:
     .byte $0
@@ -3044,16 +2440,8 @@ STATS_UNKENEMYA:
     ething3 35, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 20, 0, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 45
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 5, 5, 45, 30
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -3069,7 +2457,7 @@ STATS_UNKENEMYA:
     ;item
     .byte $00
     ;graphic
-    .byte $00
+    .byte 0
 
 STATS_RATTLESNAKE:
     .byte $0
@@ -3085,16 +2473,8 @@ STATS_RATTLESNAKE:
     ething3 65, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 128, 1, 0
-    ;fight
-    .byte 60
-    ;speed
-    .byte 80
-    ;wisdom
-    .byte 80
-    ;strength
-    .byte 60
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 60, 80, 80, 60, 20
     ;battle actions
     .byte $5D,$5D,$5D,$07,$01,$01,$01,$01
     ;name pointer
@@ -3106,7 +2486,7 @@ STATS_RATTLESNAKE:
     ;item
     .byte $00
     ;graphic
-    .byte $3D
+    .byte ENEMY_GRAPHICS::COUGAR_A_SNAKE_A_SCORPION
 
 STATS_TARANTULA:
     .byte $0
@@ -3122,16 +2502,8 @@ STATS_TARANTULA:
     ething3 84, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 160, 1, 0
-    ;fight
-    .byte 70
-    ;speed
-    .byte 80
-    ;wisdom
-    .byte 80
-    ;strength
-    .byte 60
-    ;force
-    .byte 15
+    ;fight, speed, wisdom, strength, force
+    .byte 70, 80, 80, 60, 15
     ;battle actions
     .byte $49,$49,$3D,$3D,$3D,$3D,$01,$01
     ;name pointer
@@ -3143,7 +2515,7 @@ STATS_TARANTULA:
     ;item
     .byte $00
     ;graphic
-    .byte $2A
+    .byte ENEMY_GRAPHICS::GABILAN_A_SPIDER
 
 STATS_CROCODILE:
     .byte $0
@@ -3159,16 +2531,8 @@ STATS_CROCODILE:
     ething3 80, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 150, 1, 0
-    ;fight
-    .byte 40
-    ;speed
-    .byte 30
-    ;wisdom
-    .byte 40
-    ;strength
-    .byte 80
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 40, 30, 40, 80, 20
     ;battle actions
     .byte $5D,$5D,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -3180,7 +2544,7 @@ STATS_CROCODILE:
     ;item
     .byte $00
     ;graphic
-    .byte $31
+    .byte ENEMY_GRAPHICS::BARBOT_A_CROCODILE
 
 STATS_UNKENEMYB:
     .byte $0
@@ -3196,16 +2560,8 @@ STATS_UNKENEMYB:
     ething3 70, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 60, 1, 0
-    ;fight
-    .byte 60
-    ;speed
-    .byte 80
-    ;wisdom
-    .byte 80
-    ;strength
-    .byte 80
-    ;force
-    .byte 80
+    ;fight, speed, wisdom, strength, force
+    .byte 60, 80, 80, 80, 80
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -3221,7 +2577,7 @@ STATS_UNKENEMYB:
     ;item
     .byte $00
     ;graphic
-    .byte $2C
+    .byte ENEMY_GRAPHICS::BISON_A_ENERGY
 
 STATS_BUFFALO:
     .byte $0
@@ -3237,16 +2593,8 @@ STATS_BUFFALO:
     ething3 68, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 150, 1, 0
-    ;fight
-    .byte 60
-    ;speed
-    .byte 43
-    ;wisdom
-    .byte 40
-    ;strength
-    .byte 40
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 60, 43, 40, 40, 20
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -3258,7 +2606,7 @@ STATS_BUFFALO:
     ;item
     .byte $00
     ;graphic
-    .byte $2C
+    .byte ENEMY_GRAPHICS::BISON_A_ENERGY
 
 STATS_UNKENEMYC:
     .byte $0
@@ -3274,16 +2622,8 @@ STATS_UNKENEMYC:
     ething3 35, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 20, 0, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 45
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 5, 5, 45, 30
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -3299,7 +2639,7 @@ STATS_UNKENEMYC:
     ;item
     .byte $00
     ;graphic
-    .byte $00
+    .byte 0
 
 STATS_BIONIC_BAT:
     .byte $0
@@ -3315,16 +2655,8 @@ STATS_BIONIC_BAT:
     ething3 34, 0, 4
     ;defense, messageDefeat, unkParam
     ething4 64, 1, 0
-    ;fight
-    .byte 20
-    ;speed
-    .byte 35
-    ;wisdom
-    .byte 50
-    ;strength
-    .byte 60
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 35, 50, 60, 30
     ;battle actions
     .byte $49,$49,$54,$54,$01,$01,$01,$3E
     ;name pointer
@@ -3336,7 +2668,7 @@ STATS_BIONIC_BAT:
     ;item
     .byte $00
     ;graphic
-    .byte $29
+    .byte ENEMY_GRAPHICS::GARGOYLE_A_BAT
 
 STATS_STRAY_DOG:
     .byte $0
@@ -3352,16 +2684,8 @@ STATS_STRAY_DOG:
     ething3 8, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 10, 1, 0
-    ;fight
-    .byte 8
-    ;speed
-    .byte 12
-    ;wisdom
-    .byte 2
-    ;strength
-    .byte 5
-    ;force
-    .byte 8
+    ;fight, speed, wisdom, strength, force
+    .byte 8, 12, 2, 5, 8
     ;battle actions
     .byte $03,$03,$03,$03,$03,$03,$03,$03
     ;name pointer
@@ -3373,7 +2697,7 @@ STATS_STRAY_DOG:
     ;item
     .byte $1B
     ;graphic
-    .byte $36
+    .byte ENEMY_GRAPHICS::ULLRICH_A_DOG
 
 STATS_PSYCHO_CAR:
     .byte $0
@@ -3389,16 +2713,8 @@ STATS_PSYCHO_CAR:
     ething3 18, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 40, 6, 0
-    ;fight
-    .byte 45
-    ;speed
-    .byte 40
-    ;wisdom
-    .byte 35
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 45, 40, 35, 100, 100
     ;battle actions
     .byte $06,$32,$06,$06,$06,$06,$06,$06
     ;name pointer
@@ -3410,7 +2726,7 @@ STATS_PSYCHO_CAR:
     ;item
     .byte $00
     ;graphic
-    .byte $2E
+    .byte ENEMY_GRAPHICS::FISH_A_CAR
 
 STATS_PSYCHOTRUCK:
     .byte $0
@@ -3426,16 +2742,8 @@ STATS_PSYCHOTRUCK:
     ething3 20, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 40, 6, 0
-    ;fight
-    .byte 30
-    ;speed
-    .byte 32
-    ;wisdom
-    .byte 35
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 30, 32, 35, 100, 100
     ;battle actions
     .byte $06,$06,$32,$32,$06,$06,$06,$32
     ;name pointer
@@ -3447,7 +2755,7 @@ STATS_PSYCHOTRUCK:
     ;item
     .byte $00
     ;graphic
-    .byte $26
+    .byte ENEMY_GRAPHICS::TRUCK_A_GROUCHO
 
 STATS_MANIACTRUCK:
     .byte $0
@@ -3463,16 +2771,8 @@ STATS_MANIACTRUCK:
     ething3 34, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 48, 6, 0
-    ;fight
-    .byte 45
-    ;speed
-    .byte 35
-    ;wisdom
-    .byte 35
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 45, 35, 35, 100, 100
     ;battle actions
     .byte $32,$32,$06,$06,$32,$06,$06,$32
     ;name pointer
@@ -3484,7 +2784,7 @@ STATS_MANIACTRUCK:
     ;item
     .byte $00
     ;graphic
-    .byte $26
+    .byte ENEMY_GRAPHICS::TRUCK_A_GROUCHO
 
 STATS_ALARM_GHOST:
     .byte $0
@@ -3500,16 +2800,8 @@ STATS_ALARM_GHOST:
     ething3 30, 0, 2
     ;defense, messageDefeat, unkParam
     ething4 160, 7, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 90
-    ;wisdom
-    .byte 50
-    ;strength
-    .byte 60
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 90, 50, 60, 30
     ;battle actions
     .byte $49,$49,$49,$49,$01,$01,$01,$01
     ;name pointer
@@ -3521,7 +2813,7 @@ STATS_ALARM_GHOST:
     ;item
     .byte $00
     ;graphic
-    .byte $3A
+    .byte ENEMY_GRAPHICS::BAGLADY_A_CENTIPEDE_A_GHOST
 
 STATS_UNKENEMYD:
     .byte $0
@@ -3537,16 +2829,8 @@ STATS_UNKENEMYD:
     ething3 35, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 20, 0, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 45
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 5, 5, 45, 30
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -3562,7 +2846,7 @@ STATS_UNKENEMYD:
     ;item
     .byte $00
     ;graphic
-    .byte $00
+    .byte 0
 
 STATS_FOUREYES:
     .byte $0
@@ -3578,16 +2862,8 @@ STATS_FOUREYES:
     ething3 22, 0, 1
     ;defense, messageDefeat, unkParam
     ething4 32, 2, 0
-    ;fight
-    .byte 20
-    ;speed
-    .byte 40
-    ;wisdom
-    .byte 20
-    ;strength
-    .byte 20
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 40, 20, 20, 20
     ;battle actions
     .byte $5D,$5D,$5D,$01,$01,$01,$01,$01
     ;name pointer
@@ -3599,7 +2875,7 @@ STATS_FOUREYES:
     ;item
     .byte $00
     ;graphic
-    .byte $27
+    .byte ENEMY_GRAPHICS::ROBOT_A_FOUREYES
 
 STATS_DADSEYES:
     .byte $0
@@ -3615,16 +2891,8 @@ STATS_DADSEYES:
     ething3 20, 0, 1
     ;defense, messageDefeat, unkParam
     ething4 32, 2, 0
-    ;fight
-    .byte 20
-    ;speed
-    .byte 20
-    ;wisdom
-    .byte 20
-    ;strength
-    .byte 20
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 20, 20, 20, 20
     ;battle actions
     .byte $28,$28,$28,$01,$01,$01,$01,$01
     ;name pointer
@@ -3636,7 +2904,7 @@ STATS_DADSEYES:
     ;item
     .byte $00
     ;graphic
-    .byte $27
+    .byte ENEMY_GRAPHICS::ROBOT_A_FOUREYES
 
 STATS_MOMSEYES:
     .byte $0
@@ -3652,16 +2920,8 @@ STATS_MOMSEYES:
     ething3 24, 0, 2
     ;defense, messageDefeat, unkParam
     ething4 20, 2, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 50
-    ;wisdom
-    .byte 20
-    ;strength
-    .byte 20
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 50, 20, 20, 20
     ;battle actions
     .byte $02,$02,$02,$02,$02,$02,$02,$02
     ;name pointer
@@ -3673,7 +2933,7 @@ STATS_MOMSEYES:
     ;item
     .byte $00
     ;graphic
-    .byte $27
+    .byte ENEMY_GRAPHICS::ROBOT_A_FOUREYES
 
 STATS_UNKENEMYE:
     .byte $0
@@ -3689,16 +2949,8 @@ STATS_UNKENEMYE:
     ething3 35, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 20, 0, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 45
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 5, 5, 45, 30
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -3714,7 +2966,7 @@ STATS_UNKENEMYE:
     ;item
     .byte $00
     ;graphic
-    .byte $2F
+    .byte ENEMY_GRAPHICS::ARMOR_A_TEDDY
 
 STATS_UNKENEMYF:
     .byte $0
@@ -3730,16 +2982,8 @@ STATS_UNKENEMYF:
     ething3 35, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 20, 0, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 45
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 5, 5, 45, 30
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -3755,7 +2999,7 @@ STATS_UNKENEMYF:
     ;item
     .byte $00
     ;graphic
-    .byte $2F
+    .byte ENEMY_GRAPHICS::ARMOR_A_TEDDY
 
 STATS_SKY_YDDET:
     .byte $0
@@ -3771,16 +3015,8 @@ STATS_SKY_YDDET:
     ething3 24, 0, 2
     ;defense, messageDefeat, unkParam
     ething4 50, 2, 0
-    ;fight
-    .byte 20
-    ;speed
-    .byte 30
-    ;wisdom
-    .byte 20
-    ;strength
-    .byte 50
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 30, 20, 50, 20
     ;battle actions
     .byte $4F,$4F,$4F,$4F,$4F,$4F,$07,$07
     ;name pointer
@@ -3792,7 +3028,7 @@ STATS_SKY_YDDET:
     ;item
     .byte $49
     ;graphic
-    .byte $2F
+    .byte ENEMY_GRAPHICS::ARMOR_A_TEDDY
 
 STATS_UNKENEMY10:
     .byte $0
@@ -3808,16 +3044,8 @@ STATS_UNKENEMY10:
     ething3 35, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 20, 0, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 45
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 5, 5, 45, 30
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -3833,7 +3061,7 @@ STATS_UNKENEMY10:
     ;item
     .byte $00
     ;graphic
-    .byte $28
+    .byte ENEMY_GRAPHICS::BORG_A_UFO
 
 STATS_GIGA_BORG:
     .byte $0
@@ -3849,16 +3077,8 @@ STATS_GIGA_BORG:
     ething3 100, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 180, 3, 0
-    ;fight
-    .byte 80
-    ;speed
-    .byte 60
-    ;wisdom
-    .byte 80
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 80, 60, 80, 100, 100
     ;battle actions
     .byte $12,$15,$12,$12,$13,$12,$12,$12
     ;name pointer
@@ -3870,7 +3090,7 @@ STATS_GIGA_BORG:
     ;item
     .byte $25
     ;graphic
-    .byte $28
+    .byte ENEMY_GRAPHICS::BORG_A_UFO
 
 STATS_OMEGA_BORG:
     .byte $0
@@ -3886,16 +3106,8 @@ STATS_OMEGA_BORG:
     ething3 150, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 200, 3, 0
-    ;fight
-    .byte 200
-    ;speed
-    .byte 100
-    ;wisdom
-    .byte 90
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 200, 100, 90, 100, 100
     ;battle actions
     .byte $15,$13,$13,$0A,$0A,$83,$01,$0E
     ;name pointer
@@ -3907,7 +3119,7 @@ STATS_OMEGA_BORG:
     ;item
     .byte $00
     ;graphic
-    .byte $28
+    .byte ENEMY_GRAPHICS::BORG_A_UFO
 
 STATS_SCRAPPER:
     .byte $0
@@ -3923,16 +3135,8 @@ STATS_SCRAPPER:
     ething3 26, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 76, 3, 0
-    ;fight
-    .byte 25
-    ;speed
-    .byte 20
-    ;wisdom
-    .byte 20
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 25, 20, 20, 100, 100
     ;battle actions
     .byte $53,$53,$01,$01,$01,$12,$12,$12
     ;name pointer
@@ -3944,7 +3148,7 @@ STATS_SCRAPPER:
     ;item
     .byte $25
     ;graphic
-    .byte $27
+    .byte ENEMY_GRAPHICS::ROBOT_A_FOUREYES
 
 STATS_ULTRABARBOT:
     .byte $0
@@ -3960,16 +3164,8 @@ STATS_ULTRABARBOT:
     ething3 54, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 80, 3, 0
-    ;fight
-    .byte 30
-    ;speed
-    .byte 50
-    ;wisdom
-    .byte 40
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 30, 50, 40, 100, 100
     ;battle actions
     .byte $01,$15,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -3981,7 +3177,7 @@ STATS_ULTRABARBOT:
     ;item
     .byte $26
     ;graphic
-    .byte $31
+    .byte ENEMY_GRAPHICS::BARBOT_A_CROCODILE
 
 STATS_OMEGASAUCER:
     .byte $0
@@ -3997,16 +3193,8 @@ STATS_OMEGASAUCER:
     ething3 42, 3, 4
     ;defense, messageDefeat, unkParam
     ething4 50, 3, 0
-    ;fight
-    .byte 20
-    ;speed
-    .byte 60
-    ;wisdom
-    .byte 40
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 20, 60, 40, 100, 100
     ;battle actions
     .byte $12,$01,$38,$01,$01,$01,$01,$01
     ;name pointer
@@ -4018,7 +3206,7 @@ STATS_OMEGASAUCER:
     ;item
     .byte $00
     ;graphic
-    .byte $28
+    .byte ENEMY_GRAPHICS::BORG_A_UFO
 
 STATS_KELLY:
     .byte $0
@@ -4034,16 +3222,8 @@ STATS_KELLY:
     ething3 80, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 150, 3, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 70
-    ;wisdom
-    .byte 60
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 70, 60, 100, 100
     ;battle actions
     .byte $6B,$62,$31,$01,$6B,$01,$01,$01
     ;name pointer
@@ -4055,7 +3235,7 @@ STATS_KELLY:
     ;item
     .byte $00
     ;graphic
-    .byte $32
+    .byte ENEMY_GRAPHICS::NANCY_A_GORILLA
 
 STATS_STAR_MINER:
     .byte $0
@@ -4071,16 +3251,8 @@ STATS_STAR_MINER:
     ething3 140, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 200, 3, 0
-    ;fight
-    .byte 100
-    ;speed
-    .byte 100
-    ;wisdom
-    .byte 60
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 100, 100, 60, 100, 100
     ;battle actions
     .byte $46,$10,$46,$10,$10,$10,$10,$01
     ;name pointer
@@ -4092,7 +3264,7 @@ STATS_STAR_MINER:
     ;item
     .byte $24
     ;graphic
-    .byte $3B
+    .byte ENEMY_GRAPHICS::DUSTBALL_A_BBGANG_A_BOMBER
 
 STATS_SUPERENERGY:
     .byte $0
@@ -4108,16 +3280,8 @@ STATS_SUPERENERGY:
     ething3 50, 1, 0
     ;defense, messageDefeat, unkParam
     ething4 120, 3, 0
-    ;fight
-    .byte 30
-    ;speed
-    .byte 35
-    ;wisdom
-    .byte 60
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 30, 35, 60, 100, 100
     ;battle actions
     .byte $2E,$2E,$2E,$2E,$01,$01,$01,$01
     ;name pointer
@@ -4129,7 +3293,7 @@ STATS_SUPERENERGY:
     ;item
     .byte $00
     ;graphic
-    .byte $2C
+    .byte ENEMY_GRAPHICS::BISON_A_ENERGY
 
 STATS_JUANA:
     .byte $0
@@ -4145,16 +3309,8 @@ STATS_JUANA:
     ething3 200, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 250, 3, 0
-    ;fight
-    .byte 200
-    ;speed
-    .byte 120
-    ;wisdom
-    .byte 100
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 200, 120, 100, 100, 100
     ;battle actions
     .byte $18,$83,$0A,$6B,$0B,$15,$01,$01
     ;name pointer
@@ -4166,7 +3322,7 @@ STATS_JUANA:
     ;item
     .byte $49
     ;graphic
-    .byte $32
+    .byte ENEMY_GRAPHICS::NANCY_A_GORILLA
 
 STATS_BLUESTARMAN:
     .byte $0
@@ -4182,16 +3338,8 @@ STATS_BLUESTARMAN:
     ething3 74, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 120, 2, 0
-    ;fight
-    .byte 40
-    ;speed
-    .byte 42
-    ;wisdom
-    .byte 60
-    ;strength
-    .byte 50
-    ;force
-    .byte 45
+    ;fight, speed, wisdom, strength, force
+    .byte 40, 42, 60, 50, 45
     ;battle actions
     .byte $12,$13,$38,$53,$53,$15,$01,$01
     ;name pointer
@@ -4203,7 +3351,7 @@ STATS_BLUESTARMAN:
     ;item
     .byte $00
     ;graphic
-    .byte $33
+    .byte ENEMY_GRAPHICS::STARMAN_A_TITANIAN
 
 STATS_ROCKOYLE:
     .byte $0
@@ -4219,16 +3367,8 @@ STATS_ROCKOYLE:
     ething3 70, 0, 2
     ;defense, messageDefeat, unkParam
     ething4 150, 2, 0
-    ;fight
-    .byte 60
-    ;speed
-    .byte 65
-    ;wisdom
-    .byte 120
-    ;strength
-    .byte 30
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 60, 65, 120, 30, 100
     ;battle actions
     .byte $0D,$40,$0E,$0F,$01,$01,$01,$01
     ;name pointer
@@ -4240,7 +3380,7 @@ STATS_ROCKOYLE:
     ;item
     .byte $00
     ;graphic
-    .byte $29
+    .byte ENEMY_GRAPHICS::GARGOYLE_A_BAT
 
 STATS_TITANIAN:
     .byte $0
@@ -4256,16 +3396,8 @@ STATS_TITANIAN:
     ething3 100, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 420, 2, 0
-    ;fight
-    .byte 60
-    ;speed
-    .byte 70
-    ;wisdom
-    .byte 200
-    ;strength
-    .byte 80
-    ;force
-    .byte 25
+    ;fight, speed, wisdom, strength, force
+    .byte 60, 70, 200, 80, 25
     ;battle actions
     .byte $62,$62,$62,$01,$01,$01,$01,$3E
     ;name pointer
@@ -4277,7 +3409,7 @@ STATS_TITANIAN:
     ;item
     .byte $00
     ;graphic
-    .byte $33
+    .byte ENEMY_GRAPHICS::STARMAN_A_TITANIAN
 
 STATS_OH_MOOK:
     .byte $0
@@ -4293,16 +3425,8 @@ STATS_OH_MOOK:
     ething3 60, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 140, 2, 0
-    ;fight
-    .byte 100
-    ;speed
-    .byte 65
-    ;wisdom
-    .byte 250
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 100, 65, 250, 100, 100
     ;battle actions
     .byte $0A,$0D,$42,$4B,$2B,$1D,$31,$36
     ;name pointer
@@ -4314,7 +3438,7 @@ STATS_OH_MOOK:
     ;item
     .byte $00
     ;graphic
-    .byte $34
+    .byte ENEMY_GRAPHICS::MOOK_A_SHROUDLEY
 
 STATS_UNKENEMY11:
     .byte $0
@@ -4330,16 +3454,8 @@ STATS_UNKENEMY11:
     ething3 35, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 20, 0, 0
-    ;fight
-    .byte 50
-    ;speed
-    .byte 5
-    ;wisdom
-    .byte 5
-    ;strength
-    .byte 45
-    ;force
-    .byte 30
+    ;fight, speed, wisdom, strength, force
+    .byte 50, 5, 5, 45, 30
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -4355,7 +3471,7 @@ STATS_UNKENEMY11:
     ;item
     .byte $00
     ;graphic
-    .byte $00
+    .byte 0
 
 STATS_ZOMBIE:
     .byte $0
@@ -4371,16 +3487,8 @@ STATS_ZOMBIE:
     ething3 50, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 80, 4, 0
-    ;fight
-    .byte 45
-    ;speed
-    .byte 48
-    ;wisdom
-    .byte 80
-    ;strength
-    .byte 60
-    ;force
-    .byte 15
+    ;fight, speed, wisdom, strength, force
+    .byte 45, 48, 80, 60, 15
     ;battle actions
     .byte $42,$42,$42,$4C,$4C,$4C,$4C,$01
     ;name pointer
@@ -4392,7 +3500,7 @@ STATS_ZOMBIE:
     ;item
     .byte $00
     ;graphic
-    .byte $3C
+    .byte ENEMY_GRAPHICS::GANGZOMBIE_A_ZOMBIE_A_STARMANJR
 
 STATS_NASTYZOMBIE:
     .byte $0
@@ -4408,16 +3516,8 @@ STATS_NASTYZOMBIE:
     ething3 62, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 90, 4, 0
-    ;fight
-    .byte 30
-    ;speed
-    .byte 30
-    ;wisdom
-    .byte 50
-    ;strength
-    .byte 60
-    ;force
-    .byte 20
+    ;fight, speed, wisdom, strength, force
+    .byte 30, 30, 50, 60, 20
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -4429,7 +3529,7 @@ STATS_NASTYZOMBIE:
     ;item
     .byte $00
     ;graphic
-    .byte $3C
+    .byte ENEMY_GRAPHICS::GANGZOMBIE_A_ZOMBIE_A_STARMANJR
 
 STATS_SILVER_WOLF:
     .byte $0
@@ -4445,16 +3545,8 @@ STATS_SILVER_WOLF:
     ething3 44, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 76, 1, 0
-    ;fight
-    .byte 40
-    ;speed
-    .byte 42
-    ;wisdom
-    .byte 30
-    ;strength
-    .byte 30
-    ;force
-    .byte 25
+    ;fight, speed, wisdom, strength, force
+    .byte 40, 42, 30, 30, 25
     ;battle actions
     .byte $03,$03,$03,$03,$03,$03,$03,$03
     ;name pointer
@@ -4466,7 +3558,7 @@ STATS_SILVER_WOLF:
     ;item
     .byte $00
     ;graphic
-    .byte $36
+    .byte ENEMY_GRAPHICS::ULLRICH_A_DOG
 
 STATS_R7037:
     .byte $0
@@ -4482,16 +3574,8 @@ STATS_R7037:
     ething3 300, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 600, 3, 0
-    ;fight
-    .byte 100
-    ;speed
-    .byte 100
-    ;wisdom
-    .byte 40
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 100, 100, 40, 100, 100
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -4503,7 +3587,7 @@ STATS_R7037:
     ;item
     .byte $00
     ;graphic
-    .byte $22
+    .byte ENEMY_GRAPHICS::R703
 
 STATS_GRIZZLYBEAR:
     .byte $0
@@ -4519,16 +3603,8 @@ STATS_GRIZZLYBEAR:
     ething3 160, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 340, 1, 0
-    ;fight
-    .byte 100
-    ;speed
-    .byte 100
-    ;wisdom
-    .byte 60
-    ;strength
-    .byte 100
-    ;force
-    .byte 25
+    ;fight, speed, wisdom, strength, force
+    .byte 100, 100, 60, 100, 25
     ;battle actions
     .byte $02,$02,$02,$04,$05,$02,$02,$07
     ;name pointer
@@ -4540,7 +3616,7 @@ STATS_GRIZZLYBEAR:
     ;item
     .byte $00
     ;graphic
-    .byte $2B
+    .byte ENEMY_GRAPHICS::BEAR_A_FLY
 
 STATS_R7038XX:
     .byte $0
@@ -4556,16 +3632,8 @@ STATS_R7038XX:
     ething3 900, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 1000, 3, 0
-    ;fight
-    .byte 60
-    ;speed
-    .byte 60
-    ;wisdom
-    .byte 60
-    ;strength
-    .byte 100
-    ;force
-    .byte 100
+    ;fight, speed, wisdom, strength, force
+    .byte 60, 60, 60, 100, 100
     ;battle actions
     .byte $01,$01,$01,$01,$01,$01,$01,$01
     ;name pointer
@@ -4577,7 +3645,7 @@ STATS_R7038XX:
     ;item
     .byte $00
     ;graphic
-    .byte $22
+    .byte ENEMY_GRAPHICS::R703
 
 STATS_LASTSTARMAN:
     .byte $0
@@ -4593,16 +3661,8 @@ STATS_LASTSTARMAN:
     ething3 90, 0, 0
     ;defense, messageDefeat, unkParam
     ething4 140, 2, 0
-    ;fight
-    .byte 70
-    ;speed
-    .byte 60
-    ;wisdom
-    .byte 60
-    ;strength
-    .byte 80
-    ;force
-    .byte 50
+    ;fight, speed, wisdom, strength, force
+    .byte 70, 60, 60, 80, 50
     ;battle actions
     .byte $13,$13,$38,$15,$01,$01,$53,$53
     ;name pointer
@@ -4614,4 +3674,4 @@ STATS_LASTSTARMAN:
     ;item
     .byte $49
     ;graphic
-    .byte $33
+    .byte ENEMY_GRAPHICS::STARMAN_A_TITANIAN
