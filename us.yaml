@@ -713,7 +713,7 @@ splits:
       - [0xF00, stats/R7038XX]
       - [0xF20, stats/LASTSTARMAN]
 
-      - [0xf40]
+      - [0xf40, battle_positionings]
 
       - [0xf98, battles/BATTLE_0]
       - [0xfa2, battles/BATTLE_1]

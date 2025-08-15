@@ -98,6 +98,7 @@ bytevar_0307                = $0307
 
 ; $0400 (PPU Address)
 ; not labeled
+; nmi_queue
 
 ; $0500 (between banks)
 ; used to hold information when bankswitching
@@ -296,26 +297,26 @@ BattleMain:
     bne :-
     jsr PpuSync
     lda #$05
-    sta $0400
+    sta nmi_queue
     lda #$10
-    sta $0401
+    sta nmi_queue+1
     ldy #$00
     ldx #$04
 :   lda BATTLER_1BASED, y
-    sta $0400, x
-    sta $0408, x
+    sta nmi_queue, x
+    sta nmi_queue+8, x
     iny
     inx
     cpy #$08
     bne :-
     lda #$00
-    sta $0408, x
+    sta nmi_queue+8, x
     lda #$80
     sta $e5
     lda #$23
-    sta $0402
+    sta nmi_queue+2
     lda #$d8
-    sta $0403
+    sta nmi_queue+3
     lda #$00
     sta $e6
     lda #$00
@@ -559,7 +560,7 @@ B23_028a:
     asl a
     adc turn_counter
     tay
-    lda $8f40, y
+    lda battle_positionings, y
     sta battle_wordvar64+1
     lda BATTLER_CURR_HP+1, x
     and #$0c
@@ -615,29 +616,29 @@ B23_028a:
     jsr PpuSync
     ldx #$00
     lda #$05
-    sta $0400, x ; TODO: NMI command
+    sta nmi_queue, x ; TODO: NMI command
     inx
     lda battle_wordvar62+1
-    sta $0400, x
+    sta nmi_queue, x
     sta battle_wordvar66+1
     inx
     lda battle_wordvar64+1
-    sta $0400, x
+    sta nmi_queue, x
     inx
     lda battle_wordvar64
-    sta $0400, x
+    sta nmi_queue, x
     B23_0357:
     iny
     lda (battle_wordvar60), y
     clc
     adc battle_wordvar66
     inx
-    sta $0400, x
+    sta nmi_queue, x
     dec battle_wordvar66+1
     bne B23_0357
     lda #$00
     inx
-    sta $0400, x
+    sta nmi_queue, x
     clc
     lda battle_wordvar64
     adc #$20
@@ -683,28 +684,31 @@ B23_028a:
     sta bytevar_0302, x
     lda battle_wordvar68
     sta bytevar_0303, x
-    ldy #$01
+
+    ;enemy extra tile pointer -> [$306]
+    ldy #1
     lda (battle_wordvar60), y
     sta bytevar_0306, x
     iny
     lda (battle_wordvar60), y
     sta bytevar_0307, x
+
     B23_03d1:
     rts
 
 ; Fill 64 bytes at PPU address in YX with 0xFF
 ClearNametableAttribute:
     jsr PpuSync
-    stx $0400+2
-    sty $0400+3
+    stx nmi_queue+2
+    sty nmi_queue+3
     lda #$08
-    sta $0400 ; PPU_FILL
+    sta nmi_queue ; PPU_FILL
     lda #$40
-    sta $0400+1 ; Fill 64 bytes
+    sta nmi_queue+1 ; Fill 64 bytes
     lda #$ff
-    sta $0400+4 ; With $FF
+    sta nmi_queue+4 ; With $FF
     lda #$00
-    sta $0400+5 ; END
+    sta nmi_queue+5 ; END
     lda #$80
     sta $e5
     lda #$00
@@ -722,24 +726,35 @@ DisplayText_battle:
     cmp #$ff
     bne B23_042d
     sec
+
+    ;get ram pointer - $8000
     ldy target_offset
     lda BATTLER_FULLDATA_PTR, y
-    sbc #$00
-    sta $74
+    sbc #.LOBYTE($8000)
+    sta UNK_74
     lda BATTLER_FULLDATA_PTR+1, y
-    sbc #$80
-    asl $74
+    sbc #.HIBYTE($8000)
+
+    ;ram pointer << 3
+    asl UNK_74
     rol a
-    asl $74
+    asl UNK_74
     rol a
-    asl $74
+    asl UNK_74
     rol a
+    ;by this point, it basically discards the lower half
+
     clc
-    adc #$14
-    sta $74
-    lda #$00
-    adc #$05
-    sta $73
+
+    ;lo = hi + 20
+    adc #20
+    sta UNK_74
+
+    ;a = 5 + carry
+    lda #0
+    adc #5
+    sta UNK_74-1
+
     bcc PrintChar
     B23_042d:
     ldy #$00
@@ -754,15 +769,15 @@ DisplayText_battle:
     sta battle_wordvar60+1
     ldy #$00
     lda (battle_wordvar60), y
-    sta $74
+    sta UNK_74
     iny
     lda (battle_wordvar60), y
     sta $73
     PrintChar: ; assumed function
     jsr GetTextData
-    lda $74
+    lda UNK_74
     sta battle_bytevar50
-    lda $75
+    lda UNK_74+1
     sta battle_bytevar51
     lda battle_bytevar52
     cmp #$03

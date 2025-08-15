@@ -157,6 +157,7 @@ obj_incs = 0
 ;i mean. sure man
 ;cant this technically be used for any flag?
 ;bbbbbfff
+;accesses storyflags[byte].flag
 .define teleportFlagDef(flag, byte) .byte (byte << 3) | flag
 
 ;labels

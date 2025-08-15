@@ -123,10 +123,10 @@ t_nop = 5
 .define recipient print_string $6D24
 .define result print_string $6d00
 .define favFood print_string $7689
-.define nintenName print_string ninten_name
-.define lloydName print_string lloyd_name
-.define anaName print_string ana_name
-.define teddyName print_string teddy_name
+.define nintenName print_string Ninten_Data+party_info::name
+.define lloydName print_string Lloyd_Data+party_info::name
+.define anaName print_string Ana_Data+party_info::name
+.define teddyName print_string Teddy_Data+party_info::name
 .define partyLead print_string $670A
 .define item print_string $6D04
 .define playerName print_string $7420
@@ -138,6 +138,7 @@ t_nop = 5
 .define unk3 repeatTile " ", 16
 
 ;i cant charmap these :(
+music_note = $96 ; α
 alpha = $BB ; α
 beta  = $BC ; β
 gamma = $BD ; γ

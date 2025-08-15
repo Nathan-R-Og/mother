@@ -16,14 +16,14 @@ Ninten_Data:
 .word 30,8,5,5
 ;fight, speed, wisdom, strength, force
 .byte 5,5,5,5,5
-ninten_level:
+;level
 .byte 1
 ;exp
 .faraddr 0 ;far addrs are meant for segments but also i want a 3 byte keyword :)
 ;hp, pp
 .word 30,8
 ;name pointer (why exactly?)
-.addr ninten_name
+.addr Ninten_Data+party_info::name
 ;?
 .byte $00,$00,$08,$64
 ;sprite
@@ -47,11 +47,9 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .byte %00000000, %00000000
 
 ;default name
-ninten_name:
 .ifdef VER_JP
 ;Boy A
-kanafix "しょうねんA"
-.byte 0,stopText
+kanafix "しょうねんA",0,stopText
 .else
 .byte 0,0,0,0,0,0,0,stopText
 .endif
@@ -75,7 +73,7 @@ Ana_Data:
 ;hp, pp
 .word 26,12
 ;name pointer (why exactly?)
-.addr ana_name
+.addr Ana_Data+party_info::name
 ;?
 .byte $00,$00,$08,$64
 ;sprite
@@ -99,11 +97,9 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .byte %00000000, %00000000
 
 ;default name
-ana_name:
 .ifdef VER_JP
 ;Girl B
-kanafix "しょうじょB"
-.byte 0,stopText
+kanafix "しょうじょB",0,stopText
 .else
 .byte 0,0,0,0,0,0,0,stopText
 .endif
@@ -127,7 +123,7 @@ Lloyd_Data:
 ;hp, pp
 .word 28,0
 ;name pointer (why exactly?)
-.addr lloyd_name
+.addr Lloyd_Data+party_info::name
 ;?
 .byte $00,$00,$08,$64
 ;sprite
@@ -151,11 +147,9 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .byte %00000000, %00000000
 
 ;default name
-lloyd_name:
 .ifdef VER_JP
 ;Boy C
-kanafix "しょうねんC"
-.byte 0,stopText
+kanafix "しょうねんC",0,stopText
 .else
 .byte 0,0,0,0,0,0,0,stopText
 .endif
@@ -179,7 +173,7 @@ Teddy_Data:
 ;hp, pp
 .word 134,0
 ;name pointer (why exactly?)
-.addr teddy_name
+.addr Teddy_Data+party_info::name
 ;?
 .byte $00,$00,$08,$64
 ;sprite
@@ -203,11 +197,9 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .byte %00000000, %00000000
 
 ;default name
-teddy_name:
 .ifdef VER_JP
 ;Boy D
-kanafix "しょうねんD"
-.byte 0,stopText
+kanafix "しょうねんD",0,stopText
 .else
 .byte 0,0,0,0,0,0,0,stopText
 .endif
@@ -231,7 +223,7 @@ Pippi_Data:
 ;hp, pp
 .word 32,0
 ;name pointer (why exactly?)
-.addr pippi_name
+.addr Pippi_Data+party_info::name
 ;?
 .byte $00,$00,$08,$64
 ;sprite
@@ -255,11 +247,9 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .byte %00000000, %00000000
 
 ;default name
-pippi_name:
 .ifdef VER_JP
 ;Pippi
-kanafix "ピッピ"
-.byte 0,0,0,0,stopText
+kanafix "ピッピ",0,0,0,0,stopText
 .else
 .byte "Pippi",0,0,stopText
 .endif
@@ -283,7 +273,7 @@ EVE_Data:
 ;hp, pp
 .word 999,0
 ;name pointer (why exactly?)
-.addr eve_name
+.addr EVE_Data+party_info::name
 ;?
 .byte $00,$00,$08,$3a
 ;sprite
@@ -307,11 +297,9 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .byte %00000000, %00000000
 
 ;default name
-eve_name:
 .ifdef VER_JP
 ;EVE
-kanafix "イヴ"
-.byte 0,0,0,0,0,stopText
+kanafix "イヴ",0,0,0,0,0,stopText
 .else
 .byte "EVE",0,0,0,0,stopText
 .endif
@@ -335,7 +323,7 @@ FlyingMan_Data:
 ;hp, pp
 .word 30,0
 ;name pointer (why exactly?)
-.addr flyingman_name
+.addr FlyingMan_Data+party_info::name
 ;?
 .byte $00,$00,$08,$64
 ;sprite
@@ -359,11 +347,9 @@ doorArgDef $12, $21, DIRECTIONS::LEFT, $BE
 .byte %00000000, %00000000
 
 ;default name
-flyingman_name:
 .ifdef VER_JP
 ;Flying Man
-kanafix "フライングマン"
-.byte stopText
+kanafix "フライングマン",stopText
 .else
 .byte "FlynMan",stopText
 .endif

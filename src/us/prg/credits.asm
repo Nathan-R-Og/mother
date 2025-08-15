@@ -226,47 +226,47 @@ credits_cmd_set_metatileprops:
     sta UNK_43
     jsr PpuSync
     lda #$05
-    sta UNK_400 ; TODO: UNKNOWN NMI COMMAND
+    sta nmi_queue ; TODO: UNKNOWN NMI COMMAND
     ldy #$04
     lda (UNK_40), y
     sta UNK_42
     dey
     lda (UNK_40), y
-    sta UNK_400+1
+    sta nmi_queue+1
     dey
     lda (UNK_40), y
-    sta UNK_400+2
+    sta nmi_queue+2
     dey
     lda (UNK_40), y
-    sta UNK_400+3
+    sta nmi_queue+3
     ldy #$05
     B26_0119:
     ldx #$00
     B26_011b:
     lda (UNK_40), y
-    sta UNK_400+4, x
+    sta nmi_queue+4, x
     iny
     bne B26_0125
     inc UNK_41
     B26_0125:
     inx
-    cpx UNK_400+1
+    cpx nmi_queue+1
     bne B26_011b
-    lda #$00
-    sta UNK_400+4, x
-    sta UNK_E6
-    lda #$80
+    lda #.LOBYTE($8000)
+    sta nmi_queue+4, x
+    sta UNK_E5+1
+    lda #.HIBYTE($8000)
     sta UNK_E5
     dec UNK_42
     beq B26_0151
     jsr PpuSync
     clc
     lda UNK_43
-    adc UNK_400+3
-    sta UNK_400+3
+    adc nmi_queue+3
+    sta nmi_queue+3
     lda #$00
-    adc UNK_400+2
-    sta UNK_400+2
+    adc nmi_queue+2
+    sta nmi_queue+2
     jmp B26_0119
     B26_0151:
     rts
@@ -281,11 +281,11 @@ credits_cmd_set_palette:
     @loop:
     ;read/write byte
     lda (UNK_40), y
-    sta UNK_500, x
+    sta palette_queue, x
 
     ;copy and write default sprite palette
     lda credits_generic_sprite_pal, x
-    sta UNK_500+$10, x
+    sta palette_queue+$10, x
 
     dey
     dex
@@ -293,20 +293,19 @@ credits_cmd_set_palette:
 
     ;get transparency of first bg, copy to sprite transparency
     ;emergency case basically
-    lda UNK_500
-    sta UNK_500+$10
-    sta UNK_500+$14
-    sta UNK_500+$18
-    sta UNK_500+$1c
+    lda palette_queue
+    sta palette_queue+$10
+    sta palette_queue+$14
+    sta palette_queue+$18
+    sta palette_queue+$1c
 
     lda #4
-    sta UNK_400 ; UPDATE_PALETTE
+    sta nmi_queue ; UPDATE_PALETTE
 
     lda #0
-    sta UNK_400+1 ; END
-    sta UNK_E6
-
-    lda #$80
+    sta nmi_queue+1 ; END
+    sta UNK_E5+1 ;.LOBYTE($8000)
+    lda #.HIBYTE($8000)
     sta UNK_E5
 
     ;set to after command
@@ -483,7 +482,7 @@ credits_cmd_draw_text:
     lda #2
     sta UNK_76
     lda #$13
-    sta UNK_77
+    sta UNK_76+1
 
     lda #$1c
     sta UNK_70
@@ -505,27 +504,27 @@ credits_cmd_draw_text:
     jsr PpuSync
 
     lda #8
-    sta UNK_400 ; PPU_FILL
+    sta nmi_queue ; PPU_FILL
 
     lda #7
-    sta UNK_400+1 ; Fill 7 bytes...
+    sta nmi_queue+1 ; Fill 7 bytes...
 
     lda #.LOBYTE($23e9)
-    sta UNK_400+3
+    sta nmi_queue+3
     lda #.HIBYTE($23e9)
-    sta UNK_400+2 ; at $23E9...
+    sta nmi_queue+2 ; at $23E9...
 
     lda #$ff
-    sta UNK_400+4 ; with $FF
+    sta nmi_queue+4 ; with $FF
 
     lda #0
-    sta UNK_400+5 ; END
+    sta nmi_queue+5 ; END
 
     ldx #2
     @loop2:
-    lda #0
-    sta UNK_E6
-    lda #$80
+    lda #.LOBYTE($8000)
+    sta UNK_E5+1
+    lda #.HIBYTE($8000)
     sta UNK_E5
 
     dex
@@ -535,11 +534,11 @@ credits_cmd_draw_text:
     clc
 
     lda #8
-    adc UNK_400+3
-    sta UNK_400+3
+    adc nmi_queue+3
+    sta nmi_queue+3
     lda #0
-    adc UNK_400+2
-    sta UNK_400+2
+    adc nmi_queue+2
+    sta nmi_queue+2
     jmp @loop2
 
     @break2:
@@ -563,7 +562,7 @@ credits_cmd_draw_text_xy:
     ;get next byte (y pos)
     iny
     lda (UNK_40), y
-    sta UNK_77
+    sta UNK_76+1
 
     lda #0
     sta UNK_70
@@ -670,7 +669,6 @@ credits_generic_sprite_pal:
 .define ENDING_CMD_13_FADEIN .byte $13
 
 ;byte code begin
-;TODO: link sprite.asm pointers
 Credits_Script:
     ENDING_CMD_01_DELAY 120
     ENDING_CMD_0B_PLAYSFX $2D

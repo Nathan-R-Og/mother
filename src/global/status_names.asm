@@ -2,48 +2,40 @@
 
 ;status
 STATUS_FAINTD:
-kanafix "いしきふめい"
-.byte   stopText
+kanafix "いしきふめい",stopText
 STATUS_STONE:
-kanafix "いしになった"
-.byte   stopText
+kanafix "いしになった",stopText
 STATUS_PARLZD:
-kanafix "まひしている"
-.byte   stopText
+kanafix "まひしている",stopText
 STATUS_ASLEEP:
-kanafix "ねむっている"
-.byte   stopText
+kanafix "ねむっている",stopText
 STATUS_CONFSD:
-kanafix "こんらんした"
-.byte   stopText
+kanafix "こんらんした",stopText
 STATUS_PUZZLD:
-kanafix "まどわされた"
-.byte   stopText
+kanafix "まどわされた",stopText
 STATUS_POISON:
-kanafix "どくをうけた"
-.byte   stopText
+kanafix "どくをうけた",stopText
 STATUS_COLD:
-kanafix "かぜをひいた"
-.byte   stopText
+kanafix "かぜをひいた",stopText
 
 .else
 
 ;status
 STATUS_FAINTD:
-.byte   "Faintd",stopText
+.byte "Faintd",stopText
 STATUS_STONE:
-.byte   " Stone",stopText
+.byte " Stone",stopText
 STATUS_PARLZD:
-.byte   "Parlzd",stopText
+.byte "Parlzd",stopText
 STATUS_ASLEEP:
-.byte   "Asleep",stopText
+.byte "Asleep",stopText
 STATUS_CONFSD:
-.byte   "Confsd",stopText
+.byte "Confsd",stopText
 STATUS_PUZZLD:
-.byte   "Puzzld",stopText
+.byte "Puzzld",stopText
 STATUS_POISON:
-.byte   "Poison",stopText
+.byte "Poison",stopText
 STATUS_COLD:
-.byte   "  Cold",stopText
+.byte "  Cold",stopText
 
 .endif

@@ -1,10 +1,10 @@
 ; zeropage variables
-input_wordvar           = $2a       ; 16-bit var often used to "input" values for use in upcoming functions
+input_wordvar = global_wordvar ; 16-bit var often used to "input" values for use in upcoming functions
 
-tableentry_var          = $40       ; area in zpage ram where table entry's data is often stored (but can be used for other purposes, ofc)
+tableentry_var = UNK_40 ; area in zpage ram where table entry's data is often stored (but can be used for other purposes, ofc)
 
 temp_vars               = UNK_60       ; area in zpage ram where temp vars are stored
-temp_word               = UNK_60       ; different label when $60 being used as a word (16-bit)
+temp_word               = UNK_60       ; different label when $60 is being used as a word (16-bit)
     temp_word_lo        = UNK_60
     temp_word_hi        = UNK_60+1
 
@@ -15,66 +15,95 @@ OM_OPEN_FULLSTATS:
     lda #$05
     sta soundqueue_pulseg0
 SelectOpenFullStats:
+    ;store learned_melodies
     lda learned_melodies
     sta temp_vars
+
+    ;if high bit of learned_melodies != 0, write music note
+    ;else, write dot
     ldy #$f0
-:   lda #$a5            ; --
+    @write_melodies:
+    lda #$a5 ;dot tile
     lsr temp_vars
-    bcc :+              ; +
-    lda #$96
-:   sta BATTLER, y      ; +
+    bcc @keep_blank
+    lda #music_note ;music note tile
+    @keep_blank:
+    sta BATTLER, y
     iny
     cpy #$f8
-    bcc :--             ; --
-    lda #$00
+    bcc @write_melodies
+
+    lda #0
     sta BATTLER, y
+
     B19_0021:
-    ldx #$00
+    ldx #0
     B19_0023:
-    jsr B30_19f1
+    jsr GetXCharacter
+    ;if failed, jump
     bcs B19_0084
+    ;else,
     jsr GetPartyMemberData
+    ;stash x
     txa
     pha
+
+    ;copy data to actual ram
     ldy #$3f
-:   lda (temp_vars), y
+    @copy_party_member_data:
+    lda (temp_vars), y
     sta BATTLER, y
     dey
-    bpl :-
+    bpl @copy_party_member_data
+
     ldx #$80
-    ldy #$28
-:   lda BATTLER, y
-    sta $29
+    ldy #party_info::weapon
+    @bcc_3:
+    lda BATTLER, y
+    sta UNK_28+1
+    ;get item
     jsr B19_008f
+
     iny
-    cpy #$2c
-    bcc :-
+    cpy #party_info::crumb_coords
+    bcc @bcc_3
+
     jsr B30_03e6
-    lda #$f5
-    ldx #$a0
+
+    ;load text info
+    lda #.LOBYTE(State_TextOverlay)
+    ldx #.HIBYTE(State_TextOverlay)
     jsr B19_0c44
+
     lda #$c0
-    sta $29
+    sta UNK_28+1
     jsr B19_00b3
+
+    ;do choicer
     lda #.LOBYTE(State_Choicer)
     ldx #.HIBYTE(State_Choicer)
     sta UNK_80
     stx UNK_80+1
     jsr B31_0f34
+
     B19_0064:
-    bit $83
+    ;test bits of menucursor_pos+1 (the buttons pressed)
+    bit menucursor_pos+1
     bvs B19_008b
-    lda $82
+    lda menucursor_pos
     beq B19_0082
     jsr B19_00b3
     bcs B19_0074
     jsr B19_00b3
     B19_0074:
-    ldx #$0a
-    ldy #$03
-    stx $76
-    sty $77
+
+    ;store 10,3 for x,y
+    ldx #10
+    ldy #3
+    stx UNK_76
+    sty UNK_76+1
     jsr B31_0f7c
+
     jmp B19_0064
 
 B19_0082:
@@ -82,21 +111,27 @@ B19_0082:
     tax
 B19_0084:
     inx
-    cpx #$04
+    cpx #4
     bcc B19_0023
     bcs B19_0021
 B19_008b:
     pla
     jmp CLEAR_TEXTBOXES_ROUTINE
 
+;print item from id???
+;UNK_28+1 is the id
 B19_008f:
+    ;stash y and x
     tya
     pha
     txa
     pha
+
     jsr GetItemDataPointer
-    ldy #$00
+
+    ldy #0
     lda (temp_vars), y
+
     sta $64
     iny
     lda (temp_vars), y
@@ -158,12 +193,22 @@ B19_00ed:
     bne B19_00ed
     rts
 
-B19_00f5:
-    .byte $20,$0b,$03,$23,$38,$06,$00,$07
-    .byte $00,$20,$13,$05,$23,$40,$06,$00
-    .byte $0b,$01,$23,$50,$06,$00,$0b,$01
-    .byte $23,$60,$06,$00,$0b,$01,$23,$70
-    .byte $06,$00,$0b,$00
+State_TextOverlay:
+    ;print the name
+    .byte set_pos 11, 3
+    .byte print_number $0638, 0, 7
+    .byte stopText
+
+    ;print the psi panel contents
+    .byte set_pos 19, 5
+    .byte print_number $0640, 0, 11
+    .byte newLine
+    .byte print_number $0650, 0, 11
+    .byte newLine
+    .byte print_number $0660, 0, 11
+    .byte newLine
+    .byte print_number $0670, 0, 11
+    .byte stopText
 
 State_Choicer:
     .byte 2, 1 ; choicer array size
@@ -200,7 +245,7 @@ B19_0123:
     bvs B19_0168
     lda $82
     beq B19_0168
-    jsr B19_1e57
+    jsr Game_Begin
     ldx #$86
     jsr DisplayText
     jmp OINST_Reset
@@ -242,10 +287,10 @@ B19_0178:
 B19_01a4:
     .addr B19_01ea-1 ; 00 - TALK
     .addr B19_020f-1 ; 01 - CHECK
-    .addr B19_0262-1 ; 02
-    .addr SelectOpenFullStats-1 ; 03
-    .addr B19_0238-1 ; 04
-    .addr B19_01ba-1 ; 05
+    .addr B19_0262-1 ; 02 - GOODS ?
+    .addr SelectOpenFullStats-1 ; 03 - STATE ?
+    .addr B19_0238-1 ; 04 - PSI ?
+    .addr SelectOpenSetup-1 ; 05 - SETUP
 
 Command_Choicer:
     .byte 2, 3 ; choicer array size
@@ -255,10 +300,10 @@ Command_Choicer:
     .byte 2, 3 ; X/Y start
     .addr B31_10d1 ; choices
 
-B19_01ba:
-    lda #25
-    ldx #.LOBYTE(B25_036e-1)
-    ldy #.HIBYTE(B25_036e-1)
+SelectOpenSetup:
+    lda #$19
+    ldx #.LOBYTE(SetupMenu-1)
+    ldy #.HIBYTE(SetupMenu-1)
     jsr TempUpperBankswitch
     jmp CLEAR_TEXTBOXES_ROUTINE
 
@@ -577,7 +622,6 @@ OverworldActionInterpreter:
     rts
 
 ;the reason these are all -1 are because of NES accessing stuff.
-;needs to be even or odd or whatever
 OVERWORLD_ACTIONS_POINTERS:
     .addr OA_NothingHappened-1              ; ID 00
     .addr OA_INTERACT-1
@@ -1232,7 +1276,7 @@ OA_MAP:
 OpenMapWithButton:
     lda #PulseG0_MenuBloop
     sta soundqueue_pulseg0
-;   jmp OpenMapEffect                   ; fallthru
+    ;fallthrough
 
 OpenMapEffect:
     lda $14
@@ -1319,19 +1363,19 @@ B19_08d4:
 
 ;chr bankswitch table
 map_chr_bankswitch_data:
-.byte $00,$78,$58,$59,$5A,$00
+    .byte $00,$78,$58,$59,$5A,$00
 
 ;palettes
 map_palettes_data:
-.byte $0F,$36,$30,$2A
-.byte $0F,$36,$30,$2A
-.byte $0F,$36,$30,$16
-.byte $0F,$36,$30,$16
+    .byte $0F,$36,$30,$2A
+    .byte $0F,$36,$30,$2A
+    .byte $0F,$36,$30,$16
+    .byte $0F,$36,$30,$16
 
-.byte $0F,$21,$02,$0A
-.byte $0F,$21,$21,$21
-.byte $0F,$21,$21,$21
-.byte $0F,$21,$21,$21
+    .byte $0F,$21,$02,$0A
+    .byte $0F,$21,$21,$21
+    .byte $0F,$21,$21,$21
+    .byte $0F,$21,$21,$21
 
 
 DisplayTextAndFinishRoutine:
@@ -1491,7 +1535,7 @@ B19_0a05:
     jsr DisplayText
     ldx #$00
     B19_0a0f:
-    jsr B30_19f1
+    jsr GetXCharacter
     bcs B19_0a1f
     sta $28
     txa
@@ -1552,7 +1596,14 @@ B19_0a6f:
 
 ; Bitfield for bit to check if item is usable/equippable.
 PlayerUsableBitfieldLUT:
-.byte $00,$01,$02,$04,$08,$10,$20,$20
+    .byte %00000000
+    .byte %00000001
+    .byte %00000010
+    .byte %00000100
+    .byte %00001000
+    .byte %00010000
+    .byte %00100000
+    .byte %00100000
 
 ReadOverworldMessageLUT:
     lda OverworldMessageLUT, x
@@ -1807,9 +1858,10 @@ OverworldScriptLUT:
 OINST_InfiniteLoop:
     jmp OINST_InfiniteLoop
 
+;render UNK_74
 B19_0c44:
-    sta $74
-    stx $75
+    sta UNK_74
+    stx UNK_74+1
     jmp B30_06d2
 
 ; Instruction 0F - Reset game
@@ -2160,7 +2212,7 @@ OINST_JMPFlagClr:
 B19_0e58:
     iny
     sty object_script_offset
-    jmp B31_0646
+    jmp get_story_flag_data
 
 ; Instruction 14 - Increment counter
 OINST_IncCounter:
@@ -2373,7 +2425,7 @@ OINST_JMP_ItemNotInInv:
     jsr B19_0fc4
     ldx #0
 B19_0f93:
-    jsr B30_19f1
+    jsr GetXCharacter
     bcs B19_0fa5
     sta $28
     txa
@@ -2745,7 +2797,7 @@ OINST_JMP_InvEmpty:
     sty $35
     ldx #0
 B19_11c1:
-    jsr B30_19f1
+    jsr GetXCharacter
     bcs B19_11d1
     tay
     txa
@@ -2926,22 +2978,25 @@ B19_12c3:
     rts
 
 B19_12d8:
-    stx object_memory+$16
-    sty object_memory+$17
+    stx object_memory+object_m_sprite2
+    sty object_memory+object_m_sprite2+1
 B19_12de:
     sta object_memory
     asl a
     asl a
     tax
-    lda B31_0105+2, x
-    sta object_memory+$08
-    lda B31_0105+3, x
-    sta object_memory+$14
+
+    ;write typed object to object memory
+    lda Object_Configs+2, x
+    sta object_memory+object_m_oam
+    lda Object_Configs+3, x
+    sta object_memory+object_m_bitfield1
+
     ldy $35
     iny
     lda (object_data), y
-    sta object_memory+$15
-    sta object_memory+$19
+    sta object_memory+object_m_direction
+    sta object_memory+object_m_unk1+1
     rts
 
 ; Instruction 47 - Airplane
@@ -3028,9 +3083,9 @@ B19_138b:
     sta object_memory+object_m_sprite2, y
     lda #$8a
     sta object_memory+object_m_sprite2+1, y
-    lda B31_0105+2, x
+    lda Object_Configs+2, x
     sta object_memory+object_m_oam, y
-    lda B31_0105+3, x
+    lda Object_Configs+3, x
     sta object_memory+object_m_bitfield1, y
     rts
 
@@ -3113,7 +3168,7 @@ B19_141b:
 OINST_Teleport:
     jsr EnablePRGRam
     iny
-    jsr B31_06a1
+    jsr obj_prep_teleport
     iny
     jmp WriteProtectPRGRam
 
@@ -3203,7 +3258,7 @@ OINST_Set7400:
 ; Instruction 56 - Save
 OINST_Save:
     sty $35
-    jsr B19_1e57
+    jsr Game_Begin
     ldy $35
     iny
     rts
@@ -3274,7 +3329,7 @@ OINST_MultiplyByPartySize:
     sta $65
     ldx #1
 B19_151d:
-    jsr B30_19f1
+    jsr GetXCharacter
     bcs B19_153d
     jsr GetPartyMemberData
     ldy #1
@@ -3665,7 +3720,7 @@ B19_1763:
     lda $6704, x
     beq B19_177e
     lda #$a0
-    jsr B30_068b
+    jsr AddTileViaNMI
     dec $77
     dec $77
     dex
@@ -3715,7 +3770,7 @@ B19_17b6:
     bcc B19_17c2
     ldx #$00
     B19_17c2:
-    jsr B30_19f1
+    jsr GetXCharacter
     bcs B19_17bb
     sta $28
     stx $37
@@ -4289,7 +4344,7 @@ B19_1bc3:
 B19_1bd4:
     jsr GetItemDataPointer
     ldy #$02
-    jsr B31_06a9
+    jsr obj_do_teleport
     jmp B19_0b41
 
 GetItemDataPointer:
@@ -4305,10 +4360,10 @@ B19_1be2:
     rts
 
 GetItemDataOffset:
-    lda $29
+    lda UNK_28+1
 B19_1bf2:
     sta temp_vars
-    lda #$00
+    lda #0
     asl temp_vars
     rol a
     asl temp_vars
@@ -4667,7 +4722,7 @@ EVE_Fling:
     .byte -1,-2
     .byte 1,-2
 
-B19_1e57:
+Game_Begin:
     lda save_slot
     jsr B19_1ebb
     jsr B19_1ed3

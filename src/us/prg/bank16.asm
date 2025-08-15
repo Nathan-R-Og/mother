@@ -2,8 +2,30 @@
 
 .include "../../global/enemy_stats.asm"
 
-;positioning???
-.incbin "../../split/global/prg/bank16/unkf40.bin"
+;positioning
+battle_positionings:
+.byte $0C,$00,$00,$00
+.byte $0D,$00,$00,$00
+.byte $0E,$00,$00,$00
+.byte $00,$0D,$00,$00
+.byte $00,$0E,$00,$00
+.byte $00,$0B,$11,$00
+.byte $00,$08,$0E,$14
+.byte $0B,$11,$00,$00
+.byte $08,$12,$00,$00
+.byte $07,$11,$00,$00
+.byte $08,$0E,$14,$00
+.byte $05,$0D,$15,$00
+.byte $06,$0B,$10,$15
+.byte $02,$09,$10,$17
+.byte $0B,$10,$00,$00
+.byte $07,$0C,$15,$00
+.byte $0C,$15,$00,$00
+.byte $0A,$12,$00,$00
+.byte $02,$07,$10,$15
+.byte $03,$0C,$15,$00
+.byte $00,$08,$12,$00
+.byte $00,$05,$0D,$15
 
 .include "../../global/battles.asm"
 
@@ -142,56 +164,58 @@ ENEMY_TILE_POINTERE:
 .byte $3C,$3D,$3E,$3F
 
 ;enemy extra tiles
+;format tilecount, spritedef
+battle_extra_tiles:
 .byte 0
-.word 0
+.addr 0
 
-.byte $04
-.word $9740
+.byte 4
+.addr SPRITEDEF_DADSEYES_EXTRATILES
 
-.byte $04
-.word $9744
+.byte 4
+.addr SPRITEDEF_MOMSEYES_EXTRATILES
 
-.byte $05
-.word $9748
+.byte 5
+.addr SPRITEDEF_BIGWOODOH_EXTRATILES
 
-.byte $04
-.word $974C
+.byte 4
+.addr SPRITEDEF_R7037_EXTRATILES
 
-.byte $10
-.word $9750
+.byte 16
+.addr SPRITEDEF_R7038_EXTRATILES
 
-.byte $18
-.word $9754
+.byte 24
+.addr SPRITEDEF_R7038XX_EXTRATILES
 
-.byte $09
-.word $9758
+.byte 9
+.addr SPRITEDEF_SCRAPPER_EXTRATILES
 
-.byte $07
-.word $975C
+.byte 7
+.addr SPRITEDEF_FIRE_BALL_EXTRATILES
 
-.byte $05
-.word $9760
+.byte 5
+.addr SPRITEDEF_CENTIPEDE_EXTRATILES
 
-.byte $04
-.word $9764
+.byte 4
+.addr SPRITEDEF_ARMOR_EXTRATILES
 
-.byte $04
-.word $9768
+.byte 4
+.addr SPRITEDEF_RATTLESNAKE_EXTRATILES
 
-.byte $07
-.word $976C
+.byte 7
+.addr SPRITEDEF_STRAY_DOG_EXTRATILES
 
-.byte $01
-.word $9770
+.byte 1
+.addr SPRITEDEF_KELLY_EXTRATILES
 
-.byte $08
-.word $9774
+.byte 8
+.addr SPRITEDEF_JUANA_EXTRATILES
 
-.byte $22
-.word $9778
+.byte 34
+.addr SPRITEDEF_GIEGUE_EXTRATILES
 
-.byte $08
-.word $977C
+.byte 8
+.addr SPRITEDEF_SKY_YDDET_EXTRATILES
 
 BATTLE_ACTION_POINTERS:
 .addr BATTLE_ACTION0 ;nothing
@@ -1062,8 +1086,7 @@ B22_1f83:
 ; $9F8B - UNKNOWN
 B22_1f8b:
     .byte $01, $04
-    .byte 0       ; X
-    .byte 2       ; Y
+    .byte 0,2       ; X/Y
     .byte %11000000 ; Input mask
     .byte $5e       ; Tile
     .byte $10, $13
@@ -1071,8 +1094,7 @@ B22_1f8b:
 
 B22_1f95:
     .byte $02, $04
-    .byte 12
-    .byte 2
+    .byte 12,2       ; X/Y
     .byte %11000000
     .byte $5E
     .byte $06, $13
@@ -1080,8 +1102,7 @@ B22_1f95:
 ; $9F9D - UNKNOWN
 B22_1f9d:
     .byte $02, $04
-    .byte 12       ; X
-    .byte 2       ; Y
+    .byte 12,2       ; X/Y
     .byte %11001000 ; Input mask
     .byte $5e       ; Tile
     .byte $06, $13
@@ -1090,8 +1111,7 @@ B22_1f9d:
 ; $9FA7 - UNKNOWN
 B22_1fa7:
     .byte $01, $01
-    .byte 0       ; X
-    .byte 0       ; Y
+    .byte 0,0       ; X/Y
     .byte %11000101 ; Input mask
     .byte $5e       ; Tile
     .byte $07, $11

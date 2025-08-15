@@ -1982,28 +1982,28 @@ item_action_menu:
 .byte 4
 
 .byte uibox_l
-kanafix " つかう"
+kanafix " つかう" ; Use
 .byte uibox_r
 .byte 1
 .byte incrementor_3
 .byte 6
 
 .byte uibox_l
-kanafix " たべる"
+kanafix " たべる" ; Eat
 .byte uibox_r
 .byte 1
 .byte incrementor_3
 .byte 8
 
 .byte uibox_l
-kanafix " わたす"
+kanafix " わたす" ; Give
 .byte uibox_r
 .byte 1
 .byte incrementor_3
 .byte 10
 
 .byte uibox_l
-kanafix " すてる"
+kanafix " すてる" ; Drop
 .byte uibox_r
 .byte 0
 .byte incrementor_3
