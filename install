@@ -1,12 +1,30 @@
 #!/bin/bash
+
+echo "This script will update your platform of choice."
+read -p "Press ENTER key to continue or press Control+C to cancel."
+
+# Debian Support
 if cat /etc/os-release | grep -E 'ID=debian|ID_LIKE=(.*)debian' &> /dev/null; then
     supported=true
-    echo "Installing packages for Debian or derivative (apt)"
+    echo "Installing packages for Debian or derivative. (apt)"
     sudo apt update && sudo apt upgrade
     sudo apt-get install make gcc git
 
-    #make subfolder
+# Arch Support
+elif cat /etc/os-release | grep -E 'ID=arch|ID_LIKE=(.*)arch' &> /dev/null; then
+    supported=true
+    echo "Installing packages for Arch or derivative. (pacman)"
+    sudo pacman -Sy make gcc git
+fi
+
+
+if supported=true; then
+    # make subfolder
     git submodule update --remote
-    #go in and install cc65
-    cd cc65 && make && sudo make unavail && sudo make avail && cd - 
+
+    # go in and install cc65
+    cd cc65 && make && sudo make unavail && sudo make avail && cd -
+
+else
+    echo "This platform is not supported! :("
 fi
