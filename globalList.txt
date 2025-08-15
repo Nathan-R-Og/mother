@@ -1,5 +1,6 @@
 enemy_tiles.bin
 sprites.bin
+battle_positionings.bin
 expRates.bin
 battles/BATTLE_77.bin
 battles/BATTLE_130.bin
@@ -237,4 +238,3 @@ chr/c/global5.bin
 chr/c/global8.bin
 chr/c/global4.bin
 chr/3/global.bin
-prg/bank16/unkf40.bin

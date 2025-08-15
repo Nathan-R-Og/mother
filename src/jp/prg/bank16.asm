@@ -1,7 +1,31 @@
 .segment        "PRG16": absolute
 .include "../../global/enemy_stats.asm"
-;positioning???
-.incbin "../../split/global/prg/bank16/unkf40.bin"
+
+;positioning
+battle_positionings:
+.byte $0C,$00,$00,$00
+.byte $0D,$00,$00,$00
+.byte $0E,$00,$00,$00
+.byte $00,$0D,$00,$00
+.byte $00,$0E,$00,$00
+.byte $00,$0B,$11,$00
+.byte $00,$08,$0E,$14
+.byte $0B,$11,$00,$00
+.byte $08,$12,$00,$00
+.byte $07,$11,$00,$00
+.byte $08,$0E,$14,$00
+.byte $05,$0D,$15,$00
+.byte $06,$0B,$10,$15
+.byte $02,$09,$10,$17
+.byte $0B,$10,$00,$00
+.byte $07,$0C,$15,$00
+.byte $0C,$15,$00,$00
+.byte $0A,$12,$00,$00
+.byte $02,$07,$10,$15
+.byte $03,$0C,$15,$00
+.byte $00,$08,$12,$00
+.byte $00,$05,$0D,$15
+
 .include "../../global/battles.asm"
 
 ENEMY_TILE_POINTERS:
