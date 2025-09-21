@@ -2,125 +2,178 @@
 
 ;anti-piracy
 ANTI_PIRACY:
+    ;if scroll_x != 0, jump
+    ;if scroll_y != 0, jump
+    ;if ram_PPUCTRL != %10001000, jump
     lda scroll_x
-    cmp #$00
+    cmp #0
     bne B25_0074
     lda scroll_y
-    cmp #$00
+    cmp #0
     bne B25_0074
     lda ram_PPUCTRL
-    cmp #$88
+    cmp #%10001000
     bne B25_0074
+
     jsr PpuSync
-    lda #$09
+
+    ;add nmi queue
+    ;PPU_READ $12 ($2307)
+    lda #9
     ldx #$12
-    sta $0400 ; READ_PPU_HIGH_BYTE (TODO: NEEDS A BETTER NAME)
-    stx $0401 ; Read 0x12 values
-    lda #$07
-    ldx #$23
-    stx $0402
-    sta $0403 ; PPUADDR = $2307
-    lda #$00
-    sta $0404+$12
-    sta $e6
-    lda #$80
-    sta $e5
+    sta nmi_queue ; READ_PPU_HIGH_BYTE (TODO: NEEDS A BETTER NAME)
+    stx nmi_queue+1 ; Read 0x12 values
+    lda #.LOBYTE($2307) ; PPUADDR = $2307
+    ldx #.HIBYTE($2307)
+    stx nmi_queue+2
+    sta nmi_queue+3
+
+    lda #0
+    sta nmi_queue+$16
+
+    sta UNK_E5+1
+    lda #.HIBYTE($8000)
+    sta UNK_E5
+
     jsr PpuSync
-    ldx #$00
-    B25_0039:
-    lda $0404, x
-    cmp B25_00c6, x
+
+    ldx #0
+
+    ;check if nmi_queue[4:$16] == B25_00c6
+    @check_nmi_queue:
+    lda nmi_queue+4, x
+    cmp nmi_check_1, x
     bne B25_0074
     inx
-    cpx #$12
-    bcc B25_0039
+    cpx #nmi_check_1_END-nmi_check_1
+    bcc @check_nmi_queue
+
+    ;modify previous nmi command
+    ;[09 10 ($2307)]
     lda #$10
-    sta $0401
-    lda #$00
-    sta $0414
-    lda #.LOBYTE(B25_00d8)
-    sta $60
-    lda #.HIBYTE(B25_00d8)
-    sta $61
+    sta nmi_queue+1
+    ;insert zero???
+    lda #0
+    sta nmi_queue+$14
+
+    ;UNK_60 <- B25_00d8
+    lda #.LOBYTE(nmi_check_2)
+    sta UNK_60
+    lda #.HIBYTE(nmi_check_2)
+    sta UNK_60+1
     lda #$43
     ldx #$05
     jsr B25_0079
+
+    ;if not passed, jump
     bne B25_0074
+
     lda #$69
     ldx #$08
     jsr B25_0079
+
+    ;if not passed, jump
     bne B25_0074
     lda #$53
     ldx #$05
     jsr B25_0079
+
+    ;if not passed, jump
     bne B25_0074
+
+    ;all checks passed. congratular
     rts
 
+;piracy flag???
 B25_0074:
     lda #$e5
-    sta $06
+    sta UNK_6
     rts
 
+;nmi_check????
+;returns zero flag (z) if safe.
+;returns !zero flag (z) if pirated(?)
 B25_0079:
+    ; nmi_queue[2:3] = a << 4
     pha
     asl a
     asl a
     asl a
     asl a
-    sta $0403
+    sta nmi_queue+3
     pla
     lsr a
     lsr a
     lsr a
     lsr a
-    sta $0402
-    B25_0089:
-    lda #$00
-    sta $e6
-    lda #$80
-    sta $e5
+    sta nmi_queue+2
+
+    @loop:
+
+    lda #.LOBYTE($8000)
+    sta UNK_E5+1
+    lda #.HIBYTE($8000)
+    sta UNK_E5
+
     jsr PpuSync
-    ldy #$00
-    B25_0096:
-    lda $0404, y
-    cmp ($60), y
-    bne B25_00c5
+
+    ;verify NMI queue
+    ldy #0
+    @check:
+    lda nmi_queue+4, y
+    cmp (UNK_60), y
+    ;return zero flag off
+    bne @exit
     iny
-    cpy #$10
-    bcc B25_0096
+    cpy #nmi_check_2_END-nmi_check_2
+    bcc @check
+
+    ;clear carry
     clc
+
+    ;UNK_60 += $10
     lda #$10
-    adc $60
-    sta $60
-    lda #$00
-    adc $61
-    sta $61
+    adc UNK_60
+    sta UNK_60
+    lda #0
+    adc UNK_60+1
+    sta UNK_60+1
+
     dex
-    beq B25_00c5
+
+    ;exit if x == 0
+    beq @exit
+
     clc
+
+    ; nmi_queue[2:3] += $10
     lda #$10
-    adc $0403
-    sta $0403
-    lda #$00
-    adc $0402
-    sta $0402
-    bcc B25_0089
-    B25_00c5:
+    adc nmi_queue+3
+    sta nmi_queue+3
+    lda #0
+    adc nmi_queue+2
+    sta nmi_queue+2
+
+    ;if nmi_queue[2:3] overflow, exit
+    ;else, loop
+
+    bcc @loop
+    @exit:
     rts
 
-; $0404 check
-B25_00c6:
-    .byte $43, $44, $45, $46, $47
-    .byte $70, $69, $6a, $6b, $6c
-    .byte $6d, $6e, $6f, $53, $54
-    .byte $55, $56, $57
-B25_00d8:
-    .byte $00, $00, $00, $00, $00
-    .byte $00, $00, $00, $00, $38
-    .byte $44, $ba
+nmi_check_1:
+    .byte $43, $44, $45, $46, $47, $70, $69, $6a
+    .byte $6b, $6c, $6d, $6e, $6f, $53, $54, $55
+    .byte $56, $57
+nmi_check_1_END:
 
-B25_00e4:
-incbinRange "../../split/us/antipiracy.bin", $e4, $1f8
+nmi_check_2:
+    .byte $00, $00, $00, $00, $00, $00, $00, $00
+    .byte $00, $38, $44, $ba, $a2, $ba, $44, $38
+nmi_check_2_END:
+
+B25_00e8:
+incbinRange "../../split/us/antipiracy.bin", $e8, $1f8
 
 B25_01f8:
     jsr OT0_DefaultTransition
@@ -190,32 +243,47 @@ B25_026b:
     .byte $0f, $0f, $24, $37
     .byte $0f, $0f, $12, $37
 
-B25_1800 := $b800
-; $A28B
-; Unknown, called from bank 20 $9400
-CopyToSRAM:
-    lda #.LOBYTE(B25_1800)
-    ldx #.HIBYTE(B25_1800)
-    sta $60
-    stx $61 ; $60 = 0xB800
-    lda #$00
-    ldx #$60
-    sta $64
-    stx $65 ; $64 = 0x6000
+;$A28B
+;loads naming_screen_1
+LoadNamingScreen1:
+    ;is this considered a workaround if this is what the game does
+    ;id only say it is if it was possible to reference the bank address
+    ;of naming_screen_1 but i dont think that's possible.
+    ;genuinely. and wholeheartedly. whatevs.
+    .import __ANTIPIRACY_SIZE__
+    .import __ANTIPIRACY_START__
+    naming_screen_1_in_this_bank = __ANTIPIRACY_START__ + __ANTIPIRACY_SIZE__
+
+    ;set read address
+    lda #.LOBYTE(naming_screen_1_in_this_bank)
+    ldx #.HIBYTE(naming_screen_1_in_this_bank)
+    sta UNK_60 ; $60 = 0xB800
+    stx UNK_60+1
+
+    ;set write address
+    .import __NAMING_SCREEN_1_START__
+    lda #.LOBYTE(__NAMING_SCREEN_1_START__)
+    ldx #.HIBYTE(__NAMING_SCREEN_1_START__)
+    sta UNK_64 ; $64 = 0x6000
+    stx UNK_64+1
+
     jsr EnablePRGRam
-; Copy 0x0800 bytes from $B800 into $6000
-    ldx #$08
-    B25_02a0:
-    ldy #$00
-    B25_02a2:
-    lda ($60), y
-    sta ($64), y
+
+    ; Copy 0x0800 bytes from $B800 into $6000
+    ldx #8
+    @loop:
+    ldy #0
+    @copy:
+    ;one iteration of this copies a full $100 bytes.
+    lda (UNK_60), y
+    sta (UNK_64), y
     iny
-    bne B25_02a2
-    inc $61
-    inc $65
+    bne @copy
+    inc UNK_60+1
+    inc UNK_64+1
     dex
-    bne B25_02a0
+    bne @loop
+
     jmp WriteProtectPRGRam
 
 B25_02b3:
@@ -335,101 +403,157 @@ B25_031e:
     asl $e2
     rts
 
-B25_036e:
-    jsr B30_03ed
-    ldy #$00
-    B25_0373:
+SetupMenu:
+    jsr Draw_SetupMenu
+
+    ;display all 4 choices
+    ldy #0
+    @load_your_choices:
     tya
     pha
-    jsr B25_03cd
+    jsr Display_SetupMenuChoices
     pla
     tay
     iny
-    cpy #$04
-    bcc B25_0373
-    lda #$01
-    sta $d6
-    lda #.LOBYTE(B25_03fa)
-    ldx #.HIBYTE(B25_03fa)
-    sta $80
-    stx $81
+    cpy #4
+    bcc @load_your_choices
+
+    ;yeah man
+    lda #1
+    sta UNK_D6
+
+    ;do menu choicer
+    lda #.LOBYTE(SetupMenu_Choicer)
+    ldx #.HIBYTE(SetupMenu_Choicer)
+    sta UNK_80
+    stx UNK_80+1
     jsr B31_0f34
-    B25_038e:
-    bit $83
-    bpl B25_03c8
-    lda $82
+
+
+    @main_loop:
+    ;if !PAD_A, jump
+    bit menucursor_pos+1
+    bpl @exit
+
+    ;pos
+    lda menucursor_pos
     tax
+    ;y = a >> 3
     lsr a
     lsr a
     lsr a
     tay
+
     jsr EnablePRGRam
-    lda B25_0408, x
-    sta $743c, y
-    cpy #$03
-    bne B25_03b0
+
+    ;write value
+    lda SetupMenu_Choices, x
+    sta preferences, y
+
+    ;if y != 3, jump
+    cpy #3
+    bne @B25_03b0
+
     txa
     and #$07
     tax
-    lda B25_0428, x
+    lda SetupMenu_MessageSpeeds, x
     sta battle_message_speed
-    B25_03b0:
+    @B25_03b0:
     jsr WriteProtectPRGRam
-    lda $76
-    pha
-    lda $77
-    pha
-    jsr B25_03cd
-    pla
-    sta $77
-    pla
-    sta $76
-    jsr B31_0f7c
-    jmp B25_038e
 
-B25_03c8:
-    lda #$00
-    sta $d6
+    ;re-run the displaying script to add the new choice
+    lda UNK_76
+    pha
+    lda UNK_76+1
+    pha
+    jsr Display_SetupMenuChoices
+
+    ;reset UNK_76
+    pla
+    sta UNK_76+1
+    pla
+    sta UNK_76
+
+    jsr B31_0f7c
+    jmp @main_loop
+
+    @exit:
+    lda #0
+    sta UNK_D6
     rts
 
-B25_03cd:
+;y = preference index
+Display_SetupMenuChoices:
+    ;UNK_77 = (y << 2) + 13
     tya
     asl a
     asl a
-    adc #$0d
-    sta $77
-    lda $743c, y
-    sta $60
-    lda B25_0404, y
-    sta $61
-    ldx #$05
-    B25_03e0:
-    stx $76
-    lda #$94
-    asl $60
-    adc #$00
-    asl $61
-    bcc B25_03ef
-    jsr DrawSymbol
-    B25_03ef:
+    adc #13 ;y pos offset?
+    sta UNK_77
+
+    ;get preferences[y]
+    lda preferences, y
+    sta UNK_60
+    ;get preference_limits[y]
+    lda SetupBitfields, y
+    sta UNK_60+1
+
+    ldx #5
+    @loop:
+    stx UNK_76
+
+    ;get tile value from `preferences` boolean
+    ;radial_empty + 0 or 1
+    lda #radial_empty
+    asl UNK_60
+    adc #0
+
+    ;;;check if should bother
+    ;UNK_60+1 <<= 1
+    ;if not carry, skip
+    asl UNK_60+1
+    bcc @no_add
+    ;if carry, display value
+    jsr AddTileViaNMI
+    @no_add:
     clc
-    lda $76
-    adc #$04
+
+    ;x = UNK_76+4
+    lda UNK_76
+    adc #4
     tax
-    cpx #$19
-    bcc B25_03e0
+    ;if x == 25, break
+    cpx #25
+    bcc @loop
+
     rts
 
-B25_03fa:
-    .byte $08, $04, $04, $04, $c0, $3a, $04, $0d, $08, $a4
+;self explanatory
+SetupMenu_Choicer:
+    .byte 8, 4 ; choicer array size
+    .byte 4, 4 ; X/Y inc
+    .byte PAD_A | PAD_B ; Input mask
+    .byte $3a ; Tile
+    .byte 4, 13 ;X/Y start
+    .addr SetupMenu_Choices ; choices
 
-B25_0404:
-    .byte $a8, $a8, $a8, $f8
+;used to determine when things are displayed/checked
+SetupBitfields:
+    .byte %10101000
+    .byte %10101000
+    .byte %10101000
+    .byte %11111000
 
-B25_0408:
-incbinRange "../../split/us/antipiracy.bin", $408, $428
+;bits that get written to save meta's 'preferences'
+SetupMenu_Choices:
+    .byte $80,  0,$20,  0, 8, 0, 0, 0
+    .byte $80,  0,$20,  0, 8, 0, 0, 0
+    .byte $80,  0,$20,  0, 8, 0, 0, 0
+    .byte $80,$40,$20,$10, 8, 0, 0, 0
 
-B25_0428:
+;indexed from ^
+SetupMenu_MessageSpeeds:
     .byte $41, $31, $21, $11, $01
 
 B25_042d:

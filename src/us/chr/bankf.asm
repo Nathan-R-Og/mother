@@ -25,7 +25,7 @@ rts_1:
     sta $0587, x
     rts
 
-rts_2:
+ns_load_ui_element:
     lda B25_1873, x
     sta $74
     lda B25_1873+1, x
@@ -48,7 +48,7 @@ rts_4:
     sty $77
     rts
 
-rts_5:
+SetupFreshSaveData:
     ;stash
     pha
 
@@ -132,9 +132,9 @@ ui_delete_save:
     .byte newLine
     ;line
     .byte uibox_l," ",'"'
-    .byte print_number ninten_name, 0, 8
+    .byte print_number Ninten_Data+party_info::name, 0, 8
     .byte "Lvl"
-    .byte print_number ninten_level, 1, 2
+    .byte print_number Ninten_Data+party_info::level, 1, 2
     .byte '"',"  ",uibox_r
     .byte newLine
     .byte uibox_l," will vanish. OK? ",uibox_r
@@ -323,16 +323,16 @@ B25_1a2f:
 B25_1a32:
     .byte 1, 3, 0
 
-B25_1a35:
+naming_screen_chr_table:
     .byte $60, $00, $7c, $7d, $7e, $7f
 
 ; $BA3B, copied to $623B
 ; Menu Screen palette
 ; only the first bg palette gets used
 ; and the sprite palettes are used for the party members
-menuPalettes:
-    .byte $0f,$0f,$30,$30       ; menu colors : black, white, white
-    .byte $0f,$3a,$10,$20       ; these next 3 are clones of the pastel-ahh green overworld palettes that has been burned into all of our eyeballs by now
+naming_screen_palettes:
+    .byte $0f,$0f,$30,$30
+    .byte $0f,$3a,$10,$20
     .byte $0f,$3a,$25,$1a
     .byte $0f,$3a,$30,$12
 
@@ -341,7 +341,7 @@ menuPalettes:
     .byte $0f,$0f,$24,$37
     .byte $0f,$0f,$12,$37
 
-B25_1a5b:
+NS_AddCharacterToOam:
     lda #$04        ; a9 04
     sta $0300, y    ; 99 00 03
     lda $64         ; a5 64
@@ -361,7 +361,7 @@ B25_1a5b:
     sta $e5         ; 85 e5
     rts             ; 60
 
-B25_1a86:
+NS_PrepCharIcons:
     lda #$50        ; a9 50
     sta $62         ; 85 62
     lda #$08        ; a9 08
@@ -408,27 +408,27 @@ B25_1ab5:
 
 
 ;character name stuff
-B25_1aca:
+NS_QuestionSetups:
     ;ninten
-    .word $8010
-    .word NintenQuestion
-    .word ninten_name
+    .addr SPRITEDEF_NINTENDOWN1
+    .addr NintenQuestion
+    .addr Ninten_Data+party_info::name
     ;ana
-    .word $8030
-    .word AnaQuestion
-    .word ana_name
+    .addr SPRITEDEF_C
+    .addr AnaQuestion
+    .addr Ana_Data+party_info::name
     ;lloyd
-    .word $8050
-    .word LloydQuestion
-    .word lloyd_name
+    .addr SPRITEDEF_14
+    .addr LloydQuestion
+    .addr Lloyd_Data+party_info::name
     ;teddy
-    .word $8070
-    .word TeddyQuestion
-    .word teddy_name
+    .addr SPRITEDEF_1C
+    .addr TeddyQuestion
+    .addr Teddy_Data+party_info::name
     ;food
-    .word 0
-    .word FoodQuestion
-    .word fav_food
+    .addr 0
+    .addr FoodQuestion
+    .addr fav_food
 
 
 ;$80 == letterSetup and $84 == NameCharacters

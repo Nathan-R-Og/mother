@@ -2383,11 +2383,11 @@ spriteTile $10, $18, 0, 4, 0, 0, 0, $32
 spriteTile $18, $18, 0, 4, 0, 0, 0, $33
 
 SPRITEDEF_UNK_MISPLACED:
-spritePointerDef SPRITEDEF_UNK_MISPLACED_TILES, $6D, 0, 0, 0, 0
-spritePointerDef SPRITEDEF_UNK_MISPLACED_TILES, $6E, 0, 0, 0, 0
-spritePointerDef SPRITEDEF_UNK_MISPLACED_TILES2,  0, 0, 0, 0, 0
+spritePointerDef SPRITE_UNK_MISPLACED_TILES, $6D, 0, 0, 0, 0
+spritePointerDef SPRITE_UNK_MISPLACED_TILES, $6E, 0, 0, 0, 0
+spritePointerDef SPRITE_UNK_MISPLACED_TILES2,  0, 0, 0, 0, 0
 
-SPRITEDEF_UNK_MISPLACED_TILES:
+SPRITE_UNK_MISPLACED_TILES:
 spriteTile $00, $00, 0, 4, 1, 0, 0, $00
 spriteTile $08, $00, 0, 4, 1, 0, 0, $00
 spriteTile $10, $00, 0, 4, 1, 0, 0, $00
@@ -2395,52 +2395,68 @@ spriteTile $18, $00, 0, 4, 1, 0, 0, $00
 spriteTile $20, $00, 0, 4, 1, 0, 0, $00
 spriteTile $28, $00, 0, 4, 1, 0, 0, $00
 
-SPRITEDEF_UNK_MISPLACED_TILES2:
+SPRITE_UNK_MISPLACED_TILES2:
 spriteTile $00, $00, 0, 4, 0, 0, 0, $6F
 spriteTile $08, $00, 0, 4, 0, 0, 0, $7D
 spriteTile $10, $00, 0, 4, 0, 0, 0, $7E
 spriteTile $18, $00, 0, 4, 0, 0, 0, $7F
 
-SPRITEDEF_UNK2_MISPLACED:
-spritePointerDef   SPRITEDEF_UNK2_MISPLACED_TILES, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES2, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES3, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES4, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES5, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES6, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES7, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES8, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILES9, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILESA, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILESB, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILESC, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILESD, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILESE, 0, 1, 2, 1, 1
-spritePointerDef  SPRITEDEF_UNK2_MISPLACED_TILESF, 0, 1, 2, 1, 1
-spritePointerDef SPRITEDEF_UNK2_MISPLACED_TILES10, 0, 1, 2, 1, 1
+;enemy extra tiles
+SPRITEDEF_DADSEYES_EXTRATILES: ;DadsEyes
+spritePointerDef SPRITE_DADSEYES_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_MOMSEYES_EXTRATILES: ;MomsEyes
+spritePointerDef SPRITE_MOMSEYES_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_BIGWOODOH_EXTRATILES: ;BigWoodoh
+spritePointerDef SPRITE_BIGWOODOH_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_R7037_EXTRATILES: ;R7037
+spritePointerDef SPRITE_R7037_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_R7038_EXTRATILES: ;R7038
+spritePointerDef SPRITE_R7038_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_R7038XX_EXTRATILES: ;R7038XX
+spritePointerDef SPRITE_R7038XX_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_SCRAPPER_EXTRATILES: ;Scrapper
+spritePointerDef SPRITE_SCRAPPER_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_FIRE_BALL_EXTRATILES: ;Fire Ball
+spritePointerDef SPRITE_FIRE_BALL_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_CENTIPEDE_EXTRATILES: ;Centipede
+spritePointerDef SPRITE_CENTIPEDE_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_ARMOR_EXTRATILES: ;Armor
+spritePointerDef SPRITE_ARMOR_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_RATTLESNAKE_EXTRATILES: ;RattleSnake
+spritePointerDef SPRITE_RATTLESNAKE_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_STRAY_DOG_EXTRATILES: ;Stray Dog
+spritePointerDef SPRITE_STRAY_DOG_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_KELLY_EXTRATILES: ;Kelly
+spritePointerDef SPRITE_KELLY_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_JUANA_EXTRATILES: ;Juana
+spritePointerDef SPRITE_JUANA_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_GIEGUE_EXTRATILES: ;Giegue
+spritePointerDef SPRITE_GIEGUE_EXTRATILES, 0, 1, 2, 1, 1
+SPRITEDEF_SKY_YDDET_EXTRATILES: ;Sky_Yddet
+spritePointerDef SPRITE_SKY_YDDET_EXTRATILES, 0, 1, 2, 1, 1
 
-SPRITEDEF_UNK2_MISPLACED_TILES:
+SPRITE_DADSEYES_EXTRATILES:
 spriteTile $0F, $0C, 0, 4, 0, 0, 0, $20
 spriteTile $17, $0C, 0, 4, 0, 0, 0, $21
 spriteTile $20, $0C, 0, 4, 0, 1, 0, $21
 spriteTile $28, $0C, 0, 4, 0, 1, 0, $20
-SPRITEDEF_UNK2_MISPLACED_TILES2:
+SPRITE_MOMSEYES_EXTRATILES:
 spriteTile $0F, $0C, 0, 4, 0, 0, 0, $30
 spriteTile $17, $0C, 0, 4, 0, 0, 0, $31
 spriteTile $20, $0C, 0, 4, 0, 1, 0, $31
 spriteTile $28, $0C, 0, 4, 0, 1, 0, $30
-SPRITEDEF_UNK2_MISPLACED_TILES3:
+SPRITE_BIGWOODOH_EXTRATILES:
 spriteTile $10, $20, 0, 4, 0, 0, 0, $01
 spriteTile $10, $28, 0, 4, 0, 0, 0, $11
 spriteTile $40, $18, 0, 4, 0, 0, 0, $03
 spriteTile $48, $18, 0, 4, 0, 0, 0, $04
 spriteTile $48, $20, 0, 4, 0, 0, 0, $14
-SPRITEDEF_UNK2_MISPLACED_TILES4:
+SPRITE_R7037_EXTRATILES:
 spriteTile $28, $28, 1, 4, 0, 0, 0, $29
 spriteTile $30, $28, 1, 4, 0, 0, 0, $2A
 spriteTile $28, $30, 1, 4, 0, 0, 0, $39
 spriteTile $30, $30, 1, 4, 0, 0, 0, $3A
-SPRITEDEF_UNK2_MISPLACED_TILES5:
+SPRITE_R7038_EXTRATILES:
 spriteTile $10, $18, 0, 4, 0, 0, 0, $07
 spriteTile $18, $18, 0, 4, 0, 0, 0, $08
 spriteTile $10, $20, 0, 4, 0, 0, 0, $17
@@ -2457,7 +2473,7 @@ spriteTile $28, $28, 2, 4, 0, 0, 0, $29
 spriteTile $30, $28, 2, 4, 0, 0, 0, $2A
 spriteTile $28, $30, 2, 4, 0, 0, 0, $39
 spriteTile $30, $30, 2, 4, 0, 0, 0, $3A
-SPRITEDEF_UNK2_MISPLACED_TILES6:
+SPRITE_R7038XX_EXTRATILES:
 spriteTile $10, $18, 0, 4, 0, 0, 0, $07
 spriteTile $18, $18, 0, 4, 0, 0, 0, $08
 spriteTile $10, $20, 0, 4, 0, 0, 0, $17
@@ -2482,7 +2498,7 @@ spriteTile $28, $28, 2, 4, 0, 0, 0, $29
 spriteTile $30, $28, 2, 4, 0, 0, 0, $2A
 spriteTile $28, $30, 2, 4, 0, 0, 0, $39
 spriteTile $30, $30, 2, 4, 0, 0, 0, $3A
-SPRITEDEF_UNK2_MISPLACED_TILES7:
+SPRITE_SCRAPPER_EXTRATILES:
 spriteTile $18, $28, 0, 4, 0, 0, 0, $1D
 spriteTile $10, $30, 0, 4, 0, 0, 0, $0C
 spriteTile $18, $30, 0, 4, 0, 0, 0, $0D
@@ -2492,7 +2508,7 @@ spriteTile $28, $20, 1, 4, 0, 0, 0, $0E
 spriteTile $30, $20, 1, 4, 0, 0, 0, $0F
 spriteTile $28, $28, 1, 4, 0, 0, 0, $1E
 spriteTile $30, $28, 1, 4, 0, 0, 0, $1F
-SPRITEDEF_UNK2_MISPLACED_TILES8:
+SPRITE_FIRE_BALL_EXTRATILES:
 spriteTile $18, $18, 0, 4, 0, 0, 0, $10
 spriteTile $10, $20, 0, 4, 0, 0, 0, $02
 spriteTile $18, $20, 0, 4, 0, 0, 0, $00
@@ -2500,23 +2516,23 @@ spriteTile $10, $28, 0, 4, 0, 0, 0, $12
 spriteTile $28, $20, 0, 4, 0, 0, 0, $13
 spriteTile $20, $28, 0, 4, 0, 0, 0, $19
 spriteTile $28, $28, 0, 4, 0, 0, 0, $1A
-SPRITEDEF_UNK2_MISPLACED_TILES9:
+SPRITE_CENTIPEDE_EXTRATILES:
 spriteTile $10, $18, 1, 4, 0, 0, 0, $40
 spriteTile $20, $18, 1, 4, 0, 0, 0, $41
 spriteTile $18, $38, 1, 4, 0, 0, 0, $42
 spriteTile $20, $38, 1, 4, 0, 0, 0, $43
 spriteTile $28, $38, 1, 4, 0, 0, 0, $44
-SPRITEDEF_UNK2_MISPLACED_TILESA:
+SPRITE_ARMOR_EXTRATILES:
 spriteTile $10, $10, 0, 4, 0, 0, 0, $09
 spriteTile $18, $10, 0, 4, 0, 0, 0, $0A
 spriteTile $28, $10, 0, 4, 0, 0, 0, $0B
 spriteTile $28, $18, 0, 4, 0, 0, 0, $1B
-SPRITEDEF_UNK2_MISPLACED_TILESB:
+SPRITE_RATTLESNAKE_EXTRATILES:
 spriteTile $28, $2F, 2, 4, 0, 0, 0, $45
 spriteTile $30, $2F, 2, 4, 0, 0, 0, $46
 spriteTile $28, $37, 2, 4, 0, 0, 0, $47
 spriteTile $30, $37, 2, 4, 0, 0, 0, $48
-SPRITEDEF_UNK2_MISPLACED_TILESC:
+SPRITE_STRAY_DOG_EXTRATILES:
 spriteTile $38, $20, 0, 4, 0, 0, 0, $49
 spriteTile $40, $20, 0, 4, 0, 0, 0, $4A
 spriteTile $40, $28, 0, 4, 0, 0, 0, $4B
@@ -2524,9 +2540,9 @@ spriteTile $18, $10, 1, 4, 0, 0, 0, $4C
 spriteTile $20, $10, 1, 4, 0, 0, 0, $4D
 spriteTile $18, $18, 1, 4, 0, 0, 0, $0E
 spriteTile $20, $18, 1, 4, 0, 0, 0, $4F
-SPRITEDEF_UNK2_MISPLACED_TILESD:
+SPRITE_KELLY_EXTRATILES:
 spriteTile $20, $10, 0, 4, 0, 0, 0, $22
-SPRITEDEF_UNK2_MISPLACED_TILESE:
+SPRITE_JUANA_EXTRATILES:
 spriteTile $10, $10, 1, 4, 0, 0, 0, $23
 spriteTile $18, $10, 1, 4, 0, 0, 0, $24
 spriteTile $20, $10, 1, 4, 0, 0, 0, $25
@@ -2535,7 +2551,7 @@ spriteTile $10, $18, 1, 4, 0, 0, 0, $33
 spriteTile $18, $18, 1, 4, 0, 0, 0, $34
 spriteTile $20, $18, 1, 4, 0, 0, 0, $35
 spriteTile $28, $18, 1, 4, 0, 0, 0, $36
-SPRITEDEF_UNK2_MISPLACED_TILESF:
+SPRITE_GIEGUE_EXTRATILES:
 spriteTile $28, $10, 1, 4, 0, 0, 0, $58
 spriteTile $30, $10, 1, 4, 0, 0, 0, $59
 spriteTile $28, $18, 1, 4, 0, 0, 0, $68
@@ -2570,7 +2586,7 @@ spriteTile $58, $38, 0, 4, 0, 0, 0, $67
 spriteTile $48, $40, 0, 4, 0, 0, 0, $75
 spriteTile $50, $40, 0, 4, 0, 0, 0, $76
 spriteTile $58, $40, 0, 4, 0, 0, 0, $77
-SPRITEDEF_UNK2_MISPLACED_TILES10:
+SPRITE_SKY_YDDET_EXTRATILES:
 spriteTile $10, $10, 1, 4, 0, 0, 0, $05
 spriteTile $18, $10, 1, 4, 0, 0, 0, $06
 spriteTile $10, $18, 1, 4, 0, 0, 0, $15
@@ -2581,17 +2597,17 @@ spriteTile $30, $18, 1, 4, 0, 1, 0, $16
 spriteTile $38, $18, 1, 4, 0, 1, 0, $15
 
 SPRITEDEF_UNK3_MISPLACED:
-spritePointerDef  SPRITEDEF_UNK3_MISPLACED_TILES, 0, 1, 0, 0, 0
-spritePointerDef SPRITEDEF_UNK3_MISPLACED_TILES2, 0, 1, 0, 0, 0
+spritePointerDef  SPRITE_UNK3_MISPLACED_TILES, 0, 1, 0, 0, 0
+spritePointerDef SPRITE_UNK3_MISPLACED_TILES2, 0, 1, 0, 0, 0
 
-SPRITEDEF_UNK3_MISPLACED_TILES:
+SPRITE_UNK3_MISPLACED_TILES:
 spriteTile $10, $20, 0, 4, 0, 0, 0, $6A
 spriteTile $18, $20, 0, 4, 0, 0, 0, $6B
 spriteTile $20, $20, 0, 0, 0, 0, 0, $00
 spriteTile $10, $28, 0, 4, 0, 0, 0, $7A
 spriteTile $18, $28, 0, 4, 0, 0, 0, $7B
 spriteTile $20, $28, 0, 4, 0, 0, 0, $7C
-SPRITEDEF_UNK3_MISPLACED_TILES2:
+SPRITE_UNK3_MISPLACED_TILES2:
 spriteTile $08, $20, 0, 4, 0, 0, 0, $6D
 spriteTile $10, $20, 0, 4, 0, 0, 0, $6A
 spriteTile $18, $20, 0, 4, 0, 0, 0, $6B

@@ -5,72 +5,51 @@ CHOICER_NULL:
 .byte   stopText
 
 CHOICER_FLIGHTPLANSA:
-kanafix "Aコ-ス"
-.byte   stopText
+kanafix "Aコ-ス",stopText
 CHOICER_FLIGHTPLANSB:
-kanafix "Bコ-ス"
-.byte   stopText
+kanafix "Bコ-ス",stopText
 CHOICER_FLIGHTPLANSC:
-kanafix "Cコ-ス"
-.byte   stopText
+kanafix "Cコ-ス",stopText
 CHOICER_HINTS1:
-kanafix "ヒント1"
-.byte   stopText
+kanafix "ヒント1",stopText
 CHOICER_HINTS2:
-kanafix "ヒント2"
-.byte   stopText
+kanafix "ヒント2",stopText
 CHOICER_HINTS3:
-kanafix "ヒント3"
-.byte   stopText
+kanafix "ヒント3",stopText
 CHOICER_UNK1:
-kanafix "どくけし"
-.byte   stopText
+kanafix "どくけし",stopText
 CHOICER_UNK2:
-kanafix "どくけし"
-.byte   stopText
+kanafix "どくけし",stopText
 CHOICER_UNK3:
-kanafix "どくけし"
-.byte   stopText
+kanafix "どくけし",stopText
 CHOICER_UNK4:
-kanafix "どくけし"
-.byte   stopText
+kanafix "どくけし",stopText
 CHOICER_SCIENTIST1:
-kanafix "ロケット(ほんもの)"
-.byte   stopText
+kanafix "ロケット(ほんもの)",stopText
 CHOICER_SCIENTIST2:
-kanafix "タイムマシン"
-.byte   stopText
+kanafix "タイムマシン",stopText
 
 ;teleport locales
 TELEPORT_NULL:
 .byte   stopText
 TELEPORT_MYHOME:
-kanafix "マイホ-ム"
-.byte   stopText
+kanafix "マイホ-ム",stopText
 TELEPORT_PODUNK:
-kanafix "マザ-ズデイ"
-.byte   stopText
+kanafix "マザ-ズデイ",stopText
 TELEPORT_MERRYSVILLE:
-kanafix "サンクスギビング"
-.byte   stopText
+kanafix "サンクスギビング",stopText
 TELEPORT_REINDEER:
-kanafix "レインディア"
-.byte   stopText
+kanafix "レインディア",stopText
 TELEPORT_SPOOKANE:
-kanafix "ハロウィ-ン"
-.byte   stopText
+kanafix "ハロウィ-ン",stopText
 TELEPORT_SNOWMAN:
-kanafix "スノ-マン"
-.byte   stopText
+kanafix "スノ-マン",stopText
 TELEPORT_YOUNGTOWN:
-kanafix "イ-スタ-"
-.byte   stopText
+kanafix "イ-スタ-",stopText
 TELEPORT_ELLAY:
-kanafix "バレンタイン"
-.byte   stopText
+kanafix "バレンタイン",stopText
 TELEPORT_UNION:
-kanafix "サンタクロ-ス"
-.byte   stopText
+kanafix "サンタクロ-ス",stopText
 
 .else
 

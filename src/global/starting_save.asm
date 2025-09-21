@@ -36,7 +36,7 @@ repel_counter: .byte $00
 big_bag_uses: .byte 30
 
 player_name:
-;player name. a whopping 17 characters!!!!! wow!!!
+;player name. a whopping 16 characters!!!!! wow!!!
 .ifdef VER_JP
 .byte "NO NAME"
 .else
@@ -48,9 +48,12 @@ player_name_end:
 ;?
 .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
-save_ram_unk:
+preferences:
 .ifdef VER_JP
 .byte 0,0,0,0
 .else
-.byte $08,$20,$80,$20
+.byte %00001000 ;B button use
+.byte %00100000 ;START button use
+.byte %10000000 ;SELECT button use
+.byte %00100000 ;Fight message speed preset
 .endif

@@ -3,353 +3,261 @@
 
 ;items
 INAME_NULL:
-.byte   stopText
+.byte stopText
 INAME_BIG_BAG:
-kanafix "でかぶくろ"
-.byte   stopText
+kanafix "でかぶくろ",stopText
 INAME_PHONE_CARD:
-kanafix "テレホンカ-ド"
-.byte   stopText
+kanafix "テレホンカ-ド",stopText
 INAME_CRUMBS:
-kanafix "パンくず"
-.byte   stopText
+kanafix "パンくず",stopText
 INAME_UNKITEM4:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM5:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM6:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM7:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM8:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM9:
-.byte   stopText
+.byte stopText
 INAME_BUTTERKNIFE:
-kanafix "ナイフ"
-.byte   stopText
+kanafix "ナイフ",stopText
 INAME_SURV_KNIFE:
-kanafix "サバイバルナイフ"
-.byte   stopText
+kanafix "サバイバルナイフ",stopText
 INAME_SWORD:
-kanafix "アシガルソ-ド"
-.byte   stopText
+kanafix "アシガルソ-ド",stopText
 INAME_KATANA:
-kanafix "KATANA"
-.byte   stopText
+kanafix "KATANA",stopText
 INAME_STUN_GUN:
-kanafix "ショックガン"
-.byte   stopText
+kanafix "ショックガン",stopText
 INAME_AIR_GUN:
-kanafix "エアガン"
-.byte   stopText
+kanafix "エアガン",stopText
 INAME_PLASTIC_BAT:
-kanafix "ボロのバット"
-.byte   stopText
+kanafix "ボロのバット",stopText
 INAME_WOODEN_BAT:
-kanafix "ふつうのバット"
-.byte   stopText
+kanafix "ふつうのバット",stopText
 INAME_ALUMINUMBAT:
-kanafix "いいバット"
-.byte   stopText
+kanafix "いいバット",stopText
 INAME_HANKS_BAT:
-kanafix "さいこうのバット"
-.byte   stopText
+kanafix "さいこうのバット",stopText
 INAME_FRYING_PAN:
-kanafix "フライパン"
-.byte   stopText
+kanafix "フライパン",stopText
 INAME_NONSTICKPAN:
-kanafix "いいフライパン"
-.byte   stopText
+kanafix "いいフライパン",stopText
 INAME_IRONSKILLET:
-kanafix "とびきりのフライパン"
-.byte   stopText
+kanafix "とびきりのフライパン",stopText
 INAME_SLINGSHOT:
-kanafix "スリングショット"
-.byte   stopText
+kanafix "スリングショット",stopText
 INAME_BOOMERANG:
-kanafix "ブ-メラン"
-.byte   stopText
+kanafix "ブ-メラン",stopText
 INAME_INSECTICIDE:
-kanafix "さっちゅうスプレ-"
-.byte   stopText
+kanafix "さっちゅうスプレ-",stopText
 INAME_SUPER_SPRAY:
-kanafix "ス-パ-スプレ-"
-.byte   stopText
+kanafix "ス-パ-スプレ-",stopText
 INAME_FLEA_BAG:
-kanafix "ノミとシラミ"
-.byte   stopText
+kanafix "ノミとシラミ",stopText
 INAME_WORDSOLOVE:
-kanafix "あいのことば"
-.byte   stopText
+kanafix "あいのことば",stopText
 INAME_SWEAR_WORDS:
-kanafix "のろいのことば"
-.byte   stopText
+kanafix "のろいのことば",stopText
 INAME_STKYMACHINE:
-kanafix "ねばねばマシン"
-.byte   stopText
+kanafix "ねばねばマシン",stopText
 INAME_FLASHDARK:
-kanafix "やみのライト"
-.byte   stopText
+kanafix "やみのライト",stopText
 INAME_STONEORIGIN:
-kanafix "いしのもと"
-.byte   stopText
+kanafix "いしのもと",stopText
 INAME_POISNNEEDLE:
-kanafix "どくばり"
-.byte   stopText
+kanafix "どくばり",stopText
 INAME_FL_THROWER:
-kanafix "かえんほうしゃき"
-.byte   stopText
+kanafix "かえんほうしゃき",stopText
 INAME_BOMB:
-kanafix "ボム"
-.byte   stopText
+kanafix "ボム",stopText
 INAME_SUPER_BOMB:
-kanafix "ス-パ-ボム"
-.byte   stopText
+kanafix "ス-パ-ボム",stopText
 INAME_LASER_BEAM:
-kanafix "レ-ザ-ビ-ム"
-.byte   stopText
+kanafix "レ-ザ-ビ-ム",stopText
 INAME_PLASMA_BEAM:
-kanafix "デスビ-ム"
-.byte   stopText
+kanafix "デスビ-ム",stopText
 INAME_UNKITEM27: ;???? 39 is actually its decimal index. neat!
-kanafix "ITEM39"
-.byte   stopText
+kanafix "ITEM39",stopText
 INAME_ROPE:
-kanafix "ロ-プ"
-.byte   stopText
+kanafix "ロ-プ",stopText
 INAME_UNKITEM29:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM2A:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM2B:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM2C:
-.byte   stopText
+.byte stopText
 INAME_PEACE_COIN:
-kanafix "やすらぎのコイン"
-.byte   stopText
+kanafix "やすらぎのコイン",stopText
 INAME_PROTECTCOIN:
-kanafix "まもりのコイン"
-.byte   stopText
+kanafix "まもりのコイン",stopText
 INAME_MAGIC_COIN:
-kanafix "まふうじのコイン"
-.byte   stopText
+kanafix "まふうじのコイン",stopText
 INAME_BRASS_RING:
-kanafix "ようせいのうでわ"
-.byte   stopText
+kanafix "ようせいのうでわ",stopText
 INAME_SILVER_RING:
-kanafix "てんしのうでわ"
-.byte   stopText
+kanafix "てんしのうでわ",stopText
 INAME_GOLD_RING:
-kanafix "めがみのうでわ"
-.byte   stopText
+kanafix "めがみのうでわ",stopText
 INAME_H2O_PENDANT:
-kanafix "しずくのペンダント"
-.byte   stopText
+kanafix "しずくのペンダント",stopText
 INAME_FIREPENDANT:
-kanafix "ほのおのペンダント"
-.byte   stopText
+kanafix "ほのおのペンダント",stopText
 INAME_EARTHPENDNT:
-kanafix "だいちのペンダント"
-.byte   stopText
+kanafix "だいちのペンダント",stopText
 INAME_SEA_PENDANT:
-kanafix "うみのペンダント"
-.byte   stopText
+kanafix "うみのペンダント",stopText
 INAME_UNKITEM37:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM38:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM39:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM3A:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM3B:
-.byte   stopText
+.byte stopText
 INAME_ORANGEJUICE:
-kanafix "オレンジジュ-ス"
-.byte   stopText
+kanafix "オレンジジュ-ス",stopText
 INAME_FRENCHFRIES:
-kanafix "フライドポテト"
-.byte   stopText
+kanafix "フライドポテト",stopText
 INAME_MAGIC_HERB:
-kanafix "マジックハ-ブ"
-.byte   stopText
+kanafix "マジックハ-ブ",stopText
 INAME_HAMBURGER:
-kanafix "ハンバ-ガ-"
-.byte   stopText
+kanafix "ハンバ-ガ-",stopText
 INAME_SPROTSDRINK:
-kanafix "スポ-ツドリンク"
-.byte   stopText
+kanafix "スポ-ツドリンク",stopText
 INAME_LIFEUPCREAM:
-kanafix "きずぐすり"
-.byte   stopText
+kanafix "きずぐすり",stopText
 INAME_ASTHMASPRAY:
-kanafix "ぜんそくスプレ-"
-.byte   stopText
+kanafix "ぜんそくスプレ-",stopText
 INAME_ANTIDOTE:
-kanafix "どくけし"
-.byte   stopText
+kanafix "どくけし",stopText
 INAME_MOUTHWASH:
-kanafix "うがいぐすり"
-.byte   stopText
+kanafix "うがいぐすり",stopText
 INAME_BERRY_TOFU:
-kanafix "いちごとうふ"
-.byte   stopText
+kanafix "いちごとうふ",stopText
 INAME_UNKITEM46:
-kanafix "ITEM70"
-.byte   stopText
+kanafix "ITEM70",stopText
 INAME_BREAD:
-kanafix "パン"
-.byte   stopText
+kanafix "パン",stopText
 INAME_NOBLE_SEED:
-kanafix "エンジェルシ-ド"
-.byte   stopText
+kanafix "エンジェルシ-ド",stopText
 INAME_PSI_STONE:
-kanafix "サイパワ-スト-ン"
-.byte   stopText
+kanafix "サイパワ-スト-ン",stopText
 INAME_UNKITEM4A:
-.byte   stopText
+.byte stopText
 INAME_MAGICRIBBON:
-kanafix "ふしぎなリボン"
-.byte   stopText
+kanafix "ふしぎなリボン",stopText
 INAME_MAGIC_CANDY:
-kanafix "ふしぎなキャンディ"
-.byte   stopText
+kanafix "ふしぎなキャンディ",stopText
 INAME_UNKITEM4D:
-kanafix "ITEM77"
-.byte   stopText
+kanafix "ITEM77",stopText
 INAME_QUICKCAPSUL:
-kanafix "スピ-ドカプセル"
-.byte   stopText
+kanafix "スピ-ドカプセル",stopText
 INAME_WISDOM_CAPS:
-kanafix "ウィズダムカプセル"
-.byte   stopText
+kanafix "ウィズダムカプセル",stopText
 INAME_PHYSICALCAP:
-kanafix "フィジカルカプセル"
-.byte   stopText
+kanafix "フィジカルカプセル",stopText
 INAME_FORCECAPSUL:
-kanafix "フォ-スカプセル"
-.byte   stopText
+kanafix "フォ-スカプセル",stopText
 INAME_FIGHTCAPSUL:
-kanafix "ファイトカプセル"
-.byte   stopText
+kanafix "ファイトカプセル",stopText
 INAME_UNKITEM53:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM54:
-.byte   stopText
+.byte stopText
 INAME_BASEMENTKEY:
-kanafix "ちかしつのカギ"
-.byte   stopText
+kanafix "ちかしつのカギ",stopText
 INAME_ZOO_KEY:
-kanafix "どうぶつえんのカギ"
-.byte   stopText
+kanafix "どうぶつえんのカギ",stopText
 INAME_GHOST_KEY:
-kanafix "ゆうれいやしきのカギ"
-.byte   stopText
+kanafix "ゆうれいやしきのカギ",stopText
 INAME_GGFS_DIARY:
-kanafix "そうそふのにっき"
-.byte   stopText
+kanafix "そうそふのにっき",stopText
 INAME_PASS:
-kanafix "つうこうきょかしょう"
-.byte   stopText
+kanafix "つうこうきょかしょう",stopText
 INAME_TICKET:
-kanafix "ライブのチケット"
-.byte   stopText
+kanafix "ライブのチケット",stopText
 INAME_UNKITEM5B:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM5C:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM5D:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM5E:
-.byte   stopText
+.byte stopText
 INAME_CANARYCHICK:
-kanafix "カナリアのこども"
-.byte   stopText
+kanafix "カナリアのこども",stopText
 INAME_UNKITEM60:
-kanafix "ITEM96"
-.byte   stopText
+kanafix "ITEM96",stopText
 INAME_BOTTLROCKET:
-kanafix "ペンシルロケット"
-.byte   stopText
+kanafix "ペンシルロケット",stopText
 INAME_HAT:
-kanafix "ぼうし"
-.byte   stopText
+kanafix "ぼうし",stopText
 INAME_DENTURES:
-kanafix "いれば"
-.byte   stopText
+kanafix "いれば",stopText
 INAME_TICKET_STUB:
-kanafix "チケットのはんけん"
-.byte   stopText
+kanafix "チケットのはんけん",stopText
 INAME_IC_CHIP:
-kanafix "ICチップ"
-.byte   stopText
+kanafix "ICチップ",stopText
 INAME_OCARINA:
-kanafix "きぼうのオカリナ"
-.byte   stopText
+kanafix "きぼうのオカリナ",stopText
 INAME_UNKITEM67:
-kanafix "ITEM103"
-.byte   stopText
+kanafix "ITEM103",stopText
 INAME_FRANKLNBDGE:
-kanafix "フランクリンバッヂ"
-.byte   stopText
+kanafix "フランクリンバッヂ",stopText
 INAME_FRNDSHPRING:
-kanafix "ゆうじょうのゆびわ"
-.byte   stopText
+kanafix "ゆうじょうのゆびわ",stopText
 INAME_UNKITEM6A:
-kanafix "ITEM106"
-.byte   stopText
+kanafix "ITEM106",stopText
 INAME_ONYX_HOOK:
-kanafix "めのうのつりばり"
-.byte   stopText
+kanafix "めのうのつりばり",stopText
 INAME_LAST_WEAPON:
-kanafix "さいしゅうへいき"
-.byte   stopText
+kanafix "さいしゅうへいき",stopText
 INAME_RULER:
-kanafix "ものさし"
-.byte   stopText
+kanafix "ものさし",stopText
 INAME_CASH_CARD:
-kanafix "キャッシュカ-ド"
-.byte   stopText
+kanafix "キャッシュカ-ド",stopText
 INAME_RED_WEED:
-kanafix "あかいくさ"
-.byte   stopText
+kanafix "あかいくさ",stopText
 INAME_BULLHORN:
-kanafix "ふしぎなメガホン"
-.byte   stopText
+kanafix "ふしぎなメガホン",stopText
 INAME_MAP:
-kanafix "ちず"
-.byte   stopText
+kanafix "ちず",stopText
 INAME_UNKITEM72:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM73:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM74:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM75:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM76:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM77:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM78:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM79:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM7A:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM7B:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM7C:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM7D:
-.byte   stopText
+.byte stopText
 INAME_UNKITEM7E:
-.byte   stopText
+.byte stopText
 INAME_DEBUG:
-kanafix "ざひょう" ;coordinate???? probably debug
-.byte   stopText
+kanafix "ざひょう",stopText ;coordinate???? probably debug
 
 .else
 
@@ -357,179 +265,179 @@ kanafix "ざひょう" ;coordinate???? probably debug
 INAME_NULL:
 .byte 0
 INAME_BIG_BAG:
-.byte   "Big Bag",stopText
+.byte "Big Bag",stopText
 INAME_PHONE_CARD:
-.byte   "Phone Card",stopText
+.byte "Phone Card",stopText
 INAME_CRUMBS:
-.byte   "Crumbs",stopText
+.byte "Crumbs",stopText
 INAME_REPEL_RING:
-.byte   "Repel Ring",stopText
+.byte "Repel Ring",stopText
 INAME_BUTTERKNIFE:
-.byte   "ButterKnife",stopText
+.byte "ButterKnife",stopText
 INAME_SURV_KNIFE:
-.byte   "Surv.Knife",stopText
+.byte "Surv.Knife",stopText
 INAME_SWORD:
-.byte   "Sword",stopText
+.byte "Sword",stopText
 INAME_KATANA:
-.byte   "Katana",stopText
+.byte "Katana",stopText
 INAME_STUN_GUN:
-.byte   "Stun Gun",stopText
+.byte "Stun Gun",stopText
 INAME_AIR_GUN:
-.byte   "Air Gun",stopText
+.byte "Air Gun",stopText
 INAME_PLASTIC_BAT:
-.byte   "Plastic Bat",stopText
+.byte "Plastic Bat",stopText
 INAME_WOODEN_BAT:
-.byte   "Wooden Bat",stopText
+.byte "Wooden Bat",stopText
 INAME_ALUMINUMBAT:
-.byte   "AluminumBat",stopText
+.byte "AluminumBat",stopText
 INAME_HANKS_BAT:
-.byte   "Hank's Bat",stopText
+.byte "Hank's Bat",stopText
 INAME_FRYING_PAN:
-.byte   "Frying Pan",stopText
+.byte "Frying Pan",stopText
 INAME_NONSTICKPAN:
-.byte   "NonstickPan",stopText
+.byte "NonstickPan",stopText
 INAME_IRONSKILLET:
-.byte   "IronSkillet",stopText
+.byte "IronSkillet",stopText
 INAME_SLINGSHOT:
-.byte   "Slingshot",stopText
+.byte "Slingshot",stopText
 INAME_BOOMERANG:
-.byte   "Boomerang",stopText
+.byte "Boomerang",stopText
 INAME_INSECTICIDE:
-.byte   "Insecticide",stopText
+.byte "Insecticide",stopText
 INAME_SUPER_SPRAY:
-.byte   "Super Spray",stopText
+.byte "Super Spray",stopText
 INAME_FLEA_BAG:
-.byte   "Flea Bag",stopText
+.byte "Flea Bag",stopText
 INAME_WORDSOLOVE:
-.byte   "WordsO'Love",stopText
+.byte "WordsO'Love",stopText
 INAME_SWEAR_WORDS:
-.byte   "Swear Words",stopText
+.byte "Swear Words",stopText
 INAME_STKYMACHINE:
-.byte   "StkyMachine",stopText
+.byte "StkyMachine",stopText
 INAME_FLASHDARK:
-.byte   "Flashdark",stopText
+.byte "Flashdark",stopText
 INAME_STONEORIGIN:
-.byte   "StoneOrigin",stopText
+.byte "StoneOrigin",stopText
 INAME_POISNNEEDLE:
-.byte   "PoisnNeedle",stopText
+.byte "PoisnNeedle",stopText
 INAME_FL_THROWER:
-.byte   "Fl Thrower",stopText
+.byte "Fl Thrower",stopText
 INAME_BOMB:
-.byte   "Bomb",stopText
+.byte "Bomb",stopText
 INAME_SUPER_BOMB:
-.byte   "Super Bomb",stopText
+.byte "Super Bomb",stopText
 INAME_LASER_BEAM:
-.byte   "Laser Beam",stopText
+.byte "Laser Beam",stopText
 INAME_PLASMA_BEAM:
-.byte   "Plasma Beam",stopText
+.byte "Plasma Beam",stopText
 INAME_ROPE:
-.byte   "Rope",stopText
+.byte "Rope",stopText
 INAME_PEACE_COIN:
-.byte   "Peace Coin",stopText
+.byte "Peace Coin",stopText
 INAME_PROTECTCOIN:
-.byte   "ProtectCoin",stopText
+.byte "ProtectCoin",stopText
 INAME_MAGIC_COIN:
-.byte   "Magic Coin",stopText
+.byte "Magic Coin",stopText
 INAME_BRASS_RING:
-.byte   "Brass Ring",stopText
+.byte "Brass Ring",stopText
 INAME_SILVER_RING:
-.byte   "Silver Ring",stopText
+.byte "Silver Ring",stopText
 INAME_GOLD_RING:
-.byte   "Gold Ring",stopText
+.byte "Gold Ring",stopText
 INAME_H2O_PENDANT:
-.byte   "H2o Pendant",stopText
+.byte "H2o Pendant",stopText
 INAME_FIREPENDANT:
-.byte   "FirePendant",stopText
+.byte "FirePendant",stopText
 INAME_EARTHPENDNT:
-.byte   "EarthPendnt",stopText
+.byte "EarthPendnt",stopText
 INAME_SEA_PENDANT:
-.byte   "Sea Pendant",stopText
+.byte "Sea Pendant",stopText
 
 INAME_ORANGEJUICE:
-.byte   "OrangeJuice",stopText
+.byte "OrangeJuice",stopText
 INAME_FRENCHFRIES:
-.byte   "FrenchFries",stopText
+.byte "FrenchFries",stopText
 INAME_MAGIC_HERB:
-.byte   "Magic Herb",stopText
+.byte "Magic Herb",stopText
 INAME_HAMBURGER:
-.byte   "Hamburger",stopText
+.byte "Hamburger",stopText
 INAME_SPROTSDRINK:
-.byte   "SportsDrink",stopText
+.byte "SportsDrink",stopText
 INAME_LIFEUPCREAM:
-.byte   "LifeUpCream",stopText
+.byte "LifeUpCream",stopText
 INAME_ASTHMASPRAY:
-.byte   "AsthmaSpray",stopText
+.byte "AsthmaSpray",stopText
 INAME_ANTIDOTE:
-.byte   "Antidote",stopText
+.byte "Antidote",stopText
 INAME_MOUTHWASH:
-.byte   "Mouthwash",stopText
+.byte "Mouthwash",stopText
 INAME_BERRY_TOFU:
-.byte   "berry Tofu",stopText
+.byte "berry Tofu",stopText
 INAME_BREAD:
-.byte   "Bread",stopText
+.byte "Bread",stopText
 INAME_NOBLE_SEED:
-.byte   "Noble Seed",stopText
+.byte "Noble Seed",stopText
 INAME_PSI_STONE:
-.byte   "PSI Stone",stopText
+.byte "PSI Stone",stopText
 INAME_MAGICRIBBON:
-.byte   "MagicRibbon",stopText
+.byte "MagicRibbon",stopText
 INAME_MAGIC_CANDY:
-.byte   "Magic Candy",stopText
+.byte "Magic Candy",stopText
 INAME_QUICKCAPSUL:
-.byte   "QuickCapsul",stopText
+.byte "QuickCapsul",stopText
 INAME_WISDOM_CAPS:
-.byte   "Wisdom Caps",stopText
+.byte "Wisdom Caps",stopText
 INAME_PHYSICALCAP:
-.byte   "PhysicalCap",stopText
+.byte "PhysicalCap",stopText
 INAME_FORCECAPSUL:
-.byte   "ForceCapsul",stopText
+.byte "ForceCapsul",stopText
 INAME_FIGHTCAPSUL:
-.byte   "FightCapsul",stopText
+.byte "FightCapsul",stopText
 INAME_BASEMENTKEY:
-.byte   "BasementKey",stopText
+.byte "BasementKey",stopText
 INAME_ZOO_KEY:
-.byte   "Zoo Key",stopText
+.byte "Zoo Key",stopText
 INAME_GHOST_KEY:
-.byte   "Ghost Key",stopText
+.byte "Ghost Key",stopText
 INAME_GGFS_DIARY:
-.byte   "GGF's Diary",stopText
+.byte "GGF's Diary",stopText
 INAME_PASS:
-.byte   "Pass",stopText
+.byte "Pass",stopText
 INAME_TICKET:
-.byte   "Ticket",stopText
+.byte "Ticket",stopText
 INAME_CANARYCHICK:
-.byte   "CanaryChick",stopText
+.byte "CanaryChick",stopText
 INAME_BOTTLROCKET:
-.byte   "BottlRocket",stopText
+.byte "BottlRocket",stopText
 INAME_HAT:
-.byte   "Hat",stopText
+.byte "Hat",stopText
 INAME_DENTURES:
-.byte   "Dentures",stopText
+.byte "Dentures",stopText
 INAME_TICKET_STUB:
-.byte   "Ticket Stub",stopText
+.byte "Ticket Stub",stopText
 INAME_IC_CHIP:
-.byte   "IC-chip",stopText
+.byte "IC-chip",stopText
 INAME_OCARINA:
-.byte   "Ocarina",stopText
+.byte "Ocarina",stopText
 INAME_FRANKLNBDGE:
-.byte   "FranklnBdge",stopText
+.byte "FranklnBdge",stopText
 INAME_FRNDSHPRING:
-.byte   "FrndshpRing",stopText
+.byte "FrndshpRing",stopText
 INAME_ONYX_HOOK:
-.byte   "Onyx Hook",stopText
+.byte "Onyx Hook",stopText
 INAME_LAST_WEAPON:
-.byte   "Last Weapon",stopText
+.byte "Last Weapon",stopText
 INAME_RULER:
-.byte   "Ruler",stopText
+.byte "Ruler",stopText
 INAME_CASH_CARD:
-.byte   "Cash Card",stopText
+.byte "Cash Card",stopText
 INAME_RED_WEED:
-.byte   "Red Weed",stopText
+.byte "Red Weed",stopText
 INAME_BULLHORN:
-.byte   "Bullhorn",stopText
+.byte "Bullhorn",stopText
 INAME_MAP:
-.byte   "Map",stopText
+.byte "Map",stopText
 INAME_DEBUG:
-.byte   "Debug",stopText
+.byte "Debug",stopText
 
 .endif

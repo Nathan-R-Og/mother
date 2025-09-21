@@ -40,7 +40,8 @@ ui_list:
 
 ui_battlelog:
 ;yspacing, xoffset, yoffset, draw mode
-.byte 1, 0, 1, $FE
+.byte 1, 0, 1
+.byte $FE
 .byte 1 ;amount?
 .addr ui_battlelog_top
 .byte $FD
@@ -51,12 +52,14 @@ ui_battlelog:
 .addr ui_battlelog_bottom
 .byte $FF
 ui_thing_2:
-.byte $FF,0,9,$FD
+.byte $FF,0,9
+.byte $FD
 .byte 4
 .addr ui_nothing
 .byte $FF
 ui_partybox:
-.byte 1,0,19,$FE
+.byte 1,0,19
+.byte $FE
 .byte 1
 .addr ui_partybox_top
 .byte $FD
@@ -67,7 +70,8 @@ ui_partybox:
 .addr ui_partybox_bottom
 .byte $FF
 ui_actionbox:
-.byte $01,11,17,$FE
+.byte $01,11,17
+.byte $FE
 .byte 1
 .addr ui_actionbox_top
 .byte $FD
@@ -84,7 +88,8 @@ ui_actionbox:
 .addr ui_actionbox_bottom
 .byte $FF
 ui_actionbox_melodies:
-.byte $01,$0B,$11,$FE
+.byte $01,$0B,$11
+.byte $FE
 .byte 1
 .addr ui_actionbox_top
 .byte $FD
@@ -101,12 +106,14 @@ ui_actionbox_melodies:
 .addr ui_actionbox_bottom
 .byte $FF
 ui_thing_6:
-.byte $FF,0,27,$FD
+.byte $FF,0,27
+.byte $FD
 .byte 5
 .addr ui_nothing
 .byte $FF
 ui_thing_7:
-.byte $01,1,17,$FE
+.byte $01,1,17
+.byte $FE
 .byte 1
 .addr ui_thing_top
 .byte $FD
@@ -120,7 +127,8 @@ ui_thing_7:
 .addr ui_thing_bottom_padding
 .byte $FF
 ui_thing_8:
-.byte $01,15,17,$FE
+.byte $01,15,17
+.byte $FE
 .byte 1
 .addr ui_thing_tiles1
 .byte $FD
@@ -131,7 +139,8 @@ ui_thing_8:
 .addr ui_thing_tiles3
 .byte $FF
 ui_thing_9:
-.byte $01,5,17,$FE
+.byte $01,5,17
+.byte $FE
 .byte 1
 .addr ui_thing_tiles4
 .byte $FD
@@ -142,42 +151,50 @@ ui_thing_9:
 .addr ui_thing_tiles6
 .byte $FF
 ui_thing_10:
-.byte $01,7,17,$FE
+.byte $01,7,17
+.byte $FE
 .byte 1
 .addr ui_thing_tiles7
 .byte $FF
 ui_thing_11:
-.byte $01,7,6,$FE
+.byte $01,7,6
+.byte $FE
 .byte 1
 .addr ui_thing_tilesA
 .byte $FF
 ui_thing_12:
-.byte $01,7,7,$FE
+.byte $01,7,7
+.byte $FE
 .byte 1
 .addr ui_thing_tilesA
 .byte $FF
 ui_thing_13:
-.byte $01,17,$FF,$FD
+.byte $01,17,$FF
+.byte $FD
 .byte 1
 .addr ui_thing_tiles8
 .byte $FF
 ui_thing_14:
-.byte $01,3,$FF,$FD
+.byte $01,3,$FF
+.byte $FD
 .byte 1
 .addr ui_thing_tiles8
 .byte $FF
 ui_thing_15:
-.byte $01,$FF,$FF,$FD
+.byte $01,$FF,$FF
+.byte $FD
 .byte 1
 .addr ui_thing_tiles8
 .byte $FF
 ui_thing_16:
-.byte $01,$FF,$FF,$FE
+.byte $01,$FF,$FF
+.byte $FE
 .byte 1
 .addr ui_thing_tiles9
 .byte $FF
 ui_thing_17:
-.byte $01,11,23,$FE
+.byte $01,11,23
+.byte $FE
 .byte 1
 .addr ui_thing_tilesB
 .byte $FD
@@ -191,7 +208,8 @@ ui_thing_17:
 .addr ui_thing_tilesE
 .byte $FF
 ui_thing_18:
-.byte $01,11,23,$FE
+.byte $01,11,23
+.byte $FE
 .byte 1
 .addr ui_thing_tilesB
 .byte $FD
@@ -205,7 +223,8 @@ ui_thing_18:
 .addr ui_thing_tilesF
 .byte $FF
 ui_thing_19:
-.byte $01,11,23,$FE
+.byte $01,11,23
+.byte $FE
 .byte 1
 .addr ui_thing_tilesB
 .byte $FD
@@ -250,7 +269,6 @@ ui_battlelog_bottom:
 .byte 0
 
 ;jp leftovers?
-;why does $24 and $25 make the side tiles???? that doesnt make sense unless there's some override
 ui_partybox_top:
 .byte " ",uibox_tl,uibox_t,"NAME"
 .byte repeatTile uibox_t, 4
@@ -563,224 +581,214 @@ Battle_Text:
 .word UMSG::B_APPROACH
 .word UMSG::B_ATTACK
 .word UMSG::B_TANKGUN
-.word $05E2
-.word $05E3
-.word $05E4
-.word $05E5
-.word $05E6
-.word $05E7
-.word $05E8
-.word $05E9
-.word $05EA
-.word $05EB
-.word $05EC
-.word $05ED
-.word $05EE
-.word $05EF
-.word $05F0
-.word $05F1
-.word $05F2
-.word $05F3
-.word $05F4
-.word $05F5
-.word $05F6
-.word $05F7
-.word $05F8
-.word $05F9
-.word $05FA
-.word $05FB
-.word $05FC
-.word $05FD
-.word $05FE
-.word $05FF
-.word $0600
-.word $0601
-.word $0602
-.word $0603
-.word $0604
-.word $0605
-.word $0606
-.word $0607
-.word $0608
-.word $0609
-.word $060A
-.word $060B
-.word $060C
-.word $060D
-.word $060E
-.word $060F
-.word $0610
-.word $0611
-.word $0612
-.word $0613
-.word $0614
-.word $0615
-.word $0616
-.word $0617
-.word $0618
-.word $0619
-.word $061A
-.word $061B
-.word $061C
-.word $061D
-.word $061E
-.word $061F
-.word $0620
-.word $0621
-.word $0622
-.word $0623
-.word $0624
-.word $0625
-.word $0626
-.word $0627
-.word $0628
-.word $0629
-.word $062A
-.word $062B
-.word $062C
-.word $062D
-.word $062E
-.word $062F
-.word $0630
-.word $0631
-.word $0632
-.word $0633
-.word $0634
-.word $0635
-.word $0636
-;guard
-.word $0637
-.word $0638
-.word $0639
-.word $063A
-.word $063B
-.word $063C
-.word $063D
-.word $063E
-.word $063F
-.word $0640
-.word $0641
-.word $0642
-.word $0643
-.word $0644
-.word $0645
-.word $0646
-.word $0647
-.word $0648
-.word $0649
-.word $064A
-.word $064B
-.word $064C
-.word $064D
-.word $064E
-.word $064F
-.word $0650
-.word $0651
-.word $0652
-.word $0653
-.word $0654
-.word $0655
-.word $0656
-.word $0657
-.word $0658
-.word $0659
-.word $065A
-.word $065B
-.word $065C
-.word $065D
-.word $065E
-.word $065F
-.word $0660
-.word $0661
-.word $0662
-.word $0663
-.word $0664
-.word $0665
-.word $0666
-.word $0667
-.word $0668
-.word $0669
-.word $066A
-.word $066B
-.word $066C
-.word $066D
-.word $066E
-.word $0517
-.word $058C
-.word $058A
-.word $0672
-.word $0673
-.word $0674
-.word $0675
-.word $0676
-.word $0677
-.word $0678
-.word $0679
-.word $067A
-.word $067B
-.word $067C
-.word $067D
-.word $067E
-.word $067F
-.word $0680
-.word $0681
-.word $0682
-.word $0683
-.word $0684
-.word $0685
-.word $0686
-.word $0687
-
-incrementor = $25
+.word UMSG::B_DODGED
+.word UMSG::B_CONTINUOUS_ATTACK
+.word UMSG::B_BITE
+.word UMSG::B_SCRATCH
+.word UMSG::B_CHARGE
+.word UMSG::B_SMAAAAASH
+.word UMSG::B_DAMAGED
+.word UMSG::B_YOU_WIN
+.word UMSG::B_YOU_LOST
+.word UMSG::B_DEFEATED
+.word UMSG::B_HURT_AND_BEATEN
+.word UMSG::B_ALREADY_GONE
+.word UMSG::B_NO_EFFECT
+.word UMSG::B_OUT_OF_CONTROL
+.word UMSG::B_EXHAUSTED
+.word UMSG::B_FINAL_ATTACK
+.word UMSG::B_GIEGUE_ATTACK
+.word UMSG::B_BARRIER
+.word UMSG::B_BULLHORN_1
+.word UMSG::B_GOT_STONED
+.word UMSG::B_SPIT
+.word UMSG::B_GOT_BLINDED
+.word UMSG::B_BIND
+.word UMSG::B_STRANGE_CRY
+.word UMSG::B_EXPLODED
+.word UMSG::B_FLAMEBURST
+.word UMSG::B_OFFENSE_INCREASE
+.word UMSG::B_OFFENSE_DECREASE
+.word UMSG::B_DEFENSE_INCREASE
+.word UMSG::B_SPEED_INCREASE
+.word UMSG::B_CHECK_OFEENSE
+.word UMSG::B_CHECK_DEFENSE
+.word UMSG::B_FIGHT_DECREASE
+.word UMSG::B_DEFENSE_DECREASE
+.word UMSG::B_SMILE
+.word UMSG::B_FIGHT_INCREASE
+.word UMSG::B_RAGE
+.word UMSG::B_SPEED_DECREASE
+.word UMSG::B_CONFUSE
+.word UMSG::B_CALL
+.word UMSG::B_SOW
+.word UMSG::B_GROUCHOFUNNY2
+.word UMSG::B_LAUGH
+.word UMSG::B_BROKEN_TANK
+.word UMSG::B_THREATEN
+.word UMSG::B_DIRTYWORDS
+.word UMSG::B_GRIN
+.word UMSG::B_BULLHORN_SUCCEED
+.word UMSG::B_BULLHORN_FAIL
+.word UMSG::B_BULLHORN_SUCCEED2
+.word UMSG::B_CRITICAL
+.word UMSG::B_LOST_SENSES
+.word UMSG::B_CONFUSED
+.word UMSG::B_SLEEP
+.word UMSG::B_ASLEEP
+.word UMSG::B_PP_RECOVER
+.word UMSG::B_HP_RECOVER
+.word UMSG::B_FLOW_ENERGY
+.word UMSG::B_CALL_FAIL
+.word UMSG::B_CALL_FAIL2
+.word UMSG::B_CALL_SUCCEED
+.word UMSG::B_RUN_AWAY
+.word UMSG::B_DIDNT_WORK
+.word UMSG::B_TRIP
+.word UMSG::B_CANT_MOVE
+.word UMSG::B_SELF_STONE
+.word UMSG::B_PP_STEAL
+.word UMSG::B_PARALYZED
+.word UMSG::B_PUFF
+.word UMSG::B_POISONED
+.word UMSG::B_DEHYDRATED
+.word UMSG::B_PSI_BLOCK
+.word UMSG::B_BOUND
+.word UMSG::B_SHIELD
+.word UMSG::B_MISS
+.word UMSG::B_BUT_PSI_BLOCK
+.word UMSG::B_FRANKLIN_BOUNCE
+.word UMSG::B_BOUNCE
+.word UMSG::B_NOT_ENOUGH_PP
+.word UMSG::B_NO_EFFECT2
+.word UMSG::B_ASTHMA_WHEEZE
+.word UMSG::B_MEDITATE
+.word UMSG::B_GROUCHOFUNNY
+.word UMSG::B_READY
+.word UMSG::B_GIEGUE_SING
+.word UMSG::B_GUARD
+.word UMSG::B_APPROACH_SLOWLY
+.word UMSG::B_POISON_RECOVER
+.word UMSG::B_PUZZLED_RECOVER
+.word UMSG::B_ITCHY
+.word UMSG::B_PARALYSIS_RECOVER
+.word UMSG::B_ASLEEP_RECOVER
+.word UMSG::B_REVIVE
+.word UMSG::B_USED
+.word UMSG::B_TRIED
+.word UMSG::B_CANT_USE
+.word UMSG::B_CIRCUMSTANCES
+.word UMSG::B_DO_STRANGE
+.word UMSG::B_DREAMING
+.word UMSG::B_BREAK_SHIELD
+.word UMSG::B_CHECK
+.word UMSG::B_CHECK_STRONGFIRE
+.word UMSG::B_CHECK_STRONGFREEZE
+.word UMSG::B_CHECK_STRONGTHUNDER
+.word UMSG::B_CHECK_STRONGBEAM
+.word UMSG::B_CHECK_WEAKSPRAYS
+.word UMSG::B_ASTHMA_RECOVER
+.word UMSG::B_NOLONGER_STONED
+.word UMSG::B_WORDS_O_LOVE
+.word UMSG::B_SWEAR_WORDS
+.word UMSG::B_ASTHMA
+.word UMSG::B_BREAK_ITEM
+.word UMSG::B_WICKED_SEED
+.word UMSG::B_GAS
+.word UMSG::B_STONED
+.word UMSG::B_FULL_RECOVER
+.word UMSG::B_BEATEN_1
+.word UMSG::B_BEATEN_2
+.word UMSG::B_BEATEN_3
+.word UMSG::B_BEATEN_4
+.word UMSG::B_BEATEN_5
+.word UMSG::B_BEATEN_6
+.word UMSG::B_BEATEN_7
+.word UMSG::B_STEAL
+.word UMSG::B_STATUP
+.word UMSG::B_STATUP_NEW_PSI
+.word UMSG::B_STATUP_HP
+.word UMSG::B_STATUP_PP
+.word UMSG::B_STATUP_FIGHT
+.word UMSG::B_STATUP_SPEED
+.word UMSG::B_STATUP_WISDOM
+.word UMSG::B_STATUP_STRENGTH
+.word UMSG::B_STATUP_FORCE
+.word UMSG::B_ESCAPE_ROPE
+.word UMSG::B_STATUP_GET_ITEM
+.word UMSG::B_CONFUSE_RECOVER
+.word UMSG::B_AWAKE
+.word UMSG::B_ZAP
+.word UMSG::B_BUT_NO_EFFECT
+.word UMSG::B_BIG_BAG_EMPTY
+.word UMSG::B_INDETERMINATE_BATTLE_END
+.word UMSG::CHECK_R7038
+.word UMSG::CHECK_R7038XX
+.word UMSG::CHECK_R7037
+.word UMSG::B_GIEGUE_SPEECH
+.word UMSG::B_GIEGUE_SPEECH2
+.word UMSG::B_GIEGUE_SPEECH3
+.word UMSG::B_GIEGUE_SPEECH4
+.word UMSG::B_GIEGUE_SPEECH5
+.word UMSG::B_GIEGUE_SPEECH6
+.word UMSG::B_GIEGUE_SPEECH7
+.word UMSG::B_GIEGUE_SPEECH8
+.word UMSG::B_GIEGUE_SPEECH9
+.word UMSG::B_GIEGUE_SPEECH10
+.word UMSG::B_GIEGUE_SPEECH11
+.word UMSG::B_GIEGUE_SPEECH12
+.word UMSG::B_GIEGUE_SPEECH13
+.word UMSG::B_GIEGUE_SPEECH14
+.word UMSG::B_GIEGUE_SPEECH15
+.word UMSG::B_GIEGUE_SPEECH16
+.word UMSG::B_GIEGUE_SPEECH17
+.word UMSG::B_GIEGUE_SPEECH18
+.word UMSG::B_GIEGUE_SPEECH19
+.word UMSG::B_GIEGUE_SPEECH20
+.word UMSG::B_GIEGUE_SPEECH21
+.word UMSG::B_GIEGUE_SPEECH22
 
 command_box_top:
 .byte set_pos 1, 1
 .byte uibox_tl,uibox_tc,"Command"
 .byte repeatTile uibox_t, 4
 .byte uibox_tr
-.byte 1
-.byte incrementor
-.byte 0
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
 ;command box middle
 .byte uibox_l," Talk  Check",uibox_r
-.byte 1
-.byte incrementor
-.byte 2
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
 .byte uibox_l," Goods State",uibox_r
-.byte 1
-.byte incrementor
-.byte 4
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 4 ;irqValue, irqIndex
 .byte uibox_l," PSI   Setup",uibox_r
-.byte 0
-.byte incrementor
-.byte 6
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 6 ;irqValue, irqIndex
 ;command box bottom
 .byte uibox_bl
 .byte repeatTile uibox_b, 12
 .byte uibox_br
-.byte 1
+.byte newLine
 
 cash_box_top:
 .byte set_pos 21, 1
 .byte uibox_tl,uibox_t,uibox_t,uibox_tc,"Cash",uibox_t,uibox_tr
-.byte 1
-.byte incrementor
-.byte 0
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
 ;cash box middle
 .byte uibox_l,"$"
 .byte print_number $7410, 2, 5
 .byte c00," ",uibox_r
-.byte 0
-.byte incrementor
-.byte 2
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
 ;cash box bottom
 .byte uibox_bl
 .byte repeatTile uibox_b, 8
 .byte uibox_br
-.byte 1
+.byte newLine
 window_unk:
 .byte goto $6700
-
 
 ;stat bar top
 battle_statbar_top:
@@ -795,8 +803,7 @@ battle_statbar_top:
 .byte uibox_t,uibox_t,uibox_t,uibox_t,uibox_tc
 .byte "Exp"
 .byte uibox_t,uibox_tr
-.byte 0
-
+.byte stopText
 
 
 window_unk_2:
@@ -804,86 +811,74 @@ window_unk_2:
 .byte uibox_tl
 .byte repeatTile uibox_t, 22
 .byte uibox_tr
-.byte 1
-.byte incrementor
-.byte 16
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 16 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 22
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 18
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 18 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 22
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 20
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 20 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 22
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 22
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 22 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 22
 .byte uibox_r
-.byte 0
-.byte incrementor
-.byte 24
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 24 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 22
 .byte uibox_br
-.byte 0
-
-
+.byte stopText
 
 window_unk_3:
 .byte set_pos 5, 3
 .byte uibox_tl,uibox_t," ",arrow
 .byte repeatTile uibox_t, 21
 .byte uibox_tr
-.byte 1
-.byte incrementor
-.byte 2
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 24
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 4
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 4 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 24
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 6
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 6 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 24
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 8
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 8 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 24
 .byte uibox_r
-.byte 0
-.byte incrementor
-.byte 10
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 10 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 24
 .byte uibox_br
-.byte 0
+.byte stopText
 
 
 window_unk_4:
@@ -891,61 +886,54 @@ window_unk_4:
 .byte uibox_tl
 .byte repeatTile uibox_t, 20
 .byte uibox_tr
-.byte 1
-.byte incrementor
-.byte 0
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 20
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 2
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 20
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 4
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 4 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 20
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 6
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 6 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 20
 .byte uibox_r
-.byte 0
-.byte incrementor
-.byte 8
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 8 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 20
 .byte uibox_br
-.byte 0
+.byte stopText
 
 
 window_unk_5:
 .byte uibox_tl
 .byte repeatTile uibox_t, 4
 .byte uibox_tr
-.byte 1
-.byte incrementor
-.byte 14
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 14 ;irqValue, irqIndex
 
 .byte uibox_l,"Who?",uibox_r
-.byte 0
-.byte incrementor
-.byte 16
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 16 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 4
 .byte uibox_br
-.byte 0
+.byte stopText
 
 
 item_action_menu:
@@ -953,41 +941,33 @@ item_action_menu:
 .byte uibox_tl
 .byte repeatTile uibox_t, 6
 .byte uibox_tr
-.byte 1
-.byte incrementor
-.byte 4
+.byte newLine
+.byte .LOBYTE(B30_0226-1),4 ;irqValue, irqIndex
 
 .byte uibox_l," Use  ",uibox_r
-.byte 1
-.byte incrementor
-.byte 6
+.byte newLine
+.byte .LOBYTE(B30_0226-1),6 ;irqValue, irqIndex
 
 .byte uibox_l," Eat  ",uibox_r
-.byte 1
-.byte incrementor
-.byte 8
+.byte newLine
+.byte .LOBYTE(B30_0226-1),8 ;irqValue, irqIndex
 
 .byte uibox_l," Give ",uibox_r
-.byte 1
-.byte incrementor
-.byte 10
+.byte newLine
+.byte .LOBYTE(B30_0226-1),10 ;irqValue, irqIndex
 
 .byte uibox_l," Drop ",uibox_r
-.byte 1
-.byte incrementor
-.byte 12
+.byte newLine
+.byte .LOBYTE(B30_0226-1),12 ;irqValue, irqIndex
 
 .byte uibox_l," Look ",uibox_r
-.byte 0
-.byte incrementor
-.byte 14
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 14 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 6
 .byte uibox_br
-.byte 0
-
-
+.byte stopText
 
 cash_box_menu:
 .byte set_pos 5, 3
@@ -996,43 +976,38 @@ cash_box_menu:
 .byte uibox_tr
 .byte goto $92A6
 
-
 cash_box_top_2:
 .byte set_pos 21, 1
 .byte uibox_tl,uibox_t,uibox_t,uibox_tc
 .byte "Cash"
 .byte uibox_t,uibox_tr
-.byte 1
-.byte incrementor
-.byte 0
-
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
 
 .byte uibox_l,"$"
 .byte print_number $7410, 2, 5
 .byte c00," "
 .byte uibox_r
-.byte 0
-.byte incrementor
-.byte 2
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 8
 .byte uibox_br
-.byte 0
+.byte stopText
 
 cash_box_middle:
 .byte set_pos 9, 1
 .byte uibox_tl
 .byte repeatTile uibox_t, 8
 .byte uibox_tr
-.byte 0
-.byte incrementor
-.byte 0
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 8
 .byte uibox_r
-.byte 1
+.byte newLine
 
 
 state_menu:
@@ -1042,9 +1017,8 @@ state_menu:
 .byte uibox_r," ",arrow,"PSI"
 .byte repeatTile uibox_t, 6
 .byte uibox_tr
-.byte 0
-.byte incrementor
-.byte 2
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 7
@@ -1053,7 +1027,7 @@ state_menu:
 .byte uibox_br
 .byte repeatTile " ", 11
 .byte uibox_r
-.byte 1
+.byte newLine
 
 .byte set_pos 1, 5
 .byte uibox_l," Lvl"
@@ -1064,9 +1038,8 @@ state_menu:
 .byte uibox_l," "
 .byte repeatTile " ", 10
 .byte " ",uibox_r
-.byte 1
-.byte incrementor
-.byte 4
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 4 ;irqValue, irqIndex
 
 .byte uibox_l," HP"
 .byte print_number $0614, 2, 6
@@ -1077,9 +1050,8 @@ state_menu:
 .byte uibox_l," "
 .byte repeatTile " ", 10
 .byte " ",uibox_r
-.byte 1
-.byte incrementor
-.byte 6
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 6 ;irqValue, irqIndex
 
 .byte uibox_l," PP"
 .byte print_number $0616, 2, 6
@@ -1090,9 +1062,8 @@ state_menu:
 .byte uibox_l," "
 .byte repeatTile " ", 10
 .byte " ",uibox_r
-.byte 1
-.byte incrementor
-.byte 8
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 8 ;irqValue, irqIndex
 
 .byte uibox_l," Offense"
 .byte print_number $0607, 2, 5
@@ -1101,9 +1072,8 @@ state_menu:
 .byte uibox_l," "
 .byte repeatTile " ", 10
 .byte " ",uibox_r
-.byte 0
-.byte incrementor
-.byte 10
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 10 ;irqValue, irqIndex
 
 .byte uibox_l_r,"  "
 .byte repeatTile " ", 11
@@ -1112,7 +1082,7 @@ state_menu:
 .byte uibox_bl
 .byte repeatTile uibox_b, 12
 .byte uibox_br
-.byte 1
+.byte newLine
 
 .byte set_pos 1, 13
 .byte uibox_l," Defense"
@@ -1122,9 +1092,8 @@ state_menu:
 .byte uibox_tl,uibox_tc,"Equip"
 .byte repeatTile uibox_t, 6
 .byte uibox_tr
-.byte 1
-.byte incrementor
-.byte 12
+.byte newLine
+.byte .LOBYTE(B30_0226-1),12 ;irqValue, irqIndex
 
 .byte uibox_l," Fight "
 .byte print_number $060B, 1, 6
@@ -1133,9 +1102,8 @@ state_menu:
 .byte uibox_l," "
 .byte print_number $0680, 0, 11
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 14
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 14 ;irqValue, irqIndex
 
 .byte uibox_l," Speed "
 .byte print_number $060C, 1, 6
@@ -1144,9 +1112,8 @@ state_menu:
 .byte uibox_l," "
 .byte print_number $0690, 0, 11
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 16
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 16 ;irqValue, irqIndex
 
 .byte uibox_l," Wisdom"
 .byte print_number $060D, 1, 6
@@ -1155,9 +1122,8 @@ state_menu:
 .byte uibox_l," "
 .byte print_number $06A0, 0, 11
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 18
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 18 ;irqValue, irqIndex
 
 .byte uibox_l," Strength"
 .byte print_number $060E, 1, 4
@@ -1166,9 +1132,8 @@ state_menu:
 .byte uibox_l," "
 .byte print_number $06B0, 0, 11
 .byte uibox_r
-.byte 0
-.byte incrementor
-.byte 20
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 20 ;irqValue, irqIndex
 
 
 .byte uibox_l_r," "
@@ -1188,9 +1153,8 @@ state_menu:
 .byte uibox_tl,uibox_tc,"Melody"
 .byte repeatTile uibox_t, 5
 .byte uibox_tr
-.byte 1
-.byte incrementor
-.byte 22
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 22 ;irqValue, irqIndex
 
 .byte uibox_l," Exp "
 .byte print_number $0611, 3, 8
@@ -1199,9 +1163,8 @@ state_menu:
 .byte uibox_l,"  "
 .byte print_number $06F0, 0, 10
 .byte uibox_r
-.byte 0
-.byte incrementor
-.byte 24
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 24 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 14
@@ -1210,7 +1173,7 @@ state_menu:
 .byte uibox_bl
 .byte repeatTile uibox_b, 12
 .byte uibox_br
-.byte 0
+.byte stopText
 
 
 setup_menu:
@@ -1218,95 +1181,80 @@ setup_menu:
 .byte uibox_tl,uibox_tc,"Setup"
 .byte repeatTile uibox_t, 22
 .byte uibox_tr
-.byte 1
-.byte incrementor
-.byte 0
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
 
 .byte uibox_l," To change button function: ",uibox_r
-.byte 1
-.byte incrementor
-.byte 2
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
 
 .byte uibox_l,"  Move Cursor with CROSS,   ",uibox_r
-.byte 1
-.byte uibox_r
-.byte 4
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 4 ;irqValue, irqIndex
 
 .byte uibox_l,"   press A button to change.",uibox_r
-.byte 1
-.byte incrementor
-.byte 6
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 6 ;irqValue, irqIndex
 
 .byte uibox_l
-.byte repeatTile $A0,$1C
+.byte repeatTile " ", 28
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 8
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 8 ;irqValue, irqIndex
 
 .byte uibox_l," B button assignment"
 .byte repeatTile " ", 8
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 10
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 10 ;irqValue, irqIndex
 
 .byte uibox_l,"   ",radial_empty,"State  ",radial_empty,"Map    ",radial_empty,"Run"
 .byte repeatTile " ", 5
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 12
-
+.byte newLine
+.byte .LOBYTE(B30_0226-1),12 ;irqValue, irqIndex
 
 .byte uibox_l," START button assignment"
 .byte repeatTile " ", 4
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 14
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 14 ;irqValue, irqIndex
 
 .byte uibox_l,"   ",radial_empty,"State  ",radial_empty,"Map    ",radial_empty,"Run"
 .byte repeatTile " ", 5
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 16
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 16 ;irqValue, irqIndex
 
 
 .byte uibox_l," SELECT button assignment"
 .byte repeatTile " ", 3
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 18
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 18 ;irqValue, irqIndex
 
 .byte uibox_l,"   ",radial_empty,"State  ",radial_empty,"Map    ",radial_empty,"Run"
 .byte repeatTile " ", 5
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 20
-
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 20 ;irqValue, irqIndex
 
 .byte uibox_l," Fight message speed"
 .byte repeatTile " ", 8
 .byte uibox_r
-.byte 1
-.byte incrementor
-.byte 22
+.byte newLine
+.byte .LOBYTE(B30_0226-1), 22 ;irqValue, irqIndex
 
 .byte uibox_l,"   ",radial_empty,"1  ",radial_empty,"2  ",radial_empty,"3  ",radial_empty,"4  ",radial_empty,"5"
 .byte repeatTile " ", 7
 .byte uibox_r
-.byte 0
-.byte incrementor
-.byte 24
+.byte stopText
+.byte .LOBYTE(B30_0226-1), 24
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 28
 .byte uibox_br
-.byte 0
+.byte stopText
 
 .res $BF, 0
 .byte $48,$59

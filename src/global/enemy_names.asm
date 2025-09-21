@@ -3,353 +3,249 @@
 .ifdef VER_JP
 
 ENAME_NULL:
-.byte   stopText
+.byte stopText
 ENAME_BIGWOODOH:
-kanafix "だいウッド-"
-.byte   stopText
+kanafix "だいウッド-",stopText
 ENAME_DRAGON:
-kanafix "ドラゴン"
-.byte   stopText
+kanafix "ドラゴン",stopText
 ENAME_R7038:
-kanafix "R.7038"
-.byte   stopText
+kanafix "R.7038",stopText
 ENAME_ELEPHANT:
-kanafix "きょぞう"
-.byte   stopText
+kanafix "きょぞう",stopText
 ENAME_BEAR:
-kanafix "くま"
-.byte   stopText
+kanafix "くま",stopText
 ENAME_BIG_FOOT:
-kanafix "ビッグフット"
-.byte   stopText
+kanafix "ビッグフット",stopText
 ENAME_MAD_TRUCK:
-kanafix "マッドトラック"
-.byte   stopText
+kanafix "マッドトラック",stopText
 ENAME_OLD_ROBOT:
-kanafix "オ-ルドロボ"
-.byte   stopText
+kanafix "オ-ルドロボ",stopText
 ENAME_MEGABORG:
-kanafix "メガボ-グ"
-.byte   stopText
+kanafix "メガボ-グ",stopText
 ENAME_GARGOYLE:
-kanafix "ガ-ゴイラ"
-.byte   stopText
+kanafix "ガ-ゴイラ",stopText
 ENAME_GABILAN:
-kanafix "ガビラン"
-.byte   stopText
+kanafix "ガビラン",stopText
 ENAME_GORILLA:
-kanafix "ゴリラ"
-.byte   stopText
+kanafix "ゴリラ",stopText
 ENAME_BISON:
-kanafix "バイソン"
-.byte   stopText
+kanafix "バイソン",stopText
 ENAME_TIGER:
-kanafix "タイガ-"
-.byte   stopText
+kanafix "タイガ-",stopText
 ENAME_MAD_CAR:
-kanafix "マッドカ-"
-.byte   stopText
+kanafix "マッドカ-",stopText
 ENAME_RAEB_YDDET:
-kanafix "ベアル"
-.byte   stopText
+kanafix "ベアル",stopText
 ENAME_MAGIC_SNAIL:
-kanafix "マジカスネイル"
-.byte   stopText
+kanafix "マジカスネイル",stopText
 ENAME_TITANEES:
-kanafix "タイタニ-"
-.byte   stopText
+kanafix "タイタニ-",stopText
 ENAME_GIEGUE:
-kanafix "ギ-グ"
-.byte   stopText
+kanafix "ギ-グ",stopText
 ENAME_EAGLE:
-kanafix "イ-グル"
-.byte   stopText
+kanafix "イ-グル",stopText
 ENAME_WOLF:
-kanafix "オオカミ"
-.byte   stopText
+kanafix "オオカミ",stopText
 ENAME_SEAGULL:
-kanafix "とうぞくカモメ"
-.byte   stopText
+kanafix "とうぞくカモメ",stopText
 ENAME_ALLIGATOR:
-kanafix "ワニ"
-.byte   stopText
+kanafix "ワニ",stopText
 ENAME_ENERGYROBOT:
-kanafix "エナジ-ロボ"
-.byte   stopText
+kanafix "エナジ-ロボ",stopText
 ENAME_THE_FISH:
-kanafix "ちかたいがのぬし"
-.byte   stopText
+kanafix "ちかたいがのぬし",stopText
 ENAME_FUGITIVE:
-kanafix "だっそうはん"
-.byte   stopText
+kanafix "だっそうはん",stopText
 ENAME_BBS_BOSS:
-kanafix "BBだんのボス"
-.byte   stopText
+kanafix "BBだんのボス",stopText
 ENAME_BARBOT:
-kanafix "バ-ボット"
-.byte   stopText
+kanafix "バ-ボット",stopText
 ENAME_NANCY:
-kanafix "ジェ-ン"
-.byte   stopText
+kanafix "ジェ-ン",stopText
 ENAME_STARMAN:
-kanafix "スタ-マン"
-.byte   stopText
+kanafix "スタ-マン",stopText
 ENAME_ULLRICH:
-kanafix "ミラコ"
-.byte   stopText
+kanafix "ミラコ",stopText
 ENAME_CEREBRUM:
-kanafix "ブレインガ"
-.byte   stopText
+kanafix "ブレインガ",stopText
 ENAME_MOOK:
-kanafix "ム-ク"
-.byte   stopText
+kanafix "ム-ク",stopText
 ENAME_ARMOR:
-kanafix "カッチュウ"
-.byte   stopText
+kanafix "カッチュウ",stopText
 ENAME_WOODOH:
-kanafix "ウッド-"
-.byte   stopText
+kanafix "ウッド-",stopText
 ENAME_WALLY:
-kanafix "おじさん"
-.byte   stopText
+kanafix "おじさん",stopText
 ENAME_THE_HIPPIE:
-kanafix "おにいさん"
-.byte   stopText
+kanafix "おにいさん",stopText
 ENAME_BAG_LADY:
-kanafix "おばさん"
-.byte   stopText
+kanafix "おばさん",stopText
 ENAME_BB_GANG:
-kanafix "ブラブラだん"
-.byte   stopText
+kanafix "ブラブラだん",stopText
 ENAME_DR_DISTORTO:
-kanafix "ゆがみはかせ"
-.byte   stopText
+kanafix "ゆがみはかせ",stopText
 ENAME_UNKENEMY1:
-.byte   stopText
+.byte stopText
 ENAME_GANG_ZOMBIE:
-kanafix "ギャングゾンビ"
-.byte   stopText
+kanafix "ギャングゾンビ",stopText
 ENAME_PSEUDOZOMBI:
-kanafix "ゾンビもどき"
-.byte   stopText
+kanafix "ゾンビもどき",stopText
 ENAME_CROW:
-kanafix "カラス"
-.byte   stopText
+kanafix "カラス",stopText
 ENAME_SNAKE:
-kanafix "スネ-ク"
-.byte   stopText
+kanafix "スネ-ク",stopText
 ENAME_HYENA:
-kanafix "ハイエナ"
-.byte   stopText
+kanafix "ハイエナ",stopText
 ENAME_COUGAR:
-kanafix "やまねこ"
-.byte   stopText
+kanafix "やまねこ",stopText
 ENAME_CENTIPEDE:
-kanafix "ムカデ"
-.byte   stopText
+kanafix "ムカデ",stopText
 ENAME_DUST_BALL:
-kanafix "ダストゴ-スト"
-.byte   stopText
+kanafix "ダストゴ-スト",stopText
 ENAME_FLY:
-kanafix "フライ"
-.byte   stopText
+kanafix "フライ",stopText
 ENAME_SPIDER:
-kanafix "スパイダ-"
-.byte   stopText
+kanafix "スパイダ-",stopText
 ENAME_SCORPION:
-kanafix "サソリ"
-.byte   stopText
+kanafix "サソリ",stopText
 ENAME_ROPE:
-kanafix "ロ-プ"
-.byte   stopText
+kanafix "ロ-プ",stopText
 ENAME_FIRE_BALL:
-kanafix "ファイアボ-ル"
-.byte   stopText
+kanafix "ファイアボ-ル",stopText
 ENAME_WATCHER:
-kanafix "ビュ-ン"
-.byte   stopText
+kanafix "ビュ-ン",stopText
 ENAME_GROUCHO:
-kanafix "おまけビュ-ン"
-.byte   stopText
+kanafix "おまけビュ-ン",stopText
 ENAME_GHOST:
-kanafix "ゴ-スト"
-.byte   stopText
+kanafix "ゴ-スト",stopText
 ENAME_LIL_SAUCER:
-kanafix "リトルソ-サ-"
-.byte   stopText
+kanafix "リトルソ-サ-",stopText
 ENAME_MR_BAT:
-kanafix "こうもりさん"
-.byte   stopText
+kanafix "こうもりさん",stopText
 ENAME_STARMAN_JR:
-kanafix "スタ-マンのむすこ"
-.byte   stopText
+kanafix "スタ-マンのむすこ",stopText
 ENAME_SKUNK:
-kanafix "スカンク"
-.byte   stopText
+kanafix "スカンク",stopText
 ENAME_SHROUDLEY:
-kanafix "ちみどろゾンビ"
-.byte   stopText
+kanafix "ちみどろゾンビ",stopText
 ENAME_RAT:
-kanafix "ねずみ"
-.byte   stopText
+kanafix "ねずみ",stopText
 ENAME_BOMBER:
-kanafix "ボマ-"
-.byte   stopText
+kanafix "ボマ-",stopText
 ENAME_UNKENEMY2:
-.byte   stopText
+.byte stopText
 ENAME_DOLL:
-kanafix "にんぎょう"
-.byte   stopText
+kanafix "にんぎょう",stopText
 ENAME_LAMP:
-kanafix "でんきスタンド"
-.byte   stopText
+kanafix "でんきスタンド",stopText
 ENAME_UNKENEMY3:
-.byte   stopText
+.byte stopText
 ENAME_UNKENEMY4:
-.byte   stopText
+.byte stopText
 ENAME_BIONICCENTI:
-kanafix "バイオムカデ"
-.byte   stopText
+kanafix "バイオムカデ",stopText
 ENAME_BIONICSCORP:
-kanafix "バイオサソリ"
-.byte   stopText
+kanafix "バイオサソリ",stopText
 ENAME_UNKENEMY5:
-.byte   stopText
+.byte stopText
 ENAME_UNKENEMY6:
-.byte   stopText
+.byte stopText
 ENAME_RED_SNAKE:
-kanafix "レッドスネ-ク"
-.byte   stopText
+kanafix "レッドスネ-ク",stopText
 ENAME_LONE_WOLF:
-kanafix "いっぴきオオカミ"
-.byte   stopText
+kanafix "いっぴきオオカミ",stopText
 ENAME_POLAR_BEAR:
-kanafix "しろくま"
-.byte   stopText
+kanafix "しろくま",stopText
 ENAME_UNKENEMY7:
-.byte   stopText
+.byte stopText
 ENAME_UNKENEMY8:
-.byte   stopText
+.byte stopText
 ENAME_UNKENEMY9:
-.byte   stopText
+.byte stopText
 ENAME_UNKENEMYA:
-.byte   stopText
+.byte stopText
 ENAME_RATTLESNAKE:
-kanafix "がらがらへび"
-.byte   stopText
+kanafix "がらがらへび",stopText
 ENAME_TARANTULA:
-kanafix "タランチュラ"
-.byte   stopText
+kanafix "タランチュラ",stopText
 ENAME_CROCODILE:
-kanafix "つよいワニ"
-.byte   stopText
+kanafix "つよいワニ",stopText
 ENAME_UNKENEMYB:
-.byte   stopText
+.byte stopText
 ENAME_BUFFALO:
-kanafix "バッファロ-"
-.byte   stopText
+kanafix "バッファロ-",stopText
 ENAME_UNKENEMYC:
-.byte   stopText
+.byte stopText
 ENAME_BIONIC_BAT:
-kanafix "バイオこうもり"
-.byte   stopText
+kanafix "バイオこうもり",stopText
 ENAME_STRAY_DOG:
-kanafix "のらイヌ"
-.byte   stopText
+kanafix "のらイヌ",stopText
 ENAME_PSYCHO_CAR:
-kanafix "デビルカ-"
-.byte   stopText
+kanafix "デビルカ-",stopText
 ENAME_PSYCHOTRUCK:
-kanafix "デビルトラック"
-.byte   stopText
+kanafix "デビルトラック",stopText
 ENAME_MANIACTRUCK:
-kanafix "デストラック"
-.byte   stopText
+kanafix "デストラック",stopText
 ENAME_ALARM_GHOST:
-kanafix "アラ-ムゴ-スト"
-.byte   stopText
+kanafix "アラ-ムゴ-スト",stopText
 ENAME_UNKENEMYD:
-.byte   stopText
+.byte stopText
 ENAME_FOUREYES:
-kanafix "ビュンビュ-ン"
-.byte   stopText
+kanafix "ビュンビュ-ン",stopText
 ENAME_DADSEYES:
-kanafix "パパビュ-ン"
-.byte   stopText
+kanafix "パパビュ-ン",stopText
 ENAME_MOMSEYES:
-kanafix "ビュビ-"
-.byte   stopText
+kanafix "ビュビ-",stopText
 ENAME_UNKENEMYE:
-.byte   stopText
+.byte stopText
 ENAME_UNKENEMYF:
-.byte   stopText
+.byte stopText
 ENAME_SKY_YDDET:
-kanafix "スカイベアル"
-.byte   stopText
+kanafix "スカイベアル",stopText
 ENAME_UNKENEMY10:
-.byte   stopText
+.byte stopText
 ENAME_GIGA_BORG:
-kanafix "ギガボ-グ"
-.byte   stopText
+kanafix "ギガボ-グ",stopText
 ENAME_OMEGA_BORG:
-kanafix "ラストボ-グ"
-.byte   stopText
+kanafix "ラストボ-グ",stopText
 ENAME_SCRAPPER:
-kanafix "スクラッパ-"
-.byte   stopText
+kanafix "スクラッパ-",stopText
 ENAME_ULTRABARBOT:
-kanafix "デスバ-ボット"
-.byte   stopText
+kanafix "デスバ-ボット",stopText
 ENAME_OMEGASAUCER:
-kanafix "オメガソ-サ-"
-.byte   stopText
+kanafix "オメガソ-サ-",stopText
 ENAME_KELLY:
-kanafix "キャロライン"
-.byte   stopText
+kanafix "キャロライン",stopText
 ENAME_STAR_MINER:
-kanafix "スタ-マイナ-"
-.byte   stopText
+kanafix "スタ-マイナ-",stopText
 ENAME_SUPERENERGY:
-kanafix "ス-パ-エナジ-"
-.byte   stopText
+kanafix "ス-パ-エナジ-",stopText
 ENAME_JUANA:
-kanafix "ス-ジ-"
-.byte   stopText
+kanafix "ス-ジ-",stopText
 ENAME_BLUESTARMAN:
-kanafix "ブル-スタ-マン"
-.byte   stopText
+kanafix "ブル-スタ-マン",stopText
 ENAME_ROCKOYLE:
-kanafix "サタ-ニア"
-.byte   stopText
+kanafix "サタ-ニア",stopText
 ENAME_TITANIAN:
-kanafix "タイタニアン"
-.byte   stopText
+kanafix "タイタニアン",stopText
 ENAME_OH_MOOK:
-kanafix "ドム-ク"
-.byte   stopText
+kanafix "ドム-ク",stopText
 ENAME_UNKENEMY11:
-.byte   stopText
+.byte stopText
 ENAME_ZOMBIE:
-kanafix "ゾンビ"
-.byte   stopText
+kanafix "ゾンビ",stopText
 ENAME_NASTYZOMBIE:
-kanafix "ぼうりょくゾンビ"
-.byte   stopText
+kanafix "ぼうりょくゾンビ",stopText
 ENAME_SILVER_WOLF:
-kanafix "ぎんオオカミ"
-.byte   stopText
+kanafix "ぎんオオカミ",stopText
 ENAME_R7037:
-kanafix "R.7037"
-.byte   stopText
+kanafix "R.7037",stopText
 ENAME_GRIZZLYBEAR:
-kanafix "グリズリ-"
-.byte   stopText
+kanafix "グリズリ-",stopText
 ENAME_R7038XX:
-kanafix "R.7038XX"
-.byte   stopText
+kanafix "R.7038XX",stopText
 ENAME_LASTSTARMAN:
-kanafix "ラストスタ-マン"
-.byte   stopText
+kanafix "ラストスタ-マン",stopText
 
 .else
 
@@ -357,212 +253,212 @@ kanafix "ラストスタ-マン"
 ENAME_NULL:
 .byte 0
 ENAME_BIGWOODOH:
-.byte   "BigWoodoh",stopText
+.byte "BigWoodoh",stopText
 ENAME_DRAGON:
-.byte   "Dragon",stopText
+.byte "Dragon",stopText
 ENAME_R7038:
-.byte   "R7038",stopText
+.byte "R7038",stopText
 ENAME_ELEPHANT:
-.byte   "Elephant",stopText
+.byte "Elephant",stopText
 ENAME_BEAR:
-.byte   "Bear",stopText
+.byte "Bear",stopText
 ENAME_BIG_FOOT:
-.byte   "Big Foot",stopText
+.byte "Big Foot",stopText
 ENAME_MAD_TRUCK:
-.byte   "Mad Truck",stopText
+.byte "Mad Truck",stopText
 ENAME_OLD_ROBOT:
-.byte   "Old Robot",stopText
+.byte "Old Robot",stopText
 ENAME_MEGABORG:
-.byte   "Megaborg",stopText
+.byte "Megaborg",stopText
 ENAME_GARGOYLE:
-.byte   "Gargoyle",stopText
+.byte "Gargoyle",stopText
 ENAME_GABILAN:
-.byte   "Gabilan",stopText
+.byte "Gabilan",stopText
 ENAME_GORILLA:
-.byte   "Gorilla",stopText
+.byte "Gorilla",stopText
 ENAME_BISON:
-.byte   "Bison",stopText
+.byte "Bison",stopText
 ENAME_TIGER:
-.byte   "Tiger",stopText
+.byte "Tiger",stopText
 ENAME_MAD_CAR:
-.byte   "Mad Car",stopText
+.byte "Mad Car",stopText
 ENAME_RAEB_YDDET:
-.byte   "Raeb Yddet",stopText
+.byte "Raeb Yddet",stopText
 ENAME_MAGIC_SNAIL:
-.byte   "Magic Snail",stopText
+.byte "Magic Snail",stopText
 ENAME_TITANEES:
-.byte   "Titanees",stopText
+.byte "Titanees",stopText
 ENAME_GIEGUE:
-.byte   "Giegue",stopText
+.byte "Giegue",stopText
 ENAME_EAGLE:
-.byte   "Eagle",stopText
+.byte "Eagle",stopText
 ENAME_WOLF:
-.byte   "Wolf",stopText
+.byte "Wolf",stopText
 ENAME_SEAGULL:
-.byte   "Seagull",stopText
+.byte "Seagull",stopText
 ENAME_ALLIGATOR:
-.byte   "Alligator",stopText
+.byte "Alligator",stopText
 ENAME_ENERGYROBOT:
-.byte   "EnergyRobot",stopText
+.byte "EnergyRobot",stopText
 ENAME_THE_FISH:
-.byte   "The Fish",stopText
+.byte "The Fish",stopText
 ENAME_FUGITIVE:
-.byte   "Fugitive",stopText
+.byte "Fugitive",stopText
 ENAME_BBS_BOSS:
-.byte   "B.B.'s Boss",stopText
+.byte "B.B.'s Boss",stopText
 ENAME_BARBOT:
-.byte   "Barbot",stopText
+.byte "Barbot",stopText
 ENAME_NANCY:
-.byte   "Nancy",stopText
+.byte "Nancy",stopText
 ENAME_STARMAN:
-.byte   "Starman",stopText
+.byte "Starman",stopText
 ENAME_ULLRICH:
-.byte   "Ullrich",stopText
+.byte "Ullrich",stopText
 ENAME_CEREBRUM:
-.byte   "Cerebrum",stopText
+.byte "Cerebrum",stopText
 ENAME_MOOK:
-.byte   "Mook",stopText
+.byte "Mook",stopText
 ENAME_ARMOR:
-.byte   "Armor",stopText
+.byte "Armor",stopText
 ENAME_WOODOH:
-.byte   "Woodoh",stopText
+.byte "Woodoh",stopText
 ENAME_WALLY:
-.byte   "Wally",stopText
+.byte "Wally",stopText
 ENAME_THE_HIPPIE:
-.byte   "The Hippie",stopText
+.byte "The Hippie",stopText
 ENAME_BAG_LADY:
-.byte   "Bag Lady",stopText
+.byte "Bag Lady",stopText
 ENAME_BB_GANG:
-.byte   "B.B. Gang",stopText
+.byte "B.B. Gang",stopText
 ENAME_DR_DISTORTO:
-.byte   "Dr.Distorto",stopText
+.byte "Dr.Distorto",stopText
 ENAME_GANG_ZOMBIE:
-.byte   "Gang Zombie",stopText
+.byte "Gang Zombie",stopText
 ENAME_PSEUDOZOMBI:
-.byte   "PseudoZombi",stopText
+.byte "PseudoZombi",stopText
 ENAME_CROW:
-.byte   "Crow",stopText
+.byte "Crow",stopText
 ENAME_SNAKE:
-.byte   "Snake",stopText
+.byte "Snake",stopText
 ENAME_HYENA:
-.byte   "Hyena",stopText
+.byte "Hyena",stopText
 ENAME_COUGAR:
-.byte   "Cougar",stopText
+.byte "Cougar",stopText
 ENAME_CENTIPEDE:
-.byte   "Centipede",stopText
+.byte "Centipede",stopText
 ENAME_DUST_BALL:
-.byte   "Dust Ball",stopText
+.byte "Dust Ball",stopText
 ENAME_FLY:
-.byte   "Fly",stopText
+.byte "Fly",stopText
 ENAME_SPIDER:
-.byte   "Spider",stopText
+.byte "Spider",stopText
 ENAME_SCORPION:
-.byte   "Scorpion",stopText
+.byte "Scorpion",stopText
 ENAME_ROPE:
-.byte   "Rope",stopText
+.byte "Rope",stopText
 ENAME_FIRE_BALL:
-.byte   "Fire Ball",stopText
+.byte "Fire Ball",stopText
 ENAME_WATCHER:
-.byte   "Watcher",stopText
+.byte "Watcher",stopText
 ENAME_GROUCHO:
-.byte   "Groucho",stopText
+.byte "Groucho",stopText
 ENAME_GHOST:
-.byte   "Ghost",stopText
+.byte "Ghost",stopText
 ENAME_LIL_SAUCER:
-.byte   "Lil Saucer",stopText
+.byte "Lil Saucer",stopText
 ENAME_MR_BAT:
-.byte   "Mr. Bat",stopText
+.byte "Mr. Bat",stopText
 ENAME_STARMAN_JR:
-.byte   "Starman Jr.",stopText
+.byte "Starman Jr.",stopText
 ENAME_SKUNK:
-.byte   "Skunk",stopText
+.byte "Skunk",stopText
 ENAME_SHROUDLEY:
-.byte   "Shroudley",stopText
+.byte "Shroudley",stopText
 ENAME_RAT:
-.byte   "Rat",stopText
+.byte "Rat",stopText
 ENAME_BOMBER:
-.byte   "Bomber",stopText
+.byte "Bomber",stopText
 ENAME_DOLL:
-.byte   "Doll",stopText
+.byte "Doll",stopText
 ENAME_LAMP:
-.byte   "Lamp",stopText
+.byte "Lamp",stopText
 ENAME_BIONICCENTI:
-.byte   "BionicCenti",stopText
+.byte "BionicCenti",stopText
 ENAME_BIONICSCORP:
-.byte   "BionicScorp",stopText
+.byte "BionicScorp",stopText
 ENAME_RED_SNAKE:
-.byte   "Red Snake",stopText
+.byte "Red Snake",stopText
 ENAME_LONE_WOLF:
-.byte   "Lone Wolf",stopText
+.byte "Lone Wolf",stopText
 ENAME_POLAR_BEAR:
-.byte   "Polar Bear",stopText
+.byte "Polar Bear",stopText
 ENAME_RATTLESNAKE:
-.byte   "Rattlesnake",stopText
+.byte "Rattlesnake",stopText
 ENAME_TARANTULA:
-.byte   "Tarantula",stopText
+.byte "Tarantula",stopText
 ENAME_CROCODILE:
-.byte   "Crocodile",stopText
+.byte "Crocodile",stopText
 ENAME_BUFFALO:
-.byte   "Buffalo",stopText
+.byte "Buffalo",stopText
 ENAME_BIONIC_BAT:
-.byte   "Bionic Bat",stopText
+.byte "Bionic Bat",stopText
 ENAME_STRAY_DOG:
-.byte   "Stray Dog",stopText
+.byte "Stray Dog",stopText
 ENAME_PSYCHO_CAR:
-.byte   "Psycho Car",stopText
+.byte "Psycho Car",stopText
 ENAME_PSYCHOTRUCK:
-.byte   "PsychoTruck",stopText
+.byte "PsychoTruck",stopText
 ENAME_MANIACTRUCK:
-.byte   "ManiacTruck",stopText
+.byte "ManiacTruck",stopText
 ENAME_ALARM_GHOST:
-.byte   "Alarm Ghost",stopText
+.byte "Alarm Ghost",stopText
 ENAME_FOUREYES:
-.byte   "Foureyes",stopText
+.byte "Foureyes",stopText
 ENAME_DADSEYES:
-.byte   "Dadseyes",stopText
+.byte "Dadseyes",stopText
 ENAME_MOMSEYES:
-.byte   "Momseyes",stopText
+.byte "Momseyes",stopText
 ENAME_SKY_YDDET:
-.byte   "Sky Yddet",stopText
+.byte "Sky Yddet",stopText
 ENAME_GIGA_BORG:
-.byte   "Giga Borg",stopText
+.byte "Giga Borg",stopText
 ENAME_OMEGA_BORG:
-.byte   "Omega Borg",stopText
+.byte "Omega Borg",stopText
 ENAME_SCRAPPER:
-.byte   "Scrapper",stopText
+.byte "Scrapper",stopText
 ENAME_ULTRABARBOT:
-.byte   "UltraBarbot",stopText
+.byte "UltraBarbot",stopText
 ENAME_OMEGASAUCER:
-.byte   "OmegaSaucer",stopText
+.byte "OmegaSaucer",stopText
 ENAME_KELLY:
-.byte   "Kelly",stopText
+.byte "Kelly",stopText
 ENAME_STAR_MINER:
-.byte   "Star Miner",stopText
+.byte "Star Miner",stopText
 ENAME_SUPERENERGY:
-.byte   "SuperEnergy",stopText
+.byte "SuperEnergy",stopText
 ENAME_JUANA:
-.byte   "Juana",stopText
+.byte "Juana",stopText
 ENAME_BLUESTARMAN:
-.byte   "BlueStarman",stopText
+.byte "BlueStarman",stopText
 ENAME_ROCKOYLE:
-.byte   "Rockoyle",stopText
+.byte "Rockoyle",stopText
 ENAME_TITANIAN:
-.byte   "Titanian",stopText
+.byte "Titanian",stopText
 ENAME_OH_MOOK:
-.byte   "Oh-Mook",stopText
+.byte "Oh-Mook",stopText
 ENAME_ZOMBIE:
-.byte   "Zombie",stopText
+.byte "Zombie",stopText
 ENAME_NASTYZOMBIE:
-.byte   "NastyZombie",stopText
+.byte "NastyZombie",stopText
 ENAME_SILVER_WOLF:
-.byte   "Silver Wolf",stopText
+.byte "Silver Wolf",stopText
 ENAME_R7037:
-.byte   "R7037",stopText
+.byte "R7037",stopText
 ENAME_GRIZZLYBEAR:
-.byte   "GrizzlyBear",stopText
+.byte "GrizzlyBear",stopText
 ENAME_R7038XX:
-.byte   "R7038XX",stopText
+.byte "R7038XX",stopText
 ENAME_LASTSTARMAN:
-.byte   "LastStarman",stopText
+.byte "LastStarman",stopText
 
 .endif

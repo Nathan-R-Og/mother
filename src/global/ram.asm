@@ -16,23 +16,29 @@ player_direction: .res 1 ;$C
 UNK_d: .res 1
 fade_type: .res 1 ;$E
 UNK_f: .res 1
-UNK_10: .res 8
 ; $10 -> Field CHR bank 2
+UNK_10: .res 1
 ; $11 -> $10 & 3
+UNK_11: .res 1
 ; $12 -> Field CHR bank 3
+UNK_12: .res 1
 ; $13 -> $12 & 3
+UNK_13: .res 1
 ; $14 -> Current "tileset"?
+UNK_14: .res 1
 ; $15 -> Current area??
+UNK_15: .res 1
+UNK_16: .res 1 ; map palette 3 color 0 value
+UNK_17: .res 1 ; map palette 3 color 2 value
 player_x: .res 2 ; $18
 player_y: .res 2 ; $1A
 UNK_1c: .res 4
 ; $1F -> 1 when run button is held?
 fade_flag: .res 1 ; $20
-is_scripted: .res 1
-; $21 -> An object index?
+is_scripted: .res 1 ; $21 -> An object index?
 autowalk_direction: .res 1 ; $22 ; For cutscenes? If bit 4 is set, then walks through other objects
-is_tank: .res 1
-UNK_24: .res 2
+is_tank: .res 1 ; $23
+UNK_24: .res 2 ; $24
 ; $25 -> Cutscene flag? Doesn't allow run button and NPCs are frozen
 random_num: .res 2 ; $26
 UNK_28: .res 2
@@ -62,13 +68,19 @@ UNK_50: .res $10
 ; $53 -> Attacker offset -- in battles
 ; $54 -> Target offset -- in battles
 ; $58 -> Move type -- only during battle?
-UNK_60: .res $10
+UNK_60: .res 2
+UNK_62: .res 2
+UNK_64: .res 2
+UNK_66: .res 2
+UNK_68: .res 2
+UNK_6A: .res 2
+UNK_6C: .res 2
+UNK_6E: .res 2
 UNK_70: .res 1
 UNK_71: .res 1
 UNK_72: .res 1
 UNK_73: .res 1
-UNK_74: .res 1
-UNK_75: .res 1
+UNK_74: .res 2 ;tile data pointer
 UNK_76: .res 1
 UNK_77: .res 1
 UNK_78: .res 1
@@ -88,7 +100,22 @@ menu_x_pos: .res 1 ; $86 ; X pos in whole numbers
 menu_y_pos: .res 1 ; $87 ; Y pos in whole numbers
 UNK_88: .res 8
 UNK_90: .res $10
-UNK_A0: .res $10
+UNK_A0: .res 1
+UNK_A1: .res 1
+UNK_A2: .res 1
+UNK_A3: .res 1
+UNK_A4: .res 1
+UNK_A5: .res 1
+UNK_A6: .res 1
+UNK_A7: .res 1
+UNK_A8: .res 1
+UNK_A9: .res 1
+UNK_AA: .res 1
+UNK_AB: .res 1
+UNK_AC: .res 1
+UNK_AD: .res 1
+UNK_AE: .res 1
+UNK_AF: .res 1
 unk_b0: .res 1 ; $b0
 unk_b1: .res 1 ; $b1
 unk_b2: .res 1 ; $b2
@@ -109,9 +136,14 @@ UNK_C0: .res $10
 ; $bb -> Something to do with music (2 bytes). Interacts with $07FF
 ; $bd -> Current music channel? (1=noise, 2=pulse1, 3=pulse2, 4=triangle, 5=dmc)?
 frame_counter: .res 3 ; $d0 ; 24 bit
-UNK_D3: .res 7
-; $d3 -> How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the frame counter also stops counting (wtf...?)
-; $d7 has a JMP instruction (if zero, then don't jump)
+UNK_D3: .res 1 ; V the frame counter in question
+UNK_D4: .res 1 ; How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the frame counter also stops counting (wtf...?)
+UNK_D5: .res 1
+UNK_D6: .res 1 ;seems to copy UNK_D4, but UNK_D4 can continue???
+UNK_D7: .res 1
+UNK_D8: .res 1
+UNK_D9: .res 1
+; $d3 -> ; $d7 has a JMP instruction (if zero, then don't jump)
 pad1_forced: .res 1 ; $da
 pad2_forced: .res 1 ; $db
 pad1_press: .res 1 ; $dc
@@ -123,8 +155,7 @@ UNK_E1: .res 1
 UNK_E2: .res 1
 UNK_E3: .res 1
 UNK_E4: .res 1
-UNK_E5: .res 1
-UNK_E6: .res 1
+UNK_E5: .res 2 ;some kind of pointer
 UNK_E7: .res 1
 UNK_E8: .res 1
 UNK_E9: .res 1
@@ -134,9 +165,8 @@ UNK_EC: .res 1
 irq_index: .res 1 ; $ed ; IRQ routine index (multiple of 2)
 bankswitch_mode: .res 1 ; $ee ; Bankswitch "mode"  (-----mmm), $8000 MMC3 register
 bankswitch_flags: .res 1 ; $ef ; Bankswitch "flags" (ff------), $8000 MMC3 register
-current_banks: .res 1 ; $f0 ; Current banks for each "mode" (8 bytes)
-UNK_F1: .res $b
-; $F8, etc.
+current_banks: .res 8 ; $f0 ; Current banks for each "mode" (8 bytes)
+UNK_F8: .res 4
 scroll_x: .res 1 ; $fc
 scroll_y: .res 1 ; $fd
 ram_PPUMASK: .res 1 ; $fe
@@ -150,10 +180,27 @@ UNK_100: .res $10
 ; Zone where text data from CHR is stored to write into PPU
 text_data_buffer: .res $40 ;$0110 ~ $014F
 stack: .res $B0 ; $150
+
+;format
+;y - 0
+;tile index - 1
+;attr - 2
+;x - 3
 shadow_oam: .res $100 ; $200
+
+;format
+;76tttttt - t=tiles - 0
+;oam slot - 1
+;x,y - 2,3
+;pointer1 - 4,5
+;spritedef pointer - 6,7
 shadow_something: .res $100 ; $300 / ??? overworld sprites????
-UNK_400: .res $100 ;nmi queue???
-UNK_500: .res $40 ;palette queue???
+
+;just an array of nmi commands
+nmi_queue: .res $100 ;$400 / nmi queue???
+
+palette_queue: .res $20 ;$500 / palette queue???
+palette_backup: .res $20 ;$520 / palette queue backup???
 irq_pointers: .res $40 ; $540 / (-1 because of it uses the RTS trick)
 UNK_580: .res $80
 
@@ -615,7 +662,19 @@ object_m_oam2 = $10 ;byte
 object_m_colOffset = $11 ;byte
 object_m_colPointer = $12 ;word
 object_m_bitfield1 = $14 ;byte
-;'citpssss' => c=collidable; i=interactable; t=change direction when talked to; p=high priority; s=offset from object data where script data starts
+;;;this is verbatim from "Object_Configs" btw
+;'citpssss'
+; c=collidable
+; i=interactable
+; t=change direction when talked to
+; p=high priority
+; s=offset from object data where script data starts
+OBJECT_M_BF1_COLLIDABLE = (1 << 7)
+OBJECT_M_BF1_INTERACTABLE = (1 << 6)
+OBJECT_M_BF1_CHANGEDIR = (1 << 5)
+OBJECT_M_BF1_HIGHPRIORITY = (1 << 4)
+OBJECT_M_BF1_SCRIPT = $f
+
 object_m_direction = $15 ;byte
 object_m_sprite2 = $16 ;word
 object_m_unk1 = $18 ;3 bytes
@@ -625,7 +684,68 @@ object_m_scriptOffset = $1c; byte
 object_m_unk2 = $1d ;3 bytes
 object_m_sizeof = $20
 
-save_file_current: .res $200
+.struct save_meta
+    checksum .word ; 0x0
+    slot .byte ; 0x2
+    state .byte ; 0x3
+    current_daDef .res 4 ; 0x4
+    party_members .res 4 ; 0x8
+    saved_daDef .res 4 ; 0xC
+    wallet_money .word ; 0x10
+    bank_money .faraddr ; 0x12
+    dad_money .faraddr ; 0x15
+    battle_message_speed .byte ; 0x18
+    repel_counter .byte ; 0x19
+    unk_1a .res 4 ; 0x1A
+    unk_1e .byte ; 0x1e
+    big_bag_uses .byte ; 0x1f
+    player_name .res 17 ; 0x20
+    player_name_end .res 11 ; 0x31
+    preferences .res 4 ; 0x3c
+.endstruct ;sizeof 0x40
+
+.struct party_info
+    unk_0 .byte ; 0x0
+    status .byte ; 0x1
+    resistances .byte ; 0x2
+    max_hp .word ; 0x3
+    max_pp .word ; 0x5
+    offense .word ; 0x7
+    defense .word ; 0x9
+    fight .byte ; 0xb
+    speed .byte ; 0xc
+    wisdom .byte ; 0xd
+    strength .byte ; 0xe
+    force .byte ; 0xf
+    level .byte ; 0x10
+    exp .faraddr ; 0x11
+    curr_hp .word ; 0x14
+    curr_pp .word ; 0x16
+    name_pointer .addr ; 0x18
+    unk_1a .res 4 ; 0x1a
+    sprite_pointer .addr ; 0x1e
+    items .res 8 ; 0x20
+    weapon .byte ; 0x28
+    coin .byte ; 0x29
+    ring .byte ; 0x2a
+    pendant .byte ; 0x2b
+    crumb_coords .res 4 ; 0x2c
+    psi_learntable .res 8 ; 0x30
+    name .res 8 ; 0x38
+.endstruct ;sizeof 0x40
+
+.struct save_file_structure
+    meta .tag save_meta
+    ninten_data .tag party_info ;Ninten
+    ana_data .tag party_info ;Ana
+    lloyd_data .tag party_info ;Lloyd
+    teddy_data .tag party_info ;Teddy
+    pippi_data .tag party_info ;Pippi
+    eve_data .tag party_info ;EVE
+    flyingman_data .tag party_info ;FlyingMan
+.endstruct ;sizeof $300
+
+save_file_current: .tag save_file_structure; $7400
 
 ; $00 : Unused (always 00)
 Status_Offset               = $1

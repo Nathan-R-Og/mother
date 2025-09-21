@@ -3,20 +3,20 @@
 rts_1:
     tay
     beq beq_1
-    ldy #$04
+    ldy #4
     beq_1:
     lda B25_1a22, y
-    sta $0584, x
+    sta UNK_580+4, x
     lda B25_1a22+1, y
-    sta $0585, x
+    sta UNK_580+5, x
     lda B25_1a22+2, y
-    sta $0586, x
+    sta UNK_580+6, x
     lda B25_1a22+3, y
-    sta $0587, x
+    sta UNK_580+7, x
     .ifdef VER_JP
     tya
     bne L0046
-    lda $7418
+    lda save_file_current+save_meta::battle_message_speed
     cmp #$32
     bcs L0037
     cmp #$0A
@@ -32,89 +32,104 @@ rts_1:
     lda #$36
     ldx #$62
     L003B:
-    sta $0581
-    stx $0582
+    sta UNK_580+1
+    stx UNK_580+2
     lda #$04
-    sta $0580
+    sta UNK_580
     L0046:
     .endif
     rts
 
-rts_2:
+;x == index * 2
+ns_load_ui_element:
     lda B25_1873, x
-    sta $74
+    sta UNK_74
     lda B25_1873+1, x
-    sta $75
+    sta UNK_74+1
     rts
 
 rts_3:
     lda B25_1885, x
-    sta $80
+    sta UNK_80
     lda B25_1885+1, x
-    sta $81
+    sta UNK_80+1
     rts
 
 rts_4:
     lda #$FF
-    sta $D6
-    ldx #$06
-    ldy #$05
-    stx $76
-    sty $77
+    sta UNK_D6
+    ldx #6
+    ldy #5
+    stx UNK_76
+    sty UNK_76+1
     rts
 
 .ifdef VER_JP
 rts_6:
     clc
-    lda $7418
+    lda save_file_current+save_meta::battle_message_speed
     adc #$0A
     asl A
     cmp #$64
     bcc L0077
     lda #$05
     L0077:
-    sta $7418
+    sta save_file_current+save_meta::battle_message_speed
     rts
 .endif
 
-rts_5:
+;a == save slot id
+SetupFreshSaveData:
     ;stash
     pha
 
-    lda #0
-    ldx #$74
-    sta $30
-    stx $31
+    ;working_save data
+    lda #.LOBYTE(save_file_current)
+    ldx #.HIBYTE(save_file_current)
+    sta object_pointer
+    stx object_pointer+1
 
-    lda #0
-    ldx #$BE
-    sta $32
-    stx $33
+    ;default save heirarchy
+    ;this is a bit hacky because bank $18 is mostly used
+    ;for text pointers, but that routinely gets loaded into $8000
+    ;save file needs bank $18 in $A000, so we gotta work backwards here
+    ; NOTE: JP doesn't have this problem because MUSIC spans
+    ;two banks, with the save data tacked to the end.
+    ;either way, it expects save data in $a000. fix accordingly
+    .import __SAVEFILE_SIZE__
+    save_data_start = $C000-__SAVEFILE_SIZE__
+    lda #.LOBYTE(save_data_start)
+    ldx #.HIBYTE(save_data_start)
+    sta object_data
+    stx object_data+1
 
-    ;2 $FF copies
+    ;$200 copies
     ldx #2
     ldy #0
-    bne_1:
-    lda ($32), y
-    sta ($30), y
+    @write:
+    lda (object_data), y
+    sta (object_pointer), y
     iny
-    bne bne_1
-    inc $31
-    inc $33
+    bne @write
+    inc object_pointer+1
+    inc object_data+1
     dex
-    bne bne_1
+    bne @write
 
-    ;clear $FF
+    ;clear $100 times
+    ;this clears the story flags section of the current save data
     lda #0
-    bne_2:
-    sta ($30), y
+    @loop:
+    sta (object_pointer), y
     iny
-    bne bne_2
+    bne @loop
 
-    ;pop
+    ; save_file_current::slot |= a
+    ; (this is basically an add anyways. it defaults to $B0)
     pla
-    ora $7402
-    sta $7402
+    ora save_file_current+save_meta::slot
+    sta save_file_current+save_meta::slot
+
     rts
 
 B25_1873:
@@ -158,23 +173,17 @@ ui_delete_save:
     .byte uibox_tl
     .byte repeatTile uibox_t, 18
     .byte uibox_tr
-    .byte 1
+    .byte newLine
     ;line
-    .byte uibox_l
-    .byte " "
-    .byte print_number ninten_name, 0, 6
+    .byte uibox_l," "
+    .byte print_number Ninten_Data+party_info::name, 0, 6
     .byte "LV"
-    .byte print_number ninten_level, 1, 2
-    kanafix "の きろくを "
-    .byte uibox_r
-    .byte 1
-    .byte uibox_l
-    kanafix " けしても よろしいですか?    "
-    .byte uibox_r
-    .byte 1
-    .byte uibox_l
-    kanafix "     はい   いいえ     "
-    .byte uibox_r
+    .byte print_number Ninten_Data+party_info::level, 1, 2
+    kanafix "の きろくを ",uibox_r
+    .byte newLine
+    kanafix uibox_l," けしても よろしいですか?    ",uibox_r
+    .byte newLine
+    kanafix uibox_l,"     はい   いいえ     ",uibox_r
     .byte 0
     ;bottom
     .byte uibox_bl
@@ -188,9 +197,7 @@ ui_copy_save:
     .byte repeatTile uibox_t, 14
     .byte uibox_tr
     .byte 1
-    .byte uibox_l
-    kanafix " どこへ うつしますか?  "
-    .byte uibox_r
+    kanafix uibox_l," どこへ うつしますか?  ",uibox_r
     .byte 0
     .byte uibox_bl
     .byte repeatTile uibox_b, 14
@@ -243,10 +250,8 @@ ui_save_slot_3:
     .byte 1
     ;fallthrough
     slot_middle:
-    .byte " ",uibox_l
-    kanafix " つづき  うつす  けす   "
-    .byte print_string $0580
-    .byte " ",uibox_r
+    kanafix " ",uibox_l," つづき  うつす  けす   "
+    .byte print_string $0580," ",uibox_r
     .byte 0
     ;bottom
     .byte " ",uibox_bl
@@ -367,9 +372,9 @@ ui_delete_save:
     .byte newLine
     ;line
     .byte uibox_l," ",'"'
-    .byte print_number ninten_name, 0, 8
+    .byte print_number Ninten_Data+party_info::name, 0, 8
     .byte "Lvl"
-    .byte print_number ninten_level, 1, 2
+    .byte print_number Ninten_Data+party_info::level, 1, 2
     .byte '"',"  ",uibox_r
     .byte newLine
     .byte uibox_l," will vanish. OK? ",uibox_r
@@ -561,7 +566,7 @@ B25_1a32:
     .byte 1, 3, 0
 
 ;chr bankswitch table
-B25_1a35:
+naming_screen_chr_table:
     .byte $60, $00, $7c, $7d, $7e, $7f
 
 
@@ -569,7 +574,7 @@ B25_1a35:
 ; Menu Screen palette
 ; only the first bg palette gets used
 ; and the sprite palettes are used for the party members
-menuPalettes:
+naming_screen_palettes:
     .byte $0f,$0f,$30,$30
     .byte $0f,$3a,$10,$20
     .byte $0f,$3a,$25,$1a
@@ -580,37 +585,64 @@ menuPalettes:
     .byte $0f,$0f,$24,$37
     .byte $0f,$0f,$12,$37
 
-B25_1a5b:
-    lda #$04
-    sta $0300, y
-    lda $64
-    sta $0301, y
-    lda $62
-    sta $0302, y
-    lda $63
-    sta $0303, y
-    lda #$00
-    sta $0304, y
-    sta $0305, y
-    lda $60
-    sta $0306, y
-    lda $61
-    sta $0307, y
-    lda #$01
-    sta $e5
+;UNK_64 == oam slot
+;UNK_62[0:2] == x,y
+;UNK_60[0:2] == spritedef pointer
+;y == shadow_something item
+NS_AddCharacterToOam:
+    ;set tiles
+    lda #4
+    sta shadow_something, y
+
+    ;set oam slot
+    lda UNK_64
+    sta shadow_something+1, y
+
+    ;set x
+    lda UNK_62
+    sta shadow_something+2, y
+    ;set y
+    lda UNK_62+1
+    sta shadow_something+3, y
+
+    ;set pointer1
+    lda #0
+    sta shadow_something+4, y
+    sta shadow_something+5, y
+
+    ;set spritedef pointer
+    lda UNK_60
+    sta shadow_something+6, y
+    lda UNK_60+1
+    sta shadow_something+7, y
+
+    lda #1
+    sta UNK_E5
+
     rts
 
-B25_1a86:
+;gets the ram addresses filled with proper information
+;for displaying each character
+
+;specifically only used for the final line up before
+;you finish naming
+NS_PrepCharIcons:
+    ;set x,y to $50,8
     lda #$50
-    sta $62
-    lda #$08
-    sta $63
-    lda #$00
-    sta $64
-    lda #$10
-    sta $60
-    lda #$80
-    sta $61
+    sta UNK_62
+    lda #8
+    sta UNK_62+1
+
+    ;set oam slot to 0
+    lda #0
+    sta UNK_64
+
+    ;set spritedef to SPRITEDEF_NINTENDOWN1
+    lda #.LOBYTE(SPRITEDEF_NINTENDOWN1)
+    sta UNK_60
+    lda #.HIBYTE(SPRITEDEF_NINTENDOWN1)
+    sta UNK_60+1
+
     rts
 
 .ifdef VER_JP
@@ -682,23 +714,23 @@ B25_1ab5:
     rts
 
 ;character name stuff
-B25_1aca:
+NS_QuestionSetups:
     ;ninten
     .addr SPRITEDEF_NINTENDOWN1
     .addr NintenQuestion
-    .addr ninten_name
+    .addr Ninten_Data+party_info::name
     ;ana
     .addr SPRITEDEF_C
     .addr AnaQuestion
-    .addr ana_name
+    .addr Ana_Data+party_info::name
     ;lloyd
     .addr SPRITEDEF_14
     .addr LloydQuestion
-    .addr lloyd_name
+    .addr Lloyd_Data+party_info::name
     ;teddy
     .addr SPRITEDEF_1C
     .addr TeddyQuestion
-    .addr teddy_name
+    .addr Teddy_Data+party_info::name
     ;food
     .addr 0
     .addr FoodQuestion
@@ -755,7 +787,7 @@ speed_choicers_maybe:
 .byte 1,1,1
 .else
 
-.addr   finalChoicers
+.addr finalChoicers
 ;setting a choicer to 0 makes it unavailable
 ;if all are 0, it is completely skipped
 ;fairly certain unless there is implementation, the value itself
@@ -765,9 +797,9 @@ finalChoicers:
 
 ;these are wrote to $0400
 B25_0afd:
-    .byte $08    ; PPU_FILL
+    .byte 8    ; PPU_FILL
     .byte $40    ; Fill 64 bytes
-    .addr $C023  ; at $c023
+    .byte $23,$C0  ; at $23c0
     .byte $FF ;tile (sent to ppudata)
     .byte 0    ; END
 
@@ -776,23 +808,17 @@ B25_0afd:
 
 .ifdef VER_JP
 NintenQuestion:
-kanafix "なまえを つけてください"
-.byte   stopText
+kanafix "なまえを つけてください",stopText
 AnaQuestion:
-kanafix "おんなのこの なまえは?"
-.byte   stopText
+kanafix "おんなのこの なまえは?",stopText
 LloydQuestion:
-kanafix "ともだちの なまえは? "
-.byte   stopText
+kanafix "ともだちの なまえは? ",stopText
 TeddyQuestion:
-kanafix "もうひとりのともだちは?"
-.byte   stopText
+kanafix "もうひとりのともだちは?",stopText
 FoodQuestion:
-kanafix "すきなこんだては なに?"
-.byte   stopText
+kanafix "すきなこんだては なに?",stopText
 ChangeName:
-kanafix "このなまえは つかえない"
-.byte   stopText
+kanafix "このなまえは つかえない",stopText
 
 ;??????
 .byte $08,$40,$23,$C0,$FF,$00
@@ -800,36 +826,29 @@ kanafix "このなまえは つかえない"
 .else
 NintenQuestion:
 .byte   "What is this",newLine
-.byte   "boy's name?"
-.byte   stopText
+.byte   "boy's name?",stopText
 AnaQuestion:
 .byte   "What is this",newLine
-.byte   "girl's name?"
-.byte   stopText
+.byte   "girl's name?",stopText
 LloydQuestion:
 .byte   "This other",newLine
-.byte   "boy's name?"
-.byte   stopText
+.byte   "boy's name?",stopText
 TeddyQuestion:
 .byte   "This last",newLine
-.byte   "boy's name?"
-.byte   stopText
+.byte   "boy's name?",stopText
 FoodQuestion:
 .byte   "What is your",newLine
-.byte   "favorite food?"
-.byte   stopText
+.byte   "favorite food?",stopText
 ChangeName:
 .byte   "Please change",newLine
-.byte   "this name."
-.byte   stopText
+.byte   "this name.",stopText
 CharExists:
 .byte   "A character in ",newLine
 .byte   "this game has  ",newLine
 .byte   "that name. Try ",newLine
 .byte   "again, and use ",newLine
 .byte   "only capital   ",newLine
-.byte   "letters.       "
-.byte   stopText
+.byte   "letters.       ",stopText
 .endif
 
 
@@ -886,101 +905,63 @@ kanafix "ガリクソン?" ;Garrickson
 
 NameCharacters:
 .ifdef VER_JP
-kanafix "あいうえお"
-.byte 0
-kanafix "アイウエオ"
-.byte 0
-kanafix "がぎぐげご"
-.byte 0
-.byte "ABCDEF"
-.byte 0
+kanafix "あいうえお",stopText
+kanafix "アイウエオ",stopText
+kanafix "がぎぐげご",stopText
+.byte "ABCDEF",stopText
 
-kanafix "かきくけこ"
-.byte 0
-kanafix "カキクケコ"
-.byte 0
-kanafix "ざじずぜぞ"
-.byte 0
-.byte "GHIJKL"
-.byte 0
+kanafix "かきくけこ",stopText
+kanafix "カキクケコ",stopText
+kanafix "ざじずぜぞ",stopText
+.byte "GHIJKL",stopText
 
-kanafix "さしすせそ"
-.byte 0
-kanafix "サシスセソ"
-.byte 0
-kanafix "だぢづでど"
-.byte 0
-.byte "MNOPQR"
-.byte 0
+kanafix "さしすせそ",stopText
+kanafix "サシスセソ",stopText
+kanafix "だぢづでど",stopText
+.byte "MNOPQR",stopText
 
-kanafix "たちつてと"
-.byte 0
-kanafix "タチツテト"
-.byte 0
-kanafix "ばびぶべぼ"
-.byte 0
-.byte "STUVWX"
-.byte 0
+kanafix "たちつてと",stopText
+kanafix "タチツテト",stopText
+kanafix "ばびぶべぼ",stopText
+.byte "STUVWX",stopText
 
-kanafix "なにぬねの"
-.byte 0
-kanafix "ナニヌネノ"
-.byte 0
-kanafix "ぱぴぷぺぽ"
-.byte 0
-.byte "YZ.-, "
-.byte 0
+kanafix "なにぬねの",stopText
+kanafix "ナニヌネノ",stopText
+kanafix "ぱぴぷぺぽ",stopText
+.byte "YZ.-, ",stopText
 
-kanafix "はひふへほ"
-.byte 0
-kanafix "ハヒフヘホ"
-.byte 0
-kanafix "ガギグゲゴ"
-.byte 0
-kanafix "ぁぃぅぇぉっ"
-.byte 0
+kanafix "はひふへほ",stopText
+kanafix "ハヒフヘホ",stopText
+kanafix "ガギグゲゴ",stopText
+kanafix "ぁぃぅぇぉっ",stopText
 
-kanafix "まみむめも"
-.byte 0
-kanafix "マミムメモ"
-.byte 0
-kanafix "ザジズゼゾ"
-.byte 0
-kanafix "ゃゅょャュョ"
-.byte 0
+kanafix "まみむめも",stopText
+kanafix "マミムメモ",stopText
+kanafix "ザジズゼゾ",stopText
+kanafix "ゃゅょャュョ",stopText
 
-kanafix "や ゆ よ"
-.byte 0
-kanafix "ヤ ユ ヨ"
-.byte 0
-kanafix "ダヂヅデド"
-.byte 0
-kanafix "ァィゥェォッ"
-.byte 0
+kanafix "や ゆ よ",stopText
+kanafix "ヤ ユ ヨ",stopText
+kanafix "ダヂヅデド",stopText
+kanafix "ァィゥェォッ",stopText
 
-kanafix "らりるれろ"
-.byte 0
-kanafix "ラリルレロ"
-.byte 0
-kanafix "バビブベボ"
-.byte 0
+kanafix "らりるれろ",stopText
+kanafix "ラリルレロ",stopText
+kanafix "バビブベボ",stopText
 .byte 0,$C1,0,0,0,0 ;choicer
 .byte 0
 
-kanafix "わ を ん"
-.byte 0
-kanafix "ワ ヲ ン"
-.byte 0
-kanafix "パピプペポ"
-.byte 0
+kanafix "わ を ん",stopText
+kanafix "ワ ヲ ン",stopText
+kanafix "パピプペポ",stopText
 .byte 0,$C2,0,0,0,0 ;choicer
 .byte 0
 
 .else
-.byte   "ABCDEFG HIJKLMN",0
-.byte   "OPQRSTU VWXYZ.'",0
-.byte   "abcdefg hijklmn",0
-.byte   "opqrstu vwxyz-:",0
+.byte   "ABCDEFG HIJKLMN",stopText
+.byte   "OPQRSTU VWXYZ.'",stopText
+.byte   "abcdefg hijklmn",stopText
+.byte   "opqrstu vwxyz-:",stopText
 ;choicers
 .byte   0,0,$A1,  0,0,0,0,0,0,$A2,0,0,0,0,0,0
 .byte   0,0,  0,$A3,0,0,0,0,0,  0,0,0,0,0,0,0
@@ -1007,13 +988,11 @@ IntroText1:
 .byte   "study, all by himself.",newLine
 .byte   " ",newLine
 .byte   "As for Maria, his wife...",newLine
-.byte   "She never returned."
-.byte   stopText
+.byte   "She never returned.",stopText
 IntroText2:
 .byte   "80 years have passed",newLine
 .byte   " ",newLine
-.byte   "since then."
-.byte   stopText
+.byte   "since then.",stopText
 
 .endif
 
@@ -1099,8 +1078,7 @@ string_in_question:
 
 ;choicers
 .byte set_pos 23, 22
-kanafix "*もどる"
-.byte newLine
+kanafix "*もどる",newLine
 kanafix "*おわり"
 .byte stopText
 
@@ -1124,9 +1102,7 @@ kanafix "*おわり"
 .byte 1
 ;favorite food (for the end of the sequence)
 .byte set_pos 9, 17
-kanafix "すきなこんだて"
-.byte " "
-.byte favFood
+kanafix "すきなこんだて ",favFood
 .byte 0
 .byte 0
 
@@ -1138,14 +1114,11 @@ string_in_question_2:
 .byte uibox_tr
 .byte 1
 ;confirmation box side
-.byte uibox_l," "
-kanafix "これで よろしいですか" ;is this okay?
-.byte "  ", uibox_r
+kanafix uibox_l," これで よろしいですか  ", uibox_r  ;is this okay?
 .byte 1
 .byte uibox_l
 .byte repeatTile " ", 4
-kanafix "はい  いいえ"
-.byte "   ", uibox_r
+kanafix "はい  いいえ   ", uibox_r
 .byte 1
 string_in_question_3:
 .byte uibox_l
@@ -1163,14 +1136,9 @@ string_in_question_4:
 .byte print_string string_in_question_2
 .byte 1
 ;battle speed confirmation box
-.byte uibox_l,"  "
-kanafix "メッセ-ジスピ-ド"
-.byte "   "
-.byte uibox_r
+kanafix uibox_l,"  メッセ-ジスピ-ド   ",uibox_r
 .byte 1
-.byte uibox_l,"  "
-kanafix "はやい ふつう おそい"
-.byte " ",uibox_r
+kanafix uibox_l,"  はやい ふつう おそい ",uibox_r
 .byte 1
 .byte print_string string_in_question_3
 .byte 0
@@ -1178,34 +1146,21 @@ kanafix "はやい ふつう おそい"
 .byte 0
 
 IntroText1:
-kanafix "1900ねんだいの はじめ"
-.byte   newLine
-kanafix "アメリカのいなかまちに くろくものようなかげがおち"
-.byte   newLine
-kanafix "ひとくみの ふうふが"
-.byte   newLine
-kanafix "ゆくえふめいに なりました。"
-.byte   newLine
-kanafix "おっとのなは ジョ-ジ。 つまのなは マリア。"
-.byte   newLine
-kanafix "2ねんほどして ジョ-ジは いえにもどりましたが"
-.byte   newLine
-kanafix "どこにいっていたのか なにをしていたのかについて"
-.byte   newLine
-kanafix "だれに はなすこともなく"
-.byte   newLine
-kanafix "ふしぎなけんきゅうにぼっとうするようになりました。"
-.byte   newLine
-kanafix "つまの マリアのほうは"
-.byte   newLine
-kanafix "とうとう かえっては きませんでした。"
-.byte   stopText
+kanafix "1900ねんだいの はじめ",newLine
+kanafix "アメリカのいなかまちに くろくものようなかげがおち",newLine
+kanafix "ひとくみの ふうふが",newLine
+kanafix "ゆくえふめいに なりました。",newLine
+kanafix "おっとのなは ジョ-ジ。 つまのなは マリア。",newLine
+kanafix "2ねんほどして ジョ-ジは いえにもどりましたが",newLine
+kanafix "どこにいっていたのか なにをしていたのかについて",newLine
+kanafix "だれに はなすこともなく",newLine
+kanafix "ふしぎなけんきゅうにぼっとうするようになりました。",newLine
+kanafix "つまの マリアのほうは",newLine
+kanafix "とうとう かえっては きませんでした。",stopText
 
 IntroText2:
-kanafix "1988ねん マザ-ズデイのまちはずれ"
-.byte   stopText
-kanafix "。。。。。。"
-.byte   stopText
+kanafix "1988ねん マザ-ズデイのまちはずれ",stopText
+kanafix "。。。。。。",stopText
 
 ;these are in bank 0 in us
 binclude "../global/item_names.asm"
@@ -1215,7 +1170,7 @@ binclude "../global/status_names.asm"
 
 .else
 
-
+NS_QuestionBox:
 .byte set_pos 7, 1
 .byte uibox_tl
 .byte repeatTile uibox_t, 15
@@ -1239,12 +1194,15 @@ binclude "../global/status_names.asm"
 .byte uibox_bl
 .byte repeatTile uibox_b, 15
 .byte uibox_br
-.byte 0,1
+.byte 0
 
+NS_NameEntry_Blankout:
+.byte 1
 .byte set_pos 8, 10
 .byte repeatTile " ", 15
 .byte 0,0
 
+NS_AlphabetBox:
 .byte set_pos 5, 7
 .byte uibox_tl
 .byte repeatTile uibox_t, 19
@@ -1278,15 +1236,18 @@ string_in_question:
 .byte uibox_l
 .byte repeatTile " ", 19
 .byte uibox_r
-.byte 1,1
-
-.byte set_pos 8, 22
-.byte "  *Back  *End  "
 .byte 1
+
+NS_AlphabetOptions:
+.byte 1
+.byte set_pos 8, 22
+.byte "  *Back  *End  ",newLine
 .byte "   *Previous   "
-.byte 0
+.byte stopText
 
 .byte 0
+
+NS_Recap_Tiles:
 .byte 1
 ;end sequence
 ;ninten name
@@ -1306,11 +1267,11 @@ string_in_question:
 .byte teddyName
 .byte 1
 .byte set_pos 3, 17
-.byte "Favorite food: "
-.byte favFood
+.byte "Favorite food: ",favFood
 .byte 0
 .byte 0,1
 
+NS_Recap_Confirmation_Tiles:
 .byte set_pos 7, 20
 .byte uibox_tl
 .byte repeatTile uibox_t, 16

@@ -43,15 +43,13 @@ def ca65HasNoUnicodeSupport(dir:str):
     for file in kanaToBytes:
         print("charmapping "+file+"....")
         outfile = file.replace("src/", "build_artifacts/")
-        justdir = outfile.split("/")
-        justdir.pop(-1)
-        justdir = "/".join(justdir)
+        justdir = os.path.dirname(outfile)
         if not os.path.exists(justdir):
             os.makedirs(justdir)
         lines = open(file, "r").readlines()
 
         dots = ""
-        for i in range(len(justdir.split("/"))):
+        for i in range(justdir.count("/")):
             dots += "../"
 
         i = 0
@@ -69,10 +67,68 @@ def ca65HasNoUnicodeSupport(dir:str):
                 lines[i] = f'.include "{dots}src/jp/{"/".join(newpath)}"\n'
             #because ca65 absolute hates anything but english for some reason
             elif line.find("kanafix") != -1:
-                kana = line.split("kanafix ")[-1].split(";")[0].strip()
-                result = stringToEb(kana, False)
-                result = "$"+result.replace(" ",",$")
-                lines[i] = f".byte   {result}\n"
+                kana = line.split("kanafix ", 1)[-1].strip()
+                if kana.find(";") != -1:
+                    kana = kana.split(";", 1)[0].strip()
+
+                #NOTE: add regex support. if you can do that then
+                #finding the actual strings would be WAY easier.
+                #for now, this should work.
+                splits = []
+                x = 0
+                l = ""
+                while x < len(kana):
+                    if len(l) == 0:
+                        if kana[x] in ['"', "'"]:
+                            l = kana[x]
+                            splits.append(x)
+                    else:
+                        if kana[x] == l[0]:
+                            l = ""
+                            splits.append(x+1)
+                            x += 1
+
+                    #if for whatever reason the string doesn't start with a quotation
+                    #add a split for the start
+                    if len(splits) == 0 and x > 0:
+                        splits.append(0)
+                    x += 1
+
+                sections = []
+                x = 0
+                while x < len(splits):
+                    if x < len(splits) -1:
+                        catch = kana[splits[x]:splits[x+1]]
+                        if catch == "":
+                            x += 1
+                            continue
+                        sections.append(catch)
+                    else:
+                        catch = kana[splits[x]:]
+                        if catch == "":
+                            x += 1
+                            continue
+                        sections.append(catch)
+                    x += 1
+
+                sections = [section for section in sections if section != ""]
+
+                result = ""
+                for section in sections:
+                    if section[0] in ['"', "'"]:
+                        result += "$"+stringToEb(section[1:-1], False).replace(" ",",$")
+                    else:
+                        s = section
+                        if section.startswith(","):
+                            s = s[1:]
+                        if section.endswith(","):
+                            s = s[:-1]
+                        result += s
+                    result += ","
+                if result.endswith(","):
+                    result = result[:-1]
+
+                lines[i] = f".byte {result}\n"
 
 
             i += 1
@@ -111,7 +167,8 @@ def simplifyPointers(dir:str):
                 if fixLines[i] == f".faraddr {entry}\n" != -1 and \
                    fixLines[i].find(":") == -1 and \
                    entry.startswith("MSG_"):
-
+                    if entry.find(" ") != -1:
+                        entry = entry.split(" ")[0]
 
                     convert = entry.replace("MSG_","UMSG_",1)
                     #if one doesnt exist, add
@@ -132,6 +189,7 @@ def simplifyPointers(dir:str):
         ]
 
         for entry in array:
+            entry = entry.split(" ")[0]
             use = entry
             useMessage = use
             if not use.startswith("MSG_"): continue
@@ -216,8 +274,8 @@ if __name__ == "__main__":
     if args.japanese:
         linker = "linker-j.cfg"
 
-    subprocess.run(f"ca65 {DEFINES} -o example.o -g src/{dir}/main.asm -t nes".strip(), shell = True)
-    subprocess.run(f"ld65 -Ln linked.txt -C {linker} -o {output} example.o", shell = True)
+    subprocess.run(f"ca65 {DEFINES} -o example.o -g src/{dir}/main.asm -t nes -g".strip(), shell = True)
+    subprocess.run(f"ld65 -Ln linked.txt -C {linker} -o {output} --dbgfile linked_m.dbg example.o", shell = True)
 
     resultTime = (time.time() - start_time)
     print(f"Assembly took {resultTime} seconds!")

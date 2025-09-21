@@ -562,6 +562,8 @@ B30_024F:
     dex
     bne L3C29D
     rts
+
+    L3C2C2:
     jsr $C200
     L3C2C5:
     lda #$7D
@@ -837,57 +839,67 @@ BankswitchLo00:
     jmp BANK_SWAP
 
 
-; $C329 - Unknown
+; $C329
 party_menu_1char:
     .byte set_pos 1, 23
     .byte print_string $952f
-    .byte $01, $c1, $16
+    .byte newLine
+    .byte .LOBYTE(L3C2C2-1),$16 ;irqValue, irqIndex
     .byte print_string $6d10
-    .byte $00
-    .byte $c1,$18,$83
-    .byte repeatTile $84, $1c
-    .byte $85
+    .byte stopText
+    .byte .LOBYTE(L3C2C2-1),$18 ;irqValue, irqIndex
+    .byte uibox_bl
+    .byte repeatTile uibox_b, $1c
+    .byte uibox_br
     party_menu_nochar:
-    .byte $00
+    .byte stopText
 
-; $C33E - Unknown
+; $C33E
 party_menu_2char:
     .byte set_pos 1, 21
     .byte print_string $952f
-    .byte $01, $c1, $14
+    .byte newLine
+    .byte .LOBYTE(L3C2C2-1), $14 ;irqValue, irqIndex
     .byte print_string $6d10
-    .byte $01, $c1, $16
+    .byte newLine
+    .byte .LOBYTE(L3C2C2-1), $16 ;irqValue, irqIndex
     .byte print_string $6d2e
-    .byte $00
-    .byte $c1, $18,$83
-    .byte $22,$84,$1c
-    .byte $85
-    .byte $00
+    .byte stopText
+    .byte .LOBYTE(L3C2C2-1), $18 ;irqValue, irqIndex
+    .byte uibox_bl
+    .byte repeatTile uibox_b, 28
+    .byte uibox_br
+    .byte stopText
 
-; $C359 - Unknown
+; $C359
 party_menu_3char:
     .byte set_pos 1, 19
     .byte print_string $952f
-    .byte $01, $c1, $12
+    .byte newLine
+    .byte .LOBYTE(L3C2C2-1), $12 ;irqValue, irqIndex
     .byte print_string $6d10
-    .byte $01, $c1, $14
+    .byte newLine
+    .byte .LOBYTE(L3C2C2-1), $14 ;irqValue, irqIndex
     .byte print_string $6d2e
-    .byte $01, $c1, $16
+    .byte newLine
+    .byte .LOBYTE(L3C2C2-1), $16 ;irqValue, irqIndex
     .byte print_string $6d4c
-    .byte $00
-    .byte $c1, $18, $83
-    .byte repeatTile $84, $1c
-    .byte $85
-    .byte $00
+    .byte stopText
+    .byte .LOBYTE(L3C2C2-1), $18 ;irqValue, irqIndex
+    .byte uibox_bl
+    .byte repeatTile uibox_b, 28
+    .byte uibox_br
+    .byte stopText
 
 B30_037a:
-    .byte $24, " "
+    .byte uibox_l, " "
     .byte print_number $0038, 0, 6
     .byte print_number $0014, 2, 4
     .byte print_number $0016, 2, 4
     .byte print_number $0010, 1, 4
     .byte print_number $0011, 3, 8
-    .byte " ", $25, $00
+    .byte " ", uibox_r
+    .byte stopText
 
 B30_0398:
     .byte $01, $04, "  ", $21
@@ -1503,11 +1515,11 @@ WriteTiles:
     inc $77
     jmp DrawTilepack
 
-; unknown what "Symbol" means..
-DrawSymbol:
+
+AddTileViaNMI:
     pha
     jsr PpuSync
-    jsr CalcNametableAddr
+    jsr CalculateNametableOffset
     lda #$05
     sta $0400 ; TODO: UNKNOWN NMI COMMAND
     lda #$01
@@ -1784,7 +1796,7 @@ B30_080e:
 
 
 B30_083d:
-    jsr CalcNametableAddr
+    jsr CalculateNametableOffset
     lda $71
     sta $7f
     ldx $e6
@@ -1818,7 +1830,7 @@ B30_0865:
 
 B30_086d:
     dec $77
-    jsr CalcNametableAddr
+    jsr CalculateNametableOffset
     lda $71
     sta $7f
     ldx $e6
@@ -1957,7 +1969,7 @@ B30_0909:
     bne B30_0924
     ldx $e6
     B30_0924:
-    jsr CalcNametableAddr
+    jsr CalculateNametableOffset
     jsr WriteRowsHeader
     ldy $7a
     jmp ($007c)
@@ -2081,7 +2093,7 @@ B30_09d2:
     jmp ($007c)
 
 ; TODO: What's this?
-CalcNametableAddr:
+CalculateNametableOffset:
     lda ram_PPUCTRL
     lsr a
     lsr a
@@ -2415,7 +2427,7 @@ GameMainLoop:
     lda pad1_hold
     and #$70
     beq B30_0b8f
-    jsr B30_0c9d
+    jsr GetButtonMode
     and #$08
     beq B30_0b8f
     lda #$01
@@ -2461,7 +2473,7 @@ GameMainLoop:
 
 .ifndef VER_JP
 B30_0bcd:
-    jsr B30_0c9d
+    jsr GetButtonMode
     and #$a0
     beq B30_0be5
     bmi B30_0bdc
@@ -2573,14 +2585,14 @@ B30_0c2b:
     rts
 
 .ifndef VER_JP
-B30_0c9d:
+GetButtonMode:
     lsr a
     lsr a
     lsr a
     lsr a
     tax
     ldy B30_0ca9, x
-    lda save_ram_unk, y
+    lda preferences, y
     rts
 
 B30_0ca9:
@@ -4388,7 +4400,7 @@ RECONFIGURE_PARTY:
     ldx #$00
     stx $37
     B30_18eb:
-    jsr B30_19f1
+    jsr GetXCharacter
     bcs B30_1906
     txa
     jsr B30_18ba
@@ -4530,7 +4542,7 @@ B30_19de:
     sta object_memory+$20, y
     rts
 
-B30_19f1:
+GetXCharacter:
     sec
     lda party_members, x
     beq B30_19f9
@@ -4562,7 +4574,7 @@ B30_1a16:
     jsr B31_1dc0
     ldx #$00
     B30_1a1e:
-    jsr B30_19f1
+    jsr GetXCharacter
     bcs B30_1a3c
     txa
     jsr B30_18ba
@@ -4610,7 +4622,7 @@ B30_1a48:
     jsr EnablePRGRam
     ldx #$00
     B30_1a77:
-    jsr B30_19f1
+    jsr GetXCharacter
     bcs B30_1add
     sta $28
     txa
@@ -4703,7 +4715,7 @@ B30_1a48:
     jsr B19_1b8c
     ldx #$00
     B30_1b1b:
-    jsr B30_19f1
+    jsr GetXCharacter
     bcs B30_1b2b
     sta $28
     txa
@@ -6020,25 +6032,25 @@ B31_03b4:
     lda movement_direction
     asl a
     tax
-    lda B31_03cc+1, x
+    lda MovementLUT+1, x
     pha
-    lda B31_03cc, x
+    lda MovementLUT, x
     pha
     rts
 
-B31_03cc:
-    .addr B31_0428-1                       ; 00
-    .addr B31_043c-1                       ; 01
-    .addr B31_03de-1                       ; 02
-    .addr B31_04b2-1                       ; 03
-    .addr B31_049e-1                       ; 04
-    .addr B31_04dc-1                       ; 05
-    .addr B31_0403-1                       ; 06
-    .addr B31_0466-1                       ; 07
-    .addr B31_0490-1                       ; 08
+MovementLUT:
+    .addr Movement_UP-1                       ; 00
+    .addr Movement_UPRIGHT-1                       ; 01
+    .addr Movement_RIGHT-1                       ; 02
+    .addr Movement_DOWNRIGHT-1                       ; 03
+    .addr Movement_DOWN-1                       ; 04
+    .addr Movement_DOWNLEFT-1                       ; 05
+    .addr Movement_LEFT-1                       ; 06
+    .addr Movement_UPLEFT-1                       ; 07
+    .addr Movement_INPLACE-1                       ; 08
 
 ; EAST MOVEMENT
-B31_03de:
+Movement_RIGHT:
     jsr B31_0506
     tax
     and #%00110000
@@ -6059,10 +6071,10 @@ B31_03de:
     and #%00000011
     beq B31_0425
 B31_0400:
-    jmp B31_0490
+    jmp Movement_INPLACE
 
 ; WEST MOVEMENT
-B31_0403:
+Movement_LEFT:
     jsr B31_0506
     tax
     and #%00110000
@@ -6086,63 +6098,63 @@ B31_0425:
     jmp B31_0497
 
 ; NORTH MOVEMENT
-B31_0428:
+Movement_UP:
     jsr B31_0506
     and #%00010110
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$00
     ldy #$10
     jsr B31_0510
     and #%00001001
-    bne B31_0490
+    bne Movement_INPLACE
     beq B31_0497
 
 ; NORTHEAST MOVEMENT
-B31_043c:
+Movement_UPRIGHT:
     jsr B31_0506
     and #$14
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$00
     ldy #$10
     jsr B31_0510
     and #$08
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$ff
     ldy #$00
     jsr B31_0510
     and #$02
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$ff
     ldy #$10
     jsr B31_0510
     and #$01
-    bne B31_0490
+    bne Movement_INPLACE
     beq B31_0497
 
 ; NORTHWEST MOVEMENT
-B31_0466:
+Movement_UPLEFT:
     jsr B31_0506
     and #$12
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$00
     ldy #$10
     jsr B31_0510
     and #$01
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$01
     ldy #$00
     jsr B31_0510
     and #$04
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$01
     ldy #$10
     jsr B31_0510
     and #$08
-    bne B31_0490
+    bne Movement_INPLACE
     beq B31_0497
 
 ; Obstacle found
-B31_0490:
+Movement_INPLACE:
     lda $15
     jsr SetObjectBank
     sec
@@ -6156,59 +6168,59 @@ B31_0497:
     rts
 
 ; SOUTH MOVEMENT
-B31_049e:
+Movement_DOWN:
     jsr B31_0506
     and #$19
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$00
     ldy #$f0
     jsr B31_0510
     and #$06
-    bne B31_0490
+    bne Movement_INPLACE
     beq B31_0497
 
 ; SOUTHEAST MOVEMENT
-B31_04b2:
+Movement_DOWNRIGHT:
     jsr B31_0506
     and #$18
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$00
     ldy #$f0
     jsr B31_0510
     and #$04
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$ff
     ldy #$00
     jsr B31_0510
     and #$01
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$ff
     ldy #$f0
     jsr B31_0510
     and #$02
-    bne B31_0490
+    bne Movement_INPLACE
     beq B31_0497
 
 ; SOUTHWEST MOVEMENT
-B31_04dc:
+Movement_DOWNLEFT:
     jsr B31_0506
     and #$11
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$00
     ldy #$f0
     jsr B31_0510
     and #$02
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$01
     ldy #$00
     jsr B31_0510
     and #$08
-    bne B31_0490
+    bne Movement_INPLACE
     ldx #$01
     ldy #$f0
     jsr B31_0510
     and #$04
-    bne B31_0490
+    bne Movement_INPLACE
     beq B31_0497
 
 B31_0506:
@@ -8082,7 +8094,7 @@ B31_10b0:
     adc $77
     sta $77
     pla
-    jmp DrawSymbol
+    jmp AddTileViaNMI
 
 ; $F0D1
 B31_10d1:
@@ -9179,7 +9191,7 @@ B31_1724:
     .endif
     jmp WaitXFrames
 
-B31_1732:
+fill_nmi_with_pointer_data:
     jsr PpuSync
     stx $60
     sty $61
@@ -10278,7 +10290,7 @@ IrqHandler:
     pha
     lda bankswitch_mode
     pha
-    jsr B31_1e3a ; Handle IRQ
+    jsr GotoIRQPointer ; Handle IRQ
     pla
     ora bankswitch_flags
     sta $8000
@@ -10298,7 +10310,7 @@ IrqHandler:
     pla
     rti
 
-B31_1e3a:
+GotoIRQPointer:
     sta $e000 ; Disable IRQ
     ldx irq_index
     lda $0541, x
