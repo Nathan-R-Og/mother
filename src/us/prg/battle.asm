@@ -1954,7 +1954,7 @@ DrawSelectionMenu:
     sta $74
     lda #$8e
     sta $75
-    jsr B30_06db
+    jsr DrawTilepackClear
     jmp BankswitchLower_Bank22
 
 B23_0c23:

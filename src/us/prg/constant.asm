@@ -200,7 +200,7 @@ B30_026c:
     sta $74
     stx $75
 B30_0274:
-    jsr B30_0542
+    jsr LoadCharactersData
     jsr PpuSync
     lda #25
     ldx #.LOBYTE(B25_02b3-1)
@@ -230,7 +230,7 @@ B30_0274:
     lda #$0f
     sta $ec
     B30_02b3:
-    jsr BankswitchLower_Bank00
+    jsr BankswitchLo00
     B30_02b6:
     jsr PpuSync
     ldx #$00
@@ -246,7 +246,7 @@ B30_0274:
     pha
     iny
     tya
-    jsr B30_0b38
+    jsr GetTilePtr
     lda $72
     cmp #$00
     bne B30_02f0
@@ -292,7 +292,7 @@ B30_0306:
     jmp SUPRESS_INPUT
 
 ;literally a macro
-BankswitchLower_Bank00:
+BankswitchLo00:
     lda #0
     ldx #BANK::PRG8000
     jmp BANK_SWAP
@@ -407,7 +407,7 @@ B30_03ce:
     jmp B30_03a4
 
 B30_03d5:
-    jsr B30_0542
+    jsr LoadCharactersData
     lda #.LOBYTE(window_unk)
     ldx #.HIBYTE(window_unk)
     jmp B30_03a4
@@ -430,7 +430,7 @@ B30_03ed:
 ; runs when overworld menus are being wiped
 CLEAR_TEXTBOXES_ROUTINE:
     php
-    jsr STORE_COORDINATES
+    jsr DrawOverworldScreen
     jsr B31_1dc0
     lda #$01
     sta $e5
@@ -473,26 +473,26 @@ B30_0408:
     bpl B30_040f
     jsr WriteProtectPRGRam
     B30_043f:
-    jsr B30_0542
+    jsr LoadCharactersData
     lda $f6
     pha
-    jsr BankswitchLower_Bank00
+    jsr BankswitchLo00
     lda #$48
     ldx #$92
     sta $74
     stx $75
-    jsr B30_06d2
+    jsr DrawTilepack
     bne B30_0458
     B30_0455:
-    jsr B30_06db
+    jsr DrawTilepackClear
     B30_0458:
     lda #$02
-    jsr B30_0b38
+    jsr GetTilePtr
     lda $72
     cmp #$00
     bne B30_0455
     inc $77
-    jsr B30_06d2
+    jsr DrawTilepack
 
     pla
     ldx #BANK::PRG8000
@@ -624,7 +624,7 @@ B30_0531:
     sta $79
     jmp B30_04e5
 
-B30_0542:
+LoadCharactersData:
     jsr EnablePRGRam
     ldx #$10
     ldy #$00
@@ -638,7 +638,7 @@ B30_0542:
     pha
     ldy #$00
     B30_055b:
-    jsr B30_0637
+    jsr CopyTilepack
     cpy #$14
     bne B30_055b
     tya
@@ -676,7 +676,7 @@ B30_0542:
     bpl B30_056a
     pla
     tay
-    jsr B30_0637
+    jsr CopyTilepack
     B30_059b:
     lda B30_037a, y
     sta something, x
@@ -765,7 +765,7 @@ GetYCharacter:
     B30_0636:
     rts
 
-B30_0637:
+CopyTilepack:
     lda B30_037a , y
     sta something, x
     inx
@@ -809,21 +809,21 @@ GetPartyMemberData:
     sta $61
     rts
 
-B30_067a:
-    jsr B30_06d2
-    bne B30_0682
-    B30_067f:
-    jsr B30_06db
-    B30_0682:
+WriteTiles:
+    jsr DrawTilepack
+    bne @SkipClear
+    @WriteTilesStart:
+    jsr DrawTilepackClear
+    @SkipClear:
     cmp #$00
-    bne B30_067f
+    bne @WriteTilesStart
     inc $77
-    jmp B30_06d2
+    jmp DrawTilepack
 
-B30_068b:
+DrawSymbol:
     pha
     jsr PpuSync
-    jsr B30_09d7
+    jsr CalcNametableAddr
     lda #$05
     sta $0400 ; TODO: UNKNOWN NMI COMMAND
     lda #$01
@@ -849,7 +849,7 @@ B30_06b6:
     tay
     B30_06be:
     lda #$a0
-    jsr B30_0a1f
+    jsr AddTile
     dey
     bpl B30_06be
     ldy $e6
@@ -861,12 +861,12 @@ B30_06b6:
     sty $e6
     rts
 
-B30_06d2:
+DrawTilepack:
     jsr PpuSync
     ldx #$00
     stx $e6
     beq B30_06e8
-B30_06db:
+DrawTilepackClear:
     jsr PpuSync
     ldx #$00
     stx $e6
@@ -881,7 +881,7 @@ B30_06db:
     lda #$80
     sta $e5
     B30_06f9:
-    jsr B30_0b1a
+    jsr GetTextRowPtr
     lda $72
     cmp #$01
     bne B30_0706
@@ -1065,7 +1065,7 @@ B30_080e:
     rts
 
 B30_083d:
-    jsr B30_09d7
+    jsr CalcNametableAddr
     lda $71
     sta $7f
     ldx $e6
@@ -1073,12 +1073,12 @@ B30_083d:
     sty $7e
     tya
     pha
-    jsr B30_0a3d
+    jsr WriteRowsHeader
     B30_084f:
     dec $7f
     bpl B30_0865
     lda ($74), y
-    jsr B30_0a5c
+    jsr GetType
     bcs B30_0867
     ldy #.LOBYTE(B30_084f)
     sty $7c
@@ -1089,12 +1089,12 @@ B30_083d:
 B30_0865:
     lda #$a0
     B30_0867:
-    jsr B30_0a1f
+    jsr AddTile
     jmp B30_084f
 
 B30_086d:
     dec $77
-    jsr B30_09d7
+    jsr CalcNametableAddr
     lda $71
     sta $7f
     ldx $e6
@@ -1102,12 +1102,12 @@ B30_086d:
     sty $7e
     tya
     pha
-    jsr B30_0a3d
+    jsr WriteRowsHeader
     B30_0881:
     dec $7f
     bpl B30_0899
     lda ($74), y
-    jsr B30_0a7c
+    jsr GetTypeEx
     bcs B30_089b
     ora #$80
     ldy #.LOBYTE(B30_0881)
@@ -1119,7 +1119,7 @@ B30_086d:
 B30_0899:
     lda #$a0
     B30_089b:
-    jsr B30_0a1f
+    jsr AddTile
     jmp B30_0881
 
 B30_08a1:
@@ -1194,7 +1194,7 @@ B30_08f1:
 
 B30_0901:
     lda $7a
-    jsr B30_0b38
+    jsr GetTilePtr
     lda $72
     rts
 
@@ -1215,8 +1215,8 @@ B30_0909:
     bne B30_0924
     ldx $e6
     B30_0924:
-    jsr B30_09d7
-    jsr B30_0a3d
+    jsr CalcNametableAddr
+    jsr WriteRowsHeader
     ldy $7a
     jmp ($007c)
 
@@ -1236,7 +1236,7 @@ B30_092f:
     dey
     bmi B30_094b
     lda $72
-    jsr B30_0a1f
+    jsr AddTile
     jmp B30_0940
 
 B30_094b:
@@ -1301,23 +1301,23 @@ B30_0950:
     lda $72
     bmi B30_09b2
     lda ($64), y
-    jsr B30_0a5c
+    jsr GetType
     bcs B30_09c6
     bcc B30_09c0
     B30_09b2:
     lda ($64), y
-    jsr B30_0a7c
+    jsr GetTypeEx
     bcs B30_09c6
     bcc B30_09c0
     B30_09bb:
     lda #$a0
-    jsr B30_0a1f
+    jsr AddTile
     B30_09c0:
     dec $67
     bpl B30_09bb
     bmi B30_09cd
     B30_09c6:
-    jsr B30_0a1f
+    jsr AddTile
     dec $67
     bne B30_09a5
     B30_09cd:
@@ -1329,8 +1329,12 @@ B30_09d2:
     ldy $7a
     jmp ($007c)
 
-; TODO: What's this?
-B30_09d7:
+
+; Calculate Name table address
+; Input: CameraX, CameraY, Column, Row
+; Output: NTAddr address for screen tile position (Column, Row + 1)
+
+CalcNametableAddr:
     lda ram_PPUCTRL
     lsr a
     lsr a
@@ -1381,7 +1385,7 @@ B30_09d7:
     sta $79
     rts
 
-B30_0a1f:
+AddTile:
     sta $0400, x
     inx
     txa
@@ -1400,7 +1404,8 @@ B30_0a31:
     lda $78
     eor #$04
     sta $78
-    B30_0a3d:
+
+WriteRowsHeader:
     stx $e6
     lda #$05
     sta $0400, x ; TODO: Write ?? bytes into PPU address
@@ -1418,34 +1423,42 @@ B30_0a31:
     sta $7b
     rts
 
-B30_0a5c:
+; returns a tile or control code ID:
+; input: A - byte, Y - current block index
+; output: BlockIndex - next block index
+; A - tile ID or cc ID (0 - 9)
+; TypeTable
+GetType:
     iny
-    sty $7a
+    sty $7a         ; BlockIndex...
     cmp #$40
-    bcs B30_0a7b
+    bcs @Exit
     tay
     lda control_codes, y
     ldy $7a
     cmp #$80
-    bcs B30_0a7b
+    bcs @Exit
     cmp #$20
-    bcs B30_0a79
+    bcs @YesProcedure
     cmp #$0a
-    bcs B30_0a76
+    bcs @NoProcedure
     rts
 
-B30_0a76:
+@NoProcedure:
     ora #$d0
     rts
 
-B30_0a79:
+@YesProcedure:
     ora #$80
-    B30_0a7b:
+@Exit:
     rts
 
 
-;convert control codes
-B30_0a7c:
+; returns a tile or control code ID:
+; input: A - byte, Y - current block index
+; output: BlockIndex - next block index
+; A - tile ID or cc ID (0 - 9)
+GetTypeEx:
     iny
     ;push y
     sty $7a
@@ -1500,9 +1513,9 @@ B30_0a7c:
 ; if $73 >= 0x80, then the text address is effectively `($73 << 8) | $74` (big endian pointer)
 ; otherwise, it grabs the "Text ID"th entry from the text pointer table
 GetTextData:
-    lda $73
+    lda $73             ; dialogue pg
     bpl B30_0aa9
-    sta $75
+    sta $75             ; PtrTilepack-hi
     rts
 
 B30_0aa9:
@@ -1568,7 +1581,7 @@ B30_0aa9:
     sta $75
     jmp PpuSync
 
-B30_0b1a:
+GetTextRowPtr:
     lda $75
     bpl B30_0b21
     sta $73
@@ -1589,7 +1602,7 @@ B30_0b21:
     sta $0b
     rts
 
-B30_0b38:
+GetTilePtr:
     clc
     adc $74
     sta $74
@@ -1598,35 +1611,42 @@ B30_0b38:
     sta $75
     rts
 
-;very literal
-PostInit:
+; main game loop routine
+GameMainLoop:
     jsr WriteProtectPRGRam
+
+    ; set ModeSRAM, #SRAM_WRITE_DISABLE|SRAM_ENABLE
     lda #$c0
     sta $07ef
 
     ;run the intro
-    jsr BankswitchLower_Bank20
+    jsr BankswitchLo14
     jsr intro
 
+    ; set ModeSRAM, #SRAM_WRITE_ENABLE|SRAM_DISABLE
     lda #$00
     sta $07ef
-    B30_0b57:
-    jsr BankswitchUpper_Bank19
+
+InitGamestateOverworld:
+    jsr BankswitchHi13
     jsr OverworldTransitionIntepreter
-    B30_0b5d:
-    jsr B30_0542
-    jsr B30_0efc
+
+InitGSOverworld_Data:
+    jsr LoadCharactersData
+    jsr LoadObjectsData
     lda #$00
     sta $24
-    lda ypos_direction
+    lda ypos_direction              ; CurrentGame + PURE_SAVE::GlobalY
     and #%00001111
     eor #%10000100
     sta $0d
-    B30_0b70:
-    jsr B31_1d5e
-    jsr STORE_COORDINATES
-    B30_0b76:
-    jsr B30_1e99
+
+OverworldMainLoop:
+    jsr ClearOAMSprite
+    jsr DrawOverworldScreen         ; loads room
+
+B30_0b76:
+    jsr PlaceObjects
     jsr B31_0ef0
     lda $25
     bne B30_0b91
@@ -1642,17 +1662,17 @@ PostInit:
     B30_0b91:
     jsr PpuSync
     lda fade_flag
-    bne B30_0b57
+    bne InitGamestateOverworld
     jsr B30_1d01
     jsr B30_1fda
     jsr B30_0c2b
     lda $21
     beq B30_0bad
-    jsr BankswitchUpper_Bank19
+    jsr BankswitchHi13
     jsr B19_01c6
     bcc B30_0beb
     B30_0bad:
-    jsr BankswitchUpper_Bank19
+    jsr BankswitchHi13
     lda #$00
     ldy pad1_forced
     sta pad1_forced
@@ -1683,7 +1703,7 @@ B30_0bdc:
 B30_0be2:
     jsr B19_0178
     B30_0be5:
-    jsr BankswitchLower_Bank20
+    jsr BankswitchLo14
     jsr B20_1516
     B30_0beb:
     lda enemy_group
@@ -1699,22 +1719,22 @@ B30_0be2:
     jsr PlayMusic
     lda $21
     beq B30_0c11
-    jsr BankswitchUpper_Bank19
+    jsr BankswitchHi13
     jsr B19_0b53
     lda fade_flag
     bne B30_0c14
     B30_0c11:
-    jmp B30_0b70
+    jmp OverworldMainLoop
 B30_0c14:
-    jmp B30_0b5d
+    jmp InitGSOverworld_Data
 B30_0c17:
     jmp B30_0b76
 B30_0c1a:
-    jsr BankswitchLower_Bank20
+    jsr BankswitchLo14
     jsr B20_1779
     jsr Battle
     bcs B30_0c14
-    jsr BankswitchLower_Bank20
+    jsr BankswitchLo14
     jmp B20_17a3
 
 B30_0c2b:
@@ -1865,7 +1885,7 @@ B30_0cd8:
     sta $07f3
     lda #$22
     jsr BackupAndFillPalette
-    jsr BankswitchUpper_Bank19
+    jsr BankswitchHi13
     jsr EnablePRGRam
     jsr B19_1bd4
     jsr B30_19fa
@@ -1880,10 +1900,10 @@ B30_0cd8:
     jsr REMOVE_NPCS_FROM_PARTY
     ldx #20
     jsr WaitXFrames_Min1
-    jsr B30_0542
-    jsr B30_0efc
-    jsr B31_1d5e
-    jsr STORE_COORDINATES
+    jsr LoadCharactersData
+    jsr LoadObjectsData
+    jsr ClearOAMSprite
+    jsr DrawOverworldScreen
     jsr B30_0d9d
     ldx #$2c
     B30_0d70:
@@ -1904,7 +1924,7 @@ B30_0cd8:
 
 B30_0d8b:
     jsr B30_0daf
-    jsr B30_1e99
+    jsr PlaceObjects
     jsr PpuSync
     jsr B30_1d01
     jsr B30_1fda
@@ -1959,7 +1979,7 @@ B30_0de4:
     jmp PlayMusic
 
 ; TODO: Store $800 bytes from PPU address $1800, bank 0x5E, to $6C00
-B30_0e02:
+CopyCHR5E5F_ToSRAM:
     ldy #$5e
     lda #$00
     ldx #$6c
@@ -2085,17 +2105,17 @@ B30_0eb2:
 
     rts
 
-BankswitchUpper_Bank19:
+BankswitchHi13:
     lda #$13
     ldx #BANK::PRGA000
     jmp BANK_SWAP
 
-BankswitchUpper_Bank23:
+BankswitchHi17:
     lda #$17
     ldx #BANK::PRGA000
     jmp BANK_SWAP
 
-BankswitchLower_Bank20:
+BankswitchLo14:
     lda #$14
     ldx #BANK::PRG8000
     jmp BANK_SWAP
@@ -2118,7 +2138,7 @@ BankswitchCHRFromTable:
     bpl B30_0ef0
     rts
 
-B30_0efc:
+LoadObjectsData:
     jsr B30_1674
 
     lda #$14
@@ -2211,7 +2231,7 @@ Field_Sprite_Palette:
     .byte $0F,$0F,$24,$37
     .byte $0F,$0F,$12,$37
 
-STORE_COORDINATES:
+DrawOverworldScreen:
     jsr PpuSync
     clc
     lda $1c
@@ -3919,7 +3939,7 @@ BattleRewardsRoutine:
     lda enemy_group
     beq @RewardsEnd
     sta $29
-    jsr BankswitchUpper_Bank19
+    jsr BankswitchHi13
     jsr B19_1bc3
     lda #$ff
     sta global_wordvar
@@ -3954,7 +3974,7 @@ BattleRewardsRoutine:
 
 ; play sfx for item get and print text
 ItemDropGetFX:
-    jsr BankswitchUpper_Bank23
+    jsr BankswitchHi17
     lda #PulseG0_ItemDropGet
     sta soundqueue_pulseg0
     lda #$8c                        ; "Got the [Item]!"
@@ -4229,7 +4249,7 @@ B30_1cdf:
     and #$07
     adc #$98
     sta $69
-    jmp BankswitchLower_Bank00_2nd
+    jmp BankswitchLo00_2
 
 B30_1d01:
     jsr BeginPartyObjectIteration
@@ -4252,7 +4272,7 @@ B30_1d01:
     and #$3f
     sta (object_pointer), y
     jsr TickObject
-    jsr B30_1ef9
+    jsr DrawObjectOnScreen
     B30_1d2b:
     jsr NextEntity
     inc $36
@@ -4295,7 +4315,7 @@ NextEntity:     clc
     rts
 
 B30_1d72:
-    jsr B30_1e29
+    jsr GetObject
     jsr EnablePRGRam
     B30_1d78:
     jsr B30_1e4b
@@ -4398,7 +4418,7 @@ SetObjectType:
     sta (object_pointer), y
     rts
 
-B30_1e29:
+GetObject:
     lda $15
     jsr SetObjectBank
     asl a
@@ -4409,7 +4429,7 @@ B30_1e29:
     sta $39
     lda #$02
     sta $37
-B30_1e3e:
+ResetObject:
     lda #.LOBYTE(object_memory+$80)
     ldx #.HIBYTE(object_memory+$80)
     sta object_pointer
@@ -4445,20 +4465,28 @@ NextObjectPointer:
 ; $DE6C - Bankswitch to object bank from given "area"
 SetObjectBank:
     cmp #$2b
-    bcc B30_1e76
+    bcc @NotBank12              ; A < 2B; C = 0
+
+    ; Bank 12 was chosen
     ldx #$12
-    sbc #$2b
-    bcs B30_1e82
-    B30_1e76:
+    sbc #$2b                    ; A -= 2B + C get the index of the text in the memory bank
+    bcs @SetBank
+
+@NotBank12:
     cmp #$1a
-    bcc B30_1e80
+    bcc @Bank10
+
+    ; Bank 11 was chosen
     ldx #$11
-    sbc #$1a
-    bcs B30_1e82
-    B30_1e80:
+    sbc #$1a                    ; index of text in mem bank
+    bcs @SetBank
+
+@Bank10:
+    ; Bank 10 was chosen
     ldx #$10
-    B30_1e82:
-    pha
+
+@SetBank:
+    pha                         ; save text index into stack
     txa
     ldx #BANK::PRG8000
     jsr BANK_SWAP
@@ -4466,70 +4494,81 @@ SetObjectBank:
     pla
     rts
 
-BankswitchLower_Bank00_2nd:
+; random-ahh clone of BankswitchLo00 which is literally used twice for no reason
+BankswitchLo00_2:
     ldx #BANK::PRG8000
     lda #0
     jmp BANK_SWAP
 
-BankswitchLower_Bank00_3rd:
+; another frickin Bankswap clone but its unused lmaooo
     ldx #BANK::PRG8000
     lda #0
     jmp BANK_SWAP
 
-B30_1e99:
-    jsr B30_1e29
+; OBJECTS ROUTINE -------------------------------------------------------------
+
+PlaceObjects:
+    jsr GetObject
     jsr EnablePRGRam
-    B30_1e9f:
+
+PlaceObjectsLoop:
     jsr B30_1e4b
     ldy #$01
     lda (object_pointer), y
     cmp $15
-    beq B30_1eb9
+    beq SameObject
     ldy #$00
     lda (object_pointer), y
     asl a
     beq B30_1eb6
     jsr IsObjectNearPlayer
-    bcs B30_1ecf
-    B30_1eb6:
+    bcs ObjectHere
+
+B30_1eb6:
     jsr InitializeObject
-    B30_1eb9:
+
+SameObject:
     ldy #$00
     lda (object_pointer), y
     asl a
-    beq B30_1ed7
+    beq ObjectOut
     jsr IsObjectNearPlayer
-    bcs B30_1ecf
+    bcs ObjectHere
     ldy #$00
     lda (object_pointer), y
     ora #$80
     sta (object_pointer), y
-    bmi B30_1ed7
+    bmi ObjectOut
 
-B30_1ecf:
+ObjectHere:
     ldy #$00
     lda (object_pointer), y
     and #$3f
     sta (object_pointer), y
-B30_1ed7:
+
+ObjectOut:
     jsr NextObjectPointer
     dec $36
-    bne B30_1e9f
-    jsr B30_1e3e
-    B30_1ee1:
+    bne PlaceObjectsLoop
+    jsr ResetObject
+
+CheckObject:
     ldy #$00
     lda (object_pointer), y
-    beq B30_1eef
-    bmi B30_1eef
+    beq SkipObject
+    bmi SkipObject
     jsr TickObject
-    jsr B30_1ef9
-    B30_1eef:
+    jsr DrawObjectOnScreen
+
+SkipObject:
     jsr NextEntity
     dec $36
-    bne B30_1ee1
+    bne CheckObject
     jmp WriteProtectPRGRam
 
-B30_1ef9:
+; -----------------------------------------------------------------------------
+
+DrawObjectOnScreen:
     ldy #$11
     lda (object_pointer), y
     sta $69
@@ -4541,10 +4580,10 @@ B30_1ef9:
     sta $6b
     ldy #$00
     lda (object_pointer), y
-    bpl B30_1f12
-    jmp B30_1faf
+    bpl @ObjActive
+    jmp @ObjInactive
 
-B30_1f12:
+@ObjActive:
     clc
     lda player_x
     adc #$60
@@ -4612,7 +4651,7 @@ B30_1f12:
     ror a
     sta (object_pointer), y
     lda movement_direction
-    bmi B30_1fb8
+    bmi GetObjectID
     ldy #$04
     lda $3a
     sta (object_pointer), y
@@ -4637,18 +4676,19 @@ B30_1f12:
     ldy $a1
     lda $36
     sta ($a6), y
-B30_1faf:
+@ObjInactive:
     ldy $69
     lda $36
     eor ($6a), y
-    beq B30_1fbc
+    beq SetObject
     rts
 
-B30_1fb8:
+GetObjectID:
     ldy $69
-    lda $36
-    B30_1fbc:
-    sta ($6a), y
+    lda $36                     ; $36 = obj id
+
+SetObject:
+    sta ($6a), y                ; $6a - field position ?
     rts
 
 B30_1fbf:
@@ -7297,7 +7337,7 @@ B31_10b0:
     adc $77
     sta $77
     pla
-    jmp B30_068b
+    jmp DrawSymbol
 
 ; $F0D1
 ; Generic Choicer LUT
@@ -7525,7 +7565,7 @@ Rand:
     rts
 
 Battle:
-    jsr BankswitchUpper_Bank23
+    jsr BankswitchHi17
     jsr BankswitchLower_Bank22
     jsr GetEnemyGroupPointer
     ldx #$2c
@@ -7543,12 +7583,12 @@ Battle:
     txa
     jsr ChangeMusic
 
-    jsr BankswitchLower_Bank20
+    jsr BankswitchLo14
     jsr B20_1630
 
     jsr BankswitchLower_Bank22
-    jsr B31_1d5e
-    jsr B31_1d80
+    jsr ClearOAMSprite
+    jsr ClearNametables
     jsr B31_0c65
     jsr BattleMain
     jsr B31_0ca3
@@ -8079,7 +8119,7 @@ B31_1562:
     lda $63
     sta $77
     pha
-    jsr B30_06d2
+    jsr DrawTilepack
     pla
     sta $63
     jmp B31_15ac
@@ -8101,7 +8141,7 @@ B31_159e:
     adc $66
     sta $77
     pha
-    jsr B30_06db
+    jsr DrawTilepackClear
     pla
     sta $63
 B31_15ac:
@@ -9300,7 +9340,7 @@ WAIT_CLOSE_MENU:
     pla
     rts
 
-B31_1d5e:
+ClearOAMSprite:
     jsr PpuSync
     sec
     ror $e2
@@ -9323,7 +9363,7 @@ B31_1d5e:
     asl $e2
     rts
 
-B31_1d80:
+ClearNametables:
     jsr PpuSync
     lda #$08
     ldx #$80
@@ -9589,7 +9629,7 @@ Reset_Vector:
 
     cli
 
-    jmp PostInit
+    jmp GameMainLoop
 
 BankswitchMusic:
     ;load bank 7 into $8000

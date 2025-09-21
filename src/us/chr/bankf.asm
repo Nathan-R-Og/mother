@@ -330,13 +330,13 @@ B25_1a35:
 ; Menu Screen palette
 ; only the first bg palette gets used
 ; and the sprite palettes are used for the party members
-B25_1a3b:
-    .byte $0f,$0f,$30,$30
-    .byte $0f,$3a,$10,$20
+menuPalettes:
+    .byte $0f,$0f,$30,$30       ; menu colors : black, white, white
+    .byte $0f,$3a,$10,$20       ; these next 3 are clones of the pastel-ahh green overworld palettes that has been burned into all of our eyeballs by now
     .byte $0f,$3a,$25,$1a
     .byte $0f,$3a,$30,$12
 
-    .byte $0f,$0f,$00,$30
+    .byte $0f,$0f,$00,$30       ; sprite overworld palettes
     .byte $0f,$0f,$16,$37
     .byte $0f,$0f,$24,$37
     .byte $0f,$0f,$12,$37

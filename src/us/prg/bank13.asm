@@ -144,7 +144,7 @@ B19_00e5:
     sta $74
     stx $75
 B19_00ed:
-    jsr B30_06db
+    jsr DrawTilepackClear
     cmp #$00
     bne B19_00ed
     rts
@@ -1231,7 +1231,7 @@ OpenMapEffect:
 ; @OpenMapSuccess
 :   jsr OINST_END
     jsr OT0_DefaultTransition
-    jsr B31_1d5e
+    jsr ClearOAMSprite
     ldx #$00
     ldy #$08
     jsr SetScroll
@@ -1287,8 +1287,8 @@ OpenMapEffect:
     jsr BANK_SWAP
     lda #$00
     sta disable_dmc
-    jsr B31_1d5e
-    jmp STORE_COORDINATES
+    jsr ClearOAMSprite
+    jmp DrawOverworldScreen
 
 B19_08d4:
     sec
@@ -1795,7 +1795,7 @@ OINST_InfiniteLoop:
 B19_0c44:
     sta $74
     stx $75
-    jmp B30_06d2
+    jmp DrawTilepack
 
 ; Instruction 0F - Reset game
 OINST_Reset:
@@ -3650,7 +3650,7 @@ B19_1763:
     lda $6704, x
     beq B19_177e
     lda #$a0
-    jsr B30_068b
+    jsr DrawSymbol
     dec $77
     dec $77
     dex
@@ -4002,7 +4002,7 @@ B19_19e4:
     lda #$b6
     ldx #$ba
     jsr B19_0c44
-    jsr B30_06d2
+    jsr DrawTilepack
     ldx #$00
     jsr B19_1a72
     jsr B19_1a72
@@ -4187,7 +4187,7 @@ B19_1b21:
     sta $70
     stx $76
     sty $77
-    jmp B30_06d2
+    jmp DrawTilepack
 
 B19_1b40:
     lda #$0b
@@ -4258,7 +4258,7 @@ B19_1baf:
     iny
     lda (temp_vars), y
     sta $75
-    jsr B30_06d2
+    jsr DrawTilepack
     jmp B19_0b41
 
 B19_1bc3:
@@ -4301,7 +4301,7 @@ B19_1bf2:
     asl temp_vars
     rol a
     sta temp_vars+1
-    jmp BankswitchLower_Bank00_2nd
+    jmp BankswitchLo00_2
 
 EndText:
     jsr WAIT_CLOSE_MENU
@@ -4523,7 +4523,7 @@ OT4_Whirlpool:
     sta soundqueue_noise
     lda #$11
     jsr B31_0e21
-    jsr B31_1d5e
+    jsr ClearOAMSprite
     jsr ResetScroll
 
     ;load drain tiles
@@ -4583,7 +4583,7 @@ OT4_Whirlpool:
     tay
     dey
     bne B19_1d91
-    jsr B31_1d5e
+    jsr ClearOAMSprite
     jsr OT0_DefaultTransition
     ldx #90
     jmp WaitXFrames_Min1
@@ -4609,7 +4609,7 @@ OT5_Flood:
     tax
     dey
     bpl B19_1dea
-    jsr BankswitchLower_Bank20
+    jsr BankswitchLo14
     jsr B20_1641
     lda #$11
     jsr BackupAndFillPalette

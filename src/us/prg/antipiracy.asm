@@ -125,8 +125,8 @@ incbinRange "../../split/us/antipiracy.bin", $e4, $1f8
 B25_01f8:
     jsr OT0_DefaultTransition
     jsr B31_1dc0
-    jsr B31_1d5e
-    jsr B31_1d80
+    jsr ClearOAMSprite
+    jsr ClearNametables
     B25_0204:
     jsr PpuSync
     lda #$00
@@ -155,7 +155,7 @@ B25_01f8:
     sta $71
     B25_0238:
     jsr GetTextData
-    jsr B30_06db
+    jsr DrawTilepackClear
     cmp #$00
     beq B25_024a
     ldy #$00
@@ -193,7 +193,7 @@ B25_026b:
 B25_1800 := $b800
 ; $A28B
 ; Unknown, called from bank 20 $9400
-B25_028b:
+CopyToSRAM:
     lda #.LOBYTE(B25_1800)
     ldx #.HIBYTE(B25_1800)
     sta $60
@@ -410,7 +410,7 @@ B25_03cd:
     adc #$00
     asl $61
     bcc B25_03ef
-    jsr B30_068b
+    jsr DrawSymbol
     B25_03ef:
     clc
     lda $76
@@ -484,8 +484,8 @@ B25_042d:
 B25_0480:
     jsr OT0_DefaultTransition
     jsr B31_1dc0
-    jsr B31_1d5e
-    jsr B31_1d80
+    jsr ClearOAMSprite
+    jsr ClearNametables
     jmp B25_0204
 
 ; $A48F
@@ -553,7 +553,7 @@ B25_04cc:
     ldx #.LOBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
     ldy #.HIBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
     jsr TempUpperBankswitch
-    jmp BankswitchLower_Bank20
+    jmp BankswitchLo14
 
 B25_04f2:
 incbinRange "../../split/us/antipiracy.bin", $4f2, $504
@@ -921,8 +921,8 @@ B25_081a:
 B25_086d:
     jsr OT0_DefaultTransition
     jsr B31_1dc0
-    jsr B31_1d5e
-    jsr B31_1d80
+    jsr ClearOAMSprite
+    jsr ClearNametables
     jsr PpuSync
     lda #$00
     sta $ec

@@ -569,7 +569,7 @@ B25_1a35:
 ; Menu Screen palette
 ; only the first bg palette gets used
 ; and the sprite palettes are used for the party members
-B25_1a3b:
+menuPalettes:
     .byte $0f,$0f,$30,$30
     .byte $0f,$3a,$10,$20
     .byte $0f,$3a,$25,$1a

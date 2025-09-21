@@ -446,30 +446,30 @@ SPAWNS_1F:
 
 intro:
     ;use bank $13 as lower half
-    jsr BankswitchUpper_Bank19
+    jsr BankswitchHi13
 
     ;init routine
     jsr B20_1d60
 
-    bcs_1:
-    jsr B31_1d5e
-    jsr B31_1d80
-    jsr B30_0e02
+start_menu:
+    jsr ClearOAMSprite
+    jsr ClearNametables
+    jsr CopyCHR5E5F_ToSRAM
     jsr PpuSync
 
     lda #$19
-    ldx #.LOBYTE(B25_028b-1)
-    ldy #.HIBYTE(B25_028b-1)
+    ldx #.LOBYTE(CopyToSRAM-1)
+    ldy #.HIBYTE(CopyToSRAM-1)
     jsr TempUpperBankswitch
 
     jsr ResetScroll
 
     BankswitchCHR_Address B25_1a35
-    LoadPalette_Address B25_1a3b
+    LoadPalette_Address menuPalettes
 
-    B20_142C:
-    ldx #$0C
-    jsr B20_1505
+redraw_game_menu:
+    ldx #$0C                ; offset TilepackTable - ClearBottomScreen
+    jsr DrawBlock
     jsr B20_14d7
     jsr B20_150e
     lda #$00
@@ -511,9 +511,9 @@ something_init:
     pla
     jsr rts_5
     jsr WriteProtectPRGRam
-    jsr BankswitchUpper_Bank19
+    jsr BankswitchHi13
     jsr B20_1a4d
-    bcs bcs_1
+    bcs start_menu
     jmp B19_1e57
 
 B20_1472:
@@ -527,12 +527,12 @@ B20_1472:
     sta ($68), y
     jsr WriteProtectPRGRam
     B20_1489:
-    jmp B20_142C
+    jmp redraw_game_menu
 
 B20_148c:
     sta $36
     ldx #$10
-    jsr B20_1505
+    jsr DrawBlock
     lda $36
     sec
     rol a
@@ -555,14 +555,14 @@ B20_148c:
     sta save_slot
     jsr B19_1e57
     B20_14bd:
-    jmp B20_142C
+    jmp redraw_game_menu
     B20_14c0:
     jsr B19_1e88
     sec
     bne B20_14d6
     ldx #$0e
     jsr rts_2
-    jsr B30_067a
+    jsr WriteTiles
     ldx #$0e
     jsr B20_150b
     clc
@@ -587,7 +587,7 @@ B20_14d7:
     lsr a
     adc $37
     tax
-    jsr B20_1505
+    jsr DrawBlock
     clc
     lda $37
     adc #$04
@@ -597,9 +597,15 @@ B20_14d7:
     jsr rts_3
     jmp rts_4
 
-B20_1505:
+; -------------------------------------------------------------------------
+; Draws a block from a TilepackTable
+; Input: A - block offset in table
+
+DrawBlock:
     jsr rts_2 ; $74 = $607e[x]
-    jmp B30_067a
+    jmp WriteTiles
+
+; -------------------------------------------------------------------------
 
 B20_150b:
     jsr rts_3 ; $80 = $6085[x]
@@ -907,7 +913,7 @@ B20_1685:
     lda #$00
     sta $0401
     B20_16cf:
-    jsr B30_09d7
+    jsr CalcNametableAddr
     lda $0401
     asl a
     clc
@@ -969,7 +975,7 @@ B20_1779:
     jsr BackupAndFillPalette
     lda #$00
     sta $ec
-    jsr B30_0e02
+    jsr CopyCHR5E5F_ToSRAM
     jmp B30_1674
 
 B20_17a3:
@@ -1216,7 +1222,7 @@ B20_1920:
     jsr PlayMusic
     jsr B20_19a3
     jsr SetScroll
-    jsr B31_1d5e
+    jsr ClearOAMSprite
     jsr PpuSync
     ldx #$0f
     B20_1935:
@@ -1484,7 +1490,7 @@ B20_1af3:
 B20_1af9:
     sta $74
     stx $75
-    jmp B30_067a
+    jmp WriteTiles
 
 B20_1b00:
     lda #.LOBYTE(finalSetup)
@@ -1544,7 +1550,7 @@ B20_1B40:
     sta $74
     lda $65
     sta $75
-    jsr B30_06db
+    jsr DrawTilepackClear
     jsr B25_1ab5
     pla
     tax
@@ -1623,12 +1629,12 @@ B20_1B7D:
     dey
     bpl B20_1bd2
     jsr WriteProtectPRGRam
-    jsr B31_1d5e
+    jsr ClearOAMSprite
     clc
     rts
 
 B20_1be8:
-    jsr B31_1d5e
+    jsr ClearOAMSprite
     sec
     rts
 
@@ -1657,7 +1663,7 @@ B20_1bf7:
     lda #$03
     sta $77
     B20_1c14:
-    jsr B30_06db
+    jsr DrawTilepackClear
     cmp #$00
     bne B20_1c14
     rts
@@ -1809,7 +1815,7 @@ B20_1ccf:
     stx $76
     sty $77
     B20_1cf7:
-    jsr B30_06db
+    jsr DrawTilepackClear
     cmp #$00
     bne B20_1cf7
     B20_1cfe:
@@ -1854,7 +1860,7 @@ B20_1d0a:
     sta $74
     lda #$05
     sta $75
-    jsr B30_06db
+    jsr DrawTilepackClear
     pla
     sta $77
     pla
@@ -1863,15 +1869,15 @@ B20_1d0a:
 
 B20_1d50:
     jsr OT0_DefaultTransition
-    jsr B31_1d5e
-    jsr B31_1d80
+    jsr ClearOAMSprite
+    jsr ClearNametables
     ldx #.LOBYTE(B25_0afd)
     ldy #.HIBYTE(B25_0afd)
     jmp B31_1732
 
 B20_1d60:
-    jsr B31_1d5e
-    jsr B31_1d80
+    jsr ClearOAMSprite
+    jsr ClearNametables
     lda ram_PPUCTRL
     and #%11111100
     ldx #0
@@ -2025,13 +2031,13 @@ DoIntroTransition:
     ldx #64
     jsr AdvanceIfPressStart
 
-    jmp B31_1d80
+    jmp ClearNametables
 
 B20_1e44:
     sta $74 ;store lo
     stx $75 ;store hi
     @loop:
-    jsr B30_06d2
+    jsr DrawTilepack
     dec $77
     cmp #0
     bne @loop

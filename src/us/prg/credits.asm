@@ -150,8 +150,8 @@ credits_cmd_unk2:
 
 credits_cmd_fade_out:
     jsr OT0_DefaultTransition
-    jsr B31_1d5e
-    jsr B31_1d80
+    jsr ClearOAMSprite
+    jsr ClearNametables
 
     ;set y to after this
     ldy #1
@@ -493,7 +493,7 @@ credits_cmd_draw_text:
     @loop:
     jsr GetTextData
 
-    jsr B30_06db
+    jsr DrawTilepackClear
     cmp #0
     beq @break
     ldy #0
@@ -570,7 +570,7 @@ credits_cmd_draw_text_xy:
     sta UNK_71
 
     jsr GetTextData
-    jsr B30_06db
+    jsr DrawTilepackClear
 
     ;bye
     ldy #$05
