@@ -392,13 +392,16 @@ MSG_GRAVEYARD_CASKET_GENERIC:
 .byte   "*Believe in us!",newLine
 .byte   stopText
 
+MSG_TALK_NOONE:
 .byte   "*Who are you",newLine
 .byte   " talking to?",newLine
 .byte   stopText
 
+MSG_TALK_PARTY:
 .byte   "*What?!?",newLine
 .byte   stopText
 
+MSG_CHECK_NOTHING:
 .byte   "*No problem.",newLine
 .byte   stopText
 
@@ -428,54 +431,67 @@ MSG_GRAVEYARD_CASKET_GENERIC:
 .byte   " We sell weapons.",newLine
 .byte   stopText
 
+MSG_USE_ITEM:
 .byte   "*",user," USEd",newLine
 .byte   " ",recipient,".",newLine
 .byte   stopText
 
+MSG_CANT_USE_ITEM:
 .byte   "*",user," can't",newLine
 .byte   " USE ",recipient,".",newLine
 .byte   stopText
 
+MSG_CANT_EAT:
 .byte   "*Don't be silly,",newLine
 .byte   " you can't do that.",newLine
 .byte   stopText
 
+MSG_EQUIPPED_ITEM:
 .byte   "*",user," equipped",newLine
 .byte   " ",recipient,".",newLine
 .byte   stopText
 
+MSG_CANT_EQUIP_ITEM:
 .byte   "*",user," can't",newLine
 .byte   " equip ",recipient,".",newLine
 .byte   stopText
 
+MSG_TOSS_ITEM:
 .byte   "*",user," threw",newLine
 .byte   " away ",recipient,".",newLine
 .byte   stopText
 
+MSG_CANT_TOSS_ITEM:
 .byte   "*Don't throw",newLine
 .byte   " away ",recipient,".",newLine
 .byte   stopText
 
+MSG_GIVE_ITEM:
 .byte   "*",user," handed",newLine
 .byte   " ",recipient," to",newLine
 .byte   " ",result,".",newLine
 .byte   stopText
 
+MSG_CANT_GIVE:
 .byte   "*Can't hand over",newLine
 .byte   " ",recipient,".",newLine
 .byte   stopText
 
+MSG_CANT_GIVE_FULL:
 .byte   "*",result," can't",newLine
 .byte   " carry any more.",newLine
 .byte   stopText
 
+MSG_NOTHING_HAPPENED:
 .byte   "*Nothing happened.",newLine
 .byte   stopText
 
+MSG_OPEN_PRESENT:
 .byte   "*",partyLead," opened",newLine
 .byte   " the present.",newLine
 .byte   stopText
 
+MSG_PRESENT_ITEM:
 .byte   "*There was",newLine
 .byte   " ",item,".",newLine
 .byte   stopText
@@ -490,9 +506,11 @@ MSG_INVENTORY_FULL:
 .byte   " anything else.",newLine
 .byte   stopText
 
+MSG_PRESENT_EMPTY:
 .byte   "*It was empty.",newLine
 .byte   stopText
 
+MSG_HEALER_CHOICER:
 .byte   "*Cure poison.",newLine
 .byte   " Soften",newLine
 .byte   stopText

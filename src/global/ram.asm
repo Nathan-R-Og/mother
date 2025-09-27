@@ -9,25 +9,19 @@ UNK_3: .res 1
 UNK_4: .res 1
 UNK_5: .res 1
 UNK_6: .res 1
-UNK_7: .res 1
+UNK_7: .res 1 ;music bank?
 melody_timer: .res 1 ; $8
 UNK_9: .res 3
 player_direction: .res 1 ;$C
 UNK_d: .res 1
 fade_type: .res 1 ;$E
 UNK_f: .res 1
-; $10 -> Field CHR bank 2
-UNK_10: .res 1
-; $11 -> $10 & 3
-UNK_11: .res 1
-; $12 -> Field CHR bank 3
-UNK_12: .res 1
-; $13 -> $12 & 3
-UNK_13: .res 1
-; $14 -> Current "tileset"?
-UNK_14: .res 1
-; $15 -> Current area??
-UNK_15: .res 1
+UNK_10: .res 1 ; $10 -> Field CHR bank 2
+UNK_11: .res 1 ; $11 -> $10 & 3
+UNK_12: .res 1 ; $12 -> Field CHR bank 3
+UNK_13: .res 1 ; $13 -> $12 & 3
+UNK_14: .res 1 ; $14 -> Current palette
+UNK_15: .res 1 ; $15 -> Current area
 UNK_16: .res 1 ; map palette 3 color 0 value
 UNK_17: .res 1 ; map palette 3 color 2 value
 player_x: .res 2 ; $18
@@ -51,7 +45,10 @@ object_data: .res 2 ; $32 ; Pointer to ROM object data
 UNK_34: .res 1
 ; $34 -> Object script interaction type
 object_script_offset: .res 1 ; $35 ; TODO: APPLY ALL LABELS
-UNK_36: .res 8
+UNK_36: .res 1
+UNK_37: .res 1
+UNK_38: .res 2 ;probably a party_info pointer
+UNK_3A: .res 4
 movement_direction: .res 2 ; $3E
 UNK_40: .res 1 ; $40 -> CHR bank 2 during IRQ?
 UNK_41: .res 1 ; $41 -> CHR bank 3 during IRQ?
@@ -98,24 +95,29 @@ menucursor_pos: .res 2 ; $82
 UNK_84: .res 2
 menu_x_pos: .res 1 ; $86 ; X pos in whole numbers
 menu_y_pos: .res 1 ; $87 ; Y pos in whole numbers
-UNK_88: .res 8
-UNK_90: .res $10
+UNK_88: .res 2
+UNK_8A: .res 2
+UNK_8C: .res 4
+UNK_90: .res 4
+UNK_94: .res 1 ; map bank
+UNK_95: .res 1
+UNK_96: .res 1
+UNK_97: .res 1
+UNK_98: .res 3
+UNK_9B: .res 1
+UNK_9C: .res 4
 UNK_A0: .res 1
 UNK_A1: .res 1
 UNK_A2: .res 1
 UNK_A3: .res 1
 UNK_A4: .res 1
 UNK_A5: .res 1
-UNK_A6: .res 1
-UNK_A7: .res 1
+UNK_A6: .res 2 ;object object_m_colPointer?
 UNK_A8: .res 1
 UNK_A9: .res 1
-UNK_AA: .res 1
-UNK_AB: .res 1
-UNK_AC: .res 1
-UNK_AD: .res 1
-UNK_AE: .res 1
-UNK_AF: .res 1
+UNK_AA: .res 2 ;mirror of xpos? object world xpos?
+UNK_AC: .res 2 ;mirror of ypos? object world ypos?
+UNK_AE: .res 2
 unk_b0: .res 1 ; $b0
 unk_b1: .res 1 ; $b1
 unk_b2: .res 1 ; $b2
@@ -182,6 +184,7 @@ text_data_buffer: .res $40 ;$0110 ~ $014F
 stack: .res $B0 ; $150
 
 ;format
+;literally just normal nes oam
 ;y - 0
 ;tile index - 1
 ;attr - 2
@@ -349,6 +352,10 @@ BATTLER_MINOR_STATUS := BATTLER + battler_struct::m_status
 
 UNK_700: .res $80
 
+;actual ram
+unk_76c = $076c
+unk_76e = $076e
+
 ; SOUND STUFF: https://pastebin.com/F3hkv8Cw
 ; $0780 = Sound driver RAM
 
@@ -366,6 +373,9 @@ current_music: .res 2 ; $078C / Current music track
 current_music_blank: .res 2 ; $078E
 
 
+unk_786 = currptr_pulse1_blank
+unk_78a = currptr_triangle_blank
+unk_78b = currptr_triangle_blank+1
 
 ; Length    = 10 bytes
 ; Music Header data from ROM is copied to here
@@ -421,14 +431,30 @@ MusicChannel_LSOffset: .res 4 ; $07B0 / Music channel loop start offset
 MusicChannel_NoteLengthCounter: .res 4 ; $07B4 / Music channel note length counter
 MusicChannel_NewNoteLength: .res 4 ; $07B8 / Music channel new note length
 MusicChannel_LoopCounter: .res 4 ; $07BC / Music channel loop counter
-UNK_7C0: .res $30
-; $07C0 = Music channel sweep ($4001/$4005), not used for triangle and noise since sweep only exists for pulse
+UNK_7C0: .res $30 ; $07C0 = Music channel sweep ($4001/$4005), not used for triangle and noise since sweep only exists for pulse
+unk_7c3 = $07c3
+unk_7c7 = $07c7
+unk_7c8 = $07c8
+music_id = $07cc ; $07CC = Current music ID (gets value from $07F5 minus one)
+unk_7cd = $07cd
 
-; $07C0 = Music channel sweep ($4001/$4005), not used for triangle and noise since sweep only exists for pulse
+unk_7d1 = $07d1
+unk_7d5 = $07d5
+unk_7d6 = $07d6
+unk_7d9 = $07d9
+unk_7da = $07da
+unk_7de = $07de
+unk_7df = $07df
 
-; $07CC = Current music ID (gets value from $07F5 minus one)
+unk_7e0 = $07e0
+unk_7e2 = $07e2
+unk_7e3 = $07e3
+unk_7e4 = $07e4
+unk_7e6 = $07e6
+unk_7e7 = $07e7
+unk_7e8 = $07e8
 
-; $07EF = Unknown (initialized to $C0)
+unk_7ef = $07ef ; $07EF = Unknown (initialized to $C0)
 
 ; Sounds
 ; direct sfx (put into soundqueues)
@@ -510,13 +536,15 @@ soundactive: ; $07F8
     soundactive_pulseg1: .res 1 ; $07FC
     soundactive_track: .res 1 ; $07FD
 
-UNK_7FE: .res 2
-UNK_800: .res $5800
-
+UNK_7FE: .res 1
+unk_7ff: .res 1
 
 .segment "SRAM": absolute
 ;sram start
-UNK_6000: .res $700
+UNK_6000: .res $200 ;tile properties
+UNK_6200: .res $200 ;tile palettes
+UNK_6400: .res $200 ;object collisions????
+UNK_6600: .res $100
 
 ;todo: verify
 .ifdef VER_JP
@@ -652,6 +680,9 @@ object_m_area = 1 ;byte
 object_m_data_pointer = 2 ;word
 object_m_xpos = 4 ;word (world)
 object_m_ypos = 6 ;word (world)
+object_m_tiles = 8 ;byte
+;bit 6 is used for something else
+
 object_m_oam = 8 ;word
 object_m_sxpos = $a ;byte (screen)
 object_m_sypos = $b ;byte (screen)
@@ -676,8 +707,9 @@ OBJECT_M_BF1_HIGHPRIORITY = (1 << 4)
 OBJECT_M_BF1_SCRIPT = $f
 
 object_m_direction = $15 ;byte
-object_m_sprite2 = $16 ;word
-object_m_unk1 = $18 ;3 bytes
+object_m_sprite_base = $16 ;word
+object_m_unk1 = $18 ;byte
+object_m_unk3 = $19 ;word
 object_m_playerTouch = $1b ;byte
 ;(-t---ddd => t=touched, d=direction player is facing)
 object_m_scriptOffset = $1c; byte
@@ -722,7 +754,10 @@ object_m_sizeof = $20
     curr_hp .word ; 0x14
     curr_pp .word ; 0x16
     name_pointer .addr ; 0x18
-    unk_1a .res 4 ; 0x1a
+    unk_1a .res 1 ; 0x1a
+    unk_1b .res 1 ; 0x1b
+    unk_1c .res 1 ; 0x1c
+    unk_1d .res 1 ; 0x1d
     sprite_pointer .addr ; 0x1e
     items .res 8 ; 0x20
     weapon .byte ; 0x28

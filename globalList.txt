@@ -1,5 +1,10 @@
+extra_gfx.bin
+drain_gfx.bin
 enemy_tiles.bin
 sprites.bin
+drain_tiles.bin
+spawn_sets.bin
+map_palettes.bin
 battle_positionings.bin
 expRates.bin
 battles/BATTLE_77.bin
@@ -173,6 +178,8 @@ battles/BATTLE_129.bin
 battles/BATTLE_103.bin
 battles/BATTLE_99.bin
 battles/BATTLE_26.bin
+sample/snare.bin
+sample/kick.bin
 obj/OBJ_MYHOME_FLAGSET_6_2.bin
 obj/obj_bank0_lut.bin
 obj/OBJ_GRAVEYARD_CHURCHENTRANCE.bin
@@ -238,3 +245,4 @@ chr/c/global5.bin
 chr/c/global8.bin
 chr/c/global4.bin
 chr/3/global.bin
+prg/bank1e/unk71.bin

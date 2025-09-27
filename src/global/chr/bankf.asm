@@ -1,8 +1,8 @@
 .segment        "CHRF": absolute
-
 ;random battle sprite pieces
-incbinRange "../../split/us/chr/bankf.bin", 0, $800
+.incbin "../../split/global/extra_gfx.bin"
 
+.ifndef VER_JP
 ;this portion IS leftover from JP
 ;except. full converted to what the game uses
 ;lmfao
@@ -564,8 +564,12 @@ finalChoicers:
 .byte   "since then."
 .byte   stopText
 .endscope
+.endif
 
 .segment        "CHRF_2": absolute
 ;text gfx
-.incbin "../../split/us/chr/bankf.bin", $1000
-
+.ifdef VER_JP
+.incbin "../../split/jp/ui_gfx.bin"
+.else
+.incbin "../../split/us/ui_gfx.bin"
+.endif

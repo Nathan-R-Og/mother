@@ -287,6 +287,7 @@ MSG_MR_RAILROADCORPSE:
 .byte   " mysterious force.",newLine
 .byte   stopText
 
+MSG_REPEL_RING_BREAK:
 .byte   "*The Repel Ring",newLine
 .byte   " has lost its",newLine
 .byte   " mysterious power.",newLine

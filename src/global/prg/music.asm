@@ -30,22 +30,18 @@
 
 .define Note_Noise(dmc_cmd, noise_cmd) .byte (dmc_cmd << 6) | noise_cmd
 
-;normal
-.define nl_whole 4
-.define nl_half 3
-.define nl_quarter 2
-.define nl_eighth 1
 .define nl_sixteenth 0
-.define nl_thirtysecond $a ;!
-
-;dotted
-.define nl_d_half 6
+.define nl_eighth 1
+.define nl_quarter 2
+.define nl_half 3
+.define nl_whole 4
 .define nl_d_quarter 5
+.define nl_d_half 6
 .define nl_d_eighth 7
-
-;triplet
 .define nl_t_quarter 8 ;!
 .define nl_t_eighth 9 ;!
+.define nl_thirtysecond $a ;!
+.define nl_sixtyfourth $b ;!
 
 .define Note_Length(length) .byte $B0 | length
 .define Track_End .byte 0
@@ -54,7 +50,10 @@
 
 .define Set_NLT(tempo) .byte $9E, tempo
 
-.define Set_Timbre(autorelease, autorelease_time, cc) .byte $9F, ((autorelease << 5) | autorelease_time), cc
+;for everything that isnt pulse V
+;.define Set_Timbre(autorelease, autorelease_time, cc) .byte $9F, ((autorelease << 5) | autorelease_time), cc
+.define Set_Timbre(pitchenv, volumeenv, cc) .byte $9F, ((pitchenv << 5) | volumeenv), cc
+;for pulse ^
 
 ;square duty enum
 .define SQTD_12_5 0
@@ -68,39 +67,6 @@
 
 .define timbre_c_square(duty, no_length, vol_or_decay, v) (duty << 6) | (no_length << 5) | (vol_or_decay << 4) | v
 .define timbre_c_triangle(autodisable, frames) (autodisable << 7) | frames
-
-
-;actual ram
-unk_76c = $076c
-unk_76e = $076e
-
-unk_786 = $0786
-unk_78a = $078a
-unk_78b = $078b
-unk_7c0 = $07c0
-unk_7c3 = $07c3
-unk_7c7 = $07c7
-unk_7c8 = $07c8
-music_id = $07cc
-unk_7cd = $07cd
-
-unk_7d1 = $07d1
-unk_7d5 = $07d5
-unk_7d6 = $07d6
-unk_7d9 = $07d9
-unk_7da = $07da
-unk_7de = $07de
-unk_7df = $07df
-
-unk_7e0 = $07e0
-unk_7e2 = $07e2
-unk_7e3 = $07e3
-unk_7e4 = $07e4
-unk_7e6 = $07e6
-unk_7e7 = $07e7
-unk_7e8 = $07e8
-unk_7ff = $07ff
-
 
 .segment        "MUSIC": absolute
 ;.segment        "PRG1C": absolute
@@ -327,7 +293,7 @@ B28_00d3:
 
 .ifndef VER_JP
 ; $80E6 - Ocarina "melody missing" music pointers
-B28_00e6:
+Ocarina_Missing_List:
 .addr B28_1353
 .addr mus_ocarina_missing
 .addr mus_ocarina_missing
@@ -516,30 +482,37 @@ B28_01d3:
     bne @B28_01dc
 
 B28_0216:
-    lda #$0f
+    ;SND_CHN = $f
+    lda #$f
     sta SND_CHN
 
+    ;unk_bb = $55
     lda #$55
     sta unk_bb
 
-    lda #$00
-    sta unk_786
+    ;unk_786 = 0
+    ;unk_78b = 0
+    lda #0
+    sta currptr_pulse1_blank
     sta unk_78b
+
+    ;copy Ocarina_Missing_List to unk_76c
     tay
-    B28_0228:
-    lda B28_00e6, y
+    @copy:
+    lda Ocarina_Missing_List, y
     sta unk_76c, y
     iny
     tya
-    cmp #$14
-    bne B28_0228
+    cmp #10*2
+    bne @copy
+
     jsr B28_0299
     B28_0237:
     rts
 
 .ifdef VER_JP
 ; $80E6 - Ocarina "melody missing" music pointers
-B28_00e6:
+Ocarina_Missing_List:
 .addr B28_1353
 .addr mus_ocarina_missing
 .addr mus_ocarina_missing
@@ -1641,8 +1614,8 @@ HandleMusic:
     dec music_id
     B28_094e:
     lda #$7f
-    sta unk_7c0
-    sta unk_7c0+1
+    sta UNK_7C0
+    sta UNK_7C0+1
     jsr B28_0aec
     B28_0959:
     jmp B28_0c7b
@@ -1737,7 +1710,7 @@ B28_09f6:
     lda #$27
     B28_09fe:
     tay
-    lda B28_0a85, y
+    lda Pitch_Envelope_4_6, y
     pha
     lda unk_7c3, x
     cmp #$46
@@ -1753,7 +1726,7 @@ B28_09f6:
     tay
     cmp #$10
     bcs B28_0a20
-    lda B28_0abc, y
+    lda Pitch_Envelope_2, y
     jmp B28_0a73
     B28_0a20:
     lda #$f6
@@ -1772,17 +1745,24 @@ B28_0a33:
     lda unk_7d1, x
     sta unk_b2
     lda unk_b0
-    cmp #$20
+
+    ;pitch envelope 1
+    cmp #(1 << 5)
     beq B28_0a52
-    cmp #$a0
+    ;pitch envelope 5
+    cmp #(5 << 5)
     beq B28_0a61
-    cmp #$60
+    ;pitch envelope 3
+    cmp #(3 << 5)
     beq B28_0a24
-    cmp #$40
+    ;pitch envelope 2
+    cmp #(2 << 5)
     beq B28_0a13
-    cmp #$80
+    ;pitch envelope 4
+    cmp #(4 << 5)
     beq B28_09f6
-    cmp #$c0
+    ;pitch envelope 6
+    cmp #(6 << 5)
     beq B28_09f6
     B28_0a52:
     lda unk_b2
@@ -1791,7 +1771,7 @@ B28_0a33:
     lda #$00
     B28_0a5a:
     tay
-    lda B28_0ab2, y
+    lda Pitch_Envelope_1_7, y
     jmp B28_0a6d
     B28_0a61:
     lda unk_b2
@@ -1800,7 +1780,7 @@ B28_0a33:
     lda #$21
     B28_0a69:
     tay
-    lda B28_0a91, y
+    lda Pitch_Envelope_5, y
     B28_0a6d:
     pha
     tya
@@ -1822,16 +1802,16 @@ B28_0a83:
     pla
     rts
 
-B28_0a85:
-.byte $09,$08,$07,$06,$05,$04,$03,$02,$02,$01,$01,$00
-B28_0a91:
-.byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$01
-.byte $00,$00,$00,$00,$FF,$00,$00,$00,$00,$01,$01,$00,$00,$00,$FF,$FF
-.byte $00
-B28_0ab2:
-.byte $00,$01,$01,$02,$01,$00,$FF,$FF,$FE,$FF
-B28_0abc:
-.byte $00,$FF,$FE,$FD,$FC,$FB,$FA,$F9,$F8,$F7,$F6,$F5,$F6,$F7,$F6,$F5
+Pitch_Envelope_4_6:
+.byte 9,8,7,6,5,4,3,2,2,1,1,0
+Pitch_Envelope_5:
+.byte 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+.byte 0,0,0,0,-1,0,0,0,0,1,1,0,0,0,-1,-1
+.byte 0
+Pitch_Envelope_1_7:
+.byte 0,1,1,2,1,0,-1,-1,-2,-1
+Pitch_Envelope_2:
+.byte 0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-10,-9,-10,-11 ; -10 hardcoded
 
 
 B28_0acc:
@@ -1839,15 +1819,17 @@ B28_0acc:
     tay
     lda B28_10f4, y
     tay
-    ldx #$00
-    B28_0ad6:
+
+    ldx #0
+    @copy:
     lda Music_Table_2, y
-    sta ME_Transpose, x
+    sta MusicHeader, x
     iny
     inx
     txa
-    cmp #$0a
-    bne B28_0ad6
+    cmp #10
+    bne @copy
+
     rts
 
 B28_0ae4:
@@ -1991,9 +1973,9 @@ B28_0ba1:
     iny
     bne B28_0bb8
     B28_0bc0:
-    lda B28_0e85, y
+    lda Volume_Envelope_Table, y
     sta unk_b2
-    lda B28_0e85+1, y
+    lda Volume_Envelope_Table+1, y
     sta unk_b3
     lda unk_7cd, x
     lsr a
@@ -2268,7 +2250,7 @@ B28_0d3a:
     clc
     adc ME_NoteLengthOffset
     tay
-    lda B28_1074, y
+    lda Tempo_Lengths, y
     sta MusicChannel_NewNoteLength, x
     tay
     txa
@@ -2350,7 +2332,7 @@ B28_0d73:
     lda unk_b0
     B28_0dc9:
     sta SQ1_VOL, y
-    lda unk_7c0, x
+    lda UNK_7C0, x
     sta SQ1_SWEEP, y
 
     lda currptr_pulse0, y
@@ -2467,70 +2449,70 @@ ReadByte:
     rts
 
 ; $8E85
-; Mystery table, related to envelope
-B28_0e85:
-    .addr B28_0ee9 ; 00
-    .addr B28_0ef0 ; 01
-    .addr B28_0f14 ; 02
-    .addr B28_0f27 ; 03
-    .addr B28_0f30 ; 04
-    .addr B28_0f36 ; 05
-    .addr B28_0ee2 ; 06
-    .addr B28_0f38 ; 07
-    .addr B28_0f41 ; 08
-    .addr B28_0f33 ; 09
-    .addr B28_0f4a ; 0A
-    .addr B28_0f53 ; 0B
-    .addr B28_0f5b ; 0C
-    .addr B28_0f63 ; 0D
-    .addr B28_0f6a ; 0E
-    .addr B28_0f73 ; 0F
-    .addr B28_0fbe ; 10
-    .addr B28_0fc6 ; 11
-    .addr B28_0f8c ; 12
-    .addr B28_0fda ; 13
-    .addr B28_0fa1 ; 14
-    .addr B28_0ebd ; 15
-    .addr B28_0efa ; 16
-    .addr B28_0ed9 ; 17
-    .addr B28_0ed2 ; 18
-    .addr B28_0ec7 ; 19
-    .addr B28_0ec3 ; 1A
+; Volume Envelope Table
+Volume_Envelope_Table:
+    .addr Volume_Envelope_0 ; 00
+    .addr Volume_Envelope_1 ; 01
+    .addr Volume_Envelope_2 ; 02
+    .addr Volume_Envelope_3 ; 03
+    .addr Volume_Envelope_4 ; 04
+    .addr Volume_Envelope_5 ; 05
+    .addr Volume_Envelope_6 ; 06
+    .addr Volume_Envelope_7 ; 07
+    .addr Volume_Envelope_8 ; 08
+    .addr Volume_Envelope_9 ; 09
+    .addr Volume_Envelope_10 ; 0A
+    .addr Volume_Envelope_11 ; 0B
+    .addr Volume_Envelope_12 ; 0C
+    .addr Volume_Envelope_13 ; 0D
+    .addr Volume_Envelope_14 ; 0E
+    .addr Volume_Envelope_15 ; 0F
+    .addr Volume_Envelope_16 ; 10
+    .addr Volume_Envelope_17 ; 11
+    .addr Volume_Envelope_18 ; 12
+    .addr Volume_Envelope_19 ; 13
+    .addr Volume_Envelope_20 ; 14
+    .addr Volume_Envelope_21 ; 15
+    .addr Volume_Envelope_22 ; 16
+    .addr Volume_Envelope_23 ; 17
+    .addr Volume_Envelope_24 ; 18
+    .addr Volume_Envelope_25 ; 19
+    .addr Volume_Envelope_26 ; 1A
     .ifndef VER_JP
-    .addr B28_0f10 ; 1B
+    .addr Volume_Envelope_27 ; 1B
     .endif
 
 ; Envelope divider/volume table
-B28_0ebd:   .byte $76,$11,$11,$14,$31,$ff
-B28_0ec3:   .byte $33,$45,$66,$ff
-B28_0ec7:   .byte $91,$91,$91,$91,$91,$91,$91,$91,$91,$91,$f0
-B28_0ed2:   .byte $23,$33,$32,$22,$22,$22,$ff
-B28_0ed9:   .byte $98,$76,$63,$22,$87,$76,$53,$11,$f0
-B28_0ee2:   .byte $23,$56,$78,$88,$88,$87,$ff
-B28_0ee9:   .byte $23,$34,$56,$77,$65,$54,$ff
-B28_0ef0:   .byte $5a,$98,$88,$77,$66,$66,$65,$55,$55,$ff
-B28_0efa:   .byte $11,$11,$22,$22,$33,$33,$44,$44,$44,$45,$55,$55,$55,$66,$66,$77,$78,$88,$76,$54,$32,$ff
+Volume_Envelope_21:   .byte $76,$11,$11,$14,$31,$ff
+Volume_Envelope_26:   .byte $33,$45,$66,$ff
+Volume_Envelope_25:   .byte $91,$91,$91,$91,$91,$91,$91,$91,$91,$91,$f0
+Volume_Envelope_24:   .byte $23,$33,$32,$22,$22,$22,$ff
+Volume_Envelope_23:   .byte $98,$76,$63,$22,$87,$76,$53,$11,$f0
+Volume_Envelope_6:   .byte $23,$56,$78,$88,$88,$87,$ff
+Volume_Envelope_0:   .byte $23,$34,$56,$77,$65,$54,$ff
+Volume_Envelope_1:   .byte $5a,$98,$88,$77,$66,$66,$65,$55,$55,$ff
+Volume_Envelope_22:   .byte $11,$11,$22,$22,$33,$33,$44,$44,$44,$45,$55,$55,$55,$66,$66,$77,$78,$88,$76,$54,$32,$ff
 .ifndef VER_JP
-B28_0f10:   .byte $11,$11,$22,$ff
+Volume_Envelope_27:   .byte $11,$11,$22,$ff
 .endif
-B28_0f14:   .byte $11,$11,$22,$22,$33,$33,$44,$44,$44,$45,$55,$55,$55,$66,$66,$77,$78,$88,$ff
-B28_0f27:   .byte $f9,$87,$77,$77,$66,$65,$55,$44,$ff
-B28_0f30:   .byte $a8,$76,$ff
-B28_0f33:   .byte $74,$32,$ff
-B28_0f36:   .byte $99,$ff
-B28_0f38:   .byte $dc,$ba,$99,$88,$87,$76,$55,$44,$ff
-B28_0f41:   .byte $23,$44,$33,$33,$33,$33,$33,$32,$ff
-B28_0f4a:   .byte $77,$76,$65,$55,$44,$43,$32,$21,$f0
-B28_0f53:   .byte $44,$43,$33,$32,$22,$11,$11,$f0
-B28_0f5b:   .byte $33,$33,$22,$22,$11,$11,$11,$f0
-B28_0f63:   .byte $22,$22,$22,$11,$11,$11,$f0
-B28_0f6a:   .byte $11,$11,$11,$11,$11,$11,$01,$00,$f0
-B28_0f73:   .byte $99,$88,$77,$76,$66,$55,$54,$44,$33,$33,$33,$32,$22,$22,$22,$22,$21,$11,$11,$11,$11,$11,$11,$11,$f0
-B28_0f8c:   .byte $65,$55,$54,$44,$33,$33,$33,$33,$22,$22,$22,$22,$11,$11,$11,$11,$11,$11,$11,$11,$f0
-B28_0fa1:   .byte $fb,$ba,$aa,$99,$99,$99,$98,$88,$77,$77,$77,$66,$66,$66,$55,$54,$44,$44,$43,$33,$33,$22,$22,$22,$22,$11,$11,$11,$f0
-B28_0fbe:   .byte $23,$45,$55,$44,$33,$33,$22,$ff
-B28_0fc6:   .byte $87,$65,$43,$21,$44,$33,$21,$11,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$ff
-B28_0fda:   .byte $66,$65,$42,$21,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$ff
+Volume_Envelope_2:   .byte $11,$11,$22,$22,$33,$33,$44,$44,$44,$45,$55,$55,$55,$66,$66,$77,$78,$88,$ff
+Volume_Envelope_3:   .byte $f9,$87,$77,$77,$66,$65,$55,$44,$ff
+Volume_Envelope_4:   .byte $a8,$76,$ff
+Volume_Envelope_9:   .byte $74,$32,$ff
+Volume_Envelope_5:   .byte $99,$ff
+Volume_Envelope_7:   .byte $dc,$ba,$99,$88,$87,$76,$55,$44,$ff
+Volume_Envelope_8:   .byte $23,$44,$33,$33,$33,$33,$33,$32,$ff
+Volume_Envelope_10:   .byte $77,$76,$65,$55,$44,$43,$32,$21,$f0
+Volume_Envelope_11:   .byte $44,$43,$33,$32,$22,$11,$11,$f0
+Volume_Envelope_12:   .byte $33,$33,$22,$22,$11,$11,$11,$f0
+Volume_Envelope_13:   .byte $22,$22,$22,$11,$11,$11,$f0
+Volume_Envelope_14:   .byte $11,$11,$11,$11,$11,$11,$01,$00,$f0
+Volume_Envelope_15:   .byte $99,$88,$77,$76,$66,$55,$54,$44,$33,$33,$33,$32,$22,$22,$22,$22,$21,$11,$11,$11,$11,$11,$11,$11,$f0
+Volume_Envelope_18:   .byte $65,$55,$54,$44,$33,$33,$33,$33,$22,$22,$22,$22,$11,$11,$11,$11,$11,$11,$11,$11,$f0
+Volume_Envelope_20:   .byte $fb,$ba,$aa,$99,$99,$99,$98,$88,$77,$77,$77,$66,$66,$66,$55,$54,$44,$44,$43,$33,$33,$22,$22,$22,$22,$11,$11,$11,$f0
+Volume_Envelope_16:   .byte $23,$45,$55,$44,$33,$33,$22,$ff
+Volume_Envelope_17:   .byte $87,$65,$43,$21,$44,$33,$21,$11,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$ff
+Volume_Envelope_19:   .byte $66,$65,$42,$21,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$ff
 
 
 ; $8FEA
@@ -2545,16 +2527,30 @@ B28_0fea:
     .byte $00,$76,$00,$70,$00,$69,$00,$63,$00,$5E,$00,$58,$00,$53,$00,$4F
     .byte $00,$4A,$00,$46,$00,$42,$00,$3E,$00,$3A,$00,$37,$00,$34,$00,$31
     .byte $00,$2E,$00,$2B,$00,$29,$00,$0A,$00,$01
-B28_1074:
-    .byte $04,$08,$10,$20,$40,$18,$30,$0c,$0a,$05,$02,$01 ; 00
+Tempo_Lengths:
+    ;tempo note length offsets
+    ; 00
+    .byte $04,$08,$10,$20,$40,$18,$30,$0c,$0a,$05,$02,$01
+    ; 0c
     .byte $05,$0a,$14,$28,$50,$1e,$3c,$0f,$0c,$06,$03,$02
+    ; 18
     .byte $06,$0c,$18,$30,$60,$24,$48,$12,$10,$08,$03,$01
     .byte $04,$02,$00,$90
-    .byte $07,$0e,$1c,$38,$70,$2a,$54,$15,$12,$09,$03,$01 ; 28
-    .byte $02,$08,$10,$20,$40,$80,$30,$60
-    .byte $18,$15,$0a,$04,$01,$02,$c0,$09,$12,$24,$48,$90
-    .byte $36,$6c,$1b,$18,$0a,$14,$28,$50,$a0,$3c,$78,$1e,$1a,$0d,$05,$01,$02,$17,$0b,$16,$2c,$58,$b0,$42
-    .byte $84,$21,$1d,$0e,$05,$01,$02,$17
+    ; 28
+    .byte $07,$0e,$1c,$38,$70,$2a,$54,$15,$12,$09,$03,$01
+    .byte $02
+    ; 35
+    .byte $08,$10,$20,$40,$80,$30,$60,$18,$15,$0a,$04,$01
+    .byte $02,$c0
+    ; 43
+    .byte $09,$12,$24,$48,$90,$36,$6c,$1b,$18
+    ; 4C
+    .byte $0a,$14,$28,$50,$a0,$3c,$78,$1e,$1a,$0d,$05,$01
+    .byte $02,$17
+    ; 5A
+    .byte $0b,$16,$2c,$58,$b0,$42,$84,$21,$1d,$0e,$05,$01
+    .byte $02,$17
+
 B28_10DC:
     .byte $00,$0a,$14,$1e,$28,$3c,$32,$46,$50,$5a,$64,$6e,$78,$82,$8c,$96
     .byte $a0,$aa,$b4,$be,$c8,$d2,$dc,$e6

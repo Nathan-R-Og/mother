@@ -561,8 +561,11 @@ splits:
       #- [0]
     - bank: 0x14
       end: 0x1ff0
-      #splits:
-      #- [0]
+      splits:
+      - [0, map_tile_properties]
+      - [0x1000, map_palettes]
+      - [0x1200, spawn_sets]
+      - [0x1400]
     - bank: 0x15
       end: 0x19f8
       splits:
@@ -895,8 +898,11 @@ splits:
       - [0x1E00, starting_sram]
       - [0x1E40, starting_characters]
     - bank: 0x1E
-      #splits:
-      #- [0]
+      splits:
+      - [0, sample/kick]
+      - [0x71]
+      - [0x80, sample/snare]
+      - [0x171]
     - bank: 0x1F
       splits:
       - [0]
@@ -998,8 +1004,13 @@ splits:
       - [0, chr/a/global]
     - bank: 0xB
       end: 0x1f32
-      #splits:
-      #- [0]
+      splits:
+      - [0, map_gfx]
+      - [0xc00, map_tiles]
+      - [0xfc0, map_attr]
+      - [0x1000, drain_gfx]
+      - [0x1400, drain_tiles]
+      - [0x1800, naming_screen_2]
     - bank: 0xC
       splits:
       - [0, chr/c/global1]
@@ -1042,5 +1053,7 @@ splits:
       - [0x1900, chr/e/jp]
       - [0x1980, chr/e/global2]
     - bank: 0xF
-      #splits:
-      #- [0]
+      splits:
+      - [0, extra_gfx]
+      - [0x800, naming_screen_1]
+      - [0x1000, ui_gfx]

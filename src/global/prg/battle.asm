@@ -142,10 +142,10 @@ SFX_BlindMiss       = $13
 SFX_GiegueAttack    = $14
 SFX_Unconned        = $15
 
+
+;yeah
 .segment        "PRG17": absolute
 
-; $A000
-; Battle engine
 BattleMain:
     ;clear values
     lda #0
@@ -250,14 +250,14 @@ BattleMain:
     jsr LoadPaletteFrom
 
     jsr BankswitchLower_Bank22
-    ldx #$23
-    ldy #$c0
+    ldx #.HIBYTE($23c0)
+    ldy #.LOBYTE($23c0)
     jsr ClearNametableAttribute
-    ldx #$2b
-    ldy #$c0
+    ldx #.HIBYTE($2bc0)
+    ldy #.LOBYTE($2bc0)
     jsr ClearNametableAttribute
     jsr B31_15e5
-    lda #$00
+    lda #0
     sta turn_counter
     lda #$80
     sta attacker_offset
@@ -404,7 +404,7 @@ BattleTurnInput:
 
 @BattleTurnInputExit:
     jsr B31_1759
-    lda #$00
+    lda #0
     sta pad1_forced
     sta pad2_forced
     rts
@@ -715,7 +715,7 @@ ClearNametableAttribute:
     sta $e6
     rts
 
-; $A3F8
+
 DisplayText_battle:
     cmp #$00
     beq DisplayText_RTS
@@ -723,6 +723,8 @@ DisplayText_battle:
     jsr B23_04bb
     jsr BankswitchLower_Bank00_Preserve
     pla
+
+    .ifndef VER_JP
     cmp #$ff
     bne B23_042d
     sec
@@ -757,23 +759,63 @@ DisplayText_battle:
 
     bcc PrintChar
     B23_042d:
+    .endif
+
     ldy #$00
     sty battle_wordvar60+1
     asl a
     rol battle_wordvar60+1
     clc
+    .ifdef VER_JP
+    adc #$7a
+    .else
     adc #$81
+    .endif
     sta battle_wordvar60
     lda battle_wordvar60+1
+    .ifdef VER_JP
+    adc #$87
+    .else
     adc #$90
+    .endif
     sta battle_wordvar60+1
     ldy #$00
     lda (battle_wordvar60), y
+    .ifdef VER_JP
+    sta UNK_50
+    iny
+    lda (battle_wordvar60),y
+    sta UNK_50+1
+    .else
     sta UNK_74
     iny
     lda (battle_wordvar60), y
-    sta $73
+    sta UNK_73
+    .endif
     PrintChar: ; assumed function
+    .ifdef VER_JP
+    lda battle_bytevar52
+    cmp #$03
+    bne :+
+    ldx #$ca
+    jsr B23_04cc
+    ldx #$94
+    jsr B23_04bf
+    ldx #$5e
+    jsr B23_04bf
+    jsr PpuSync
+    lda #$06
+    jsr B31_14ce
+    jsr BankswitchLower_Bank00_Preserve
+    ldx #$94
+    jsr B23_04bf
+    ldx #$5e
+    jsr B23_04bf
+    jsr PpuSync
+    lda #$05
+    jsr B31_14ce
+    jsr BankswitchLower_Bank00_Preserve
+    .else
     jsr GetTextData
     lda UNK_74
     sta battle_bytevar50
@@ -784,13 +826,23 @@ DisplayText_battle:
     bne :+
     ldx #$03
     jsr B30_07c1
+    .endif
     dec battle_bytevar52
 :   jsr B23_0479
     cmp #$02
     beq :+
     inc battle_bytevar52
     cmp #$00
+    .ifdef VER_JP
+    beq :+
+    lda UNK_74
+    sta battle_bytevar50
+    lda UNK_74+1
+    sta battle_bytevar51
+    jmp PrintChar
+    .else
     bne PrintChar
+    .endif
 :   jsr BankswitchLower_Bank22
     ldx battle_message_speed
     jsr WaitXFrames
@@ -806,7 +858,11 @@ B23_0479:
     ldy #$00
     lda (battle_bytevar50), y
     cmp #$03
+    .ifdef VER_JP
+    bne B23_0495
+    .else
     bne B23_049d
+    .endif
     lda #$0f
     sta $76
     jsr B31_15c2
@@ -818,22 +874,79 @@ B23_0479:
     lda (battle_bytevar50), y
     cmp #$02
     beq B23_04ba
+    .ifdef VER_JP
+    lda #$13
+    .else
     B23_049d:
     lda #$16
+    .endif
     sta $70
+    .ifdef VER_JP
+    lda #$07
+    .else
     lda #$05
+    .endif
     sta $76
     jsr PpuSync
     lda battle_bytevar50
     sta $74
     lda battle_bytevar51
+    .ifdef VER_JP
+    sta UNK_73
+    jsr GetTextData
+    .else
     sta $75
+    .endif
     jsr B30_0707    ; PrintLine
     lda #$01
     jsr B30_07af
     lda $72
     B23_04ba:
     rts
+
+.ifdef VER_JP
+B23_04bf:
+    txa
+    pha
+    jsr B23_04e0
+    jsr B23_04e0
+    pla
+    tax
+    jmp B23_04d6
+
+B23_04cc:
+    jsr B23_04e0
+    txa
+    pha
+    jsr B23_04e0
+    pla
+    tax
+B23_04d6:
+    jsr PpuSync
+    stx UNK_E5+1
+    lda #$80
+    sta UNK_E5+0
+    rts
+
+B23_04e0:
+    sec
+    lda nmi_queue+3,x
+    sbc #$20
+    sta nmi_queue+3,x
+    lda nmi_queue+2,x
+    sbc #$00
+    sta nmi_queue+2,x
+    clc
+    lda nmi_queue+1,x
+    adc #$04
+    sta UNK_60+0
+    clc
+    txa
+    adc UNK_60+0
+    tax
+    rts
+.endif
+
 
 B23_04bb:
     lda #$21
@@ -962,6 +1075,7 @@ SubroutinePlayerTurnInput:
     jmp AutoFightRoutine
 :   jmp EnemyAIRoutine
 
+
 AutoFightRoutine:
     ldy #$00
 @AutoFight_MainLoop:
@@ -981,9 +1095,14 @@ AutoFightRoutine:
     adc #BATTLER_DATASIZE
     tay
     bpl @AutoFight_MainLoop
+    .ifdef VER_JP
+    jmp B23_05a0
+    .else
     bmi B23_05a0
+    .endif
 @AutoSuperHealing_JMP:
     jmp AutoSuperHealing
+
 
 B23_05a0:
     ldy #$00
@@ -1005,8 +1124,15 @@ B23_05bc:
     adc #$20
     tay
     bpl B23_05a2
+    .ifdef VER_JP
+    jmp B23_05e9
+B23_05c5:
+    jmp @dude
+    @dude:
+    .else
     bmi B23_05e9
 B23_05c5:
+    .endif
     ldx #$00
     ldy #$00
     B23_05c9:
@@ -1025,7 +1151,13 @@ B23_05c5:
     tay
     bpl B23_05c9
     cpx #$01
+    .ifdef VER_JP
+    bcs @skip
+    jmp B23_0611
+    @skip:
+    .else
     bcc B23_0611
+    .endif
     jmp AutoLifeup
     B23_05e9:
     ldy #$00
@@ -1076,11 +1208,21 @@ AutoLifeup:
 
     ldy attacker_offset
     jsr CLC_FindFoodInInventory
+
+    .ifdef VER_JP
+    bcs @B23_068f
+    cpx #$84
+    bne @B23_0692
+    @B23_068f:
+    jmp B23_05e9
+    @B23_0692:
+    .else
     bcs B23_05e9
     cpx #$7c
     beq B23_05e9
     cpx #$84
     beq B23_05e9
+    .endif
     tya
     ldy attacker_offset
     sta BATTLER_TEMP_VARS, y
@@ -1224,19 +1366,20 @@ TryAddingPSIBattleAction:
 ; Picks a random move from the Enemy's Moveset
 EnemyAIRoutine:
     jsr Rand
-    and #$07
+    and #%00000111
     clc
     adc attacker_offset
     tay
     lda BATTLER_MOVESET, y
     ldy attacker_offset
     sta BATTLER_ACTION_ID, y
-    jsr B23_0c23
+    jsr TargetingFromActionID
     jsr JMPTable
 
-    .addr AITargetRoutine_RTS
-    .addr AITargetsPlayerRoutine
-    .addr AISelectTargetRoutine
+
+    .addr AITargetRoutine_RTS ; 0 - ???
+    .addr AITargetsPlayerRoutine ; 1 - ???
+    .addr AISelectTargetRoutine ; 2 - ???
 
 AITargetsPlayerRoutine:
     jsr B23_07ab
@@ -1246,62 +1389,73 @@ AITargetsPlayerRoutine:
 
 AISelectTargetRoutine:
     lda attacker_offset
-    bpl AISelectTarget_CheckNotNull        ; skip the battle script checks if the AI is player team (Auto, NPCs)
+    ; skip the battle script checks if the AI is player team (Auto, NPCs)
+    bpl @AISelectTarget_CheckNotNull
 
+    ;if not red robo battle, jump
     lda battle_script
-; red robo check
     cmp #BSCRIPT_REDROBO
-    bne :++                                 ; bne blue robo check
-; red robo targeting effect
-; honestly this is pretty stupid. just target the end of party first, instead of writing a custom routine to target specific player ID
-    ldx #$03
-:   lda #EVE
+    bne @blue_robo_check
+    ;else,
+    ; red robo targeting effect
+    ; honestly this is pretty stupid. just target the end of party first, instead of writing a custom routine to target specific player ID
+
+    ldx #3
+    @find_eve:
+    lda #EVE
     jsr TargetSpecificPlayer
     bcs JMP_AITargetRoutine_RTS
     dex
-    bpl :-
-; blue robo check
-:   lda battle_script
+    bpl @find_eve
+
+    @blue_robo_check:
+    lda battle_script
     cmp #BSCRIPT_BLUEROBO
-    bne B23_078a
+    bne @not_blue_robo
 ; blue robo targeting effect
 ; oh my god why is this one infinitely more stupid. why does it look for specifically Ninten, then Ana, then Teddy.
 ; just target leader to back like any sane programmer would
-    ldx #$03
-:   lda #NINTEN
+    ldx #3
+    @find_ninten:
+    lda #NINTEN
     jsr TargetSpecificPlayer
     bcs JMP_AITargetRoutine_RTS
     dex
-    bpl :-
-    ldx #$03
-:   lda #ANA
+    bpl @find_ninten
+
+    ldx #3
+    @find_ana:
+    lda #ANA
     jsr TargetSpecificPlayer
     bcs JMP_AITargetRoutine_RTS
     dex
-    bpl :-
-    ldx #$03
-:   lda #TEDDY
+    bpl @find_ana
+    ldx #3
+    @find_teddy:
+    lda #TEDDY
     jsr TargetSpecificPlayer
     bcs JMP_AITargetRoutine_RTS
     dex
-    bpl :-
-B23_078a:
-    ldx #$03
-B23_078c:
-    lda #$07
+    bpl @find_teddy
+
+    @not_blue_robo:
+    ldx #3
+    @find_flyingman:
+    lda #FLYING_MAN
     jsr TargetSpecificPlayer
     bcs JMP_AITargetRoutine_RTS
     dex
-    bpl B23_078c
+    bpl @find_flyingman
+
 ; check to make sure target is not empty
-    AISelectTarget_CheckNotNull:
+    @AISelectTarget_CheckNotNull:
     jsr B23_07ab
     lda target_offset
-    bmi AISelectTarget_CheckNotNull
+    bmi @AISelectTarget_CheckNotNull
     jmp AITargetRoutine_RTS
 
 JMP_AITargetRoutine_RTS:
-    jmp AITargetRoutine_RTS             ; really fucking stupid line of code
+    jmp AITargetRoutine_RTS ; really fucking stupid line of code
 
 AITargetRoutine_RTS:
     lda target_offset
@@ -1340,7 +1494,6 @@ TargetSpecificPlayer:
     rts
 :   clc
     rts
-
 ; lookup table for player selection
 ; main code for interpreting player's action
 OpenPlayerInputMainMenu:
@@ -1349,12 +1502,20 @@ OpenPlayerInputMainMenu:
 
 UpdatePlayerinputMainMenu:
     lda #$02
+    .ifdef VER_JP
+    ldx battle_script
+    cpx #BSCRIPT_GIEGUE_FIGHTING
+    bne :+
+    .else
     ldx event_flags+28
     bpl :+
+    .endif
     lda #$13
 :   jsr B31_14ce
-    jsr SelectionMenuCheckTeddyScript
+    jsr SelectionMenuCheckScenario
     jsr JMPTable
+
+
 
     .addr SelectFight
     .addr SelectAuto
@@ -1510,33 +1671,57 @@ SelectBack:
 :   sec
     jmp SelectRTS
 
-SelectionMenuCheckTeddyScript:
-    ldx #.LOBYTE(B22_1f73)
-    ldy #.HIBYTE(B22_1f73)
+SelectionMenuCheckScenario:
+    ldx #.LOBYTE(battle_commands_normal)
+    ldy #.HIBYTE(battle_commands_normal)
+    .ifdef VER_JP
+
+    ;if battle != giegue, jump
+    lda battle_script
+    cmp #BSCRIPT_GIEGUE_FIGHTING
+    bne @not_giegue
+    ldx #.LOBYTE(battle_commands_giegue)
+    ldy #.HIBYTE(battle_commands_giegue)
+    jmp @no_sing
+    @not_giegue:
+    ;if battle != teddy, jump
+    cmp #BSCRIPT_TEDDY
+    bne @no_sing
+    ldx #.LOBYTE(battle_commands_teddyfight)
+    ldy #.HIBYTE(battle_commands_teddyfight)
+    .else
+
+    ;if battle_script != BSCRIPT_TEDDY, jump
     lda battle_script
     cmp #BSCRIPT_TEDDY
-    bne :+                      ; +
-    ldx #.LOBYTE(B22_1f83)
-    ldy #.HIBYTE(B22_1f83)
-    jmp :++                     ; ++
-:   lda event_flags+28          ; +
-    bpl :+                      ; ++
-    ldx #.LOBYTE(B22_1f7b)
-    ldy #.HIBYTE(B22_1f7b)
-:   stx $84                     ; ++
+    bne @not_teddy
+    ldx #.LOBYTE(battle_commands_teddyfight)
+    ldy #.HIBYTE(battle_commands_teddyfight)
+    jmp @no_sing
+    @not_teddy:
+    ;if !event_flags[28].7, skip set
+    lda event_flags+28
+    bpl @no_sing
+    ldx #.LOBYTE(battle_commands_giegue)
+    ldy #.HIBYTE(battle_commands_giegue)
+    .endif
+    @no_sing:
+    stx $84
     sty $85
-    ldx #.LOBYTE(B22_1f6b)
-    ldy #.HIBYTE(B22_1f6b)
+
+    ldx #.LOBYTE(battle_commands_choicer)
+    ldy #.HIBYTE(battle_commands_choicer)
     stx $80
     sty $81
     jsr B31_0f3f
     bit $83
-    bvs :+
+    bvs @exit
     lda #$09
     jsr B23_0945
     lda menucursor_pos
     rts
-:   lda #$08
+    @exit:
+    lda #$08
     rts
 
 B23_0945:
@@ -1558,13 +1743,15 @@ B23_0945:
     lda #$0d
     jmp B31_14ce
     B23_0962:
-    jsr B23_0c23
-    beq B23_098d
+    jsr TargetingFromActionID
+    ;if targeting == 0, jump
+    beq @no_targeting
     ldx #$80
-    cmp #$02
-    beq B23_096f
-    ldx #$00
-    B23_096f:
+    ;if targeting == 2, skip
+    cmp #2
+    beq @is_2
+    ldx #0 ; targeting 1 or 3
+    @is_2:
     stx battle_wordvar60
     lda attacker_offset
     and #$80
@@ -1580,7 +1767,7 @@ B23_0945:
     sta target_offset
     ldy attacker_offset
     sta BATTLER_TARGET, y
-    B23_098d:
+    @no_targeting:
     clc
     rts
     B23_098f:
@@ -1591,9 +1778,10 @@ B23_0991:
     lda #$0b
     jsr B31_14ce
     jsr B23_09b3
-    lda #.LOBYTE(B22_1f8b)
+
+    lda #.LOBYTE(battle_whichenemy_choicer)
     sta $80
-    lda #.HIBYTE(B22_1f8b)
+    lda #.HIBYTE(battle_whichenemy_choicer)
     sta $81
     jsr B31_0f34
     bit $83
@@ -1792,9 +1980,9 @@ StoreItemName:
     jmp BankswitchLower_Bank22
 
 B23_0ae9:
-    lda #.LOBYTE(B22_1f95)
+    lda #.LOBYTE(battle_goods_choicer)
     sta $80
-    lda #.HIBYTE(B22_1f95)
+    lda #.HIBYTE(battle_goods_choicer)
     sta $81
     lda battle_var5c
     sta $84
@@ -1920,9 +2108,9 @@ B23_0b86:
     rts
 
 B23_0bc2:
-    lda #.LOBYTE(B22_1fa7)
+    lda #.LOBYTE(battle_psipage_choicer)
     sta $80
-    lda #.HIBYTE(B22_1fa7)
+    lda #.HIBYTE(battle_psipage_choicer)
     sta $81
     jsr B31_0f34
     lda $83
@@ -1940,9 +2128,9 @@ B23_0bc2:
     rts
 
 B23_0be6:
-    lda #.LOBYTE(B22_1f9d)
+    lda #.LOBYTE(battle_psi_choicer)
     sta $80
-    lda #.HIBYTE(B22_1f9d)
+    lda #.HIBYTE(battle_psi_choicer)
     sta $81
     jsr B31_0f34
     lda $83
@@ -1962,40 +2150,74 @@ DrawSelectionMenu:
     lda #$0a
     jsr B31_14ce
     jsr B23_04bb
+
     jsr BankswitchLower_Bank00_Preserve
-    lda #$00
+
+    lda #0
     sta $70
-    lda #$7a
+
+    lda #.LOBYTE(ui_thing_tiles11)
     sta $74
-    lda #$8e
+    lda #.HIBYTE(ui_thing_tiles11)
+    .ifdef VER_JP
+    sta UNK_73
+    jsr GetTextData
+    .else
     sta $75
+    .endif
+
     jsr B30_06db
     jmp BankswitchLower_Bank22
 
-B23_0c23:
+;a == battle action id
+TargetingFromActionID:
+    ;push a
     pha
-    and #$03
+
+    ;;this whole sequence gets which 2 bits to and
+    ;;so x how many times to shift right %11000000
+    ;x = (a & 3)+1
+    and #%00000011
     tax
     inx
-    lda #$01
+    ;a = (c into a >> 2) for every x
+    ;eg x == 2 will result in a == $30
+    lda #1
     sec
-:   ror a
+    @shifter:
+    ror a
     ror a
     dex
-    bne :-
+    bne @shifter
+    ;battle_wordvar60 = a
     sta battle_wordvar60
+
+    ;restore a
     pla
+
+    ;y = a / 4
     lsr a
     lsr a
     tay
+
+    ;battle_wordvar60+1 = B22_1ec7[y] & battle_wordvar60
     lda B22_1ec7, y
     and battle_wordvar60
     sta battle_wordvar60+1
-:   lsr battle_wordvar60
-    bcs :+
+
+    ;;shift battle_wordvar60 right until it hits a bit
+    ;;if it doenst, also shift battle_wordvar60+1 to match
+    ;;tldr; move battle_wordvar60+1 down to be a normal number
+    ;;break, then set
+    @loop:
+    lsr battle_wordvar60
+    bcs @break
     lsr battle_wordvar60+1
-    jmp :-
-:   lda battle_wordvar60+1
+    ;could be bcc and achieve the same function since the result
+    ;should never be shifted out at all
+    jmp @loop
+    @break:
+    lda battle_wordvar60+1
     rts
 
 B23_0c49:
@@ -2207,8 +2429,10 @@ DoBattlerTurn:
     ; FALLTHROUGH
 
 ; Battle Instruction Interpreter
-; MOTHER has its own instructions for Battle Actions (BAs). You can think of it as a custom scripting language.
-; BA data is composed of these instructions, which call upon already programmed functions. They can take in .byte or .word as arguments depending on the script's "opcode."
+; MOTHER has its own instructions for Battle Actions (BAs).
+; You can think of it as a custom scripting language.
+; BA data is composed of these instructions, which call upon already programmed functions.
+; They can take in .byte or .word as arguments depending on the script's "opcode."
 BattleScriptInterpreter:
     ldy #$00
     lda (battle_var5e), y
@@ -2244,12 +2468,13 @@ BINST0_END:
 ; Battle Instruction 1 : Variety Effects
 ; lo bits : argument
 BINST1_VARIETY:
-    ldy #$00
+    ;jptbl based on battle_var5e[0] & 0xf
+    ldy #0
     lda (battle_var5e), y
-    and #$0f                        ; get lo bits
+    and #%00001111 ; get lo nybble
     jsr JSRTable
 
-    .addr BINST1_RETURN                ; Return address
+    .addr BINST1_RETURN ; Return address
     .addr BINST10_ENEMYSPAWN
     .addr BINST11_RUN
     .addr BINST12_ANIMATE_NORMAL
@@ -2264,7 +2489,7 @@ BINST1_VARIETY:
     .addr BINST1B_ANIMATE_CRIT
 
 BINST1_RETURN:
-    lda #$01                        ; advance script counter by 1
+    lda #1                        ; advance script counter by 1
     jmp AdvanceAndContinue
 
 ; Battle Instruction 2N ID (Lookup and use PSI ID)
@@ -2276,8 +2501,10 @@ BINST1_RETURN:
 ;   wordvar_0591        : ptr to attacker's name
 ;   bytevar_0593        : cleared
 BINST2_LUTPSI:
-    ldy #$01
+    ;get battle_var5e[1] (psi)
+    ldy #1
     lda (battle_var5e), y
+
     ldx #$00
     stx battle_wordvar60+1
     ldx #$03
@@ -2347,14 +2574,15 @@ BINST3_LUTITEM:
     ldy attacker_offset
     bmi @PrintUseItemMsg
     jsr EnablePRGRam
-    ldy #$00
+    ;get low nybble of 3N
+    ldy #0
     lda (battle_var5e), y
-    and #$0f
-    cmp #$01
+    and #%00001111
+    ;if nybble != 1, skip removal
+    cmp #1
     bne @PrintUseItemMsg
     jsr OrganizeAttackerInv
-
-@PrintUseItemMsg:
+    @PrintUseItemMsg:
     lda #$63                        ; Using item msg
     jsr DisplayText_battle
     lda battle_bytevar58
@@ -2523,7 +2751,11 @@ LUT_Conditionals:
     .addr BINSTCONDITIONA_NOT_RESIST_MENTAL
     .addr BINSTCONDITIONB_NOT_TRIGGERED_BATTLE
     .addr BINSTCONDITIONC_NOT_TARGET_PLAYERCHAR
+    .ifndef VER_JP
     .addr BINSTCONDITIOND_NOT_GIEGUE_FIGHT
+    .endif
+
+
 
 @ConditionalsRTS:
     rts
@@ -2733,10 +2965,26 @@ EnemyJoins:
     rts
 
 DepletePower:
+    .ifdef VER_JP
+    ldy attacker_offset
+    sec
+    lda BATTLER_CURR_PP,y
+    sbc battle_input_num
+    sta BATTLER_CURR_PP,y
+    lda BATTLER_CURR_PP+1,y
+    sbc battle_input_num+1
+    sta BATTLER_CURR_PP+1,y
+    bcs @exit
+    lda #0
+    sta BATTLER_CURR_PP,y
+    sta BATTLER_CURR_PP+1,y
+    @exit:
+    .else
     lda #$19
     ldx #.LOBYTE(DepleteAttackerPP-1)
     ldy #.HIBYTE(DepleteAttackerPP-1)
     jsr TempUpperBankswitch
+    .endif
     jmp B31_15e5
 
 ; Honestly completely useless and even negative, since there is logic in the battler turn routine to make them do nothing if they are deadge.
@@ -2748,6 +2996,7 @@ BINSTCONDITION0_NOT_ATTACKER_TARGET_ALIVE:
     beq ConditionTrue
     lda BATTLER_STATUS, y
     bmi ConditionTrue
+
 
 ; The more sensible conditional that only checks for target being deadge.
 BINSTCONDITION6_NOT_TARGET_ALIVE:
@@ -2919,6 +3168,7 @@ BINSTCONDITIONC_NOT_TARGET_PLAYERCHAR:
     cmp #$01
     rts
 
+.ifndef VER_JP
 ; checks for bscript 5 or 6
 BINSTCONDITIOND_NOT_GIEGUE_FIGHT:
     lda battle_script
@@ -2930,6 +3180,7 @@ BINSTCONDITIOND_NOT_GIEGUE_FIGHT:
     rts
 :   clc
     rts
+.endif
 
 DoFightEquation:
     lda #$01
@@ -3194,6 +3445,11 @@ BINST64_DO_RESISTANCE:
 BINST65_CHECK:
     lda #$6a                        ; attacker checked target msg
     jsr DisplayText_battle
+;jp doesnt have battlescript checking
+.ifdef VER_JP
+    jsr SEC_IsInvinciblityOn
+    bcs BINST_ILLEGAL_MOVE_EFFECT
+.else
     lda battle_script
     cmp #BSCRIPT_GREYROBO
     bne @CheckRedRobo
@@ -3234,6 +3490,7 @@ BINST65_CHECK:
     jmp DisplayText_battle
 
 @DoCheck:
+.endif
     ; load target off and def & store to 0590~0593
     ldy target_offset
     ; offense -> $0590
@@ -3292,9 +3549,16 @@ BINST65_CHECK:
     lda #$6f                        ; weak to bug spray msg
     jsr DisplayText_battle
 
+;jp simply exits.
+;us displays a null message.
 :   pla
+    .ifdef VER_JP
+    rts
+    .else
     lda #$ff                        ; null msg
+
     jmp DisplayText_battle
+    .endif
 
 ; Complete abomination. Several BAs have conditional jumps that point directly to this address, instead of being sane and using the scripts the devs programmed.
 ; This text is printed when "illegal" moves are used, like Powershield during scripted fight or Dimension Slip during triggered fight.
@@ -3382,8 +3646,7 @@ DoDeathActionInX:
     jmp PrintDeathMsg
 
 ; kills whoever is in Y (offset)
-KillTargetInY:
-    tya
+KillTargetInY:    tya
     pha
     lda #$00
     sta BATTLER_CURR_HP, y
@@ -3812,60 +4075,88 @@ ANIMATE_LONG_PLAYER:
     ldx #.LOBYTE(battleanim_Wobble)
     ldy #.HIBYTE(battleanim_Wobble)
     lda #$0f ; transparent color
-    jmp DoAnimatePlayerHit
+    jmp DoAnimatePlayerHit ;epic fall through fail
 
+;a == NES color
+;y:x == animation pointer (bank 16)
 DoAnimatePlayerHit:
+    ;store color
     sta battle_wordvar64
+    ;store animation pointer
     stx battle_wordvar60
     sty battle_wordvar60+1
     lda #$10
     jsr PlayBattleSFX
     jsr PpuSync
-    ldy #$00
+
+    ;battle_wordvar62 = loop
+    ldy #0
     lda (battle_wordvar60), y
     sta battle_wordvar62
+    ;battle_wordvar62+1 = length
     iny
     lda (battle_wordvar60), y
     sta battle_wordvar62+1
+
     clc
+
+    ;move pointer into actual anim frames
+    ;battle_wordvar60 += 2
     lda battle_wordvar60
-    adc #$02
+    adc #2
     sta battle_wordvar60
     lda battle_wordvar60+1
-    adc #$00
+    adc #0
     sta battle_wordvar60+1
-@AnimatePlayerHit_LS:
-    ldy #$00
-@AnimatePlayerHit_LS2:
+
+    @new_loop:
+    ldy #0
+    @new_frame:
+    ;store current index
     tya
     pha
-    and #$02
-    beq @AnimatePlayerHit_Black
+    ;if urrent index % 2 == 0, set bg to black
+    and #%00000010
+    beq @setblack
+    ;else, set bg to chosen color
     lda battle_wordvar64
     jsr SetBGColorA
-    jmp @AnimatePlayerHit_Effect
-@AnimatePlayerHit_Black:
+    jmp @skip_setblack
+    @setblack:
     jsr SetBGColorBlack
-@AnimatePlayerHit_Effect:
+    @skip_setblack:
+
+    ;restore current index
     pla
     tay
+
+    ;set ymove
     lda (battle_wordvar60), y
-    sta $e9
+    sta UNK_E9
     iny
+    ;set xmove
     lda (battle_wordvar60), y
-    sta $e8
+    sta UNK_E8
     iny
-    lda #$01
-    sta $e5
+
+    lda #1
+    sta UNK_E5
     jsr WaitFrame
+
+    ;if y != length, keep going
     cpy battle_wordvar62+1
-    bne @AnimatePlayerHit_LS2
+    bne @new_frame
+    ;else, if --loopcount > 0, loop
     dec battle_wordvar62
-    bne @AnimatePlayerHit_LS
-    lda #$00
-    sta $e8
-    sta $e9
+    bne @new_loop
+
+    ;reset ymove and xmove
+    lda #0
+    sta UNK_E8
+    sta UNK_E9
     jsr WaitFrame
+
+    ;bye bye
     jmp SetBGColorBlack
 
 ; Concludes the Fight.
@@ -3908,7 +4199,7 @@ ConcludeBattle:
     cmp #BSCRIPT_BLUEROBO
     bne @NormalL
     lda #ENDTYPE_BLUEROBO_SLIP
-    sta battle_endtype              ; set endtype so overworld knows to play the lloyd scene and teddy deadge flags
+    sta battle_endtype ; set endtype so overworld knows to play the lloyd scene and teddy deadge flags
 ; Do BlueRobo defeat script (in-battle, overworld effects handled by overworld engine)
     lda #SFX_Thunder
     jsr PlayBattleSFX
@@ -3935,7 +4226,7 @@ PlayersWinRoutine:
     beq :+
     ; Print Tank Deadge msg
     ; funnily enough, the tank dies even if it never gets hit or used. it always dies immediately after the 1st fight since it always blows up at battle conclusion if active
-    lda #$31                        ; tank deadge msg
+    lda #$31 ; tank deadge msg
     jsr DisplayText_battle
     ; continue
 :   lda battle_script
@@ -3982,7 +4273,8 @@ SetCarryIsBSCRIPTTeddy:
 ;   Raise/Lower : additive variable modification by flat number
 ;   Restore     : additive raise by flat number
 BINST4_EFFECT:
-    ldy #$01
+    ;jptl from battle_var5e[1]
+    ldy #1
     lda (battle_var5e), y
     jsr JSRTable
 
@@ -4660,6 +4952,7 @@ BINST4_25_CureUncon:
 
 ; This effect is really unclean, unlike all the other effects. It's basically all hard-coding.
 BINST4_29_Sing:
+.ifndef VER_JP
     ldx battle_script
     cpx #BSCRIPT_GIEGUE_FIGHTING
     beq SingFighting
@@ -4684,6 +4977,7 @@ BINST4_29_Sing:
 ; "real" sing routine that runs after Giegue shuts up.
 ; advances the counter towards Giegue's demise (it's also used to determine what he says)
 SingFighting:
+.endif
     lda #MUSIC_SING
     jsr ChangeMusic
     sec
@@ -4885,7 +5179,7 @@ PrintNoEffect:
     lda #$55                    ; no effect msg
     jmp DisplayText_battle
 
-; copies number in battle_input_num to battle_wordvar60
+;varies number in n battle_input_num by ±24%
 MOV_input_output:
     lda battle_input_num
     sta battle_wordvar60
@@ -5136,6 +5430,7 @@ ApplyResistance:
 ;   X : unsigned attacker's digit (in vanilla, WIS)
 ;   A : unsigned defender's digit (in vanilla, STR or FCE)
 StatResistingRoutine:
+
     lsr a
     sta battle_wordvar60
     stx battle_wordvar64
@@ -5220,4 +5515,4 @@ SEC_IsTargetEVE:
 :   clc
     rts
 
-; 2 bytes of freespace in vanilla
+; 2 bytes of freespace in vanilla us

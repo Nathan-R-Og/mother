@@ -5,6 +5,7 @@
 .include "../global/header.asm"
 .include "fontmap.asm"
 .include "../global/objects/include.asm"
+.include "../global/macros.asm"
 
 
 .macro binclude Path
@@ -15,21 +16,17 @@
     .endif
 .endmacro
 
-.macro incbinRange path, start, end
-        .incbin path, start, end-start
-.endmacro
-
 binclude "prg/bank0.asm"
-.include "map.asm"
+.include "../global/map.asm"
 .include "../global/objects/1.asm"
 .include "prg/bank11.asm"
 .include "prg/bank12.asm"
 
-.include "prg/bank13.asm"
+binclude "prg/bank13.asm"
 .include "prg/bank14.asm"
 .include "../global/sprites.asm"
-.include "prg/bank16.asm"
-.include "prg/bank17.asm"
+.include "../global/battle_data.asm"
+.include "../global/prg/battle.asm"
 
 binclude "text/dialogue1.asm"
 binclude "text/dialogue2.asm"
@@ -56,9 +53,9 @@ binclude "../global/starting_characters.asm"
 .include "../global/chr/bank8.asm"
 .include "../global/chr/bank9.asm"
 .include "../global/chr/banka.asm"
-.include "chr/bankb.asm"
+.include "../global/chr/bankb.asm"
 binclude "../global/prg/naming_screen.asm"
 .include "../global/chr/bankc.asm"
 .include "../global/chr/bankd.asm"
 .include "../global/chr/banke.asm"
-.include "chr/bankf.asm"
+.include "../global/chr/bankf.asm"

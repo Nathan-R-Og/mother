@@ -40,11 +40,11 @@ def do(toGet):
 
 r = []
 
-slines = open("src/us/prg/bank0.asm", "r").readlines()
-i = 730-1
-while i < len(slines) and i < 752:
+slines = open("src/us/prg/bank13.asm", "r").readlines()
+i = 1630-1
+while i < len(slines) and i < 1700:
     if slines[i].find("$") != -1:
-        val = int(slines[i].split("$")[-1].strip(), 16)
+        val = int(slines[i].split("$")[-1].split(";")[0].strip(), 16)
         s = do(val)
         format = s[0]
         if len(s) > 2:

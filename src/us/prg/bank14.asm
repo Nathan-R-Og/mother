@@ -174,7 +174,8 @@
 
 
 ; Map tile properties
-    .incbin "../../split/us/prg/bank14/unk0.bin"
+Map_TileProperties:
+    .incbin "../../split/us/map_tile_properties.bin"
 
 ;overworld palettes + map exclusive data
 ;1st and 3rd byte of last palette of each set contains map data
@@ -476,9 +477,7 @@ intro:
     ldx #(6*2)
     jsr B20_1505
     jsr B20_14d7
-
-    ;wait for input
-    jsr B20_150e
+    jsr B20_150e ;wait for input
 
     lda #0
     sta UNK_D6
@@ -486,7 +485,7 @@ intro:
     ;get offset
     ldy menucursor_pos
     lda (UNK_84), y
-    asl A
+    asl a
     tax
 
     ;stash pointer into stack
@@ -496,8 +495,8 @@ intro:
     pha
 
     tya
-    lsr A
-    lsr A
+    lsr a
+    lsr a
 
     ;jump to last in stack (from list)
     rts
@@ -622,79 +621,126 @@ B20_150e:
     lda #$ff
     jmp B31_10b0
 
-B20_1516:
+
+DoWalkingStep:
+    ;if any of these are true, exit
     lda enemy_group
     ora fade_flag
-    ora $21
+    ora is_scripted
     ora autowalk_direction
-    ora $23
-    ora $25
-    bne B20_1538
-    bit $a0
-    bmi B20_1538
-    jsr B20_15d3
-    ldx $15
+    ora is_tank
+    ora UNK_24+1
+    bne @quick_exit
+
+    ;UNK_A0 is a kind of movement direction
+    ;'if stepping' in other words
+    ;if UNK_A0.7, exit
+    bit UNK_A0
+    bmi @quick_exit
+
+    ;do onstepeffect
+    jsr OnStepEffect
+
+    ;get areaEncounterDef based on area
+    ldx UNK_15
     lda AREA_ENCOUNTER_LIST, x
-    B20_1530:
-    bne B20_1539
-    sta $24
-    B20_1534:
-    lda #$00
+
+    @B20_1530:
+    ;if has, jump
+    bne @EncounterDefExists
+    ;else, write 0
+    sta UNK_24
+    @FrequencyFail:
+    lda #0
     sta enemy_group
-    B20_1538:
+    @quick_exit:
     rts
 
-B20_1539:
+    @EncounterDefExists:
+    ;store areaEncounterDef in y
     tay
-    and #$07
-    bne B20_1548
+    ;get 'frequency'
+    and #%00000111
+    ;if frequency != 0, jump
+    bne @EncounterFrequencyExists
+    ;else, get encounter id
     tya
     lsr a
     lsr a
     lsr a
-    jsr B31_00f2
-    jmp B20_1530
 
-B20_1548:
+    ;get sram value???
+    jsr B31_00f2
+
+    jmp @B20_1530
+
+    @EncounterFrequencyExists:
     clc
-    adc $24
-    cmp #$09
-    bcc B20_1551
-    lda #$08
-    B20_1551:
+
+    ;if frequency is >= 9, cap it to 8
+    adc UNK_24
+    cmp #9
+    bcc @NoForceCap
+    lda #8
+    @NoForceCap:
+    ;move frequency to x
     tax
+
+    ;get a random value
     jsr Rand
+
+    ;get the frequency value
     cmp AREA_FREQ_TABLE-1, x
-    bcs B20_1534
-    ldx $24
+    ;if random value >= area_freq_table[x], leave
+    bcs @FrequencyFail
+    ;else, pick an enemy
+    ;;;FREQUENCY HAS PASSED
+
+    ;UNK_24++
+    ;if UNK_24 >= 3, set to 2
+    ldx UNK_24
     inx
-    cpx #$03
-    bcc B20_1563
-    ldx #$02
-    B20_1563:
-    stx $24
+    cpx #3
+    bcc @skip_x_set
+    ldx #2
+    @skip_x_set:
+    stx UNK_24
+
+    ;get areaEncounterDef.id
+    ;;;get pointer into SPAWN_SETS with id
+    ;;;id gets shifted one more time to match sizeof SPAWN
+    ;UNK_68 = (id << 4) + $9200
     tya
-    and #$f8
-    sta $68
-    lda #$00
-    asl $68
+    and #%11111000
+    sta UNK_68
+    lda #0
+    asl UNK_68
     rol a
-    adc #$92
-    sta $69
-    B20_1573:
+    adc #.HIBYTE(SPAWN_SETS)
+    sta UNK_68+1
+
+    @battle_roll:
+    ;get random value
     jsr Rand
+    ;only get top nybble
     lsr a
     lsr a
     lsr a
     lsr a
+    ;get battle id from there
     tay
-    lda ($68), y
-    beq B20_1573
+    lda (UNK_68), y
+    ;if battle id == 0, keep rerolling
+    beq @battle_roll
+    ;store in ram
     sta enemy_group
-    lda #25
-    ldx #.LOBYTE(B25_04a7-1)
-    ldy #.HIBYTE(B25_04a7-1)
+
+    ;run repel ring to ward off that battle
+    lda #$19
+    ldx #.LOBYTE(RepelRing_Effect-1)
+    ldy #.HIBYTE(RepelRing_Effect-1)
     jsr TempUpperBankswitch
+
     rts
 
     AREA_FREQ_TABLE:
@@ -703,7 +749,7 @@ B20_1548:
 
     ;area based encounter sets
     .macro areaEncounterDef frequency, id
-            .byte (id << 3) | frequency
+        .byte (id << 3) | frequency
     .endmacro
 
     AREA_ENCOUNTER_LIST:
@@ -774,50 +820,66 @@ B20_1548:
 
 ; $95D3
 ; UNKNOWN
-B20_15d3:
-    ldx #$00
-    B20_15d5:
+OnStepEffect:
+    ldx #0
+    @per_party_member:
     lda party_members, x
-    beq B20_162a
+    ;if party member empty, jump
+    beq @finish_loop
+
     jsr GetPartyMemberData
-    ldy #$01
-    lda ($60), y
+
+    ;if not party member has cold, jump
+    ldy #party_info::status
+    lda (UNK_60), y
     lsr a
-    bcc B20_15e8
-    lda #$07
-    bne B20_15ed
-    B20_15e8:
+    bcc @not_unconcious
+
+    lda #7
+    bne @is_single_frame
+    @not_unconcious:
+    ;if not party member is poisoned, jump
     lsr a
-    bcc B20_162a
-    lda #$07
-    B20_15ed:
-    sta $64
+    bcc @finish_loop
+    lda #7
+    @is_single_frame:
+    sta UNK_64
+
     clc
+
     txa
-    adc $d5
-    and $64
-    bne B20_162a
+    adc UNK_D5
+    and UNK_64
+    bne @finish_loop
+
     jsr EnablePRGRam
+
     sec
-    ldy #$14
-    lda ($60), y
-    sbc #$01
-    sta $64
+
+    ldy #party_info::curr_hp
+    lda (UNK_60), y
+
+    sbc #1
+    sta UNK_64
     iny
-    lda ($60), y
-    sbc #$00
-    sta $65
-    bcc B20_161b
-    lda $64
-    ora $65
-    beq B20_161b
-    lda $65
-    sta ($60), y
+    lda (UNK_60), y
+    sbc #0
+    sta UNK_64+1
+    bcc @B20_161b
+
+    lda UNK_64
+    ora UNK_64+1
+    beq @B20_161b
+    lda UNK_64+1
+    sta (UNK_60), y
     dey
-    lda $64
-    sta ($60), y
-    B20_161b:
+    lda UNK_64
+    sta (UNK_60), y
+
+    @B20_161b:
     jsr WriteProtectPRGRam
+
+    ;do Cold/Poison red flash
     txa
     pha
     lda #$16
@@ -825,10 +887,14 @@ B20_15d3:
     jsr RestoreAndUpdatePalette
     pla
     tax
-    B20_162a:
+
+    @finish_loop:
+
+    ;if all party members looped, exit
     inx
-    cpx #$04
-    bcc B20_15d5
+    cpx #4
+    bcc @per_party_member
+
     rts
 
 ;battle start?
@@ -842,33 +908,44 @@ B20_1630:
     jsr RestoreAndUpdatePalette
     jsr B31_1dc0
     B20_1641:
-    lda #7 ; WRITE_PPU
+    ;07 00 "WRITE_PPU"
+    lda #7
     sta nmi_queue
     lda #0
     sta nmi_queue+1
-    sta $60
+    sta UNK_60
+
     B20_164d:
-    ldx $60
+    ;get battle_circle byte
+    ldx UNK_60
     lda Battle_circle, x
+    ;if $ff, escape
     cmp #$ff
-    beq B20_1675_escape_loop
+    beq @B20_1675_escape_loop
+    ;a >>= 4
     lsr a
     lsr a
     lsr a
     lsr a
-    sta $61 ;store high nybble in $61 (could just be an and #%11110000???)
+    sta UNK_60+1 ;store high nybble in UNK_60+1 (could just be an and #%11110000???)
+
+    ;get byte again
     lda Battle_circle, x
     and #%00001111
-    sta $62 ;store low nybble in $62
+    sta UNK_62 ;store low nybble in $62
+
     jsr B20_1685
-    ldx $61
-    ldy $62
-    sty $61
-    stx $62
+
+    ldx UNK_60+1
+    ldy UNK_62
+    sty UNK_60+1
+    stx UNK_62
+
     jsr B20_1685
-    inc $60
+
+    inc UNK_60
     bne B20_164d
-    B20_1675_escape_loop:
+    @B20_1675_escape_loop:
     lda nmi_queue+1
     cmp #$00
     beq B20_1684
@@ -880,66 +957,90 @@ B20_1630:
     rts
 
 B20_1685:
-    lda #$0e
+    lda #$e
     sec
-    sbc $62
-    bcs B20_168e
-    lda #$00
-    B20_168e:
-    sta $77
+    sbc UNK_62
+    bcs @no_carry
+    lda #0
+    @no_carry:
+    sta UNK_77
+
+    ;store result
     pha
-    lda #$0f
+
+    lda #$f
     sec
-    sbc $61
-    sta $76
+    sbc UNK_60+1
+    sta UNK_76
+
     jsr B20_16b8
-    lda #$0f
+
+    lda #$f
     clc
-    adc $62
+    adc UNK_62
     cmp #$1e
-    bcc B20_16a6
+    bcc @no_carry2
     lda #$1d
-    B20_16a6:
-    sta $77
+    @no_carry2:
+    sta UNK_77
+
     jsr B20_16b8
+
     lda #$10
     clc
-    adc $61
-    sta $76
+    adc UNK_60+1
+    sta UNK_76
+
     jsr B20_16b8
+
+    ;restore result
     pla
-    sta $77
+    sta UNK_77
+
     B20_16b8:
+    ;if nmi_queue+1 < $14, jump
     lda nmi_queue+1
     cmp #$14
-    bcc B20_16cf
-    lda #$00
-    sta $e6
-    lda #$01
-    sta $e5
+    bcc @not_14
+
+    lda #0
+    sta UNK_E5+1
+    lda #1
+    sta UNK_E5
     jsr PpuSync
-    lda #$00
+
+    lda #0
     sta nmi_queue+1
-    B20_16cf:
+    @not_14:
+    ;UNK_77 and UNK_76 get sent to UNK_78 and UNK_79 respectively
     jsr CalculateNametableOffset
+
+    ;x = (nmi_queue[1] << 1) + nmi_queue[1]
     lda nmi_queue+1
     asl a
     clc
     adc nmi_queue+1
     tax
-    lda $78
+
+    ;nmi_queue[2] = UNK_78
+    lda UNK_78
     sta nmi_queue+2, x
-    lda $79
+    ;nmi_queue[3] = UNK_79
+    lda UNK_79
     sta nmi_queue+3, x
-    lda #$00
+    ; nmi_queue[4:5] = 0
+    lda #0
     sta nmi_queue+4, x
     sta nmi_queue+5, x
+
+    ;nmi_queue[1]++
     inc nmi_queue+1
     rts
 
 ; $96F1 - battle circle
+
+
 Battle_circle:
-    .byte $00
     ;ringlayer high     ;ring layer????
     ;each nybble represents a layer
     ;hhhhllll
@@ -947,7 +1048,7 @@ Battle_circle:
     ;l represents the amount of fill of that ring?
     ;but specifically a 'line' of fill. think another ring inside THAT ring
     ;therefore, every permutation must be filled for the screen to be completely covered
-    .byte $fe, $10, $fd, $ee, $11, $fb, $fc
+    .byte $00, $fe, $10, $fd, $ee, $11, $fb, $fc
     .byte $ed, $20, $21, $ec, $dd, $30, $31, $22
     .byte $f9, $fa, $eb, $dc, $40, $41, $32, $33
     .byte $f7, $f8, $e9, $ea, $db, $cc, $42, $da
@@ -963,8 +1064,7 @@ Battle_circle:
     .byte $76, $b6, $c0, $c1, $c2, $93, $c3, $b4
     .byte $85, $b5, $a6, $a7, $88, $98, $a0, $a1
     .byte $a2, $a3, $94, $95, $86, $77, $97, $b0
-    .byte $b1, $b2, $b3, $a4, $a5, $96, $87
-    .byte $ff
+    .byte $b1, $b2, $b3, $a4, $a5, $96, $87, $ff
 
 ; $9779 - TODO: Giegue battle intro?
 B20_1779:
@@ -984,7 +1084,7 @@ B20_1779:
     lda #$00
     sta $ec
     jsr LoadNamingScreen2
-    jmp B30_1674
+    jmp InitPartyObjects
 
 B20_17a3:
     lda #$0e

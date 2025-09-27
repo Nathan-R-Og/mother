@@ -23,7 +23,7 @@ SelectOpenFullStats:
     ;else, write dot
     ldy #$f0
     @write_melodies:
-    lda #$a5 ;dot tile
+    lda #dot_tile ;dot tile
     lsr temp_vars
     bcc @keep_blank
     lda #music_note ;music note tile
@@ -218,45 +218,55 @@ State_Choicer:
     .byte 10, 3 ;X/Y start
     .addr B31_10d1 ; choices
 
-B19_0123:
+Idle_DadPhonecall:
     lda #$80
-    bit $d4
-    bne B19_0167
-    ldx $d2
-    ldy $d1
-    cpx #$06
-    bcc B19_0167
+    bit UNK_D4
+    bne @exit
+    ldx frame_counter+2
+    ldy frame_counter+1
+    cpx #6
+    bcc @exit
     cpy #$90
-    bcc B19_0167
-    ora $d4
-    sta $d4
+    bcc @exit
+    ;if framecounter >= 0x069000, get a call from dad
+
+    ora UNK_D4
+    sta UNK_D4
+
+    ;play phonecall
     lda #$2f
     jsr B30_0de4
-    ldx #$7c
+
+    ldx #$3E*2 ;intro
     jsr DisplayText
-    ldx #$7e
+    ldx #$3F*2 ;reset prompt
     jsr DisplayText
-    ldx #$80
+    ldx #$40*2 ;menu continue rest
     jsr DisplayText
+
     lda #$37
-    sta $2c
+    sta UNK_2C
+
     jsr B19_0dc1
-    bit $83
-    bvs B19_0168
-    lda $82
-    beq B19_0168
+
+    bit menucursor_pos+1
+    bvs @decline
+    lda menucursor_pos
+    beq @decline
     jsr Game_Begin
-    ldx #$86
+
+    ldx #$43*2 ;saved, resetting
     jsr DisplayText
     jmp OINST_Reset
-B19_0167:
+    @exit:
     rts
 
-B19_0168:
-    ldx #$82
+    @decline:
+    ldx #$41*2 ;say no
     jsr DisplayText
-    ldx #$84
+    ldx #$42*2 ;good luck
     jsr DisplayText
+
     jsr OINST_END
     jmp CLEAR_TEXTBOXES_ROUTINE
 
@@ -412,17 +422,17 @@ B19_026a:
     lda $29
     cmp #$03
     beq B19_0281
-    lda #$a2
-    ldx #$a2
+    lda #.LOBYTE(ItemUse_WhateverThisIS)
+    ldx #.HIBYTE(ItemUse_WhateverThisIS)
     bne B19_0285
     B19_0281:
-    lda #$d1
-    ldx #$f0
+    lda #.LOBYTE(B31_10d1)
+    ldx #.HIBYTE(B31_10d1)
     B19_0285:
     sta $84
     stx $85
-    lda #$9a
-    ldx #$a2
+    lda #.LOBYTE(ItemUse_Choicer)
+    ldx #.HIBYTE(ItemUse_Choicer)
     sta UNK_80
     stx UNK_80+1
     jsr B31_0f3f
@@ -436,9 +446,9 @@ ItemUse_Choicer:
     .byte PAD_A | PAD_B ; Input mask
     .byte $3a ; Tile
     .byte 24, 7 ;X/Y start
-    .addr 0 ; choices
 
-    .byte $03,$04,$00
+ItemUse_WhateverThisIS:
+    .byte 0,0,3,4,0
 
 B19_02a7:
     lda #$ff
@@ -552,7 +562,7 @@ SELECTION_GIVE:
     ldx #$52
     jmp DisplayTextAndFinishRoutine
 
-; used by bread crumbs only in vania
+; used by bread crumbs only in vanilla
 @CantGiveItem:
     ldx #$26
     jmp DisplayTextAndFinishRoutine
@@ -964,12 +974,13 @@ OA26_TELEPORT:
 TeleportParser:
     lda event_flags+31
     and #$02
-    beq :+
+    beq @exit
     pla
     pla
     ldx #$12
     jmp DisplayText
-:   rts
+    @exit:
+    rts
 
 ; Parameter: A = Recovery value
 OA_TryLifeup:
@@ -1229,12 +1240,14 @@ OA_HOOK:
     jmp OA_NothingHappened
 ; @OnyxHookEffect
 :   jsr EnablePRGRam
+    ;copy onyx_hook_warpdata to sram
     ldx #3
-@LoopStart:
+    @copy_loop:
     lda onyx_hook_warpdata,X
     sta xpos_music,X
     dex
-    bpl @LoopStart
+    bpl @copy_loop
+
     jsr B30_19fa
     jsr REMOVE_EVE_FROM_PARTY
     lda #2
@@ -1279,50 +1292,60 @@ OpenMapWithButton:
     ;fallthrough
 
 OpenMapEffect:
-    lda $14
-    cmp #$01
-    beq :+
+    lda UNK_14
+    cmp #1
+    beq @OpenMapSuccess
     cmp #$02
-    beq :+
-; @OpenMapFail
+    beq @OpenMapSuccess
+    ; @OpenMapFail
     ldx #$7a
     jmp DisplayTextAndFinishRoutine
-; @OpenMapSuccess
-:   jsr OINST_END
+    @OpenMapSuccess:
+    jsr OINST_END
     jsr OT0_DefaultTransition
     jsr B31_1d5e
-    ldx #$00
-    ldy #$08
+
+    ldx #0
+    ldy #8
     jsr SetScroll
+
     lda #$06
     ora ram_PPUMASK
     sta ram_PPUMASK
+
     lda #$5b
-    ldx #$02
+    ldx #BANK::CHR1000
     jsr BANK_SWAP
+
     jsr B30_0e6d
 
     BankswitchCHR_Address map_chr_bankswitch_data
 
+    ;load tile index
     lda #$df
-    sta $0201
+    sta shadow_oam+1
+    ;load attr
     lda #$00
-    sta $0202
+    sta shadow_oam+2
+
+    ;load x pos
     ldx #$40
     lda object_memory+object_m_xpos+1
     jsr B19_08d4
     sbc #$08
-    sta $0203
+    sta shadow_oam+3
+
+    ;load y pos
     ldx #$80
     lda object_memory+object_m_ypos+1
     jsr B19_08d4
     sbc #$21
-    sta $0200
+    sta shadow_oam
 
     LoadPalette_Address map_palettes_data
 
-    lda #$00
-    sta $da
+    lda #0
+    sta pad1_forced
     B19_0899:
     ldx #$08
     jsr WaitXFrames_Min1
@@ -1354,8 +1377,8 @@ B19_08d4:
     bpl @B19_08e2
     tay
     txa
-    ora $0202
-    sta $0202
+    ora shadow_oam+2
+    sta shadow_oam+2
     tya
     sbc #$07
     @B19_08e2:
@@ -1607,80 +1630,80 @@ PlayerUsableBitfieldLUT:
 
 ReadOverworldMessageLUT:
     lda OverworldMessageLUT, x
-    sta $74
+    sta UNK_74
     lda OverworldMessageLUT+1, x
-    sta $73
+    sta UNK_73
     rts
 
 OverworldMessageLUT:
-    .word $0000 ; 01
-    .word $0385 ; 02 - Talking to nothing
-    .word $0386 ; 03 - Talking to party members
-    .word $0387 ; 04 - Checking nothing
-    .word $0000 ; 05
-    .word $03d7 ; 06 - "@Don't carry so much cash with you."
-    .word $03db ; 07 - No party members to use GIVE command
-    .word $06c7 ; 08 - Tried PSI msg
-    .word $06c8 ; 09 - Not enough Power for PSI msg
-    .word $06d0 ; 0A - Teleport / Warp Fail when EVE is active
-    .word $06c9 ; 0B - Revive success msg
-    .word $038e ; 0C - Use item msg
-    .word $038f ; 0D - Cannot use item msg (user bit not set)
-    .word $0390 ; 0E - Cannot eat msg
-    .word $0391 ; 0F - Equipped item msg
-    .word $0392 ; 10 - Cannot equip item msg
-    .word $0393 ; 11 - Throw away item msg
-    .word $0394 ; 12 - Cannot throw away item msg (key items)
-    .word $0395 ; 13 - Give success msg (A handed item to B)
-    .word $0396 ; 14 - Cannot give msg
-    .word $0397 ; 15 - Give target's inv is full msg
-    .word $0398 ; 16 - Nothing happened
-    .word $06af ; 17 - Eat item msg
-    .word $06b0 ; 18 - Drink item msg
-    .word $06b1 ; 19 - Recovered by [Num] (used for HP, PP items)
-    .word $06b2 ; 1A - Increased by [Num] (stat booster items)
-    .word $06b3 ; 1C - [Name]'s HP
-    .word $06b4 ; 1D - [Name]'s PP
-    .word $06b5 ; 1E - [Name]'s Fight       ; infamously, the EBB translation calls it "Energy" only here, for some heretical reason
-    .word $06b6 ; 1F - [Name]'s Speed
-    .word $06b7 ; 20 - [Name]'s Wisdom
-    .word $06b8 ; 21 - [Name]'s Strength
-    .word $06b9 ; 22 - [Name]'s Force
-    .word $06ba ; 23 - Use Big Bag msg
-    .word $06bb ; 24 - Use Bread msg
-    .word $06bc ; 25 - Bread use fail msg
-    .word $06bd ; 26 - Use Crumbs msg
-    .word $06be ; 27 - Use Ribbon msg
-    .word $06a7 ; 28 - Give item to dead target msg
-    .word $06a8 ; 29 - Take item from dead target msg
-    .word $06a5 ; 2A - Give item to self
-    .word $06aa ; 2B - Take item from dead target and give to another dead target
-    .word $06a9 ; 2C - Throw out dead target's item
-    .word $06c1 ; 2D - Big Bag deadge msg
-    .word $06a6 ; 2E - Give item to target msg
-    .word $06c3 ; 2F - Poison cure msg
-    .word $06c4 ; 30 - Cold cure msg
-    .word $06c5 ; 31 - Use PSI Stone msg
-    .word $06c6 ; 32 - PSI Stone break msg
-    .word $06bf ; 33 - Final Weapon msg
-    .word $06c0 ; 34 - Ruler msg
-    .word $0399 ; 35 - Open box msg
-    .word $039a ; 36 - There was item
-    .word $039b ; 37 - You got item
-    .word $06cb ; 38 - Petrify cure msg
-    .word $039d ; 39 - Can't take item from box (inv full) msg
-    .word $06cc ; 3A - Ocarina use msg
-    .word $06cd ; 3B - Ocarina used msg (Did you hear it?)
-    .word $06ca ;
-    .word $03a1 ;
-    .word $06cf ;
-    .word $06ce ;
-    .word $0014 ;
-    .word $0016 ;
-    .word $0338 ;
-    .word $0018 ;
-    .word $0021 ;
-    .word $001b ;
+    .word $0000 ; 00
+    .word UMSG::TALK_NOONE ; 01 - Talking to nothing
+    .word UMSG::TALK_PARTY ; 02 - Talking to party members
+    .word UMSG::CHECK_NOTHING ; 03 - Checking nothing
+    .word $0000 ; 04
+    .word $03d7 ; 05 - "@Don't carry so much cash with you."
+    .word $03db ; 06 - No party members to use GIVE command
+    .word $06c7 ; 07 - Tried PSI msg
+    .word $06c8 ; 08 - Not enough Power for PSI msg
+    .word $06d0 ; 09 - Teleport / Warp Fail when EVE is active
+    .word $06c9 ; 0A - Revive success msg
+    .word UMSG::USE_ITEM ; 0B - Use item msg
+    .word UMSG::CANT_USE_ITEM ; 0C - Cannot use item msg (user bit not set)
+    .word UMSG::CANT_EAT ; 0D - Cannot eat msg
+    .word UMSG::EQUIPPED_ITEM ; 0E - Equipped item msg
+    .word UMSG::CANT_EQUIP_ITEM ; 0F - Cannot equip item msg
+    .word UMSG::TOSS_ITEM ; 10 - Throw away item msg
+    .word UMSG::CANT_TOSS_ITEM ; 11 - Cannot throw away item msg (key items)
+    .word UMSG::GIVE_ITEM ; 12 - Give success msg (A handed item to B)
+    .word UMSG::CANT_GIVE ; 13 - Cannot give msg
+    .word UMSG::CANT_GIVE_FULL ; 14 - Give target's inv is full msg
+    .word UMSG::NOTHING_HAPPENED ; 15 - Nothing happened
+    .word $06af ; 16 - Eat item msg
+    .word $06b0 ; 17 - Drink item msg
+    .word $06b1 ; 18 - Recovered by [Num] (used for HP, PP items)
+    .word $06b2 ; 19 - Increased by [Num] (stat booster items)
+    .word $06b3 ; 1A - [Name]'s HP
+    .word $06b4 ; 1B - [Name]'s PP
+    .word $06b5 ; 1C - [Name]'s Fight       ; infamously, the EBB translation calls it "Energy" only here, for some heretical reason
+    .word $06b6 ; 1D - [Name]'s Speed
+    .word $06b7 ; 1E - [Name]'s Wisdom
+    .word $06b8 ; 1F - [Name]'s Strength
+    .word $06b9 ; 20 - [Name]'s Force
+    .word $06ba ; 21 - Use Big Bag msg
+    .word $06bb ; 22 - Use Bread msg
+    .word $06bc ; 23 - Bread use fail msg
+    .word $06bd ; 24 - Use Crumbs msg
+    .word $06be ; 25 - Use Ribbon msg
+    .word $06a7 ; 26 - Give item to dead target msg
+    .word $06a8 ; 27 - Take item from dead target msg
+    .word $06a5 ; 28 - Give item to self
+    .word $06aa ; 29 - Take item from dead target and give to another dead target
+    .word $06a9 ; 2A - Throw out dead target's item
+    .word $06c1 ; 2B - Big Bag deadge msg
+    .word $06a6 ; 2C - Give item to target msg
+    .word $06c3 ; 2D - Poison cure msg
+    .word $06c4 ; 2E - Cold cure msg
+    .word $06c5 ; 2F - Use PSI Stone msg
+    .word $06c6 ; 30 - PSI Stone break msg
+    .word $06bf ; 31 - Final Weapon msg
+    .word $06c0 ; 32 - Ruler msg
+    .word UMSG::OPEN_PRESENT ; 33 - Open box msg
+    .word UMSG::PRESENT_ITEM ; 34 - There was item
+    .word UMSG::GET_ITEM ; 35 - You got item
+    .word $06cb ; 36 - Petrify cure msg
+    .word UMSG::INVENTORY_FULL ; 37 - Can't take item from box (inv full) msg
+    .word $06cc ; 38 - Ocarina use msg
+    .word $06cd ; 39 - Ocarina used msg (Did you hear it?)
+    .word $06ca ; 3A
+    .word UMSG::PRESENT_EMPTY ; 3B
+    .word $06cf ; 3C
+    .word $06ce ; 3D
+    .word UMSG::PHONE_INTRO ; 3E
+    .word UMSG::PHONE_RESETPROMPT ; 3F
+    .word UMSG::MENU_CONTINUE_REST ; 40
+    .word UMSG::PHONE_SAVE_NO ; 41
+    .word UMSG::PHONE_GOODLUCK ; 42
+    .word UMSG::PHONE_SAVED_RESETPROMPT ; 43
 
 B19_0b0f:
     jsr GetObjectDataAndBank
@@ -2739,9 +2762,9 @@ B19_116C:
     .byte $04,$01,$01,$00,$cc,$01
 
 B19_1172:
-  lda #$21
-  sta $2C
-  sty $35
+    lda #$21
+    sta $2C
+    sty $35
 
 ;???
 B19_1178:
@@ -2978,8 +3001,8 @@ B19_12c3:
     rts
 
 B19_12d8:
-    stx object_memory+object_m_sprite2
-    sty object_memory+object_m_sprite2+1
+    stx object_memory+object_m_sprite_base
+    sty object_memory+object_m_sprite_base+1
 B19_12de:
     sta object_memory
     asl a
@@ -3080,9 +3103,9 @@ B19_138b:
     asl a
     tax
     lda #$28
-    sta object_memory+object_m_sprite2, y
+    sta object_memory+object_m_sprite_base, y
     lda #$8a
-    sta object_memory+object_m_sprite2+1, y
+    sta object_memory+object_m_sprite_base+1, y
     lda Object_Configs+2, x
     sta object_memory+object_m_oam, y
     lda Object_Configs+3, x
@@ -3111,7 +3134,7 @@ OINST_DismountVehicle:
     pha
     lda $31
     pha
-    jsr B30_1674
+    jsr InitPartyObjects
     pla
     sta $31
     pla
@@ -3759,7 +3782,7 @@ Who_Choicer:
     .byte PAD_A | PAD_B ; Input mask
     .byte $3A ; Tile
     .byte 2, 21 ;X/Y start
-    .addr $6704 ; choices
+    .addr something+4 ; choices
 
 B19_17b6:
     jsr B30_03b2
@@ -3843,8 +3866,8 @@ B19_1814:
     sta $70
     ldx #$0f
     stx $76
-    lda #$6f
-    ldx #$b8
+    lda #.LOBYTE(B19_186f)
+    ldx #.HIBYTE(B19_186f)
     jsr B19_0c44
     B19_1853:
     ldy $77
@@ -3852,8 +3875,8 @@ B19_1814:
     iny
     cpy #$0b
     bcc B19_1829
-    lda #$77
-    ldx #$b8
+    lda #.LOBYTE(B19_1877)
+    ldx #.HIBYTE(B19_1877)
     sta UNK_80
     stx UNK_80+1
     jsr B31_0f3f
@@ -3866,12 +3889,13 @@ B19_1814:
 
 B19_186f:
     .byte $a4,$23,$2a,$00,$02,$04,$ba,$00
+B19_1877:
     .byte $01,$04,$00,$02,$c0,$3a,$02,$03
 
 B19_187f:
     jsr B30_03b2
-    lda #$d8
-    ldx #$b8
+    lda #.LOBYTE(B19_18d8)
+    ldx #.HIBYTE(B19_18d8)
     jsr B19_0c44
     ldx #$f8
     B19_188b:
@@ -4069,8 +4093,8 @@ B19_19dc:
 
 B19_19e4:
     jsr B30_03ce
-    lda #$b6
-    ldx #$ba
+    lda #.LOBYTE(B19_1ab6)
+    ldx #.HIBYTE(B19_1ab6)
     jsr B19_0c44
     jsr B30_06d2
     ldx #$00
@@ -4184,18 +4208,8 @@ B19_1ab6:
     .byte $20,$08,$09
 
 B19_1ab9:
-    .byte $c1,$c2,$c3,$c4,$c5,$c6,$c7,$a0
-    .byte $c8,$c9,$ca,$cb,$cc,$cd,$ce,$a0
-    .byte $c0
-
-B19_1aca:
-    .byte $c2,$e1,$e3,$eb,$01,$cf,$d0,$d1
-    .byte $d2,$d3,$d4,$d5,$a0,$d6,$d7,$d8
-    .byte $d9
-
-B19_1adb:
-    .byte $da,$ae,$a7,$a0,$c0,$c5,$ee,$e4
-    .byte $a0,$00
+    .byte "ABCDEFG HIJKLMN *Back",newLine
+    .byte "OPQRSTU VWXYZ.' *End ",stopText
 
 B19_1ae5:
     .byte $20,$09,$05,$21,$20,$74,$20,$08
@@ -4518,15 +4532,20 @@ B19_1ce8:
 
 ; Run do screen transition
 OverworldTransitionIntepreter:
+    ;x = fade_type << 1
     lda fade_type
     asl a
     tax
+
     lda #0
     sta fade_type
+
+    ;jump to OverworldTransitionLUT[fade_type]
     lda OverworldTransitionLUT+1, x
     pha
     lda OverworldTransitionLUT, x
     pha
+
     rts
 
 ; Screen transition JSR table

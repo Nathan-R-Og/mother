@@ -573,7 +573,7 @@ splits:
     - bank: 0x14
       end: 0x1f9f
       splits:
-      - [0]
+      - [0, map_tile_properties]
       - [0x1000, map_palettes]
       - [0x1200, spawn_sets]
       - [0x1400]
@@ -1031,10 +1031,10 @@ splits:
       splits:
       - [0, map_gfx]
       - [0xc00, map_tiles]
-      - [0xfc0, map_something]
+      - [0xfc0, map_attr]
       - [0x1000, drain_gfx]
       - [0x1400, drain_tiles]
-      - [0x1800]
+      - [0x1800, naming_screen_2]
     - bank: 0xC
       splits:
       - [0, chr/c/global1]
@@ -1077,8 +1077,10 @@ splits:
       - [0x1900, chr/e/us]
       - [0x1980, chr/e/global2]
     - bank: 0xF
-      #splits:
-      #- [0]
+      splits:
+      - [0, extra_gfx]
+      - [0x800, jp_naming_leftover]
+      - [0x1000, ui_gfx]
     - bank: 0x10
       end: 0x1fa6
       splits:
@@ -1120,12 +1122,15 @@ splits:
       splits:
       - [0, dialogue10]
     - bank: 0x1a
-      #splits:
-      #- [0]
+      splits:
+      - [0, credits_characters1]
+      - [0x800, credits_characters2]
+      - [0x1000, credits_characters3]
+      - [0x1800, credits_dad]
     - bank: 0x1b
       end: 0x800
-      #splits:
-      #- [0]
+      splits:
+      - [0, earth_bound_gfx]
     #bank 1c-1f are padding
     - bank: 0x1c
     - bank: 0x1d

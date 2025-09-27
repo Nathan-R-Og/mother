@@ -5,29 +5,16 @@
 ; DPCM samples
 ;kick
 sample_kick:
-    .incbin "split/us/sample/kick.bin"
+    .incbin "split/global/sample/kick.bin"
 B30_0071:
     .byte $6a, $d5, $44, $44, $ad, $44, $44, $44
     .byte $54, $44, $95, $44, $52, $00, $00
 ;snare
 sample_snare:
-    .incbin "split/us/sample/snare.bin"
+    .incbin "split/global/sample/snare.bin"
 B30_0171:
-    .byte $42
-    .byte $34
-    .byte $26, $54
-    .byte $44
-    .byte $44
-    .byte $04
-    .byte $44
-    .byte $00
-    .byte $4a
-    .byte $44
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
-    .byte $00
+    .byte $42, $34, $26, $54, $44, $44, $04, $44
+    .byte $00, $4a, $44, $00, $00, $00, $00, $00
 
 C1NybbleTables:
 B30_0181:
@@ -214,7 +201,7 @@ B30_026c:
     sta UNK_74
     stx UNK_74+1
 B30_0274:
-    jsr B30_0542
+    jsr SetupPartyUi
 
     jsr PpuSync
 
@@ -409,18 +396,18 @@ party_menu_3char:
 
 B30_037a:
     .byte uibox_l, " "
-    .byte print_number $0038, 0, 7
-    .byte print_number $0010, 1, 3
-    .byte print_number $0014, 2, 4
-    .byte print_number $0016, 2, 4
-    .byte print_number $0011, 3, 8
+    .byte print_number party_info::name, 0, 7
+    .byte print_number party_info::level, 1, 3
+    .byte print_number party_info::curr_hp, 2, 4
+    .byte print_number party_info::curr_pp, 2, 4
+    .byte print_number party_info::exp, 3, 8
     .byte " ", uibox_r
     .byte stopText
 
 B30_0398:
-    .byte $01, $04, $a0, $a0, $21
+    .byte newLine, $04, "  ", $21
 B30_039d:
-    .byte $a0, $a1, $00
+    .byte " !", $00
 
 ; TODO: Open dialogue window
 B30_03a0:
@@ -461,7 +448,7 @@ B30_03ce:
     jmp B30_03a4
 
 B30_03d5:
-    jsr B30_0542
+    jsr SetupPartyUi
     lda #.LOBYTE(window_unk)
     ldx #.HIBYTE(window_unk)
     jmp B30_03a4
@@ -476,21 +463,29 @@ B30_03e6:
     ldx #.HIBYTE(cash_box_middle)
     jmp B30_03a4
 
+.ifndef VER_JP
 Draw_SetupMenu:
     lda #.LOBYTE(setup_menu)
     ldx #.HIBYTE(setup_menu)
     jmp B30_03a4
+.endif
 
 ; runs when overworld menus are being wiped
 CLEAR_TEXTBOXES_ROUTINE:
     php
+
     jsr STORE_COORDINATES
     jsr B31_1dc0
-    lda #$01
-    sta $e5
-    lda #$00
+
+    ;UNK_E5 = 1
+    lda #1
+    sta UNK_E5
+
+    lda #0
     sta disable_dmc
+
     plp
+
     rts
 
 B30_0406:
@@ -527,7 +522,7 @@ B30_0408:
     bpl B30_040f
     jsr WriteProtectPRGRam
     B30_043f:
-    jsr B30_0542
+    jsr SetupPartyUi
     lda $f6
     pha
     jsr BankswitchLower_Bank00
@@ -678,42 +673,65 @@ B30_0531:
     sta $79
     jmp B30_04e5
 
-B30_0542:
+;takes input tile data and replaces with relevant pointers
+SetupPartyUi:
     jsr EnablePRGRam
+
     ldx #$10
-    ldy #$00
+    ldy #0
     sty pc_count
-    B30_054c:
+    @loop:
+    ;if character[y] is invalid, jump
     jsr GetYCharacter
-    bcs B30_05b0
+    bcs @goto_next_character
+    ;else,
+
+    ;pc_count++
     inc pc_count
+
+    ;unk_60 = partymemberdata
     jsr GetPartyMemberData
+
+    ;store party index
     tya
     pha
-    ldy #$00
-    B30_055b:
-    jsr B30_0637
+
+    ;make a copy of B30_037a with this party members' stats
+    ;stop before the last print_number
+    ldy #0
+    @B30_055b:
+    jsr ReplaceB30_037a
     cpy #$14
-    bne B30_055b
+    bne @B30_055b
+
+    ;store THAT y
     tya
     pha
-    ldy #$01
-    lda ($60), y
-    ldy #$0e
-    B30_056a:
+
+    ;get current members' status
+    ldy #party_info::status
+    lda (UNK_60), y
+
+    ;iterate over status bits
+    ;if any of them are valid, replace the exp panel with that
+    ldy #7*2
+    @B30_056a:
+    ;if status has UNCON, dont jump
+    ;else, jump
     asl a
-    bcc B30_0592
+    bcc @B30_0592
+
     pla
     tya
     pha
     ldy #$00
-    B30_0572:
+    @B30_0572:
     lda B30_0398, y
     sta something, x
     inx
     iny
     cpy #$05
-    bne B30_0572
+    bne @B30_0572
     pla
     tay
     lda battle_status_string_lut, y
@@ -723,75 +741,110 @@ B30_0542:
     sta something, x
     inx
     ldy #$1b
-    bne B30_059b
-    B30_0592:
+    bne @finish_writing
+
+    @B30_0592:
+    ;isnt uncon
+    ;y-=2
     dey
     dey
-    bpl B30_056a
+    ;if y < 0, break
+    bpl @B30_056a
+
+    ;by this point, nothing has been written to the exp panel
+    ;so just write exp like normal :D
+    ;pull last b30_037a y
     pla
     tay
-    jsr B30_0637
-    B30_059b:
+    jsr ReplaceB30_037a
+
+    ;while B30_037a isnt finished, keep writing
+    @finish_writing:
     lda B30_037a, y
     sta something, x
     inx
     iny
     cpy #$1e
-    bne B30_059b
+    bne @finish_writing
+
+    ;pull party index
     pla
     tay
+
+    ;if pc_count (partycharacter_count) >= 3, jump
     lda pc_count
-    cmp #$03
-    bcs B30_05b5
-    B30_05b0:
+    cmp #3
+    bcs @goto_end
+    @goto_next_character:
     iny
-    cpy #$04
-    bcc B30_054c
-    B30_05b5:
-    lda #$00
+    ;if y < 4, go back to start
+    cpy #4
+    bcc @loop
+
+    @goto_end:
+    lda #0
     sta something+4
     sta something+5
     sta something+6
+
+    ;x = missing characters
     sec
-    lda #$03
+    lda #3
     sbc pc_count
     tax
-    ldy #$00
-    B30_05c9:
+
+    ldy #0
+    @mini_loop:
+    ;if character[y] is invalid, jump
     jsr GetYCharacter
-    bcs B30_05d6
+    bcs @is_invalid
+    ;else, write character index
     sta something+4, x
     inx
-    cpx #$03
-    bcs B30_05db
-    B30_05d6:
+    ;if x >= 3, break
+    cpx #3
+    bcs @break
+    @is_invalid:
     iny
-    cpy #$04
-    bcc B30_05c9
-    B30_05db:
+    cpy #4
+    bcc @mini_loop
+    @break:
+    ;x = pc_count << 1
+    ;this gets the amount of characters to display from party_menu_layouts
     lda pc_count
     asl a
     tax
-    lda #$04
+
+    ;write 4
+    lda #4
     sta something
     sta something+$a
-    cpx #$04
-    bcs B30_05ee
-    lda #$00
-    B30_05ee:
+
+    ;if x >= 4, dont write 0
+    cpx #4
+    bcs @skip_zero
+    lda #0
+    @skip_zero:
     sta something+$d
+
+    ;write party_menu_layouts[x]
     lda party_menu_layouts, x
     sta something+1
     lda party_menu_layouts+1, x
     sta something+2
+
+    ;steal party lead name pointer
     lda something+$13
     sta something+$b
     lda something+$14
     sta something+$c
+
+    ;write B30_039d as a pointer
     lda #.LOBYTE(B30_039d)
     sta something+$e
     lda #.HIBYTE(B30_039d)
     sta something+$f
+
     jmp WriteProtectPRGRam
 
 party_menu_layouts:
@@ -820,30 +873,25 @@ GetYCharacter:
     @is_zero:
     rts
 
-B30_0637:
-    lda B30_037a , y
-    sta something, x
-    inx
-    iny
+ReplaceB30_037a:
+    ;draw 3 bytes of B30_037a
+    .repeat 3
     lda B30_037a, y
     sta something, x
     inx
     iny
-    lda B30_037a, y
-    sta something, x
-    inx
-    iny
+    .endrepeat
     clc
+
+    ;surgically replace the number that was going to be printed
+    .repeat 2, i
     lda B30_037a, y
-    adc $60
+    adc UNK_60+i
     sta something, x
     inx
     iny
-    lda B30_037a, y
-    adc $61
-    sta something, x
-    inx
-    iny
+    .endrepeat
+
     rts
 
 ; $C665
@@ -1734,14 +1782,14 @@ PostInit:
     jsr WriteProtectPRGRam
 
     lda #$c0
-    sta $07ef
+    sta unk_7ef
 
     ;run the intro
     jsr BankswitchLower_Bank20
     jsr intro
 
     lda #0
-    sta $07ef
+    sta unk_7ef
 
     ;fade out
     B30_0b57:
@@ -1749,8 +1797,8 @@ PostInit:
     jsr OverworldTransitionIntepreter
 
     B30_0b5d:
-    jsr B30_0542
-    jsr B30_0efc
+    jsr SetupPartyUi
+    jsr GetScreenMapData
 
     lda #0
     sta UNK_24
@@ -1829,36 +1877,41 @@ PostInit:
     tya
     and #PAD_A | PAD_B | PAD_SELECT | PAD_START
     ;if PAD_A, jump
-    bmi B30_0be2
+    bmi OpenCommands
     ;if anything, jump
-    bne B30_0bcd
+    bne DoButtonRemapCheck
 
-    jsr B19_0123
+    ;check for the idle phonecall
+    jsr Idle_DadPhonecall
 
-    jmp B30_0be5
+    jmp DoNormalFrame
 
-B30_0bcd:
+;DoButtonRemapCheck
+DoButtonRemapCheck:
     jsr GetButtonMode
     and #%10100000
     ;if 0 (B pressed), jump
-    beq B30_0be5
+    beq DoNormalFrame
     ;if high bit set (Select Pressed), jump
-    bmi B30_0bdc
+    bmi @OpenState
     ;else, open map (thats the only other button you coulda pressed!)
     jsr OpenMapWithButton
 
-    jmp B30_0be5
+    jmp DoNormalFrame
 
-B30_0bdc:
+    @OpenState:
     jsr OM_OPEN_FULLSTATS
-    jmp B30_0be5
+    jmp DoNormalFrame
 
-B30_0be2:
+OpenCommands:
     jsr B19_0178
-    B30_0be5:
+    DoNormalFrame:
+
     jsr BankswitchLower_Bank20
-    jsr B20_1516
-    B30_0beb:
+    jsr DoWalkingStep
+
+;step random
+B30_0beb:
     lda enemy_group
     beq B30_0c17
     cmp #$a2
@@ -1999,17 +2052,22 @@ B30_0cb1:
 B30_0cd8:
     lda current_music
     pha
+
     lda #$ff
-    sta $0f
+    sta UNK_f
+
     jsr PlayMusic
     jsr CLEAR_TEXTBOXES_ROUTINE
-    lda #$01
-    sta $07f4
+
+    lda #1
+    sta soundqueue_pulseg1
+
     jsr B30_0d9d
-    ldx #$05
+
+    ldx #5
     B30_0cf0:
     jsr B30_0d8b
-    lda $a0
+    lda UNK_A0
     bmi B30_0cb1
     lda pad1_hold
     and #$0f
@@ -2064,8 +2122,8 @@ B30_0cd8:
     jsr REMOVE_NPCS_FROM_PARTY
     ldx #20
     jsr WaitXFrames_Min1
-    jsr B30_0542
-    jsr B30_0efc
+    jsr SetupPartyUi
+    jsr GetScreenMapData
     jsr B31_1d5e
     jsr STORE_COORDINATES
     jsr B30_0d9d
@@ -2129,15 +2187,15 @@ B30_0de4:
     tax
     pla
     jsr PlayMusic
-    lda #$00
+    lda #0
     sta pad1_forced
-    B30_0df1:
+    @B30_0df1:
     bit pad1_forced
-    bvs B30_0dfa
+    bvs @B30_0dfa
     lda current_music
-    bne B30_0df1
-    B30_0dfa:
-    lda #$00
+    bne @B30_0df1
+    @B30_0dfa:
+    lda #0
     sta pad1_forced
     txa
     jmp PlayMusic
@@ -2221,9 +2279,8 @@ B30_0e08:
     sta nmi_queue+2
 
     ;x--
-    dex
-
     ;if x > 0, loop
+    dex
     bne @loop
     ;else, finish
 
@@ -2335,55 +2392,57 @@ BankswitchCHRFromTable:
     bpl @loop
     rts
 
-B30_0efc:
-    jsr B30_1674
+GetScreenMapData:
+    jsr InitPartyObjects
 
-    ;swap to bank $14
+    ;swap to bank $14 for map palettes
     lda #$14
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 
-    ;[$89] = 0
+    ;[UNK_88+1] = 0
     lda #0
-    sta $89
+    sta UNK_88+1
 
-    ;[$14] <<= 4
-    ;[$89] <<= 2
-    ;move lost bits into $89
-    lda $14
+    ;[UNK_14] <<= 4
+    ;[UNK_88+1] <<= 2
+    ;move lost bits into UNK_88+1
+    lda UNK_14
     asl a
     asl a
     asl a
-    rol $89
+    rol UNK_88+1
     asl a
-    rol $89
+    rol UNK_88+1
 
-    ;[$88] += Map_Palettes
+    ;basically, UNK_88 = UNK_14 * 0x10
+
+    ;[UNK_88] += Map_Palettes
     adc #.LOBYTE(Map_Palettes)
-    sta $88
-    lda $89
+    sta UNK_88
+    lda UNK_88+1
     adc #.HIBYTE(Map_Palettes)
-    sta $89
+    sta UNK_88+1
 
+    ;wait for ppu so this doesnt go crazy
     jsr PpuSync
 
     ldy #$f
     @add_palette_to_queue:
-    lda ($88), y
+    lda (UNK_88), y
     bpl @is_positive
     ;fix???
     ;this caps it to $40 (which is correct)
     ;but returns an address from sram???? okay
+    ;this doesnt even work half the time...
+    ;youd think this would be for map metadata,,, guess not
     jsr B31_00f2
     @is_positive:
-
     ;put byte into palette queue (relative)
     sta palette_queue, y
-
     ;y--, loop if y > 0
     dey
     bpl @add_palette_to_queue
-
 
     ;standard copy the sprite palette
     ldy #$f
@@ -2393,8 +2452,9 @@ B30_0efc:
     dey
     bpl @copy_sprite_palette
 
-    ;[$17] <- bg_palette[3][0]
-    ;[$16] <- bg_palette[3][2]
+    ;[UNK_17] <- bg_palette[3][0]
+    ;[UNK_16] <- bg_palette[3][2]
+    ;store map metadata
     ldx palette_queue+$c
     ldy palette_queue+$e
     stx UNK_17
@@ -2402,47 +2462,67 @@ B30_0efc:
 
     ;bg_palette[3][0] <- $f
     ;bg_palette[3][2] <- $30
+    ;replace map metadata
     ldx #$f
     ldy #$30
     stx palette_queue+$c
     sty palette_queue+$e
 
-    jsr SwapSpritePatternTable
-    lda player_y
-    and #$c0
-    sta $ac
-    lda player_y+1
-    sta $ad
-    lda #$40
-    sta $ae
-    lda #$00
-    sta $af
-    lda #$10
-    sta $9b
-    B30_0f68:
-    sec
-    lda player_x
-    and #$c0
-    sbc #$40
-    sta $aa
-    lda player_x+1
-    sbc #$00
-    sta $ab
-    lda #$13
-    sta $a8
-    jsr B30_111d
-    dec $9b
-    beq B30_0f92
-    clc
-    lda $ac
-    adc #$40
-    sta $ac
-    lda $ad
-    adc #$00
-    sta $ad
-    jmp B30_0f68
+    ;setup chr from map
+    jsr SwapPatternTables
 
-B30_0f92:
+    ;UNK_AC = player_y & 0xFFC0
+    ;basically, UNK_AC is just player_y without music
+    lda player_y
+    and #%11000000
+    sta UNK_AC
+    lda player_y+1
+    sta UNK_AC+1
+
+    ;UNK_AE = $40
+    lda #$40
+    sta UNK_AE
+    lda #0
+    sta UNK_AE+1
+
+    ;UNK_9B = $10
+    lda #$10
+    sta UNK_9B
+    @loop:
+    sec
+
+    ;UNK_AA = (player_x & 0xFFC0) - $40
+    lda player_x
+    and #%11000000
+    sbc #$40
+    sta UNK_AA
+    lda player_x+1
+    sbc #0
+    sta UNK_AA+1
+
+    ;UNK_A8 = $13
+    lda #$13
+    sta UNK_A8
+
+    ;draw tiles
+    jsr B30_111d
+
+    dec UNK_9B
+    beq @B30_0f92
+
+    clc
+
+    ;UNK_AC += $40
+    lda UNK_AC
+    adc #$40
+    sta UNK_AC
+    lda UNK_AC+1
+    adc #0
+    sta UNK_AC+1
+
+    jmp @loop
+
+    @B30_0f92:
     jsr B30_109e
     ldy #$00
     sty $1d
@@ -2457,87 +2537,133 @@ Field_Sprite_Palette:
 
 STORE_COORDINATES:
     jsr PpuSync
+
     clc
-    lda $1c
-    ora #$08
+
+    ;scroll_y = UNK_1c | %00001000
+    lda UNK_1c
+    ora #%00001000
     tax
-    ldy $1d
+
+    ;scroll_x, UNK_98+1 = UNK_1c+1
+    ldy UNK_1c+1
+
+    ;ram_PPUCTRL = (ram_PPUCTRL & 0xfc) | UNK_1c+2
     lda ram_PPUCTRL
-    and #$fc
-    ora $1e
+    and #%11111100
+    ora UNK_1c+2
     sta ram_PPUCTRL
+
+    ;see above
     stx scroll_y
     sty scroll_x
-    sty $99
+    sty UNK_98+1
+
     clc
+
+    ;UNK_AC = (player_y & 0xc0) + $80
     lda player_y
-    and #$c0
+    and #%11000000
     adc #$80
-    sta $ac
+    sta UNK_AC
+
+    ;UNK_AC+1 = player_y+1 + 3
     lda player_y+1
-    adc #$03
-    sta $ad
-    lda #$0f
-    sta $9b
-    B30_0fd8:
+    adc #3
+    sta UNK_AC+1
+
+    lda #$f
+    sta UNK_9B
+    @draw_loop:
+
     clc
-    lda $99
+
+    ;UNK_98+1 += $F0
+    lda UNK_98+1
     adc #$f0
-    bcs B30_0fe1
+    ;if carry, skip
+    bcs @skip
+    ;UNK_98+1 += $F0
     adc #$f0
-    B30_0fe1:
-    sta $99
+    @skip:
+    sta UNK_98+1
+
+    ;UNK_AA = player_x & 0xffc0
     lda player_x
-    and #$c0
-    sta $aa
+    and #%11000000
+    sta UNK_AA
     lda player_x+1
-    sta $ab
-    ldx $9b
+    sta UNK_AA+1
+
+    ;a = (B30_104f-1[x] ^ UNK_98+1) & 0x10
+    ldx UNK_9B
     lda B30_104f-1, x
-    eor $99
-    and #$10
-    bne B30_0ffb
+    eor UNK_98+1
+    and #%00010000
+    ;if a != 0, skip load
+    bne @no_load
+    ;a = B30_104f-1[x]
     lda B30_104f-1, x
-    B30_0ffb:
-    sta $93
+    @no_load:
+    sta UNK_90+3
+
     jsr PpuSync
+
+    ;draw tiles to tilemap
     jsr B30_12c4
-    lda #$00
+
+    lda #0
     sta nmi_queue, x
-    sta $e6
-    lda #$80
-    sta $e5
-    dec $9b
-    beq B30_102e
-    lda $9b
+    sta UNK_E5+1
+    lda #.HIBYTE($8000)
+    sta UNK_E5
+
+    dec UNK_9B
+    beq @break
+
+    ;x = UNK_9B << 1
+    lda UNK_9B
     asl a
     tax
-    jsr SUPRESS_INPUT
-    lda #$25
-    sta $053e, x
-    sec
-    lda $ac
-    sbc #$40
-    sta $ac
-    lda $ad
-    sbc #$00
-    sta $ad
-    jmp B30_0fd8
 
-B30_102e:
+    jsr SUPRESS_INPUT
+
+    lda #$25
+    sta palette_backup+$1e, x
+
+    sec
+
+    ;UNK_AC += $40
+    lda UNK_AC
+    sbc #$40
+    sta UNK_AC
+    lda UNK_AC+1
+    sbc #0
+    sta UNK_AC+1
+
+    jmp @draw_loop
+
+    @break:
     jsr PpuSync
-    jsr SwapSpritePatternTable
-    lda #$04
+
+    jsr SwapPatternTables
+
+    lda #4
     sta nmi_queue ; UPDATE_PALETTE
-    lda #$00
+    lda #0
     sta nmi_queue+1 ; END
-    sta $e6
-    lda #$80
-    sta $e5
+    sta UNK_E5+1
+    lda #.HIBYTE($8000)
+    sta UNK_E5
+
+    ;UNK_A0 = $88
     lda #$88
-    sta $a0
-    lda #$00
-    sta $ec
+    sta UNK_A0
+
+    ;UNK_EC = 0
+    lda #0
+    sta UNK_EC
+
     sta pad1_forced
     rts
 
@@ -2606,7 +2732,7 @@ B30_105e:
     rts
 
 B30_10b1:
-    jsr SwapSpritePatternTable
+    jsr SwapPatternTables
     lda $a0
     bmi B30_10c0
     jsr B30_10c4
@@ -2655,160 +2781,242 @@ B30_10fd:
     .byte $c0, $ff, $00, $00, $00, $40, $10, $00
 
 B30_111d:
-    jsr B30_155d
-B30_1120:
-    jsr jsr_D59D
-    ldy #$00
-    lda ($88), y
-    and #$3f
-    cmp $14
-    beq B30_1132
-    lda $16
-    jmp B30_114f
+    jsr B30_155d ;setup ram a's??????
+    Draw_NewChunk:
+    jsr GetCurrentSector
 
-B30_1132:
-    lda $94 ;?
+    ;get palette
+    ldy #0
+    lda (UNK_88), y
+    and #%00111111
+    cmp UNK_14
+    beq @palettes_match
+
+    lda UNK_16
+    jmp @positive
+
+    @palettes_match:
+    ;get relevant map bank to $8000
+    lda UNK_94
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 
     clc
-    lda $ab
-    sta $88
-    lda $ad
-    and #$1f
-    adc #$80
-    sta $89
-    ldy #$00
-    lda ($88), y
-    bpl B30_114f
-    jsr B31_00f2
-    B30_114f:
-    tax
-    and #$40
-    asl a
-    sta $97
-    lsr a
-    lsr a
-    sta $96
-    beq B30_115e
-    lda $13
-    .byte $2c ; BIT trick
-    B30_115e:
-    lda $11
-    sta $89
-    txa
-    asl a
-    asl a
-    asl a
-    rol $89
-    asl a
-    rol $89
-    sta $88
-    sta $8a
-    lda $89
-    adc #$80
-    adc $96
-    sta $89
-    adc #$10
-    sta $8b
 
-    lda $10
+    ;UNK_88 = ((.HIBYTE(UNK_AC) & 0x1F) + $80) << 4 | .HIBYTE(UNK_AA)
+    ;this moves UNK_88 to the chunk data
+    lda UNK_AA+1
+    sta UNK_88
+    lda UNK_AC+1
+    and #%00011111
+    adc #$80
+    sta UNK_88+1
+
+    ;get chunk probably
+    ldy #0
+    lda (UNK_88), y
+    ;if high bit of chunk_probably not set, jump
+    bpl @positive
+    ;else, ?
+    jsr B31_00f2
+    @positive:
+    ;store chunk_probably in x
+    tax
+
+    ;mapTileset
+    ;get use_tileset
+    ;UNK_97 = (chunk_probably & 0x40) << 1
+    and #%01000000
+    asl a
+    sta UNK_97
+
+    ;UNK_96 = UNK_97 >> 2
     lsr a
-    ora #$01
+    lsr a
+    sta UNK_96
+
+    ;is result == 0, jump
+    beq @is_zero
+    ;load tileset 2
+    lda UNK_13
+    .byte $2c ; BIT trick
+    @is_zero:
+    ;load tileset 1
+    lda UNK_11
+
+    ;store either UNK_13 or UNK_11 in UNK_88+1
+    sta UNK_88+1
+
+    ;restore chunk_probably
+    txa
+
+    ;UNK_8A, UNK_88 = (chunk_probably << 4) with (UNK_88 << 2)
+    asl a
+    asl a
+    asl a
+    rol UNK_88+1
+    asl a
+    rol UNK_88+1
+    sta UNK_88
+    sta UNK_8A
+
+    ;UNK_88+1 += $80 + UNK_96
+    ;UNK_8A+1 = UNK_88+1 + $10
+    lda UNK_88+1
+    adc #$80
+    adc UNK_96
+    sta UNK_88+1
+    adc #$10
+    sta UNK_8A+1
+
+    ;get (map bank << 1) + 1
+    lda UNK_10
+    lsr a
+    ora #%00000001
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 
-    lda $12
+    ;get (map bank 2 << 1) + 1
+    lda UNK_12
     lsr a
-    ora #$01
+    ora #1
     ldx #BANK::PRGA000
     jsr BANK_SWAP
 
-    B30_118f:
-    lda $aa
+    Draw_CurrentChunk:
+    ;x, y = ((UNK_AA >> 2) | UNK_AC) >> 4
+    lda UNK_AA
     lsr a
     lsr a
-    ora $ac
+    ora UNK_AC
     lsr a
     lsr a
     lsr a
     lsr a
     tax
     tay
+
     jsr EnablePRGRam
-    lda ($88), y
-    eor $97
-    ldy $a1
-    sta ($a2), y
+
+    ;get tile ^ use_tileset
+    lda (UNK_88), y
+    eor UNK_97
+    ldy UNK_A1
+    ;write to UNK_6000[y] that will get read by map tile properties
+    sta (UNK_A2), y
+
+    ;a, y = x
     txa
     tay
-    lda ($8a), y
-    and #$c0
-    sta $90
+
+    ;get tile palette & 0xC0
+    lda (UNK_8A), y
+    and #%11000000
+    sta UNK_90
+
+    ;for i in 4:
+    ;a = (a >> 2) | original
+    ;this copies the top two bits across all bits
     lsr a
     lsr a
-    ora $90
+    ora UNK_90
     lsr a
     lsr a
-    ora $90
+    ora UNK_90
     lsr a
     lsr a
-    ora $90
-    ldy $a1
-    sta ($a4), y
-    lda #$00
-    sta ($a6), y
+    ora UNK_90
+
+    ;write result to cooresponding UNK_6200[y]
+    ldy UNK_A1
+    sta (UNK_A4), y
+
+    ;clear object collisions at UNK_6400
+    lda #0
+    sta (UNK_A6), y
+
     jsr WriteProtectPRGRam
-    dec $a8
-    beq B30_121b
-    lda $ae
-    beq B30_11f9
-    inc $a1
+
+    ;if UNK_A8 == 0, exit
+    dec UNK_A8
+    beq @exit
+
+    ;if UNK_AE == 0, jump
+    lda UNK_AE
+    beq @B30_11f9
+
+    ;UNK_A1++
+    inc UNK_A1
     clc
-    adc $aa
-    sta $aa
-    bcc B30_1215
-    lda #$00
-    adc $ab
-    sta $ab
-    and #$03
-    bne B30_1218
-    lda $a1
+
+    ;UNK_AA += UNK_AE
+    ;if doesnt overflow into high byte, loop
+    adc UNK_AA
+    sta UNK_AA
+    bcc @skiptocurrentchunk
+    lda #0
+    adc UNK_AA+1
+    sta UNK_AA+1
+    ;if UNK_AA & 0x3, render a new chunk/get chunk data again
+    and #%00000011
+    bne @skiptonewchunk
+
+    ;UNK_A1 -= $10
+    lda UNK_A1
     sec
     sbc #$10
-    sta $a1
-    lda $a3
-    eor #$01
-    sta $a3
-    clc
-    adc #$02
-    sta $a5
-    adc #$02
-    sta $a7
-    jmp B30_1120
+    sta UNK_A1
 
-B30_11f9:
-    ldx $af
-    beq B30_121b
+    ;UNK_A3 ^= 1
+    lda UNK_A3
+    eor #%00000001
+    sta UNK_A3
+
     clc
-    lda $a1
+
+    ;UNK_A5 += UNK_A3 + 2
+    adc #2
+    sta UNK_A5
+    ;UNK_A6+1 += UNK_A3 + 4
+    adc #2
+    sta UNK_A6+1
+
+    jmp Draw_NewChunk
+
+    @B30_11f9:
+    ;on scroll?
+    ldx UNK_AE+1
+    beq @exit
+
+    clc
+
+    ;UNK_A1 += $10
+    lda UNK_A1
     adc #$10
-    sta $a1
+    sta UNK_A1
+
     clc
+
+    ;UNK_AC += UNK_AE+1
     txa
-    adc $ac
-    sta $ac
-    bcc B30_1215
-    lda #$00
-    adc $ad
-    sta $ad
-B30_1212:
-    jmp B30_1120
-B30_1215:
-    jmp B30_118f
-B30_1218:
-    jmp B30_1120
-B30_121b:
+    adc UNK_AC
+    sta UNK_AC
+
+    ;if not carried, keep drawing current chunk
+    bcc @skiptocurrentchunk
+    ;else, draw new chunk
+
+    ;UNK_AC (high) += UNK_AE+1
+    lda #0
+    adc UNK_AC+1
+    sta UNK_AC+1
+
+    jmp Draw_NewChunk
+    @skiptocurrentchunk:
+    jmp Draw_CurrentChunk
+    @skiptonewchunk:
+    jmp Draw_NewChunk
+    @exit:
     rts
 
 B30_121c:
@@ -2886,115 +3094,175 @@ B30_1284:
 
 B30_12c4:
     jsr B30_14b7
+
+    ;UNK_90+1 = $11
     lda #$11
-    sta $91
-    ldx #$00
-B30_12cd:
-    lda #$05
+    sta UNK_90+1
+
+    ldx #0
+    @B30_12cd:
+    ;[05 (UNK_90+1 << 1) UNK_8C bytes]
+    lda #5
     sta nmi_queue, x
-    sta $042a, x
+    sta nmi_queue+$2a, x
+
     inx
-    lda $91
+    lda UNK_90+1
     asl a
     sta nmi_queue, x
-    sta $042a, x
+    sta nmi_queue+$2a, x
+
+    ;nametable ppu addr
     inx
-    lda $8d
+    lda UNK_8C+1
     sta nmi_queue, x
-    sta $042a, x
+    sta nmi_queue+$2a, x
     inx
-    lda $8c
+    lda UNK_8C
     sta nmi_queue, x
-    ora #$20
-    sta $042a, x
+    ora #%00100000
+    sta nmi_queue+$2a, x
+
     inx
-    B30_12f4:
+    @B30_12f4:
+    ;setup UNK_88
     jsr B30_1537
-    ldy #$00
-    lda ($88), y
-    and #$3f
-    eor $97
+
+    ;top left of metatile
+    ldy #0
+    lda (UNK_88), y
+    and #%00111111
+    eor UNK_97
     sta nmi_queue, x
+
+    ;top right of metatile
     iny
-    lda ($88), y
-    and #$3f
-    eor $97
+    lda (UNK_88), y
+    and #%00111111
+    eor UNK_97
     sta nmi_queue+1, x
+
+    ;bottom left of metatile
     iny
-    lda ($88), y
-    and #$3f
-    eor $97
-    sta $042a, x
+    lda (UNK_88), y
+    and #%00111111
+    eor UNK_97
+    sta nmi_queue+$2a, x
+
+    ;bottom right of metatile
     iny
-    lda ($88), y
-    and #$3f
-    eor $97
-    sta $042b, x
+    lda (UNK_88), y
+    and #%00111111
+    eor UNK_97
+    sta nmi_queue+$2b, x
+
     inx
     inx
-    dec $91
-    beq B30_1355
-    inc $a1
-    lda $a1
+    dec UNK_90+1
+    beq @B30_1355
+
+    ;a = UNK_A1++
+    inc UNK_A1
+    lda UNK_A1
+
+    ;if a & 0xf != 0, loop
     bit B30_147f
-    bne B30_12f4
+    bne @B30_12f4
+    ;else
+
     sec
+
+    ;UNK_A1 -= $10
     sbc #$10
-    sta $a1
-    lda $a3
-    eor #$01
-    sta $a3
-    lda $8c
+    sta UNK_A1
+
+    ;UNK_A3 ^= 1
+    lda UNK_A3
+    eor #%00000001
+    sta UNK_A3
+
+    ;UNK_8C &= 0xffe0
+    ;UNK_8C ^= 0x0400
+    lda UNK_8C
     and #$e0
-    sta $8c
-    lda $8d
+    sta UNK_8C
+    lda UNK_8C+1
     eor #$04
-    sta $8d
+    sta UNK_8C+1
+
     sec
+
+    ;nmi_queue+1, nmi_queue+$2b = (UNK_90+1 - $11) << 1
     lda #$11
-    sbc $91
+    sbc UNK_90+1
     asl a
     sta nmi_queue+1
-    sta $042b
-    jmp B30_12cd
+    sta nmi_queue+$2b
 
-B30_1355:
-    lda #$09
-    sta $91
+    jmp @B30_12cd
+
+    @B30_1355:
+
+    ;UNK_90+1 = 9
+    lda #9
+    sta UNK_90+1
+
+    ;ppu read??
+    ;nmi_queue+$54 = 7
     ldx #$54
-    lda #$07
+    lda #7
     sta nmi_queue, x
-    inx
-    lda $91
-    sta nmi_queue, x
-    inx
-    B30_1367:
-    jsr B30_1480
-    dec $91
-    beq B30_1397
-    inc $8e
-    clc
-    lda $92
-    adc #$02
-    sta $92
-    bit B30_147f
-    bne B30_1367
-    sec
-    sbc #$10
-    sta $92
-    lda $a5
-    eor #$01
-    sta $a5
-    sec
-    lda $8e
-    sbc #$08
-    sta $8e
-    lda $8f
-    eor #$04
-    sta $8f
-    jmp B30_1367
 
-B30_1397:
+    ;nmi_queue+$55 = 9
+    inx
+    lda UNK_90+1
+    sta nmi_queue, x
+
+    inx
+    @whatever_this_is:
+    jsr B30_1480
+
+    dec UNK_90+1
+    beq @exit
+    inc UNK_8C+2
+
+    clc
+
+    ;UNK_90+2 += 2
+    lda UNK_90+2
+    adc #2
+    sta UNK_90+2
+
+    ;if a & 0xf != 0, loop
+    bit B30_147f
+    bne @whatever_this_is
+
+    sec
+
+    ;UNK_90+2 -= $10
+    sbc #$10
+    sta UNK_90+2
+
+    ;UNK_A5 ^= 1
+    lda UNK_A5
+    eor #1
+    sta UNK_A5
+
+    sec
+
+    ;UNK_8C+2 -= 8
+    lda UNK_8C+2
+    sbc #8
+    sta UNK_8C+2
+
+    ;UNK_8C+3 ^= 4
+    lda UNK_8C+3
+    eor #%00000100
+    sta UNK_8C+3
+
+    jmp @whatever_this_is
+
+    @exit:
     rts
 
 B30_1398:
@@ -3160,33 +3428,41 @@ B30_1480:
     rts
 
 B30_14b7:
-    lda $10
+    ;get map bank 1
+    lda UNK_10
     lsr a
-    ora #$01
+    ora #1
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 
-    lda $12
+    ;get map bank 2
+    lda UNK_12
     lsr a
-    ora #$01
+    ora #1
     ldx #BANK::PRGA000
     jsr BANK_SWAP
 
+    ;set up ram a's
     jsr B30_155d
-    lda $ab
-    and #$07
-    sta $9a
-    lda $aa
-    lsr $9a
+
+    ;UNK_98+2 = UNK_AA+1 & 0x7
+    lda UNK_AA+1
+    and #%00000111
+    sta UNK_98+2
+
+    ;UNK_98 = (UNK_98+2 >> 2) into UNK_AA >> 2
+    lda UNK_AA
+    lsr UNK_98+2
     ror a
-    lsr $9a
+    lsr UNK_98+2
     ror a
-    sta $98
-    lda $99
-    eor $a1
+    sta UNK_98
+
+    lda UNK_98+1
+    eor UNK_A1
     and #$10
     bne B30_14ed
-    lda $a1
+    lda UNK_A1
     and #$ee
     jmp B30_14f6
 
@@ -3263,94 +3539,125 @@ B30_1537:
     rts
 
 B30_155d:
-    lda $ab
-    and #$07
-    sta $a3
-    lda $aa
-    lsr $a3
+    ;UNK_A3 = UNK_AA+1 & 0x7
+    lda UNK_AA+1
+    and #%00000111
+    sta UNK_A3
+
+    ;UNK_A3 >> 2 into a = UNK_AA
+    lda UNK_AA
+    lsr UNK_A3
     ror a
-    lsr $a3
+    lsr UNK_A3
     ror a
+    ;a >>= 2
     lsr a
     lsr a
-    ora $ac
-    sta $a1
-    lda $ad
+    ;UNK_A1 = a | UNK_AC
+    ora UNK_AC
+    sta UNK_A1
+
+    ;a = UNK_AC+1 >> 2 into UNK_A1
+    lda UNK_AC+1
     lsr a
-    ror $a1
+    ror UNK_A1
     lsr a
-    ror $a1
-    lda #$00
-    sta $a2
-    sta $a4
-    sta $a6
-    lda $a3
+    ror UNK_A1
+
+    lda #0
+    sta UNK_A2
+    sta UNK_A4
+    sta UNK_A6
+
+    ;UNK_A3 += $60
+    lda UNK_A3
     clc
     adc #$60
-    sta $a3
-    adc #$02
-    sta $a5
-    adc #$02
-    sta $a7
+    sta UNK_A3
+    ;UNK_A5 += 2 + c
+    adc #2
+    sta UNK_A5
+    ;UNK_A5 += 2 + c
+    adc #2
+    sta UNK_A6+1
+
     rts
 
-B30_1591:
-    jsr jsr_D59D
-    ldy #$00
-    lda ($88), y
-    and #$3f
-    sta $14
+GetCurrentSectorPalette:
+    jsr GetCurrentSector
+
+    ;a = (map data at UNK_88) & 0x3F
+    ldy #0
+    lda (UNK_88), y
+    and #%00111111
+    sta UNK_14
+
     rts
 
-jsr_D59D:
-;sets up the pointer at $88-$89
-    lda $AD
+;UNK_AC and UNK_AA need to be set up beforehand.
+;returns UNK_88 as the pointer into the current sector's data.
+GetCurrentSector:
+    ;sets up the pointer at $88-$89
+
+    ;UNK_94 = ((UNK_AC+1) >> 4) & %00001110
+    ;this calculation swaps to the relevant map bank
+    ;basically, ([UNK_AC+1] >> 4) & 0xE, plus one to move past bank 0
+    ;in otherwords, the high nybble of UNK_AC+1 contains the bank number offset.
+    lda UNK_AC+1
     lsr a
     lsr a
     lsr a
     lsr a
     and #%00001110
-    sta $94
+    sta UNK_94
 
+    ;BANK = a | 1
     ora #1
     ldx #BANK::PRGA000
     jsr BANK_SWAP
 
-    lda $AD
+    ;UNK_88 = pointer
+
+    ;UNK_88+1 = ((UNK_AC+1) >> 2) & 0x7
+    lda UNK_AC+1
     lsr a
     lsr a
     and #%00000111
-    sta $89
+    sta UNK_88+1
 
-    lda $AB
+    ;UNK_88 = UNK_AA+1 & 0xFC
+    lda UNK_AA+1
     and #%11111100
     clc
-    sta $88
+    sta UNK_88
 
-    lda $89
-    adc #$B8
-    sta $89
+    ;UNK_88 += $B800
+    lda UNK_88+1
+    adc #.HIBYTE($B800)
+    sta UNK_88+1
+
     rts
 
-
-;swaps the sprite pattern table out
-;based on the area of the map
-SwapSpritePatternTable:
+;swaps the pattern tables out
+;based on the sector of the map
+SwapPatternTables:
     clc
+
+    ;;;get sector???????
     lda player_x+1
     adc #2
-    sta $AB
+    sta UNK_AA+1
 
     clc
     lda player_y
     adc #$C0
-    sta $AC
+    sta UNK_AC
 
     lda player_y+1
     adc #1
-    sta $AD
+    sta UNK_AC+1 ;<- has the bank number offset now
 
-    jsr jsr_D59D
+    jsr GetCurrentSector
 
     ;all the
     ;ldy #X
@@ -3358,144 +3665,99 @@ SwapSpritePatternTable:
     ;'s access map data
     ;this shouldnt start with 0, macro perchance?
 
+    ;get palette?
     ldy #0
-    lda ($88),Y
+    lda (UNK_88), y
     and #%00111111
 
-    cmp $14
-    ;jump if $14 == a
-    beq @jump1
+    ;jump if UNK_14 == a
+    cmp UNK_14
+    beq @palettes_match
+    ;else, palettes dont match.
 
-    lda $17
+    ;load chr $17
+    lda UNK_17
     ldx #BANK::CHR1400
     jsr BANK_SWAP
 
-    sta $12
+    sta UNK_12
     and #%00000011
-    sta $13
+    sta UNK_13
+
     rts
 
-    @jump1:
-    lda $23
-    ;jump if $23 == 0
-    beq @jump2
+    @palettes_match:
+    lda is_tank
+    ;jump if is_tank == 0
+    beq @isnt_tank
     bpl @jump3
     and #%01111111
-    sta $23
-    bpl @jump4
-    @jump2:
-    ldy #1
-    lda ($88),Y
-    and #%00111111
+    sta is_tank
+    bpl @area_chr_zero
 
-    sta $15
+    @isnt_tank:
+
+    ;get area
+    ldy #1
+    lda (UNK_88),Y
+    and #%00111111
+    sta UNK_15
 
     ;retrieve chr from area
     tax
     lda AREA_CHR_TABLE,X
     ;jump if result == 0
-    beq @jump4
+    beq @area_chr_zero
     @jump3:
+    ;load that chr
     ldx #BANK::CHR0800
     jsr BANK_SWAP
 
-    @jump4:
-    ldy #2
-    lda ($88),Y
-    and #%00111111
+    @area_chr_zero:
 
+    ;get tileset 1
+    ldy #2
+    lda (UNK_88),Y
+    and #%00111111
     ldx #BANK::CHR1000
     jsr BANK_SWAP
 
-    sta $10
+    sta UNK_10
     and #%00000011
-    sta $11
+    sta UNK_11
 
+    ;get tileset 2
     iny
-    lda ($88),Y
+    lda (UNK_88),Y
     and #%00111111
-
     ldx #BANK::CHR1400
     jsr BANK_SWAP
 
-    sta $12
+    sta UNK_12
     and #%00000011
-    sta $13
+    sta UNK_13
     rts
 
 ;value of which chr table to load based on area
 ;divide by 2 and multiply by $400 to get distance from start
 ;of chr rom
 AREA_CHR_TABLE:
-    .byte 0
-    .byte $68
-    .byte $62
-    .byte $62
-    .byte $62
-    .byte $62
-    .byte $64
-    .byte $62
-    .byte $74
-    .byte $64
-    .byte $6A
-    .byte $62
-    .byte $66
-    .byte $6C
-    .byte $62
-    .byte 0
-    .byte 0
-    .byte 0
-    .byte 0
-    .byte 0
-    .byte $66
-    .byte 0
-    .byte $6A
-    .byte $66
-    .byte $62
-    .byte $68
-    .byte $64
-    .byte $68
-    .byte $6E
-    .byte $66
-    .byte $66
-    .byte $66
-    .byte $62
-    .byte $62
-    .byte $62
-    .byte $66
-    .byte $64
-    .byte $6E
-    .byte $62
-    .byte $64
-    .byte $66
-    .byte $74
-    .byte $6C
-    .byte $66
-    .byte 0
-    .byte 0
-    .byte $68
-    .byte $6C
-    .byte $72
-    .byte 0
-    .byte $66
-    .byte 0
-    .byte 0
-    .byte 0
-    .byte $6A
-    .byte 0
-    .byte $6C
-    .byte $6E
-    .byte $6C
-    .byte $6E
-    .byte $6C
-    .byte $6E
-    .byte $6E
-    .byte 0
+    .byte $00,$68,$62,$62,$62,$62,$64,$62
+    .byte $74,$64,$6A,$62,$66,$6C,$62,$00
+    .byte $00,$00,$00,$00,$66,$00,$6A,$66
+    .byte $62,$68,$64,$68,$6E,$66,$66,$66
+    .byte $62,$62,$62,$66,$64,$6E,$62,$64
+    .byte $66,$74,$6C,$66,$00,$00,$68,$6C
+    .byte $72,$00,$66,$00,$00,$00,$6A,$00
+    .byte $6C,$6E,$6C,$6E,$6C,$6E,$6E,$00
 
-
-B30_1674:
+;Sets data within object_memory for each member in the party.
+;needs further testing
+InitPartyObjects:
+    ;if !(fade_flag + & 0x80), jump
     lda fade_flag
-    bpl B30_1697
+    bpl @not_80
+
     and #%00001111
     sta movement_direction
     lda object_memory+$04
@@ -3508,108 +3770,171 @@ B30_1674:
     sta $ac
     lda object_memory+$07
     sta $ad
-    jmp B30_16cb
+    jmp @B30_16cb
 
-B30_1697:
+    @not_80:
+    ;set direction
     lda ypos_direction
-    and #$3f
+    and #%00111111
     sta movement_direction
+
     clc
+
+    ;set position x
+    ;lo
     lda xpos_music
-    and #$c0
+    and #%11000000
     sta player_x
-    adc #$00
-    sta $aa
+    adc #0
+    sta UNK_AA
+    ;hi
     lda xpos_music+1
     sta player_x+1
-    adc #$02
-    sta $ab
+    adc #2
+    sta UNK_AA+1
+
     clc
+
+    ;set position y
+    ;lo
     lda ypos_direction
-    and #$c0
+    and #%11000000
     sta player_y
     adc #$c0
-    sta $ac
+    sta UNK_AC
+    ;hi
     lda ypos_direction+1
     sta player_y+1
-    adc #$01
-    sta $ad
-    jsr B30_1591
-    B30_16cb:
-    jsr B30_155d
+    adc #1
+    sta UNK_AC+1 ;<- has the bank number offset now
+
+    jsr GetCurrentSectorPalette
+
+    @B30_16cb:
+
+    jsr B30_155d ;setup ram a's??????
     jsr BeginPartyObjectIteration
     jsr EnablePRGRam
-    lda $23
-    bne B30_171b
-    ldx #$00
-    B30_16da:
+
+    ;if is_tank, jump
+    lda is_tank
+    bne @is_tank
+    ;else
+
+    ldx #0
+    @add_party:
+    ;if party_members[x] empty, jump
     lda party_members, x
-    beq B30_16f2
-    jsr B30_17df
-    ldy #$19
+    beq @is_party_lead
+    ;else
+
+    jsr LoadPartyObjectDataAndSprite
+
+    ;object_pointer->object_m_unk3 = $88
+    ldy #object_m_unk3
     lda #$88
     sta (object_pointer), y
-    lda #$0c
-    cpx #$00
-    bne B30_16f2
-    ldy #$1c
-    lda ($38), y
-    B30_16f2:
-    ldy #$00
+
+    ;a = OBJ_TYPE::FOLLOWER
+    lda #OBJ_TYPE::FOLLOWER
+    ;if x != 0, jump
+    cpx #0
+    bne @is_party_lead
+    ;else
+
+    ;get object type from saveram?????????
+    ;a = UNK_38->unk_1c
+    ldy #party_info::unk_1c
+    lda (UNK_38), y
+    @is_party_lead:
+
+    ;object_pointer->object_m_type = a
+    ldy #object_m_type
     sta (object_pointer), y
+
+    ;if !(fade_flag & 0xc0), jump
     lda fade_flag
-    and #$c0
-    beq B30_173b
+    and #%11000000
+    beq @do_fadeflag
+
+    ;get next object slot
     jsr NextEntity
+
+    ;x++, if x < 4, loop
     inx
-    cpx #$04
-    bcc B30_16da
-    B30_1704:
+    cpx #4
+    bcc @add_party
+
+    @normal_proc:
+
+    ;get music
+    ;if music == 0, jump
+    ;else, play
     lda xpos_music
-    and #$3f
-    beq B30_170e
+    and #%00111111
+    beq @no_music
     jsr PlayMusic
-    B30_170e:
-    lda #$00
+    @no_music:
+    ;reset fade_flag
+    lda #0
     sta fade_flag
+
+    ;autowalk_direction &= 0xcf
     lda autowalk_direction
-    and #$cf
+    and #%11001111
     sta autowalk_direction
+
+    ;exit
     jmp WriteProtectPRGRam
 
-B30_171b:
-    jsr B30_17e2
-    ldy #$00
+    @is_tank:
+    jsr LoadPartyObjectData
+
+    ;a = object_pointer->object_m_type & 0x3f
+    ldy #object_m_type
     lda (object_pointer), y
-    and #$3f
+    and #%00111111
+
+    ;if a == $d, jump
     cmp #$0d
-    bne B30_1738
+    bne @return
+
     jsr B30_1884
-    ldy #$19
+
+    ;object_pointer->object_m_unk3 = movement_direction
+    ldy #object_m_unk3
     lda movement_direction
     sta (object_pointer), y
-    eor #$04
-    sta movement_direction
-    jsr B30_17e2
-    B30_1738:
-    jmp B30_1704
 
-B30_173b:
+    ;movement_direction ^= 4
+    eor #%00000100
+    sta movement_direction
+
+    jsr LoadPartyObjectData
+
+    @return:
+    jmp @normal_proc
+
+    @do_fadeflag:
+    ;if party_members[1+x] == 0,
     lda party_members+1, x
-    beq B30_1745
+    beq @is_blank
     jsr B30_1768
-    bcc B30_1751
-    B30_1745:
+    bcc @B30_1751
+    @is_blank:
     jsr NextEntity
     jsr EnablePRGRam
-    ldy #$00
-    lda #$00
+
+    ;object_pointer->object_m_type = 0
+    ldy #object_m_type
+    lda #0
     sta (object_pointer), y
-    B30_1751:
+
+    @B30_1751:
     inx
-    cpx #$03
-    bcc B30_173b
-    jmp B30_1704
+    cpx #3
+    bcc @do_fadeflag
+    jmp @normal_proc
 
 B30_1759:
     pha
@@ -3635,7 +3960,7 @@ B30_1768:
     tax
     pla
     sta party_members+1, x
-    jsr B30_17df
+    jsr LoadPartyObjectDataAndSprite
     ldy #$19
     lda movement_direction
     sta (object_pointer), y
@@ -3677,7 +4002,7 @@ B30_179a:
     B30_17bd:
     lda party_members, x
     beq B30_17cf
-    jsr B30_1813
+    jsr SetPartyObjectSprite
     lda #$0c
     cpx #$00
     bne B30_17cf
@@ -3693,88 +4018,130 @@ B30_179a:
     clc
     jmp WriteProtectPRGRam
 
-B30_17df:
-    jsr B30_1813
-    B30_17e2:
-    ldy #$04
-    lda $aa
+;a == character id in party
+LoadPartyObjectDataAndSprite:
+    jsr SetPartyObjectSprite
+    LoadPartyObjectData:
+
+    ;object_pointer->object_m_xpos = UNK_AA
+    ldy #object_m_xpos
+    lda UNK_AA
     sta (object_pointer), y
     iny
-    lda $ab
+    lda UNK_AA+1
     sta (object_pointer), y
-    ldy #$06
-    lda $ac
-    sta (object_pointer), y
-    iny
-    lda $ad
-    sta (object_pointer), y
-    ldy #$11
-    lda $a1
+
+    ;object_pointer->object_m_ypos = UNK_AC
+    ldy #object_m_ypos
+    lda UNK_AC
     sta (object_pointer), y
     iny
-    lda $a6
+    lda UNK_AC+1
+    sta (object_pointer), y
+
+    ;object_pointer->object_m_colOffset = UNK_A1
+    ldy #object_m_colOffset
+    lda UNK_A1
     sta (object_pointer), y
     iny
-    lda $a7
+
+    ;ldy #object_m_colPointer
+    ;object_pointer->object_m_colPointer = UNK_A6
+    lda UNK_A6
     sta (object_pointer), y
+    iny
+    lda UNK_A6+1
+    sta (object_pointer), y
+
+    ;object_pointer->object_m_direction = movement_direction
     lda movement_direction
-    ldy #$15
+    ldy #object_m_direction
     sta (object_pointer), y
-    ldy #$1d
+
+    ;object_pointer->object_m_unk2 = movement_direction????
+    ldy #object_m_unk2
     sta (object_pointer), y
+
     rts
 
-B30_1813:
-    ldy #$02
-    and #$07
-    sta $39
-    lda #.LOBYTE(party_data-$40)
-    lsr $39
+;a == character id in party
+SetPartyObjectSprite:
+    ;y = object_m_data_pointer
+    ;a (character id) &= 0x7
+    ldy #object_m_data_pointer
+    and #%00000111
+    sta UNK_38+1
+
+    ;UNK_38 >> 2 into .LOBYTE(save_file_current)
+    ;this is kinda just a << 6. so 1 == 0x40 ig this is easier but
+    ;realistically this is only for sizeof_partydata lol
+    ;just think:
+    ;UNK_38 = a << 6
+    lda #.LOBYTE(save_file_current)
+    lsr UNK_38+1
     ror a
-    lsr $39
+    lsr UNK_38+1
     ror a
-    sta $38
+    sta UNK_38
     sta (object_pointer), y
     iny
-    lda $39
-    adc #.HIBYTE(party_data-$40)
-    sta $39
+
+    ;UNK_38+1 += .HIBYTE(save_file_current)
+    lda UNK_38+1
+    adc #.HIBYTE(save_file_current)
+    sta UNK_38+1
     sta (object_pointer), y
-    ldy #$1d
-    lda ($38), y
-    ldy #$14
+    ;by this point UNK_38 is an offset into party member data
+    ;everything before was just to get a character pointer. lol
+
+    ;get object properties and tile count from party data
+    ldy #party_info::unk_1d
+    lda (UNK_38), y
+    ldy #object_m_bitfield1
     pha
-    and #$f0
+    and #%11110000
     sta (object_pointer), y
-    ldy #$08
+    ldy #object_m_oam
     pla
-    and #$0f
+    and #%00001111
     sta (object_pointer), y
+
     B30_1840:
-    ldy #$1e
-    lda ($38), y
-    ldy #$16
+    ;object_pointer->object_m_sprite_base = UNK_38->sprite_pointer
+    ldy #party_info::sprite_pointer
+    lda (UNK_38), y
+    ldy #object_m_sprite_base
     sta (object_pointer), y
-    ldy #$1f
-    lda ($38), y
-    ldy #$17
+    ldy #party_info::sprite_pointer+1
+    lda (UNK_38), y
+    ldy #object_m_sprite_base+1
     sta (object_pointer), y
+
     clc
-    ldy #$01
-    lda ($38), y
-    bpl B30_186b
-    and #$80
-    sta ($38), y
-    ldy #$16
+
+    ;if party member is not unconcious, jump
+    ldy #party_info::status
+    lda (UNK_38), y
+    bpl @not_uncon
+    ;else,
+
+    ;make that their only status
+    and #UNCON
+    sta (UNK_38), y
+
+    ;shift sprite base to the dead version
+    ldy #object_m_sprite_base
     lda (object_pointer), y
     adc #$a0
     sta (object_pointer), y
     iny
     lda (object_pointer), y
-    adc #$00
+    adc #0
     sta (object_pointer), y
+
     sec
-    B30_186b:
+
+    @not_uncon:
     rts
 
 B30_186c:
@@ -3846,17 +4213,18 @@ REMOVE_EVE_FROM_PARTY:
 RECONFIGURE_PARTY:
 ; @CheckEVEDead
     lda EVE_Data + Status_Offset
-    bpl :+
+    bpl @CheckFlyingManDead
 ; @EVEDeadEffect
     lda #EVE
     jsr REMOVE_PARTY_MEMBER
-; @CheckFlyingManDead
-:   lda FlyingMan_Data + Status_Offset
-    bpl :+
+    @CheckFlyingManDead:
+    lda FlyingMan_Data + Status_Offset
+    bpl @FlyingManNotDead
 ; @FlyingManDeadEffect
     lda #FLYING_MAN
     jsr REMOVE_PARTY_MEMBER
-:   ldx #$00
+    @FlyingManNotDead:
+    ldx #0
     stx $37
 @CountLivingPartyMembersLoop:
     jsr GetXCharacter
@@ -4522,12 +4890,16 @@ B30_1d01:
 
 ; $DD57 - Begin party member object iteration
 BeginPartyObjectIteration:
+    ;object_pointer = object_memory
     lda #.LOBYTE(object_memory)
     ldx #.HIBYTE(object_memory)
     sta object_pointer
     stx object_pointer+1
+
+    ;UNK_36 = $fc
     ldx #$fc
-    stx $36
+    stx UNK_36
+
     rts
 
 ; $DD64 - Add 0x20 to entity data pointer
@@ -4863,16 +5235,16 @@ B30_1f12:
     lda movement_direction
     bmi B30_1fb8
     ldy #$04
-    lda $3a
+    lda UNK_3A
     sta (object_pointer), y
     iny
-    lda $3b
+    lda UNK_3A+1
     sta (object_pointer), y
     ldy #$06
-    lda $3c
+    lda UNK_3A+2
     sta (object_pointer), y
     iny
-    lda $3d
+    lda UNK_3A+3
     sta (object_pointer), y
     ldy #$11
     lda $a1
@@ -4969,9 +5341,9 @@ B30_1fda:
     txa
     ldx #0
     @not_high_priority:
-    ;UNK_36+1 = priority status (if high priority)
-    ;UNK_36+1 = ? (if not)
-    sta UNK_36+1
+    ;UNK_37 = priority status (if high priority)
+    ;UNK_37 = ? (if not)
+    sta UNK_37
 
     ;object.object_m_oam2 = x
     ldy #object_m_oam2
@@ -5001,7 +5373,7 @@ B30_1fda:
     sta shadow_something+0, x
     inx
     beq B31_0062
-    lda UNK_36+1
+    lda UNK_37
     beq goto_next_object
     tax
     goto_next_object:
@@ -5105,6 +5477,7 @@ B31_0087:
     bne @B31_0094
     rts
 
+;a == encounter id???
 B31_00f2:
     and #$3f
     tax
@@ -5186,24 +5559,24 @@ IsObjectNearPlayer:
     ;store object position info in UNK_36[4:8}
     ldy #object_m_xpos
     lda (object_pointer), y
-    sta UNK_36+4
+    sta UNK_3A
     iny
     lda (object_pointer), y
-    sta UNK_36+5
+    sta UNK_3A+1
     ldy #object_m_ypos
     lda (object_pointer), y
-    sta UNK_36+6
+    sta UNK_3A+2
     iny
     lda (object_pointer), y
-    sta UNK_36+7
+    sta UNK_3A+3
 
     B31_01d4:
     sec
 
-    lda UNK_36+6
+    lda UNK_3A+2
     sbc player_y
     sta UNK_64
-    lda UNK_36+7
+    lda UNK_3A+3
     sbc player_y+1
     sta UNK_64+1
 
@@ -5225,10 +5598,10 @@ IsObjectNearPlayer:
 
     sec
 
-    lda UNK_36+4
+    lda UNK_3A
     sbc UNK_60
     sta UNK_60
-    lda UNK_36+5
+    lda UNK_3A+1
     sbc UNK_60+1
     sta UNK_60+1
 
@@ -5506,7 +5879,7 @@ B31_03ad:
     sec
     rts
 
- ; TODO: OBJECT COLLISION
+ ; TODO: TILE COLLISION
 B31_03b4:
     ;swap $8000 to bank $14
     lda #$14
@@ -5539,106 +5912,172 @@ MovementLUT:
 
 ; EAST MOVEMENT
 Movement_RIGHT:
-    jsr B31_0506
+    ;x = destination tile
+    jsr GetMapTileImOn
     tax
+
+    ;if !(maptile.5 & maptile.4), jump
     and #%00110000
-    beq @B31_03ef
+    beq @check_path
+    ;elif !maptile.5, exit
     and #%00100000
-    beq B31_0400
+    beq movement_generic_exit1
+    ;if (maptile.4 | maptile.3 | maptile.2), exit
     txa
     and #%00011100
-    bne B31_0400
-    @B31_03ef:
-    ldx #$ff
-    ldy #$00
-    jsr B31_0510
+    bne movement_generic_exit1
+
+    @check_path:
+
+    ;check current tile
+    ldx #-1
+    ldy #0
+    jsr GetMapTileProperty
     tax
+
+    ;if !(maptile.5), move
     and #%00100000
     beq B31_0425
+    ;else
+    ;if !(maptile.1 & maptile.0), move
     txa
     and #%00000011
     beq B31_0425
-B31_0400:
+    ;else, just dont mvoe
+    movement_generic_exit1:
     jmp Movement_INPLACE
 
 ; WEST MOVEMENT
 Movement_LEFT:
-    jsr B31_0506
+    ;x = destination tile
+    jsr GetMapTileImOn
     tax
+
+    ;if !(maptile.5 & maptile.4), jump
     and #%00110000
-    beq @B31_0414
+    beq @check_path
+    ;elif !maptile.5, exit
     and #%00100000
-    beq B31_0400
+    beq movement_generic_exit1
+    ;if (maptile.4 | maptile.1 | maptile.0), exit
     txa
     and #%00010011
-    bne B31_0400
-    @B31_0414:
-    ldx #$01
-    ldy #$00
-    jsr B31_0510
+    bne movement_generic_exit1
+
+    @check_path:
+
+    ;check current tile
+    ldx #1
+    ldy #0
+    jsr GetMapTileProperty
     tax
+
+    ;if !(maptile.5), move
     and #%00100000
     beq B31_0425
+    ;else
+    ;if (maptile.3 | maptile.2), exit
     txa
     and #%00001100
-    bne B31_0400
+    bne movement_generic_exit1
 B31_0425:
     jmp B31_0497
 
 ; NORTH MOVEMENT
 Movement_UP:
-    jsr B31_0506
+    ;a = destination tile
+    jsr GetMapTileImOn
+
+    ;if (maptile.4 | maptile.2 | maptile.1), exit
     and #%00010110
     bne Movement_INPLACE
-    ldx #$00
-    ldy #$10
-    jsr B31_0510
+
+    ;check current tile
+    ldx #0
+    ldy #1 << 4
+    jsr GetMapTileProperty
+
+    ;if maptile.3 | maptile.0, exit
     and #%00001001
     bne Movement_INPLACE
     beq B31_0497
 
 ; NORTHEAST MOVEMENT
 Movement_UPRIGHT:
-    jsr B31_0506
-    and #$14
+    ;a = destination tile
+    jsr GetMapTileImOn
+
+    ;if (maptile.4 | maptile.2), exit
+    and #%00010100
     bne Movement_INPLACE
-    ldx #$00
-    ldy #$10
-    jsr B31_0510
-    and #$08
+
+    ;get tile upwards
+    ldx #0
+    ldy #1 << 4
+    jsr GetMapTileProperty
+
+    ;if maptile.3, exit
+    and #%00001000
     bne Movement_INPLACE
-    ldx #$ff
-    ldy #$00
-    jsr B31_0510
-    and #$02
+
+    ;get tile rightwards
+    ldx #-1
+    ldy #0
+    jsr GetMapTileProperty
+
+    ;if maptile.1, exit
+    and #%00000010
     bne Movement_INPLACE
-    ldx #$ff
-    ldy #$10
-    jsr B31_0510
-    and #$01
+
+    ;get tile uprightwards
+    ldx #-1
+    ldy #1 << 4
+    jsr GetMapTileProperty
+
+    ;if maptile.0, exit
+    and #%00000001
     bne Movement_INPLACE
+
+
     beq B31_0497
 
 ; NORTHWEST MOVEMENT
 Movement_UPLEFT:
-    jsr B31_0506
-    and #$12
+    ;x = GetMapTileImOn
+    jsr GetMapTileImOn
+
+    ;if (maptile.4 | maptile.1), exit
+    and #%00010010
     bne Movement_INPLACE
-    ldx #$00
-    ldy #$10
-    jsr B31_0510
-    and #$01
+
+    ;get tile upwards
+    ldx #0
+    ldy #1 << 4
+    jsr GetMapTileProperty
+
+    ;if maptile.0, exit
+    and #%00000001
     bne Movement_INPLACE
-    ldx #$01
-    ldy #$00
-    jsr B31_0510
-    and #$04
+
+    ;get tile leftwards
+    ldx #1
+    ldy #0
+    jsr GetMapTileProperty
+
+    ;if maptile.2, exit
+    and #%00000100
     bne Movement_INPLACE
-    ldx #$01
-    ldy #$10
-    jsr B31_0510
-    and #$08
+
+    ;get tile upleftwards
+    ldx #1
+    ldy #1 << 4
+    jsr GetMapTileProperty
+
+    ;if maptile.3, exit
+    and #%00001000
     bne Movement_INPLACE
+
+
     beq B31_0497
 
 ; Obstacle found
@@ -5656,70 +6095,120 @@ B31_0497:
     rts
 
 ; SOUTH MOVEMENT
+;checks your current map tile
+;;;if .4, .3 or .0 are set, it fails
+;checks the destination map tile
+;;;if .2 or .1 are set, it fails
+;;;else, it passes
 Movement_DOWN:
-    jsr B31_0506
-    and #$19
+    ;a = GetMapTileImOn
+    jsr GetMapTileImOn
+
+    ;if (maptile.4 | maptile.3 | maptile.0), exit
+    and #%00011001
     bne Movement_INPLACE
-    ldx #$00
-    ldy #$f0
-    jsr B31_0510
-    and #$06
+
+    ;move down
+
+    ldx #0
+    ldy #-1 << 4
+    ;a = GetMapTileImOn
+    jsr GetMapTileProperty
+
+    ;if maptile.2 | maptile.1, exit
+    and #%00000110
     bne Movement_INPLACE
     beq B31_0497
 
 ; SOUTHEAST MOVEMENT
 Movement_DOWNRIGHT:
-    jsr B31_0506
-    and #$18
+    ;a = GetMapTileImOn
+    jsr GetMapTileImOn
+
+    ;if (maptile.4 | maptile.3), exit
+    and #%00011000
     bne Movement_INPLACE
-    ldx #$00
-    ldy #$f0
-    jsr B31_0510
-    and #$04
+
+    ;get tile downwards
+    ldx #0
+    ldy #-1 << 4
+    jsr GetMapTileProperty
+
+    ;if maptile.2, exit
+    and #%00000100
     bne Movement_INPLACE
-    ldx #$ff
-    ldy #$00
-    jsr B31_0510
-    and #$01
+
+    ;get tile rightwards
+    ldx #-1
+    ldy #0
+    jsr GetMapTileProperty
+
+    ;if maptile.0, exit
+    and #%00000001
     bne Movement_INPLACE
-    ldx #$ff
-    ldy #$f0
-    jsr B31_0510
-    and #$02
+
+    ;get tile downrightwards
+    ldx #-1
+    ldy #-1 << 4
+    jsr GetMapTileProperty
+
+    ;if maptile.1, exit
+    and #%00000010
     bne Movement_INPLACE
+
+
     beq B31_0497
 
 ; SOUTHWEST MOVEMENT
 Movement_DOWNLEFT:
-    jsr B31_0506
-    and #$11
+    ;a = GetMapTileImOn
+    jsr GetMapTileImOn
+
+    ;if (maptile.4 | maptile.0), jump
+    and #%00010001
     bne Movement_INPLACE
-    ldx #$00
-    ldy #$f0
-    jsr B31_0510
-    and #$02
+
+    ;get tile downwards
+    ldx #0
+    ldy #-1 << 4
+    jsr GetMapTileProperty
+
+    ;if maptile.1, exit
+    and #%00000010
     bne Movement_INPLACE
-    ldx #$01
-    ldy #$00
-    jsr B31_0510
-    and #$08
+
+    ;get tile leftwards
+    ldx #1
+    ldy #0
+    jsr GetMapTileProperty
+
+    ;if maptile.3, exit
+    and #%00001000
     bne Movement_INPLACE
-    ldx #$01
-    ldy #$f0
-    jsr B31_0510
-    and #$04
+
+
+    ;get tile downleftwards
+    ldx #1
+    ldy #-1 << 4
+    jsr GetMapTileProperty
+
+    ;if maptile.2, exit
+    and #%00000100
     bne Movement_INPLACE
+
+
     beq B31_0497
 
-B31_0506:
+GetMapTileImOn:
     ldx #0
     ldy #0
-    jsr B31_0510
+    jsr GetMapTileProperty
 
     sta movement_direction+1
+
     rts
 
-B31_0510:
+GetMapTileProperty:
     clc
 
     ;y = x + (y + UNK_A1)
@@ -5746,8 +6235,8 @@ B31_0510:
     ;a = 1
     lda #1
     @B31_052f:
-    ;UNK_A3 = (a ^ UNK_A7) + $fc
-    eor UNK_A7
+    ;UNK_A3 = (a ^ UNK_A6+1) + $fc
+    eor UNK_A6+1
     clc
     adc #$fc
     sta UNK_A3
@@ -5757,21 +6246,26 @@ B31_0510:
     sta UNK_A4
 
     ;UNK_A2 is probably $6000 by this point
-    ;ge ttile?
+    ;get tile?
     lda (UNK_A2), y
-    bmi @B31_0541
-    lda $10
+    ;if tile.7, jump
+    bmi @skip
+    lda UNK_10 ;get tileset 1
     .byte $2c ; BIT trick
-    @B31_0541:
-    lda $12
+    @skip:
+    lda UNK_12 ;get tileset 2
+
+    ;UNK_A4 = pointer into map tile properties
     lsr a
-    ror $a4
-    adc #$80
-    sta $a5
-    lda ($a2), y
+    ror UNK_A4
+    adc #.HIBYTE(Map_TileProperties)
+    sta UNK_A4+1
+
+    lda (UNK_A2), y
     and #$7f
     tay
-    lda ($a4), y
+    lda (UNK_A4), y
+
     rts
 
 B31_0552:
@@ -5799,11 +6293,11 @@ B31_0577:
     lda (object_pointer), y
     and #%00111111
     ora #%01000000
-    sta $60
+    sta UNK_60
     lda movement_direction
     lsr a
     and #%01000000
-    eor $60
+    eor UNK_60
     sta (object_pointer), y
     ldy #object_m_oam+1
     lda #$38
@@ -5817,23 +6311,26 @@ B31_0577:
     lda xy_unknown+4, x ; Flags
 B31_059b:
     clc
-    ldy #object_m_sprite2
+
+    ;add offset to base and write to sprite
+    ldy #object_m_sprite_base
     adc (object_pointer), y
     ldy #object_m_sprite
     sta (object_pointer), y
     lda #0
-    ldy #object_m_sprite2+1
+    ldy #object_m_sprite_base+1
     adc (object_pointer), y
     ldy #object_m_sprite+1
     sta (object_pointer), y
+
     rts
 
 B31_05af:
     jsr B31_05ef
-    asl $3a
-    rol $3b
-    asl $3c
-    rol $3d
+    asl UNK_3A
+    rol UNK_3A+1
+    asl UNK_3A+2
+    rol UNK_3A+3
     jmp B31_05c0
 
 B31_05bd:
@@ -5842,39 +6339,39 @@ B31_05c0:
     clc
     ldy #$04
     lda (object_pointer), y
-    adc $3a
-    sta $3a
+    adc UNK_3A
+    sta UNK_3A
     and #$c0
-    sta $aa
+    sta UNK_AA
     iny
     lda (object_pointer), y
-    adc $3b
-    sta $3b
-    sta $ab
+    adc UNK_3A+1
+    sta UNK_3A+1
+    sta UNK_AA+1
     clc
     ldy #$06
     lda (object_pointer), y
-    adc $3c
-    sta $3c
+    adc UNK_3A+2
+    sta UNK_3A+2
     and #$c0
-    sta $ac
+    sta UNK_AC
     iny
     lda (object_pointer), y
-    adc $3d
-    sta $3d
-    sta $ad
+    adc UNK_3A+3
+    sta UNK_3A+3
+    sta UNK_AC+1
     jmp B30_155d
 
 B31_05ef:
     jsr B31_0607 ; X = movement_direction * 8
     lda xy_unknown, x
-    sta $3a
+    sta UNK_3A
     lda xy_unknown+1, x
-    sta $3b
+    sta UNK_3A+1
     lda xy_unknown+2, x
-    sta $3c
+    sta UNK_3A+2
     lda xy_unknown+3, x
-    sta $3d
+    sta UNK_3A+3
     rts
 
 B31_0607:
@@ -6045,11 +6542,12 @@ obj_do_teleport:
     iny
 
     lda (object_data_rom), y
-    sbc #$01
+    sbc #1
     sta ypos_direction+1
 
     lda #$40
     sta fade_flag
+
     rts
 
 ; $E6CF - TICK object type #3
@@ -6524,7 +7022,7 @@ OBJTICK_Player:
     bcs @B31_09a9
     jsr B31_03b4 ; TODO: TILE COLLISION
     bcs @B31_09a9
-    bit $3f
+    bit movement_direction+1
     bpl @B31_09ad
     bvs @B31_099f
     lda movement_direction
@@ -6545,24 +7043,27 @@ OBJTICK_Player:
     jsr B31_0a24
     B31_09b3:
     lda movement_direction
-    sta $a0
+    sta UNK_A0
     ldy #$09
     lda (object_pointer), y
     and #$40
-    ora $1f
-    sta $e7
+    ora UNK_1c+3
+    sta UNK_E7
     ldy #$0c
     lda (object_pointer), y
-    sta $e8
+    sta UNK_E8
     iny
     lda (object_pointer), y
-    sta $e9
+    sta UNK_E9
     rts
 
 B31_09cd:
+    ;if not autowalking, jump
     lda autowalk_direction
     beq B31_09e1
+    ;else
     bpl B31_09d4
+
     rts
 
 B31_09d4:
@@ -6576,20 +7077,23 @@ B31_09d4:
     rts
 
 B31_09e1:
+    ;get directionals
     lda pad1_hold
-    and #$0f
+    and #$f
     tax
-    lda $0d
+
+    lda UNK_d
     bpl @B31_09f3
+
     and #$0f
     cmp Direction_By_Input, x
-    beq B31_09f7
-    sta $0d
+    beq @B31_09f7
+    sta UNK_d
     @B31_09f3:
     lda Direction_By_Input, x
     rts
 
-B31_09f7:
+    @B31_09f7:
     lda #$88
     rts
 
@@ -6854,7 +7358,7 @@ B31_0b92:
 
     lda $a6
     sta $a2
-    jsr B31_0506
+    jsr GetMapTileImOn
     lda $15
     jsr SetObjectBank
     bit $3f
@@ -7171,8 +7675,8 @@ B31_0dcb:
 OT0_DefaultTransition:
     ;backup palette
     jsr BackupPalette
-;same thing but without the backup lol
-B31_0ddf:
+    ;same thing but without the backup lol
+    B31_0ddf:
     ldy #5 ;amount of darkens
     @do_another:
     ldx #$1f ;amount of colors - 1
@@ -7201,6 +7705,7 @@ B31_0ddf:
     dey
     cpy #1
     bne @do_another
+
     rts
 
 ; $EDFE - Backup palette and fill palette
@@ -7876,6 +8381,7 @@ Rand:
     lda random_num+1
     adc #$63
     sta random_num+1
+
     rts
 
 Battle:
@@ -9609,15 +10115,17 @@ B31_1c79:
     jmp B31_1b0b
 
 ClearOam:
+    ;put all oam out of range
     lda #$f0
-    @B31_1c8c:
-    sta $0200, x
+    @clear:
+    sta shadow_oam, x
     inx
     inx
     inx
     inx
-    bne @B31_1c8c
-B31_1c95:
+    bne @clear
+
+    B31_1c95:
     rts
 
 B31_1c96:
@@ -9671,36 +10179,52 @@ B31_1ce7:
     bcc B31_1ca3
     rts
 
+;Sets up hardware stuff
 MemoryInit:
-    lda #$00
+    ;a, x = 0
+    lda #0
     tax
-    @B31_1cf1:
-    sta $00, x
+    ;clear 0x100 bytes
+    @clear:
+    sta 0, x
     inx
-    bne @B31_1cf1
+    bne @clear
+
+    ;clean shadow_oam
     jsr ClearOam
-    lda #$08
+
+    lda #8
     sta PPUCTRL ; Sprite pattern table at $1000
     sta ram_PPUCTRL
+
     lda #$80
     sta bankswitch_flags
-    sta $8000 ; CHR inversion: two 2KB banks at $1000-$1FFF, four 1KB banks at $0000-$0FFF
+    sta BANKSELECT ; CHR inversion: two 2KB banks at $1000-$1FFF, four 1KB banks at $0000-$0FFF
+
     lda #$18
     sta PPUMASK ; Enable BG and OBJ
     sta ram_PPUMASK
-    lda #$00
-    sta $a000 ; Vertical nametable mirroring
+
+    lda #0
+    sta MIRROR ; Vertical nametable mirroring
+
     rts
 
 MusicInit:
+    ;set music bank to $1c to be loaded
     lda #$1c
-    sta $07
-    lda #$00
-    ldx #$00
-    @B31_1d1c:
-    sta $0700, x
+    sta UNK_7
+
+    ;clear music ram
+    ;0x100 bytes
+    lda #0
+    ldx #0
+    @clear:
+    sta UNK_700, x
     inx
-    bne @B31_1d1c
+    bne @clear
+
+    ;init music ram
     jsr BankswitchMusic
     jmp B28_0006
 
@@ -10029,11 +10553,11 @@ Reset_Vector:
     sta PRGRAMPROTECT
 
     ldx #2
-    jump1:
+    @jump1:
     bit PPUSTATUS
-    bpl jump1
+    bpl @jump1
     dex
-    bne jump1
+    bne @jump1
 
     bit PPUSTATUS
     ldy #$3F
@@ -10043,10 +10567,10 @@ Reset_Vector:
 
     ldx #$20
     lda #$F
-    jump2:
+    @jump2:
     sta PPUDATA
     dex
-    bne jump2
+    bne @jump2
 
     sty PPUADDR
     stx PPUADDR
@@ -10059,12 +10583,12 @@ Reset_Vector:
     bit PPUSTATUS
     lda #$10
     tax
-    jump3:
+    @jump3:
     sta PPUADDR
     sta PPUADDR
     eor #0
     dex
-    bne jump3
+    bne @jump3
 
     ldx #$FF
     txs
@@ -10082,19 +10606,19 @@ Reset_Vector:
 
     bit PPUSTATUS
 
-    lda $FF
+    lda ram_PPUCTRL
     ora #$80
-    sta $FF
-
+    sta ram_PPUCTRL
     sta PPUCTRL
 
     cli
 
+    ;exit
     jmp PostInit
 
 BankswitchMusic:
-    ;load bank 7 into $8000
-    lda 7
+    ;load bank UNK_7 into $8000
+    lda UNK_7
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 

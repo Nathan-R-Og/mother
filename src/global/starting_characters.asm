@@ -25,7 +25,11 @@ Ninten_Data:
 ;name pointer (why exactly?)
 .addr Ninten_Data+party_info::name
 ;?
-.byte $00,$00,$08,$64
+.byte $00,$00
+;object type if lead?
+.byte OBJ_TYPE::PLAYER
+;object_m_bitfield1 | object_m_oam
+.byte (OBJECT_M_BF1_INTERACTABLE | OBJECT_M_BF1_CHANGEDIR) | 4
 ;sprite
 .addr SPRITEDEF_0
 ;items
@@ -75,7 +79,11 @@ Ana_Data:
 ;name pointer (why exactly?)
 .addr Ana_Data+party_info::name
 ;?
-.byte $00,$00,$08,$64
+.byte $00,$00
+;object type if lead?
+.byte OBJ_TYPE::PLAYER
+;object_m_bitfield1 | object_m_oam
+.byte (OBJECT_M_BF1_INTERACTABLE | OBJECT_M_BF1_CHANGEDIR) | 4
 ;sprite
 .addr SPRITEDEF_8
 ;items
@@ -125,7 +133,11 @@ Lloyd_Data:
 ;name pointer (why exactly?)
 .addr Lloyd_Data+party_info::name
 ;?
-.byte $00,$00,$08,$64
+.byte $00,$00
+;object type if lead?
+.byte OBJ_TYPE::PLAYER
+;object_m_bitfield1 | object_m_oam
+.byte (OBJECT_M_BF1_INTERACTABLE | OBJECT_M_BF1_CHANGEDIR) | 4
 ;sprite
 .addr SPRITEDEF_10
 ;items
@@ -175,7 +187,11 @@ Teddy_Data:
 ;name pointer (why exactly?)
 .addr Teddy_Data+party_info::name
 ;?
-.byte $00,$00,$08,$64
+.byte $00,$00
+;object type if lead?
+.byte OBJ_TYPE::PLAYER
+;object_m_bitfield1 | object_m_oam
+.byte (OBJECT_M_BF1_INTERACTABLE | OBJECT_M_BF1_CHANGEDIR) | 4
 ;sprite
 .addr SPRITEDEF_18
 ;items
@@ -225,7 +241,11 @@ Pippi_Data:
 ;name pointer (why exactly?)
 .addr Pippi_Data+party_info::name
 ;?
-.byte $00,$00,$08,$64
+.byte $00,$00
+;object type if lead?
+.byte OBJ_TYPE::PLAYER
+;object_m_bitfield1 | object_m_oam
+.byte (OBJECT_M_BF1_INTERACTABLE | OBJECT_M_BF1_CHANGEDIR) | 4
 ;sprite
 .addr SPRITEDEF_20
 ;items
@@ -275,7 +295,11 @@ EVE_Data:
 ;name pointer (why exactly?)
 .addr EVE_Data+party_info::name
 ;?
-.byte $00,$00,$08,$3a
+.byte $00,$00
+;object type if lead?
+.byte OBJ_TYPE::PLAYER
+;object_m_bitfield1 | object_m_oam
+.byte (OBJECT_M_BF1_CHANGEDIR | OBJECT_M_BF1_HIGHPRIORITY) | 10
 ;sprite
 .addr SPRITEDEF_58
 ;items
@@ -325,7 +349,11 @@ FlyingMan_Data:
 ;name pointer (why exactly?)
 .addr FlyingMan_Data+party_info::name
 ;?
-.byte $00,$00,$08,$64
+.byte $00,$00
+;object type if lead?
+.byte OBJ_TYPE::PLAYER
+;object_m_bitfield1 | object_m_oam
+.byte (OBJECT_M_BF1_INTERACTABLE | OBJECT_M_BF1_CHANGEDIR) | 4
 ;sprite
 .addr SPRITEDEF_50
 ;items

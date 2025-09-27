@@ -106,6 +106,8 @@ t_nop = 5
 .define unk4 print_string $6D0D ;what is this and why is it everywhere in jp
 
 ;i cant charmap these :(
+music_note = $77 ;
+dot_tile = $70 ;
 alpha = $61 ; α
 beta  = $62 ; β
 gamma = $63 ; γ

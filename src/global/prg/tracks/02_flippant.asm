@@ -256,11 +256,11 @@ mus_b_flippant_pulse1_phrase01:
     Note_Repeat 2
         Note_Length nl_t_quarter
         Note_E 4
-        Note_Length $b ; one-frame allignment correction
+        Note_Length nl_sixtyfourth ; one-frame allignment correction
         Note_Rest
         Note_Length nl_t_quarter
         Note_E 4
-        Note_Length $b
+        Note_Length nl_sixtyfourth
         Note_Rest
         Note_Length nl_t_quarter
         Note_E 4
@@ -503,11 +503,11 @@ mus_b_flippant_pulse2_phrase02:
     Note_Repeat 2
         Note_Length nl_t_quarter
         Note_AS 3
-        Note_Length $b ; one-frame allignment correction
+        Note_Length nl_sixtyfourth ; one-frame allignment correction
         Note_Rest
         Note_Length nl_t_quarter
         Note_AS 3
-        Note_Length $b
+        Note_Length nl_sixtyfourth
         Note_Rest
         Note_Length nl_t_quarter
         Note_AS 3
@@ -665,11 +665,11 @@ mus_b_flippant_noise_phrase01:
     Note_Repeat 2
         Note_Length nl_t_quarter
         Note_Noise 0, 7
-        Note_Length $b ; one-frame allignment correction
+        Note_Length nl_sixtyfourth ; one-frame allignment correction
         Note_Noise 0, 2
         Note_Length nl_t_quarter
         Note_Noise 0, 7
-        Note_Length $b ; one-frame allignment correction
+        Note_Length nl_sixtyfourth ; one-frame allignment correction
         Note_Noise 0, 2
         Note_Length nl_t_quarter
         Note_Noise 0, 7

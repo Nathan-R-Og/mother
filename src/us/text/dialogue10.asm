@@ -684,7 +684,7 @@ MSG_B_BULLHORN_FAIL:
 .byte   " at all."
 .byte   stopText
 
-MSG_B_BULLHORN_SUCCEED2:
+MSG_B_BULLHORN_BACKFIRE:
 .byte   " This made",newLine
 .byte   " ",beingAttacked," angry."
 .byte   stopText

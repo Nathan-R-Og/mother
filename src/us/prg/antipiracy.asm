@@ -288,34 +288,42 @@ LoadNamingScreen1:
 
 B25_02b3:
     clc
+
     lda player_x
     adc #$40
     and #$80
-    sta $aa
+    sta UNK_AA
+
     lda player_x+1
-    adc #$00
-    sta $ab
+    adc #0
+    sta UNK_AA+1
+
     lda player_y
-    sta $ac
+    sta UNK_AC
     lda player_y+1
-    sta $ad
+    sta UNK_AC+1
+
     jsr B30_155d
+
     lda player_x
     asl a
     asl a
     rol a
-    and #$01
+    and #%00000001
     tax
-    ldy $a1
+
+    ldy UNK_A1
+
     lda #$10
-    sta $7a
+    sta UNK_7A
+
     jsr EnablePRGRam
     B25_02de:
     tya
     ora #$f0
-    sta $7b
+    sta UNK_7B
     B25_02e3:
-    lda ($a4), y
+    lda (UNK_A4), y
     sta $6600, x
     iny
     inx
@@ -642,48 +650,75 @@ Bank_Checksum:
     .byte $FF
     .word $3857 ; wtf lol
 
-B25_04a7:
-    lda $7419
-    beq B25_04cb
+RepelRing_Effect:
+    ;if repel_counter == 0, leave
+    lda repel_counter
+    beq @exit
+
+    ;get Repel_LevelTable[Repel_BattleDifficultyTable[battle]]
     ldy enemy_group
-    ldx B25_0504, y
-    lda B25_04f2, x
-    cmp party_data+$10
-    bcs B25_04cb
+    ldx Repel_BattleDifficultyTable, y
+    lda Repel_LevelTable, x
+
+    ;if Ninten's level is >= the repel level, leave
+    cmp Ninten_Data+party_info::level
+    bcs @exit
+    ;else, expend a repel
     jsr EnablePRGRam
-    dec $7419
+    dec repel_counter
     jsr WriteProtectPRGRam
-    lda #$00
+    lda #0
     sta enemy_group
-    lda $7419
-    beq B25_04cc
-    B25_04cb:
+
+    ;if repel_counter == 0, jump
+    lda repel_counter
+    beq @out_of_repels
+
+    @exit:
     rts
 
-B25_04cc:
-    lda #$d1
-    sta $74
-    lda #$06
-    sta $73
-    lda #19
+    @out_of_repels:
+    ;UNK_73 = UMSG::REPEL_RING_BREAK (big endian)
+    lda #.LOBYTE(UMSG::REPEL_RING_BREAK)
+    sta UNK_73+1
+    lda #.HIBYTE(UMSG::REPEL_RING_BREAK)
+    sta UNK_73
+
+    lda #$13
     ldx #.LOBYTE(O_PrintText-1)
     ldy #.HIBYTE(O_PrintText-1)
     jsr TempUpperBankswitch
-    lda #19
+
+    lda #$13
     ldx #.LOBYTE(OINST_END-1)
     ldy #.HIBYTE(OINST_END-1)
     jsr TempUpperBankswitch
-    lda #19
+
+    lda #$13
     ldx #.LOBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
     ldy #.HIBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
     jsr TempUpperBankswitch
+
+    ;rts
     jmp BankswitchLower_Bank20
 
-B25_04f2:
-incbinRange "../../split/us/antipiracy.bin", $4f2, $504
+Repel_LevelTable:
+.byte 0,3,5,7,10,12,16,18,19,21,23,26,28,30,35,36,37,-1
 
-B25_0504:
-incbinRange "../../split/us/antipiracy.bin", $504, $5cc
+Repel_BattleDifficultyTable:
+.byte $00,$01,$03,$01,$03,$01,$03,$03,$01,$03,$01,$01,$07,$01,$01,$02
+.byte $11,$11,$11,$11,$02,$02,$03,$03,$11,$03,$03,$03,$03,$03,$03,$11
+.byte $03,$11,$03,$03,$11,$03,$06,$11,$06,$06,$11,$08,$04,$11,$11,$11
+.byte $04,$04,$04,$04,$05,$05,$05,$04,$05,$05,$04,$04,$04,$05,$05,$11
+.byte $11,$11,$11,$11,$11,$11,$11,$11,$06,$08,$08,$11,$11,$11,$07,$07
+.byte $07,$07,$07,$11,$06,$06,$11,$11,$06,$11,$02,$09,$11,$11,$11,$09
+.byte $09,$11,$09,$09,$11,$11,$09,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$11
+.byte $11,$11,$0B,$0B,$0B,$0B,$0B,$0D,$0D,$0B,$0B,$0B,$0B,$0B,$11,$11
+.byte $11,$0B,$11,$11,$11,$11,$11,$11,$11,$0B,$0B,$0C,$0C,$0C,$0C,$0C
+.byte $11,$11,$11,$11,$11,$11,$11,$11,$11,$11,$11,$11,$11,$11,$11,$11
+.byte $11,$11,$11,$11,$11,$0E,$0E,$0E,$0E,$0E,$0F,$0F,$0F,$0F,$10,$10
+.byte $10,$10,$10,$10,$10,$10,$10,$10,$10,$00,$00,$00,$00,$00,$00,$00
+.byte $00,$00,$00,$00,$00,$00,$00,$00
 
 B25_05cc:
     jsr B25_081a

@@ -10,7 +10,7 @@
 .include "../global/header.asm"
 
 .include "prg/bank0.asm"
-.include "map.asm"
+.include "../global/map.asm"
 .include "../global/objects/1.asm"
 .include "prg/bank11.asm"
 .include "prg/bank12.asm"
@@ -19,9 +19,9 @@
 .include "prg/bank14.asm"
 
 .include "../global/sprites.asm"
+.include "../global/battle_data.asm"
 
-.include "prg/bank16.asm"
-.include "prg/battle.asm"
+.include "../global/prg/battle.asm"
 
 ;
 .segment "PRG18": absolute
@@ -52,11 +52,11 @@
 .include "../global/chr/bank8.asm"
 .include "../global/chr/bank9.asm"
 .include "../global/chr/banka.asm"
-.include "chr/bankb.asm"
+.include "../global/chr/bankb.asm"
 .include "../global/chr/bankc.asm"
 .include "../global/chr/bankd.asm"
 .include "../global/chr/banke.asm"
-.include "chr/bankf.asm"
+.include "../global/chr/bankf.asm"
 
 .include "text/dialogue1.asm"
 .include "text/dialogue2.asm"
@@ -69,8 +69,7 @@
 .include "text/dialogue9.asm"
 .include "text/dialogue10.asm"
 
-.include "chr/bank1a.asm"
-.include "chr/bank1b.asm"
+.include "us_chr.asm"
 
 .segment "CHR1C": absolute
 .segment "CHR1D": absolute

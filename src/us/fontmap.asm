@@ -138,7 +138,8 @@ t_nop = 5
 .define unk3 repeatTile " ", 16
 
 ;i cant charmap these :(
-music_note = $96 ; α
+music_note = $96 ;
+dot_tile = $a5 ;
 alpha = $BB ; α
 beta  = $BC ; β
 gamma = $BD ; γ
