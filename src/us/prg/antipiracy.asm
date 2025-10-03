@@ -246,24 +246,17 @@ B25_026b:
 ;$A28B
 ;loads naming_screen_1
 LoadNamingScreen1:
-    ;is this considered a workaround if this is what the game does
-    ;id only say it is if it was possible to reference the bank address
-    ;of naming_screen_1 but i dont think that's possible.
-    ;genuinely. and wholeheartedly. whatevs.
-    .import __ANTIPIRACY_SIZE__
-    .import __ANTIPIRACY_START__
-    naming_screen_1_in_this_bank = __ANTIPIRACY_START__ + __ANTIPIRACY_SIZE__
-
+    .import __NAMING_SCREEN_1_LOAD__
     ;set read address
-    lda #.LOBYTE(naming_screen_1_in_this_bank)
-    ldx #.HIBYTE(naming_screen_1_in_this_bank)
+    lda #.LOBYTE(__NAMING_SCREEN_1_LOAD__)
+    ldx #.HIBYTE(__NAMING_SCREEN_1_LOAD__)
     sta UNK_60 ; $60 = 0xB800
     stx UNK_60+1
 
     ;set write address
-    .import __NAMING_SCREEN_1_START__
-    lda #.LOBYTE(__NAMING_SCREEN_1_START__)
-    ldx #.HIBYTE(__NAMING_SCREEN_1_START__)
+    .import __NAMING_SCREEN_1_RUN__
+    lda #.LOBYTE(__NAMING_SCREEN_1_RUN__)
+    ldx #.HIBYTE(__NAMING_SCREEN_1_RUN__)
     sta UNK_64 ; $64 = 0x6000
     stx UNK_64+1
 

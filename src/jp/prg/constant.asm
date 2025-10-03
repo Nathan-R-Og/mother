@@ -2700,10 +2700,10 @@ B30_0de4:
 ; Store $800 bytes from PPU address $1800, bank 0x5E, to $6C00
 ; loads NAMING_SCREEN_2
 LoadNamingScreen2:
-    .import __NAMING_SCREEN_2_START__
+    .import __NAMING_SCREEN_2_RUN__
     ldy #$5e
-    lda #.LOBYTE(__NAMING_SCREEN_2_START__)
-    ldx #.HIBYTE(__NAMING_SCREEN_2_START__)
+    lda #.LOBYTE(__NAMING_SCREEN_2_RUN__)
+    ldx #.HIBYTE(__NAMING_SCREEN_2_RUN__)
 
 ;y == (chr) bank
 ;x:a == write address

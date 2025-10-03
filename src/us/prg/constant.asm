@@ -206,7 +206,7 @@ B30_0274:
     jsr PpuSync
 
     ;goto B25_02b3
-    lda #$19
+    lda #.BANK(B25_02b3)
     ldx #.LOBYTE(B25_02b3-1)
     ldy #.HIBYTE(B25_02b3-1)
     jsr TempUpperBankswitch
@@ -329,7 +329,7 @@ B30_0306:
     lda #.HIBYTE($8000)
     sta UNK_E5
 
-    lda #$19
+    lda #.BANK(B25_031e)
     ldx #.LOBYTE(B25_031e-1)
     ldy #.HIBYTE(B25_031e-1)
     jsr TempUpperBankswitch
@@ -2203,10 +2203,10 @@ B30_0de4:
 ; Store $800 bytes from PPU address $1800, bank 0x5E, to $6C00
 ; loads NAMING_SCREEN_2
 LoadNamingScreen2:
-    .import __NAMING_SCREEN_2_START__
+    .import __NAMING_SCREEN_2_RUN__
     ldy #$5e
-    lda #.LOBYTE(__NAMING_SCREEN_2_START__)
-    ldx #.HIBYTE(__NAMING_SCREEN_2_START__)
+    lda #.LOBYTE(__NAMING_SCREEN_2_RUN__)
+    ldx #.HIBYTE(__NAMING_SCREEN_2_RUN__)
 
 ;y == (chr) bank
 ;x:a == write address
@@ -9802,7 +9802,7 @@ B31_19ef:
     rts
 
 B31_1a81:
-    lda #$15
+    lda #.BANK(SPRITEDEF_0) ;bank $15
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 
@@ -10600,8 +10600,7 @@ Reset_Vector:
     jsr MusicInit
 
     ldx #BANK::PRGA000
-    lda #$13
-
+    lda #.BANK(OM_OPEN_FULLSTATS) ;bank 13
     jsr BANK_SWAP
 
     bit PPUSTATUS
@@ -10623,7 +10622,7 @@ BankswitchMusic:
     jsr BANK_SWAP
 
     ;load bank $1D into $A000
-    lda #$1D
+    lda #.BANK(B28_0000)+1
     ldx #BANK::PRGA000
     ;fallthrough
 

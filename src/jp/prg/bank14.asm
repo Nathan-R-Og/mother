@@ -460,13 +460,13 @@ intro:
 
     ;load NAMING_SCREEN_1
     .ifdef VER_JP
-    .import __NAMING_SCREEN_1_START__
+    .import __NAMING_SCREEN_1_RUN__
     ldy #$7a
-    lda #.LOBYTE(__NAMING_SCREEN_1_START__)
-    ldx #.HIBYTE(__NAMING_SCREEN_1_START__)
+    lda #.LOBYTE(__NAMING_SCREEN_1_RUN__)
+    ldx #.HIBYTE(__NAMING_SCREEN_1_RUN__)
     jsr B30_0e08
     .else
-    lda #$19
+    lda #.BANK(LoadNamingScreen1)
     ldx #.LOBYTE(LoadNamingScreen1-1)
     ldy #.HIBYTE(LoadNamingScreen1-1)
     jsr TempUpperBankswitch
