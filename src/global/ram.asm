@@ -163,7 +163,7 @@ UNK_E8: .res 1
 UNK_E9: .res 1
 nmi_flag: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running NMI handler ;ignores controller input while set
 UNK_EB: .res 1
-UNK_EC: .res 1
+irq_count: .res 1      ; IRQ Count
 irq_index: .res 1 ; $ed ; IRQ routine index (multiple of 2)
 bankswitch_mode: .res 1 ; $ee ; Bankswitch "mode"  (-----mmm), $8000 MMC3 register
 bankswitch_flags: .res 1 ; $ef ; Bankswitch "flags" (ff------), $8000 MMC3 register

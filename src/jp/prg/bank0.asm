@@ -1819,7 +1819,7 @@ window_unk:
 .byte uibox_t,uibox_tr
 .byte 0
 
-window_unk_2:
+window_message:
 .byte set_pos 9, 17
 .byte uibox_tl
 .byte repeatTile uibox_t, 20
@@ -1863,7 +1863,7 @@ window_unk_2:
 
 
 
-window_unk_3:
+window_8entries:
 .byte set_pos 5, 3
 .byte uibox_tl
 .byte repeatTile uibox_t, 15
@@ -1908,7 +1908,7 @@ window_unk_3:
 .byte 0
 
 
-window_unk_4:
+window_shopitems:
 .byte set_pos 1, 1
 .byte uibox_tl
 .byte repeatTile uibox_t, 18
@@ -1951,7 +1951,7 @@ window_unk_4:
 .byte 0
 
 
-window_unk_5:
+window_who:
 .byte uibox_tl
 .byte repeatTile uibox_t, 4
 .byte uibox_tr
@@ -1972,7 +1972,7 @@ kanafix " だれ "
 .byte 0
 
 
-item_action_menu:
+window_itemactions:
 .byte set_pos 25, 5
 .byte uibox_tl
 .byte repeatTile uibox_t, 4

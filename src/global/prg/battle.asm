@@ -3824,7 +3824,7 @@ EnemyLongFlashing:
     sta bytevar_0300, x
     lda #$01
     sta $e5
-    jsr WaitFrame
+    jsr WaitNMI
     lda #$80
     sta $e5
     rts
@@ -3836,7 +3836,7 @@ DoEnemyDeadAnimation:
     sta bytevar_0300, x
     lda #$01
     sta $e5
-    jsr WaitFrame
+    jsr WaitNMI
     lda #$80
     sta $e5
     lda #$00
@@ -3878,7 +3878,7 @@ AnimateEnemyHitRoutine:
     eor #$40
     sta $45
     B23_15ad:
-    jsr WaitFrame
+    jsr WaitNMI
     clc
     lda battle_wordvar60
     adc battle_wordvar62
@@ -3978,25 +3978,25 @@ DoAnimateEnemyHit:
     sta bytevar_0300, x
     lda #$01
     sta $e5
-    jsr WaitFrame
+    jsr WaitNMI
     lda #$7c
     ldx battle_wordvar64
     sta $40, x
     lda battle_wordvar60+1
     jsr SetBGColorA
-    jsr WaitFrame
+    jsr WaitNMI
     pla
     ldx battle_wordvar64+1
     sta bytevar_0300, x
     lda #$01
     sta $e5
-    jsr WaitFrame
+    jsr WaitNMI
     ldy #$1f
     lda (battle_var5c), y
     ldx battle_wordvar64
     sta $40, x
     jsr SetBGColorBlack
-    jsr WaitFrame
+    jsr WaitNMI
     pla
     tax
     dex
@@ -4019,7 +4019,7 @@ ANIMATE_LONG_ENEMY:
     sta bytevar_0300, x
     lda #$01
     sta $e5
-    jsr WaitFrame
+    jsr WaitNMI
     lda #$80
     sta $e5
     ldy target_offset
@@ -4141,7 +4141,7 @@ DoAnimatePlayerHit:
 
     lda #1
     sta UNK_E5
-    jsr WaitFrame
+    jsr WaitNMI
 
     ;if y != length, keep going
     cpy battle_wordvar62+1
@@ -4154,7 +4154,7 @@ DoAnimatePlayerHit:
     lda #0
     sta UNK_E8
     sta UNK_E9
-    jsr WaitFrame
+    jsr WaitNMI
 
     ;bye bye
     jmp SetBGColorBlack
