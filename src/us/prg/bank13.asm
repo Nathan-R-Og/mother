@@ -415,7 +415,7 @@ B19_0262:
     jmp CLEAR_TEXTBOXES_ROUTINE
 
 B19_026a:
-    jsr B30_03c7
+    jsr DrawWindowItemactions
     jsr MOV_word60_word40
     jsr PlayerStatusCheck
     beq B19_0281
@@ -3754,7 +3754,7 @@ B19_1763:
     lda $77
     sbc #$04
     sta $77
-    jsr B30_03c0
+    jsr DrawWindowWho
     jsr B19_0b41
     lda #.LOBYTE(Who_Choicer)
     ldx #.HIBYTE(Who_Choicer)
@@ -3785,7 +3785,7 @@ Who_Choicer:
     .addr something+4 ; choices
 
 B19_17b6:
-    jsr B30_03b2
+    jsr DrawWindow8Entriesbox
     ldx #$ff
     B19_17bb:
     inx
@@ -3838,7 +3838,7 @@ B19_1803:
     rts
 
 B19_1814:
-    jsr B30_03b9
+    jsr DrawWindowShopitems
     jsr B19_0b41
     sec
     lda $35
@@ -3893,7 +3893,7 @@ B19_1877:
     .byte $01,$04,$00,$02,$c0,$3a,$02,$03
 
 B19_187f:
-    jsr B30_03b2
+    jsr DrawWindow8Entriesbox
     lda #.LOBYTE(B19_18d8)
     ldx #.HIBYTE(B19_18d8)
     jsr B19_0c44
@@ -3949,7 +3949,7 @@ B19_18d8:
     .byte $ec,$ef,$f3,$e5,$f4,$00
 
 B19_18e6:
-    jsr B30_03b2
+    jsr DrawWindow8Entriesbox
     ldx #$ff
     B19_18eb:
     inx
@@ -4046,7 +4046,7 @@ B19_198b:
     .byte $60,$e0,$a8,$00
 
 B19_198f:
-    jsr B30_03b2
+    jsr DrawWindow8Entriesbox
     lda #.LOBYTE(B19_19d1)
     ldx #.HIBYTE(B19_19d1)
     jsr B19_0c44
@@ -4092,7 +4092,7 @@ B19_19dc:
     .byte $02,$04,$0c,$02,$c0,$3a,$06,$05
 
 B19_19e4:
-    jsr B30_03ce
+    jsr DrawWindowCashboxmenu
     lda #.LOBYTE(B19_1ab6)
     ldx #.HIBYTE(B19_1ab6)
     jsr B19_0c44
@@ -4396,7 +4396,7 @@ B19_1c0a:
     pha
     lda $73
     pha
-    jsr B30_03a0
+    jsr DrawWindowMessagebox
     pla
     sta $73
     pla

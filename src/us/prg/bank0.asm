@@ -806,7 +806,7 @@ battle_statbar_top:
 .byte stopText
 
 
-window_unk_2:
+window_message:
 .byte set_pos 7, 17
 .byte uibox_tl
 .byte repeatTile uibox_t, 22
@@ -843,7 +843,8 @@ window_unk_2:
 .byte uibox_br
 .byte stopText
 
-window_unk_3:
+; box with 8 entries used for overworld PSI, Inventory
+window_8entries:
 .byte set_pos 5, 3
 .byte uibox_tl,uibox_t," ",arrow
 .byte repeatTile uibox_t, 21
@@ -880,8 +881,9 @@ window_unk_3:
 .byte uibox_br
 .byte stopText
 
-
-window_unk_4:
+; used when looking at shop's items
+; hard coded 4 entries per shop (the entry can be empty)
+window_shopitems:
 .byte set_pos 1, 1
 .byte uibox_tl
 .byte repeatTile uibox_t, 20
@@ -918,8 +920,8 @@ window_unk_4:
 .byte uibox_br
 .byte stopText
 
-
-window_unk_5:
+; little "Who?" box that appears when asking player to select a party member
+window_who:
 .byte uibox_tl
 .byte repeatTile uibox_t, 4
 .byte uibox_tr
@@ -935,8 +937,8 @@ window_unk_5:
 .byte uibox_br
 .byte stopText
 
-
-item_action_menu:
+; Window that appears when selecting an item (Use, Eat, Give, etc...)
+window_itemactions:
 .byte set_pos 23, 5
 .byte uibox_tl
 .byte repeatTile uibox_t, 6

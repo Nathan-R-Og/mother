@@ -80,7 +80,7 @@ B30_01D1:
 
 ; THIS HERE IS CODE.
 
-;is this ever actually called
+; Leftover routine from JP.
 B30_0200:
     lda #$f
     sta UNK_100
@@ -211,9 +211,9 @@ B30_0274:
     ldy #.HIBYTE(B25_02b3-1)
     jsr TempUpperBankswitch
 
-    ;UNK_EC = 0
+    ;irq_count = 0
     lda #0
-    sta UNK_EC
+    sta irq_count
 
     ;disable dmc
     ;disable_dmc = $ff
@@ -224,12 +224,12 @@ B30_0274:
     lda #$f
     sta SND_CHN
 
-    jsr WaitFrame
+    jsr WaitNMI
 
     ;fill irq_pointers with B30_0226
     ;(13 times)
     ldx #0
-    @loop:
+@next_irq_handler:
     lda #.LOBYTE(B30_0226-1)
     sta irq_pointers, x
     inx
@@ -237,7 +237,7 @@ B30_0274:
     sta irq_pointers, x
     inx
     cpx #26
-    bne @loop
+    bne @next_irq_handler
 
     ;endpoint. probably
     lda #0
@@ -245,11 +245,12 @@ B30_0274:
     inx
     sta irq_pointers, x
 
-    ;UNK_EC = $f
+    ;irq_count = $f
     lda #$f
-    sta UNK_EC
+    sta irq_count
 
-    B30_02b3:
+; next tilebank?
+B30_02b3:
     jsr BankswitchLower_Bank00
 
     B30_02b6:
@@ -394,7 +395,8 @@ party_menu_3char:
     .byte uibox_br
     .byte stopText
 
-B30_037a:
+; a single row/entry of the party menu
+party_menu_entry:
     .byte uibox_l, " "
     .byte print_number party_info::name, 0, 7
     .byte print_number party_info::level, 1, 3
@@ -410,64 +412,68 @@ B30_039d:
     .byte " !", $00
 
 ; TODO: Open dialogue window
-B30_03a0:
-    lda #.LOBYTE(window_unk_2)
-    ldx #.HIBYTE(window_unk_2)
-B30_03a4:
+DrawWindowMessagebox:
+    lda #.LOBYTE(window_message)
+    ldx #.HIBYTE(window_message)
+
+; draws current window ptr stored in A, X (lo, hi)
+DrawCurrentWindow:
+    ; stxa PointerTilePack
     sta UNK_74
     stx UNK_74+1
-    lda UNK_EC
+    lda irq_count
     beq @if_equal
     jmp B30_02b3
     @if_equal:
     jmp B30_0274
 
-B30_03b2:
-    lda #.LOBYTE(window_unk_3)
-    ldx #.HIBYTE(window_unk_3)
-    jmp B30_03a4
+; used by PSI and Items list
+DrawWindow8Entriesbox:
+    lda #.LOBYTE(window_8entries)
+    ldx #.HIBYTE(window_8entries)
+    jmp DrawCurrentWindow
 
-B30_03b9:
-    lda #.LOBYTE(window_unk_4)
-    ldx #.HIBYTE(window_unk_4)
-    jmp B30_03a4
+DrawWindowShopitems:
+    lda #.LOBYTE(window_shopitems)
+    ldx #.HIBYTE(window_shopitems)
+    jmp DrawCurrentWindow
 
-B30_03c0:
-    lda #.LOBYTE(window_unk_5)
-    ldx #.HIBYTE(window_unk_5)
-    jmp B30_03a4
+DrawWindowWho:
+    lda #.LOBYTE(window_who)
+    ldx #.HIBYTE(window_who)
+    jmp DrawCurrentWindow
 
-B30_03c7:
-    lda #.LOBYTE(item_action_menu)
-    ldx #.HIBYTE(item_action_menu)
-    jmp B30_03a4
+DrawWindowItemactions:
+    lda #.LOBYTE(window_itemactions)
+    ldx #.HIBYTE(window_itemactions)
+    jmp DrawCurrentWindow
 
-B30_03ce:
+DrawWindowCashboxmenu:
     lda #.LOBYTE(cash_box_menu)
     ldx #.HIBYTE(cash_box_menu)
-    jmp B30_03a4
+    jmp DrawCurrentWindow
 
 B30_03d5:
     jsr SetupPartyUi
     lda #.LOBYTE(window_unk)
     ldx #.HIBYTE(window_unk)
-    jmp B30_03a4
+    jmp DrawCurrentWindow
 
 B30_03df:
     lda #.LOBYTE(cash_box_top_2)
     ldx #.HIBYTE(cash_box_top_2)
-    jmp B30_03a4
+    jmp DrawCurrentWindow
 
 B30_03e6:
     lda #.LOBYTE(cash_box_middle)
     ldx #.HIBYTE(cash_box_middle)
-    jmp B30_03a4
+    jmp DrawCurrentWindow
 
 .ifndef VER_JP
 Draw_SetupMenu:
     lda #.LOBYTE(setup_menu)
     ldx #.HIBYTE(setup_menu)
-    jmp B30_03a4
+    jmp DrawCurrentWindow
 .endif
 
 ; runs when overworld menus are being wiped
@@ -696,11 +702,11 @@ SetupPartyUi:
     tya
     pha
 
-    ;make a copy of B30_037a with this party members' stats
+    ;make a copy of party_menu_entry with this party members' stats
     ;stop before the last print_number
     ldy #0
     @B30_055b:
-    jsr ReplaceB30_037a
+    jsr Replaceparty_menu_entry
     cpy #$14
     bne @B30_055b
 
@@ -753,14 +759,14 @@ SetupPartyUi:
 
     ;by this point, nothing has been written to the exp panel
     ;so just write exp like normal :D
-    ;pull last b30_037a y
+    ;pull last party_menu_entry y
     pla
     tay
-    jsr ReplaceB30_037a
+    jsr Replaceparty_menu_entry
 
-    ;while B30_037a isnt finished, keep writing
+    ;while party_menu_entry isnt finished, keep writing
     @finish_writing:
-    lda B30_037a, y
+    lda party_menu_entry, y
     sta something, x
     inx
     iny
@@ -873,10 +879,10 @@ GetYCharacter:
     @is_zero:
     rts
 
-ReplaceB30_037a:
-    ;draw 3 bytes of B30_037a
+Replaceparty_menu_entry:
+    ;draw 3 bytes of party_menu_entry
     .repeat 3
-    lda B30_037a, y
+    lda party_menu_entry, y
     sta something, x
     inx
     iny
@@ -885,7 +891,7 @@ ReplaceB30_037a:
 
     ;surgically replace the number that was going to be printed
     .repeat 2, i
-    lda B30_037a, y
+    lda party_menu_entry, y
     adc UNK_60+i
     sta something, x
     inx
@@ -2660,9 +2666,9 @@ STORE_COORDINATES:
     lda #$88
     sta UNK_A0
 
-    ;UNK_EC = 0
+    ;irq_count = 0
     lda #0
-    sta UNK_EC
+    sta irq_count
 
     sta pad1_forced
     rts
@@ -7490,7 +7496,7 @@ B31_0c65:
     dex
     bpl @B31_0c94
     jsr B31_0d1a
-    jmp WaitFrame
+    jmp WaitNMI
 
 B31_0ca3:
     lda #$c3
@@ -7506,7 +7512,7 @@ B31_0ca3:
     jsr B30_1977
     ldx #$3c
     @B31_0cbc:
-    jsr WaitFrame
+    jsr WaitNMI
     lda pad1_hold
     bne @B31_0cc6
     dex
@@ -7529,7 +7535,7 @@ B31_0ca3:
     sta $07ef
     sta $d7
     plp
-    jmp WaitFrame
+    jmp WaitNMI
 
 ; $ECEC
 B31_0cec:
@@ -7866,14 +7872,14 @@ SetScroll:
     sta ram_PPUCTRL
     stx scroll_y
     sty scroll_x
-    jmp WaitFrame
+    jmp WaitNMI
 
 B31_0ee4:
     jsr PpuSync
     lda #$04
     eor scroll_y
     sta scroll_y
-    jmp WaitFrame
+    jmp WaitNMI
 
 B31_0ef0:
     lda $761f
@@ -8001,7 +8007,7 @@ B31_0f88:
     stx pad1_forced
     @B31_0fbc:
     jsr Rand
-    jsr WaitFrame
+    jsr WaitNMI
     lda pad1_forced
     bne @B31_0fe1
     dey
@@ -8454,7 +8460,7 @@ WaitXFrames:
     txa
     beq @end
     pha
-    jsr WaitFrame
+    jsr WaitNMI
     pla
     tax
     dex
@@ -8485,8 +8491,8 @@ B31_127e:
     tax
     lda B31_1296, x
     jsr SetBGColorA
-    jsr WaitFrame
-    jsr WaitFrame
+    jsr WaitNMI
+    jsr WaitNMI
     pla
     tax
     dex
@@ -8501,7 +8507,7 @@ WaitABPressed:
     ldx #0
     stx pad1_forced
     @loop:
-    jsr WaitFrame
+    jsr WaitNMI
     lda pad1_forced
     stx pad1_forced
     and #%11000000
@@ -8831,7 +8837,7 @@ SetBGColorA:
     dey
     bpl @B31_14bf
     jsr QueuePaletteUpdate
-    jmp WaitFrame
+    jmp WaitNMI
 
 B31_14ce:
     ;store a * 2
@@ -9330,7 +9336,7 @@ B31_174c:
 B31_1759:
     lda #$00
     sta $d7
-    jmp WaitFrame
+    jmp WaitNMI
 
 B31_1760:
     lda #$01
@@ -10234,7 +10240,7 @@ PlayMusic:
     beq @unchanged
     sta soundqueue_track
 @unchanged:
-    jmp WaitFrame
+    jmp WaitNMI
 
 PpuSync: ;wait for NmiHandler
     lda UNK_E5
@@ -10243,12 +10249,13 @@ PpuSync: ;wait for NmiHandler
     rts
 
 WaitXFrames_Min1:
-    jsr WaitFrame
+    jsr WaitNMI
     dex
     bne WaitXFrames_Min1
     rts
 
-WaitFrame:
+; waits for NMI interrupt to complete
+WaitNMI:
     lda #1
     sta nmi_flag
     @loop:

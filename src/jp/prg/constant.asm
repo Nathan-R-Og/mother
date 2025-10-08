@@ -579,9 +579,9 @@ B30_0274:
     jsr TempUpperBankswitch
     .endif
 
-    ;UNK_EC = 0
+    ;irq_count = 0
     lda #0
-    sta UNK_EC
+    sta irq_count
 
     ;disable dmc
     ;disable_dmc = $ff
@@ -592,7 +592,7 @@ B30_0274:
     lda #$f
     sta SND_CHN
 
-    jsr WaitFrame
+    jsr WaitNMI
 
     ;fill irq_pointers with B30_0226
     ;(13 times)
@@ -613,9 +613,9 @@ B30_0274:
     inx
     sta irq_pointers, x
 
-    ;UNK_EC = $f
+    ;irq_count = $f
     lda #$f
-    sta UNK_EC
+    sta irq_count
 
     B30_02b3:
     jsr BankswitchLower_Bank00
@@ -766,7 +766,7 @@ party_menu_3char:
     .byte uibox_br
     .byte stopText
 
-B30_037a:
+party_menu_entry:
     .byte uibox_l, " "
     .byte print_number $0038, 0, 6
     .byte print_number $0014, 2, 4
@@ -782,64 +782,64 @@ B30_039d:
     .byte $a0, $a1, $00
 
 ; TODO: Open dialogue window
-B30_03a0:
-    lda #.LOBYTE(window_unk_2)
-    ldx #.HIBYTE(window_unk_2)
-B30_03a4:
+DrawWindowMessagebox:
+    lda #.LOBYTE(window_message)
+    ldx #.HIBYTE(window_message)
+DrawCurrentWindow:
     sta UNK_74
     stx UNK_74+1
-    lda UNK_EC
+    lda irq_count
     beq @if_equal
     jmp B30_02b3
     @if_equal:
     jmp B30_0274
 
-B30_03b2:
-    lda #.LOBYTE(window_unk_3)
-    ldx #.HIBYTE(window_unk_3)
+DrawWindow8Entriesbox:
+    lda #.LOBYTE(window_8entries)
+    ldx #.HIBYTE(window_8entries)
     .ifdef VER_JP
     L3C4BB:
     sta UNK_74
     stx UNK_74+1
     jmp B30_02b3
     .else
-    jmp B30_03a4
+    jmp DrawCurrentWindow
     .endif
 
-B30_03b9:
-    lda #.LOBYTE(window_unk_4)
-    ldx #.HIBYTE(window_unk_4)
+DrawWindowShopitems:
+    lda #.LOBYTE(window_shopitems)
+    ldx #.HIBYTE(window_shopitems)
     .ifdef VER_JP
     jmp L3C4BB
     .else
-    jmp B30_03a4
+    jmp DrawCurrentWindow
     .endif
 
-B30_03c0:
-    lda #.LOBYTE(window_unk_5)
-    ldx #.HIBYTE(window_unk_5)
+DrawWindowWho:
+    lda #.LOBYTE(window_who)
+    ldx #.HIBYTE(window_who)
     .ifdef VER_JP
     jmp L3C4BB
     .else
-    jmp B30_03a4
+    jmp DrawCurrentWindow
     .endif
 
-B30_03c7:
-    lda #.LOBYTE(item_action_menu)
-    ldx #.HIBYTE(item_action_menu)
+DrawWindowItemactions:
+    lda #.LOBYTE(window_itemactions)
+    ldx #.HIBYTE(window_itemactions)
     .ifdef VER_JP
     jmp L3C4BB
     .else
-    jmp B30_03a4
+    jmp DrawCurrentWindow
     .endif
 
-B30_03ce:
+DrawWindowCashboxmenu:
     lda #.LOBYTE(cash_box_menu)
     ldx #.HIBYTE(cash_box_menu)
     .ifdef VER_JP
     jmp L3C4BB
     .else
-    jmp B30_03a4
+    jmp DrawCurrentWindow
     .endif
 
 B30_03d5:
@@ -849,7 +849,7 @@ B30_03d5:
     .ifdef VER_JP
     jmp L3C4BB
     .else
-    jmp B30_03a4
+    jmp DrawCurrentWindow
     .endif
 
 B30_03df:
@@ -858,13 +858,13 @@ B30_03df:
     .ifdef VER_JP
     jmp L3C4BB
     .else
-    jmp B30_03a4
+    jmp DrawCurrentWindow
     .endif
 
 B30_03e6:
     lda #.LOBYTE(cash_box_middle)
     ldx #.HIBYTE(cash_box_middle)
-    jmp B30_03a4
+    jmp DrawCurrentWindow
 
 ; runs when overworld menus are being wiped
 CLEAR_TEXTBOXES_ROUTINE:
@@ -1260,7 +1260,7 @@ B30_0542:
     tay
     jsr B30_0637
     B30_059b:
-    lda B30_037a, y
+    lda party_menu_entry, y
     sta something, x
     inx
     iny
@@ -1350,25 +1350,25 @@ GetYCharacter:
 
 
 B30_0637:
-    lda B30_037a , y
+    lda party_menu_entry , y
     sta something, x
     inx
     iny
-    lda B30_037a, y
+    lda party_menu_entry, y
     sta something, x
     inx
     iny
-    lda B30_037a, y
+    lda party_menu_entry, y
     sta something, x
     inx
     iny
     clc
-    lda B30_037a, y
+    lda party_menu_entry, y
     adc $60
     sta something, x
     inx
     iny
-    lda B30_037a, y
+    lda party_menu_entry, y
     adc $61
     sta something, x
     inx
@@ -7377,7 +7377,7 @@ B31_0c65:
     dex
     bpl @B31_0c94
     jsr B31_0d1a
-    jmp WaitFrame
+    jmp WaitNMI
 
 B31_0ca3:
     lda #$c3
@@ -7393,7 +7393,7 @@ B31_0ca3:
     jsr B30_1977
     ldx #$3c
     @B31_0cbc:
-    jsr WaitFrame
+    jsr WaitNMI
     lda pad1_hold
     bne @B31_0cc6
     dex
@@ -7414,7 +7414,7 @@ B31_0ca3:
     sta $07ef
     sta $d7
     plp
-    jmp WaitFrame
+    jmp WaitNMI
 
 ; $ECEC
 B31_0cec:
@@ -7731,14 +7731,14 @@ SetScroll:
     sta ram_PPUCTRL
     stx scroll_y
     sty scroll_x
-    jmp WaitFrame
+    jmp WaitNMI
 
 B31_0ee4:
     jsr PpuSync
     lda #$04
     eor scroll_y
     sta scroll_y
-    jmp WaitFrame
+    jmp WaitNMI
 
 B31_0ef0:
     lda $761f
@@ -7869,7 +7869,7 @@ B31_0f88:
     stx pad1_forced
     @B31_0fbc:
     jsr Rand
-    jsr WaitFrame
+    jsr WaitNMI
     lda pad1_forced
     bne @B31_0fe1
     dey
@@ -8334,7 +8334,7 @@ WaitXFrames:
     txa
     beq @end
     pha
-    jsr WaitFrame
+    jsr WaitNMI
     pla
     tax
     dex
@@ -8365,8 +8365,8 @@ B31_127e:
     tax
     lda B31_1296, x
     jsr SetBGColorA
-    jsr WaitFrame
-    jsr WaitFrame
+    jsr WaitNMI
+    jsr WaitNMI
     pla
     tax
     dex
@@ -8381,7 +8381,7 @@ WaitABPressed:
     ldx #0
     stx pad1_forced
     @loop:
-    jsr WaitFrame
+    jsr WaitNMI
     lda pad1_forced
     stx pad1_forced
     and #%11000000
@@ -8702,7 +8702,7 @@ SetBGColorA:
     dey
     bpl @B31_14bf
     jsr QueuePaletteUpdate
-    jmp WaitFrame
+    jmp WaitNMI
 
 B31_14ce:
     asl a
@@ -9149,7 +9149,7 @@ B31_174c:
 B31_1759:
     lda #$00
     sta $d7
-    jmp WaitFrame
+    jmp WaitNMI
 
 B31_1760:
     lda #$01
@@ -10084,7 +10084,7 @@ PlayMusic:
     beq @unchanged
     sta soundqueue_track
     @unchanged:
-    jmp WaitFrame
+    jmp WaitNMI
 
 PpuSync:
     lda $e5
@@ -10093,12 +10093,12 @@ PpuSync:
     rts
 
 WaitXFrames_Min1:
-    jsr WaitFrame
+    jsr WaitNMI
     dex
     bne WaitXFrames_Min1
     rts
 
-WaitFrame:
+WaitNMI:
     lda #1
     sta nmi_flag
     @loop:

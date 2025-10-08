@@ -12,7 +12,7 @@ Credits_Entry:
     sta MIRROR
 
     lda #0
-    sta UNK_EC
+    sta irq_count
 
     lda UNK_E7
     and #%10111111
@@ -38,7 +38,7 @@ Credits_Entry:
     lda #$1b
     sta UNK_7
 
-    jsr WaitFrame
+    jsr WaitNMI
 
     ;load pointer
     lda #.LOBYTE(Credits_Script)

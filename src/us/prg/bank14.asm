@@ -1146,11 +1146,11 @@ B20_17d6:
     tax
     lda GiegueCliff_BGFlash, x
     jsr FillBackgroundColor
-    jsr WaitFrame
+    jsr WaitNMI
     lda #$0f
     jsr FillBackgroundColor
     B20_1808:
-    jsr WaitFrame
+    jsr WaitNMI
     lda $6b
     bne B20_1815
     lda $6c
@@ -2087,7 +2087,7 @@ NS_LoadCursor:
     lda UNK_76+1
     pha
 
-    jsr WaitFrame
+    jsr WaitNMI
 
     ;a = -NameLength
     sec
@@ -2358,7 +2358,7 @@ load_tilemap_into_queue:
 ;wait until start is pressed
 ;reg x == frames
 AdvanceIfPressStart:
-    jsr WaitFrame
+    jsr WaitNMI
     lda pad1_hold
     and #PAD_START
     eor #PAD_START
