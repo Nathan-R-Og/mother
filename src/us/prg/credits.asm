@@ -19,8 +19,8 @@ Credits_Entry:
     sta UNK_E7
 
     lda #0
-    sta UNK_E8
-    sta UNK_E9
+    sta shift_x
+    sta shift_y
 
     ;reset Base nametable address
     lda ram_PPUCTRL
@@ -112,7 +112,7 @@ credits_cmd_delay:
     @loop:
     jsr PpuSync
     lda #1
-    sta UNK_E5
+    sta nmi_flags
     dex
     bne @loop
 
@@ -254,9 +254,9 @@ credits_cmd_set_metatileprops:
     bne B26_011b
     lda #.LOBYTE($8000)
     sta nmi_queue+4, x
-    sta UNK_E5+1
+    sta nmi_flags+1
     lda #.HIBYTE($8000)
-    sta UNK_E5
+    sta nmi_flags
     dec UNK_42
     beq B26_0151
     jsr PpuSync
@@ -304,9 +304,9 @@ credits_cmd_set_palette:
 
     lda #0
     sta nmi_queue+1 ; END
-    sta UNK_E5+1 ;.LOBYTE($8000)
+    sta nmi_flags+1 ;.LOBYTE($8000)
     lda #.HIBYTE($8000)
-    sta UNK_E5
+    sta nmi_flags
 
     ;set to after command
     ldy #$11
@@ -474,7 +474,7 @@ credits_cmd_draw_text:
     ;get next word
     iny
     lda (UNK_40), y
-    sta UNK_74
+    sta tilepack_ptr
     iny
     lda (UNK_40), y
     sta UNK_73
@@ -492,11 +492,11 @@ credits_cmd_draw_text:
     @loop:
     jsr GetTextData
 
-    jsr B30_06db
+    jsr DrawTilepackClear
     cmp #0
     beq @break
     ldy #0
-    lda (UNK_74), y
+    lda (tilepack_ptr), y
     cmp #0
     bne @loop
 
@@ -523,9 +523,9 @@ credits_cmd_draw_text:
     ldx #2
     @loop2:
     lda #.LOBYTE($8000)
-    sta UNK_E5+1
+    sta nmi_flags+1
     lda #.HIBYTE($8000)
-    sta UNK_E5
+    sta nmi_flags
 
     dex
     beq @break2
@@ -549,7 +549,7 @@ credits_cmd_draw_text_xy:
     ;get next umsg
     iny
     lda (UNK_40), y
-    sta UNK_74
+    sta tilepack_ptr
     iny
     lda (UNK_40), y
     sta UNK_73
@@ -569,7 +569,7 @@ credits_cmd_draw_text_xy:
     sta UNK_71
 
     jsr GetTextData
-    jsr B30_06db
+    jsr DrawTilepackClear
 
     ;bye
     ldy #$05

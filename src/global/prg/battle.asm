@@ -46,7 +46,7 @@ battle_input_num            = $4E
 ; $50 series : byte sized local global variables
 battle_bytevar50            = $50
 battle_bytevar51            = $51
-battle_bytevar52            = $52
+battle_bytevar52            = $52   ; message counter?
 attacker_offset             = $53
 target_offset               = $54
 battle_bytevar55            = $55
@@ -69,8 +69,8 @@ battle_var5a                = $5a
 ; BattleScript 1 (Teddy) sets this value to 3
 ; When BSCRIPT 1 is active, DrawEffect doesnt lag & print msg
 turn_counter                = $5b
+ptr_chara                   = $5c   ; stores ptr to character's full data (for various purposes)
 
-battle_var5c                = $5c
 battle_var5e                = $5e
 battle_var5f                = $5f
 
@@ -153,10 +153,10 @@ BattleMain:
     sta pad2_forced
     sta battle_bytevar52
     sta is_auto
-    sta battle_reward_vars
+    sta battle_reward_vars          ; first 3 bytes for exps
     sta battle_reward_vars+1
     sta battle_reward_vars+2
-    sta battle_reward_vars+3
+    sta battle_reward_vars+3        ; last 2 for money
     sta battle_reward_vars+4
     ;x = 0
     tax
@@ -179,13 +179,14 @@ BattleMain:
     txa
     pha
     lda party_members, x
-    beq @JMPSkipInitialize ; skip init if party member ID is 0
+    beq @EmptyPlayer
     jsr InitializePlayerBattler
     clc
     lda attacker_offset
     adc #BATTLER_DATASIZE
     sta attacker_offset
-@JMPSkipInitialize:
+; skip init if party member ID is 0 (empty)
+@EmptyPlayer:
     pla
     tax
     inx
@@ -197,19 +198,21 @@ BattleMain:
     sta attacker_offset
     ldy #$00
 @EnemyInitStart:
-    lda (battle_var5c), y
+    lda (ptr_chara), y
     sta battle_wordvar60
     iny
-    lda (battle_var5c), y
+    lda (ptr_chara), y
     sta battle_wordvar60+1
     iny
     tya
     pha
     lda battle_wordvar60
     cmp #$ff
-    beq :+
-    jsr B23_022d
-:   clc
+    beq @EmptyEnemy
+    jsr CopyEnemy
+; skip init if enemy ID is FF (empty)
+@EmptyEnemy:
+    clc
     lda attacker_offset
     adc #BATTLER_DATASIZE
     sta attacker_offset
@@ -217,26 +220,31 @@ BattleMain:
     tay
     cpy #$08                            ; there are 8 battler slots total (0-3 players, 4-7 enemies)
     bne @EnemyInitStart
-    lda (battle_var5c), y
+    lda (ptr_chara), y
     and #$e0
     ldx #$05
-:   lsr a
+; copy battle script into ram (this is used by bosses Teddy, the Robos, and Giga-Gas himself)
+@GetBattleScript:
+    lsr a
     dex
-    bne :-
+    bne @GetBattleScript
     sta battle_script
-    lda (battle_var5c), y
+
+    lda (ptr_chara), y
     and #$1f
-    sta battle_var5a
+    sta battle_var5a                    ; enemy position
     iny
-    lda (battle_var5c), y
+    lda (ptr_chara), y
     and #$0f
     sta battle_wordvar60
     lda #$00
     ldx #$05
-:   asl battle_wordvar60
+; pulls palette (0-3) from upper 2 bits of enemy's Offense stat
+@GetPaletteFromOffense:
+    asl battle_wordvar60
     rol a
     dex
-    bne :-
+    bne @GetPaletteFromOffense
     sta battle_wordvar60+1
     clc
 
@@ -246,10 +254,10 @@ BattleMain:
     lda #.HIBYTE(Battle_Palettes)
     adc battle_wordvar60+1
     sta battle_wordvar60+1
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     jsr LoadPaletteFrom
 
-    jsr BankswitchLower_Bank22
+    jsr BANKSWAP_L16
     ldx #.HIBYTE($23c0)
     ldy #.LOBYTE($23c0)
     jsr ClearNametableAttribute
@@ -453,7 +461,7 @@ InitializePlayerBattler:
     rts
 
 ; wip: undocumented / unclean
-B23_022d:
+CopyEnemy:
     ldx attacker_offset
     lda battle_wordvar60+1
     asl a
@@ -721,7 +729,7 @@ DisplayText_battle:
     beq DisplayText_RTS
     pha
     jsr B23_04bb
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     pla
 
     .ifndef VER_JP
@@ -733,16 +741,16 @@ DisplayText_battle:
     ldy target_offset
     lda BATTLER_FULLDATA_PTR, y
     sbc #.LOBYTE($8000)
-    sta UNK_74
+    sta tilepack_ptr
     lda BATTLER_FULLDATA_PTR+1, y
     sbc #.HIBYTE($8000)
 
     ;ram pointer << 3
-    asl UNK_74
+    asl tilepack_ptr
     rol a
-    asl UNK_74
+    asl tilepack_ptr
     rol a
-    asl UNK_74
+    asl tilepack_ptr
     rol a
     ;by this point, it basically discards the lower half
 
@@ -750,12 +758,12 @@ DisplayText_battle:
 
     ;lo = hi + 20
     adc #20
-    sta UNK_74
+    sta tilepack_ptr
 
     ;a = 5 + carry
     lda #0
     adc #5
-    sta UNK_74-1
+    sta tilepack_ptr-1
 
     bcc PrintChar
     B23_042d:
@@ -787,7 +795,7 @@ DisplayText_battle:
     lda (battle_wordvar60),y
     sta UNK_50+1
     .else
-    sta UNK_74
+    sta tilepack_ptr
     iny
     lda (battle_wordvar60), y
     sta UNK_73
@@ -806,7 +814,7 @@ DisplayText_battle:
     jsr PpuSync
     lda #$06
     jsr B31_14ce
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     ldx #$94
     jsr B23_04bf
     ldx #$5e
@@ -814,18 +822,18 @@ DisplayText_battle:
     jsr PpuSync
     lda #$05
     jsr B31_14ce
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     .else
     jsr GetTextData
-    lda UNK_74
+    lda tilepack_ptr
     sta battle_bytevar50
-    lda UNK_74+1
+    lda tilepack_ptr+1
     sta battle_bytevar51
     lda battle_bytevar52
     cmp #$03
     bne :+
     ldx #$03
-    jsr B30_07c1
+    jsr DELAY_PRINT_SCROLL
     .endif
     dec battle_bytevar52
 :   jsr B23_0479
@@ -835,15 +843,15 @@ DisplayText_battle:
     cmp #$00
     .ifdef VER_JP
     beq :+
-    lda UNK_74
+    lda tilepack_ptr
     sta battle_bytevar50
-    lda UNK_74+1
+    lda tilepack_ptr+1
     sta battle_bytevar51
     jmp PrintChar
     .else
     bne PrintChar
     .endif
-:   jsr BankswitchLower_Bank22
+:   jsr BANKSWAP_L16
     ldx battle_message_speed
     jsr WaitXFrames
     DisplayText_RTS:
@@ -897,7 +905,7 @@ B23_0479:
     .else
     sta $75
     .endif
-    jsr B30_0707    ; PrintLine
+    jsr PRINT_STRING    ; PrintLine
     lda #$01
     jsr B30_07af
     lda $72
@@ -923,9 +931,9 @@ B23_04cc:
     tax
 B23_04d6:
     jsr PpuSync
-    stx UNK_E5+1
+    stx nmi_flags+1
     lda #$80
-    sta UNK_E5+0
+    sta nmi_flags+0
     rts
 
 B23_04e0:
@@ -1324,7 +1332,7 @@ TryAddingPSIBattleAction:
     dex
     bne B23_06d6
     sta battle_wordvar60+1
-    lda (battle_var5c), y
+    lda (ptr_chara), y
     and battle_wordvar60+1
     beq B23_0721
     lda #$00
@@ -1342,7 +1350,7 @@ TryAddingPSIBattleAction:
     lda battle_wordvar60+1
     adc #$9e
     sta battle_wordvar60+1
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     ldy #$05
     lda (battle_wordvar60), y
     ldy attacker_offset
@@ -1352,7 +1360,7 @@ TryAddingPSIBattleAction:
     sta battle_input_num
     lda #$00
     sta battle_input_num+1
-    jsr BankswitchLower_Bank22
+    jsr BANKSWAP_L16
     jsr SubtractPP
     bcc B23_0721
     jsr SetCarryAttackerNotBlocked
@@ -1567,7 +1575,7 @@ SelectPSI:
     lda #$00
     sta battle_wordvar60
     ldy #$07
-:   lda (battle_var5c), y
+:   lda (ptr_chara), y
     ora battle_wordvar60
     sta battle_wordvar60
     dey
@@ -1586,10 +1594,10 @@ LoadPlayerBattlerLearnedPSIs:
     clc
     lda BATTLER_FULLDATA_PTR, y
     adc #$30
-    sta battle_var5c
+    sta ptr_chara
     lda BATTLER_FULLDATA_PTR+1, y
     adc #$00
-    sta battle_var5c+1
+    sta ptr_chara+1
     rts
 
 SelectGuard:
@@ -1605,14 +1613,14 @@ SelectItem:
     clc
     lda BATTLER_FULLDATA_PTR, y
     adc #$20
-    sta battle_var5c
+    sta ptr_chara
     lda BATTLER_FULLDATA_PTR+1, y
     adc #$00
     sta $5d
     lda #$00
     sta battle_wordvar60
     ldy #$07
-:   lda (battle_var5c), y
+:   lda (ptr_chara), y
     ora battle_wordvar60
     sta battle_wordvar60
     dey
@@ -1858,15 +1866,15 @@ B23_0a08:
     lda menucursor_pos
     sta BATTLER_TEMP_VARS, y
     ldy menucursor_pos
-    lda (battle_var5c), y
+    lda (ptr_chara), y
     jsr GetItemPointer
     ldy attacker_offset
     jsr B23_0c49
     bcs B23_0a43
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     ldy #$05
     lda (battle_wordvar62), y
-    jsr BankswitchLower_Bank22
+    jsr BANKSWAP_L16
     cmp #$00
     beq B23_0a4c
     ldy attacker_offset
@@ -1882,10 +1890,10 @@ B23_0a43:
     bne B23_0a5e
     B23_0a4c:
     ldx #$10
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     ldy #$03
     lda (battle_wordvar62), y
-    jsr BankswitchLower_Bank22
+    jsr BANKSWAP_L16
     cmp #$00
     beq B23_0a5e
     ldx #$11
@@ -1911,10 +1919,10 @@ B23_0a67:
     tax
     lda B22_1fb1+3, x
     sta $77
-    lda (battle_var5c), y
+    lda (ptr_chara), y
     beq B23_0a9c
     jsr GetItemPointer
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     lda #$04
     sta $0588
     ldy #$00
@@ -1966,7 +1974,7 @@ GetInventoryPointer_battle:
 ; $0591 : word
 ; $0593 : byte (clear)
 StoreItemName:
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     lda #$21
     sta bytevar_0590
     ldy #$00
@@ -1977,14 +1985,14 @@ StoreItemName:
     sta wordvar_0591+1
     lda #$00
     sta bytevar_0593
-    jmp BankswitchLower_Bank22
+    jmp BANKSWAP_L16
 
 B23_0ae9:
     lda #.LOBYTE(battle_goods_choicer)
     sta $80
     lda #.HIBYTE(battle_goods_choicer)
     sta $81
-    lda battle_var5c
+    lda ptr_chara
     sta $84
     lda $5d
     sta $85
@@ -2006,7 +2014,7 @@ B23_0ae9:
 B23_0b10:
     ldy #$01
     B23_0b12:
-    lda (battle_var5c), y
+    lda (ptr_chara), y
     beq B23_0b32
     tya
     pha
@@ -2031,14 +2039,14 @@ B23_0b10:
     ldy menucursor_pos
     lda BATTLER_1BASED, y
     jsr GetPsiDataPointer
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     ldy #$05
     lda (battle_wordvar62), y
     beq B23_0b57
     ldy attacker_offset
     sta BATTLER_ACTION_ID, y
     pha
-    jsr BankswitchLower_Bank22
+    jsr BANKSWAP_L16
     pla
     jmp B23_0962
 
@@ -2062,7 +2070,7 @@ B23_0b61:
     B23_0b6d:
     lda #$00
     sta BATTLER_1BASED, x
-    lda (battle_var5c), y
+    lda (ptr_chara), y
     and battle_wordvar60+1
     beq B23_0b7d
     lda battle_wordvar60
@@ -2088,7 +2096,7 @@ B23_0b86:
     lda BATTLER_1BASED, y
     beq B23_0bba
     jsr GetPsiDataPointer
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     lda #$04
     sta $0588
     ldy #$00
@@ -2151,7 +2159,7 @@ DrawSelectionMenu:
     jsr B31_14ce
     jsr B23_04bb
 
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
 
     lda #0
     sta $70
@@ -2166,8 +2174,8 @@ DrawSelectionMenu:
     sta $75
     .endif
 
-    jsr B30_06db
-    jmp BankswitchLower_Bank22
+    jsr DrawTilepackClear
+    jmp BANKSWAP_L16
 
 ;a == battle action id
 TargetingFromActionID:
@@ -2221,7 +2229,7 @@ TargetingFromActionID:
     rts
 
 B23_0c49:
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     lda BATTLER_PLAYER_ID, y
     sta battle_wordvar64
     tax
@@ -2233,7 +2241,7 @@ B23_0c49:
     sta battle_wordvar66+1
     ldy #$02
     lda (battle_wordvar62), y
-    jsr BankswitchLower_Bank22
+    jsr BANKSWAP_L16
     and battle_wordvar66+1
     beq :+
     clc
@@ -2519,7 +2527,7 @@ BINST2_LUTPSI:
     lda battle_wordvar60+1
     adc #$9e
     sta battle_wordvar60+1         ; $60 = pointer to PSI data table
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
 
     ldy #$07
     lda (battle_wordvar60), y
@@ -2537,7 +2545,7 @@ BINST2_LUTPSI:
     sta wordvar_0591+1
     lda #$00
     sta bytevar_0593
-    jsr BankswitchLower_Bank22
+    jsr BANKSWAP_L16
 
     lda #$64                        ; Attacker tried PSI msg
     jsr DisplayText_battle
@@ -3815,7 +3823,7 @@ EnemyLongFlashing:
     and #$03                            ; lo 2 bits of BATTLER LETTER used for counters
     tax
     ldy #$1f
-    lda (battle_var5c), y
+    lda (ptr_chara), y
     sta $40, x
     pla
     tay
@@ -3862,7 +3870,7 @@ AnimateEnemyHitRoutine:
     and #$03
     tax
     ldy #$1f
-    lda (battle_var5c), y
+    lda (ptr_chara), y
     ora #$80
     sta $40, x
     pla
@@ -3890,7 +3898,7 @@ AnimateEnemyHitRoutine:
 ; load the extra 2 bits in enemy letter
 LoadEnemyLetterExtrabits:
     lda BATTLER_FULLDATA_PTR, y
-    sta battle_var5c
+    sta ptr_chara
     lda BATTLER_FULLDATA_PTR+1, y
     sta $5d
     lda BATTLER_LETTER, y
@@ -3992,7 +4000,7 @@ DoAnimateEnemyHit:
     sta $e5
     jsr WaitNMI
     ldy #$1f
-    lda (battle_var5c), y
+    lda (ptr_chara), y
     ldx battle_wordvar64
     sta $40, x
     jsr SetBGColorBlack
@@ -4132,15 +4140,15 @@ DoAnimatePlayerHit:
 
     ;set ymove
     lda (battle_wordvar60), y
-    sta UNK_E9
+    sta shift_y
     iny
     ;set xmove
     lda (battle_wordvar60), y
-    sta UNK_E8
+    sta shift_x
     iny
 
     lda #1
-    sta UNK_E5
+    sta nmi_flags
     jsr WaitNMI
 
     ;if y != length, keep going
@@ -4152,8 +4160,8 @@ DoAnimatePlayerHit:
 
     ;reset ymove and xmove
     lda #0
-    sta UNK_E8
-    sta UNK_E9
+    sta shift_x
+    sta shift_y
     jsr WaitNMI
 
     ;bye bye
@@ -5457,13 +5465,13 @@ CLC_FindFoodInInventory:
     lda (battle_wordvar60), y
     beq @FindFood_SKIP
     jsr GetItemPointer
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     ldy #$05
     lda (battle_wordvar62), y
     tax
     ldy #$02
     lda (battle_wordvar62), y
-    jsr BankswitchLower_Bank22
+    jsr BANKSWAP_L16
     and #$40
     bne @FindFoodSuccess
 @FindFood_SKIP:

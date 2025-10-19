@@ -43,9 +43,9 @@ rts_1:
 ;x == index * 2
 ns_load_ui_element:
     lda B25_1873, x
-    sta UNK_74
+    sta tilepack_ptr
     lda B25_1873+1, x
-    sta UNK_74+1
+    sta tilepack_ptr+1
     rts
 
 rts_3:
@@ -617,7 +617,7 @@ NS_AddCharacterToOam:
     sta shadow_something+7, y
 
     lda #1
-    sta UNK_E5
+    sta nmi_flags
 
     rts
 

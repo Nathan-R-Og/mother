@@ -198,8 +198,8 @@ B30_026c:
     ;load tiledata
     lda #.LOBYTE(command_box_top)
     ldx #.HIBYTE(command_box_top)
-    sta UNK_74
-    stx UNK_74+1
+    sta tilepack_ptr
+    stx tilepack_ptr+1
 B30_0274:
     jsr SetupPartyUi
 
@@ -256,30 +256,30 @@ B30_02b3:
     B30_02b6:
     jsr PpuSync
 
-    ;UNK_E5+1 = 0
+    ;nmi_flags+1 = 0
     ldx #0
-    stx UNK_E5+1
+    stx nmi_flags+1
 
     ;?
-    jsr B30_083d
+    jsr TiledArea
 
-    ;UNK_E5+1 = y
-    sty UNK_E5+1
+    ;nmi_flags+1 = y
+    sty nmi_flags+1
 
     ;UNK_77++
     inc UNK_77
 
-    ;push UNK_74
+    ;push tilepack_ptr
     ;this means it expects a word.
     ldy #0
-    lda (UNK_74), y
+    lda (tilepack_ptr), y
     pha
     iny
-    lda (UNK_74), y
+    lda (tilepack_ptr), y
     pha
     iny
 
-    ;UNK_74 += 2
+    ;tilepack_ptr += 2
     tya
     jsr AddTo_UNK_74
 
@@ -288,7 +288,7 @@ B30_02b3:
     cmp #0
     bne B30_02f0
 
-    jsr B30_083d
+    jsr TiledArea
     jsr B30_0306
     pla
     tax
@@ -304,7 +304,7 @@ B30_02b3:
 
 B30_02f0:
     inc UNK_77
-    jsr B30_086d
+    jsr ClearAreaOnScreen
     jsr B30_0306
 
     ;x = randomTileDataValue[1]
@@ -320,15 +320,15 @@ B30_02f0:
     jmp B30_02b3
 
 B30_0306:
-    sty UNK_E5+1
+    sty nmi_flags+1
     jsr B30_046e
 
     lda #0
     sta nmi_queue, x
-    sta UNK_E5+1
+    sta nmi_flags+1
 
     lda #.HIBYTE($8000)
-    sta UNK_E5
+    sta nmi_flags
 
     lda #.BANK(B25_031e)
     ldx #.LOBYTE(B25_031e-1)
@@ -419,8 +419,8 @@ DrawWindowMessagebox:
 ; draws current window ptr stored in A, X (lo, hi)
 DrawCurrentWindow:
     ; stxa PointerTilePack
-    sta UNK_74
-    stx UNK_74+1
+    sta tilepack_ptr
+    stx tilepack_ptr+1
     lda irq_count
     beq @if_equal
     jmp B30_02b3
@@ -483,9 +483,9 @@ CLEAR_TEXTBOXES_ROUTINE:
     jsr STORE_COORDINATES
     jsr B31_1dc0
 
-    ;UNK_E5 = 1
+    ;nmi_flags = 1
     lda #1
-    sta UNK_E5
+    sta nmi_flags
 
     lda #0
     sta disable_dmc
@@ -512,11 +512,11 @@ B30_0408:
     ldy #$01
     lda $0601, x
     and $60
-    sta ($74), y
+    sta (tilepack_ptr), y
     ldy #$14
     B30_042b:
     lda $0603, x
-    sta ($74), y
+    sta (tilepack_ptr), y
     inx
     iny
     cpy #$18
@@ -536,10 +536,10 @@ B30_0408:
     ldx #$92
     sta $74
     stx $75
-    jsr B30_06d2
+    jsr DrawTilepack
     bne B30_0458
     B30_0455:
-    jsr B30_06db
+    jsr DrawTilepackClear
     B30_0458:
     lda #$02
     jsr AddTo_UNK_74
@@ -547,14 +547,14 @@ B30_0408:
     cmp #$00
     bne B30_0455
     inc $77
-    jsr B30_06d2
+    jsr DrawTilepack
 
     pla
     ldx #BANK::PRG8000
     jmp BANK_SWAP
 
 B30_046e:
-    lda $7e
+    lda char_count
     lsr a
     adc #$00
     tax
@@ -584,7 +584,7 @@ B30_046e:
     clc
     and #$03
     adc #$03
-    adc $7e
+    adc char_count
     lsr a
     lsr a
     sta $7c
@@ -618,7 +618,7 @@ B30_046e:
     clc
     adc $7a
     tay
-    ldx $e6
+    ldx nmi_data_offset
     lda #$07
     sta nmi_queue, x ; TODO: WRITE_PPU
     inx
@@ -660,7 +660,7 @@ B30_046e:
     tay
     dec $7c
     bne B30_0528
-    stx $e6
+    stx nmi_data_offset
     rts
 
 B30_0528:
@@ -688,7 +688,7 @@ SetupPartyUi:
     sty pc_count
     @loop:
     ;if character[y] is invalid, jump
-    jsr GetYCharacter
+    jsr GetYthCharacter
     bcs @goto_next_character
     ;else,
 
@@ -696,7 +696,7 @@ SetupPartyUi:
     inc pc_count
 
     ;unk_60 = partymemberdata
-    jsr GetPartyMemberData
+    jsr GetPartyMemberPtr
 
     ;store party index
     tya
@@ -720,6 +720,8 @@ SetupPartyUi:
 
     ;iterate over status bits
     ;if any of them are valid, replace the exp panel with that
+    ; #BUG : If Statused, the Hi-byte of current PP is not displayed properly
+    ; TODO: (understand why tf that happen)
     ldy #7*2
     @B30_056a:
     ;if status has UNCON, dont jump
@@ -802,7 +804,7 @@ SetupPartyUi:
     ldy #0
     @mini_loop:
     ;if character[y] is invalid, jump
-    jsr GetYCharacter
+    jsr GetYthCharacter
     bcs @is_invalid
     ;else, write character index
     sta something+4, x
@@ -870,7 +872,7 @@ battle_status_string_lut:
     .addr STATUS_FAINTD ; "Faintd"
 
 ; $C62E - Get Yth player character. Return carry set on failure
-GetYCharacter:
+GetYthCharacter:
     sec
     lda party_members, y
     beq @is_zero
@@ -903,7 +905,7 @@ Replaceparty_menu_entry:
 ; $C665
 ; Write pointer to party member data in $60
 ; $60 = 0x7400 + (A * 0x40)
-GetPartyMemberData:
+GetPartyMemberPtr:
     sta UNK_60+1
     lda #0
     lsr UNK_60+1
@@ -918,17 +920,17 @@ GetPartyMemberData:
 
     rts
 
-;render element(s) stored in UNK_74
-B30_067a:
-    jsr B30_06d2
+;render element(s) stored in tilepack_ptr
+WriteTilesIn74:
+    jsr DrawTilepack
     bne B30_0682
     B30_067f:
-    jsr B30_06db
+    jsr DrawTilepackClear
     B30_0682:
     cmp #$00
     bne B30_067f
     inc UNK_77
-    jmp B30_06d2
+    jmp DrawTilepack
 
 ;a == tile value
 ;;;Add an NMI command to write tile a to UNK_78
@@ -939,7 +941,7 @@ AddTileViaNMI:
     jsr PpuSync
 
     ;this will modifiy UNK_78 with UNK_76
-    jsr CalculateNametableOffset
+    jsr CalculateNTAddr
 
     ;add to nmi_queue
     ;05 01 (UNK_78) a 00
@@ -956,93 +958,100 @@ AddTileViaNMI:
 
     lda #0
     sta nmi_queue+5 ; END
-    sta UNK_E5+1
+    sta nmi_flags+1
     lda #.HIBYTE($8000)
-    sta UNK_E5
+    sta nmi_flags
 
     rts
 
-B30_06b6:
+AddSpacesOnScreen:
     lda $70
     clc
-    sbc $7e
+    sbc char_count
     bcc B30_06cf
     tay
     B30_06be:
     lda #$a0
-    jsr B30_0a1f
+    jsr AddTile
     dey
     bpl B30_06be
-    ldy $e6
+    ldy nmi_data_offset
     lda nmi_queue+1, y
     beq B30_06cf
     txa
     tay
     B30_06cf:
-    sty $e6
+    sty nmi_data_offset
     rts
 
-B30_06d2:
+; Function DrawTilepack =======================================================
+DrawTilepack:
     jsr PpuSync
 
     ldx #0
-    stx UNK_E5+1
+    stx nmi_flags+1            ; vidam - OffsetNMI_Data (??)
 
-    beq B30_06e8
+    beq TilesTilNMI
 
-B30_06db:
+DrawTilepackClear:
     jsr PpuSync
 
     ldx #0
-    stx UNK_E5+1
+    stx nmi_flags+1
 
-    jsr B30_086d
+    jsr ClearAreaOnScreen
+    jsr AddSpacesOnScreen
 
-    jsr B30_06b6
-    B30_06e8:
-    jsr B30_083d
-    jsr B30_06b6
+TilesTilNMI:
+    jsr TiledArea
+    jsr AddSpacesOnScreen
 
     lda #0
-    sta nmi_queue, y ; END
+    sta nmi_queue, y        ; save marker end of block
 
     ;lda #.LOBYTE($8000)
-    sta UNK_E5+1
-    lda #.HIBYTE($8000)
-    sta UNK_E5
-    B30_06f9:
-    jsr B30_0b1a
-    lda UNK_72
+    sta nmi_flags+1            ; save to OffsetNMI_Data+1
+    lda #.HIBYTE($8000)     ; NMI Flags
+    sta nmi_flags
+
+TilesTilNMI_CheckLastRow:
+    jsr GetTextRowPtr
+    lda UNK_72              ; UnpackID
     cmp #1
-    bne B30_0706
+    bne @EndBlock
+    inc UNK_77              ; Row
     inc UNK_77
-    inc UNK_77
-    B30_0706:
+@EndBlock:
     rts
 
-B30_0707:
+; End of DrawTilepack =========================================================
+
+; Function PRINT_STRING =======================================================
+; Major global function (obviously lol) =======================================
+PRINT_STRING:
     jsr PpuSync
     lda #$33
-    sta $e6
+    sta nmi_flags+1            ; OffsetNMI_Data+1
     pha
-    jsr B30_083d
-    jsr B30_06b6
-    sty $7b
+    jsr TiledArea
+    jsr AddSpacesOnScreen
+    sty $7b                 ; AttributeOffset
     pla
     tax
-    lda #$05
-    sta nmi_queue ; TODO: UNKNOWN NMI COMMAND
-    lda #$01
+    lda #$05                ; put WRITE_ROW into NMIQueue-ID (0)
+    sta nmi_queue
+    lda #$01                ; put #1 into NMIQueue-NumofChars (1)
     sta nmi_queue+1
-    B30_0723:
+
+B30_0723:
     lda #$00
     sta nmi_queue, y
     cpx $7b
-    bcs B30_06f9
+    bcs TilesTilNMI_CheckLastRow
     lda #$08
     sta nmi_queue, y
     lda nmi_queue+1, x
-    sta $7e
+    sta char_count
     sta nmi_queue+1, y
     lda #$a0
     sta nmi_queue+4, y
@@ -1063,85 +1072,94 @@ B30_0707:
     clc
     adc #$05
     tay
-    B30_075f:
+
+NextChar:
     lda nmi_queue, x
     sta nmi_queue+4
     cmp #$a0
-    beq B30_077b
-    lda $07ef
-    bmi B30_077b
+    beq @PrintSingleChar
+    lda sram_mode
+    bmi @PrintSingleChar
     eor #$01
-    sta $07ef
+    sta sram_mode
     lsr a
-    bcc B30_077b
-    lda #$0e
-    sta $07f1
-    B30_077b:
-    lda #$00
+    bcc @PrintSingleChar
+    lda #$0e                        ; infamous blip sfx when chars are printed to the screen
+    sta soundqueue_pulseg0
+
+@PrintSingleChar:
+    lda #$00                        ; set NMIQueue-Next to 0
     sta nmi_queue+5
-    sta $e6
+    sta nmi_data_offset
     lda #$80
     sta $e5
     jsr PpuSync
-    bit $07ef
-    bvc B30_07a4
+    bit sram_mode
+    bvc @NextNTAddr
     txa
     pha
     lda nmi_queue+4
     ldx #$28
     cmp #$ae
-    beq B30_079f
+    beq @agoodlabelname
     cmp #$ac
-    beq B30_079f
+    beq @agoodlabelname
     ldx #$03
-    B30_079f:
+@agoodlabelname:
     jsr WaitXFrames_Min1
     pla
     tax
-    B30_07a4:
+
+@NextNTAddr:
     inc nmi_queue+3
     inx
-    dec $7e
-    bne B30_075f
+    dec char_count
+    bne NextChar
     jmp B30_0723
 
+; end of PRINT_STRING =========================================================
+
+; moves $A4 chars (tiles) from $432-4D6 to $45B-4FF
+; TODO: find purpose
 B30_07af:
     cmp #$01
-    bne B30_07c0
+    bne @exit
     pha
     ldx #$a4
-    B30_07b6:
+
+@loophead:
     lda $0432, x
     sta $045b, x
     dex
-    bne B30_07b6
+    bne @loophead
     pla
-    B30_07c0:
+@exit:
     rts
 
-B30_07c1:
+
+DELAY_PRINT_SCROLL:
     lda #$33
-    B30_07c3:
-    clc
+:   clc
     adc #$29
     dex
-    bne B30_07c3
-    stx $7f
+    bne :-
+    stx byte_count
     tax
     pha
-    jsr B30_07d4
-    sta $7f
+    jsr PrintScroll
+    sta byte_count
     pla
     tax
-    B30_07d4:
+
+PrintScroll:
     jsr PpuSync
-    stx $e6
+    stx nmi_data_offset
     B30_07d9:
     lda nmi_queue, x
     beq B30_07fd
     eor #$05
     bne B30_07f3
-    ora $7f
+    ora byte_count
     bne B30_07e9
     jsr B30_080e
     B30_07e9:
@@ -1159,17 +1177,19 @@ B30_07c1:
     tax
     bcc B30_07d9
     B30_07fd:
-    sta $7f
+    sta byte_count
     sec
-    lda $e6
+    lda nmi_data_offset
     sbc #$29
     tax
     lda #$80
     sta $e5
     cpx #$5c
-    bcs B30_07d4
+    bcs PrintScroll
     rts
 
+; sets many things into nmi queue
+; TODO: what the hell dis
 B30_080e:
     sec
     lda nmi_queue+3, x
@@ -1194,73 +1214,75 @@ B30_080e:
     B30_083c:
     rts
 
-B30_083d:
-    jsr CalculateNametableOffset
+; TODO: figure out better name for function
+TiledArea:
+    jsr CalculateNTAddr
     lda UNK_71
-    sta UNK_7F
-    ldx UNK_E5+1
+    sta byte_count
+    ldx nmi_flags+1
 
-    ;UNK_7E = 0
+    ;char_count = 0
     ldy #0
-    sty UNK_7E
+    sty char_count
     ;push 0
     tya
     pha
 
-    jsr B30_0a3d
+    jsr WriteRowHeader
 
-    B30_084f:
-    dec UNK_7F
-    bpl B30_0865
-    lda (UNK_74), y
+@NextByte:
+    dec byte_count
+    bpl @BlackTile
+    lda (tilepack_ptr), y
     jsr B30_0a5c
-    bcs B30_0867
+    bcs @do
 
-    ldy #.LOBYTE(B30_084f)
+    ldy #.LOBYTE(@NextByte)
     sty UNK_7C
-    ldy #.HIBYTE(B30_084f)
+    ldy #.HIBYTE(@NextByte)
     sty UNK_7C+1
 
-    jmp B30_08a1
+    jmp StringCommandHandler
 
-B30_0865:
+@BlackTile:
     lda #$a0
-    B30_0867:
-    jsr B30_0a1f
-    jmp B30_084f
+@do:
+    jsr AddTile
+    jmp @NextByte
 
-B30_086d:
-    dec UNK_77
-    jsr CalculateNametableOffset
+ClearAreaOnScreen:
+    dec UNK_77                  ; Row
+    jsr CalculateNTAddr
 
     lda UNK_71
-    sta UNK_7F
-    ldx UNK_E5+1
+    sta byte_count
+    ldx nmi_flags+1
     ldy #0
-    sty UNK_7E
+    sty char_count
     tya
     pha
-    jsr B30_0a3d
-    B30_0881:
-    dec $7f
-    bpl B30_0899
-    lda ($74), y
+    jsr WriteRowHeader
+
+B30_0881:
+    dec byte_count
+    bpl @BlankTile
+    lda (tilepack_ptr), y
     jsr B30_0a7c
-    bcs B30_089b
+    bcs @SaveTile
     ora #$80
     ldy #.LOBYTE(B30_0881)
     sty $7c
     ldy #.HIBYTE(B30_0881)
     sty $7d
-    jmp B30_08a1
+    jmp StringCommandHandler
 
-B30_0899:
+@BlankTile:
     lda #$a0
-    B30_089b:
-    jsr B30_0a1f
+@SaveTile:
+    jsr AddTile
     jmp B30_0881
 
-B30_08a1:
+StringCommandHandler:
     sta $72
     asl a
     tay
@@ -1271,10 +1293,10 @@ B30_08a1:
     rts
 
 TILES_COMMANDS:
-    .addr TILES_generic-1 ; 00
-    .addr TILES_generic-1 ; 01
-    .addr TILES_generic-1 ; 02
-    .addr TILES_generic-1 ; 03
+    .addr TILES_restoreptr-1 ; 00
+    .addr TILES_restoreptr-1 ; 01
+    .addr TILES_restoreptr-1 ; 02
+    .addr TILES_restoreptr-1 ; 03
     .addr TILES_set_pos-1 ; 04
     .addr TILES_print_string-1 ; 05
     .addr TILES_repeatTile-1 ; 06
@@ -1288,15 +1310,15 @@ TILES_goto:
     B30_08c4:
     ;;; get goto pointer and write over $75-$74
     ;push pointer lo
-    lda (UNK_74), y
+    lda (tilepack_ptr), y
     pha
     iny
     ;write pointer hi to $75
-    lda (UNK_74), y
-    sta UNK_74+1
+    lda (tilepack_ptr), y
+    sta tilepack_ptr+1
     ;pull pointer lo and write to $74
     pla
-    sta UNK_74
+    sta tilepack_ptr
 
     ;reset content index
     ldy #0
@@ -1306,7 +1328,7 @@ TILES_print_string:
     ;get content index
     ldy $7a
     ;if index == 0, do generic
-    beq TILES_generic
+    beq TILES_restoreptr
     ;else, push content pointer
     lda $74
     pha
@@ -1317,7 +1339,7 @@ TILES_print_string:
     pha
     bne B30_08c4
 
-TILES_generic:
+TILES_restoreptr:
     ;pull a
     pla
     beq @B30_08f1
@@ -1334,7 +1356,7 @@ TILES_generic:
     jmp ($007c)
 
     @B30_08f1:
-    ldy $e6
+    ldy nmi_data_offset
     lda nmi_queue+1, y
     beq B30_08fa
     txa
@@ -1356,11 +1378,11 @@ TILES_set_pos:
     ldy $7a
 
     ;get x
-    lda ($74), y
+    lda (tilepack_ptr), y
     sta $76
     iny
     ;get y
-    lda ($74), y
+    lda (tilepack_ptr), y
     sta $77
     iny
 
@@ -1369,25 +1391,25 @@ TILES_set_pos:
     bcc @B30_091b
     dec $77
     @B30_091b:
-    ldy $e6
+    ldy nmi_data_offset
     lda nmi_queue+1, y
     bne B30_0924
-    ldx $e6
+    ldx nmi_data_offset
     B30_0924:
-    jsr CalculateNametableOffset
-    jsr B30_0a3d
+    jsr CalculateNTAddr
+    jsr WriteRowHeader
     ldy $7a
     jmp ($007c)
 
 TILES_repeatTile:
     ldy $7a
-    lda ($74), y
+    lda (tilepack_ptr), y
     bcc B30_0937
     lda #$a0
     B30_0937:
     sta $72
     iny
-    lda ($74), y
+    lda (tilepack_ptr), y
     iny
     sty $7a
     tay
@@ -1395,7 +1417,7 @@ TILES_repeatTile:
     dey
     bmi @B30_094b
     lda $72
-    jsr B30_0a1f
+    jsr AddTile
     jmp B30_0940
 
     @B30_094b:
@@ -1404,16 +1426,16 @@ TILES_repeatTile:
 
 TILES_print_number:
     ldy $7a
-    lda ($74), y
+    lda (tilepack_ptr), y
     sta $64
     iny
-    lda ($74), y
+    lda (tilepack_ptr), y
     sta $65
     iny
-    lda ($74), y
+    lda (tilepack_ptr), y
     sta $66
     iny
-    lda ($74), y
+    lda (tilepack_ptr), y
     sta $67
     iny
     tya
@@ -1470,13 +1492,13 @@ TILES_print_number:
     bcc B30_09c0
     B30_09bb:
     lda #$a0
-    jsr B30_0a1f
+    jsr AddTile
     B30_09c0:
     dec $67
     bpl B30_09bb
     bmi B30_09cd
     B30_09c6:
-    jsr B30_0a1f
+    jsr AddTile
     dec $67
     bne B30_09a5
     B30_09cd:
@@ -1488,8 +1510,10 @@ TILES_t_nop:
     ldy $7a
     jmp ($007c)
 
-; TODO: Get a better name. figure this out
-CalculateNametableOffset:
+; Calculate Nametable Address
+; Input: CameraX, CameraY, Column, Row
+; Output: NTAddr for screen tile position (Col, Row+1)
+CalculateNTAddr:
     ;UNK_79 = ((scroll_x >> 1) | (ram_PPUCTRL.1 << 7)) + 8
     lda ram_PPUCTRL
     lsr a
@@ -1561,14 +1585,14 @@ CalculateNametableOffset:
 
     rts
 
-B30_0a1f:
+AddTile:
     sta nmi_queue, x
     inx
     txa
-    ldx $e6
+    ldx nmi_data_offset
     inc nmi_queue+1, x
     tax
-    inc $7e
+    inc char_count
     inc $7b
     beq B30_0a31
     rts
@@ -1580,8 +1604,8 @@ B30_0a31:
     lda $78
     eor #$04
     sta $78
-    B30_0a3d:
-    stx $e6
+    WriteRowHeader:
+    stx nmi_data_offset
     lda #$05
     sta nmi_queue, x ; TODO: Write ?? bytes into PPU address
     inx
@@ -1709,13 +1733,13 @@ B30_0aa9:
     jsr BANK_SWAP
 
     ldy #0
-    lda ($74), y
+    lda (tilepack_ptr), y
     sta $09
     iny
-    lda ($74), y
+    lda (tilepack_ptr), y
     sta $0a
     iny
-    lda ($74), y
+    lda (tilepack_ptr), y
     sta $0b
     pla
     jsr BANK_SWAP
@@ -1740,17 +1764,17 @@ B30_0aa9:
     lda #$00
     sta nmi_queue+4 ; END
     lda #$00
-    sta $e6
+    sta nmi_data_offset
     lda #$80
     sta $e5
 
     lda #.LOBYTE(text_data_buffer)
-    sta UNK_74
+    sta tilepack_ptr
     lda #.HIBYTE(text_data_buffer)
-    sta UNK_74+1
+    sta tilepack_ptr+1
     jmp PpuSync
 
-B30_0b1a:
+GetTextRowPtr:
     lda $75
     bpl B30_0b21
     sta $73
@@ -1771,15 +1795,15 @@ B30_0b21:
     sta $0b
     rts
 
-;UNK_74 += a
+;tilepack_ptr += a
 AddTo_UNK_74:
     clc
 
-    adc UNK_74
-    sta UNK_74
+    adc tilepack_ptr
+    sta tilepack_ptr
     lda #0
-    adc UNK_74+1
-    sta UNK_74+1
+    adc tilepack_ptr+1
+    sta tilepack_ptr+1
 
     rts
 
@@ -1788,18 +1812,18 @@ PostInit:
     jsr WriteProtectPRGRam
 
     lda #$c0
-    sta unk_7ef
+    sta sram_mode
 
     ;run the intro
-    jsr BankswitchLower_Bank20
+    jsr BANKSET_H14
     jsr intro
 
     lda #0
-    sta unk_7ef
+    sta sram_mode
 
     ;fade out
     B30_0b57:
-    jsr BankswitchUpper_Bank19
+    jsr BANKSET_H13
     jsr OverworldTransitionIntepreter
 
     B30_0b5d:
@@ -1859,13 +1883,13 @@ PostInit:
     lda is_scripted
     beq @am_i_scripted
 
-    jsr BankswitchUpper_Bank19
+    jsr BANKSET_H13
     jsr B19_01c6
     bcc B30_0beb
 
     @am_i_scripted:
 
-    jsr BankswitchUpper_Bank19
+    jsr BANKSET_H13
 
     ;y <- pad1_forced
     ;pad1_forced = 0
@@ -1913,7 +1937,7 @@ OpenCommands:
     jsr B19_0178
     DoNormalFrame:
 
-    jsr BankswitchLower_Bank20
+    jsr BANKSET_H14
     jsr DoWalkingStep
 
 ;step random
@@ -1925,13 +1949,13 @@ B30_0beb:
     jsr PpuSync
     lda current_music
     pha
-    jsr Battle
+    jsr ENTERBATTLE
     pla
     bcs B30_0c14
     jsr PlayMusic
     lda $21
     beq B30_0c11
-    jsr BankswitchUpper_Bank19
+    jsr BANKSET_H13
     jsr B19_0b53
     lda fade_flag
     bne B30_0c14
@@ -1942,11 +1966,11 @@ B30_0c14:
 B30_0c17:
     jmp B30_0b76
 B30_0c1a:
-    jsr BankswitchLower_Bank20
+    jsr BANKSET_H14
     jsr B20_1779
-    jsr Battle
+    jsr ENTERBATTLE
     bcs B30_0c14
-    jsr BankswitchLower_Bank20
+    jsr BANKSET_H14
     jmp B20_17a3
 
 B30_0c2b:
@@ -1971,7 +1995,7 @@ B30_0c2b:
     jsr B30_1232
     lda #$00
     sta nmi_queue, x
-    sta $e6
+    sta nmi_data_offset
     lda #$80
     sta $e5
     bne B30_0c83
@@ -1981,7 +2005,7 @@ B30_0c2b:
     jsr B30_1232
     lda #$00
     sta nmi_queue, x
-    sta $e6
+    sta nmi_data_offset
     lda #$10
     sta $e5
     lda $1f
@@ -2001,7 +2025,7 @@ B30_0c2b:
     jsr B30_121c
     lda #$00
     sta nmi_queue, x
-    sta $e6
+    sta nmi_data_offset
     lda #$80
     sta $e5
     B30_0c96:
@@ -2113,7 +2137,7 @@ B30_0cd8:
     sta $07f3
     lda #$22
     jsr BackupAndFillPalette
-    jsr BankswitchUpper_Bank19
+    jsr BANKSET_H13
     jsr EnablePRGRam
     jsr B19_1bd4
     jsr B30_19fa
@@ -2246,9 +2270,9 @@ B30_0e08:
     ldx #times ; Repeat this 32 times (for a total of $800 bytes)
     @loop:
     lda #.LOBYTE($8000)
-    sta UNK_E5+1
+    sta nmi_flags+1
     lda #.HIBYTE($8000)
-    sta UNK_E5
+    sta nmi_flags
 
     jsr PpuSync
 
@@ -2356,23 +2380,24 @@ B30_0eb2:
 
     ;0080
     lda #0
-    sta $e6
+    sta nmi_data_offset
     lda #$80
     sta $e5
 
     rts
 
-BankswitchUpper_Bank19:
+; Sets Upper (Hi) Bank to $13, without preserving current bank on stack
+BANKSET_H13:
     lda #$13
     ldx #BANK::PRGA000
     jmp BANK_SWAP
 
-BankswitchUpper_Bank23:
+BANKSET_H17:
     lda #$17
     ldx #BANK::PRGA000
     jmp BANK_SWAP
 
-BankswitchLower_Bank20:
+BANKSET_H14:
     lda #$14
     ldx #BANK::PRG8000
     jmp BANK_SWAP
@@ -2620,9 +2645,9 @@ STORE_COORDINATES:
 
     lda #0
     sta nmi_queue, x
-    sta UNK_E5+1
+    sta nmi_flags+1
     lda #.HIBYTE($8000)
-    sta UNK_E5
+    sta nmi_flags
 
     dec UNK_9B
     beq @break
@@ -2658,9 +2683,9 @@ STORE_COORDINATES:
     sta nmi_queue ; UPDATE_PALETTE
     lda #0
     sta nmi_queue+1 ; END
-    sta UNK_E5+1
+    sta nmi_flags+1
     lda #.HIBYTE($8000)
-    sta UNK_E5
+    sta nmi_flags
 
     ;UNK_A0 = $88
     lda #$88
@@ -4392,7 +4417,7 @@ B30_19fa:
     B30_19fc:
     lda party_members, x
     beq B30_1a10
-    jsr GetPartyMemberData
+    jsr GetPartyMemberPtr
     ldy #$2c
     B30_1a06:
     lda xpos_music-$2c,y
@@ -4539,7 +4564,7 @@ BattleRewardsRoutine:
     lda enemy_group
     beq @RewardsEnd
     sta $29
-    jsr BankswitchUpper_Bank19
+    jsr BANKSET_H13
     jsr B19_1bc3
     lda #$ff
     sta global_wordvar
@@ -4574,7 +4599,7 @@ BattleRewardsRoutine:
 
 ; play sfx for item get and print text
 ItemDropGetFX:
-    jsr BankswitchUpper_Bank23
+    jsr BANKSET_H17
     lda #PulseG0_ItemDropGet
     sta soundqueue_pulseg0
     lda #$8c                        ; "Got the [Item]!"
@@ -7057,10 +7082,10 @@ OBJTICK_Player:
     sta UNK_E7
     ldy #$0c
     lda (object_pointer), y
-    sta UNK_E8
+    sta shift_x
     iny
     lda (object_pointer), y
-    sta UNK_E9
+    sta shift_y
     rts
 
 B31_09cd:
@@ -7852,9 +7877,9 @@ B31_0eb5:
     sta nmi_queue+1
 
     ;lda #.LOBYTE($8000)
-    sta UNK_E5+1
+    sta nmi_flags+1
     lda #.HIBYTE($8000)
-    sta UNK_E5
+    sta nmi_flags
 
     jmp WaitXFrames_Min1
 
@@ -8390,9 +8415,9 @@ Rand:
 
     rts
 
-Battle:
-    jsr BankswitchUpper_Bank23
-    jsr BankswitchLower_Bank22
+ENTERBATTLE:
+    jsr BANKSET_H17
+    jsr BANKSWAP_L16
     jsr GetEnemyGroupPointer
     ldx #$2c
     ldy #$09
@@ -8409,10 +8434,10 @@ Battle:
     txa
     jsr ChangeMusic
 
-    jsr BankswitchLower_Bank20
+    jsr BANKSET_H14
     jsr B20_1630
 
-    jsr BankswitchLower_Bank22
+    jsr BANKSWAP_L16
     jsr B31_1d5e
     jsr B31_1d80
     jsr B31_0c65
@@ -8420,7 +8445,8 @@ Battle:
     jsr B31_0ca3
     rts
 
-BankswitchLower_Bank22:
+; Swaps Lower Bank to $16, preserving the current bank in the stack.
+BANKSWAP_L16:
     pha
     txa
     pha
@@ -8434,7 +8460,8 @@ BankswitchLower_Bank22:
     pla
     rts
 
-BankswitchLower_Bank00_Preserve:
+; Swaps Lower Bank to $00, preserving the current bank in the stack.
+BANKSWAP_L00:
     pha
     txa
     pha
@@ -8753,7 +8780,7 @@ B31_1456:
 B31_145b:
     ldx $67
     jsr WaitXFrames
-    jsr BankswitchLower_Bank22
+    jsr BANKSWAP_L16
 B31_1463:
     pla
     rts
@@ -8815,11 +8842,11 @@ QueuePaletteUpdate:
     lda #0
     sta nmi_queue+1
 
-    ;UNK_E5 <- $8000
+    ;nmi_flags <- $8000
     lda #.LOBYTE($8000)
-    sta UNK_E5+1
+    sta nmi_flags+1
     lda #.HIBYTE($8000)
-    sta UNK_E5
+    sta nmi_flags
     rts
 
 SetBGColorBlack:
@@ -8852,7 +8879,7 @@ B31_14ce:
     pha
 
     ;get ui tilecode from ui_list
-    jsr BankswitchLower_Bank00_Preserve
+    jsr BANKSWAP_L00
     ;load a * 2 into y
     ldy UNK_60
     lda ui_list, y
@@ -8932,7 +8959,7 @@ B31_14ce:
     jmp @store_x_ctrl_loop
 
     @exit:
-    jsr BankswitchLower_Bank22
+    jsr BANKSWAP_L16
     ;pull a, a -> y
     pla
     tay
@@ -9034,7 +9061,7 @@ B31_14ce:
     lda $63
     sta $77
     pha
-    jsr B30_06d2
+    jsr DrawTilepack
     pla
     sta $63
     jmp B31_15ac
@@ -9045,7 +9072,7 @@ B31_158d:
     adc $66
     sta $77
     pha
-    jsr B30_0707
+    jsr PRINT_STRING
     pla
     sta $63
     jmp B31_15ac
@@ -9056,7 +9083,7 @@ B31_159e:
     adc $66
     sta $77
     pha
-    jsr B30_06db
+    jsr DrawTilepackClear
     pla
     sta $63
 B31_15ac:
@@ -9318,9 +9345,9 @@ fill_nmi_with_pointer_data:
     bpl @fill
 
     lda #.HIBYTE($8000)
-    sta UNK_E5
+    sta nmi_flags
     lda #.LOBYTE($8000)
-    sta UNK_E5+1
+    sta nmi_flags+1
 
     rts
 
@@ -9396,7 +9423,7 @@ B31_17a7:
     lda #$02
     stx OAMADDR
     sta OAMDMA
-    ldy $e6
+    ldy nmi_data_offset
     lda $e0
     beq @B31_17c2
     lda $e5
@@ -9461,7 +9488,7 @@ B31_17e5:
     ldx ram_PPUMASK
     sta PPUCTRL
     stx PPUMASK
-    sty $e6
+    sty nmi_data_offset
     lda #$80
     sta nmi_flag
     lda bankswitch_mode
@@ -10243,7 +10270,7 @@ PlayMusic:
     jmp WaitNMI
 
 PpuSync: ;wait for NmiHandler
-    lda UNK_E5
+    lda nmi_flags
     ora UNK_E0
     bne PpuSync
     rts
@@ -10286,10 +10313,10 @@ WAIT_CLOSE_MENU:
 ;offscreen
 B31_1d5e:
     jsr PpuSync
-    ;UNK_E2 >>= 1
-    ;UNK_E2.7 = 1
+    ;oam_and_300_clear_flag >>= 1
+    ;oam_and_300_clear_flag.7 = 1
     sec
-    ror UNK_E2
+    ror oam_and_300_clear_flag
 
     ldx #0
     @loop:
@@ -10313,8 +10340,8 @@ B31_1d5e:
     ;if x overflows, break
     bne @loop
 
-    ;put UNK_E2 back
-    asl UNK_E2
+    ;put oam_and_300_clear_flag back
+    asl oam_and_300_clear_flag
 
     rts
 
@@ -10339,11 +10366,11 @@ B31_1d80:
     sta nmi_queue+5
 
     @loop:
-    ;UNK_E5 = $8000
+    ;nmi_flags = $8000
     ldx #.LOBYTE($8000)
     lda #.HIBYTE($8000)
-    stx UNK_E5+1
-    sta UNK_E5
+    stx nmi_flags+1
+    sta nmi_flags
 
     jsr PpuSync
 

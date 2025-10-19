@@ -31,9 +31,9 @@ ANTI_PIRACY:
     lda #0
     sta nmi_queue+$16
 
-    sta UNK_E5+1
+    sta nmi_flags+1
     lda #.HIBYTE($8000)
-    sta UNK_E5
+    sta nmi_flags
 
     jsr PpuSync
 
@@ -111,9 +111,9 @@ B25_0079:
     @loop:
 
     lda #.LOBYTE($8000)
-    sta UNK_E5+1
+    sta nmi_flags+1
     lda #.HIBYTE($8000)
-    sta UNK_E5
+    sta nmi_flags
 
     jsr PpuSync
 
@@ -208,11 +208,11 @@ B25_01f8:
     sta $71
     B25_0238:
     jsr GetTextData
-    jsr B30_06db
+    jsr DrawTilepackClear
     cmp #$00
     beq B25_024a
     ldy #$00
-    lda ($74), y
+    lda (tilepack_ptr), y
     cmp #$00
     bne B25_0238
     B25_024a:
@@ -693,7 +693,7 @@ RepelRing_Effect:
     jsr TempUpperBankswitch
 
     ;rts
-    jmp BankswitchLower_Bank20
+    jmp BANKSET_H14
 
 Repel_LevelTable:
 .byte 0,3,5,7,10,12,16,18,19,21,23,26,28,30,35,36,37,-1

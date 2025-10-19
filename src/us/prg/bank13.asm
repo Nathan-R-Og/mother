@@ -43,7 +43,7 @@ SelectOpenFullStats:
     ;if failed, jump
     bcs B19_0084
     ;else,
-    jsr GetPartyMemberData
+    jsr GetPartyMemberPtr
     ;stash x
     txa
     pha
@@ -188,7 +188,7 @@ B19_00e5:
     sta $74
     stx $75
 B19_00ed:
-    jsr B30_06db
+    jsr DrawTilepackClear
     cmp #$00
     bne B19_00ed
     rts
@@ -1455,7 +1455,7 @@ OA_End:
 
 MOV_word60_word40:
     lda $28
-    jsr GetPartyMemberData
+    jsr GetPartyMemberPtr
     lda temp_word
     sta tableentry_var
     lda temp_word+1
@@ -1630,7 +1630,7 @@ PlayerUsableBitfieldLUT:
 
 ReadOverworldMessageLUT:
     lda OverworldMessageLUT, x
-    sta UNK_74
+    sta tilepack_ptr
     lda OverworldMessageLUT+1, x
     sta UNK_73
     rts
@@ -1881,11 +1881,11 @@ OverworldScriptLUT:
 OINST_InfiniteLoop:
     jmp OINST_InfiniteLoop
 
-;render UNK_74
+;render tilepack_ptr
 B19_0c44:
-    sta UNK_74
-    stx UNK_74+1
-    jmp B30_06d2
+    sta tilepack_ptr
+    stx tilepack_ptr+1
+    jmp DrawTilepack
 
 ; Instruction 0F - Reset game
 OINST_Reset:
@@ -2077,12 +2077,12 @@ B19_0d40:
     sta $70
     lda #0
     sta $71
-    jsr B30_0707
+    jsr PRINT_STRING
     jsr B30_07af
     cmp #0
     beq B19_0d61
     ldy #0
-    lda ($74), y
+    lda (tilepack_ptr), y
     cmp #3
     beq B19_0d75
     cmp #0
@@ -2122,7 +2122,7 @@ B19_0d91:
 
 B19_0d98:
     ldx #4
-    jsr B30_07c1
+    jsr DELAY_PRINT_SCROLL
     dec $77
     dec $77
     rts
@@ -2623,7 +2623,7 @@ B19_107e:
     rts
 
 GetInventoryPointer:
-    jsr GetPartyMemberData
+    jsr GetPartyMemberPtr
     clc
     lda temp_word
     adc #$20
@@ -3354,7 +3354,7 @@ OINST_MultiplyByPartySize:
 B19_151d:
     jsr GetXCharacter
     bcs B19_153d
-    jsr GetPartyMemberData
+    jsr GetPartyMemberPtr
     ldy #1
     lda (temp_vars), y
     bmi B19_153d
@@ -3396,7 +3396,7 @@ B19_1561:
 B19_1566:
     lda party_members, x
     beq B19_157a
-    jsr GetPartyMemberData
+    jsr GetPartyMemberPtr
     ldy #1
     lda (temp_vars), y
     bmi B19_157a
@@ -3453,7 +3453,7 @@ B19_15c2:
     sty $35
 B19_15c4:
     lda $28
-    jmp GetPartyMemberData
+    jmp GetPartyMemberPtr
 
 ; Instruction 60 - Jump to J if < max pp
 OINST_JMP_CharaPPNotFull:
@@ -4096,7 +4096,7 @@ B19_19e4:
     lda #.LOBYTE(B19_1ab6)
     ldx #.HIBYTE(B19_1ab6)
     jsr B19_0c44
-    jsr B30_06d2
+    jsr DrawTilepack
     ldx #$00
     jsr B19_1a72
     jsr B19_1a72
@@ -4257,7 +4257,7 @@ PartyContentTrue_Choicer:
     .byte 6, 5 ; X/Y start
 
 B19_1b21:
-    jsr GetPartyMemberData
+    jsr GetPartyMemberPtr
     clc
     lda temp_word
     adc #$38
@@ -4271,7 +4271,7 @@ B19_1b21:
     sta $70
     stx $76
     sty $77
-    jmp B30_06d2
+    jmp DrawTilepack
 
 B19_1b40:
     lda #$0b
@@ -4342,7 +4342,7 @@ B19_1baf:
     iny
     lda (temp_vars), y
     sta $75
-    jsr B30_06d2
+    jsr DrawTilepack
     jmp B19_0b41
 
 B19_1bc3:
@@ -4700,7 +4700,7 @@ OT5_Flood:
     tax
     dey
     bpl B19_1dea
-    jsr BankswitchLower_Bank20
+    jsr BANKSET_H14
     jsr B20_1641
     lda #$11
     jsr BackupAndFillPalette
