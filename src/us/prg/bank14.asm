@@ -447,7 +447,7 @@ SPAWNS_1F:
 
 intro:
     ;use bank $13 as lower half
-    jsr BankswitchUpper_Bank19
+    jsr BANKSET_H13
 
     ;title routine
     jsr Title_Screen
@@ -520,7 +520,7 @@ something_init:
     pla
     jsr SetupFreshSaveData
     jsr WriteProtectPRGRam
-    jsr BankswitchUpper_Bank19
+    jsr BANKSET_H13
 
     ;do naming sequence
     jsr NS_NamingSequence
@@ -575,7 +575,7 @@ B20_148c:
     bne B20_14d6
     ldx #$0e
     jsr ns_load_ui_element
-    jsr B30_067a
+    jsr WriteTilesIn74
     ldx #$0e
     jsr B20_150b
     clc
@@ -612,7 +612,7 @@ B20_14d7:
 
 B20_1505:
     jsr ns_load_ui_element
-    jmp B30_067a
+    jmp WriteTilesIn74
 
 B20_150b:
     jsr rts_3 ; $80 = $6085[x]
@@ -827,7 +827,7 @@ OnStepEffect:
     ;if party member empty, jump
     beq @finish_loop
 
-    jsr GetPartyMemberData
+    jsr GetPartyMemberPtr
 
     ;if not party member has cold, jump
     ldy #party_info::status
@@ -1004,16 +1004,16 @@ B20_1685:
     bcc @not_14
 
     lda #0
-    sta UNK_E5+1
+    sta nmi_flags+1
     lda #1
-    sta UNK_E5
+    sta nmi_flags
     jsr PpuSync
 
     lda #0
     sta nmi_queue+1
     @not_14:
     ;UNK_77 and UNK_76 get sent to UNK_78 and UNK_79 respectively
-    jsr CalculateNametableOffset
+    jsr CalculateNTAddr
 
     ;x = (nmi_queue[1] << 1) + nmi_queue[1]
     lda nmi_queue+1
@@ -1651,12 +1651,12 @@ NS_DisplayCharacter:
     jsr PpuSync
     jmp NS_AddCharacterToOam
 
-;x:a -> UNK_74
-;loads tile data (pointer) to UNK_74??
+;x:a -> tilepack_ptr
+;loads tile data (pointer) to tilepack_ptr??
 NS_LoadTiles:
-    sta UNK_74
-    stx UNK_74+1
-    jmp B30_067a
+    sta tilepack_ptr
+    stx tilepack_ptr+1
+    jmp WriteTilesIn74
 
 NS_FinalChoicer:
     ;process choicer
@@ -1683,11 +1683,11 @@ do_story_print:
     lda #0
     sta UNK_70
 
-    stx UNK_74
-    sty UNK_74+1
+    stx tilepack_ptr
+    sty tilepack_ptr+1
 
     @loop:
-    jsr B30_0707
+    jsr PRINT_STRING
     dec UNK_77
     cmp #0
     bne @loop
@@ -1731,7 +1731,7 @@ B20_1B40:
     sta $74
     lda $65
     sta $75
-    jsr B30_06db
+    jsr DrawTilepackClear
     jsr B25_1ab5
     pla
     tax
@@ -1875,11 +1875,11 @@ B20_1bf7:
     jsr NS_MQAToCNA
 
     B20_1c04:
-    ;load to UNK_74
+    ;load to tilepack_ptr
     lda Current_Name_Addr
-    sta UNK_74
+    sta tilepack_ptr
     lda Current_Name_Addr+1
-    sta UNK_74+1
+    sta tilepack_ptr+1
 
     ;x,y
     lda #9
@@ -1888,7 +1888,7 @@ B20_1bf7:
     sta UNK_76+1
 
     @wait:
-    jsr B30_06db
+    jsr DrawTilepackClear
     cmp #0
     bne @wait
 
@@ -2070,7 +2070,7 @@ B20_1ccf:
     stx $76
     sty $77
     B20_1cf7:
-    jsr B30_06db
+    jsr DrawTilepackClear
     cmp #$00
     bne B20_1cf7
     B20_1cfe:
@@ -2142,11 +2142,11 @@ NS_LoadCursor:
 
     ;load tiles at CurrentName
     lda #.LOBYTE(CurrentName)
-    sta UNK_74
+    sta tilepack_ptr
     lda #.HIBYTE(CurrentName)
-    sta UNK_74+1
+    sta tilepack_ptr+1
 
-    jsr B30_06db
+    jsr DrawTilepackClear
 
     ;load stored x,y
     pla
@@ -2281,7 +2281,7 @@ Title_Screen:
     sta earth_oam+7
 
     lda #10
-    sta UNK_E5
+    sta nmi_flags
     clc
 
     ;tiles += 4
@@ -2302,7 +2302,7 @@ Title_Screen:
     bne @escape
 
     ;mini ppusync
-    lda UNK_E5
+    lda nmi_flags
     ora UNK_E0
     bne @wait_for_start
 
@@ -2341,13 +2341,13 @@ DoIntroTransition:
 
     jmp B31_1d80
 
-;load tilepointer to UNK_74
+;load tilepointer to tilepack_ptr
 load_tilemap_into_queue:
-    sta UNK_74 ;store lo
-    stx UNK_74+1 ;store hi
+    sta tilepack_ptr ;store lo
+    stx tilepack_ptr+1 ;store hi
 
     @loop:
-    jsr B30_06d2
+    jsr DrawTilepack
     dec UNK_77
     cmp #0
     bne @loop

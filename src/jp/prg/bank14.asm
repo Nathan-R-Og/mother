@@ -445,7 +445,7 @@ Title_Screen := $9e23
 
 intro:
     ;use bank $13 as lower half
-    jsr BankswitchUpper_Bank19
+    jsr BANKSET_H13
 
     ;title routine
     jsr Title_Screen
@@ -541,7 +541,7 @@ something_init:
     pla
     jsr SetupFreshSaveData
     jsr WriteProtectPRGRam
-    jsr BankswitchUpper_Bank19
+    jsr BANKSET_H13
 
     ;do naming sequence
     jsr NS_NamingSequence

@@ -77,7 +77,7 @@ UNK_70: .res 1
 UNK_71: .res 1
 UNK_72: .res 1
 UNK_73: .res 1
-UNK_74: .res 2 ;tile data pointer
+tilepack_ptr: .res 2        ; $74
 UNK_76: .res 1
 UNK_77: .res 1
 UNK_78: .res 1
@@ -86,8 +86,8 @@ UNK_7A: .res 1
 UNK_7B: .res 1
 UNK_7C: .res 1
 UNK_7D: .res 1
-UNK_7E: .res 1
-UNK_7F: .res 1
+char_count: .res 1          ; counts chars (not charas...)
+byte_count: .res 1          ; counts bytes (todo: find purpose)
 UNK_80: .res 2
 
 ; Position of menu cursor in whole numbers, incrementing by 1 per step
@@ -154,15 +154,16 @@ pad1_hold: .res 1 ; $de
 pad2_hold: .res 1 ; $df
 UNK_E0: .res 1
 UNK_E1: .res 1
-UNK_E2: .res 1
+oam_and_300_clear_flag: .res 1      ; Set Bit 7 before Clear OAM & $300 are, Free bit after
 UNK_E3: .res 1
 UNK_E4: .res 1
-UNK_E5: .res 2 ;some kind of pointer
+nmi_flags: .res 1 ;some kind of pointer (TODO: change name to something less similar to nmi flag)
+nmi_data_offset: .res 1
 UNK_E7: .res 1
-UNK_E8: .res 1
-UNK_E9: .res 1
+shift_x: .res 1
+shift_y: .res 1
 nmi_flag: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running NMI handler ;ignores controller input while set
-UNK_EB: .res 1
+irq_latch: .res 1
 irq_count: .res 1      ; IRQ Count
 irq_index: .res 1 ; $ed ; IRQ routine index (multiple of 2)
 bankswitch_mode: .res 1 ; $ee ; Bankswitch "mode"  (-----mmm), $8000 MMC3 register
@@ -454,7 +455,7 @@ unk_7e6 = $07e6
 unk_7e7 = $07e7
 unk_7e8 = $07e8
 
-unk_7ef = $07ef ; $07EF = Unknown (initialized to $C0)
+sram_mode = $07ef
 
 ; Sounds
 ; direct sfx (put into soundqueues)
