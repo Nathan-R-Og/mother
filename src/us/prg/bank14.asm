@@ -2,174 +2,6 @@
 ;(since it's basically an array, anyways)
 ;specifically to aid in shifting and general reordering.
 .define BATTLEID(ta) .LOBYTE((ta-BATTLES_START)/$A)
-.scope BATTLES
-    NULL = BATTLEID(BATTLE_NULL)
-    MYHOUSE_RAT1 = BATTLEID(BATTLE_MYHOUSE_RAT1)
-    B2 = BATTLEID(BATTLE_2)
-    B3 = BATTLEID(BATTLE_3)
-    B4 = BATTLEID(BATTLE_4)
-    B5 = BATTLEID(BATTLE_5)
-    B6 = BATTLEID(BATTLE_6)
-    B7 = BATTLEID(BATTLE_7)
-    B8 = BATTLEID(BATTLE_8)
-    B9 = BATTLEID(BATTLE_9)
-    BA = BATTLEID(BATTLE_A)
-    BB = BATTLEID(BATTLE_B)
-    BC = BATTLEID(BATTLE_C)
-    BD = BATTLEID(BATTLE_D)
-    BE = BATTLEID(BATTLE_E)
-    BF = BATTLEID(BATTLE_F)
-    B10 = BATTLEID(BATTLE_10)
-    B11 = BATTLEID(BATTLE_11)
-    B12 = BATTLEID(BATTLE_12)
-    B13 = BATTLEID(BATTLE_13)
-    B14 = BATTLEID(BATTLE_14)
-    B15 = BATTLEID(BATTLE_15)
-    B16 = BATTLEID(BATTLE_16)
-    B17 = BATTLEID(BATTLE_17)
-    B18 = BATTLEID(BATTLE_18)
-    B19 = BATTLEID(BATTLE_19)
-    B1A = BATTLEID(BATTLE_1A)
-    B1B = BATTLEID(BATTLE_1B)
-    B1C = BATTLEID(BATTLE_1C)
-    B1D = BATTLEID(BATTLE_1D)
-    B1E = BATTLEID(BATTLE_1E)
-    B1F = BATTLEID(BATTLE_1F)
-    B20 = BATTLEID(BATTLE_20)
-    B21 = BATTLEID(BATTLE_21)
-    B22 = BATTLEID(BATTLE_22)
-    B23 = BATTLEID(BATTLE_23)
-    B24 = BATTLEID(BATTLE_MAGICANT_BIGWOODOH)
-    B25 = BATTLEID(BATTLE_MAGICANT_WOODOH)
-    B26 = BATTLEID(BATTLE_26)
-    B27 = BATTLEID(BATTLE_27)
-    B28 = BATTLEID(BATTLE_28)
-    B29 = BATTLEID(BATTLE_29)
-    B2A = BATTLEID(BATTLE_2A)
-    B2B = BATTLEID(BATTLE_2B)
-    B2C = BATTLEID(BATTLE_2C)
-    B2D = BATTLEID(BATTLE_2D)
-    B2E = BATTLEID(BATTLE_2E)
-    B2F = BATTLEID(BATTLE_2F)
-    B30 = BATTLEID(BATTLE_30)
-    B31 = BATTLEID(BATTLE_31)
-    B32 = BATTLEID(BATTLE_32)
-    B33 = BATTLEID(BATTLE_33)
-    B34 = BATTLEID(BATTLE_34)
-    B35 = BATTLEID(BATTLE_35)
-    B36 = BATTLEID(BATTLE_36)
-    B37 = BATTLEID(BATTLE_37)
-    B38 = BATTLEID(BATTLE_38)
-    B39 = BATTLEID(BATTLE_39)
-    B3A = BATTLEID(BATTLE_3A)
-    B3B = BATTLEID(BATTLE_3B)
-    B3C = BATTLEID(BATTLE_3C)
-    B3D = BATTLEID(BATTLE_3D)
-    B3E = BATTLEID(BATTLE_3E)
-    B3F = BATTLEID(BATTLE_3F)
-    B40 = BATTLEID(BATTLE_40)
-    B41 = BATTLEID(BATTLE_41)
-    B42 = BATTLEID(BATTLE_42)
-    B43 = BATTLEID(BATTLE_43)
-    B44 = BATTLEID(BATTLE_44)
-    B45 = BATTLEID(BATTLE_45)
-    B46 = BATTLEID(BATTLE_46)
-    B47 = BATTLEID(BATTLE_47)
-    B48 = BATTLEID(BATTLE_48)
-    B49 = BATTLEID(BATTLE_49)
-    B4A = BATTLEID(BATTLE_4A)
-    B4B = BATTLEID(BATTLE_4B)
-    B4C = BATTLEID(BATTLE_4C)
-    B4D = BATTLEID(BATTLE_4D)
-    B4E = BATTLEID(BATTLE_4E)
-    B4F = BATTLEID(BATTLE_4F)
-    B50 = BATTLEID(BATTLE_50)
-    B51 = BATTLEID(BATTLE_51)
-    B52 = BATTLEID(BATTLE_52)
-    B53 = BATTLEID(BATTLE_53)
-    B54 = BATTLEID(BATTLE_54)
-    B55 = BATTLEID(BATTLE_55)
-    B56 = BATTLEID(BATTLE_56)
-    B57 = BATTLEID(BATTLE_57)
-    B58 = BATTLEID(BATTLE_58)
-    B59 = BATTLEID(BATTLE_59)
-    B5A = BATTLEID(BATTLE_5A)
-    B5B = BATTLEID(BATTLE_5B)
-    B5C = BATTLEID(BATTLE_5C)
-    B5D = BATTLEID(BATTLE_5D)
-    B5E = BATTLEID(BATTLE_5E)
-    B5F = BATTLEID(BATTLE_5F)
-    B60 = BATTLEID(BATTLE_60)
-    B61 = BATTLEID(BATTLE_61)
-    B62 = BATTLEID(BATTLE_62)
-    B63 = BATTLEID(BATTLE_63)
-    B64 = BATTLEID(BATTLE_64)
-    B65 = BATTLEID(BATTLE_65)
-    B66 = BATTLEID(BATTLE_66)
-    B67 = BATTLEID(BATTLE_67)
-    B68 = BATTLEID(BATTLE_68)
-    B69 = BATTLEID(BATTLE_69)
-    B6A = BATTLEID(BATTLE_6A)
-    B6B = BATTLEID(BATTLE_6B)
-    B6C = BATTLEID(BATTLE_6C)
-    B6D = BATTLEID(BATTLE_6D)
-    B6E = BATTLEID(BATTLE_6E)
-    B6F = BATTLEID(BATTLE_6F)
-    B70 = BATTLEID(BATTLE_70)
-    B71 = BATTLEID(BATTLE_71)
-    B72 = BATTLEID(BATTLE_72)
-    B73 = BATTLEID(BATTLE_73)
-    B74 = BATTLEID(BATTLE_74)
-    B75 = BATTLEID(BATTLE_75)
-    B76 = BATTLEID(BATTLE_76)
-    B77 = BATTLEID(BATTLE_77)
-    B78 = BATTLEID(BATTLE_78)
-    B79 = BATTLEID(BATTLE_79)
-    B7A = BATTLEID(BATTLE_7A)
-    B7B = BATTLEID(BATTLE_7B)
-    B7C = BATTLEID(BATTLE_7C)
-    B7D = BATTLEID(BATTLE_7D)
-    B7E = BATTLEID(BATTLE_7E)
-    B7F = BATTLEID(BATTLE_7F)
-    B80 = BATTLEID(BATTLE_80)
-    B81 = BATTLEID(BATTLE_81)
-    B82 = BATTLEID(BATTLE_82)
-    B83 = BATTLEID(BATTLE_83)
-    B84 = BATTLEID(BATTLE_84)
-    B85 = BATTLEID(BATTLE_85)
-    B86 = BATTLEID(BATTLE_86)
-    B87 = BATTLEID(BATTLE_87)
-    B88 = BATTLEID(BATTLE_88)
-    B89 = BATTLEID(BATTLE_89)
-    B8A = BATTLEID(BATTLE_8A)
-    B8B = BATTLEID(BATTLE_8B)
-    B8C = BATTLEID(BATTLE_8C)
-    B8D = BATTLEID(BATTLE_8D)
-    B8E = BATTLEID(BATTLE_8E)
-    B8F = BATTLEID(BATTLE_8F)
-    B90 = BATTLEID(BATTLE_90)
-    B91 = BATTLEID(BATTLE_91)
-    B92 = BATTLEID(BATTLE_92)
-    B93 = BATTLEID(BATTLE_93)
-    B94 = BATTLEID(BATTLE_94)
-    B95 = BATTLEID(BATTLE_95)
-    B96 = BATTLEID(BATTLE_96)
-    B97 = BATTLEID(BATTLE_97)
-    B98 = BATTLEID(BATTLE_98)
-    B99 = BATTLEID(BATTLE_99)
-    B9A = BATTLEID(BATTLE_9A)
-    B9B = BATTLEID(BATTLE_9B)
-    B9C = BATTLEID(BATTLE_9C)
-    B9D = BATTLEID(BATTLE_9D)
-    B9E = BATTLEID(BATTLE_9E)
-    B9F = BATTLEID(BATTLE_9F)
-    BA0 = BATTLEID(BATTLE_A0)
-    BA1 = BATTLEID(BATTLE_A1)
-    BA2 = BATTLEID(BATTLE_A2)
-    BA3 = BATTLEID(BATTLE_A3)
-    BA4 = BATTLEID(BATTLE_A4)
-.endscope
-
 .segment        "PRG14": absolute
 
 
@@ -406,7 +238,7 @@ SPAWNS_13:
     .byte $49,$4A,$4B,$4C,$4D,$4E,$4F,$50,$51,$52,$53,$54,$A3,$00,$00,$00
 SPAWNS_14:
     .repeat $10
-        .byte BATTLES::MYHOUSE_RAT1
+        .byte BATTLEID BATTLE_MYHOUSE_RAT1
     .endrepeat
 SPAWNS_15:
     .repeat 4
@@ -430,19 +262,19 @@ SPAWNS_1B:
     .byte $2A,$2B,$2C,$2D,$A1,$00,$00,$00,$2A,$2B,$2C,$2D,$A1,$00,$00,$00
 SPAWNS_1C:
     .repeat $10
-        .byte BATTLES::MYHOUSE_RAT1
+        .byte BATTLEID BATTLE_MYHOUSE_RAT1
     .endrepeat
 SPAWNS_1D:
     .repeat $10
-        .byte BATTLES::MYHOUSE_RAT1
+        .byte BATTLEID BATTLE_MYHOUSE_RAT1
     .endrepeat
 SPAWNS_1E:
     .repeat $10
-        .byte BATTLES::MYHOUSE_RAT1
+        .byte BATTLEID BATTLE_MYHOUSE_RAT1
     .endrepeat
 SPAWNS_1F:
     .repeat $10
-        .byte BATTLES::MYHOUSE_RAT1
+        .byte BATTLEID BATTLE_MYHOUSE_RAT1
     .endrepeat
 
 intro:
@@ -645,7 +477,7 @@ DoWalkingStep:
     ldx UNK_15
     lda AREA_ENCOUNTER_LIST, x
 
-    @B20_1530:
+    @Saveram_Encounter:
     ;if has, jump
     bne @EncounterDefExists
     ;else, write 0
@@ -669,10 +501,10 @@ DoWalkingStep:
     lsr a
     lsr a
 
-    ;get sram value???
-    jsr B31_00f2
-
-    jmp @B20_1530
+    ;get areaEncounterDef from savemeta
+    ;specifically, used for the zoo so that encounters can be disabled after the fact
+    jsr GetMetaSaveA
+    jmp @Saveram_Encounter
 
     @EncounterFrequencyExists:
     clc
@@ -748,9 +580,7 @@ DoWalkingStep:
     .byte 32,21,16,13,10,8,6,5
 
     ;area based encounter sets
-    .macro areaEncounterDef frequency, id
-        .byte (id << 3) | frequency
-    .endmacro
+    .define areaEncounterDef(frequency, id) .byte (id << 3) | frequency
 
     AREA_ENCOUNTER_LIST:
     .byte 0 ; 0
@@ -1067,123 +897,188 @@ Battle_circle:
     .byte $b1, $b2, $b3, $a4, $a5, $96, $87, $ff
 
 ; $9779 - TODO: Giegue battle intro?
-B20_1779:
+GiegueIntro:
     lda #$38
     jsr B31_0e21
+
     lda #$05
-    jsr B20_1920
-    lda #.LOBYTE(B20_19c2)
-    ldx #.HIBYTE(B20_19c2)
-    jsr B20_17d6
+    jsr GiegueGeneric
+
+    lda #.LOBYTE(GiegueCommandIntro1)
+    ldx #.HIBYTE(GiegueCommandIntro1)
+    jsr GiegueCommandInterpreter
+
+    ;mute music
     lda #$ff
     jsr PlayMusic
+
+    ;wait 180 frames
     ldx #180
     jsr WaitXFrames_Min1
+
+    ;backup & fill palette with black
     lda #$0f
     jsr BackupAndFillPalette
-    lda #$00
-    sta $ec
+
+    ;irq_count = 0
+    lda #0
+    sta irq_count
+
+    ;???
     jsr LoadNamingScreen2
     jmp InitPartyObjects
 
-B20_17a3:
+GiegueOutro:
     lda #$0e
-    jsr B20_1920
+    jsr GiegueGeneric
 
-    lda #.LOBYTE(B20_19d5)
-    ldx #.HIBYTE(B20_19d5)
-    jsr B20_17d6
+    ;3... 2... 1...
+    lda #.LOBYTE(GiegueCommandOutro1)
+    ldx #.HIBYTE(GiegueCommandOutro1)
+    jsr GiegueCommandInterpreter
 
-    ;clear music?
+    ;clear music
     lda #$ff
     jsr PlayMusic
 
-    lda #.LOBYTE(B20_19e0)
-    ldx #.HIBYTE(B20_19e0)
-    jsr B20_17d6
+    ;rumble rumble rumble
+    lda #.LOBYTE(GiegueCommandOutro2)
+    ldx #.HIBYTE(GiegueCommandOutro2)
+    jsr GiegueCommandInterpreter
 
-    lda #9
-    sta $07f0
+    ;rocket sound
+    lda #Noise_Rocket
+    sta soundqueue_noise
 
-    lda #1
-    sta $07f4
+    ;dimslip sound
+    lda #PulseG1_DimensionSlip
+    sta soundqueue_pulseg1
 
-    lda #.LOBYTE(B20_19e9)
-    ldx #.HIBYTE(B20_19e9)
-    jsr B20_17d6
+    ;blasting off again!
+    lda #.LOBYTE(GiegueCommandOutro3)
+    ldx #.HIBYTE(GiegueCommandOutro3)
+    jsr GiegueCommandInterpreter
 
     ;swap to credits
-    lda #$1a
+    lda #.BANK(Credits_Entry)
     ldx #BANK::PRGA000
     jsr BANK_SWAP
     jmp Credits_Entry
 
-B20_17d6:
-    sta $68
-    stx $69
+GiegueCommandInterpreter:
+    ;UNK_68 = pointer to giegue command
+    sta UNK_68
+    stx UNK_68+1
 
+    ;UNK_6A+1 = 0
     ldy #0
-    sty $6b
-    B20_17de:
-    lda ($68), y
+    sty UNK_6A+1
+
+    @mainloop:
+    ;get byte from pointer
+    lda (UNK_68), y
     ;break if 0
-    beq B20_183c
-    sta $6c
+    beq @break
+
+    ;UNK_6C = word
+    sta UNK_6C
     iny
-    lda ($68), y
-    sta $6d
+    lda (UNK_68), y
+    sta UNK_6C+1
+
     iny
-    and #$20
-    beq B20_17f1
+
+    ;if !word.hi & 0x20, skip
+    and #%00100000
+    beq @no_shift
+    ;else,
+    ;UNK_6A+1 << 1 << c
     sec
-    rol $6b
-    B20_17f1:
+    rol UNK_6A+1
+    @no_shift:
+
+    ;store y
     tya
     pha
-    lda $6d
-    and #$03
-    beq B20_1808
+
+    ;if !word.hi & 3, skip
+    lda UNK_6C+1
+    and #%00000011
+    beq @no_flash
+    ;;do flash
+
+    ;a = GiegueCliff_BGFlash[a]
     tax
     lda GiegueCliff_BGFlash, x
+    ;fill bg with a
     jsr FillBackgroundColor
+    ;wait a frame
     jsr WaitNMI
+    ;set bg to black again
     lda #$0f
     jsr FillBackgroundColor
-    B20_1808:
+
+    @no_flash:
+
+    ;wait a frame
     jsr WaitNMI
-    lda $6b
-    bne B20_1815
-    lda $6c
-    and #$03
-    bne B20_1820
-    B20_1815:
+
+    ;if UNK_6A+1 != 0, jump
+    lda UNK_6A+1
+    bne @isnt_zero
+
+    ;if UNK_6C & 3, jump
+    lda UNK_6C
+    and #%00000011
+    bne @do_no_loop_probably
+    @isnt_zero:
+
+    ;????
     lsr a
-    B20_1816:
+    @loop:
     pha
     jsr B20_183d
     pla
     sec
-    sbc #$01
-    bpl B20_1816
-    B20_1820:
-    lda $6c
+    sbc #1
+    bpl @loop
+
+    @do_no_loop_probably:
+
+    ;if !(((UNK_6C << 2) & UNK_6C+1) & 4), jump
+    ;because UNK_6C is the length
+    ;shift left twice gets lsb in bit 3
+    ;and UNK_6C+1 checks if should shake (bit 3)
+    ;and 4 checks if true
+    ;;;if bit 0 of UNK_6C and UNK_6C+1 & shake, shake.
+    lda UNK_6C
     asl a
     asl a
-    and $6d
-    and #$04
-    beq B20_1834
+    and UNK_6C+1
+    and #%00000100
+    beq @no_shake
+    ;shake
+
+    ;by this point, a will always be 4
+    ;scroll_y.2 = !scroll_y.2
     lsr a
     eor scroll_y
     sta scroll_y
-    lda #$0a
-    sta $07f0
-    B20_1834:
-    dec $6c
-    bne B20_1808
+
+    ;play rocket noise
+    lda #Noise_RocketLand
+    sta soundqueue_noise
+
+    @no_shake:
+
+    dec UNK_6C
+    bne @no_flash
+
     pla
     tay
-    bne B20_17de
-    B20_183c:
+    bne @mainloop
+
+    @break:
     rts
 
 B20_183d:
@@ -1243,158 +1138,186 @@ B20_1883:
 B20_188d:
     ldx #$24
     B20_188f:
-    stx $62
-    ldx #$00
-    B20_1893:
+    ;x -> UNK_62
+    stx UNK_62
+
+    ldx #0
+    @B20_1893:
     cmp #$0f
-    bcc B20_189c
+    bcc @B20_189c
     sbc #$0f
     inx
-    bcs B20_1893
-    B20_189c:
+    bcs @B20_1893
+    @B20_189c:
     asl a
     asl a
-    sta $6e
+    sta UNK_6E
     txa
     lsr a
     ror a
     ror a
     and #$c0
-    ora $6e
-    sta $60
-    lda #$06
-    asl $60
+    ora UNK_6E
+    sta UNK_60
+    lda #6
+    asl UNK_60
     rol a
-    asl $60
+    asl UNK_60
     rol a
-    asl $60
+    asl UNK_60
     rol a
-    asl $60
+    asl UNK_60
     rol a
-    sta $61
+    sta UNK_60+1
     ora #$03
-    sta $65
-    lda $6e
+    sta UNK_64+1
+    lda UNK_6E
     and #$38
     ora #$c0
-    sta $64
+    sta UNK_64
     jsr PpuSync
     lda #5 ; TODO: UNKNOWN NMI COMMAND
     ldy #$40
     sta nmi_queue
     sty nmi_queue+1
     ldy #$08
-    sta $0444
-    sty $0445
-    lda $61
-    ldy $60
+    sta nmi_queue+$44
+    sty nmi_queue+$45
+    lda UNK_60+1
+    ldy UNK_60
     and #$03
-    ora $62
+    ora UNK_62
     sta nmi_queue+2
     sty nmi_queue+3
-    lda $65
-    ldy $64
+    lda UNK_64+1
+    ldy UNK_64
     and #$03
-    ora $62
-    sta $0446
-    sty $0447
+    ora UNK_62
+    sta nmi_queue+$46
+    sty nmi_queue+$47
     ldy #$3f
     B20_18f9:
-    lda ($60), y
+    lda (UNK_60), y
     jsr B20_1919
     sta nmi_queue+4, y
     dey
     bpl B20_18f9
-    ldy #$07
+    ldy #7
     B20_1906:
-    lda ($64), y
+    lda (UNK_64), y
     jsr B20_1919
-    sta $0448, y
+    sta nmi_queue+$48, y
     dey
     bpl B20_1906
-    lda #$00
-    sta $0450
-    sta $e6
+
+    lda #0
+    sta nmi_queue+$50
+    sta nmi_data_offset
+
     rts
 
 B20_1919:
     cpx #$04
-    bcc B20_191f
-    lda #$00
-    B20_191f:
+    bcc @exit
+    lda #0
+    @exit:
     rts
 
-B20_1920:
-    sta $6a
+GiegueGeneric:
+    sta UNK_6A
+
     lda #$0b
     jsr PlayMusic
-    jsr B20_19a3
-    jsr SetScroll
-    jsr B31_1d5e
-    jsr PpuSync
-    ldx #$0f
-    B20_1935:
-    lda B20_1a3d, x
-    sta $0340, x
-    dex
-    bpl B20_1935
-    lda #.LOBYTE(B20_1a2d)
-    ldx #.HIBYTE(B20_1a2d)
-    sta $60
-    stx $61
-    jsr B31_0087
-    lda #$54
-    jsr B20_19ad
 
+    jsr B20_19a3
+
+    jsr SetScroll
+
+    jsr B31_1d5e
+
+    jsr PpuSync
+
+    ;copy sprite data
+    ldx #(8*2)-1
+    @copy:
+    lda GiegueCliff_Sprites, x
+    sta shadow_something+$40, x
+    dex
+    bpl @copy
+
+    ;orient party
+    lda #.LOBYTE(GiegueCliff_PartyPos)
+    ldx #.HIBYTE(GiegueCliff_PartyPos)
+    sta UNK_60
+    stx UNK_60+1
+    jsr B31_0087
+
+    ;load tiles
+    ;loads the second half of chrA into saveram $6000-$7000
+    lda #$54
+    jsr LoadGiegueCliffTiles
+
+    ;load chr banks
     BankswitchCHR_Address GiegueCliff_CHR
 
-    lda #$01
-    sta $e5
-    ldy #$04
-    B20_195b:
+    ;nmi_flags = 1
+    ;draws the (rock) sprites
+    lda #1
+    sta nmi_flags
+
+    ;draws the cliff
+    ldy #4
+    @tile1loop:
     tya
     pha
     ldx #$20
     jsr B20_188f
     lda #$80
-    sta $e5
+    sta nmi_flags
     pla
     tay
     dey
-    bpl B20_195b
-    jsr B20_198b
-    ldx #$03
-    @B20_1970:
+    bpl @tile1loop
+
+    jsr B20_198b ;???
+
+    ;these draw the cliff over the ship?
+    ldx #(GiegueCliff_BGPal-B20_1a09)-1
+    @pointercopy:
     lda B20_1a09, x
-    sta $0540, x
+    sta irq_pointers, x
     dex
-    bpl @B20_1970
+    bpl @pointercopy
+
     lda #$9f
-    sta $ec
+    sta irq_count
+
     ldx #$1f
-    @copy:
+    @palcopy:
     lda GiegueCliff_BGPal, x
-    sta $0520, x
+    sta palette_backup, x
     dex
-    bpl @copy
-    jmp B31_0e30;transition (light)
+    bpl @palcopy
+
+    ;transition (light)
+    jmp B31_0e30
 
 B20_198b:
     clc
-    lda $6a
+    lda UNK_6A
     adc #$0b
-    B20_1990:
+    @B20_1990:
     pha
     jsr B20_188d
     lda #$80
-    sta $e5
+    sta nmi_flags
     pla
     sec
     sbc #$01
-    bcc B20_19a2
-    cmp $6a
-    bcs B20_1990
-    B20_19a2:
+    bcc @B20_19a2
+    cmp UNK_6A
+    bcs @B20_1990
+    @B20_19a2:
     rts
 
 B20_19a3:
@@ -1407,53 +1330,63 @@ B20_19a3:
     ldx #$fc
     rts
 
-B20_19ad:
+LoadGiegueCliffTiles:
     pha
     tay
-    lda #$00
-    ldx #$60
+    lda #.LOBYTE($6000)
+    ldx #.HIBYTE($6000)
     jsr B30_0e08
+
     pla
     clc
-    adc #$02
+    adc #2
     tay
-    lda #$00
-    ldx #$68
+    lda #.LOBYTE($6800)
+    ldx #.HIBYTE($6800)
     jmp B30_0e08
 
-B20_19c2:
-    .byte $80, $00
-    .byte $80, $80
-    .byte $80, $82
-    .byte $20, $83
-    .byte $20, $82
-    .byte $c0, $81
-    .byte $80, $82
-    .byte $20, $83
-    .byte $20, $82
-    .byte $00
+.macro giegue_command length, arg2, no_roll, arg3, shake, flash
+    .byte length << 3
+    .byte (arg2 << 6) | (no_roll << 5) | (arg3 << 3) | (shake << 2) | flash
+.endmacro
 
-B20_19d5:
-    .byte $80, $c0
-    .byte $20, $c3
-    .byte $20, $c2
-    .byte $80, $c1
-    .byte $80, $c3
-    .byte $00
+;rise + flash
+GiegueCommandIntro1:
+giegue_command 16,   0, 0, 0, 0, 0
+giegue_command 16, %10, 0, 0, 0, 0
+giegue_command 16, %10, 0, 0, 0, 2
+giegue_command  4, %10, 0, 0, 0, 3
+giegue_command  4, %10, 0, 0, 0, 2
+giegue_command 24, %10, 0, 0, 0, 1
+giegue_command 16, %10, 0, 0, 0, 2
+giegue_command  4, %10, 0, 0, 0, 3
+giegue_command  4, %10, 0, 0, 0, 2
+.byte 0
 
-B20_19e0:
-    .byte $40, $02
-    .byte $10, $07
-    .byte $20, $06
-    .byte $50, $05
-    .byte $00
+;go back down? + flashes
+GiegueCommandOutro1:
+giegue_command 16, %11, 0, 0, 0, 0
+giegue_command  4, %11, 0, 0, 0, 3
+giegue_command  4, %11, 0, 0, 0, 2
+giegue_command 16, %11, 0, 0, 0, 1
+giegue_command 16, %11, 0, 0, 0, 3
+.byte 0
 
-B20_19e9:
-    .byte $08, $23
-    .byte $08, $22
-    .byte $f0, $a1
-    .byte $f0, $00
-    .byte $00
+;shake
+GiegueCommandOutro2:
+giegue_command  8, 0, 0, 0, 0, 2
+giegue_command  2, 0, 0, 0, 1, 3
+giegue_command  4, 0, 0, 0, 1, 2
+giegue_command 10, 0, 0, 0, 1, 1
+.byte 0
+
+;blast off
+GiegueCommandOutro3:
+giegue_command  1,   0, 1, 0, 0, 3
+giegue_command  1,   0, 1, 0, 0, 2
+giegue_command 30, %10, 1, 0, 0, 1
+giegue_command 30,   0, 0, 0, 0, 0
+.byte 0
 
 B20_19f2:
     .byte $04,$80,$00,$a9,$a9,$ab,$aa
@@ -1473,9 +1406,10 @@ Credits_CHR:
 GiegueCliff_BGFlash:
     .byte $0f, $38, $21, $34
 
-; $9A09 - Unknown
+; $9A09 - Unknown pointers
 B20_1a09:
-    .byte $ca, $ed, $00, $00
+    .addr B31_0dcb-1
+    .addr 0
 
 ; $9A0D
 GiegueCliff_BGPal:
@@ -1490,18 +1424,26 @@ GiegueCliff_BGPal:
     .byte $0f, $0f, $12, $37
 
 ; $9A2D - Unknown
-B20_1a2d:
+GiegueCliff_PartyPos:
     .byte $68, $78, $00, $00
     .byte $58, $88, $00, $00
     .byte $78, $88, $00, $00
     .byte $68, $98, $00, $00
 
 ; $9A3D - Unknown
-B20_1a3d:
-    .byte $86, $00, $f4, $76
-    .byte $00, $00, $c0, $99
-    .byte $06, $00, $e4, $76
-    .byte $00, $00, $c4, $99
+GiegueCliff_Sprites:
+;shadow_something data
+.byte (%10 << 6) | 6 ;6 tiles
+.byte 0 ;oam slot (gets written over)
+.byte $f4, $76 ;x, y
+.addr 0 ;? pointer
+.addr SPRITEDEF_GIEGUECLIFF1 ;spritedef pointer
+
+.byte 6 ;6 tiles
+.byte 0 ;oam slot (gets written over)
+.byte $e4, $76 ;x, y
+.addr 0 ;? pointer
+.addr SPRITEDEF_GIEGUECLIFF2 ;spritedef pointer
 
 NameLength := UNK_50+6
 CurrentLetterIndex := UNK_50+5

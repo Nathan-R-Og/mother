@@ -54,6 +54,6 @@ mus_b_intro_triangle:
 
 mus_b_intro_noise:
     Note_Length nl_whole
-    Note_Noise 0, 1
+    Noise_Rest
 
     Track_End

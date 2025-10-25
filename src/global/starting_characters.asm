@@ -31,7 +31,7 @@ Ninten_Data:
 ;object_m_bitfield1 | object_m_oam
 .byte (OBJECT_M_BF1_INTERACTABLE | OBJECT_M_BF1_CHANGEDIR) | 4
 ;sprite
-.addr SPRITEDEF_0
+.addr SPRITEDEF_NINTEN
 ;items
 .byte $6E,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -85,7 +85,7 @@ Ana_Data:
 ;object_m_bitfield1 | object_m_oam
 .byte (OBJECT_M_BF1_INTERACTABLE | OBJECT_M_BF1_CHANGEDIR) | 4
 ;sprite
-.addr SPRITEDEF_8
+.addr SPRITEDEF_ANA
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -139,7 +139,7 @@ Lloyd_Data:
 ;object_m_bitfield1 | object_m_oam
 .byte (OBJECT_M_BF1_INTERACTABLE | OBJECT_M_BF1_CHANGEDIR) | 4
 ;sprite
-.addr SPRITEDEF_10
+.addr SPRITEDEF_LLOYD
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -193,7 +193,7 @@ Teddy_Data:
 ;object_m_bitfield1 | object_m_oam
 .byte (OBJECT_M_BF1_INTERACTABLE | OBJECT_M_BF1_CHANGEDIR) | 4
 ;sprite
-.addr SPRITEDEF_18
+.addr SPRITEDEF_TEDDY
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -247,7 +247,7 @@ Pippi_Data:
 ;object_m_bitfield1 | object_m_oam
 .byte (OBJECT_M_BF1_INTERACTABLE | OBJECT_M_BF1_CHANGEDIR) | 4
 ;sprite
-.addr SPRITEDEF_20
+.addr SPRITEDEF_PIPPI
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -301,7 +301,7 @@ EVE_Data:
 ;object_m_bitfield1 | object_m_oam
 .byte (OBJECT_M_BF1_CHANGEDIR | OBJECT_M_BF1_HIGHPRIORITY) | 10
 ;sprite
-.addr SPRITEDEF_58
+.addr SPRITEDEF_EVE
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant
@@ -355,7 +355,7 @@ FlyingMan_Data:
 ;object_m_bitfield1 | object_m_oam
 .byte (OBJECT_M_BF1_INTERACTABLE | OBJECT_M_BF1_CHANGEDIR) | 4
 ;sprite
-.addr SPRITEDEF_50
+.addr SPRITEDEF_FLYINGMAN
 ;items
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 ;weapon, coin, ring, pendant

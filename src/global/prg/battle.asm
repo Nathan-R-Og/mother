@@ -670,10 +670,10 @@ B23_028a:
     asl a
     adc battle_wordvar60
     clc
-    adc #$c8
+    adc #.LOBYTE(battle_extra_tiles)
     sta battle_wordvar60
     lda #$00
-    adc #$97
+    adc #.HIBYTE(battle_extra_tiles)
     sta battle_wordvar60+1
     ldy #$00
     lda (battle_wordvar60), y
@@ -1551,9 +1551,9 @@ SelectAuto:
     jsr PpuSync
     lda #$01
     sta is_auto
-    lda #$14
+    lda #.LOBYTE(SPRITEDEF_AUTOBATTLER)
     sta $03e6
-    lda #$97
+    lda #.HIBYTE(SPRITEDEF_AUTOBATTLER)
     sta $03e7
     lda #$04
     sta $03e0

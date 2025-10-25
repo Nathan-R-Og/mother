@@ -154,17 +154,17 @@ pad1_hold: .res 1 ; $de
 pad2_hold: .res 1 ; $df
 UNK_E0: .res 1
 UNK_E1: .res 1
-oam_and_300_clear_flag: .res 1      ; Set Bit 7 before Clear OAM & $300 are, Free bit after
+oam_and_300_clear_flag: .res 1 ; $e2 ; Set Bit 7 before Clear OAM & $300 are, Free bit after
 UNK_E3: .res 1
 UNK_E4: .res 1
-nmi_flags: .res 1 ;some kind of pointer (TODO: change name to something less similar to nmi flag)
-nmi_data_offset: .res 1
+nmi_flags: .res 1 ; $e5 ;some kind of pointer (TODO: change name to something less similar to nmi flag)
+nmi_data_offset: .res 1 ; $e6
 UNK_E7: .res 1
-shift_x: .res 1
-shift_y: .res 1
+shift_x: .res 1 ; $e8
+shift_y: .res 1 ; $e9
 nmi_flag: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running NMI handler ;ignores controller input while set
-irq_latch: .res 1
-irq_count: .res 1      ; IRQ Count
+irq_latch: .res 1 ; $eb
+irq_count: .res 1 ; $ec ; IRQ Count
 irq_index: .res 1 ; $ed ; IRQ routine index (multiple of 2)
 bankswitch_mode: .res 1 ; $ee ; Bankswitch "mode"  (-----mmm), $8000 MMC3 register
 bankswitch_flags: .res 1 ; $ef ; Bankswitch "flags" (ff------), $8000 MMC3 register
@@ -198,7 +198,7 @@ shadow_oam: .res $100 ; $200
 ;x,y - 2,3
 ;pointer1 - 4,5
 ;spritedef pointer - 6,7
-shadow_something: .res $100 ; $300 / ??? overworld sprites????
+shadow_something: .res $100 ; $300 / SpriteDefs
 
 ;just an array of nmi commands
 nmi_queue: .res $100 ;$400 / nmi queue???

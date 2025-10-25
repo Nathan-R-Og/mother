@@ -62,7 +62,7 @@ mus_epiloguejp_triangle_phrase03:
 mus_epiloguejp_noise_phrase03:
     Note_Repeat 8
         Note_Length nl_whole
-        Note_Noise 0, 1
+        Noise_Rest
     Note_End_Repeat
 
     Track_End
@@ -231,7 +231,7 @@ mus_epiloguejp_triangle_phrase01:
 mus_epiloguejp_noise_phrase01:
     Note_Repeat 16
         Note_Length nl_whole
-        Note_Noise 0, 1
+        Noise_Rest
     Note_End_Repeat
 
     Track_End
@@ -620,12 +620,12 @@ mus_epiloguejp_noise_phrase04:
     Note_Length nl_eighth
     Note_Noise 2, 1
     Note_Noise 1, 1
-    Note_Noise 0, 1
+    Noise_Rest
     Note_Noise 1, 1
-    Note_Noise 0, 1
+    Noise_Rest
     Note_Noise 1, 1
     Note_Noise 2, 1
-    Note_Noise 0, 1
+    Noise_Rest
 
     Note_Repeat 8
         Note_Length nl_quarter
@@ -637,7 +637,7 @@ mus_epiloguejp_noise_phrase04:
         Note_Noise 0, 4
         Note_Noise 1, 1
         Note_Noise 1, 4
-        Note_Noise 0, 1
+        Noise_Rest
         Note_Length nl_quarter
         Note_Noise 2, 1
         Note_Noise 0, 4
@@ -645,7 +645,7 @@ mus_epiloguejp_noise_phrase04:
 
     Note_Repeat 4
         Note_Length nl_half
-        Note_Noise 0, 1
+        Noise_Rest
         Note_Noise 0, 4
     Note_End_Repeat
 
@@ -1046,12 +1046,12 @@ mus_epiloguejp_triangle_phrase02:
 mus_epiloguejp_noise_phrase02:
     Note_Repeat 16
         Note_Length nl_whole
-        Note_Noise 0, 1
+        Noise_Rest
     Note_End_Repeat
 
     Note_Repeat 16
         Note_Length nl_half
-        Note_Noise 0, 1
+        Noise_Rest
         Note_Noise 0, 4
     Note_End_Repeat
 

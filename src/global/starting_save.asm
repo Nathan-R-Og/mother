@@ -29,10 +29,15 @@ battle_message_speed:
 
 repel_counter: .byte $00
 
-.byte $00,$6B,$84,$1C
+.byte $00
+;Giegue Rock Not-Moved Chunk ID
+.byte $6B ;ts2
+;area encounter defs for the zoo, since it changes based on flags
+areaEncounterDef 4, $10 ;area $29
+areaEncounterDef 4, 3 ;area $d
+;Duncany Factory Rocket Not-Moved Chunk ID
+.byte $42 ;ts2
 
-;flags? higher nybble is used for the train blockage graphics, at least
-.byte $42
 big_bag_uses: .byte 30
 
 player_name:

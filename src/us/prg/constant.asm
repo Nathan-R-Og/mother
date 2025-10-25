@@ -1942,36 +1942,49 @@ OpenCommands:
 
 ;step random
 B30_0beb:
+    ;get battle
     lda enemy_group
-    beq B30_0c17
-    cmp #$a2
-    beq B30_0c1a
+    ;if battle == 0, dont do anything
+    beq @no_battle
+    ;if battle == $a2, go to giegue handler
+    cmp #BATTLEID BATTLE_A2
+    beq @giegue_battle
+    ;else, do normal battle proc
     jsr PpuSync
+
+    ;load music
     lda current_music
     pha
     jsr ENTERBATTLE
     pla
-    bcs B30_0c14
+
+    bcs @whatever_case_this_is
     jsr PlayMusic
-    lda $21
-    beq B30_0c11
+
+    ;if !is_scripted, jump
+    lda is_scripted
+    beq @isnt_scripted
+    ;else,
     jsr BANKSET_H13
     jsr B19_0b53
     lda fade_flag
-    bne B30_0c14
-    B30_0c11:
+    bne @whatever_case_this_is
+    @isnt_scripted:
     jmp B30_0b70
-B30_0c14:
+
+    @whatever_case_this_is:
     jmp B30_0b5d
-B30_0c17:
+
+    @no_battle:
     jmp B30_0b76
-B30_0c1a:
+
+    @giegue_battle:
     jsr BANKSET_H14
-    jsr B20_1779
+    jsr GiegueIntro
     jsr ENTERBATTLE
-    bcs B30_0c14
+    bcs @whatever_case_this_is
     jsr BANKSET_H14
-    jmp B20_17a3
+    jmp GiegueOutro
 
 B30_0c2b:
     lda $1f
@@ -2241,6 +2254,7 @@ LoadNamingScreen2:
 ;y == (chr) bank
 ;x:a == write address
 ;WriteToAddress???
+;Copy800Chr???
 B30_0e08:
     copy_amount = $40
     times = 32
@@ -2467,7 +2481,7 @@ GetScreenMapData:
     ;but returns an address from sram???? okay
     ;this doesnt even work half the time...
     ;youd think this would be for map metadata,,, guess not
-    jsr B31_00f2
+    jsr GetMetaSaveA
     @is_positive:
     ;put byte into palette queue (relative)
     sta palette_queue, y
@@ -2846,10 +2860,11 @@ B30_111d:
     ;get chunk probably
     ldy #0
     lda (UNK_88), y
-    ;if high bit of chunk_probably not set, jump
+    ;if high bit (map event) of chunk_probably not set, jump
     bpl @positive
-    ;else, ?
-    jsr B31_00f2
+    ;else, return chunk id of save_ram[chunk_id]
+    ;MAP EVENT
+    jsr GetMetaSaveA
     @positive:
     ;store chunk_probably in x
     tax
@@ -4448,9 +4463,9 @@ B30_1a16:
     tay
 
     ;set spritedef to teleport fry
-    lda #.LOBYTE(SPRITEDEF_60)
+    lda #.LOBYTE(SPRITEDEF_TELEPORT_FRY)
     sta shadow_something+6, y
-    lda #.HIBYTE(SPRITEDEF_60)
+    lda #.HIBYTE(SPRITEDEF_TELEPORT_FRY)
     sta shadow_something+7, y
 
     B30_1a3c:
@@ -5509,7 +5524,7 @@ B31_0087:
     rts
 
 ;a == encounter id???
-B31_00f2:
+GetMetaSaveA:
     and #$3f
     tax
     lda starting_sram, x
@@ -5566,7 +5581,7 @@ Object_Configs:
     OBJECT_CONFIG B31_0720_FlagCheck, 4, 6, 0, 0, 1, 1 ; 1D
     OBJECT_CONFIG B31_0720_FlagCheck, 9, 6, 0, 0, 1, 0 ; 1E
     OBJECT_CONFIG B31_0720_FlagCheck, 0, 4, 0, 0, 1, 0 ; 1F
-    OBJECT_CONFIG B31_0756, 4, 8, 0, 0, 0, 1 ; 20 - Present
+    OBJECT_CONFIG OBJTICK_Present, 4, 8, 0, 0, 0, 1 ; 20 - Present
     OBJECT_CONFIG B31_06f1, 4, 6, 0, 0, 1, 1 ; 21
     OBJECT_CONFIG OBJTICK_Wandering_NPC_Fast, 2, 6, 0, 1, 1, 1 ; 22
     OBJECT_CONFIG B31_0720, 10, 6, 1, 0, 1, 0 ; 23
@@ -6683,13 +6698,14 @@ B31_074d:
     rts
 
 ; $E756 - TICK object type #32
-B31_0756:
+OBJTICK_Present:
     jsr B31_0733
     jsr B31_073d
     jsr B31_0746
     jsr GetObjectData
     jsr B31_0772
     and All_Bits, x
+    ;if flag, add 4 to sprite offset (SPRITEDEF_PRESENT_OPEN)
     beq @B31_076c
     lda #$04
     @B31_076c:
@@ -7052,6 +7068,8 @@ OBJTICK_Player:
     jsr B31_09fa ; TODO: OBJECT COLLISION
     bcs @B31_09a9
     jsr B31_03b4 ; TODO: TILE COLLISION
+    ;the classic AEOTEOAP cheat nop's this V out for noclip
+    ;if your repo shifts this, you can do it through rom! isn't that nice
     bcs @B31_09a9
     bit movement_direction+1
     bpl @B31_09ad
@@ -7693,6 +7711,7 @@ B31_0d9b:
     sta $8001
     rts
 
+;used in the giegue cliff cutscene?
 B31_0dcb:
     jsr B30_0220
     ldx #$24
@@ -8516,7 +8535,7 @@ B31_127e:
     and #$0f
     lsr a
     tax
-    lda B31_1296, x
+    lda GIEGUE_SING_COLORS, x
     jsr SetBGColorA
     jsr WaitNMI
     jsr WaitNMI
@@ -8526,7 +8545,7 @@ B31_127e:
     bne B31_127e
     rts
 
-B31_1296:
+GIEGUE_SING_COLORS:
     .byte $21, $22, $23, $24, $25, $24, $23, $22
 
 ; $F29E - Spin until A or B is pressed
@@ -9265,8 +9284,8 @@ B31_16ba:
 
 B31_16bf:
     lda #$00
-    ldx #$0c
-    ldy #$97
+    ldx #.LOBYTE(SPRITEDEF_STAT_WOUNDED)
+    ldy #.HIBYTE(SPRITEDEF_STAT_WOUNDED)
     jmp B31_16f9
 
 B31_16c8:
@@ -9274,8 +9293,8 @@ B31_16c8:
     lda shadow_something+0, x
     pha
     lda #$03
-    ldx #$0c
-    ldy #$97
+    ldx #.LOBYTE(SPRITEDEF_STAT_WOUNDED)
+    ldy #.HIBYTE(SPRITEDEF_STAT_WOUNDED)
     jsr B31_16f9
     pla
     cmp #$03
@@ -9297,8 +9316,8 @@ B31_16c8:
 
 B31_16f0:
     lda #$03
-    ldx #$10
-    ldy #$97
+    ldx #.LOBYTE(SPRITEDEF_STAT_UNCON)
+    ldy #.HIBYTE(SPRITEDEF_STAT_UNCON)
     jmp B31_16f9
 
 B31_16f9:
@@ -9835,7 +9854,7 @@ B31_19ef:
     rts
 
 B31_1a81:
-    lda #.BANK(SPRITEDEF_0) ;bank $15
+    lda #.BANK(SPRITES) ;bank $15
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 

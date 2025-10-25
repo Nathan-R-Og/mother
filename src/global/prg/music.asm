@@ -29,6 +29,7 @@
 .define Note_Rest .byte $2 ; == 1
 
 .define Note_Noise(dmc_cmd, noise_cmd) .byte (dmc_cmd << 6) | noise_cmd
+.define Noise_Rest Note_Noise 0, 1
 
 .define nl_sixteenth 0
 .define nl_eighth 1
@@ -1665,7 +1666,28 @@ incbinRange "../../split/us/music.bin", $9a1, $9a7
 
 .endif
 
-B28_09a7:
+
+; $400C	--lc.vvvv	Length counter halt, constant volume/envelope flag, and volume/envelope divider period (write)
+
+; $400E	M---.PPPP	Mode and period (write)
+; bit 7	M--- ----	Mode flag
+; bits 3-0	---- PPPP	The timer period is set to entry P of the following:
+; Rate  $0 $1  $2  $3  $4  $5   $6   $7   $8   $9   $A   $B   $C    $D    $E    $F
+;       --------------------------------------------------------------------------
+; NTSC   4, 8, 16, 32, 64, 96, 128, 160, 202, 254, 380, 508, 762, 1016, 2034, 4068 (2046 in old)
+; PAL    4, 8, 14, 30, 60, 88, 118, 148, 188, 236, 354, 472, 708,  944, 1890, 3778
+; The period determines how many CPU cycles happen between shift register clocks.
+; These periods are all even numbers because there are 2 CPU cycles in an APU cycle.
+
+; $400F	llll.l---	Length counter load and envelope restart (write)
+
+.macro noise_preset lch, cvflag, dividerPeriod, mode, period, lengthCounter
+    .byte (lch << 5) | (cvflag) << 4 | dividerPeriod
+    .byte (mode << 7) | period
+    .byte lengthCounter << 3
+.endmacro
+
+Noise_Instruments:
 .byte $00,$10,$01
 .byte $18,$00,$01
 .byte $38,$00,$03
@@ -2391,11 +2413,11 @@ B28_0e17:
 B28_0e26:
     lda soundactive_noise
     bne B28_0e3d
-    lda B28_09a7, y
+    lda Noise_Instruments, y
     sta NOISE_VOL
-    lda B28_09a7+1, y
+    lda Noise_Instruments+1, y
     sta NOISE_LO
-    lda B28_09a7+2, y
+    lda Noise_Instruments+2, y
     sta NOISE_HI
     B28_0e3d:
     rts

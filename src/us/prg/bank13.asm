@@ -3027,8 +3027,8 @@ OINST_DoPlane:
     lda #$74
     jsr B19_129c
     lda #9
-    ldx #.LOBYTE(PLANE_SPRITEDEF)
-    ldy #.HIBYTE(PLANE_SPRITEDEF)
+    ldx #.LOBYTE(SPRITEDEF_PLANE)
+    ldy #.HIBYTE(SPRITEDEF_PLANE)
     jsr B19_12d8
     lda #$f
     sta object_memory+object_m_unk1+2
@@ -3049,8 +3049,8 @@ OINST_DoTank:
     lda #$74
     jsr B19_129c
     lda #$a
-    ldx #.LOBYTE(TANK_SPRITEDEF)
-    ldy #.HIBYTE(TANK_SPRITEDEF)
+    ldx #.LOBYTE(SPRITEDEF_TANK)
+    ldy #.HIBYTE(SPRITEDEF_TANK)
     jsr B19_12d8
     ldx #8
     jsr B30_0daf
@@ -3061,8 +3061,8 @@ OINST_DoBoat:
     lda #$74
     jsr B19_129c
     lda #$b
-    ldx #.LOBYTE(BOAT_SPRITEDEF)
-    ldy #.HIBYTE(BOAT_SPRITEDEF)
+    ldx #.LOBYTE(SPRITEDEF_BOAT)
+    ldy #.HIBYTE(SPRITEDEF_BOAT)
     jsr B19_12d8
     jmp B19_1295
 
@@ -3266,6 +3266,8 @@ OINST_ShowWallet:
     rts
 
 ; Instruction 17 - Set $7400[] value
+;used for chunk editing through map events.
+;also areaEncounterDefs for the zoo.
 OINST_Set7400:
     jsr EnablePRGRam
     iny

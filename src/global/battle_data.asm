@@ -275,93 +275,93 @@ BATTLE_ACTION_POINTERS:
 .addr BATACT_USE_PSISTONE ;$2f - use PSI stone
 .addr BATACT_PSIMAGNET ;$30 - PSI-Magnet
 .addr BATACT_DARKNESS ;$31 - Darkness
-.addr BATACT_PUFF_EXHAUST ;$31 - puff a cloud of exhaust gas
-.addr BATTLE_ACTION71 ;$32 - NOTHING
-.addr BATACT_DEHYDRATION ;$33 - attack (dehydration)
-.addr BATTLE_ACTION71 ;$34 - NOTHING
-.addr BATACT_PSI_BLOCK ;$35 - PSI-Block
-.addr BATACT_POWERSHIELD ;$36 - PowerShield
-.addr BATACT_PSISHIELDALPHA ;$37 - PSI Shield alpha
-.addr BATACT_PSISHIELDBETA ;$38 - PSI Shield beta
-.addr BATTLE_ACTION71 ;$39 - NOTHING
-.addr BATTLE_ACTION71 ;$3a - NOTHING
-.addr BATACT_USE_BULLHORN ;$3b - use bullhorn
-.addr BATACT_USE_POISONNEEDLE ;$3c - use poison needle
-.addr BATACT_USE_STONEORIGIN ;$3d - use stone origin
-.addr BATACT_SPIT_SUBSTANCE ;$3e - spit a sticky substance
-.addr BATACT_MADE_CONFUSED ;$3f - "made confused" (Hypnosis???)
-.addr BATACT_USE_WICKEDSEED ;$40 - use the wicked seed
-.addr BATACT_BRAINSHOCK ;$41 - Brain Shock
-.addr BATACT_BRAINCYCLONE ;$42 - Brain Cyclone
-.addr BATACT_HYPNOSIS ;$43 - Hypnosis
-.addr BATACT_PARALYSIS ;$44 - Paralysis
-.addr BATACT_TRIP_AND_FALL ;$45 - trip and fall
-.addr BATACT_USE_ROPE ;$46 - use rope
-.addr BATACT_RUN_AWAY ;$47 - run away
-.addr BATACT_CRY_FOR_HELP ;$48 - cry out for help
-.addr BATACT_SOW_SEED ;$49 - sow your seed
-.addr BATACT_STEAL_ITEM ;$4a - steal item / ready for an attack if none
-.addr BATACT_START_LAUGHING ;$4b - start laughing
-.addr BATTLE_ACTION71 ;$4c - NOTHING
-.addr BATTLE_ACTION71 ;$4d - NOTHING
-.addr BATACT_GRIN_BEARIT ;$4e - grin and bear it
-.addr BATACT_MEDITATE ;$4f - meditate
-.addr BATACT_GROUCHO_FUNNY ;$50 - say hello and walk away (Groucho)
-.addr BATTLE_ACTION71 ;$51 - NOTHING
-.addr BATACT_BRACE ;$52 - ready for an attack
-.addr BATACT_CIRCUMNSTANCES ;$53 - think about the circumstances
-.addr BATTLE_ACTION71 ;$54 - NOTHING
+.addr BATACT_PUFF_EXHAUST ;$32 - puff a cloud of exhaust gas
+.addr BATTLE_ACTION71 ;$33 - NOTHING
+.addr BATACT_DEHYDRATION ;$34 - attack (dehydration)
+.addr BATTLE_ACTION71 ;$35 - NOTHING
+.addr BATACT_PSI_BLOCK ;$36 - PSI-Block
+.addr BATACT_POWERSHIELD ;$37 - PowerShield
+.addr BATACT_PSISHIELDALPHA ;$38 - PSI Shield alpha
+.addr BATACT_PSISHIELDBETA ;$39 - PSI Shield beta
+.addr BATTLE_ACTION71 ;$3A - NOTHING
+.addr BATTLE_ACTION71 ;$3B - NOTHING
+.addr BATACT_USE_BULLHORN ;$3C - use bullhorn
+.addr BATACT_USE_POISONNEEDLE ;$3D - use poison needle
+.addr BATACT_USE_STONEORIGIN ;$3E - use stone origin
+.addr BATACT_SPIT_SUBSTANCE ;$3F - spit a sticky substance
+.addr BATACT_MADE_CONFUSED ;$40 - "made confused" (Hypnosis???)
+.addr BATACT_USE_WICKEDSEED ;$41 - use the wicked seed
+.addr BATACT_BRAINSHOCK ;$42 - Brain Shock
+.addr BATACT_BRAINCYCLONE ;$43 - Brain Cyclone
+.addr BATACT_HYPNOSIS ;$44 - Hypnosis
+.addr BATACT_PARALYSIS ;$45 - Paralysis
+.addr BATACT_TRIP_AND_FALL ;$46 - trip and fall
+.addr BATACT_USE_ROPE ;$47 - use rope
+.addr BATACT_RUN_AWAY ;$48 - run away
+.addr BATACT_CRY_FOR_HELP ;$49 - cry out for help
+.addr BATACT_SOW_SEED ;$4A - sow your seed
+.addr BATACT_STEAL_ITEM ;$4B - steal item / ready for an attack if none
+.addr BATACT_START_LAUGHING ;$4C - start laughing
+.addr BATTLE_ACTION71 ;$4D - NOTHING
+.addr BATTLE_ACTION71 ;$4E - NOTHING
+.addr BATACT_GRIN_BEARIT ;$4F - grin and bear it
+.addr BATACT_MEDITATE ;$50 - meditate
+.addr BATACT_GROUCHO_FUNNY ;$51 - say hello and walk away (Groucho)
+.addr BATTLE_ACTION71 ;$52 - NOTHING
+.addr BATACT_BRACE ;$53 - ready for an attack
+.addr BATACT_CIRCUMNSTANCES ;$54 - think about the circumstances
 .addr BATTLE_ACTION71 ;$55 - NOTHING
 .addr BATTLE_ACTION71 ;$56 - NOTHING
 .addr BATTLE_ACTION71 ;$57 - NOTHING
-.addr BATACT_GUARD ;$58 - guard
-.addr BATTLE_ACTION71 ;$59 - NOTHING
-.addr BATACT_HEALINGALPHA ;$5a - Healing alpha
-.addr BATACT_4TH_DSLIP ;$5b - 4th-D Slip
-.addr BATACT_APPROACHSLOWLY ;$5c - approach slowly
-.addr BATACT_DRAW_NEAR ;$5d - draw near (battle intro)
-.addr BATACT_USE_NOBLESEED ;$5e - use noble seed
-.addr BATACT_USE_FLEABAG ;$5f - use flea bag
-.addr BATTLE_ACTION71 ;$60 - NOTHING
-.addr BATACT_SMTHSTRANGE ;$61 - attack (do something strange)
-.addr BATACT_HEALINGBETA ;$62 - Healing beta
-.addr BATACT_HEALINGPI ;$63 - Healing pi
-.addr BATACT_SUPERHEALING ;$64 - SuperHealing
-.addr BATACT_SHIELD_OFF ;$65 - Shield-Off
-.addr BATACT_USE_FLAMETHROWER ;$66 - use flame thrower
-.addr BATTLE_ACTION71 ;$67 - NOTHING
-.addr BATACT_USE_LASERBEAM ;$68 - use laser beam
-.addr BATACT_USE_PLASMABEAM ;$69 - use plasma beam
-.addr BATACT_DARLING_SMILE ;$6a - smile a darling smile
-.addr BATACT_STRANGE_CRY ;$6b - let out a strange cry
-.addr BATACT_USE_FLASHDARK ;$6c - use flashdark
-.addr BATACT_USE_STCKYMACHINE ;$6d - use sticky machine
-.addr BATACT_CHECK ;$6e - check
-.addr BATTLE_ACTION71 ;$6f - NOTHING
-.addr BATACT_USE_ORANGEJUICE ;$70 - use orange juice
-.addr BATACT_USE_FRENCHFRIES ;$71 - use french fries
-.addr BATACT_USE_MAGICHERB ;$72 - use magic herb
-.addr BATACT_USE_SPORTSDRINK ;$73 - use sports drink
-.addr BATACT_USE_BIGBAG ;$74 - use big bag
-.addr BATACT_USE_ASTHMASPRAY ;$75 - use asthma spray
-.addr BATACT_USE_SUPERSPRAY ;$76 - use super spray
-.addr BATACT_USE_WORDSOLOVE ;$77 - use words o' love
-.addr BATACT_USE_SWEARWORDS ;$78 - use swear words
-.addr BATACT_USE_HAMBURGER ;$79 - use hamburger
-.addr BATACT_USE_LIFEUPCREAM ;$7a - use LifeUp cream
-.addr BATACT_USE_ANTIDOTE ;$7b - use antidote
-.addr BATACT_USE_BOTTLEROCKET ;$7c - use bottle rocket
-.addr BATTLE_ACTION71 ;$7d - NOTHING
-.addr BATTLE_ACTION71 ;$7e - NOTHING
-.addr BATACT_PARALYZING_GAS ;$7f - use a paralyzing gas
-.addr BATTLE_ACTION71 ;$80 - NOTHING
-.addr BATACT_DEFENSEDOWNBETA ;$81 - Defense Down beta
-.addr BATACT_PKTHUNDERGAMMA ;$82 - PK Thunder gamma
-.addr BATACT_USE_BREAD ;$83 - use bread
-.addr BATACT_PKFIREOMEGA ;$84 - PK Fire omega
-.addr BATACT_HEALINGGAMMA ;$85 - Healing gamma
-.addr BATTLE_ACTION71 ;$86 - NOTHING
-.addr BATACT_EXPLODE2 ;$87 - explode 2
+.addr BATTLE_ACTION71 ;$58 - NOTHING
+.addr BATACT_GUARD ;$59 - guard
+.addr BATTLE_ACTION71 ;$5A - NOTHING
+.addr BATACT_HEALINGALPHA ;$5B - Healing alpha
+.addr BATACT_4TH_DSLIP ;$5C - 4th-D Slip
+.addr BATACT_APPROACHSLOWLY ;$5D - approach slowly
+.addr BATACT_DRAW_NEAR ;$5E - draw near (battle intro)
+.addr BATACT_USE_NOBLESEED ;$5F - use noble seed
+.addr BATACT_USE_FLEABAG ;$60 - use flea bag
+.addr BATTLE_ACTION71 ;$61 - NOTHING
+.addr BATACT_SMTHSTRANGE ;$62 - attack (do something strange)
+.addr BATACT_HEALINGBETA ;$63 - Healing beta
+.addr BATACT_HEALINGPI ;$64 - Healing pi
+.addr BATACT_SUPERHEALING ;$65 - SuperHealing
+.addr BATACT_SHIELD_OFF ;$66 - Shield-Off
+.addr BATACT_USE_FLAMETHROWER ;$67 - use flame thrower
+.addr BATTLE_ACTION71 ;$68 - NOTHING
+.addr BATACT_USE_LASERBEAM ;$69 - use laser beam
+.addr BATACT_USE_PLASMABEAM ;$6A - use plasma beam
+.addr BATACT_DARLING_SMILE ;$6B - smile a darling smile
+.addr BATACT_STRANGE_CRY ;$6C - let out a strange cry
+.addr BATACT_USE_FLASHDARK ;$6D - use flashdark
+.addr BATACT_USE_STCKYMACHINE ;$6E - use sticky machine
+.addr BATACT_CHECK ;$6F - check
+.addr BATTLE_ACTION71 ;$70 - NOTHING
+.addr BATACT_USE_ORANGEJUICE ;$71 - use orange juice
+.addr BATACT_USE_FRENCHFRIES ;$72 - use french fries
+.addr BATACT_USE_MAGICHERB ;$73 - use magic herb
+.addr BATACT_USE_SPORTSDRINK ;$74 - use sports drink
+.addr BATACT_USE_BIGBAG ;$75 - use big bag
+.addr BATACT_USE_ASTHMASPRAY ;$76 - use asthma spray
+.addr BATACT_USE_SUPERSPRAY ;$77 - use super spray
+.addr BATACT_USE_WORDSOLOVE ;$78 - use words o' love
+.addr BATACT_USE_SWEARWORDS ;$79 - use swear words
+.addr BATACT_USE_HAMBURGER ;$7A - use hamburger
+.addr BATACT_USE_LIFEUPCREAM ;$7B - use LifeUp cream
+.addr BATACT_USE_ANTIDOTE ;$7C - use antidote
+.addr BATACT_USE_BOTTLEROCKET ;$7D - use bottle rocket
+.addr BATTLE_ACTION71 ;$7E - NOTHING
+.addr BATTLE_ACTION71 ;$7F - NOTHING
+.addr BATACT_PARALYZING_GAS ;$80 - use a paralyzing gas
+.addr BATTLE_ACTION71 ;$81 - NOTHING
+.addr BATACT_DEFENSEDOWNBETA ;$82 - Defense Down beta
+.addr BATACT_PKTHUNDERGAMMA ;$83 - PK Thunder gamma
+.addr BATACT_USE_BREAD ;$84 - use bread
+.addr BATACT_PKFIREOMEGA ;$85 - PK Fire omega
+.addr BATACT_HEALINGGAMMA ;$86 - Healing gamma
+.addr BATTLE_ACTION71 ;$87 - NOTHING
+.addr BATACT_EXPLODE2 ;$88 - explode 2
 
 ;********** 0 series (END) **********
 .define BA_END .byte 0

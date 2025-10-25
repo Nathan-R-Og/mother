@@ -1,4 +1,4 @@
-.segment        "SPRITES": absolute
+.segment "SPRITES": absolute
 
 ;sprite
 .macro spritePointerDef pointer, ppu, p1, p2, unkArg1, unkArg2
@@ -13,1470 +13,1102 @@
     .byte index
 .endmacro
 
-SPRITEDEF_0:
+SPRITES:
+
+;;;;;characters1
+SPRITEDEF_NINTEN:
 spritePointerDef SPRITE_CHARUP1, $0, 1, 3, 1, 0
-SPRITEDEF_1:
 spritePointerDef SPRITE_CHARUP2, $0, 1, 3, 1, 0
-SPRITEDEF_2:
 spritePointerDef SPRITE_CHARRIGHT1, $0, 1, 3, 1, 0
-SPRITEDEF_3:
 spritePointerDef SPRITE_CHARRIGHT2, $0, 1, 3, 1, 0
-SPRITEDEF_NINTENDOWN1:
 spritePointerDef SPRITE_CHARDOWN1, $0, 1, 3, 1, 0
-SPRITEDEF_NINTENDOWN2:
 spritePointerDef SPRITE_CHARDOWN2, $0, 1, 3, 1, 0
-SPRITEDEF_6:
 spritePointerDef SPRITE_CHARLEFT1, $0, 1, 3, 1, 0
-SPRITEDEF_7:
 spritePointerDef SPRITE_CHARLEFT2, $0, 1, 3, 1, 0
-SPRITEDEF_8:
+
+SPRITEDEF_ANA:
 spritePointerDef SPRITE_CHARUP1, $40, 2, 2, 1, 0
-SPRITEDEF_9:
 spritePointerDef SPRITE_CHARUP2, $40, 2, 2, 1, 0
-SPRITEDEF_A:
 spritePointerDef SPRITE_CHARRIGHT1, $40, 2, 2, 1, 0
-SPRITEDEF_B:
 spritePointerDef SPRITE_CHARRIGHT2, $40, 2, 2, 1, 0
-SPRITEDEF_C:
 spritePointerDef SPRITE_CHARDOWN1, $40, 2, 2, 1, 0
-SPRITEDEF_D:
 spritePointerDef SPRITE_CHARDOWN2, $40, 2, 2, 1, 0
-SPRITEDEF_E:
 spritePointerDef SPRITE_CHARLEFT1, $40, 2, 2, 1, 0
-SPRITEDEF_F:
 spritePointerDef SPRITE_CHARLEFT2, $40, 2, 2, 1, 0
-SPRITEDEF_10:
+
+SPRITEDEF_LLOYD:
 spritePointerDef SPRITE_10, $20, 1, 1, 1, 0
-SPRITEDEF_11:
 spritePointerDef SPRITE_11, $20, 1, 1, 1, 0
-SPRITEDEF_12:
 spritePointerDef SPRITE_12, $20, 1, 1, 1, 0
-SPRITEDEF_13:
 spritePointerDef SPRITE_13, $20, 1, 1, 1, 0
-SPRITEDEF_14:
 spritePointerDef SPRITE_14, $20, 1, 1, 1, 0
-SPRITEDEF_15:
 spritePointerDef SPRITE_15, $20, 1, 1, 1, 0
-SPRITEDEF_16:
 spritePointerDef SPRITE_16, $20, 1, 1, 1, 0
-SPRITEDEF_17:
 spritePointerDef SPRITE_17, $20, 1, 1, 1, 0
-SPRITEDEF_18:
+
+SPRITEDEF_TEDDY:
 spritePointerDef SPRITE_18, $60, 1, 1, 1, 0
-SPRITEDEF_19:
 spritePointerDef SPRITE_19, $60, 1, 1, 1, 0
-SPRITEDEF_1A:
 spritePointerDef SPRITE_1A, $60, 1, 1, 1, 0
-SPRITEDEF_1B:
 spritePointerDef SPRITE_1B, $60, 1, 1, 1, 0
-SPRITEDEF_1C:
 spritePointerDef SPRITE_1C, $60, 1, 1, 1, 0
-SPRITEDEF_1D:
 spritePointerDef SPRITE_1D, $60, 1, 1, 1, 0
-SPRITEDEF_1E:
 spritePointerDef SPRITE_1E, $60, 1, 1, 1, 0
-SPRITEDEF_1F:
 spritePointerDef SPRITE_1F, $60, 1, 1, 1, 0
-SPRITEDEF_20:
+
+SPRITEDEF_PIPPI:
 spritePointerDef SPRITE_CHARUP1, $8, 1, 2, 1, 0
-SPRITEDEF_21:
 spritePointerDef SPRITE_CHARUP2, $8, 1, 2, 1, 0
-SPRITEDEF_22:
 spritePointerDef SPRITE_CHARRIGHT1, $8, 1, 2, 1, 0
-SPRITEDEF_23:
 spritePointerDef SPRITE_CHARRIGHT2, $8, 1, 2, 1, 0
-SPRITEDEF_24:
 spritePointerDef SPRITE_CHARDOWN1, $8, 1, 2, 1, 0
-SPRITEDEF_25:
 spritePointerDef SPRITE_CHARDOWN2, $8, 1, 2, 1, 0
-SPRITEDEF_26:
 spritePointerDef SPRITE_CHARLEFT1, $8, 1, 2, 1, 0
-SPRITEDEF_27:
 spritePointerDef SPRITE_CHARLEFT2, $8, 1, 2, 1, 0
-SPRITEDEF_28:
+
+SPRITEDEF_NINTEN_DEAD:
 spritePointerDef SPRITE_28, $0, 0, 0, 0, 0
-SPRITEDEF_29:
 spritePointerDef SPRITE_29, $0, 0, 0, 0, 0
-SPRITEDEF_2A:
 spritePointerDef SPRITE_2A, $0, 0, 0, 0, 0
-SPRITEDEF_2B:
 spritePointerDef SPRITE_2B, $0, 0, 0, 0, 0
-SPRITEDEF_2C:
 spritePointerDef SPRITE_2C, $0, 0, 0, 0, 0
-SPRITEDEF_2D:
 spritePointerDef SPRITE_2D, $0, 0, 0, 0, 0
-SPRITEDEF_2E:
 spritePointerDef SPRITE_2E, $0, 0, 0, 0, 0
-SPRITEDEF_2F:
 spritePointerDef SPRITE_2F, $0, 0, 0, 0, 0
-SPRITEDEF_30:
+
+SPRITEDEF_ANA_DEAD:
 spritePointerDef SPRITE_30, $0, 0, 0, 0, 0
-SPRITEDEF_31:
 spritePointerDef SPRITE_31, $0, 0, 0, 0, 0
-SPRITEDEF_32:
 spritePointerDef SPRITE_32, $0, 0, 0, 0, 0
-SPRITEDEF_33:
 spritePointerDef SPRITE_33, $0, 0, 0, 0, 0
-SPRITEDEF_34:
 spritePointerDef SPRITE_34, $0, 0, 0, 0, 0
-SPRITEDEF_35:
 spritePointerDef SPRITE_35, $0, 0, 0, 0, 0
-SPRITEDEF_36:
 spritePointerDef SPRITE_36, $0, 0, 0, 0, 0
-SPRITEDEF_37:
 spritePointerDef SPRITE_37, $0, 0, 0, 0, 0
-SPRITEDEF_38:
+
+SPRITEDEF_LLOYD_DEAD:
 spritePointerDef SPRITE_38, $0, 0, 0, 0, 0
-SPRITEDEF_39:
 spritePointerDef SPRITE_39, $0, 0, 0, 0, 0
-SPRITEDEF_3A:
 spritePointerDef SPRITE_3A, $0, 0, 0, 0, 0
-SPRITEDEF_3B:
 spritePointerDef SPRITE_3B, $0, 0, 0, 0, 0
-SPRITEDEF_3C:
 spritePointerDef SPRITE_3C, $0, 0, 0, 0, 0
-SPRITEDEF_3D:
 spritePointerDef SPRITE_3D, $0, 0, 0, 0, 0
-SPRITEDEF_3E:
 spritePointerDef SPRITE_3E, $0, 0, 0, 0, 0
-SPRITEDEF_3F:
 spritePointerDef SPRITE_3F, $0, 0, 0, 0, 0
-SPRITEDEF_40:
+
+SPRITEDEF_TEDDY_DEAD:
 spritePointerDef SPRITE_40, $0, 0, 0, 0, 0
-SPRITEDEF_41:
 spritePointerDef SPRITE_41, $0, 0, 0, 0, 0
-SPRITEDEF_42:
 spritePointerDef SPRITE_42, $0, 0, 0, 0, 0
-SPRITEDEF_43:
 spritePointerDef SPRITE_43, $0, 0, 0, 0, 0
-SPRITEDEF_44:
 spritePointerDef SPRITE_44, $0, 0, 0, 0, 0
-SPRITEDEF_45:
 spritePointerDef SPRITE_45, $0, 0, 0, 0, 0
-SPRITEDEF_46:
 spritePointerDef SPRITE_46, $0, 0, 0, 0, 0
-SPRITEDEF_47:
 spritePointerDef SPRITE_47, $0, 0, 0, 0, 0
-SPRITEDEF_48:
+
+SPRITEDEF_PIPPI_DEAD:
 spritePointerDef SPRITE_48, $0, 0, 0, 0, 0
-SPRITEDEF_49:
 spritePointerDef SPRITE_49, $0, 0, 0, 0, 0
-SPRITEDEF_4A:
 spritePointerDef SPRITE_4A, $0, 0, 0, 0, 0
-SPRITEDEF_4B:
 spritePointerDef SPRITE_4B, $0, 0, 0, 0, 0
-SPRITEDEF_4C:
 spritePointerDef SPRITE_4C, $0, 0, 0, 0, 0
-SPRITEDEF_4D:
 spritePointerDef SPRITE_4D, $0, 0, 0, 0, 0
-SPRITEDEF_4E:
 spritePointerDef SPRITE_4E, $0, 0, 0, 0, 0
-SPRITEDEF_4F:
 spritePointerDef SPRITE_4F, $0, 0, 0, 0, 0
-SPRITEDEF_50: ;flying man up
+
+;characters7 but whatever
+SPRITEDEF_FLYINGMAN:
 spritePointerDef SPRITE_CHARUP1, $A0, 1, 2, 0, 0
-SPRITEDEF_51: ;flying man up 2
 spritePointerDef SPRITE_CHARUP2, $A0, 1, 2, 0, 0
-SPRITEDEF_52: ;flying man right
 spritePointerDef SPRITE_CHARRIGHT1, $A0, 1, 2, 0, 0
-SPRITEDEF_53: ;flying man right 2
 spritePointerDef SPRITE_CHARRIGHT2, $A0, 1, 2, 0, 0
-SPRITEDEF_54: ;flying man down
 spritePointerDef SPRITE_CHARDOWN1, $A0, 1, 2, 0, 0
-SPRITEDEF_55: ;flying man down 2
 spritePointerDef SPRITE_CHARDOWN2, $A0, 1, 2, 0, 0
-SPRITEDEF_56: ;flying man left
 spritePointerDef SPRITE_CHARLEFT1, $A0, 1, 2, 0, 0
-SPRITEDEF_57: ;flying man left 2
 spritePointerDef SPRITE_CHARLEFT2, $A0, 1, 2, 0, 0
-SPRITEDEF_58: ;EVE up
+
+;characters9 but whatever
+SPRITEDEF_EVE:
 spritePointerDef SPRITE_58, $80, 1, 1, 0, 0
-SPRITEDEF_59: ;EVE up 2
 spritePointerDef SPRITE_58, $82, 1, 1, 0, 0
-SPRITEDEF_5A: ;EVE right
 spritePointerDef SPRITE_58, $84, 1, 1, 0, 0
-SPRITEDEF_5B: ;EVE right 2
 spritePointerDef SPRITE_58, $86, 1, 1, 0, 0
-SPRITEDEF_5C: ;EVE down
 spritePointerDef SPRITE_58, $88, 1, 1, 0, 0
-SPRITEDEF_5D: ;EVE down 2
 spritePointerDef SPRITE_58, $8A, 1, 1, 0, 0
-SPRITEDEF_5E: ;EVE left
 spritePointerDef SPRITE_58, $8C, 1, 1, 0, 0
-SPRITEDEF_5F: ;EVE left 2
 spritePointerDef SPRITE_58, $8E, 1, 1, 0, 0
-SPRITEDEF_60: ;teleport fry
+
+SPRITEDEF_TELEPORT_FRY:
 spritePointerDef SPRITE_60, $68, 0, 0, 0, 0
-SPRITEDEF_61:
+
+;unused?
 spritePointerDef SPRITE_60, $68, 0, 0, 0, 0
-SPRITEDEF_62:
+
+
+SPRITEDEF_PRESENT:
 spritePointerDef SPRITE_60, $6A, 1, 1, 0, 0
-SPRITEDEF_63:
+;SPRITEDEF_PRESENT_OPEN:
 spritePointerDef SPRITE_60, $6C, 1, 1, 0, 0
-SPRITEDEF_64:
+
+;unused?
 spritePointerDef SPRITE_60, $6C, 0, 0, 0, 0
-SPRITEDEF_65:
+
+
+SPRITEDEF_SIGN:
 spritePointerDef SPRITE_60, $6E, 1, 1, 0, 0
-SPRITEDEF_66:
+
+;unused?
 spritePointerDef SPRITE_66, $3C, 1, 1, 0, 0
-SPRITEDEF_67:
 spritePointerDef SPRITE_67, $3C, 1, 1, 0, 0
-SPRITEDEF_68:
+
+;unused?
+SPRITEDEF_SWEAT:
 spritePointerDef SPRITE_68, $3E, 0, 0, 0, 0
-SPRITEDEF_69:
 spritePointerDef SPRITE_69, $3E, 0, 0, 0, 0
-SPRITEDEF_6A:
+
+;;;;;characters2
+SPRITEDEF_CHARSLOT1_BB: ;bank irrelevant
+SPRITEDEF_MOUSTACHE_GUY: ;characters2
 spritePointerDef SPRITE_CHARUP1, $80, 3, 3, 0, 0
-SPRITEDEF_6B:
 spritePointerDef SPRITE_CHARUP2, $80, 3, 3, 0, 0
-SPRITEDEF_6C:
 spritePointerDef SPRITE_CHARRIGHT1, $80, 3, 3, 0, 0
-SPRITEDEF_6D:
 spritePointerDef SPRITE_CHARRIGHT2, $80, 3, 3, 0, 0
-SPRITEDEF_6E:
 spritePointerDef SPRITE_CHARDOWN1, $80, 3, 3, 0, 0
-SPRITEDEF_6F:
 spritePointerDef SPRITE_CHARDOWN2, $80, 3, 3, 0, 0
-SPRITEDEF_70:
 spritePointerDef SPRITE_CHARLEFT1, $80, 3, 3, 0, 0
-SPRITEDEF_71:
 spritePointerDef SPRITE_CHARLEFT2, $80, 3, 3, 0, 0
-SPRITEDEF_72:
+
+SPRITEDEF_CHARSLOT2_BB: ;bank irrelevant
+SPRITEDEF_COP: ;characters2
 spritePointerDef SPRITE_CHARUP1, $A0, 3, 3, 0, 0
-SPRITEDEF_73:
 spritePointerDef SPRITE_CHARUP2, $A0, 3, 3, 0, 0
-SPRITEDEF_74:
 spritePointerDef SPRITE_CHARRIGHT1, $A0, 3, 3, 0, 0
-SPRITEDEF_75:
 spritePointerDef SPRITE_CHARRIGHT2, $A0, 3, 3, 0, 0
-SPRITEDEF_76:
 spritePointerDef SPRITE_CHARDOWN1, $A0, 3, 3, 0, 0
-SPRITEDEF_77:
 spritePointerDef SPRITE_CHARDOWN2, $A0, 3, 3, 0, 0
-SPRITEDEF_78:
 spritePointerDef SPRITE_CHARLEFT1, $A0, 3, 3, 0, 0
-SPRITEDEF_79:
 spritePointerDef SPRITE_CHARLEFT2, $A0, 3, 3, 0, 0
-SPRITEDEF_7A:
+
+SPRITEDEF_BIGLADY:
 spritePointerDef SPRITE_10, $C0, 1, 1, 0, 0
-SPRITEDEF_7B:
 spritePointerDef SPRITE_11, $C0, 1, 1, 0, 0
-SPRITEDEF_7C:
 spritePointerDef SPRITE_12, $C0, 1, 1, 0, 0
-SPRITEDEF_7D:
 spritePointerDef SPRITE_13, $C0, 1, 1, 0, 0
-SPRITEDEF_7E:
 spritePointerDef SPRITE_14, $C0, 1, 1, 0, 0
-SPRITEDEF_7F:
 spritePointerDef SPRITE_15, $C0, 1, 1, 0, 0
-SPRITEDEF_80:
 spritePointerDef SPRITE_16, $C0, 1, 1, 0, 0
-SPRITEDEF_81:
 spritePointerDef SPRITE_17, $C0, 1, 1, 0, 0
-SPRITEDEF_82:
+
+SPRITEDEF_PIGPEN:
 spritePointerDef SPRITE_10, $E0, 1, 2, 0, 0
-SPRITEDEF_83:
 spritePointerDef SPRITE_11, $E0, 1, 2, 0, 0
-SPRITEDEF_84:
 spritePointerDef SPRITE_12, $E0, 1, 2, 0, 0
-SPRITEDEF_85:
 spritePointerDef SPRITE_13, $E0, 1, 2, 0, 0
-SPRITEDEF_86:
 spritePointerDef SPRITE_14, $E0, 1, 2, 0, 0
-SPRITEDEF_87:
 spritePointerDef SPRITE_15, $E0, 1, 2, 0, 0
-SPRITEDEF_88:
 spritePointerDef SPRITE_16, $E0, 1, 2, 0, 0
-SPRITEDEF_89:
 spritePointerDef SPRITE_17, $E0, 1, 2, 0, 0
-SPRITEDEF_8A:
+
+SPRITEDEF_CHARSLOT5_BB: ;bank irrelevant
+SPRITEDEF_MAN: ;characters2
 spritePointerDef SPRITE_CHARUP1, $88, 3, 3, 0, 0
-SPRITEDEF_8B:
 spritePointerDef SPRITE_CHARUP2, $88, 3, 3, 0, 0
-SPRITEDEF_8C:
 spritePointerDef SPRITE_CHARRIGHT1, $88, 3, 3, 0, 0
-SPRITEDEF_8D:
 spritePointerDef SPRITE_CHARRIGHT2, $88, 3, 3, 0, 0
-SPRITEDEF_8E:
 spritePointerDef SPRITE_CHARDOWN1, $88, 3, 3, 0, 0
-SPRITEDEF_8F:
 spritePointerDef SPRITE_CHARDOWN2, $88, 3, 3, 0, 0
-SPRITEDEF_90:
 spritePointerDef SPRITE_CHARLEFT1, $88, 3, 3, 0, 0
-SPRITEDEF_91:
 spritePointerDef SPRITE_CHARLEFT2, $88, 3, 3, 0, 0
-SPRITEDEF_92:
+
+SPRITEDEF_CHARSLOT6_RP: ;bank irrelevant
+SPRITEDEF_SECRETARY: ;characters2
 spritePointerDef SPRITE_CHARUP1, $A8, 1, 2, 0, 0
-SPRITEDEF_93:
 spritePointerDef SPRITE_CHARUP2, $A8, 1, 2, 0, 0
-SPRITEDEF_94:
 spritePointerDef SPRITE_CHARRIGHT1, $A8, 1, 2, 0, 0
-SPRITEDEF_95:
 spritePointerDef SPRITE_CHARRIGHT2, $A8, 1, 2, 0, 0
-SPRITEDEF_96:
 spritePointerDef SPRITE_CHARDOWN1, $A8, 1, 2, 0, 0
-SPRITEDEF_97:
 spritePointerDef SPRITE_CHARDOWN2, $A8, 1, 2, 0, 0
-SPRITEDEF_98:
 spritePointerDef SPRITE_CHARLEFT1, $A8, 1, 2, 0, 0
-SPRITEDEF_99:
 spritePointerDef SPRITE_CHARLEFT2, $A8, 1, 2, 0, 0
-SPRITEDEF_9A:
+
+SPRITEDEF_CHARSLOT7_RR: ;bank irrelevant
+SPRITEDEF_COOL_GUY: ;characters2
 spritePointerDef SPRITE_CHARUP1, $C8, 1, 1, 0, 0
-SPRITEDEF_9B:
 spritePointerDef SPRITE_CHARUP2, $C8, 1, 1, 0, 0
-SPRITEDEF_9C:
 spritePointerDef SPRITE_CHARRIGHT1, $C8, 1, 1, 0, 0
-SPRITEDEF_9D:
 spritePointerDef SPRITE_CHARRIGHT2, $C8, 1, 1, 0, 0
-SPRITEDEF_9E:
 spritePointerDef SPRITE_CHARDOWN1, $C8, 1, 1, 0, 0
-SPRITEDEF_9F:
 spritePointerDef SPRITE_CHARDOWN2, $C8, 1, 1, 0, 0
-SPRITEDEF_A0:
 spritePointerDef SPRITE_CHARLEFT1, $C8, 1, 1, 0, 0
-SPRITEDEF_A1:
 spritePointerDef SPRITE_CHARLEFT2, $C8, 1, 1, 0, 0
-SPRITEDEF_A2:
+
+SPRITEDEF_CHARSLOT8_RR: ;bank irrelevant
+SPRITEDEF_OLD_WOMAN: ;characters2
 spritePointerDef SPRITE_CHARUP1, $E8, 1, 1, 0, 0
-SPRITEDEF_A3:
 spritePointerDef SPRITE_CHARUP2, $E8, 1, 1, 0, 0
-SPRITEDEF_A4:
 spritePointerDef SPRITE_CHARRIGHT1, $E8, 1, 1, 0, 0
-SPRITEDEF_A5:
 spritePointerDef SPRITE_CHARRIGHT2, $E8, 1, 1, 0, 0
-SPRITEDEF_A6:
 spritePointerDef SPRITE_CHARDOWN1, $E8, 1, 1, 0, 0
-SPRITEDEF_A7:
 spritePointerDef SPRITE_CHARDOWN2, $E8, 1, 1, 0, 0
-SPRITEDEF_A8:
 spritePointerDef SPRITE_CHARLEFT1, $E8, 1, 1, 0, 0
-SPRITEDEF_A9:
 spritePointerDef SPRITE_CHARLEFT2, $E8, 1, 1, 0, 0
-SPRITEDEF_AA:
+
+SPRITEDEF_CHARSLOT9_RR: ;bank irrelevant
+SPRITEDEF_WOMAN: ;characters2
 spritePointerDef SPRITE_AA, $80, 1, 1, 0, 0
-SPRITEDEF_AB:
 spritePointerDef SPRITE_AB, $80, 1, 1, 0, 0
-SPRITEDEF_AC:
 spritePointerDef SPRITE_AC, $80, 1, 1, 0, 0
-SPRITEDEF_AD:
 spritePointerDef SPRITE_AD, $80, 1, 1, 0, 0
-SPRITEDEF_AE:
 spritePointerDef SPRITE_AE, $80, 1, 1, 0, 0
-SPRITEDEF_AF:
 spritePointerDef SPRITE_AF, $80, 1, 1, 0, 0
-SPRITEDEF_B0:
 spritePointerDef SPRITE_B0, $80, 1, 1, 0, 0
-SPRITEDEF_B1:
 spritePointerDef SPRITE_B1, $80, 1, 1, 0, 0
-SPRITEDEF_B2:
+
+SPRITEDEF_CHARSLOT1_5_BB: ;bank irrelevant
+SPRITEDEF_SUIT_GUY: ;characters2
 spritePointerDef SPRITE_B2, $80, 3, 3, 0, 0
-SPRITEDEF_B3:
 spritePointerDef SPRITE_B3, $80, 3, 3, 0, 0
-SPRITEDEF_B4:
 spritePointerDef SPRITE_B4, $80, 3, 3, 0, 0
-SPRITEDEF_B5:
 spritePointerDef SPRITE_B5, $80, 3, 3, 0, 0
-SPRITEDEF_B6:
 spritePointerDef SPRITE_B6, $80, 3, 3, 0, 0
-SPRITEDEF_B7:
 spritePointerDef SPRITE_B7, $80, 3, 3, 0, 0
-SPRITEDEF_B8:
 spritePointerDef SPRITE_B8, $80, 3, 3, 0, 0
-SPRITEDEF_B9:
 spritePointerDef SPRITE_B9, $80, 3, 3, 0, 0
-SPRITEDEF_BA:
+
+SPRITEDEF_CHARSLOT1_6_RR: ;bank irrelevant
+SPRITEDEF_SUIT_GIRL: ;characters2
 spritePointerDef SPRITE_BA, $80, 1, 1, 0, 0
-SPRITEDEF_BB:
 spritePointerDef SPRITE_BB, $80, 1, 1, 0, 0
-SPRITEDEF_BC:
 spritePointerDef SPRITE_BC, $80, 1, 1, 0, 0
-SPRITEDEF_BD:
 spritePointerDef SPRITE_BD, $80, 1, 1, 0, 0
-SPRITEDEF_BE:
 spritePointerDef SPRITE_BE, $80, 1, 1, 0, 0
-SPRITEDEF_BF:
 spritePointerDef SPRITE_BF, $80, 1, 1, 0, 0
-SPRITEDEF_C0:
 spritePointerDef SPRITE_C0, $80, 1, 1, 0, 0
-SPRITEDEF_C1:
 spritePointerDef SPRITE_C1, $80, 1, 1, 0, 0
-SPRITEDEF_C2:
+
+
+;;;;;characters3
+SPRITEDEF_CHARSLOT1_RB: ;bank irrelevant
+SPRITEDEF_CAP_KID: ;characters3
 spritePointerDef SPRITE_CHARUP1, $80, 1, 3, 0, 0
-SPRITEDEF_C3:
 spritePointerDef SPRITE_CHARUP2, $80, 1, 3, 0, 0
-SPRITEDEF_C4:
 spritePointerDef SPRITE_CHARRIGHT1, $80, 1, 3, 0, 0
-SPRITEDEF_C5:
 spritePointerDef SPRITE_CHARRIGHT2, $80, 1, 3, 0, 0
-SPRITEDEF_C6:
 spritePointerDef SPRITE_CHARDOWN1, $80, 1, 3, 0, 0
-SPRITEDEF_C7:
 spritePointerDef SPRITE_CHARDOWN2, $80, 1, 3, 0, 0
-SPRITEDEF_C8:
 spritePointerDef SPRITE_CHARLEFT1, $80, 1, 3, 0, 0
-SPRITEDEF_C9:
 spritePointerDef SPRITE_CHARLEFT2, $80, 1, 3, 0, 0
-SPRITEDEF_CA:
+
+SPRITEDEF_CHARSLOT2_RR: ;bank irrelevant
+SPRITEDEF_HAIR_GIRL: ;characters3
 spritePointerDef SPRITE_CHARUP1, $A0, 2, 1, 0, 0
-SPRITEDEF_CB:
 spritePointerDef SPRITE_CHARUP2, $A0, 2, 1, 0, 0
-SPRITEDEF_CC:
 spritePointerDef SPRITE_CHARRIGHT1, $A0, 2, 1, 0, 0
-SPRITEDEF_CD:
 spritePointerDef SPRITE_CHARRIGHT2, $A0, 2, 1, 0, 0
-SPRITEDEF_CE:
 spritePointerDef SPRITE_CHARDOWN1, $A0, 2, 1, 0, 0
-SPRITEDEF_CF:
 spritePointerDef SPRITE_CHARDOWN2, $A0, 2, 1, 0, 0
-SPRITEDEF_D0:
 spritePointerDef SPRITE_CHARLEFT1, $A0, 2, 1, 0, 0
-SPRITEDEF_D1:
 spritePointerDef SPRITE_CHARLEFT2, $A0, 2, 1, 0, 0
-SPRITEDEF_D2:
+
+SPRITEDEF_CHARSLOT3_BB: ;bank irrelevant
+SPRITEDEF_LONG_GUY: ;characters3
 spritePointerDef SPRITE_CHARUP1, $C0, 3, 3, 0, 0
-SPRITEDEF_D3:
 spritePointerDef SPRITE_CHARUP2, $C0, 3, 3, 0, 0
-SPRITEDEF_D4:
 spritePointerDef SPRITE_CHARRIGHT1, $C0, 3, 3, 0, 0
-SPRITEDEF_D5:
 spritePointerDef SPRITE_CHARRIGHT2, $C0, 3, 3, 0, 0
-SPRITEDEF_D6:
 spritePointerDef SPRITE_CHARDOWN1, $C0, 3, 3, 0, 0
-SPRITEDEF_D7:
 spritePointerDef SPRITE_CHARDOWN2, $C0, 3, 3, 0, 0
-SPRITEDEF_D8:
 spritePointerDef SPRITE_CHARLEFT1, $C0, 3, 3, 0, 0
-SPRITEDEF_D9:
 spritePointerDef SPRITE_CHARLEFT2, $C0, 3, 3, 0, 0
-SPRITEDEF_DA:
+
+SPRITEDEF_MAYOR:
 spritePointerDef SPRITE_10, $E0, 3, 3, 0, 0
-SPRITEDEF_DB:
 spritePointerDef SPRITE_11, $E0, 3, 3, 0, 0
-SPRITEDEF_DC:
 spritePointerDef SPRITE_12, $E0, 3, 3, 0, 0
-SPRITEDEF_DD:
 spritePointerDef SPRITE_13, $E0, 3, 3, 0, 0
-SPRITEDEF_DE:
 spritePointerDef SPRITE_14, $E0, 3, 3, 0, 0
-SPRITEDEF_DF:
 spritePointerDef SPRITE_15, $E0, 3, 3, 0, 0
-SPRITEDEF_E0:
 spritePointerDef SPRITE_16, $E0, 3, 3, 0, 0
-SPRITEDEF_E1:
 spritePointerDef SPRITE_17, $E0, 3, 3, 0, 0
-SPRITEDEF_E2:
+
+SPRITEDEF_CHARSLOT5_RR: ;bank irrelevant
+SPRITEDEF_HEADBAND_KID: ;characters3
 spritePointerDef SPRITE_CHARUP1, $88, 1, 1, 0, 0
-SPRITEDEF_E3:
 spritePointerDef SPRITE_CHARUP2, $88, 1, 1, 0, 0
-SPRITEDEF_E4:
 spritePointerDef SPRITE_CHARRIGHT1, $88, 1, 1, 0, 0
-SPRITEDEF_E5:
 spritePointerDef SPRITE_CHARRIGHT2, $88, 1, 1, 0, 0
-SPRITEDEF_E6:
 spritePointerDef SPRITE_CHARDOWN1, $88, 1, 1, 0, 0
-SPRITEDEF_E7:
 spritePointerDef SPRITE_CHARDOWN2, $88, 1, 1, 0, 0
-SPRITEDEF_E8:
 spritePointerDef SPRITE_CHARLEFT1, $88, 1, 1, 0, 0
-SPRITEDEF_E9:
 spritePointerDef SPRITE_CHARLEFT2, $88, 1, 1, 0, 0
-SPRITEDEF_EA:
+
+SPRITEDEF_CHARSLOT6_RP_DUPE1: ;bank irrelevant
+SPRITEDEF_PIGTAIL_GIRL: ;characters3
 spritePointerDef SPRITE_CHARUP1, $A8, 1, 2, 0, 0
-SPRITEDEF_EB:
 spritePointerDef SPRITE_CHARUP2, $A8, 1, 2, 0, 0
-SPRITEDEF_EC:
 spritePointerDef SPRITE_CHARRIGHT1, $A8, 1, 2, 0, 0
-SPRITEDEF_ED:
 spritePointerDef SPRITE_CHARRIGHT2, $A8, 1, 2, 0, 0
-SPRITEDEF_EE:
 spritePointerDef SPRITE_CHARDOWN1, $A8, 1, 2, 0, 0
-SPRITEDEF_EF:
 spritePointerDef SPRITE_CHARDOWN2, $A8, 1, 2, 0, 0
-SPRITEDEF_F0:
 spritePointerDef SPRITE_CHARLEFT1, $A8, 1, 2, 0, 0
-SPRITEDEF_F1:
 spritePointerDef SPRITE_CHARLEFT2, $A8, 1, 2, 0, 0
-SPRITEDEF_F2:
+
+SPRITEDEF_CHARSLOT7_PP: ;bank irrelevant
+SPRITEDEF_PONYTAIL_GIRL: ;characters3
 spritePointerDef SPRITE_CHARUP1, $C8, 2, 2, 0, 0
-SPRITEDEF_F3:
 spritePointerDef SPRITE_CHARUP2, $C8, 2, 2, 0, 0
-SPRITEDEF_F4:
 spritePointerDef SPRITE_CHARRIGHT1, $C8, 2, 2, 0, 0
-SPRITEDEF_F5:
 spritePointerDef SPRITE_CHARRIGHT2, $C8, 2, 2, 0, 0
-SPRITEDEF_F6:
 spritePointerDef SPRITE_CHARDOWN1, $C8, 2, 2, 0, 0
-SPRITEDEF_F7:
 spritePointerDef SPRITE_CHARDOWN2, $C8, 2, 2, 0, 0
-SPRITEDEF_F8:
 spritePointerDef SPRITE_CHARLEFT1, $C8, 2, 2, 0, 0
-SPRITEDEF_F9:
 spritePointerDef SPRITE_CHARLEFT2, $C8, 2, 2, 0, 0
-SPRITEDEF_FA:
+
+SPRITEDEF_SMALLCAP_KID:
 spritePointerDef SPRITE_10, $E8, 3, 3, 0, 0
-SPRITEDEF_FB:
 spritePointerDef SPRITE_11, $E8, 3, 3, 0, 0
-SPRITEDEF_FC:
 spritePointerDef SPRITE_12, $E8, 3, 3, 0, 0
-SPRITEDEF_FD:
 spritePointerDef SPRITE_13, $E8, 3, 3, 0, 0
-SPRITEDEF_FE:
 spritePointerDef SPRITE_14, $E8, 3, 3, 0, 0
-SPRITEDEF_FF:
 spritePointerDef SPRITE_15, $E8, 3, 3, 0, 0
-SPRITEDEF_100:
 spritePointerDef SPRITE_16, $E8, 3, 3, 0, 0
-SPRITEDEF_101:
 spritePointerDef SPRITE_17, $E8, 3, 3, 0, 0
-SPRITEDEF_102:
+
+SPRITEDEF_CHARSLOT9_BB: ;bank irrelevant
+SPRITEDEF_JANITOR: ;characters3
 spritePointerDef SPRITE_AA, $80, 3, 3, 0, 0
-SPRITEDEF_103:
 spritePointerDef SPRITE_AB, $80, 3, 3, 0, 0
-SPRITEDEF_104:
 spritePointerDef SPRITE_AC, $80, 3, 3, 0, 0
-SPRITEDEF_105:
 spritePointerDef SPRITE_AD, $80, 3, 3, 0, 0
-SPRITEDEF_106:
 spritePointerDef SPRITE_AE, $80, 3, 3, 0, 0
-SPRITEDEF_107:
 spritePointerDef SPRITE_AF, $80, 3, 3, 0, 0
-SPRITEDEF_108:
 spritePointerDef SPRITE_B0, $80, 3, 3, 0, 0
-SPRITEDEF_109:
 spritePointerDef SPRITE_B1, $80, 3, 3, 0, 0
-SPRITEDEF_10A:
+
+SPRITEDEF_CHARSLOT1_5_BR: ;bank irrelevant
+SPRITEDEF_HEADBAND_KID_2: ;characters3
 spritePointerDef SPRITE_B2, $80, 3, 1, 0, 0
-SPRITEDEF_10B:
 spritePointerDef SPRITE_B3, $80, 3, 1, 0, 0
-SPRITEDEF_10C:
 spritePointerDef SPRITE_B4, $80, 3, 1, 0, 0
-SPRITEDEF_10D:
 spritePointerDef SPRITE_B5, $80, 3, 1, 0, 0
-SPRITEDEF_10E:
 spritePointerDef SPRITE_B6, $80, 3, 1, 0, 0
-SPRITEDEF_10F:
 spritePointerDef SPRITE_B7, $80, 3, 1, 0, 0
-SPRITEDEF_110:
 spritePointerDef SPRITE_B8, $80, 3, 1, 0, 0
-SPRITEDEF_111:
 spritePointerDef SPRITE_B9, $80, 3, 1, 0, 0
-SPRITEDEF_112:
+
+SPRITEDEF_CHARSLOT1_6_BB: ;bank irrelevant
+SPRITEDEF_PIGTAIL_GIRL_2: ;characters3
 spritePointerDef SPRITE_BA, $80, 3, 3, 0, 0
-SPRITEDEF_113:
 spritePointerDef SPRITE_BB, $80, 3, 3, 0, 0
-SPRITEDEF_114:
 spritePointerDef SPRITE_BC, $80, 3, 3, 0, 0
-SPRITEDEF_115:
 spritePointerDef SPRITE_BD, $80, 3, 3, 0, 0
-SPRITEDEF_116:
 spritePointerDef SPRITE_BE, $80, 3, 3, 0, 0
-SPRITEDEF_117:
 spritePointerDef SPRITE_BF, $80, 3, 3, 0, 0
-SPRITEDEF_118:
 spritePointerDef SPRITE_C0, $80, 3, 3, 0, 0
-SPRITEDEF_119:
 spritePointerDef SPRITE_C1, $80, 3, 3, 0, 0
-SPRITEDEF_11A:
+
+
+;;;;;characters4
+SPRITEDEF_BELLHOP_WOMAN:
 spritePointerDef SPRITE_10, $80, 2, 2, 0, 0
-SPRITEDEF_11B:
 spritePointerDef SPRITE_11, $80, 2, 2, 0, 0
-SPRITEDEF_11C:
 spritePointerDef SPRITE_12, $80, 2, 2, 0, 0
-SPRITEDEF_11D:
 spritePointerDef SPRITE_13, $80, 2, 2, 0, 0
-SPRITEDEF_11E:
 spritePointerDef SPRITE_14, $80, 2, 2, 0, 0
-SPRITEDEF_11F:
 spritePointerDef SPRITE_15, $80, 2, 2, 0, 0
-SPRITEDEF_120:
 spritePointerDef SPRITE_16, $80, 2, 2, 0, 0
-SPRITEDEF_121:
 spritePointerDef SPRITE_17, $80, 2, 2, 0, 0
-SPRITEDEF_122:
+
+SPRITEDEF_CHARSLOT2_RR_DUPE1: ;bank irrelevant
+SPRITEDEF_NURSE: ;characters4
 spritePointerDef SPRITE_CHARUP1, $A0, 1, 1, 0, 0
-SPRITEDEF_123:
 spritePointerDef SPRITE_CHARUP2, $A0, 1, 1, 0, 0
-SPRITEDEF_124:
 spritePointerDef SPRITE_CHARRIGHT1, $A0, 1, 1, 0, 0
-SPRITEDEF_125:
 spritePointerDef SPRITE_CHARRIGHT2, $A0, 1, 1, 0, 0
-SPRITEDEF_126:
 spritePointerDef SPRITE_CHARDOWN1, $A0, 1, 1, 0, 0
-SPRITEDEF_127:
 spritePointerDef SPRITE_CHARDOWN2, $A0, 1, 1, 0, 0
-SPRITEDEF_128:
 spritePointerDef SPRITE_CHARLEFT1, $A0, 1, 1, 0, 0
-SPRITEDEF_129:
 spritePointerDef SPRITE_CHARLEFT2, $A0, 1, 1, 0, 0
-SPRITEDEF_12A:
+
+SPRITEDEF_CHARSLOT3_BB_DUPE1: ;bank irrelevant
+SPRITEDEF_GLASSES_GUY: ;characters4
 spritePointerDef SPRITE_CHARUP1, $C0, 3, 3, 0, 0
-SPRITEDEF_12B:
 spritePointerDef SPRITE_CHARUP2, $C0, 3, 3, 0, 0
-SPRITEDEF_12C:
 spritePointerDef SPRITE_CHARRIGHT1, $C0, 3, 3, 0, 0
-SPRITEDEF_12D:
 spritePointerDef SPRITE_CHARRIGHT2, $C0, 3, 3, 0, 0
-SPRITEDEF_12E:
 spritePointerDef SPRITE_CHARDOWN1, $C0, 3, 3, 0, 0
-SPRITEDEF_12F:
 spritePointerDef SPRITE_CHARDOWN2, $C0, 3, 3, 0, 0
-SPRITEDEF_130:
 spritePointerDef SPRITE_CHARLEFT1, $C0, 3, 3, 0, 0
-SPRITEDEF_131:
 spritePointerDef SPRITE_CHARLEFT2, $C0, 3, 3, 0, 0
-SPRITEDEF_132:
+
+SPRITEDEF_CHARSLOT5_BB_DUPE1: ;bank irrelevant
+SPRITEDEF_DOCTOR: ;characters4
 spritePointerDef SPRITE_CHARUP1, $88, 3, 3, 0, 0
-SPRITEDEF_133:
 spritePointerDef SPRITE_CHARUP2, $88, 3, 3, 0, 0
-SPRITEDEF_134:
 spritePointerDef SPRITE_CHARRIGHT1, $88, 3, 3, 0, 0
-SPRITEDEF_135:
 spritePointerDef SPRITE_CHARRIGHT2, $88, 3, 3, 0, 0
-SPRITEDEF_136:
 spritePointerDef SPRITE_CHARDOWN1, $88, 3, 3, 0, 0
-SPRITEDEF_137:
 spritePointerDef SPRITE_CHARDOWN2, $88, 3, 3, 0, 0
-SPRITEDEF_138:
 spritePointerDef SPRITE_CHARLEFT1, $88, 3, 3, 0, 0
-SPRITEDEF_139:
 spritePointerDef SPRITE_CHARLEFT2, $88, 3, 3, 0, 0
-SPRITEDEF_13A:
+
+SPRITEDEF_CHARSLOT6_BB: ;bank irrelevant
+SPRITEDEF_PRIEST: ;characters4
 spritePointerDef SPRITE_CHARUP1, $A8, 3, 3, 0, 0
-SPRITEDEF_13B:
 spritePointerDef SPRITE_CHARUP2, $A8, 3, 3, 0, 0
-SPRITEDEF_13C:
 spritePointerDef SPRITE_CHARRIGHT1, $A8, 3, 3, 0, 0
-SPRITEDEF_13D:
 spritePointerDef SPRITE_CHARRIGHT2, $A8, 3, 3, 0, 0
-SPRITEDEF_13E:
 spritePointerDef SPRITE_CHARDOWN1, $A8, 3, 3, 0, 0
-SPRITEDEF_13F:
 spritePointerDef SPRITE_CHARDOWN2, $A8, 3, 3, 0, 0
-SPRITEDEF_140:
 spritePointerDef SPRITE_CHARLEFT1, $A8, 3, 3, 0, 0
-SPRITEDEF_141:
 spritePointerDef SPRITE_CHARLEFT2, $A8, 3, 3, 0, 0
-SPRITEDEF_142:
+
+SPRITEDEF_BABY:
 spritePointerDef SPRITE_142, $A8, 1, 1, 0, 0
-SPRITEDEF_143:
+
+SPRITEDEF_ANA_NOHAT:
 spritePointerDef SPRITE_10, $E0, 2, 2, 1, 0
-SPRITEDEF_144:
 spritePointerDef SPRITE_11, $E0, 2, 2, 1, 0
-SPRITEDEF_145:
 spritePointerDef SPRITE_12, $E0, 2, 2, 1, 0
-SPRITEDEF_146:
 spritePointerDef SPRITE_13, $E0, 2, 2, 1, 0
-SPRITEDEF_147:
 spritePointerDef SPRITE_14, $E0, 2, 2, 1, 0
-SPRITEDEF_148:
 spritePointerDef SPRITE_15, $E0, 2, 2, 1, 0
-SPRITEDEF_149:
 spritePointerDef SPRITE_16, $E0, 2, 2, 1, 0
-SPRITEDEF_14A:
 spritePointerDef SPRITE_17, $E0, 2, 2, 1, 0
-SPRITEDEF_14B:
+
+SPRITEDEF_ABLE_BAKER:
 spritePointerDef SPRITE_10, $C8, 3, 3, 0, 0
-SPRITEDEF_14C:
 spritePointerDef SPRITE_11, $C8, 3, 3, 0, 0
-SPRITEDEF_14D:
 spritePointerDef SPRITE_12, $C8, 3, 3, 0, 0
-SPRITEDEF_14E:
 spritePointerDef SPRITE_13, $C8, 3, 3, 0, 0
-SPRITEDEF_14F:
 spritePointerDef SPRITE_14, $C8, 3, 3, 0, 0
-SPRITEDEF_150:
 spritePointerDef SPRITE_15, $C8, 3, 3, 0, 0
-SPRITEDEF_151:
 spritePointerDef SPRITE_16, $C8, 3, 3, 0, 0
-SPRITEDEF_152:
 spritePointerDef SPRITE_17, $C8, 3, 3, 0, 0
-SPRITEDEF_153:
+
+SPRITEDEF_TEDDY_LYING:
 spritePointerDef SPRITE_60, $EC, 1, 1, 1, 0
-SPRITEDEF_154:
+
+SPRITEDEF_DUNCAN_ROCKET:
 spritePointerDef SPRITE_154, $E8, 3, 3, 0, 0
-SPRITEDEF_155:
 spritePointerDef SPRITE_155, $E8, 3, 3, 0, 0
-SPRITEDEF_156:
+
+SPRITEDEF_COFFIN:
 spritePointerDef SPRITE_60, $EA, 0, 0, 0, 0
-SPRITEDEF_157:
+
+;unused?
 spritePointerDef SPRITE_60, $EA, 0, 0, 0, 0
-SPRITEDEF_158:
+
+SPRITEDEF_DUNCAN_ROCKETHOLSTER:
 spritePointerDef SPRITE_60, $EE, 0, 0, 0, 0
-SPRITEDEF_159:
+
+SPRITEDEF_SKELETON:
 spritePointerDef SPRITE_142, $C0, 0, 0, 0, 0
-SPRITEDEF_15A:
+
+
+;;;;;characters5
+SPRITEDEF_CHARSLOT1_GG: ;bank irrelevant
+SPRITEDEF_SPOOKANE_BELLHOP: ;characters5
 spritePointerDef SPRITE_CHARUP1, $80, 0, 0, 0, 0
-SPRITEDEF_15B:
 spritePointerDef SPRITE_CHARUP2, $80, 0, 0, 0, 0
-SPRITEDEF_15C:
 spritePointerDef SPRITE_CHARRIGHT1, $80, 0, 0, 0, 0
-SPRITEDEF_15D:
 spritePointerDef SPRITE_CHARRIGHT2, $80, 0, 0, 0, 0
-SPRITEDEF_15E:
 spritePointerDef SPRITE_CHARDOWN1, $80, 0, 0, 0, 0
-SPRITEDEF_15F:
 spritePointerDef SPRITE_CHARDOWN2, $80, 0, 0, 0, 0
-SPRITEDEF_160:
 spritePointerDef SPRITE_CHARLEFT1, $80, 0, 0, 0, 0
-SPRITEDEF_161:
 spritePointerDef SPRITE_CHARLEFT2, $80, 0, 0, 0, 0
-SPRITEDEF_162:
+
+SPRITEDEF_CANARY:
 spritePointerDef SPRITE_10, $A0, 1, 1, 0, 0
-SPRITEDEF_163:
 spritePointerDef SPRITE_11, $A0, 1, 1, 0, 0
-SPRITEDEF_164:
 spritePointerDef SPRITE_12, $A0, 1, 1, 0, 0
-SPRITEDEF_165:
 spritePointerDef SPRITE_13, $A0, 1, 1, 0, 0
-SPRITEDEF_166:
 spritePointerDef SPRITE_14, $A0, 1, 1, 0, 0
-SPRITEDEF_167:
 spritePointerDef SPRITE_15, $A0, 1, 1, 0, 0
-SPRITEDEF_168:
 spritePointerDef SPRITE_16, $A0, 1, 1, 0, 0
-SPRITEDEF_169:
 spritePointerDef SPRITE_17, $A0, 1, 1, 0, 0
 
-SPRITEDEF_16A:
+SPRITEDEF_CHARSLOT3_PP: ;bank irrelevant
+SPRITEDEF_PIPPI_MOM: ;characters5
 spritePointerDef SPRITE_CHARUP1, $C0, 2, 2, 0, 0
-SPRITEDEF_16B:
 spritePointerDef SPRITE_CHARUP2, $C0, 2, 2, 0, 0
-SPRITEDEF_16C:
 spritePointerDef SPRITE_CHARRIGHT1, $C0, 2, 2, 0, 0
-SPRITEDEF_16D:
 spritePointerDef SPRITE_CHARRIGHT2, $C0, 2, 2, 0, 0
-SPRITEDEF_16E:
 spritePointerDef SPRITE_CHARDOWN1, $C0, 2, 2, 0, 0
-SPRITEDEF_16F:
 spritePointerDef SPRITE_CHARDOWN2, $C0, 2, 2, 0, 0
-SPRITEDEF_170:
 spritePointerDef SPRITE_CHARLEFT1, $C0, 2, 2, 0, 0
-SPRITEDEF_171:
 spritePointerDef SPRITE_CHARLEFT2, $C0, 2, 2, 0, 0
 
-SPRITEDEF_172:
+SPRITEDEF_CHARSLOT4_PR: ;bank irrelevant
+SPRITEDEF_MOM: ;characters5
 spritePointerDef SPRITE_CHARUP1, $E0, 2, 1, 0, 0
-SPRITEDEF_173:
 spritePointerDef SPRITE_CHARUP2, $E0, 2, 1, 0, 0
-SPRITEDEF_174:
 spritePointerDef SPRITE_CHARRIGHT1, $E0, 2, 1, 0, 0
-SPRITEDEF_175:
 spritePointerDef SPRITE_CHARRIGHT2, $E0, 2, 1, 0, 0
-SPRITEDEF_176:
 spritePointerDef SPRITE_CHARDOWN1, $E0, 2, 1, 0, 0
-SPRITEDEF_177:
 spritePointerDef SPRITE_CHARDOWN2, $E0, 2, 1, 0, 0
-SPRITEDEF_178:
 spritePointerDef SPRITE_CHARLEFT1, $E0, 2, 1, 0, 0
-SPRITEDEF_179:
 spritePointerDef SPRITE_CHARLEFT2, $E0, 2, 1, 0, 0
-SPRITEDEF_17A:
+
+SPRITEDEF_CANARY_PILLAR:
 spritePointerDef SPRITE_17A, $88, 0, 0, 0, 0
 
-SPRITEDEF_CHARDOGUP1:
+SPRITEDEF_CHARSLOT6_GG: ;bank irrelevant
+SPRITEDEF_DOG: ;characters5
 spritePointerDef SPRITE_CHARUP1, $A8, 0, 0, 0, 0
-SPRITEDEF_CHARDOGUP2:
 spritePointerDef SPRITE_CHARUP2, $A8, 0, 0, 0, 0
-SPRITEDEF_CHARDOGRIGHT1:
 spritePointerDef SPRITE_CHARRIGHT1, $A8, 0, 0, 0, 0
-SPRITEDEF_CHARDOGRIGHT2:
 spritePointerDef SPRITE_CHARRIGHT2, $A8, 0, 0, 0, 0
-SPRITEDEF_CHARDOGDOWN1:
 spritePointerDef SPRITE_CHARDOWN1, $A8, 0, 0, 0, 0
-SPRITEDEF_CHARDOGDOWN2:
 spritePointerDef SPRITE_CHARDOWN2, $A8, 0, 0, 0, 0
-SPRITEDEF_CHARDOGLEFT1:
 spritePointerDef SPRITE_CHARLEFT1, $A8, 0, 0, 0, 0
-SPRITEDEF_CHARDOGLEFT2:
 spritePointerDef SPRITE_CHARLEFT2, $A8, 0, 0, 0, 0
 
-SPRITEDEF_183:
+SPRITEDEF_CHARSLOT7_BB_DUPE1: ;bank irrelevant
+SPRITEDEF_HEALER: ;characters5
 spritePointerDef SPRITE_CHARUP1, $C8, 3, 3, 0, 0
-SPRITEDEF_184:
 spritePointerDef SPRITE_CHARUP2, $C8, 3, 3, 0, 0
-SPRITEDEF_185:
 spritePointerDef SPRITE_CHARRIGHT1, $C8, 3, 3, 0, 0
-SPRITEDEF_186:
 spritePointerDef SPRITE_CHARRIGHT2, $C8, 3, 3, 0, 0
-SPRITEDEF_187:
 spritePointerDef SPRITE_CHARDOWN1, $C8, 3, 3, 0, 0
-SPRITEDEF_188:
 spritePointerDef SPRITE_CHARDOWN2, $C8, 3, 3, 0, 0
-SPRITEDEF_189:
 spritePointerDef SPRITE_CHARLEFT1, $C8, 3, 3, 0, 0
-SPRITEDEF_18A:
 spritePointerDef SPRITE_CHARLEFT2, $C8, 3, 3, 0, 0
-SPRITEDEF_18B:
+
+SPRITEDEF_CHARSLOT8_PP: ;bank irrelevant
+SPRITEDEF_MIMMIE: ;characters5
 spritePointerDef SPRITE_CHARUP1, $E8, 2, 2, 0, 0
-SPRITEDEF_18C:
 spritePointerDef SPRITE_CHARUP2, $E8, 2, 2, 0, 0
-SPRITEDEF_18D:
 spritePointerDef SPRITE_CHARRIGHT1, $E8, 2, 2, 0, 0
-SPRITEDEF_18E:
 spritePointerDef SPRITE_CHARRIGHT2, $E8, 2, 2, 0, 0
-SPRITEDEF_18F:
 spritePointerDef SPRITE_CHARDOWN1, $E8, 2, 2, 0, 0
-SPRITEDEF_190:
 spritePointerDef SPRITE_CHARDOWN2, $E8, 2, 2, 0, 0
-SPRITEDEF_191:
 spritePointerDef SPRITE_CHARLEFT1, $E8, 2, 2, 0, 0
-SPRITEDEF_192:
 spritePointerDef SPRITE_CHARLEFT2, $E8, 2, 2, 0, 0
-SPRITEDEF_193:
+
+SPRITEDEF_MOUSE:
 spritePointerDef SPRITE_193, $80, 0, 0, 0, 0
-SPRITEDEF_194:
 spritePointerDef SPRITE_194, $80, 0, 0, 0, 0
-SPRITEDEF_195:
 spritePointerDef SPRITE_195, $80, 0, 0, 0, 0
-SPRITEDEF_196:
 spritePointerDef SPRITE_196, $80, 0, 0, 0, 0
-SPRITEDEF_197:
 spritePointerDef SPRITE_197, $80, 0, 0, 0, 0
-SPRITEDEF_198:
 spritePointerDef SPRITE_198, $80, 0, 0, 0, 0
-SPRITEDEF_199:
 spritePointerDef SPRITE_199, $80, 0, 0, 0, 0
-SPRITEDEF_19A:
 spritePointerDef SPRITE_19A, $80, 0, 0, 0, 0
-SPRITEDEF_19B:
+
+SPRITEDEF_DOLL:
 spritePointerDef SPRITE_142, $C0, 3, 3, 0, 0
-SPRITEDEF_19C:
+
+SPRITEDEF_PHONE:
 spritePointerDef SPRITE_142, $A8, 0, 0, 0, 0
-SPRITEDEF_19D:
+
+SPRITEDEF_LAMP:
 spritePointerDef SPRITE_60, $8E, 3, 3, 0, 0
-SPRITEDEF_19E:
+
+;unused?
 spritePointerDef SPRITE_60, $8E, 3, 3, 0, 0
-SPRITEDEF_19F:
+
+SPRITEDEF_CHARSLOT8_RR_DUPE1: ;bank irrelevant
+SPRITEDEF_MINNIE: ;characters5
 spritePointerDef SPRITE_CHARUP1, $E8, 1, 1, 0, 0
-SPRITEDEF_1A0:
 spritePointerDef SPRITE_CHARUP2, $E8, 1, 1, 0, 0
-SPRITEDEF_1A1:
 spritePointerDef SPRITE_CHARRIGHT1, $E8, 1, 1, 0, 0
-SPRITEDEF_1A2:
 spritePointerDef SPRITE_CHARRIGHT2, $E8, 1, 1, 0, 0
-SPRITEDEF_1A3:
 spritePointerDef SPRITE_CHARDOWN1, $E8, 1, 1, 0, 0
-SPRITEDEF_1A4:
 spritePointerDef SPRITE_CHARDOWN2, $E8, 1, 1, 0, 0
-SPRITEDEF_1A5:
 spritePointerDef SPRITE_CHARLEFT1, $E8, 1, 1, 0, 0
-SPRITEDEF_1A6:
 spritePointerDef SPRITE_CHARLEFT2, $E8, 1, 1, 0, 0
-SPRITEDEF_1A7:
+
+
+
+;;;;;characters6
+SPRITEDEF_BBGANG:
 spritePointerDef SPRITE_10, $80, 3, 3, 0, 0
-SPRITEDEF_1A8:
 spritePointerDef SPRITE_11, $80, 3, 3, 0, 0
-SPRITEDEF_1A9:
 spritePointerDef SPRITE_12, $80, 3, 3, 0, 0
-SPRITEDEF_1AA:
 spritePointerDef SPRITE_13, $80, 3, 3, 0, 0
-SPRITEDEF_1AB:
 spritePointerDef SPRITE_14, $80, 3, 3, 0, 0
-SPRITEDEF_1AC:
 spritePointerDef SPRITE_15, $80, 3, 3, 0, 0
-SPRITEDEF_1AD:
 spritePointerDef SPRITE_16, $80, 3, 3, 0, 0
-SPRITEDEF_1AE:
 spritePointerDef SPRITE_17, $80, 3, 3, 0, 0
-SPRITEDEF_1AF:
+
+SPRITEDEF_CHARSLOT6_RR: ;bank irrelevant
+SPRITEDEF_OVERALLS_MAN: ;characters6
 spritePointerDef SPRITE_CHARUP1, $A8, 1, 1, 0, 0
-SPRITEDEF_1B0:
 spritePointerDef SPRITE_CHARUP2, $A8, 1, 1, 0, 0
-SPRITEDEF_1B1:
 spritePointerDef SPRITE_CHARRIGHT1, $A8, 1, 1, 0, 0
-SPRITEDEF_1B2:
 spritePointerDef SPRITE_CHARRIGHT2, $A8, 1, 1, 0, 0
-SPRITEDEF_1B3:
 spritePointerDef SPRITE_CHARDOWN1, $A8, 1, 1, 0, 0
-SPRITEDEF_1B4:
 spritePointerDef SPRITE_CHARDOWN2, $A8, 1, 1, 0, 0
-SPRITEDEF_1B5:
 spritePointerDef SPRITE_CHARLEFT1, $A8, 1, 1, 0, 0
-SPRITEDEF_1B6:
 spritePointerDef SPRITE_CHARLEFT2, $A8, 1, 1, 0, 0
-SPRITEDEF_1B7:
+
+SPRITEDEF_CHARSLOT2_RR_DUPE3: ;bank irrelevant
+SPRITEDEF_BEEHAIR: ;characters6
 spritePointerDef SPRITE_CHARUP1, $A0, 1, 1, 0, 0
-SPRITEDEF_1B8:
 spritePointerDef SPRITE_CHARUP2, $A0, 1, 1, 0, 0
-SPRITEDEF_1B9:
 spritePointerDef SPRITE_CHARRIGHT1, $A0, 1, 1, 0, 0
-SPRITEDEF_1BA:
 spritePointerDef SPRITE_CHARRIGHT2, $A0, 1, 1, 0, 0
-SPRITEDEF_1BB:
 spritePointerDef SPRITE_CHARDOWN1, $A0, 1, 1, 0, 0
-SPRITEDEF_1BC:
 spritePointerDef SPRITE_CHARDOWN2, $A0, 1, 1, 0, 0
-SPRITEDEF_1BD:
 spritePointerDef SPRITE_CHARLEFT1, $A0, 1, 1, 0, 0
-SPRITEDEF_1BE:
 spritePointerDef SPRITE_CHARLEFT2, $A0, 1, 1, 0, 0
-SPRITEDEF_1BF:
+
+SPRITEDEF_CHARSLOT5_RR_DUPE1: ;bank irrelevant
+SPRITEDEF_PILOT: ;characters6
 spritePointerDef SPRITE_CHARUP1, $88, 1, 1, 0, 0
-SPRITEDEF_1C0:
 spritePointerDef SPRITE_CHARUP2, $88, 1, 1, 0, 0
-SPRITEDEF_1C1:
 spritePointerDef SPRITE_CHARRIGHT1, $88, 1, 1, 0, 0
-SPRITEDEF_1C2:
 spritePointerDef SPRITE_CHARRIGHT2, $88, 1, 1, 0, 0
-SPRITEDEF_1C3:
 spritePointerDef SPRITE_CHARDOWN1, $88, 1, 1, 0, 0
-SPRITEDEF_1C4:
 spritePointerDef SPRITE_CHARDOWN2, $88, 1, 1, 0, 0
-SPRITEDEF_1C5:
 spritePointerDef SPRITE_CHARLEFT1, $88, 1, 1, 0, 0
-SPRITEDEF_1C6:
 spritePointerDef SPRITE_CHARLEFT2, $88, 1, 1, 0, 0
-SPRITEDEF_1C7:
+
+SPRITEDEF_CHARSLOT7_BB_DUPE2: ;bank irrelevant
+SPRITEDEF_ELLAY_COP: ;characters6
 spritePointerDef SPRITE_CHARUP1, $C8, 3, 3, 0, 0
-SPRITEDEF_1C8:
 spritePointerDef SPRITE_CHARUP2, $C8, 3, 3, 0, 0
-SPRITEDEF_1C9:
 spritePointerDef SPRITE_CHARRIGHT1, $C8, 3, 3, 0, 0
-SPRITEDEF_1CA:
 spritePointerDef SPRITE_CHARRIGHT2, $C8, 3, 3, 0, 0
-SPRITEDEF_1CB:
 spritePointerDef SPRITE_CHARDOWN1, $C8, 3, 3, 0, 0
-SPRITEDEF_1CC:
 spritePointerDef SPRITE_CHARDOWN2, $C8, 3, 3, 0, 0
-SPRITEDEF_1CD:
 spritePointerDef SPRITE_CHARLEFT1, $C8, 3, 3, 0, 0
-SPRITEDEF_1CE:
 spritePointerDef SPRITE_CHARLEFT2, $C8, 3, 3, 0, 0
-SPRITEDEF_1CF:
+
+SPRITEDEF_CHARSLOT4_PP_DUPE1: ;bank irrelevant
+SPRITEDEF_ELLAY_PUNK: ;characters6
 spritePointerDef SPRITE_CHARUP1, $E0, 2, 2, 0, 0
-SPRITEDEF_1D0:
 spritePointerDef SPRITE_CHARUP2, $E0, 2, 2, 0, 0
-SPRITEDEF_1D1:
 spritePointerDef SPRITE_CHARRIGHT1, $E0, 2, 2, 0, 0
-SPRITEDEF_1D2:
 spritePointerDef SPRITE_CHARRIGHT2, $E0, 2, 2, 0, 0
-SPRITEDEF_1D3:
 spritePointerDef SPRITE_CHARDOWN1, $E0, 2, 2, 0, 0
-SPRITEDEF_1D4:
 spritePointerDef SPRITE_CHARDOWN2, $E0, 2, 2, 0, 0
-SPRITEDEF_1D5:
 spritePointerDef SPRITE_CHARLEFT1, $E0, 2, 2, 0, 0
-SPRITEDEF_1D6:
 spritePointerDef SPRITE_CHARLEFT2, $E0, 2, 2, 0, 0
-SPRITEDEF_1D7:
+
+SPRITEDEF_CHARSLOT3_RR_DUPE1: ;bank irrelevant
+SPRITEDEF_SIDETAIL_GIRL: ;characters6
 spritePointerDef SPRITE_CHARUP1, $C0, 1, 1, 0, 0
-SPRITEDEF_1D8:
 spritePointerDef SPRITE_CHARUP2, $C0, 1, 1, 0, 0
-SPRITEDEF_1D9:
 spritePointerDef SPRITE_CHARRIGHT1, $C0, 1, 1, 0, 0
-SPRITEDEF_1DA:
 spritePointerDef SPRITE_CHARRIGHT2, $C0, 1, 1, 0, 0
-SPRITEDEF_1DB:
 spritePointerDef SPRITE_CHARDOWN1, $C0, 1, 1, 0, 0
-SPRITEDEF_1DC:
 spritePointerDef SPRITE_CHARDOWN2, $C0, 1, 1, 0, 0
-SPRITEDEF_1DD:
 spritePointerDef SPRITE_CHARLEFT1, $C0, 1, 1, 0, 0
-SPRITEDEF_1DE:
 spritePointerDef SPRITE_CHARLEFT2, $C0, 1, 1, 0, 0
-SPRITEDEF_1DF:
+
+SPRITEDEF_LIVEHOUSE_SIGN:
 spritePointerDef SPRITE_1DF, $80, 2, 1, 0, 3
-SPRITEDEF_1E0:
+
+;unused?
 spritePointerDef SPRITE_1DF, $80, 2, 1, 0, 3
-SPRITEDEF_1E1:
+
+SPRITEDEF_CHARSLOT9_RR_DUPE1: ;bank irrelevant
+SPRITEDEF_BLACKHAIR_WOMAN: ;characters6
 spritePointerDef SPRITE_AA, $80, 1, 1, 0, 0
-SPRITEDEF_1E2:
 spritePointerDef SPRITE_AB, $80, 1, 1, 0, 0
-SPRITEDEF_1E3:
 spritePointerDef SPRITE_AC, $80, 1, 1, 0, 0
-SPRITEDEF_1E4:
 spritePointerDef SPRITE_AD, $80, 1, 1, 0, 0
-SPRITEDEF_1E5:
 spritePointerDef SPRITE_AE, $80, 1, 1, 0, 0
-SPRITEDEF_1E6:
 spritePointerDef SPRITE_AF, $80, 1, 1, 0, 0
-SPRITEDEF_1E7:
 spritePointerDef SPRITE_B0, $80, 1, 1, 0, 0
-SPRITEDEF_1E8:
 spritePointerDef SPRITE_B1, $80, 1, 1, 0, 0
-SPRITEDEF_1E9:
+
+
+
+;;;;;characters7
+SPRITEDEF_CHARSLOT1_BB_DUPE2: ;bank irrelevant
+SPRITEDEF_MAGICANTIAN_BOY: ;characters7
 spritePointerDef SPRITE_CHARUP1, $80, 3, 3, 0, 0
-SPRITEDEF_1EA:
 spritePointerDef SPRITE_CHARUP2, $80, 3, 3, 0, 0
-SPRITEDEF_1EB:
 spritePointerDef SPRITE_CHARRIGHT1, $80, 3, 3, 0, 0
-SPRITEDEF_1EC:
 spritePointerDef SPRITE_CHARRIGHT2, $80, 3, 3, 0, 0
-SPRITEDEF_1ED:
 spritePointerDef SPRITE_CHARDOWN1, $80, 3, 3, 0, 0
-SPRITEDEF_1EE:
 spritePointerDef SPRITE_CHARDOWN2, $80, 3, 3, 0, 0
-SPRITEDEF_1EF:
 spritePointerDef SPRITE_CHARLEFT1, $80, 3, 3, 0, 0
-SPRITEDEF_1F0:
 spritePointerDef SPRITE_CHARLEFT2, $80, 3, 3, 0, 0
-SPRITEDEF_1F1:
+
+SPRITEDEF_MONKEY:
 spritePointerDef SPRITE_10, $C0, 1, 1, 0, 0
-SPRITEDEF_1F2:
 spritePointerDef SPRITE_11, $C0, 1, 1, 0, 0
-SPRITEDEF_1F3:
 spritePointerDef SPRITE_12, $C0, 1, 1, 0, 0
-SPRITEDEF_1F4:
 spritePointerDef SPRITE_13, $C0, 1, 1, 0, 0
-SPRITEDEF_1F5:
 spritePointerDef SPRITE_14, $C0, 1, 1, 0, 0
-SPRITEDEF_1F6:
 spritePointerDef SPRITE_15, $C0, 1, 1, 0, 0
-SPRITEDEF_1F7:
 spritePointerDef SPRITE_16, $C0, 1, 1, 0, 0
-SPRITEDEF_1F8:
 spritePointerDef SPRITE_17, $C0, 1, 1, 0, 0
-SPRITEDEF_1F9:
+
+SPRITEDEF_CHARSLOT4_PP_DUPE2: ;bank irrelevant
+SPRITEDEF_CAT: ;characters7
 spritePointerDef SPRITE_CHARUP1, $E0, 2, 2, 0, 0
-SPRITEDEF_1FA:
 spritePointerDef SPRITE_CHARUP2, $E0, 2, 2, 0, 0
-SPRITEDEF_1FB:
 spritePointerDef SPRITE_CHARRIGHT1, $E0, 2, 2, 0, 0
-SPRITEDEF_1FC:
 spritePointerDef SPRITE_CHARRIGHT2, $E0, 2, 2, 0, 0
-SPRITEDEF_1FD:
 spritePointerDef SPRITE_CHARDOWN1, $E0, 2, 2, 0, 0
-SPRITEDEF_1FE:
 spritePointerDef SPRITE_CHARDOWN2, $E0, 2, 2, 0, 0
-SPRITEDEF_1FF:
 spritePointerDef SPRITE_CHARLEFT1, $E0, 2, 2, 0, 0
-SPRITEDEF_200:
 spritePointerDef SPRITE_CHARLEFT2, $E0, 2, 2, 0, 0
-SPRITEDEF_201:
+
+SPRITEDEF_CHARSLOT5_RR_DUPE2: ;bank irrelevant
+SPRITEDEF_MAGICANTIAN_GIRL: ;characters7
 spritePointerDef SPRITE_CHARUP1, $88, 1, 1, 0, 0
-SPRITEDEF_202:
 spritePointerDef SPRITE_CHARUP2, $88, 1, 1, 0, 0
-SPRITEDEF_203:
 spritePointerDef SPRITE_CHARRIGHT1, $88, 1, 1, 0, 0
-SPRITEDEF_204:
 spritePointerDef SPRITE_CHARRIGHT2, $88, 1, 1, 0, 0
-SPRITEDEF_205:
 spritePointerDef SPRITE_CHARDOWN1, $88, 1, 1, 0, 0
-SPRITEDEF_206:
 spritePointerDef SPRITE_CHARDOWN2, $88, 1, 1, 0, 0
-SPRITEDEF_207:
 spritePointerDef SPRITE_CHARLEFT1, $88, 1, 1, 0, 0
-SPRITEDEF_208:
 spritePointerDef SPRITE_CHARLEFT2, $88, 1, 1, 0, 0
-SPRITEDEF_209:
+
+SPRITEDEF_MAGICANTIAN_ADULT:
 spritePointerDef SPRITE_10, $A8, 2, 2, 0, 0
-SPRITEDEF_20A:
 spritePointerDef SPRITE_11, $A8, 2, 2, 0, 0
-SPRITEDEF_20B:
 spritePointerDef SPRITE_12, $A8, 2, 2, 0, 0
-SPRITEDEF_20C:
 spritePointerDef SPRITE_13, $A8, 2, 2, 0, 0
-SPRITEDEF_20D:
 spritePointerDef SPRITE_14, $A8, 2, 2, 0, 0
-SPRITEDEF_20E:
 spritePointerDef SPRITE_15, $A8, 2, 2, 0, 0
-SPRITEDEF_20F:
 spritePointerDef SPRITE_16, $A8, 2, 2, 0, 0
-SPRITEDEF_210:
 spritePointerDef SPRITE_17, $A8, 2, 2, 0, 0
-SPRITEDEF_211:
+
+SPRITEDEF_CHARSLOT7_GG: ;bank irrelevant
+SPRITEDEF_PENGUIN: ;characters7
 spritePointerDef SPRITE_CHARUP1, $C8, 0, 0, 0, 0
-SPRITEDEF_212:
 spritePointerDef SPRITE_CHARUP2, $C8, 0, 0, 0, 0
-SPRITEDEF_213:
 spritePointerDef SPRITE_CHARRIGHT1, $C8, 0, 0, 0, 0
-SPRITEDEF_214:
 spritePointerDef SPRITE_CHARRIGHT2, $C8, 0, 0, 0, 0
-SPRITEDEF_215:
 spritePointerDef SPRITE_CHARDOWN1, $C8, 0, 0, 0, 0
-SPRITEDEF_216:
 spritePointerDef SPRITE_CHARDOWN2, $C8, 0, 0, 0, 0
-SPRITEDEF_217:
 spritePointerDef SPRITE_CHARLEFT1, $C8, 0, 0, 0, 0
-SPRITEDEF_218:
 spritePointerDef SPRITE_CHARLEFT2, $C8, 0, 0, 0, 0
-SPRITEDEF_219:
+
+SPRITEDEF_ZOO_SIGN:
 spritePointerDef SPRITE_154, $E8, 3, 3, 0, 0
-SPRITEDEF_21A:
+
+SPRITEDEF_ZOO_INFOPANEL:
 spritePointerDef SPRITE_60, $EA, 0, 0, 0, 0
-SPRITEDEF_21B:
+
+SPRITEDEF_ZOO_GATE:
 spritePointerDef SPRITE_154, $EC, 0, 0, 0, 0
-SPRITEDEF_21C:
+
+SPRITEDEF_TRASH_CAN:
 spritePointerDef SPRITE_60, $EE, 0, 0, 0, 0
-SPRITEDEF_21D:
+
+;unused?
 spritePointerDef SPRITE_60, $EE, 0, 0, 0, 0
-SPRITEDEF_21E:
+
+SPRITEDEF_RABBIT:
 spritePointerDef SPRITE_193, $80, 0, 0, 0, 0
-SPRITEDEF_21F:
 spritePointerDef SPRITE_194, $80, 0, 0, 0, 0
-SPRITEDEF_220:
 spritePointerDef SPRITE_195, $80, 0, 0, 0, 0
-SPRITEDEF_221:
 spritePointerDef SPRITE_196, $80, 0, 0, 0, 0
-SPRITEDEF_222:
 spritePointerDef SPRITE_197, $80, 0, 0, 0, 0
-SPRITEDEF_223:
 spritePointerDef SPRITE_198, $80, 0, 0, 0, 0
-SPRITEDEF_224:
 spritePointerDef SPRITE_199, $80, 0, 0, 0, 0
-SPRITEDEF_225:
 spritePointerDef SPRITE_19A, $80, 0, 0, 0, 0
-SPRITEDEF_226:
+
+SPRITEDEF_FLAMINGOS:
 spritePointerDef SPRITE_142, $C0, 2, 2, 0, 5
-SPRITEDEF_227:
+
+SPRITEDEF_PANDA:
 spritePointerDef SPRITE_142, $A8, 0, 0, 0, 0
-SPRITEDEF_228:
+
+SPRITEDEF_CHARSLOT1_RB_DUPE1: ;bank irrelevant
+SPRITEDEF_MAGICANTIAN_BOY_RB: ;characters7
 spritePointerDef SPRITE_CHARUP1, $80, 1, 3, 0, 0
-SPRITEDEF_229:
 spritePointerDef SPRITE_CHARUP2, $80, 1, 3, 0, 0
-SPRITEDEF_22A:
 spritePointerDef SPRITE_CHARRIGHT1, $80, 1, 3, 0, 0
-SPRITEDEF_22B:
 spritePointerDef SPRITE_CHARRIGHT2, $80, 1, 3, 0, 0
-SPRITEDEF_22C:
 spritePointerDef SPRITE_CHARDOWN1, $80, 1, 3, 0, 0
-SPRITEDEF_22D:
 spritePointerDef SPRITE_CHARDOWN2, $80, 1, 3, 0, 0
-SPRITEDEF_22E:
 spritePointerDef SPRITE_CHARLEFT1, $80, 1, 3, 0, 0
-SPRITEDEF_22F:
 spritePointerDef SPRITE_CHARLEFT2, $80, 1, 3, 0, 0
-SPRITEDEF_230:
+
+SPRITEDEF_CHARSLOT5_PP: ;bank irrelevant
+SPRITEDEF_MAGICANTIAN_GIRL_PINK: ;characters7
 spritePointerDef SPRITE_CHARUP1, $88, 2, 2, 0, 0
-SPRITEDEF_231:
 spritePointerDef SPRITE_CHARUP2, $88, 2, 2, 0, 0
-SPRITEDEF_232:
 spritePointerDef SPRITE_CHARRIGHT1, $88, 2, 2, 0, 0
-SPRITEDEF_233:
 spritePointerDef SPRITE_CHARRIGHT2, $88, 2, 2, 0, 0
-SPRITEDEF_234:
 spritePointerDef SPRITE_CHARDOWN1, $88, 2, 2, 0, 0
-SPRITEDEF_235:
 spritePointerDef SPRITE_CHARDOWN2, $88, 2, 2, 0, 0
-SPRITEDEF_236:
 spritePointerDef SPRITE_CHARLEFT1, $88, 2, 2, 0, 0
-SPRITEDEF_237:
 spritePointerDef SPRITE_CHARLEFT2, $88, 2, 2, 0, 0
-SPRITEDEF_238:
+
+SPRITEDEF_CHARSLOT6_BB_DUPE1: ;bank irrelevant
+SPRITEDEF_MAGICANTIAN_ADULT_BLUE: ;characters7
 spritePointerDef SPRITE_CHARUP1, $A8, 3, 3, 0, 0
-SPRITEDEF_239:
 spritePointerDef SPRITE_CHARUP2, $A8, 3, 3, 0, 0
-SPRITEDEF_23A:
 spritePointerDef SPRITE_CHARRIGHT1, $A8, 3, 3, 0, 0
-SPRITEDEF_23B:
 spritePointerDef SPRITE_CHARRIGHT2, $A8, 3, 3, 0, 0
-SPRITEDEF_23C:
 spritePointerDef SPRITE_CHARDOWN1, $A8, 3, 3, 0, 0
-SPRITEDEF_23D:
 spritePointerDef SPRITE_CHARDOWN2, $A8, 3, 3, 0, 0
-SPRITEDEF_23E:
 spritePointerDef SPRITE_CHARLEFT1, $A8, 3, 3, 0, 0
-SPRITEDEF_23F:
 spritePointerDef SPRITE_CHARLEFT2, $A8, 3, 3, 0, 0
-SPRITEDEF_240:
+
+
+
+;;;;;characters8
+SPRITEDEF_CHARSLOT1_RR: ;bank irrelevant
+SPRITEDEF_MAGICANT_GUARD: ;characters8
 spritePointerDef SPRITE_CHARUP1, $80, 1, 1, 0, 0
-SPRITEDEF_241:
 spritePointerDef SPRITE_CHARUP2, $80, 1, 1, 0, 0
-SPRITEDEF_242:
 spritePointerDef SPRITE_CHARRIGHT1, $80, 1, 1, 0, 0
-SPRITEDEF_243:
 spritePointerDef SPRITE_CHARRIGHT2, $80, 1, 1, 0, 0
-SPRITEDEF_244:
 spritePointerDef SPRITE_CHARDOWN1, $80, 1, 1, 0, 0
-SPRITEDEF_245:
 spritePointerDef SPRITE_CHARDOWN2, $80, 1, 1, 0, 0
-SPRITEDEF_246:
 spritePointerDef SPRITE_CHARLEFT1, $80, 1, 1, 0, 0
-SPRITEDEF_247:
 spritePointerDef SPRITE_CHARLEFT2, $80, 1, 1, 0, 0
 
-SPRITEDEF_248:
+SPRITEDEF_CHARSLOT3_PP_DUPE1: ;bank irrelevant
+SPRITEDEF_MARIA: ;characters8
 spritePointerDef SPRITE_CHARUP1, $C0, 2, 2, 0, 0
-SPRITEDEF_249:
 spritePointerDef SPRITE_CHARUP2, $C0, 2, 2, 0, 0
-SPRITEDEF_24A:
 spritePointerDef SPRITE_CHARRIGHT1, $C0, 2, 2, 0, 0
-SPRITEDEF_24B:
 spritePointerDef SPRITE_CHARRIGHT2, $C0, 2, 2, 0, 0
-SPRITEDEF_24C:
 spritePointerDef SPRITE_CHARDOWN1, $C0, 2, 2, 0, 0
-SPRITEDEF_24D:
 spritePointerDef SPRITE_CHARDOWN2, $C0, 2, 2, 0, 0
-SPRITEDEF_24E:
 spritePointerDef SPRITE_CHARLEFT1, $C0, 2, 2, 0, 0
-SPRITEDEF_24F:
 spritePointerDef SPRITE_CHARLEFT2, $C0, 2, 2, 0, 0
 
-SPRITEDEF_250:
+SPRITEDEF_FORGOTTEN_MAN:
 spritePointerDef SPRITE_60, $88, 3, 3, 0, 0
-SPRITEDEF_251:
+
+SPRITEDEF_CHARSLOT6_BB_DUPE2: ;bank irrelevant
+SPRITEDEF_GUITARIST: ;characters8
 spritePointerDef SPRITE_CHARUP1, $A8, 3, 3, 0, 0
-SPRITEDEF_252:
 spritePointerDef SPRITE_CHARUP2, $A8, 3, 3, 0, 0
-SPRITEDEF_253:
 spritePointerDef SPRITE_CHARRIGHT1, $A8, 3, 3, 0, 0
-SPRITEDEF_254:
 spritePointerDef SPRITE_CHARRIGHT2, $A8, 3, 3, 0, 0
-SPRITEDEF_255:
 spritePointerDef SPRITE_CHARDOWN1, $A8, 3, 3, 0, 0
-SPRITEDEF_256:
 spritePointerDef SPRITE_CHARDOWN2, $A8, 3, 3, 0, 0
-SPRITEDEF_257:
 spritePointerDef SPRITE_CHARLEFT1, $A8, 3, 3, 0, 0
-SPRITEDEF_258:
 spritePointerDef SPRITE_CHARLEFT2, $A8, 3, 3, 0, 0
-SPRITEDEF_259:
+
+SPRITEDEF_CHARSLOT7_BB_DUPE3: ;bank irrelevant
+SPRITEDEF_BAG_MAN: ;characters8
 spritePointerDef SPRITE_CHARUP1, $C8, 3, 3, 0, 0
-SPRITEDEF_25A:
 spritePointerDef SPRITE_CHARUP2, $C8, 3, 3, 0, 0
-SPRITEDEF_25B:
 spritePointerDef SPRITE_CHARRIGHT1, $C8, 3, 3, 0, 0
-SPRITEDEF_25C:
 spritePointerDef SPRITE_CHARRIGHT2, $C8, 3, 3, 0, 0
-SPRITEDEF_25D:
 spritePointerDef SPRITE_CHARDOWN1, $C8, 3, 3, 0, 0
-SPRITEDEF_25E:
 spritePointerDef SPRITE_CHARDOWN2, $C8, 3, 3, 0, 0
-SPRITEDEF_25F:
 spritePointerDef SPRITE_CHARLEFT1, $C8, 3, 3, 0, 0
-SPRITEDEF_260:
 spritePointerDef SPRITE_CHARLEFT2, $C8, 3, 3, 0, 0
-SPRITEDEF_261:
+
+SPRITEDEF_PIANOLEFT:
 spritePointerDef SPRITE_60, $E8, 0, 0, 0, 0
-SPRITEDEF_262:
+SPRITEDEF_PIANORIGHT: ;TODO: see if object is split or not
 spritePointerDef SPRITE_60, $EA, 0, 0, 0, 0
-SPRITEDEF_263:
+
+SPRITEDEF_ISLAND_ROCKET_SMALL:
 spritePointerDef SPRITE_263, $0, 1, 1, 0, 0
-SPRITEDEF_264:
+;unused?
 spritePointerDef SPRITE_263, $0, 1, 1, 0, 0
-SPRITEDEF_265:
+
+SPRITEDEF_ISLAND_ROCKET:
 spritePointerDef SPRITE_265, $0, 1, 1, 0, 0
-SPRITEDEF_266:
+;unused?
 spritePointerDef SPRITE_265, $0, 1, 1, 0, 0
-SPRITEDEF_267:
+
+SPRITEDEF_ISLAND_ROCKET_FLAME:
 spritePointerDef SPRITE_267, $0, 1, 1, 0, 0
-SPRITEDEF_268:
 spritePointerDef SPRITE_268, $0, 1, 1, 0, 0
-SPRITEDEF_269:
+
+SPRITEDEF_MARIA_FADE:
 spritePointerDef SPRITE_269, $E0, 1, 1, 0, 0
-SPRITEDEF_26A:
+;copy?
 spritePointerDef SPRITE_269, $E0, 1, 1, 0, 0
-SPRITEDEF_26B:
+;frame2
 spritePointerDef SPRITE_26B, $E0, 1, 1, 0, 0
-SPRITEDEF_26C:
+;copy?
 spritePointerDef SPRITE_26B, $E0, 1, 1, 0, 0
-SPRITEDEF_26D:
+;frame3
 spritePointerDef SPRITE_26D, $E0, 1, 1, 0, 0
-SPRITEDEF_26E:
+;copy?
 spritePointerDef SPRITE_26D, $E0, 1, 1, 0, 0
-SPRITEDEF_26F:
+;frame4
 spritePointerDef SPRITE_26F, $E0, 1, 1, 0, 0
-SPRITEDEF_270:
+;copy?
 spritePointerDef SPRITE_26F, $E0, 1, 1, 0, 0
-SPRITEDEF_271:
+
+SPRITEDEF_GRAVESTONE:
 .ifdef VER_JP
-spritePointerDef SPRITE_142, $A8, 5, 0, 0, 0
+spritePointerDef SPRITE_142, $A8, 1, 1, 0, 0
 .else
 spritePointerDef SPRITE_142, $A8, 0, 0, 0, 0
 .endif
-SPRITEDEF_272:
+
+SPRITEDEF_DRAGONLEFT:
 spritePointerDef SPRITE_60, $EC, 1, 1, 0, 0
-SPRITEDEF_273:
+SPRITEDEF_DRAGONRIGHT: ;TODO: see if object is split or not
 spritePointerDef SPRITE_60, $EE, 1, 1, 0, 0
-SPRITEDEF_274:
+
+SPRITEDEF_MAGICANT_OLDMAN:
 spritePointerDef SPRITE_60, $8A, 3, 3, 0, 0
-SPRITEDEF_275:
+
+SPRITEDEF_MAGICANTIANGIRL_SHOPKEEP:
 spritePointerDef SPRITE_60, $8C, 1, 1, 0, 0
-SPRITEDEF_276:
+
+SPRITEDEF_MAGICANTIAN_SHOPKEEP:
 spritePointerDef SPRITE_60, $8E, 3, 3, 0, 0
-SPRITEDEF_277:
+
+SPRITEDEF_CHARSLOT7_PP_DUPE1: ;bank irrelevant
+SPRITEDEF_BAG_MAN_PINK: ;characters8
 spritePointerDef SPRITE_CHARUP1, $C8, 2, 2, 0, 0
-SPRITEDEF_278:
 spritePointerDef SPRITE_CHARUP2, $C8, 2, 2, 0, 0
-SPRITEDEF_279:
 spritePointerDef SPRITE_CHARRIGHT1, $C8, 2, 2, 0, 0
-SPRITEDEF_27A:
 spritePointerDef SPRITE_CHARRIGHT2, $C8, 2, 2, 0, 0
-SPRITEDEF_27B:
 spritePointerDef SPRITE_CHARDOWN1, $C8, 2, 2, 0, 0
-SPRITEDEF_27C:
 spritePointerDef SPRITE_CHARDOWN2, $C8, 2, 2, 0, 0
-SPRITEDEF_27D:
 spritePointerDef SPRITE_CHARLEFT1, $C8, 2, 2, 0, 0
-SPRITEDEF_27E:
 spritePointerDef SPRITE_CHARLEFT2, $C8, 2, 2, 0, 0
-SPRITEDEF_27F:
+
+SPRITEDEF_CHARSLOT7_RR_DUPE1: ;bank irrelevant
+SPRITEDEF_BAG_MAN_RED: ;characters8
 spritePointerDef SPRITE_CHARUP1, $C8, 1, 1, 0, 0
-SPRITEDEF_280:
 spritePointerDef SPRITE_CHARUP2, $C8, 1, 1, 0, 0
-SPRITEDEF_281:
 spritePointerDef SPRITE_CHARRIGHT1, $C8, 1, 1, 0, 0
-SPRITEDEF_282:
 spritePointerDef SPRITE_CHARRIGHT2, $C8, 1, 1, 0, 0
-SPRITEDEF_283:
 spritePointerDef SPRITE_CHARDOWN1, $C8, 1, 1, 0, 0
-SPRITEDEF_284:
 spritePointerDef SPRITE_CHARDOWN2, $C8, 1, 1, 0, 0
-SPRITEDEF_285:
 spritePointerDef SPRITE_CHARLEFT1, $C8, 1, 1, 0, 0
-SPRITEDEF_286:
 spritePointerDef SPRITE_CHARLEFT2, $C8, 1, 1, 0, 0
-SPRITEDEF_287:
+
+SPRITEDEF_MAGICANTIAN_SHOPKEEP_PINK:
 spritePointerDef SPRITE_60, $8E, 2, 2, 0, 0
-SPRITEDEF_288:
+
+SPRITEDEF_MAGICANTIAN_SHOPKEEP_RED:
 spritePointerDef SPRITE_60, $8E, 1, 1, 0, 0
-SPRITEDEF_289:
+
+SPRITEDEF_MAGICANTIANGIRL_SHOPKEEP_BLUE:
 spritePointerDef SPRITE_60, $8C, 3, 3, 0, 0
-SPRITEDEF_28A:
+
+
+
+;;;;;characters9
+SPRITEDEF_TRAIN_DL:
 spritePointerDef SPRITE_28A, $80, 0, 0, 0, 0
-SPRITEDEF_28B:
+
+SPRITEDEF_TRAIN_DR_SHIFT:
 spritePointerDef SPRITE_28B, $80, 0, 0, 0, 0
-SPRITEDEF_28C:
+
+;unused?
 spritePointerDef SPRITE_28A, $80, 0, 0, 0, 0
-SPRITEDEF_28D:
+
+SPRITEDEF_TRAIN_L:
 spritePointerDef SPRITE_28D, $80, 0, 0, 0, 0
-SPRITEDEF_28E:
+
+SPRITEDEF_TRAIN_DR:
 spritePointerDef SPRITE_28E, $80, 0, 0, 0, 0
-SPRITEDEF_28F:
+
+SPRITEDEF_TRAIN_DL_SHIFT:
 spritePointerDef SPRITE_28F, $80, 0, 0, 0, 0
-SPRITEDEF_290:
+
+;unused?
 spritePointerDef SPRITE_28E, $80, 0, 0, 0, 0
-SPRITEDEF_291:
+
+SPRITEDEF_TRAIN_R:
 spritePointerDef SPRITE_291, $80, 0, 0, 0, 0
-SPRITEDEF_292:
+
+SPRITEDEF_EVE_DEAD:
 spritePointerDef SPRITE_292, $80, 1, 1, 0, 0
-SPRITEDEF_293:
+
+;technically characters10 but whatever
+SPRITEDEF_PLATFORM:
 spritePointerDef SPRITE_293, $80, 1, 0, 0, 0
-SPRITEDEF_294:
+;unused?
 spritePointerDef SPRITE_293, $80, 1, 0, 0, 0
-SPRITEDEF_295:
+
+SPRITEDEF_FISH_RED:
 spritePointerDef SPRITE_295, $80, 1, 1, 0, 0
-SPRITEDEF_296:
 spritePointerDef SPRITE_296, $80, 1, 1, 0, 0
-SPRITEDEF_297:
 spritePointerDef SPRITE_297, $80, 1, 1, 0, 0
-SPRITEDEF_298:
 spritePointerDef SPRITE_298, $80, 1, 1, 0, 0
-SPRITEDEF_299:
 spritePointerDef SPRITE_299, $80, 1, 1, 0, 0
-SPRITEDEF_29A:
 spritePointerDef SPRITE_29A, $80, 1, 1, 0, 0
-SPRITEDEF_29B:
 spritePointerDef SPRITE_29B, $80, 1, 1, 0, 0
-SPRITEDEF_29C:
 spritePointerDef SPRITE_29C, $80, 1, 1, 0, 0
-SPRITEDEF_29D:
+
+SPRITEDEF_FISH_GRAY:
 spritePointerDef SPRITE_295, $80, 0, 0, 0, 0
-SPRITEDEF_29E:
 spritePointerDef SPRITE_296, $80, 0, 0, 0, 0
-SPRITEDEF_29F:
 spritePointerDef SPRITE_297, $80, 0, 0, 0, 0
-SPRITEDEF_2A0:
 spritePointerDef SPRITE_298, $80, 0, 0, 0, 0
-SPRITEDEF_2A1:
 spritePointerDef SPRITE_299, $80, 0, 0, 0, 0
-SPRITEDEF_2A2:
 spritePointerDef SPRITE_29A, $80, 0, 0, 0, 0
-SPRITEDEF_2A3:
 spritePointerDef SPRITE_29B, $80, 0, 0, 0, 0
-SPRITEDEF_2A4:
 spritePointerDef SPRITE_29C, $80, 0, 0, 0, 0
-SPRITEDEF_2A5:
+
+SPRITEDEF_FISH_BLUE:
 spritePointerDef SPRITE_295, $80, 3, 3, 0, 0
-SPRITEDEF_2A6:
 spritePointerDef SPRITE_296, $80, 3, 3, 0, 0
-SPRITEDEF_2A7:
 spritePointerDef SPRITE_297, $80, 3, 3, 0, 0
-SPRITEDEF_2A8:
 spritePointerDef SPRITE_298, $80, 3, 3, 0, 0
-SPRITEDEF_2A9:
 spritePointerDef SPRITE_299, $80, 3, 3, 0, 0
-SPRITEDEF_2AA:
 spritePointerDef SPRITE_29A, $80, 3, 3, 0, 0
-SPRITEDEF_2AB:
 spritePointerDef SPRITE_29B, $80, 3, 3, 0, 0
-SPRITEDEF_2AC:
 spritePointerDef SPRITE_29C, $80, 3, 3, 0, 0
-SPRITEDEF_2AD:
+
+SPRITEDEF_CRACK:
 spritePointerDef SPRITE_2AD, $0, 0, 0, 0, 0
-SPRITEDEF_2AE:
 spritePointerDef SPRITE_2AD, $0, 0, 0, 0, 0
-SPRITEDEF_2AF:
 spritePointerDef SPRITE_2AF, $0, 0, 0, 0, 0
-SPRITEDEF_2B0:
 spritePointerDef SPRITE_2AF, $0, 0, 0, 0, 0
-SPRITEDEF_2B1:
 spritePointerDef SPRITE_2B1, $0, 0, 0, 0, 0
-SPRITEDEF_2B2:
 spritePointerDef SPRITE_2B1, $0, 0, 0, 0, 0
-SPRITEDEF_2B3:
 spritePointerDef SPRITE_2B3, $0, 0, 0, 0, 0
-SPRITEDEF_2B4:
 spritePointerDef SPRITE_2B3, $0, 0, 0, 0, 0
-SPRITEDEF_2B5:
+
+
+
+;;;;;characters11
+SPRITEDEF_CHARSLOT5_RR_DUPE3: ;bank irrelevant
+SPRITEDEF_PILOT_VEHIC: ;characters11
 spritePointerDef SPRITE_CHARUP1, $88, 1, 1, 0, 0
-SPRITEDEF_2B6:
 spritePointerDef SPRITE_CHARUP2, $88, 1, 1, 0, 0
-SPRITEDEF_2B7:
 spritePointerDef SPRITE_CHARRIGHT1, $88, 1, 1, 0, 0
-SPRITEDEF_2B8:
 spritePointerDef SPRITE_CHARRIGHT2, $88, 1, 1, 0, 0
-SPRITEDEF_2B9:
 spritePointerDef SPRITE_CHARDOWN1, $88, 1, 1, 0, 0
-SPRITEDEF_2BA:
 spritePointerDef SPRITE_CHARDOWN2, $88, 1, 1, 0, 0
-SPRITEDEF_2BB:
 spritePointerDef SPRITE_CHARLEFT1, $88, 1, 1, 0, 0
-SPRITEDEF_2BC:
 spritePointerDef SPRITE_CHARLEFT2, $88, 1, 1, 0, 0
-SPRITEDEF_2BD:
+
+SPRITEDEF_PILL_BLUE:
 spritePointerDef SPRITE_60, $C6, 3, 3, 0, 0
-SPRITEDEF_2BE:
+SPRITEDEF_PILL_RED:
 spritePointerDef SPRITE_60, $C6, 1, 1, 1, 0
-PLANE_SPRITEDEF:
+
+SPRITEDEF_PLANE:
 spritePointerDef SPRITE_2BF, $80, 1, 1, 1, 2
-SPRITEDEF_2C0:
 spritePointerDef SPRITE_2C0, $80, 1, 1, 1, 2
-SPRITEDEF_2C1:
 spritePointerDef SPRITE_2C1, $80, 1, 1, 1, 2
-SPRITEDEF_2C2:
 spritePointerDef SPRITE_2C2, $80, 1, 1, 1, 2
-SPRITEDEF_2C3:
 spritePointerDef SPRITE_2C3, $80, 1, 1, 1, 2
-SPRITEDEF_2C4:
 spritePointerDef SPRITE_2C4, $80, 1, 1, 1, 2
-SPRITEDEF_2C5:
 spritePointerDef SPRITE_2C5, $80, 1, 1, 1, 2
-SPRITEDEF_2C6:
 spritePointerDef SPRITE_2C6, $80, 1, 1, 1, 2
-TANK_SPRITEDEF:
+
+SPRITEDEF_TANK:
 spritePointerDef SPRITE_2C7, $E0, 0, 0, 0, 0
-SPRITEDEF_2C8:
 spritePointerDef SPRITE_2C8, $E0, 0, 0, 0, 0
-SPRITEDEF_2C9:
 spritePointerDef SPRITE_2C9, $E0, 0, 0, 0, 0
-SPRITEDEF_2CA:
 spritePointerDef SPRITE_2CA, $E0, 0, 0, 0, 0
-SPRITEDEF_2CB:
 spritePointerDef SPRITE_2CB, $E0, 0, 0, 0, 0
-SPRITEDEF_2CC:
 spritePointerDef SPRITE_2CC, $E0, 0, 0, 0, 0
-SPRITEDEF_2CD:
 spritePointerDef SPRITE_2CD, $E0, 0, 0, 0, 0
-SPRITEDEF_2CE:
 spritePointerDef SPRITE_2CE, $E0, 0, 0, 0, 0
-BOAT_SPRITEDEF:
+
+SPRITEDEF_BOAT:
 spritePointerDef SPRITE_2C7, $A0, 3, 3, 1, 7
-SPRITEDEF_2D0:
 spritePointerDef SPRITE_2C8, $A0, 3, 3, 1, 7
-SPRITEDEF_2D1:
 spritePointerDef SPRITE_2C9, $A0, 3, 3, 1, 7
-SPRITEDEF_2D2:
 spritePointerDef SPRITE_2CA, $A0, 3, 3, 1, 7
-SPRITEDEF_2D3:
 spritePointerDef SPRITE_2CB, $A0, 3, 3, 1, 7
-SPRITEDEF_2D4:
 spritePointerDef SPRITE_2CC, $A0, 3, 3, 1, 7
-SPRITEDEF_2D5:
 spritePointerDef SPRITE_2CD, $A0, 3, 3, 1, 7
-SPRITEDEF_2D6:
 spritePointerDef SPRITE_2CE, $A0, 3, 3, 1, 7
+
 
 SPRITE_CHARUP1:
 spriteTile $10, $20, 0, 4, 0, 0, 0, $04
@@ -2382,12 +2014,14 @@ spriteTile $08, $18, 0, 4, 0, 0, 0, $31
 spriteTile $10, $18, 0, 4, 0, 0, 0, $32
 spriteTile $18, $18, 0, 4, 0, 0, 0, $33
 
-SPRITEDEF_UNK_MISPLACED:
-spritePointerDef SPRITE_UNK_MISPLACED_TILES, $6D, 0, 0, 0, 0
-spritePointerDef SPRITE_UNK_MISPLACED_TILES, $6E, 0, 0, 0, 0
-spritePointerDef SPRITE_UNK_MISPLACED_TILES2,  0, 0, 0, 0, 0
+SPRITEDEF_STAT_WOUNDED:
+spritePointerDef SPRITE_STAT_BG, $6D, 0, 0, 0, 0
+SPRITEDEF_STAT_UNCON:
+spritePointerDef SPRITE_STAT_BG, $6E, 0, 0, 0, 0
+SPRITEDEF_AUTOBATTLER:
+spritePointerDef SPRITE_AUTOBATTLER,  0, 0, 0, 0, 0
 
-SPRITE_UNK_MISPLACED_TILES:
+SPRITE_STAT_BG:
 spriteTile $00, $00, 0, 4, 1, 0, 0, $00
 spriteTile $08, $00, 0, 4, 1, 0, 0, $00
 spriteTile $10, $00, 0, 4, 1, 0, 0, $00
@@ -2395,7 +2029,7 @@ spriteTile $18, $00, 0, 4, 1, 0, 0, $00
 spriteTile $20, $00, 0, 4, 1, 0, 0, $00
 spriteTile $28, $00, 0, 4, 1, 0, 0, $00
 
-SPRITE_UNK_MISPLACED_TILES2:
+SPRITE_AUTOBATTLER:
 spriteTile $00, $00, 0, 4, 0, 0, 0, $6F
 spriteTile $08, $00, 0, 4, 0, 0, 0, $7D
 spriteTile $10, $00, 0, 4, 0, 0, 0, $7E
@@ -2596,18 +2230,20 @@ spriteTile $38, $10, 1, 4, 0, 1, 0, $05
 spriteTile $30, $18, 1, 4, 0, 1, 0, $16
 spriteTile $38, $18, 1, 4, 0, 1, 0, $15
 
-SPRITEDEF_UNK3_MISPLACED:
-spritePointerDef  SPRITE_UNK3_MISPLACED_TILES, 0, 1, 0, 0, 0
-spritePointerDef SPRITE_UNK3_MISPLACED_TILES2, 0, 1, 0, 0, 0
+SPRITEDEF_GIEGUECLIFF1:
+spritePointerDef SPRITE_GIEGUECLIFF1, 0, 1, 0, 0, 0
 
-SPRITE_UNK3_MISPLACED_TILES:
+SPRITEDEF_GIEGUECLIFF2:
+spritePointerDef SPRITE_GIEGUECLIFF2, 0, 1, 0, 0, 0
+
+SPRITE_GIEGUECLIFF1:
 spriteTile $10, $20, 0, 4, 0, 0, 0, $6A
 spriteTile $18, $20, 0, 4, 0, 0, 0, $6B
 spriteTile $20, $20, 0, 0, 0, 0, 0, $00
 spriteTile $10, $28, 0, 4, 0, 0, 0, $7A
 spriteTile $18, $28, 0, 4, 0, 0, 0, $7B
 spriteTile $20, $28, 0, 4, 0, 0, 0, $7C
-SPRITE_UNK3_MISPLACED_TILES2:
+SPRITE_GIEGUECLIFF2:
 spriteTile $08, $20, 0, 4, 0, 0, 0, $6D
 spriteTile $10, $20, 0, 4, 0, 0, 0, $6A
 spriteTile $18, $20, 0, 4, 0, 0, 0, $6B

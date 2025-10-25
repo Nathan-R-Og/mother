@@ -1,7 +1,7 @@
 B20_1630 := $963d
-B20_1779 := $9786
+GiegueIntro := $9786
 B20_1516 := $952b
-B20_17a3 := $97b0
+GiegueOutro := $97b0
 B20_1641 := $964e
 
 ;bank $1e-$1f start
@@ -2447,11 +2447,11 @@ B30_0c17:
     jmp B30_0b76
 B30_0c1a:
     jsr BANKSET_H14
-    jsr B20_1779
+    jsr GiegueIntro
     jsr ENTERBATTLE
     bcs B30_0c14
     jsr BANKSET_H14
-    jmp B20_17a3
+    jmp GiegueOutro
 
 B30_0c2b:
     lda $1f
@@ -2895,7 +2895,7 @@ B30_0efc:
     B30_0f23:
     lda ($88), y
     bpl B30_0f2a
-    jsr B31_00f2
+    jsr GetMetaSaveA
     B30_0f2a:
     sta $0500, y
     dey
@@ -3188,7 +3188,7 @@ B30_1132:
     ldy #$00
     lda ($88), y
     bpl B30_114f
-    jsr B31_00f2
+    jsr GetMetaSaveA
     B30_114f:
     tax
     and #$40
@@ -5533,7 +5533,7 @@ B31_0087:
     bne @B31_0094
     rts
 
-B31_00f2:
+GetMetaSaveA:
     and #$3f
     tax
     lda $7400, x
@@ -5590,7 +5590,7 @@ Object_Configs:
     OBJECT_CONFIG B31_071a,  $04, $c6 ; 29
     OBJECT_CONFIG B31_071a,  $09, $46 ; 30
     OBJECT_CONFIG B31_071a,  $00, $44 ; 31
-    OBJECT_CONFIG B31_0756,  $04, $88 ; 32
+    OBJECT_CONFIG OBJTICK_Present,  $04, $88 ; 32
     OBJECT_CONFIG B31_06f1,  $04, $c6 ; 33
     OBJECT_CONFIG B31_07be,  $02, $e6 ; 34
     OBJECT_CONFIG B31_0720,  $0A, $56 ; 35
@@ -6549,7 +6549,7 @@ B31_074d:
     rts
 
 ; $E756 - TICK object type #32
-B31_0756:
+OBJTICK_Present:
     jsr B31_0733
     jsr B31_073d
     jsr B31_0746
@@ -8362,7 +8362,7 @@ B31_127e:
     and #$0f
     lsr a
     tax
-    lda B31_1296, x
+    lda GIEGUE_SING_COLORS, x
     jsr SetBGColorA
     jsr WaitNMI
     jsr WaitNMI
@@ -8372,7 +8372,7 @@ B31_127e:
     bne B31_127e
     rts
 
-B31_1296:
+GIEGUE_SING_COLORS:
     .byte $21, $22, $23, $24, $25, $24, $23, $22
 
 ; $F29E - Spin until A or B is pressed

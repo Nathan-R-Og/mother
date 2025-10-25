@@ -638,9 +638,9 @@ NS_PrepCharIcons:
     sta UNK_64
 
     ;set spritedef to SPRITEDEF_NINTENDOWN1
-    lda #.LOBYTE(SPRITEDEF_NINTENDOWN1)
+    lda #.LOBYTE(SPRITEDEF_NINTEN+16)
     sta UNK_60
-    lda #.HIBYTE(SPRITEDEF_NINTENDOWN1)
+    lda #.HIBYTE(SPRITEDEF_NINTEN+16)
     sta UNK_60+1
 
     rts
@@ -716,19 +716,19 @@ B25_1ab5:
 ;character name stuff
 NS_QuestionSetups:
     ;ninten
-    .addr SPRITEDEF_NINTENDOWN1
+    .addr SPRITEDEF_NINTEN+16
     .addr NintenQuestion
     .addr Ninten_Data+party_info::name
     ;ana
-    .addr SPRITEDEF_C
+    .addr SPRITEDEF_ANA+16
     .addr AnaQuestion
     .addr Ana_Data+party_info::name
     ;lloyd
-    .addr SPRITEDEF_14
+    .addr SPRITEDEF_LLOYD+16
     .addr LloydQuestion
     .addr Lloyd_Data+party_info::name
     ;teddy
-    .addr SPRITEDEF_1C
+    .addr SPRITEDEF_TEDDY+16
     .addr TeddyQuestion
     .addr Teddy_Data+party_info::name
     ;food
