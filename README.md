@@ -6,15 +6,18 @@ Supports the English localization of Mother (Zero or Beginnings should work), an
 
 For WSL2 Ubuntu. Probably also works on actual Linux.
 
-Run `./install` to download and set up cc65
+## Instructions
 
-Run `./configure` to split banks from supported roms
+Note that if you are running on Windows, when it asks you to run a script, run the .bat script of the same name instead.
 
-Supports Mother (J) and Earthbound Beginnings (U)
-
-Run `./build` to make a new rom from assembly
-
-Run `./build -j` to make a new japanese rom
+1. Obtain cc65:
+  - If running on a supported Linux distribution, run `./install` to download and set up cc65
+  - If running on another platform (ex. Windows), it can be obtained from https://cc65.github.io/
+2. Copy MOTHER (J) and/or Earthbound Beginnings (U) ROMs into this directory.
+3. Run `./configure` to split banks from supported roms
+4. Run `./build` to make a new Earthbound Beginnings (U) ROM from assembly
+  - Note that the output path will be `mother_rebuilt.nes`
+5. Run `./build -j` to make a new MOTHER (J) rom
 
 ## About
 
