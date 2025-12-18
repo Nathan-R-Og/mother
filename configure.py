@@ -3,6 +3,7 @@ import subprocess
 from glob import glob
 import os
 import shutil
+import sys
 import tools.yamlSplit
 import tools.sameFileRetriever
 
@@ -83,8 +84,13 @@ if __name__ == "__main__":
     if os.path.exists("split/"):
         shutil.rmtree("split/")
 
+    anySplit = False
     for version in versions:
-        tools.yamlSplit.doSplit(version)
+        anySplit = anySplit or tools.yamlSplit.doSplit(version)
+    if not anySplit:
+        print("ERROR: did not find any ROM files to extract. Please put a clean\n"
+              "MOTHER or Earthbound ROM in the same directory as configure.py")
+        sys.exit(1)
 
     tools.sameFileRetriever.do()
     splitMerger()
