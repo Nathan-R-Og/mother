@@ -86,7 +86,9 @@ if __name__ == "__main__":
 
     anySplit = False
     for version in versions:
-        anySplit = anySplit or tools.yamlSplit.doSplit(version)
+        # the call to `doSplit()` has to come first, otherwise once one split
+        # succeeds, it will short-circuit and not evaluate `doSplit()` again
+        anySplit = tools.yamlSplit.doSplit(version) or anySplit
     if not anySplit:
         print("ERROR: did not find any ROM files to extract. Please put a clean\n"
               "MOTHER or Earthbound ROM in the same directory as configure.py")

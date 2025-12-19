@@ -262,9 +262,8 @@ if __name__ == "__main__":
         dir = "jp"
         addDefine("VER_JP")
 
-    mapPath = f"split/{dir}/map.bin"
-    if not os.path.exists(mapPath):
-        print(f"ERROR: could not find {mapPath} - this likely means assets were\n"
+    if not os.path.exists(f"split/{dir}"):
+        print(f"ERROR: could not find split/{dir} - this likely means assets were\n"
               "not extracted correctly with configure.py")
         sys.exit(1)
 
