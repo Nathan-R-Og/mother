@@ -4,6 +4,7 @@ from tools.ebToString import stringToEb
 from glob import glob
 import argparse
 import shutil
+import sys
 import time
 
 DEFINES = ""
@@ -260,6 +261,11 @@ if __name__ == "__main__":
     if args.japanese:
         dir = "jp"
         addDefine("VER_JP")
+
+    if not os.path.exists(f"split/{dir}"):
+        print(f"ERROR: could not find split/{dir} - this likely means assets were\n"
+              "not extracted correctly with configure.py")
+        sys.exit(1)
 
     simplifyPointers(dir)
 
