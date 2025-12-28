@@ -2208,8 +2208,8 @@ TargetingFromActionID:
     lsr a
     tay
 
-    ;battle_wordvar60+1 = B22_1ec7[y] & battle_wordvar60
-    lda B22_1ec7, y
+    ;battle_wordvar60+1 = BATargetingTable[y] & battle_wordvar60
+    lda BATargetingTable, y
     and battle_wordvar60
     sta battle_wordvar60+1
 

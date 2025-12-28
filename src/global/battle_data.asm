@@ -1661,7 +1661,7 @@ BA_END
 ;1 == act_on_party
 ;2 == act_on_enemy
 ;3 == not used, but is just act_on_party again due to priority order
-B22_1ec7:
+BATargetingTable:
 baTargetingDef 0,2,2,2 ;0-4
 baTargetingDef 2,2,2,2 ;4-$8
 baTargetingDef 0,0,0,0 ;8-$C
