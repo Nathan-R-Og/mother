@@ -1,14 +1,17 @@
 .segment        "CHR17": absolute
 
+MSG_MAGICANT_GOODSKEEPER_SOMEONEELSE:
 .byte   "*Can't someone else",newLine
 .byte   " carry that? Your",newLine
 .byte   " load is too great!",newLine
 .byte   stopText
 
+MSG_MAGICANT_GOODSKEEPER_FULL:
 .byte   "*The closet is",newLine
 .byte   " full.",newLine
 .byte   stopText
 
+MSG_MAGICANT_MARIAFADE:
 .byte   "*After telling the",newLine
 .byte   " story to ",nintenName,",",newLine
 .byte   pauseText
@@ -40,6 +43,7 @@
 .byte   "*Now is the time!",newLine
 .byte   stopText
 
+MSG_MAGICANT_VENDORINTRO:
 .byte   "*What are you",newLine
 .byte   " staring at?",newLine
 .byte   pauseText
@@ -60,10 +64,12 @@ MSG_MR_RAILROADCORPSE:
 .byte   " hard time like me.",newLine
 .byte   stopText
 
+MSG_BURGERSHOP_ANYMORE:
 .byte   "*Do you want",newLine
 .byte   " anything else?",newLine
 .byte   stopText
 
+MSG_MTITOI_TOMBSTONE1:
 .byte   "*",partyLead,",",newLine
 .byte   " Welcome...",newLine
 .byte   pauseText
@@ -83,6 +89,7 @@ MSG_MR_RAILROADCORPSE:
 .byte   " and remember...",newLine
 .byte   stopText
 
+MSG_MTITOI_TOMBSTONE2:
 .byte   "*The crystal",newLine
 .byte   " fragments that had",newLine
 .byte   " broken off",newLine
@@ -93,32 +100,39 @@ MSG_MR_RAILROADCORPSE:
 
 .byte   stopText
 
+MSG_UNK:
 .byte   stopText
 
+MSG_GOODS_GIVESELF:
 .byte   "*",user," didn't do",newLine
 .byte   " anything.",newLine
 .byte   stopText
 
+MSG_GOODS_GIVE:
 .byte   "*",user," gave",newLine
 .byte   " ",recipient," to",newLine
 .byte   " ",result,".",newLine
 .byte   stopText
 
+MSG_GOODS_HANDOFF:
 .byte   "*",user," put",newLine
 .byte   " ",recipient," in",newLine
 .byte   " ",result,"'s bag.",newLine
 .byte   stopText
 
+MSG_GOODS_TAKEFROM:
 .byte   "*",result," pulled",newLine
 .byte   " ",recipient," from",newLine
 .byte   " ",user,"'s bag.",newLine
 .byte   stopText
 
+MSG_GOODS_TAKENTHROW:
 .byte   "*",partyLead," threw",newLine
 .byte   " ",recipient," out of",newLine
 .byte   " ",user,"'s bag.",newLine
 .byte   stopText
 
+MSG_GOODS_MOVE:
 .byte   "*",partyLead," took",newLine
 .byte   " ",recipient," from",newLine
 .byte   " ",user,"'s bag ",newLine
@@ -127,58 +141,73 @@ MSG_MR_RAILROADCORPSE:
 .byte   " ",result,"'s bag.",newLine
 .byte   stopText
 
+MSG_ITEM_EAT:
 .byte   "*",user," ate",newLine
 .byte   " ",recipient,".",newLine
 .byte   stopText
 
+MSG_ITEM_DRINK:
 .byte   "*",user," drank",newLine
 .byte   " ",recipient,".",newLine
 .byte   stopText
 
+MSG_ITEM_RECOVER:
 .byte   "*recovered by",newLine
 .byte   " ",price,".",newLine
 .byte   stopText
 
+MSG_ITEM_INCREASE:
 .byte   "*increased by",newLine
 .byte   " ",price,".",newLine
 .byte   stopText
 
+MSG_HP_IS:
 .byte   "*",user,"'s HP is",newLine
 .byte   stopText
 
+MSG_PP_IS:
 .byte   "*",user,"'s PP is",newLine
 .byte   stopText
 
+MSG_FIGHT_IS:
 .byte   "*",user,"'s ENERGY is",newLine
 .byte   stopText
 
+MSG_SPEED_IS:
 .byte   "*",user,"'s SPEED is",newLine
 .byte   stopText
 
+MSG_WISDOM_IS:
 .byte   "*",user,"'s WISDOM is",newLine
 .byte   stopText
 
+MSG_STRENGTH_IS:
 .byte   "*",user,"'s STRENGTH is",newLine
 .byte   stopText
 
+MSG_FORCE_IS:
 .byte   "*",user,"'s FORCE is",newLine
 .byte   stopText
 
+MSG_USEBIGBAG:
 .byte   "*",user," took out a",newLine
 .byte   " Magic Herb from the",newLine
 .byte   " Big Bag and USEd it.",newLine
 .byte   stopText
 
+MSG_USEBREAD:
 .byte   "*",user," started ",newLine
 .byte   " dropping the",newLine
 .byte   " Crumbs.",newLine
 .byte   stopText
 
+MSG_USEBREAD_FAIL:
 .byte   "*You can't USE",newLine
 .byte   " Bread until old",newLine
 .byte   " Crumbs are USEd up.",newLine
 .byte   stopText
 
+MSG_USECRUMBS:
 .byte   "*",partyLead," returned",newLine
 .byte   " to the head of the",newLine
 .byte   " trail...",newLine
@@ -188,11 +217,13 @@ MSG_MR_RAILROADCORPSE:
 .byte   " been dropped.",newLine
 .byte   stopText
 
+MSG_USERIBBON:
 .byte   "*",user," tied the",newLine
 .byte   " Ribbon into",newLine
 .byte   " her hair.",newLine
 .byte   stopText
 
+MSG_USEFINALWEAPON:
 .byte   "*If that is true,",newLine
 .byte   " push the POWER off,",newLine
 .byte   pauseText
@@ -200,11 +231,13 @@ MSG_MR_RAILROADCORPSE:
 .byte   " hold in RESET!",newLine
 .byte   stopText
 
+MSG_USERULER:
 .byte   "*",user," measured the",newLine
 .byte   " lengths of many",newLine
 .byte   " things.",newLine
 .byte   stopText
 
+MSG_BIGBAG_EMPTY:
 .byte   "*When the Big Bag",newLine
 .byte   " was emptied,",newLine
 .byte   pauseText
@@ -212,44 +245,53 @@ MSG_MR_RAILROADCORPSE:
 .byte   " into thin air.",newLine
 .byte   stopText
 
+MSG_PAYPHONE_CARDEXPIRE:
 .byte   "*The credit limit of",newLine
 .byte   " the Telephone Card",newLine
 .byte   " has been reached.",newLine
 .byte   stopText
 
+MSG_CURE_POISON:
 .byte   "*The poison was",newLine
 .byte   " neutralized from",newLine
 .byte   " ",user,"'s body.",newLine
 .byte   stopText
 
+MSG_CURE_COLD:
 .byte   "*",user," was rid",newLine
 .byte   " of the cold.",newLine
 .byte   stopText
 
+MSG_ITEM_PSISTONE:
 .byte   "*",user," squeezed",newLine
 .byte   " the PSI-Power",newLine
 .byte   " Stone.",newLine
 .byte   stopText
 
+MSG_ITEM_PSISTONE_USEDUP:
 .byte   "*The PSI-Power",newLine
 .byte   " Stone became an",newLine
 .byte   " ordinary stone.",newLine
 .byte   stopText
 
+MSG_PSI_TRIED:
 .byte   "*",user," tried",newLine
 .byte   " ",recipient,".",newLine
 .byte   stopText
 
+MSG_PSI_NOPP:
 .byte   "*There isn't enough",newLine
 .byte   " power left to try",newLine
 .byte   " that.",newLine
 .byte   stopText
 
+MSG_PSI_REVIVE:
 .byte   "*",user," has",newLine
 .byte   " returned to the",newLine
 .byte   " scene.",newLine
 .byte   stopText
 
+MSG_USEDIARY:
 .byte   "*The Diary was hard",newLine
 .byte   " to read, but opened",newLine
 .byte   " up to this page...",newLine
@@ -264,25 +306,30 @@ MSG_MR_RAILROADCORPSE:
 .byte   " that sails...",newLine
 .byte   stopText
 
+MSG_CURE_PETRIFY:
 .byte   "*",result," became",newLine
 .byte   " softened.",newLine
 .byte   stopText
 
+MSG_USEOCARINA:
 .byte   "*The Ocarina",newLine
 .byte   " played on and on...",newLine
 .byte   stopText
-
+MSG_USEOCARINA2:
 .byte   "*Did you hear it?",newLine
 .byte   stopText
 
+MSG_USEMAP_FAIL:
 .byte   "*This place is not",newLine
 .byte   " on the map.",newLine
 .byte   stopText
 
+MSG_USEMAP:
 .byte   "*",partyLead," checked",newLine
 .byte   " the map.",newLine
 .byte   stopText
 
+MSG_PSI_NOTELEPORT:
 .byte   "*Stopped by some",newLine
 .byte   " mysterious force.",newLine
 .byte   stopText

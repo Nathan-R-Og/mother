@@ -54,6 +54,42 @@
     GOD = 1 << 7
 .endenum
 
+.struct enemy_struct
+    unk_0 .byte ;0
+    status .byte ;1
+    flags .byte ;2
+    .union ;3-4
+        hp .word
+        palette_index .word
+        tilemap .word
+    .endunion
+    .union ;5-6
+        pp .word
+        sprite_gfx .word
+    .endunion
+    .union ;7-8
+        offense .word
+        final_action .word
+        altitude .word
+    .endunion
+    .union ;9-A
+        defense .word
+        defeat_message .word
+        unk_param .word
+    .endunion
+    fight .byte ;B
+    speed .byte ;C
+    wisdom .byte ;D
+    strength .byte ;E
+    force .byte ;F
+    moveset .res 8 ;10-17
+    name .addr ;18-19
+    exp .word ;1A-1B
+    money .word ;1C-1D
+    item_drop .byte ;1E
+    graphic_page .byte ;1F
+.endstruct
+
 ;https://datacrystal.tcrf.net/wiki/EarthBound_Beginnings/Enemy_data
 ;enemy health can range from 0-$3ff (inclusive)
 ;ggggsshhhhhhhhhh

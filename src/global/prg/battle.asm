@@ -3654,7 +3654,8 @@ DoDeathActionInX:
     jmp PrintDeathMsg
 
 ; kills whoever is in Y (offset)
-KillTargetInY:    tya
+KillTargetInY:
+    tya
     pha
     lda #$00
     sta BATTLER_CURR_HP, y
@@ -3672,7 +3673,9 @@ KillTargetInY:    tya
     tya
     pha
     clc
-    ldy #$1a
+
+    ;add defeated enemy exp
+    ldy #enemy_struct::exp
     lda (battle_wordvar60), y
     adc battle_reward_vars
     sta battle_reward_vars
@@ -3680,11 +3683,13 @@ KillTargetInY:    tya
     lda (battle_wordvar60), y
     adc battle_reward_vars+1
     sta battle_reward_vars+1
-    lda #$00
+    lda #0
     adc battle_reward_vars+2
     sta battle_reward_vars+2
     clc
-    ldy #$1c
+
+    ;add defeated enemy money
+    ldy #enemy_struct::money
     lda (battle_wordvar60), y
     adc battle_reward_vars+3
     sta battle_reward_vars+3
@@ -3692,11 +3697,16 @@ KillTargetInY:    tya
     lda (battle_wordvar60), y
     adc battle_reward_vars+4
     sta battle_reward_vars+4
-    ldy #$1e
+
+    ;get defeated enemy item drop
+    ldy #enemy_struct::item_drop
     lda (battle_wordvar60), y
-    beq :+
+    ;if item drop is 0, skip
+    beq @no_item_to_drop
+    ;else, write to enemy_group
     sta enemy_group
-:   lda #Noise_EnemyKilled
+    @no_item_to_drop:
+    lda #Noise_EnemyKilled
     sta soundqueue_noise
     pla
     tay

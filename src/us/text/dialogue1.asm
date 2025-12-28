@@ -15,6 +15,7 @@ MSG_MYHOME_MINNIE_INVASION_FIGHT:
 .byte   " our house is",newLine
 .byte   " falling apart!",newLine
 .byte   stopText
+
 MSG_MYHOME_MINNIE_INVASION_FIGHT_2:
 .byte   "*Boo hoo!",newLine
 .byte   stopText
@@ -49,7 +50,7 @@ MSG_MYHOME_MIMMIE:
 .byte   stopText
 
 MSG_MYHOME_MOM_INVASION:
-.byte   "*",nintenName,"." ,newLine
+.byte   "*",nintenName,".",newLine
 .byte   " Are you alright?",newLine
 .byte   pauseText
 .byte   "*Egad!",newLine
@@ -146,9 +147,11 @@ MSG_MYHOME_PHONE:
 MSG_PHONE_END:
 .byte   "*Slam.",newLine
 .byte   stopText
+
 MSG_PHONE_INTRO:
 .byte   "*This is your Dad.",newLine
 .byte   stopText
+
 MSG_PHONE_NEWMONEY:
 .byte   "*I've transferred",newLine
 .byte   " $",cashDeposit,newLine
@@ -163,21 +166,25 @@ MSG_PHONE_NEWMONEY:
 .byte   "*Spend your money",newLine
 .byte   " wisely.",newLine
 .byte   stopText
+
 MSG_PHONE_RESETPROMPT:
 .byte   "*Now son, it's not",newLine
 .byte   " my business, but",newLine
 .byte   " why not rest?",newLine
 .byte   stopText
+
 MSG_PHONE_SAVE_YES:
 .byte   "*I see. ",newLine
 .byte   " I'll SAVE your",newLine
 .byte   " progress.",newLine
 .byte   stopText
+
 MSG_PHONE_SAVE_NO:
 .byte   "*I see.",newLine
 .byte   " I know, the Earth",newLine
 .byte   " faces a crisis.",newLine
 .byte   stopText
+
 MSG_PHONE_SAVED_RESETPROMPT:
 .byte   "*OK...But, I was",newLine
 .byte   " thinking of going",newLine
@@ -188,6 +195,7 @@ MSG_PHONE_SAVED_RESETPROMPT:
 .byte   pauseText
 .byte   "*Good night.",newLine
 .byte   stopText
+
 MSG_PHONE_RESET_YES:
 .byte   "*See you later!",newLine
 .byte   pauseText
@@ -197,6 +205,7 @@ MSG_PHONE_RESET_YES:
 .byte   "*while turning the",newLine
 .byte   " POWER off. OK?",newLine
 .byte   stopText
+
 MSG_PHONE_RESET_NO:
 .byte   "*Just like your",newLine
 .byte   " Mom, you never",newLine
@@ -205,10 +214,12 @@ MSG_PHONE_RESET_NO:
 .byte   "*Please don't push",newLine
 .byte   " yourself so hard.",newLine
 .byte   stopText
+
 MSG_PHONE_SAVEPROMPT:
 .byte   "*By the way, do",newLine
 .byte   " you want to SAVE?",newLine
 .byte   stopText
+
 MSG_PHONE_GOODLUCK:
 .byte   "*Good luck.",newLine
 .byte   stopText
@@ -227,36 +238,44 @@ MSG_PODUNK_CEMETERYGUY1:
 .byte   " you've been south",newLine
 .byte   " to the cemetery!",newLine
 .byte   stopText
+
 MSG_PODUNK_CEMETERYGUY2:
 .byte   "*You are terrific.",newLine
 .byte   stopText
+
 MSG_PODUNK_SCAREDGUY1:
 .byte   "*Be honest,",newLine
 .byte   " you're a zombie.",newLine
 .byte   pauseText
 .byte   "*Aren't you?",newLine
 .byte   stopText
+
 MSG_PODUNK_SCAREDGUY2:
 .byte   "*There is no cure",newLine
 .byte   " for zombies!",newLine
 .byte   " AAAAAAAHHH!",newLine
 .byte   stopText
+
 MSG_PODUNK_SCAREDGUY3:
 .byte   "*Are you really",newLine
 .byte   " a human?",newLine
 .byte   stopText
+
 MSG_PODUNK_SCAREDGUY4:
 .byte   "*It's amazing",newLine
 .byte   " you came here.",newLine
 .byte   stopText
+
 MSG_PODUNK_SCAREDGUY5:
 .byte   "*You see...",newLine
 .byte   stopText
+
 MSG_PODUNK_SCAREDGUY6:
 .byte   "*Don't tell anyone,",newLine
 .byte   " but I'm so scared,",newLine
 .byte   " I wet my pants.",newLine
 .byte   stopText
+
 MSG_PODUNK_SCAREDGUY7:
 .byte   "*It was dreadful...",newLine
 .byte   stopText
@@ -264,6 +283,7 @@ MSG_PODUNK_SCAREDGUY7:
 MSG_PODUNK_ZOMBIE:
 .byte   "*Zombie!",newLine
 .byte   stopText
+
 MSG_PODUNK_ZOMBIE2:
 .byte   "*Ha-ha...",newLine
 .byte   " You shall become",newLine
@@ -275,6 +295,7 @@ MSG_PODUNK_NECROMANCERWOMAN1:
 .byte   " controlling the",newLine
 .byte   " dead.",newLine
 .byte   stopText
+
 MSG_PODUNK_NECROMANCERWOMAN2:
 .byte   "*Young man,",newLine
 .byte   " you did well.",newLine
@@ -291,14 +312,17 @@ MSG_PODUNK_CANARYGIRL1:
 .byte   " Chick come from",newLine
 .byte   " Canary Village?",newLine
 .byte   stopText
+
 MSG_PODUNK_CANARYGIRL2:
 .byte   "*Hum.",newLine
 .byte   stopText
+
 MSG_PODUNK_CANARYGIRL3:
 .byte   "*The chicks at the",newLine
 .byte   " Canary Village",newLine
 .byte   " have lovely voices.",newLine
 .byte   stopText
+
 MSG_PODUNK_CANARYGIRL4:
 .byte   "*The gentleman in",newLine
 .byte   " Canary Village",newLine
@@ -324,6 +348,7 @@ MSG_PODUNK_SENSIBLEGUY1:
 .byte   " Are you really going",newLine
 .byte   " to the cemetery?",newLine
 .byte   stopText
+
 MSG_PODUNK_SENSIBLEGUY2:
 .byte   "*I thought you were",newLine
 .byte   " a sensible child.",newLine
@@ -340,6 +365,7 @@ MSG_PODUNK_EVENTGIRL1:
 .byte   pauseText
 .byte   "*What can be done?",newLine
 .byte   stopText
+
 MSG_PODUNK_EVENTGIRL2:
 .byte   "*You are super!",newLine
 .byte   stopText
@@ -373,11 +399,13 @@ MSG_PODUNK_BREADGIRL:
 .byte   " Well do I?",newLine
 .byte   stopText
 
+MSG_MAYOR_HELPTOWN:
 .byte   "*Citizen, I know",newLine
 .byte   " you would like to",newLine
 .byte   " help your town.",newLine
 .byte   stopText
 
+MSG_MAYOR_PIPPIQUEST:
 .byte   "*Well...",newLine
 .byte   " A child has strayed",newLine
 .byte   " into the cemetery.",newLine
@@ -390,11 +418,13 @@ MSG_PODUNK_BREADGIRL:
 .byte   " Please help me!",newLine
 .byte   stopText
 
+MSG_MAYOR_PIPPIQUESTYES:
 .byte   "*Oh!?",newLine
 .byte   " You will go there",newLine
 .byte   " and save her?",newLine
 .byte   stopText
 
+MSG_MAYOR_RETURNPIPPI:
 .byte   "*Is she the lost",newLine
 .byte   " girl, Pippi?",newLine
 .byte   pauseText
@@ -420,6 +450,7 @@ MSG_PODUNK_BREADGIRL:
 .byte   " ",price,".",newLine
 .byte   stopText
 
+MSG_MAYOR_SEE_ZOO:
 .byte   "*By the way hero,",newLine
 .byte   pauseText
 .byte   "*maybe you'd like",newLine
@@ -427,6 +458,7 @@ MSG_PODUNK_BREADGIRL:
 .byte   " up at the Zoo?",newLine
 .byte   stopText
 
+MSG_MAYOR_SEE_ZOO_ACCEPT:
 .byte   "*Yes, you'll go?",newLine
 .byte   " Great, great",newLine
 .byte   " great!",newLine
@@ -436,11 +468,13 @@ MSG_PODUNK_BREADGIRL:
 .byte   " assistant, Abbott.",newLine
 .byte   stopText
 
+MSG_ABBOTT_GET_KEY:
 .byte   "*This Key will open",newLine
 .byte   " the Zoo's gate.",newLine
 .byte   " Now don't lose it.",newLine
 .byte   stopText
 
+MSG_MAYOR_HERO:
 .byte   "*Return her to me",newLine
 .byte   " alive, and surely",newLine
 .byte   " I'll be a hero...",newLine
@@ -449,6 +483,7 @@ MSG_PODUNK_BREADGIRL:
 .byte   " you'll be a hero.",newLine
 .byte   stopText
 
+MSG_MAYOR_POST_ZOO:
 .byte   "*Why if it's not",newLine
 .byte   " our hero ",partyLead,",",newLine
 .byte   pauseText
@@ -461,6 +496,7 @@ MSG_PODUNK_BREADGIRL:
 .byte   " along kid.",newLine
 .byte   stopText
 
+MSG_SECRETARY_ANA:
 .byte   "*I've heard a",newLine
 .byte   " rumor about a",newLine
 .byte   " wonder girl.",newLine
@@ -469,47 +505,57 @@ MSG_PODUNK_BREADGIRL:
 .byte   " on your trip.",newLine
 .byte   stopText
 
+MSG_ABBOTT_NEWKEY:
 .byte   "*Zoo Keys are a",newLine
 .byte   " dime a dozen,",newLine
 .byte   " have another.",newLine
 .byte   stopText
 
+MSG_PETVENDOR_INTRO:
 .byte   "*Look for yourself,",newLine
 .byte   " all the animals",newLine
 .byte   " have escaped.",newLine
 .byte   stopText
 
+MSG_PETVENDOR_INTRO2:
 .byte   "*Only this Canary",newLine
 .byte   " Chick is left.",newLine
 .byte   " Want to buy it?",newLine
 .byte   stopText
 
+MSG_PETVENDOR_PITCH:
 .byte   "*Well, how about",newLine
 .byte   " $",price,"?",newLine
 .byte   stopText
 
+MSG_PETVENDOR_DECLINE:
 .byte   "*OK kid, it's a",newLine
 .byte   " free country, you",newLine
 .byte   " know.",newLine
 .byte   stopText
 
+MSG_PETVENDOR_ACCEPTPITCH:
 .byte   "*Take care of it.",newLine
 .byte   " Come see us again!",newLine
 .byte   stopText
 
+MSG_PETVENDOR_DECLINEPITCH:
 .byte   "*If it's free, do",newLine
 .byte   " you want it?",newLine
 .byte   " Then take it!",newLine
 .byte   stopText
 
+MSG_PETVENDOR_CANARYCHECK:
 .byte   "*How's the Canary?",newLine
 .byte   stopText
 
+MSG_PETVENDOR2_BRAINWASH:
 .byte   "*I think something",newLine
 .byte   " is controlling",newLine
 .byte   " the animals.",newLine
 .byte   stopText
 
+MSG_PETVENDOR2_CUTEPETS:
 .byte   "*Ah... cute pets",newLine
 .byte   " aren't they?",newLine
 .byte   stopText
@@ -522,6 +568,7 @@ MSG_TWINKLE_LLOYDBULLY2_LLOYD:
 .byte   "*You stupid jerk!",newLine
 .byte   stopText
 
+MSG_RETURNS_INTRO:
 .byte   "*How may I help?",newLine
 .byte   " Do you have some-",newLine
 .byte   " thing to return?",newLine
@@ -533,9 +580,11 @@ MSG_REINDEER_DRAGONGIRL_CHECK:
 .byte   " ",partyLead,"'s mind.",newLine
 .byte   stopText
 
+MSG_RETURNS_DECLINE:
 .byte   "*Good.",newLine
 .byte   stopText
 
+MSG_RETURNS_ACCEPT:
 .byte   "*Thank you for",newLine
 .byte   " shopping with us",newLine
 .byte   " today.",newLine
@@ -558,6 +607,7 @@ MSG_CANARY_MAN:
 .byte   " today.",newLine
 .byte   " But, I don't care.",newLine
 .byte   stopText
+
 MSG_CANARY_MAN_BABY:
 .byte   "*Wow! That Canary",newLine
 .byte   " is the baby of",newLine
@@ -566,6 +616,7 @@ MSG_CANARY_MAN_BABY:
 .byte   "*Will you return her",newLine
 .byte   " baby to her.",newLine
 .byte   stopText
+
 MSG_CANARY_MAN_BABY_NO:
 .byte   "*Wait...",newLine
 .byte   pauseText
@@ -573,9 +624,11 @@ MSG_CANARY_MAN_BABY_NO:
 .byte   " something very",newLine
 .byte   " important.",newLine
 .byte   stopText
+
 MSG_CANARY_MAN_BABY_YES:
 .byte   "*Where is Laura?...",newLine
 .byte   stopText
+
 MSG_CANARY_MAN_MELODY:
 .byte   "*Laura remembered",newLine
 .byte   " her song, and began",newLine
@@ -584,9 +637,11 @@ MSG_CANARY_MAN_MELODY:
 .byte   "*Did you learn",newLine
 .byte   " the melody?",newLine
 .byte   stopText
+
 MSG_CANARY_MAN_MELODY_NO:
 .byte   "*That's no good.",newLine
 .byte   stopText
+
 MSG_CANARY_MAN_MELODY_YES:
 .byte   "*The truth is...",newLine
 .byte   " There is power in",newLine
@@ -607,11 +662,13 @@ MSG_PODUNK_PIPPI_BRAVE_YES:
 .byte   " swell headed.",newLine
 .byte   " Ha-ha-ha.",newLine
 .byte   stopText
+
 MSG_PODUNK_PIPPI_BRAVE_NO:
 .byte   "*You're brave. I",newLine
 .byte   " hope we can meet",newLine
 .byte   " again sometime.",newLine
 .byte   stopText
+
 MSG_PODUNK_PIPPI_MEET_YES:
 .byte   "*I'm so happy!  To",newLine
 .byte   " show my gratitude",newLine
@@ -621,12 +678,14 @@ MSG_PODUNK_PIPPI_MEET_YES:
 .byte   " will guard you.",newLine
 .byte   " Keep it!",newLine
 .byte   stopText
+
 MSG_PODUNK_PIPPI_MEET_NO:
 .byte   "*You probably",newLine
 .byte   " already have",newLine
 .byte   " someone special,",newLine
 .byte   stopText
 
+MSG_PODUNK_MAYORPIPPI:
 .byte   "*Now, it's time to",newLine
 .byte   " say good-bye.",newLine
 .byte   pauseText
@@ -642,6 +701,7 @@ MSG_PODUNK_PIPPI_MEET_NO:
 .byte   " styling?",newLine
 .byte   stopText
 
+MSG_PODUNK_MAYORPIPPI_YES:
 .byte   "*You didn't have to",newLine
 .byte   " answer, cutie.",newLine
 .byte   stopText
@@ -651,6 +711,7 @@ MSG_ZOO_GATEMONKEY:
 .byte   " EEK EEK!",newLine
 .byte   stopText
 
+MSG_MAGICAVE_SHELLQUESTION:
 .byte   "*",partyLead," felt this",newLine
 .byte   " question enter ",newLine
 .byte   " his mind.",newLine
@@ -659,6 +720,7 @@ MSG_ZOO_GATEMONKEY:
 .byte   ' his tail?"',newLine
 .byte   stopText
 
+MSG_MAGICANT_CLOTHINGMAN:
 .byte   "*My! What strange",newLine
 .byte   " clothing you wear!",newLine
 .byte   pauseText
@@ -667,6 +729,7 @@ MSG_ZOO_GATEMONKEY:
 .byte   " those clothes!!",newLine
 .byte   stopText
 
+MSG_MAGICANT_NICKNAMEMAN:
 .byte   "*Are you bothered that",newLine
 .byte   " unhappiness and",newLine
 .byte   pauseText
@@ -674,6 +737,7 @@ MSG_ZOO_GATEMONKEY:
 .byte   " you out?",newLine
 .byte   stopText
 
+MSG_MAGICANT_NICKNAMEMAN_YES:
 .byte   "*If you desire to",newLine
 .byte   " never find",newLine
 .byte   " trouble...",newLine
@@ -681,6 +745,7 @@ MSG_ZOO_GATEMONKEY:
 .byte   "*STAY HOME!!",newLine
 .byte   stopText
 
+MSG_MAGICANT_NICKNAMEMAN_NO:
 .byte   "*Is that right?",newLine
 .byte   " Trouble searches",newLine
 .byte   " after you?",newLine
@@ -689,6 +754,7 @@ MSG_ZOO_GATEMONKEY:
 .byte   " bad.",newLine
 .byte   stopText
 
+MSG_MAGICANT_NICKNAMEMAN_AFTER:
 .byte   "*Then, you admit I",newLine
 .byte   " have good taste.",newLine
 .byte   pauseText
@@ -697,6 +763,7 @@ MSG_ZOO_GATEMONKEY:
 .byte   " nickname, too?",newLine
 .byte   stopText
 
+MSG_MAGICANT_NICKNAMEMAN_AFTER_YES:
 .byte   "*OK, I've got it!",newLine
 .byte   " From now on, you",newLine
 .byte   " are Noodlenoggin!",newLine
@@ -705,20 +772,24 @@ MSG_ZOO_GATEMONKEY:
 .byte   " cool, doesn't it?",newLine
 .byte   stopText
 
+MSG_TRAIN_DECLINE:
 .byte   "*Is that right?",newLine
 .byte   " That's too bad.",newLine
 .byte   stopText
 
+MSG_MAGICANT_NICKNAMEMAN_QUEST:
 .byte   "*Hello, there!",newLine
 .byte   " Noodlenoggin",newLine
 .byte   " ",partyLead,".",newLine
 .byte   stopText
 
+MSG_MAGICANT_PHILOSOPHYMAN:
 .byte   "*Have you ever met",newLine
 .byte   " the man who practices",newLine
 .byte   " philosophy?",newLine
 .byte   stopText
 
+MSG_MAGICANT_PHILOSOPHYMAN_YES:
 .byte   "*He is so good at",newLine
 .byte   " nicknaming.",newLine
 .byte   pauseText
@@ -726,6 +797,7 @@ MSG_ZOO_GATEMONKEY:
 .byte   " good taste in it.",newLine
 .byte   stopText
 
+MSG_MAGICANT_PHILOSOPHYMAN_NO:
 .byte   "*In the first",newLine
 .byte   " place, if we",newLine
 .byte   " have not met",newLine
@@ -733,6 +805,7 @@ MSG_ZOO_GATEMONKEY:
 .byte   "*we cannot part!",newLine
 .byte   stopText
 
+MSG_MAGICANT_CANNOTPARTMAN:
 .byte   "*Have you met a man",newLine
 .byte   " who says, that you",newLine
 .byte   " cannot part,",newLine
@@ -741,19 +814,23 @@ MSG_ZOO_GATEMONKEY:
 .byte   " have not met?",newLine
 .byte   stopText
 
+MSG_MAGICANT_CANNOTPARTMAN_YES:
 .byte   "*I tend to think",newLine
 .byte   " the same way, too.",newLine
 .byte   stopText
 
+MSG_MAGICANT_CANNOTPARTMAN_NO:
 .byte   "*You should meet",newLine
 .byte   " him.",newLine
 .byte   stopText
 
+MSG_MAGICANT_STRENGTHMAN:
 .byte   "*I regained my",newLine
 .byte   " strength at Queen",newLine
 .byte   " Mary's fountain.",newLine
 .byte   stopText
 
+MSG_110:
 .byte   "*The bad thing",newLine
 .byte   " about Queen Mary's",newLine
 .byte   " fountain is...",newLine
@@ -763,6 +840,7 @@ MSG_ZOO_GATEMONKEY:
 .byte   " to find.",newLine
 .byte   stopText
 
+MSG_MAGICANT_EARRINGGIRL:
 .byte   "*I am taking this",newLine
 .byte   " broken earring to",newLine
 .byte   " the fountain.",newLine
@@ -772,11 +850,13 @@ MSG_ZOO_GATEMONKEY:
 .byte   " magic earring.",newLine
 .byte   stopText
 
+MSG_MAGICANT_FOUNTAINMAN:
 .byte   "*The mysterious",newLine
 .byte   " sound of the",newLine
 .byte   " fountain soothes.",newLine
 .byte   stopText
 
+MSG_MAGICANT_RESTROOMBOY:
 .byte   "*More to the south.",newLine
 .byte   " Are you lost?",newLine
 .byte   pauseText
@@ -789,6 +869,7 @@ MSG_ZOO_GATEMONKEY:
 .byte   " of the castle.",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNBOY:
 .byte   "*I bent my spoon",newLine
 .byte   " and it's hard to",newLine
 .byte   " use like this.",newLine
@@ -798,6 +879,7 @@ MSG_ZOO_GATEMONKEY:
 .byte   " fix it for me?",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNBOY_YES:
 .byte   "*Please fix it",newLine
 .byte   " right away.",newLine
 .byte   pauseText
@@ -813,11 +895,13 @@ MSG_ZOO_GATEMONKEY:
 .byte   " the night here?",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNBOY_NO:
 .byte   "*Why not? You can",newLine
 .byte   " fix it without any",newLine
 .byte   " physical effort!",newLine
 .byte   stopText
 
+MSG_MAGICANT_STRANGEGIRL:
 .byte   "*You're a strange",newLine
 .byte   " person...",newLine
 .byte   pauseText
@@ -826,14 +910,17 @@ MSG_ZOO_GATEMONKEY:
 .byte   " you.",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNBOY_STAY:
 .byte   "*That's good.",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNBOY_NOSTAY:
 .byte   "*Boo hoo hoo... You",newLine
 .byte   " should accept",newLine
 .byte   " kindness graciously.",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNKEEPER1:
 .byte   "*Oh, traveller! Why",newLine
 .byte   " don't you enjoy a",newLine
 .byte   " meal at our house?",newLine
@@ -843,10 +930,12 @@ MSG_ZOO_GATEMONKEY:
 .byte   " guess what it is?",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNKEEPER1_NO:
 .byte   "*Why not!? You sound",newLine
 .byte   " so suspicious!",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNKEEPER2:
 .byte   "*Yes, it's ",newLine
 .byte   " ",favFood,".",newLine
 .byte   pauseText
@@ -855,6 +944,7 @@ MSG_ZOO_GATEMONKEY:
 .byte   " want some?",newLine
 .byte   stopText
 
+MSG_MAGICANT_MUSICVENDOR:
 .byte   "*This was to be a",newLine
 .byte   " musical instrument",newLine
 .byte   " store,",newLine
@@ -866,10 +956,13 @@ MSG_ZOO_GATEMONKEY:
 .byte   "*So I've given up.",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNKEEPER2_NO:
 .byte   "*Is that so?",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNKEEPER3:
 .byte   "*Thanks. Your bed",newLine
 .byte   " is ready. Please",newLine
 .byte   " sleep well.",newLine
 .byte   stopText
+

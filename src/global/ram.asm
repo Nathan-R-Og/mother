@@ -9,25 +9,25 @@ UNK_3: .res 1
 UNK_4: .res 1
 UNK_5: .res 1
 UNK_6: .res 1
-UNK_7: .res 1 ;music bank?
+music_bank: .res 1 ; $7
 melody_timer: .res 1 ; $8
 UNK_9: .res 3
 player_direction: .res 1 ;$C
 UNK_d: .res 1
 fade_type: .res 1 ;$E
 UNK_f: .res 1
-UNK_10: .res 1 ; $10 -> Field CHR bank 2
-UNK_11: .res 1 ; $11 -> $10 & 3
-UNK_12: .res 1 ; $12 -> Field CHR bank 3
-UNK_13: .res 1 ; $13 -> $12 & 3
-UNK_14: .res 1 ; $14 -> Current palette
-UNK_15: .res 1 ; $15 -> Current area
-UNK_16: .res 1 ; map palette 3 color 0 value
-UNK_17: .res 1 ; map palette 3 color 2 value
+map_tileset_1: .res 1 ; $10
+map_tileset_1_lobits: .res 1 ; $11
+map_tileset_2: .res 1 ; $12
+map_tileset_2_lobits: .res 1 ; $13
+map_current_palette: .res 1 ; $14
+map_area: .res 1 ; $15
+map_meta_nullchunk: .res 1 ; $16
+map_meta_nulltilesetchr: .res 1 ; $17
 player_x: .res 2 ; $18
 player_y: .res 2 ; $1A
-UNK_1c: .res 4
-; $1F -> 1 when run button is held?
+UNK_1c: .res 3
+UNK_1F: .res 1 ; $1F -> 1 when run button is held?
 fade_flag: .res 1 ; $20
 is_scripted: .res 1 ; $21 -> An object index?
 autowalk_direction: .res 1 ; $22 ; For cutscenes? If bit 4 is set, then walks through other objects
@@ -35,11 +35,11 @@ is_tank: .res 1 ; $23
 UNK_24: .res 2 ; $24
 ; $25 -> Cutscene flag? Doesn't allow run button and NPCs are frozen
 random_num: .res 2 ; $26
+; $28 -> Object script character ID
+; $29 -> Object script item ID
 UNK_28: .res 2
 global_wordvar: .res 2 ; $2A ; Object script 16-bit number
 UNK_2C: .res 4
-; $28 -> Object script character ID
-; $29 -> Object script item ID
 object_pointer: .res 2 ; $30 ; Pointer to object_memory
 object_data: .res 2 ; $32 ; Pointer to ROM object data
 UNK_34: .res 1
@@ -95,7 +95,7 @@ menucursor_pos: .res 2 ; $82
 UNK_84: .res 2
 menu_x_pos: .res 1 ; $86 ; X pos in whole numbers
 menu_y_pos: .res 1 ; $87 ; Y pos in whole numbers
-UNK_88: .res 2
+map_tmp_ptr: .res 2
 UNK_8A: .res 2
 UNK_8C: .res 4
 UNK_90: .res 4
@@ -106,6 +106,7 @@ UNK_97: .res 1
 UNK_98: .res 3
 UNK_9B: .res 1
 UNK_9C: .res 4
+; $a0 -> Player movement direction?
 UNK_A0: .res 1
 UNK_A1: .res 1
 UNK_A2: .res 1
@@ -115,7 +116,9 @@ UNK_A5: .res 1
 UNK_A6: .res 2 ;object object_m_colPointer?
 UNK_A8: .res 1
 UNK_A9: .res 1
+; $aa -> X position for collision detection?
 UNK_AA: .res 2 ;mirror of xpos? object world xpos?
+; $ac -> Y position for collision detection?
 UNK_AC: .res 2 ;mirror of ypos? object world ypos?
 UNK_AE: .res 2
 unk_b0: .res 1 ; $b0
@@ -127,16 +130,15 @@ UNK_b5: .res 1 ; $b5
 unk_b6: .res 2 ; $b6 ;two byte
 UNK_b8: .res 2 ; $b7
 unk_ba: .res 1 ; $ba
+; $bb -> Something to do with music (2 bytes). Interacts with $07FF
 unk_bb: .res 2 ; $bb ;SOMETIMES two byte???? lohi??? probably
+; $bd -> Current music channel? (1=noise, 2=pulse1, 3=pulse2, 4=triangle, 5=dmc)?
 unk_bd: .res 1 ; $bd
 unk_be: .res 1 ; $be
 unk_bf: .res 1 ; $bf
-UNK_C0: .res $10
-; $a0 -> Player movement direction?
-; $aa -> X position for collision detection?
-; $ac -> Y position for collision detection?
-; $bb -> Something to do with music (2 bytes). Interacts with $07FF
-; $bd -> Current music channel? (1=noise, 2=pulse1, 3=pulse2, 4=triangle, 5=dmc)?
+UNK_C0: .res 3
+UNK_C3: .res 1
+UNK_C4: .res 12
 frame_counter: .res 3 ; $d0 ; 24 bit
 UNK_D3: .res 1 ; V the frame counter in question
 UNK_D4: .res 1 ; How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the frame counter also stops counting (wtf...?)
@@ -246,7 +248,7 @@ BATTLER_DATASIZE = $20
 ; Battler Data Structure (in RAM)
 ; The data starts at $0600, but much of the code uses 1-Based indexing, hence the $0580 entry.
 BATTLER: .tag battler_struct ; should always be 00 for player, EnemyTableID when enemy, FF when enemy deadge
-BATTLER_1BASED = BATTLER - (BATTLER_DATASIZE * 4) ; $580
+BATTLER_1BASED := BATTLER - (BATTLER_DATASIZE * 4) ; $580
 
 BATTLER_PLAYER2: .tag battler_struct ; $0620
 BATTLER_PLAYER3: .tag battler_struct ; $0640
@@ -277,7 +279,7 @@ BATTLER_STATUS := BATTLER + battler_struct::status ;$600+1
     COLD            = %00000001
     NO_STATUS       = 0
 
-BATTLER_RESISTANCES         := BATTLER + battler_struct::resistances
+BATTLER_RESISTANCES         := BATTLER + battler_struct::resistances ;$600+2
     IMMUNITY    = %10000000 ; Immune to status, off/def lowering, and PK Beam Gamma
     FIRE        = %01000000
     ICE         = %00100000
@@ -287,28 +289,28 @@ BATTLER_RESISTANCES         := BATTLER + battler_struct::resistances
     LIGHT       = %00000010
     INSECT      = %00000001 ; not a resistance: if set, dies to Bug Sprays
 
-BATTLER_CURR_HP             := BATTLER + battler_struct::curr_hp
-BATTLER_CURR_PP             := BATTLER + battler_struct::curr_pp
-BATTLER_OFF                 := BATTLER + battler_struct::offense
+BATTLER_CURR_HP             := BATTLER + battler_struct::curr_hp ;$600+3
+BATTLER_CURR_PP             := BATTLER + battler_struct::curr_pp ;$600+5
+BATTLER_OFF                 := BATTLER + battler_struct::offense ;$600+7
     ; 2 hi bits are used to store enemy death effects (but not EVE's, cause fuck logic)
     DEATHEFFECT_FLAMES      = %01
     DEATHEFFECT_EXPLODE     = %10
-BATTLER_DEF                 := BATTLER + battler_struct::defense
+BATTLER_DEF                 := BATTLER + battler_struct::defense ;$600+9
 
-BATTLER_CORES               := BATTLER + battler_struct::fight
+BATTLER_CORES               := BATTLER + battler_struct::fight ;$600+$b
     BATTLER_FIT             := BATTLER_CORES
-    BATTLER_SPD             := BATTLER + battler_struct::speed
-    BATTLER_WIS             := BATTLER + battler_struct::wisdom
-    BATTLER_STR             := BATTLER + battler_struct::strength
-    BATTLER_FCE             := BATTLER + battler_struct::force
+    BATTLER_SPD             := BATTLER + battler_struct::speed ;$600+$c
+    BATTLER_WIS             := BATTLER + battler_struct::wisdom ;$600+$d
+    BATTLER_STR             := BATTLER + battler_struct::strength ;$600+$e
+    BATTLER_FCE             := BATTLER + battler_struct::force ;$600+$f
 
 ; for enemies, $10 - $17 = moveset
-BATTLER_MOVESET             := BATTLER + battler_struct::moveset
+BATTLER_MOVESET             := BATTLER + battler_struct::moveset ;$600+$10
 
 ; for players, they are just used as variables
-BATTLER_TEMP_VARS           := BATTLER + battler_struct::inventory_slot
-    BATTLER_INVENTORY_SLOT  := BATTLER + battler_struct::inventory_slot ; used when item being used; 0~7
-    BATTLER_PLAYER_ID       := BATTLER + battler_struct::player_id
+BATTLER_TEMP_VARS           := BATTLER + battler_struct::inventory_slot ;$600+$10
+    BATTLER_INVENTORY_SLOT  := BATTLER_TEMP_VARS ; used when item being used; 0~7
+    BATTLER_PLAYER_ID       := BATTLER + battler_struct::player_id ;$600+$11
         NINTEN     = 1
         ANA        = 2
         LLOYD      = 3
@@ -319,11 +321,11 @@ BATTLER_TEMP_VARS           := BATTLER + battler_struct::inventory_slot
     ; rest goes unused
 
 ; pointer to battler's full data, whether it be player (player data in ram) or enemy (enemy data from table)
-BATTLER_FULLDATA_PTR := BATTLER + battler_struct::fulldata
+BATTLER_FULLDATA_PTR := BATTLER + battler_struct::fulldata ;$600+$18
 
 ; Letter that Suffixes multiple battlers of same enemy, e.g. StarmanA, StarmanB
 ; lower 2 bits are used for other purposes, so every +4 = new letter
-BATTLER_LETTER := BATTLER + battler_struct::enemy_letter
+BATTLER_LETTER := BATTLER + battler_struct::enemy_letter ;$600+$1a
     ; 0 is no letter
     BATTLER_LETTER_A        = %00000100
     BATTLER_LETTER_B        = %00001000
@@ -334,11 +336,11 @@ BATTLER_LETTER := BATTLER + battler_struct::enemy_letter
 ; $1B goes unused
 
 ; Targeting for Action
-BATTLER_TARGET := BATTLER + battler_struct::target
+BATTLER_TARGET := BATTLER + battler_struct::target ;$600+$1c
 ; Changes to FF when action completed
-BATTLER_ACTION_ID := BATTLER + battler_struct::action
+BATTLER_ACTION_ID := BATTLER + battler_struct::action ;$600+$1d
 ; Minor Status
-BATTLER_MINOR_STATUS := BATTLER + battler_struct::m_status
+BATTLER_MINOR_STATUS := BATTLER + battler_struct::m_status ;$600+$1e
     BLIND       = %10000000
     BLOCK       = %01000000
     BIND        = %00100000
@@ -542,140 +544,33 @@ unk_7ff: .res 1
 
 .segment "SRAM": absolute
 ;sram start
-UNK_6000: .res $200 ;tile properties
-UNK_6200: .res $200 ;tile palettes
-UNK_6400: .res $200 ;object collisions????
-UNK_6600: .res $100
+;indexes into map_tile_properties and just general.
+;0-7f are tileset 1
+;80-ff are tileset2
+OVERWORLD_tiles: .res $200 ; $6000
+OVERWORLD_tilepalettes: .res $200 ; $6200
+OVERWORLD_objectcollisions: .res $200 ; $6400
+OVERWORLD_attrbuffer: .res $100 ; $6600
 
 ;todo: verify
 .ifdef VER_JP
-something = $6D00
-pc_count = $6D07
-unkx: .res 8
+padding_maybe: .res $80
 .else
-something: .res 7
+party_menu_buffer_main: ;$6700
+party_menu_buffer_goto_1: .res 3
+pmb_pad1: .res 1 ; $6703
+party_choice_is: .res 3 ; $6704
 pc_count: .res 1 ; $6707
+pmb_pad2: .res 2 ; $6708
+party_member1_goto_name: .res 3 ; $670A
+pmb_goto_exclamation_mark: .res 3 ; $670D
+party_member_1_stats: .res $1e ;$6710
+party_member_2_stats: .res $1e ;$672E
+party_member_3_stats: .res $1e ;$674C
+UNK_676A: .res $16
 .endif
 
-;;;; TODO: AREAS
-; Area 0x08 -> Yucca Desert?
-; Area 0x09 -> Youngtown
-; Area 0x0A -> Ellay
-; Area 0x0B -> Podunk (TODO: Just a tiny area??)
-; Area 0x0C -> ...
-; Area 0x0D -> ...
-; Area 0x0E -> ...
-; Area 0x0F -> Lost pass (TODO)
-; Area 0x10 -> Just a door
-; Area 0x11 -> Spookane? (Just a sign and 4 doors)
-; Area 0x12 -> Nothing
-; Area 0x13 -> A door, and Yucca Desert music changers
-; Area 0x14 -> Yucca Desert
-; Area 0x15 -> Nothing
-; Area 0x16 -> Hospitals
-; Area 0x17 -> Hotels
-; Area 0x18 -> ...
-; Area 0x19 -> More hotels (TODO: or just Spookane Hotel?)
-; Area 0x1A -> Twinkle Elementary School
-; Area 0x1B -> Ninten's house + healers
-; Area 0x1C -> ???
-; Area 0x1D -> Rosemary Mansion
-; Area 0x1E -> Rosemary Mansion
-; Area 0x1F -> Stores
-; Area 0x20 -> Stores + ATM + Payphones
-; Area 0x21 -> Stores + Union Station
-; Area 0x22 -> Stores + payphones + other stuff
-; Area 0x23 -> Some doctor
-; Area 0x24 -> City Hall
-; Area 0x25 -> By the sea at telescopes
-;;;; TODO: AREAS
-
-; EVENT FLAG 0   -> Temp flag used in subroutines?
-; EVENT FLAG 10  -> Poltergeist stopped?
-; EVENT FLAG 11  -> Pippi rescued
-; EVENT FLAG 12  -> Gave canary chick to Laura
-; EVENT FLAG 13  -> Defeated Starman Jr. (Zoo calmed down)
-; EVENT FLAG 15  -> Rosemary Mansion conquered?
-; EVENT FLAG 20  -> Defeated NPC zombie "Zombie!"
-; EVENT FLAG 21  -> Defeated NPC zombie "You shall become a Zombieeee!"
-; EVENT FLAG 23  -> Currently on airplane?
-; EVENT FLAG 24  -> Currently on tank?
-; EVENT FLAG 27  -> Opened Pippi casket
-; EVENT FLAG 28  -> Opened zombie casket #1
-; EVENT FLAG 29  -> Opened zombie casket #2
-; EVENT FLAG 30  -> Opened zombie casket #3
-; EVENT FLAG 31  -> Pippi joins
-; EVENT FLAG 32  -> Zoo gate opened
-; EVENT FLAG 33  -> Monkey stole the Zoo Key
-; EVENT FLAG 38  -> Doll defeated
-; EVENT FLAG 41  -> Forgotten Man is gone
-; EVENT FLAG 43  -> Currently arrested for accepting drinks
-; EVENT FLAG 45  -> Pippi by her house?
-; EVENT FLAG 46  -> Got arrested for accepeting drinks
-; EVENT FLAG 47  -> Got Ana's hat
-; EVENT FLAG 49  -> Hint person gone (TODO: Who is this hint person?)
-; EVENT FLAG 50  -> Constantly set while near Ninten's house
-; EVENT FLAG 51  -> Got basement key
-; EVENT FLAG 52  -> Accepted drink in the Live House
-; EVENT FLAG 53  -> Teddy joins
-; EVENT FLAG 54  -> Holding onto $423 dollars (TODO: from whom?)
-; EVENT FLAG 56  -> Got Ghost Key
-; EVENT FLAG 58  -> Learned about the desert landmine? (TODO)
-; EVENT FLAG 59  -> Got Yucca Desert landmine easter egg
-; EVENT FLAG 60  -> School roof open?
-; EVENT FLAG 64  -> Answered first Dad call
-; EVENT FLAG 81  -> Got the Ocarina
-; EVENT FLAG 83  -> Learned about Red Weed to Magic Herb fountain transmutation
-; EVENT FLAG 84  -> Got the Big Bag
-; EVENT FLAG 85  -> Magicant man will give the Big Bag
-; EVENT FLAG 86  -> Magicant man will return the Cash Card
-; EVENT FLAG 96  -> Fixed bent spoon in Magicant
-; EVENT FLAG 98  -> Got Pippi's Franklin Badge
-; EVENT FLAG 99  -> Weapons confiscated
-; EVENT FLAG 100 -> Flying Man #1 taken
-; EVENT FLAG 101 -> Flying Man #2 taken
-; EVENT FLAG 102 -> Flying Man #3 taken
-; EVENT FLAG 103 -> Flying Man #4 taken
-; EVENT FLAG 104 -> Flying Man #5 taken
-; EVENT FLAG 105 -> Flying Man #1 died
-; EVENT FLAG 106 -> Flying Man #2 died
-; EVENT FLAG 107 -> Flying Man #3 died
-; EVENT FLAG 108 -> Flying Man #4 died
-; EVENT FLAG 109 -> Flying Man #5 died
-; EVENT FLAG 110 -> At least one Flying Man died
-; EVENT FLAG 111 -> Answered Merrysville questionnaire
-; EVENT FLAG 112 -> Magicant cash man summoned?? (TODO: wut)
-; EVENT FLAG 113 -> Merrysville train rails unblocked
-; EVENT FLAG 115 -> Currently on the tank? (TODO: What's different from 24?)
-; EVENT FLAG 117 -> The Fish defeated? (TODO: Confirm!)
-; EVENT FLAG 120 -> Thrashed tank?
-; EVENT FLAG 128 -> Player name registered
-; EVENT FLAG 129 -> Defeated the Dragon
-; EVENT FLAG 132 -> Something related to the haunted house
-; EVENT FLAG 133 -> Got dropped pass (TODO: What's this?)
-; EVENT FLAG 136 -> Saved 10 Ticket Stubs, can get into the Tank
-; EVENT FLAG 137 -> Flight Plan A
-; EVENT FLAG 138 -> Flight Plan B
-; EVENT FLAG 139 -> Flight Plan C
-; EVENT FLAG 144 -> Thrashed tank? (TODO: What's different from 120?)
-; EVENT FLAG 224 -> Magicant has disappeared
-; EVENT FLAG 239 -> Constantly set to  rue while on Ellay
-; EVENT FLAG 240 -> Learned XX Stone's melody
-; EVENT FLAG 241 -> Learned EVE's melody
-; EVENT FLAG 242 -> Learned Dragon's melody
-; EVENT FLAG 243 -> Learned Cactus' melody
-; EVENT FLAG 244 -> Learned Piano melody
-; EVENT FLAG 245 -> Learned Singing Monkey's melody
-; EVENT FLAG 246 -> Learned Laura's melody
-; EVENT FLAG 247 -> Learned Doll's melody
-UNK_6708: .res 8
-party_member_1_stats: .res $1e
-party_member_2_stats: .res 2
-UNK_6730: .res $1c
-party_member_3_stats: .res 4
-UNK_6750: .res $30
-
-object_memory: .res $C80 ; $6780
+object_memory: .res $580 ; $6780
 object_m_type = 0 ;byte
 object_m_area = 1 ;byte
 object_m_data_pointer = 2 ;word
@@ -716,6 +611,25 @@ object_m_playerTouch = $1b ;byte
 object_m_scriptOffset = $1c; byte
 object_m_unk2 = $1d ;3 bytes
 object_m_sizeof = $20
+
+.ifdef VER_JP
+party_menu_buffer_main:
+party_menu_buffer_goto_1: .res 3 ; $6D00
+pmb_pad1: .res 1 ; $6D03
+party_choice_is: .res 3 ; $6D04
+pc_count: .res 1 ; $6D07
+pmb_pad2: .res 2 ; $6D08
+party_member1_goto_name: .res 3 ; $6D0A
+pmb_goto_exclamation_mark: .res 3 ; $6D0D
+party_member_1_stats: .res $1e ;$6D10
+party_member_2_stats: .res $1e ;$6D2E
+party_member_3_stats: .res $1e ;$6D4C
+UNK_676A: .res $16 ;$6D6A
+pmb_pad3: .res $80 ;$6D80
+NAME_STRINGS: .res $600 ;$6E01
+.else
+WHERE_JP_STRINGS_ARE: .res $700 ;$6d00
+.endif
 
 .struct save_meta
     checksum .word ; 0x0
@@ -846,3 +760,115 @@ save_file_1: .res $300
 save_file_2: .res $300
 save_file_3: .res $300
 
+
+;;;; TODO: AREAS
+; Area 0x08 -> Yucca Desert?
+; Area 0x09 -> Youngtown
+; Area 0x0A -> Ellay
+; Area 0x0B -> Podunk (TODO: Just a tiny area??)
+; Area 0x0C -> ...
+; Area 0x0D -> ...
+; Area 0x0E -> ...
+; Area 0x0F -> Lost pass (TODO)
+; Area 0x10 -> Just a door
+; Area 0x11 -> Spookane? (Just a sign and 4 doors)
+; Area 0x12 -> Nothing
+; Area 0x13 -> A door, and Yucca Desert music changers
+; Area 0x14 -> Yucca Desert
+; Area 0x15 -> Nothing
+; Area 0x16 -> Hospitals
+; Area 0x17 -> Hotels
+; Area 0x18 -> ...
+; Area 0x19 -> More hotels (TODO: or just Spookane Hotel?)
+; Area 0x1A -> Twinkle Elementary School
+; Area 0x1B -> Ninten's house + healers
+; Area 0x1C -> ???
+; Area 0x1D -> Rosemary Mansion
+; Area 0x1E -> Rosemary Mansion
+; Area 0x1F -> Stores
+; Area 0x20 -> Stores + ATM + Payphones
+; Area 0x21 -> Stores + Union Station
+; Area 0x22 -> Stores + payphones + other stuff
+; Area 0x23 -> Some doctor
+; Area 0x24 -> City Hall
+; Area 0x25 -> By the sea at telescopes
+;;;; TODO: AREAS
+
+; EVENT FLAG 0   -> Temp flag used in subroutines?
+; EVENT FLAG 10  -> Poltergeist stopped?
+; EVENT FLAG 11  -> Pippi rescued
+; EVENT FLAG 12  -> Gave canary chick to Laura
+; EVENT FLAG 13  -> Defeated Starman Jr. (Zoo calmed down)
+; EVENT FLAG 15  -> Rosemary Mansion conquered?
+; EVENT FLAG 20  -> Defeated NPC zombie "Zombie!"
+; EVENT FLAG 21  -> Defeated NPC zombie "You shall become a Zombieeee!"
+; EVENT FLAG 23  -> Currently on airplane?
+; EVENT FLAG 24  -> Currently on tank?
+; EVENT FLAG 27  -> Opened Pippi casket
+; EVENT FLAG 28  -> Opened zombie casket #1
+; EVENT FLAG 29  -> Opened zombie casket #2
+; EVENT FLAG 30  -> Opened zombie casket #3
+; EVENT FLAG 31  -> Pippi joins
+; EVENT FLAG 32  -> Zoo gate opened
+; EVENT FLAG 33  -> Monkey stole the Zoo Key
+; EVENT FLAG 38  -> Doll defeated
+; EVENT FLAG 41  -> Forgotten Man is gone
+; EVENT FLAG 43  -> Currently arrested for accepting drinks
+; EVENT FLAG 45  -> Pippi by her house?
+; EVENT FLAG 46  -> Got arrested for accepeting drinks
+; EVENT FLAG 47  -> Got Ana's hat
+; EVENT FLAG 49  -> Hint person gone (TODO: Who is this hint person?)
+; EVENT FLAG 50  -> Constantly set while near Ninten's house
+; EVENT FLAG 51  -> Got basement key
+; EVENT FLAG 52  -> Accepted drink in the Live House
+; EVENT FLAG 53  -> Teddy joins
+; EVENT FLAG 54  -> Holding onto $423 dollars (TODO: from whom?)
+; EVENT FLAG 56  -> Got Ghost Key
+; EVENT FLAG 58  -> Learned about the desert landmine? (TODO)
+; EVENT FLAG 59  -> Got Yucca Desert landmine easter egg
+; EVENT FLAG 60  -> School roof open?
+; EVENT FLAG 64  -> Answered first Dad call
+; EVENT FLAG 81  -> Got the Ocarina
+; EVENT FLAG 83  -> Learned about Red Weed to Magic Herb fountain transmutation
+; EVENT FLAG 84  -> Got the Big Bag
+; EVENT FLAG 85  -> Magicant man will give the Big Bag
+; EVENT FLAG 86  -> Magicant man will return the Cash Card
+; EVENT FLAG 96  -> Fixed bent spoon in Magicant
+; EVENT FLAG 98  -> Got Pippi's Franklin Badge
+; EVENT FLAG 99  -> Weapons confiscated
+; EVENT FLAG 100 -> Flying Man #1 taken
+; EVENT FLAG 101 -> Flying Man #2 taken
+; EVENT FLAG 102 -> Flying Man #3 taken
+; EVENT FLAG 103 -> Flying Man #4 taken
+; EVENT FLAG 104 -> Flying Man #5 taken
+; EVENT FLAG 105 -> Flying Man #1 died
+; EVENT FLAG 106 -> Flying Man #2 died
+; EVENT FLAG 107 -> Flying Man #3 died
+; EVENT FLAG 108 -> Flying Man #4 died
+; EVENT FLAG 109 -> Flying Man #5 died
+; EVENT FLAG 110 -> At least one Flying Man died
+; EVENT FLAG 111 -> Answered Merrysville questionnaire
+; EVENT FLAG 112 -> Magicant cash man summoned?? (TODO: wut)
+; EVENT FLAG 113 -> Merrysville train rails unblocked
+; EVENT FLAG 115 -> Currently on the tank? (TODO: What's different from 24?)
+; EVENT FLAG 117 -> The Fish defeated? (TODO: Confirm!)
+; EVENT FLAG 120 -> Thrashed tank?
+; EVENT FLAG 128 -> Player name registered
+; EVENT FLAG 129 -> Defeated the Dragon
+; EVENT FLAG 132 -> Something related to the haunted house
+; EVENT FLAG 133 -> Got dropped pass (TODO: What's this?)
+; EVENT FLAG 136 -> Saved 10 Ticket Stubs, can get into the Tank
+; EVENT FLAG 137 -> Flight Plan A
+; EVENT FLAG 138 -> Flight Plan B
+; EVENT FLAG 139 -> Flight Plan C
+; EVENT FLAG 144 -> Thrashed tank? (TODO: What's different from 120?)
+; EVENT FLAG 224 -> Magicant has disappeared
+; EVENT FLAG 239 -> Constantly set to  rue while on Ellay
+; EVENT FLAG 240 -> Learned XX Stone's melody
+; EVENT FLAG 241 -> Learned EVE's melody
+; EVENT FLAG 242 -> Learned Dragon's melody
+; EVENT FLAG 243 -> Learned Cactus' melody
+; EVENT FLAG 244 -> Learned Piano melody
+; EVENT FLAG 245 -> Learned Singing Monkey's melody
+; EVENT FLAG 246 -> Learned Laura's melody
+; EVENT FLAG 247 -> Learned Doll's melody

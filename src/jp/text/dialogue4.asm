@@ -717,6 +717,7 @@ kanafix "きやすく はなしかけんじゃねぇよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_ELLAY_HOTELBIGLADY:
 kanafix "*ある"
 .byte   newLine
 kanafix "ファミコンソフトのはなしだけどね。"
@@ -1142,18 +1143,22 @@ kanafix "‥‥いのっててください。」"
 
 .byte   stopText
 
+MSG_TALK_NOONE:
 kanafix "*だれに はなしているのだ。"
 .byte   newLine
 .byte   stopText
 
+MSG_TALK_PARTY:
 kanafix "*なに?"
 .byte   newLine
 .byte   stopText
 
+MSG_CHECK_NOTHING:
 kanafix "*もんだいなし。"
 .byte   newLine
 .byte   stopText
 
+MSG_USE_ITEM:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -1163,6 +1168,7 @@ kanafix "を つかった。"
 .byte   newLine
 .byte   stopText
 
+MSG_CANT_USE_ITEM:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -1174,10 +1180,12 @@ kanafix "つかえない。"
 .byte   newLine
 .byte   stopText
 
+MSG_CANT_EAT:
 kanafix "*やめてください。"
 .byte   newLine
 .byte   stopText
 
+MSG_EQUIPPED_ITEM:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -1189,6 +1197,7 @@ kanafix "そうびした。"
 .byte   newLine
 .byte   stopText
 
+MSG_CANT_EQUIP_ITEM:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -1200,6 +1209,7 @@ kanafix "そうびできない。"
 .byte   newLine
 .byte   stopText
 
+MSG_TOSS_ITEM:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -1211,6 +1221,7 @@ kanafix "すててしまった。"
 .byte   newLine
 .byte   stopText
 
+MSG_CANT_TOSS_ITEM:
 kanafix "*"
 .byte   recipient
 kanafix "は"
@@ -1219,6 +1230,7 @@ kanafix "すててはいけない。"
 .byte   newLine
 .byte   stopText
 
+MSG_GIVE_ITEM:
 kanafix "*"
 .byte   user
 kanafix "は "
@@ -1232,6 +1244,7 @@ kanafix "わたした。"
 .byte   newLine
 .byte   stopText
 
+MSG_CANT_GIVE:
 kanafix "*"
 .byte   recipient
 kanafix "は"
@@ -1240,6 +1253,7 @@ kanafix "わたせない。"
 .byte   newLine
 .byte   stopText
 
+MSG_CANT_GIVE_FULL:
 kanafix "*"
 .byte   result
 kanafix "は"
@@ -1248,10 +1262,12 @@ kanafix "これいじょう ものをもてない。"
 .byte   newLine
 .byte   stopText
 
+MSG_NOTHING_HAPPENED:
 kanafix "*なにも おこらない。"
 .byte   newLine
 .byte   stopText
 
+MSG_OPEN_PRESENT:
 kanafix "*"
 .byte   partyLead
 kanafix "は"
@@ -1260,6 +1276,7 @@ kanafix "プレゼントのはこを あけた。"
 .byte   newLine
 .byte   stopText
 
+MSG_PRESENT_ITEM:
 kanafix "*"
 .byte   item
 kanafix "が あった。"
@@ -1284,6 +1301,7 @@ kanafix "ものを もてない。"
 .byte   newLine
 .byte   stopText
 
+MSG_PRESENT_EMPTY:
 kanafix "*しかし からっぽだった。"
 .byte   newLine
 .byte   stopText
@@ -1697,6 +1715,7 @@ kanafix "*キャッシュカ-ドヲ イレテクダサイ"
 .byte   newLine
 .byte   stopText
 
+MSG_ATM_TOO_MUCH_CASH:
 kanafix "*そんなに げんきんを"
 .byte   newLine
 kanafix "もちあるいては いけない。"
@@ -1725,6 +1744,7 @@ kanafix "くるしそうだ。"
 .byte   newLine
 .byte   stopText
 
+MSG_GIVE_CANT:
 kanafix "*まだ グッズをわたせる"
 .byte   newLine
 kanafix "なかまが いない。"
@@ -1831,6 +1851,7 @@ kanafix "*ヒッヒッヒ。"
 
 .byte   stopText
 
+MSG_GOODS_GIVESELF:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -1839,6 +1860,7 @@ kanafix "わたすのを やめた。"
 .byte   newLine
 .byte   stopText
 
+MSG_GOODS_GIVE:
 kanafix "*"
 .byte   user
 kanafix "は "
@@ -1850,6 +1872,7 @@ kanafix "を あたえた。"
 .byte   newLine
 .byte   stopText
 
+MSG_GOODS_HANDOFF:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -1862,6 +1885,7 @@ kanafix "を いれた。"
 .byte   newLine
 .byte   stopText
 
+MSG_GOODS_TAKEFROM:
 kanafix "*"
 .byte   result
 kanafix "は"
@@ -1874,6 +1898,7 @@ kanafix "を だした。"
 .byte   newLine
 .byte   stopText
 
+MSG_GOODS_TAKENTHROW:
 kanafix "*"
 .byte   partyLead
 kanafix "は"
@@ -1886,6 +1911,7 @@ kanafix "を すてた。"
 .byte   newLine
 .byte   stopText
 
+MSG_GOODS_MOVE:
 kanafix "*"
 .byte   partyLead
 kanafix "は"
@@ -1902,6 +1928,7 @@ kanafix "の バッグに いれた。"
 .byte   newLine
 .byte   stopText
 
+MSG_ITEM_EAT:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -1911,6 +1938,7 @@ kanafix "を たべた。"
 .byte   newLine
 .byte   stopText
 
+MSG_ITEM_DRINK:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -1920,58 +1948,68 @@ kanafix "を のんだ。"
 .byte   newLine
 .byte   stopText
 
+MSG_ITEM_RECOVER:
 .byte   price
 kanafix " かいふくした。"
 .byte   newLine
 .byte   stopText
 
+MSG_ITEM_INCREASE:
 .byte   price
 kanafix " あがった。"
 .byte   newLine
 .byte   stopText
 
+MSG_HP_IS:
 kanafix "*"
 .byte   user
 kanafix "の HPは"
 .byte   newLine
 .byte   stopText
 
+MSG_PP_IS:
 kanafix "*"
 .byte   user
 kanafix "の PPは"
 .byte   newLine
 .byte   stopText
 
+MSG_FIGHT_IS:
 kanafix "*"
 .byte   user
 kanafix "の ファイトは"
 .byte   newLine
 .byte   stopText
 
+MSG_SPEED_IS:
 kanafix "*"
 .byte   user
 kanafix "の スピ-ドは"
 .byte   newLine
 .byte   stopText
 
+MSG_WISDOM_IS:
 kanafix "*"
 .byte   user
 kanafix "の かしこさは"
 .byte   newLine
 .byte   stopText
 
+MSG_STRENGTH_IS:
 kanafix "*"
 .byte   user
 kanafix "の たいりょくは"
 .byte   newLine
 .byte   stopText
 
+MSG_FORCE_IS:
 kanafix "*"
 .byte   user
 kanafix "の フォ-スは"
 .byte   newLine
 .byte   stopText
 
+MSG_USEBIGBAG:
 kanafix "*"
 .byte   user
 kanafix "は でかぶくろから"
@@ -1982,6 +2020,7 @@ kanafix "つかった。"
 .byte   newLine
 .byte   stopText
 
+MSG_USEBREAD:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -1992,6 +2031,7 @@ kanafix "まきながら あるきだした。"
 .byte   newLine
 .byte   stopText
 
+MSG_USEBREAD_FAIL:
 kanafix "*ふるいパンくずを"
 .byte   newLine
 kanafix "すててからでないと"
@@ -2000,6 +2040,7 @@ kanafix "パンは つかえない。"
 .byte   newLine
 .byte   stopText
 
+MSG_USECRUMBS:
 kanafix "*"
 .byte   partyLead
 .byte   unk4
@@ -2011,6 +2052,7 @@ kanafix "もとのばしょに もどった。"
 .byte   newLine
 .byte   stopText
 
+MSG_USERIBBON:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -2019,16 +2061,19 @@ kanafix "かみに リボンを つけた。"
 .byte   newLine
 .byte   stopText
 
+MSG_USEFINALWEAPON:
 kanafix "*「でんげんを きってしまえ!」"
 .byte   newLine
 .byte   stopText
 
+MSG_USERULER:
 kanafix "*いろいろなものの"
 .byte   newLine
 kanafix "ながさが わかった。"
 .byte   newLine
 .byte   stopText
 
+MSG_BIGBAG_EMPTY:
 kanafix "*でかぶくろは からになって"
 .byte   newLine
 kanafix "かききえてしまった。"
@@ -2041,6 +2086,7 @@ kanafix "つかいきってしまった。"
 .byte   newLine
 .byte   stopText
 
+MSG_CURE_POISON:
 kanafix "*"
 .byte   user
 kanafix "の からだから"
@@ -2049,12 +2095,14 @@ kanafix "どくが ぬけた。"
 .byte   newLine
 .byte   stopText
 
+MSG_CURE_COLD:
 kanafix "*"
 .byte   user
 kanafix "のカゼが なおった。"
 .byte   newLine
 .byte   stopText
 
+MSG_ITEM_PSISTONE:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -2063,12 +2111,14 @@ kanafix "サイパワ-スト-ンをにぎりしめた。"
 .byte   newLine
 .byte   stopText
 
+MSG_ITEM_PSISTONE_USEDUP:
 kanafix "*サイパワ-スト-ンは"
 .byte   newLine
 kanafix "ただの いしころに なった。"
 .byte   newLine
 .byte   stopText
 
+MSG_PSI_TRIED:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -2078,18 +2128,21 @@ kanafix "をこころみた。"
 .byte   newLine
 .byte   stopText
 
+MSG_PSI_NOPP:
 kanafix "*それを こころみるだけの"
 .byte   newLine
 kanafix "パワ-は のこっていない。"
 .byte   newLine
 .byte   stopText
 
+MSG_PSI_REVIVE:
 kanafix "*"
 .byte   user
 kanafix "は カムバックした。"
 .byte   newLine
 .byte   stopText
 
+MSG_USEDIARY:
 kanafix "*にっきは ほとんど"
 .byte   newLine
 kanafix "よみとれなかったが かろうじて"
@@ -2106,6 +2159,7 @@ kanafix "と よめた。"
 .byte   newLine
 .byte   stopText
 
+MSG_CURE_PETRIFY:
 kanafix "*"
 .byte   result
 kanafix "は"
@@ -2114,20 +2168,23 @@ kanafix "すっかり やわらかくなった。"
 .byte   newLine
 .byte   stopText
 
+MSG_USEOCARINA:
 kanafix "*きぼうのオカリナを ふいた。"
 .byte   newLine
 .byte   stopText
-
+MSG_USEOCARINA2:
 kanafix "*「きこえたかい?」"
 .byte   newLine
 .byte   stopText
 
+MSG_USEMAP_FAIL:
 kanafix "*このばしょは"
 .byte   newLine
 kanafix "ちずに のっていない。"
 .byte   newLine
 .byte   stopText
 
+MSG_USEMAP:
 kanafix "*"
 .byte   user
 kanafix "は"
@@ -2136,6 +2193,7 @@ kanafix "ちずを しらべた。"
 .byte   newLine
 .byte   stopText
 
+MSG_PSI_NOTELEPORT:
 kanafix "*"
 .byte   partyLead
 .byte   unk4

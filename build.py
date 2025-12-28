@@ -1,10 +1,8 @@
 import subprocess
 import os
-from tools.ebToString import stringToEb
 from glob import glob
 import argparse
 import shutil
-import sys
 import time
 
 DEFINES = ""
@@ -12,7 +10,7 @@ output = "mother_rebuilt.nes"
 
 def addDefine(define):
     global DEFINES
-    DEFINES+=f" -D{define}=1"
+    DEFINES += f" -D{define}=1"
     DEFINES = DEFINES.strip()
 
 
@@ -29,18 +27,20 @@ def ca65HasNoUnicodeSupport(dir:str):
             if file.find(blacklisted) != -1:
                 nope = True
                 break
-        if nope: continue
+        if nope:
+            continue
 
-        lines = open(file, "r").readlines()
-        for line in lines:
-            if line.find("kanafix") != -1:
-                kanaToBytes.append(file)
-                break
-    if len(kanaToBytes) == 0: return
+        lines = open(file, "r").read()
+        if lines.find("kanafix") != -1:
+            kanaToBytes.append(file)
+    if len(kanaToBytes) == 0:
+        return
 
     if not os.path.exists("build_artifacts/"):
         os.makedirs("build_artifacts/")
 
+    import re
+    from tools.ebToString import compile
     for file in kanaToBytes:
         print("charmapping "+file+"....")
         outfile = file.replace("src/", "build_artifacts/")
@@ -56,6 +56,7 @@ def ca65HasNoUnicodeSupport(dir:str):
         i = 0
         while i < len(lines):
             line = lines[i]
+            #fix include for build_artifacts pathing
             if line.find(".include") != -1:
                 path = line.split(".include ")[-1].replace('"', "").strip()
                 newpath = path.split("/")
@@ -72,65 +73,33 @@ def ca65HasNoUnicodeSupport(dir:str):
                 if kana.find(";") != -1:
                     kana = kana.split(";", 1)[0].strip()
 
-                #NOTE: add regex support. if you can do that then
-                #finding the actual strings would be WAY easier.
-                #for now, this should work.
-                splits = []
-                x = 0
-                l = ""
-                while x < len(kana):
-                    if len(l) == 0:
-                        if kana[x] in ['"', "'"]:
-                            l = kana[x]
-                            splits.append(x)
-                    else:
-                        if kana[x] == l[0]:
-                            l = ""
-                            splits.append(x+1)
-                            x += 1
+                #regex to get content within single or double quotes.
+                #everyone say "thank you regex"
+                pattern = r'"([^"]*)"|\'([^\']*)\'|([^"\']+)'
+                parts = re.findall(pattern, kana)
+                reconstructed_modified = []
+                for match_group in parts:
+                    if match_group[0]:  # Double-quoted content
+                        byte_data = compile(match_group[0], False)
+                        byte_string = ""
+                        for byte in byte_data:
+                            byte_string += '${:02X},'.format(byte)
+                        reconstructed_modified.append(byte_string[:-1])
+                    elif match_group[1]: # Single-quoted content
+                        byte_data = compile(match_group[1], False)
+                        byte_string = ""
+                        for byte in byte_data:
+                            byte_string += '${:02X},'.format(byte)
+                        reconstructed_modified.append(byte_string[:-1])
+                        reconstructed_modified.append(byte_data)
+                    else: # Non-quoted content
+                        for x in match_group[2].split(","):
+                            if x == "":
+                                continue
+                            reconstructed_modified.append(x)
 
-                    #if for whatever reason the string doesn't start with a quotation
-                    #add a split for the start
-                    if len(splits) == 0 and x > 0:
-                        splits.append(0)
-                    x += 1
-
-                sections = []
-                x = 0
-                while x < len(splits):
-                    if x < len(splits) -1:
-                        catch = kana[splits[x]:splits[x+1]]
-                        if catch == "":
-                            x += 1
-                            continue
-                        sections.append(catch)
-                    else:
-                        catch = kana[splits[x]:]
-                        if catch == "":
-                            x += 1
-                            continue
-                        sections.append(catch)
-                    x += 1
-
-                sections = [section for section in sections if section != ""]
-
-                result = ""
-                for section in sections:
-                    if section[0] in ['"', "'"]:
-                        result += "$"+stringToEb(section[1:-1], False).replace(" ",",$")
-                    else:
-                        s = section
-                        if section.startswith(","):
-                            s = s[1:]
-                        if section.endswith(","):
-                            s = s[:-1]
-                        result += s
-                    result += ","
-                if result.endswith(","):
-                    result = result[:-1]
-
-                lines[i] = f".byte {result}\n"
-
+                kana = ",".join(reconstructed_modified)
+                lines[i] = f".byte {kana}\n"
 
             i += 1
 
@@ -185,15 +154,16 @@ def simplifyPointers(dir:str):
         open("src/us/text_pointers.asm", "w").writelines(fixLines)
 
         UMSGLIST_lines = [
-        ".define MSGID(ta) (ta-MSG_pointerList)/3\n"
-        ".scope   UMSG\n"
+        ".define MSGID(ta) (ta-MSG_pointerList)/3\n",
+        ".scope   UMSG\n",
         ]
 
         for entry in array:
             entry = entry.split(" ")[0]
             use = entry
             useMessage = use
-            if not use.startswith("MSG_"): continue
+            if not use.startswith("MSG_"):
+                continue
             use = use.replace("MSG_","",1)
             useMessage = useMessage.replace("MSG_","UMSG_",1)
 
@@ -263,9 +233,10 @@ if __name__ == "__main__":
         addDefine("VER_JP")
 
     if not os.path.exists(f"split/{dir}"):
-        print(f"ERROR: could not find split/{dir} - this likely means assets were\n"
-              "not extracted correctly with configure.py")
-        sys.exit(1)
+        raise Exception(
+            f"ERROR: could not find split/{dir} - this likely means assets were\n"
+            "not extracted correctly with configure.py")
+
 
     simplifyPointers(dir)
 

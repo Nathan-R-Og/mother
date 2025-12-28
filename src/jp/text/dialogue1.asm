@@ -183,6 +183,7 @@ kanafix "*だいじに つかいなさい。"
 .byte   newLine
 .byte   stopText
 
+MSG_PHONE_RESETPROMPT:
 kanafix "*おせっかいかもしれないが"
 .byte   newLine
 kanafix "ちょっと きゅうけいしては"
@@ -191,12 +192,14 @@ kanafix "どうかね。"
 .byte   newLine
 .byte   stopText
 
+MSG_PHONE_SAVE_YES:
 kanafix "*そうか。"
 .byte   newLine
 kanafix "じゃ きろくしとくよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_PHONE_SAVE_NO:
 kanafix "*そうか。"
 .byte   newLine
 kanafix "ま ちきゅうの ききだからな。"

@@ -129,6 +129,7 @@ MSG_MERRYSVILLE_MONSTERGIRL:
 .byte   " money away.",newLine
 .byte   stopText
 
+MSG_TWINKLE_MUSICGIRL:
 .byte   "*Laa, la laaa....",newLine
 .byte   " Dandelion seeds fly",newLine
 .byte   " up to the sky,",newLine
@@ -138,6 +139,7 @@ MSG_MERRYSVILLE_MONSTERGIRL:
 .byte   " most of all.",newLine
 .byte   stopText
 
+MSG_TWINKLE_JANITORGIRL:
 .byte   "*The janitor has",newLine
 .byte   " the key to the",newLine
 .byte   " roof.",newLine
@@ -350,6 +352,7 @@ MSG_SNOWMAN_CAMELGUY:
 .byte   " once upon a time.",newLine
 .byte   stopText
 
+MSG_TWINKLE_NURSE:
 .byte   "*Small wounds can",newLine
 .byte   " be treated here,",newLine
 .byte   pauseText
@@ -358,12 +361,14 @@ MSG_SNOWMAN_CAMELGUY:
 .byte   " the hospital.",newLine
 .byte   stopText
 
+MSG_TWINKLE_ENGINEERKID:
 .byte   "*I think ",lloydName,newLine
 .byte   " will grow up and",newLine
 .byte   " be a computer",newLine
 .byte   " engineer.",newLine
 .byte   stopText
 
+MSG_TWINKLE_COLDGIRL:
 .byte   "*Keep quiet in the",newLine
 .byte   " library!",newLine
 .byte   pauseText
@@ -437,12 +442,14 @@ MSG_ELLAY_FISHERGUY:
 .byte   " can never get away.",newLine
 .byte   stopText
 
+MSG_TWINKLE_ALLCARTWHEELGIRL:
 .byte   "*Any first grader",newLine
 .byte   " can do a cartwheel,",newLine
 .byte   pauseText
 .byte   "*don't you think?",newLine
 .byte   stopText
 
+MSG_ELLAY_TOWERBELLHOP:
 .byte   "*The telescopes?",newLine
 .byte   pauseText
 .byte   "*Take this elevator",newLine
@@ -450,6 +457,7 @@ MSG_ELLAY_FISHERGUY:
 .byte   " Out Tower.",newLine
 .byte   stopText
 
+MSG_ELLAY_TOWER_GUY:
 .byte   "*I once saw smoke",newLine
 .byte   " rising from one of",newLine
 .byte   " the islands.",newLine
@@ -463,15 +471,18 @@ MSG_ELLAY_FISHERGUY:
 .byte   " that telescope.",newLine
 .byte   stopText
 
+MSG_TWINKLE_CANTCARTWHEELGIRL:
 .byte   "*I can't do a",newLine
 .byte   " cartwheel.",newLine
 .byte   stopText
 
+MSG_TWINKLE_SUBTRACTIONGIRL:
 .byte   "*I still don't know",newLine
 .byte   " how to carry over",newLine
 .byte   " in subtraction.",newLine
 .byte   stopText
 
+MSG_TWINKLE_TOFUKID:
 .byte   "*I heard Strawberry",newLine
 .byte   " Tofu is popular",newLine
 .byte   " in big cities.",newLine
@@ -480,10 +491,12 @@ MSG_ELLAY_FISHERGUY:
 .byte   " some.",newLine
 .byte   stopText
 
+MSG_TWINKLE_HUNGRYKID:
 .byte   "*I am hungry.",newLine
 .byte   " Let's do lunch.",newLine
 .byte   stopText
 
+MSG_TWINKLE_DADGIRL:
 .byte   "*Don't take me for",newLine
 .byte   " an ordinary man.",newLine
 .byte   pauseText
@@ -491,10 +504,12 @@ MSG_ELLAY_FISHERGUY:
 .byte   " favorite words.",newLine
 .byte   stopText
 
+MSG_TWINKLE_LATEGIRL:
 .byte   "*You are late,",newLine
 .byte   " aren't you!?",newLine
 .byte   stopText
 
+MSG_TWINKLE_STRANGEGIRL:
 .byte   "*Did you see a",newLine
 .byte   " strange man",newLine
 .byte   " in the lab?",newLine
@@ -503,6 +518,7 @@ MSG_ELLAY_FISHERGUY:
 .byte   " I saw him.",newLine
 .byte   stopText
 
+MSG_TWINKLE_GAMEKID:
 .byte   "*Have you played",newLine
 .byte   " Super Mario Bros.7?",newLine
 .byte   pauseText
@@ -513,20 +529,24 @@ MSG_ELLAY_FISHERGUY:
 .byte   " a challenge for me.",newLine
 .byte   stopText
 
+MSG_DRUGSVENDOR_WELCOME:
 .byte   "*Welcome!",newLine
 .byte   " What can I sell",newLine
 .byte   " you?",newLine
 .byte   stopText
 
+MSG_VARIETYVENDOR_OUTOFSTOCK:
 .byte   "*Sorry, that item is",newLine
 .byte   " out of stock.",newLine
 .byte   stopText
 
+MSG_BURGERSHOP_NO_BUY:
 .byte   "*Don't need that,",newLine
 .byte   " do you? Come see",newLine
 .byte   " us when you do.",newLine
 .byte   stopText
 
+MSG_BURGERSHOP_GOODBYE:
 .byte   "*Thank you very",newLine
 .byte   " much. Please",newLine
 .byte   " visit us again.",newLine
@@ -681,17 +701,21 @@ MSG_MYHOME_MINNIE_STORAGE_FULL:
 .byte   " more for you now.",newLine
 .byte   stopText
 
+MSG_ATM_INTRO:
 .byte   "*Can I help you?",newLine
 .byte   stopText
 
+MSG_ATM_INSUFFICIENT:
 .byte   "*Your balance is",newLine
 .byte   " insufficient.",newLine
 .byte   stopText
 
+MSG_ATM_NOT_ENOUGH_STORED:
 .byte   "*There isn't",newLine
 .byte   " enough money.",newLine
 .byte   stopText
 
+MSG_ATM_DEPOSIT_TOO_MUCH:
 .byte   "*I'm sorry,",newLine
 .byte   pauseText
 .byte   "*the transaction you",newLine
@@ -739,9 +763,11 @@ MSG_ELLAY_JAILCOP:
 .byte   " battle.",newLine
 .byte   stopText
 
+MSG_ATM_MENU:
 .byte   "  Withdraw Deposit"
 .byte   stopText
 
+MSG_ATM_CURRENT_BALANCE:
 .byte   "*Your account shows",newLine
 .byte   " a balance of",newLine
 .byte   " $",currentCash,".",newLine
@@ -780,11 +806,13 @@ MSG_HOSPITAL_NURSE_NOMONEY:
 .byte   " enough money.",newLine
 .byte   stopText
 
+MSG_BURGERSHOP_NOMONEY:
 .byte   "*Oh no sir, you",newLine
 .byte   " do not have that",newLine
 .byte   " much money.",newLine
 .byte   stopText
 
+MSG_BURGERSHOP_NO_ROOM:
 .byte   "*Sir, you can't",newLine
 .byte   " carry more than",newLine
 .byte   " what you now have.",newLine
@@ -799,6 +827,7 @@ MSG_HEALER_FIXED:
 .byte   " a true expert.",newLine
 .byte   stopText
 
+MSG_RETURNS_CANTSELL:
 .byte   "*Sorry, but I can't",newLine
 .byte   " buy ",item," from",newLine
 .byte   " you.",newLine
@@ -829,6 +858,7 @@ MSG_ZOO_GATEMONKEY_KEY:
 .byte   " old and rusty.",newLine
 .byte   stopText
 
+MSG_EVE_EVECHECK:
 .byte   "*Feeling ",nintenName,"'s",newLine
 .byte   " presence, the robot",newLine
 .byte   " came back to life.",newLine
@@ -839,9 +869,11 @@ MSG_PHONE_EXPLVL:
 .byte   " ",result,".",newLine
 .byte   stopText
 
+MSG_ELLAY_FAKEHEALER_GOODBYE:
 .byte   "*Do your best.",newLine
 .byte   stopText
 
+MSG_MAGICANT_FOUNTAIN:
 .byte   "*Your strength has",newLine
 .byte   " revived by touching",newLine
 .byte   pauseText

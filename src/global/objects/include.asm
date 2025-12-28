@@ -35,10 +35,13 @@ obj_incs = 0
     SPINNING_NPC = $13
     STATIONARY_NPC_CHECKSPAWN = $14
     WANDERING_NPC_CHECKSPAWN = $15
-    SPINNING_NPC_CHECKSPAWN = $16
+    WANDERINGFAST_NPC_CHECKSPAWN = $16
+    SPINNING_NPC_CHECKSPAWN = $17
     TRIGGER = $1B
+    TRIGGER_CHECKSPAWN = $1F
     PRESENT = $20
     FLAGSET_SEE = $29 ;sets a flag in a byte when on screen. uses teleportFlagDef
+    FLAGRESET_SEE = $2A ;sets a flag in a byte when on screen. uses teleportFlagDef
 .endenum
 
 .enum DIRECTIONS
@@ -74,20 +77,26 @@ obj_incs = 0
     C_INCCOUNTER = $14 ;increments counter c
     C_RESETCOUNTER = $15 ;resets counter c
     CNJ_COMPCOUNTER = $16 ;jumps to j if counter c < int n
+    BN_WRITESAVEMETA = $17 ;write to savemeta's byte b with value n
     J_CHOOSECHAR = $18 ;choose character, jump if b pressed
     C_SELECT = $19 ;select character
     CJ_CHARSELECTED = $1A ;jump to j if chararacter c not selected
     J_NONEWMONEY = $1B ;jump to j if no money has been gained since last call
+    J_INPUTNUM = $1C ;prompt a number, jump to j if b pressed
     N_LOADNUMBER = $1D ;load number ????
+    NJ_NUMLESSTHAN = $1E ;check if number is less than n, jump to j if so
     SHOWMONEY = $1F ;yeah
     J_CHOOSEITEM = $20 ;jump to j if declined
     J_CHOOSEITEMCLOSET = $21 ;jump to j if declined
     IIIIJ_LIST = $22 ;jump if b pressed
+    CJ_CHARANOHAVE = $23 ;jump to j if character c doesnt have picked item
     I_PICKITEM = $25 ;load i into selected item
     IJ_SELECTEDITEM = $26 ;jump to j if i isnt selected
     IJ_HASITEM = $27 ;jump to j if i not in inventory
     J_GIVEMONEY = $28 ;jump to j if cant hold money
     J_TAKEMONEY = $29 ;jump to j if not enough money
+    J_WITHDRAWL = $2A ;jump to j if not enough
+    J_DEPOSIT = $2B ;jump to j if not enough room
     J_UNSELLABLE = $2C ;jump to j if item cannot be sold
     J_GIVEITEM = $2D ;jump to j if inventory full, else give selected item
     J_REMOVEITEM = $2E ;remove item, jump if doesn't have
@@ -97,12 +106,13 @@ obj_incs = 0
     N_MULNUMBER = $32 ;multiply number by n / 100
     CJ_PRESENT = $33 ;jump to j if character c is not in party
     J_TOUCH = $35 ;jump to j if not touching
-    J_UNK = $36 ;jump to j if ??????
+    J_IS_NOT_FACING = $36 ;jump to j if player doesnt match starting direction
     JJ_CUSTOMMENU = $37 ;display menu pointer, jump to j1 if option 2, jump to j2 if b pressed
     J_NOITEMS = $38 ;jump to j if no items
     J_NOITEMSCLOSET = $39 ;jump to j if no items in closet
     CJ_SELECTPARTY = $3A ;select character c in party, jump to j if not present
     T_CHANGETYPE = $3B ;change object type to t
+    F_SETFADE = $3C ;set fade to f
     DA_TELEPORT = $3D ;teleport player to doorArgDef (basically, runs a door command)
     M_MOVE = $3E ;move using m pointer (word)
     O_SIGNAL = $3F ;signal object o (index)
@@ -115,9 +125,13 @@ obj_incs = 0
     D_ROCKET = $46 ;spawn rocket in direction (?)
     D_AIRPLANE = $47 ;spawn airplane in direction (?)
     D_TANK = $48 ;spawn tank in direction (?)
+    D_BOAT = $49 ;spawn boat in direction (?)
+    TRAIN = $4A ;spawn players in train (?)
+    D_ELEVATOR = $4B ;spawn players in elevator (?)
     D_NOVEC = $4C ;spawn players in direction (?)
     PLANEEND = $4D ;ending of plane paths
-    J_UNK2 = $4F ;jump to j if ?????
+    UNK = $4E ;???????
+    J_HASMOVED = $4F ;jump to j if ?????
     J_NOTMAX = $50 ;jump to j if < max hp
     N_HEAL = $51 ;heal hp n
     SJ_PRESENT = $52 ;jump to j if character has status s
@@ -131,6 +145,7 @@ obj_incs = 0
     M_MUSIC = $5A ;play m song
     S_PLAYSOUND2 = $5B ;play s
     S_PLAYSOUND = $5C ;play s
+    TEACH_TELEPORT = $5F ;teach ninten and ana teleport :)
     J_NOTMAXPP = $60 ;jump to j if < max pp
     N_HEALPP = $61 ;heal pp n
     J_REMOVEWEAPON = $62 ;jump to j if no weapon, else take
@@ -138,7 +153,12 @@ obj_incs = 0
     LIVESHOW = $64 ;in ellay
     J_MELODIES = $65 ;jump to j if not all melodies learnt
     REGNAME = $66 ;register name
+    DARKEN = $67 ;darken
     LANDMINE = $68 ;in yucca desert
+    SHAKE = $69 ;????
+    .ifndef VER_JP
+    TOMBSTONE = $6A ;do george tombstone
+    .endif
 .endenum
 
 ;these might be bitflags but until we find out what they are i dont really care
@@ -150,6 +170,13 @@ obj_incs = 0
 .endenum
 
 .define moveDef(direction, cmd, tiles) .word (tiles << 8) | (cmd << 3) | direction
+
+.define MOVE_UNK1 .byte 0
+.macro MOVE_WARP music, targetPosX, targetDirection, targetPosY
+    .byte 1
+    doorArgDef music, targetPosX, targetDirection, targetPosY
+.endmacro
+.define MOVE_UNK2 .byte 3
 
 .define objectDef(type, posX, direction, posY) .word (posX << 6) | type, (posY << 6) | direction
 ;top left of the map is 0, $80. why?
@@ -172,7 +199,7 @@ obj_incs = 0
 .define OBJ_IS_NOT_CASTING(psiX, label) .byte SCRIPTS::PJ_USE, psiX, label
 .define OBJ_IS_NOT_SELECTED(itemX, label) .byte SCRIPTS::IJ_SELECTEDITEM, itemX, label
 .define OBJ_TAKE_WEAPON(label) .byte SCRIPTS::J_REMOVEWEAPON, label
-.define OBJ_GIVE_WEAPON(label) .byte SCRIPTS::J_GIVEMONEY, label
+.define OBJ_GIVE_MONEY(label) .byte SCRIPTS::J_GIVEMONEY, label
 .define OBJ_SELECT_CONFWEAPON(label) .byte SCRIPTS::J_CONFISC, label
 .define OBJ_IS_NOT_FLAG(flag, label) .byte SCRIPTS::FJ_JUMP, flag, label
 .define OBJ_NOT_HAS_ITEM(itemX, label) .byte SCRIPTS::IJ_HASITEM, itemX, label
@@ -196,6 +223,20 @@ obj_incs = 0
 .define OBJ_YESNO_IS_NO(label) .byte SCRIPTS::J_YESNO, label
 .define OBJ_CHOOSE_ITEM(label) .byte SCRIPTS::J_CHOOSEITEM, label
 .define OBJ_UNSELLABLE(label) .byte SCRIPTS::J_UNSELLABLE, label
+.define OBJ_INPUT_NUMBER(label) .byte SCRIPTS::J_INPUTNUM, label
+.define OBJ_WITHDRAW(label) .byte SCRIPTS::J_WITHDRAWL, label
+.define OBJ_DEPOSIT(label) .byte SCRIPTS::J_DEPOSIT, label
+.define OBJ_CHOOSE_CHARACTER(label) .byte SCRIPTS::J_CHOOSECHAR, label
+.define OBJ_IS_NOT_FACING(label) .byte SCRIPTS::J_IS_NOT_FACING, label
+.define OBJ_HAS_MOVED(label) .byte SCRIPTS::J_HASMOVED, label
+.define OBJ_CHARA_NOT_HAS_ITEM(character, label) .byte SCRIPTS::CJ_CHARANOHAVE, character, label
+.define OBJ_BELOW_LEVEL(number, label) .byte SCRIPTS::NJ_BELOWLEVEL, number, label
+.define OBJ_NO_ITEMS(label) .byte SCRIPTS::J_NOITEMS, label
+.define OBJ_ADD_ITEM_TO_CLOSET(label) .byte SCRIPTS::J_ADDITEMCLOSET, label
+.define OBJ_NO_ITEMS_CLOSET(label) .byte SCRIPTS::J_NOITEMSCLOSET, label
+.define OBJ_CHOOSE_ITEM_CLOSET(label) .byte SCRIPTS::J_CHOOSEITEMCLOSET, label
+.define OBJ_TAKE_ITEM_FROM_CLOSET(label) .byte SCRIPTS::J_TAKEITEMCLOSET, label
+.define OBJ_INCOMPLETE_MELODIES(label) .byte SCRIPTS::J_MELODIES, label
 
 ;flag manip
 .define OBJ_FLAG_APPEAR(flag) .byte SCRIPTS::F_APPEAR, flag
@@ -210,7 +251,7 @@ obj_incs = 0
 .define OBJ_DISPLAY_ITEMS(item1, item2, item3, item4, label) .byte SCRIPTS::IIIIJ_LIST, item1, item2, item3, item4, label
 
 ;words
-.macro OPJ_LOAD_NUMBER int
+.macro OBJ_LOAD_NUMBER int
     .byte SCRIPTS::N_LOADNUMBER
     .word int
 .endmacro
@@ -225,9 +266,19 @@ obj_incs = 0
     .addr addr
 .endmacro
 
+.macro OBJ_NUMBERLESSTHAN number, label
+    .byte SCRIPTS::NJ_NUMLESSTHAN
+    .word number
+    .byte label
+.endmacro
+
+
 ;heals
 .define OBJ_HEAL(amount) .byte SCRIPTS::N_HEAL, amount
 .define OBJ_PPHEAL(amount) .byte SCRIPTS::N_HEALPP, amount
+
+.define OBJ_WRITE_SAVEMETA(byte, value) .byte SCRIPTS::BN_WRITESAVEMETA, byte, value
+
 
 ;singlestuff
 .define OBJ_BATTLE(group) .byte SCRIPTS::B_BATTLE, group
@@ -239,9 +290,14 @@ obj_incs = 0
 .define OBJ_PLAY_SOUND2(sound) .byte SCRIPTS::S_PLAYSOUND2, sound
 .define OBJ_SIGNAL(objectX) .byte SCRIPTS::O_SIGNAL, objectX
 .define OBJ_TANK(direction) .byte SCRIPTS::D_TANK, direction
+.define OBJ_BOAT(direction) .byte SCRIPTS::D_BOAT, direction
+.define OBJ_ELEVATOR(direction) .byte SCRIPTS::D_ELEVATOR, direction
+.define OBJ_ROCKET(direction) .byte SCRIPTS::D_ROCKET, direction
 .define OBJ_AIRPLANE(direction) .byte SCRIPTS::D_AIRPLANE, direction
+.define OBJ_MULTIPLY_NUMBER(number) .byte SCRIPTS::N_MULNUMBER, number
 .define OBJ_EXIT_VEHICLE(direction) .byte SCRIPTS::D_NOVEC, direction
 .define OBJ_CHANGE_TYPE(type) .byte SCRIPTS::T_CHANGETYPE, type
+.define OBJ_SET_FADE(fade) .byte SCRIPTS::F_SETFADE, fade
 
 ;multi macros
 .macro OBJ_TELEPORT aX,bX,cX,dX
@@ -274,5 +330,17 @@ obj_incs = 0
 .define OBJ_MULTIPLY_BY_PARTY .byte SCRIPTS::CHARMULT
 .define OBJ_END_PLANE .byte SCRIPTS::PLANEEND
 .define OBJ_LAND_MINE .byte SCRIPTS::LANDMINE
+.define OBJ_SHAKE .byte SCRIPTS::SHAKE
+.define OBJ_TRAIN .byte SCRIPTS::TRAIN
+.define OBJ_TELEPORT_TO_SAVEGAME .byte SCRIPTS::SAVEGAMETP
+.define OBJ_TEACH_TELEPORT .byte SCRIPTS::TEACH_TELEPORT
+.define OBJ_UNK .byte SCRIPTS::UNK
+.define OBJ_REGISTER_NAME .byte SCRIPTS::REGNAME
+.define OBJ_DARKEN .byte SCRIPTS::DARKEN
+
+.ifndef VER_JP
+.define OBJ_TOMBSTONE .byte SCRIPTS::TOMBSTONE
+.endif
+
 
 .endif

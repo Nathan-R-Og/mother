@@ -564,7 +564,7 @@ B30_026c:
     sta tilepack_ptr
     stx tilepack_ptr+1
 B30_0274:
-    jsr B30_0542
+    jsr SetupPartyUi
 
     jsr PpuSync
 
@@ -717,10 +717,10 @@ BankswitchLower_Bank00:
 ; $C329
 party_menu_1char:
     .byte set_pos 1, 23
-    .byte print_string $952f
+    .byte print_string battle_statbar_top
     .byte newLine
     .byte .LOBYTE(L3C2C2-1),$16 ;irqValue, irqIndex
-    .byte print_string $6d10
+    .byte print_string party_member_1_stats
     .byte stopText
     .byte .LOBYTE(L3C2C2-1),$18 ;irqValue, irqIndex
     .byte uibox_bl
@@ -732,13 +732,13 @@ party_menu_1char:
 ; $C33E
 party_menu_2char:
     .byte set_pos 1, 21
-    .byte print_string $952f
+    .byte print_string battle_statbar_top
     .byte newLine
     .byte .LOBYTE(L3C2C2-1), $14 ;irqValue, irqIndex
-    .byte print_string $6d10
+    .byte print_string party_member_1_stats
     .byte newLine
     .byte .LOBYTE(L3C2C2-1), $16 ;irqValue, irqIndex
-    .byte print_string $6d2e
+    .byte print_string party_member_2_stats
     .byte stopText
     .byte .LOBYTE(L3C2C2-1), $18 ;irqValue, irqIndex
     .byte uibox_bl
@@ -749,16 +749,16 @@ party_menu_2char:
 ; $C359
 party_menu_3char:
     .byte set_pos 1, 19
-    .byte print_string $952f
+    .byte print_string battle_statbar_top
     .byte newLine
     .byte .LOBYTE(L3C2C2-1), $12 ;irqValue, irqIndex
-    .byte print_string $6d10
+    .byte print_string party_member_1_stats
     .byte newLine
     .byte .LOBYTE(L3C2C2-1), $14 ;irqValue, irqIndex
-    .byte print_string $6d2e
+    .byte print_string party_member_2_stats
     .byte newLine
     .byte .LOBYTE(L3C2C2-1), $16 ;irqValue, irqIndex
-    .byte print_string $6d4c
+    .byte print_string party_member_3_stats
     .byte stopText
     .byte .LOBYTE(L3C2C2-1), $18 ;irqValue, irqIndex
     .byte uibox_bl
@@ -766,13 +766,27 @@ party_menu_3char:
     .byte uibox_br
     .byte stopText
 
+; a single row/entry of the party menu
 party_menu_entry:
     .byte uibox_l, " "
-    .byte print_number $0038, 0, 6
-    .byte print_number $0014, 2, 4
-    .byte print_number $0016, 2, 4
-    .byte print_number $0010, 1, 4
-    .byte print_number $0011, 3, 8
+    .ifdef VER_JP
+
+    .byte print_number party_info::name, 0, 6
+    .byte print_number party_info::curr_hp, 2, 4
+    .byte print_number party_info::curr_pp, 2, 4
+    .byte print_number party_info::level, 1, 4
+    .byte print_number party_info::exp, 3, 8
+
+    .else
+
+    .byte print_number party_info::name, 0, 7
+    .byte print_number party_info::level, 1, 3
+    .byte print_number party_info::curr_hp, 2, 4
+    .byte print_number party_info::curr_pp, 2, 4
+    .byte print_number party_info::exp, 3, 8
+
+    .endif
+
     .byte " ", uibox_r
     .byte stopText
 
@@ -843,7 +857,7 @@ DrawWindowCashboxmenu:
     .endif
 
 B30_03d5:
-    jsr B30_0542
+    jsr SetupPartyUi
     lda #.LOBYTE(window_unk)
     ldx #.HIBYTE(window_unk)
     .ifdef VER_JP
@@ -884,9 +898,9 @@ CLEAR_TEXTBOXES_ROUTINE:
 
     rts
 
-B30_0406:
+SavePlayerBattlers_Allstats:
     lda #$ff
-B30_0408:
+SavePlayerBattlers:
     sta $60
     jsr EnablePRGRam
     lda #$00
@@ -918,7 +932,7 @@ B30_0408:
     bpl B30_040f
     jsr WriteProtectPRGRam
     B30_043f:
-    jsr B30_0542
+    jsr SetupPartyUi
     lda $f6
     pha
     jsr BankswitchLower_Bank00
@@ -1206,120 +1220,182 @@ F3C6D4:
     rts
 .endif
 
-B30_0542:
+;takes input tile data and replaces with relevant pointers
+TEST_anchor := party_menu_buffer_main
+TEST_anchor_offset = $10
+SetupPartyUi:
     jsr EnablePRGRam
-    ldx #$10
-    ldy #$00
+
+    ldx #TEST_anchor_offset
+    ldy #0
     sty pc_count
-    B30_054c:
+    @loop:
+;if character[y] is invalid, jump
     jsr GetYthCharacter
-    bcs B30_05b0
+    bcs @goto_next_character
+    ;else,
+
+    ;pc_count++
     inc pc_count
+
+    ;unk_60 = partymemberdata
     jsr GetPartyMemberPtr
+
+    ;store party index
     tya
     pha
-    ldy #$00
-    B30_055b:
-    jsr B30_0637
+
+    ;make a copy of party_menu_entry with this party members' stats
+    ;stop before the last print_number
+    ldy #0
+    @B30_055b:
+    jsr Replaceparty_menu_entry
     cpy #$14
-    bne B30_055b
+    bne @B30_055b
+
+    ;store THAT y
     tya
     pha
-    ldy #$01
-    lda ($60), y
-    ldy #$0e
-    B30_056a:
+
+    ;get current members' status
+    ldy #party_info::status
+    lda (UNK_60), y
+
+    ;iterate over status bits
+    ;if any of them are valid, replace the exp panel with that
+    ; #BUG : If Statused, the Hi-byte of current PP is not displayed properly
+    ; TODO: (understand why tf that happen)
+    ldy #7*2
+    @B30_056a:
+    ;if status has UNCON, dont jump
+    ;else, jump
     asl a
-    bcc B30_0592
+    bcc @B30_0592
+
     pla
     tya
     pha
     ldy #$00
-    B30_0572:
+    @B30_0572:
     lda B30_0398, y
-    sta something, x
+    sta TEST_anchor, x
     inx
     iny
     cpy #$05
-    bne B30_0572
+    bne @B30_0572
     pla
     tay
     lda battle_status_string_lut, y
-    sta something, x
+    sta TEST_anchor, x
     inx
     lda battle_status_string_lut+1, y
-    sta something, x
+    sta TEST_anchor, x
     inx
     ldy #$1b
-    bne B30_059b
-    B30_0592:
+    bne @finish_writing
+
+    @B30_0592:
+    ;isnt uncon
+    ;y-=2
     dey
     dey
-    bpl B30_056a
+    ;if y < 0, break
+    bpl @B30_056a
+
+    ;by this point, nothing has been written to the exp panel
+    ;so just write exp like normal :D
+    ;pull last party_menu_entry y
     pla
     tay
-    jsr B30_0637
-    B30_059b:
+    jsr Replaceparty_menu_entry
+
+    ;while party_menu_entry isnt finished, keep writing
+    @finish_writing:
     lda party_menu_entry, y
-    sta something, x
+    sta TEST_anchor, x
     inx
     iny
     cpy #$1e
-    bne B30_059b
+    bne @finish_writing
+
+    ;pull party index
     pla
     tay
+
+    ;if pc_count (partycharacter_count) >= 3, jump
     lda pc_count
-    cmp #$03
-    bcs B30_05b5
-    B30_05b0:
+    cmp #3
+    bcs @goto_end
+    @goto_next_character:
     iny
-    cpy #$04
-    bcc B30_054c
-    B30_05b5:
-    lda #$00
-    sta something+4
-    sta something+5
-    sta something+6
+    ;if y < 4, go back to start
+    cpy #4
+    bcc @loop
+
+    @goto_end:
+    lda #0
+    sta party_choice_is
+    sta party_choice_is+1
+    sta party_choice_is+2
+
+    ;x = missing characters
     sec
-    lda #$03
+    lda #3
     sbc pc_count
     tax
-    ldy #$00
-    B30_05c9:
+
+    ldy #0
+    @mini_loop:
+    ;if character[y] is invalid, jump
     jsr GetYthCharacter
-    bcs B30_05d6
-    sta something+4, x
+    bcs @is_invalid
+    ;else, write character index
+    sta party_choice_is, x
     inx
-    cpx #$03
-    bcs B30_05db
-    B30_05d6:
+    ;if x >= 3, break
+    cpx #3
+    bcs @break
+    @is_invalid:
     iny
-    cpy #$04
-    bcc B30_05c9
-    B30_05db:
+    cpy #4
+    bcc @mini_loop
+    @break:
+    ;x = pc_count << 1
+    ;this gets the amount of characters to display from party_menu_layouts
     lda pc_count
     asl a
     tax
-    lda #$04
-    sta something
-    sta something+$a
-    cpx #$04
-    bcs B30_05ee
-    lda #$00
-    B30_05ee:
-    sta something+$d
+
+    ;write 4
+    lda #4
+    sta party_menu_buffer_goto_1
+    sta party_member1_goto_name
+
+    ;if x >= 4, dont write 0
+    cpx #4
+    bcs @skip_zero
+    lda #0
+    @skip_zero:
+    sta pmb_goto_exclamation_mark
+
+    ;write party_menu_layouts[x]
     lda party_menu_layouts, x
-    sta something+1
+    sta party_menu_buffer_goto_1+1
     lda party_menu_layouts+1, x
-    sta something+2
-    lda something+$13
-    sta something+$b
-    lda something+$14
-    sta something+$c
+    sta party_menu_buffer_goto_1+2
+
+    ;steal party lead name pointer
+    lda TEST_anchor+TEST_anchor_offset+3
+    sta party_member1_goto_name+1
+    lda TEST_anchor+TEST_anchor_offset+4
+    sta party_member1_goto_name+2
+
+    ;write B30_039d as a pointer
     lda #.LOBYTE(B30_039d)
-    sta something+$e
+    sta pmb_goto_exclamation_mark+1
     lda #.HIBYTE(B30_039d)
-    sta something+$f
+    sta pmb_goto_exclamation_mark+2
+
     jmp WriteProtectPRGRam
 
 
@@ -1343,55 +1419,50 @@ battle_status_string_lut:
 GetYthCharacter:
     sec
     lda party_members, y
-    beq B30_0636
-    cmp #$06
-    B30_0636:
+    beq @is_zero
+    ;clear carry if < 6 (ignore EVE and FlyingMan)
+    cmp #6
+    @is_zero:
     rts
 
-
-B30_0637:
-    lda party_menu_entry , y
-    sta something, x
-    inx
-    iny
+Replaceparty_menu_entry:
+    ;draw 3 bytes of party_menu_entry
+    .repeat 3
     lda party_menu_entry, y
-    sta something, x
+    sta party_menu_buffer_main, x
     inx
     iny
-    lda party_menu_entry, y
-    sta something, x
-    inx
-    iny
+    .endrepeat
     clc
+
+    ;surgically replace the number that was going to be printed
+    .repeat 2, i
     lda party_menu_entry, y
-    adc $60
-    sta something, x
+    adc UNK_60+i
+    sta party_menu_buffer_main, x
     inx
     iny
-    lda party_menu_entry, y
-    adc $61
-    sta something, x
-    inx
-    iny
+    .endrepeat
+
     rts
 
 
 ; $C665
-; Write pointer to party member data in $60
-;
-; $60 = 0x7400 + (A * 0x40)
+; Write pointer to party member data in UNK_60
+; UNK_60 = 0x7400 + (A * 0x40)
 GetPartyMemberPtr:
-    sta $61
-    lda #$00
-    lsr $61
+    sta UNK_60+1
+    lda #0
+    lsr UNK_60+1
     ror a
-    lsr $61
+    lsr UNK_60+1
     ror a
     adc #.LOBYTE(party_data-$40)
-    sta $60
-    lda $61
+    sta UNK_60
+    lda UNK_60+1
     adc #.HIBYTE(party_data-$40)
-    sta $61
+    sta UNK_60+1
+
     rts
 
 WriteTilesIn74:
@@ -2302,7 +2373,7 @@ PostInit:
     jsr OverworldTransitionIntepreter
 
     B30_0b5d:
-    jsr B30_0542
+    jsr SetupPartyUi
     jsr B30_0efc
 
     lda #0
@@ -2618,7 +2689,7 @@ B30_0cd8:
     jsr REMOVE_NPCS_FROM_PARTY
     ldx #20
     jsr WaitXFrames_Min1
-    jsr B30_0542
+    jsr SetupPartyUi
     jsr B30_0efc
     jsr B31_1d5e
     jsr STORE_COORDINATES
@@ -7380,7 +7451,7 @@ B31_0c65:
 
 B31_0ca3:
     lda #$c3
-    jsr B30_0408
+    jsr SavePlayerBattlers
     ldx #30
     jsr WaitXFrames_Min1
     jsr RECONFIGURE_PARTY
@@ -8901,7 +8972,7 @@ B31_15e5:
     pha
     tya
     pha
-    jsr B30_0406
+    jsr SavePlayerBattlers_Allstats
     jsr B31_1614
     pla
     tay
@@ -9212,22 +9283,22 @@ B31_17a7:
     lda $e0
     beq @B31_17c2
     lda $e5
-    bne B31_17ca
+    bne NMI_Next
     beq B31_17e5
     @B31_17c2:
     lda $e5
     beq B31_17e5
     and #$7f
     sta $e0
-B31_17ca:
+NMI_Next:
     lda $0400, y
     beq B31_17e3
     bmi B31_17dc
     asl a
     tax
-    lda B31_18c1+1, x
+    lda NMI_Commands+1, x
     pha
-    lda B31_18c1, x
+    lda NMI_Commands, x
     pha
     rts
 
@@ -9352,52 +9423,52 @@ B31_188a:
 
 ; $F8C1
 ; Unknown "RTS jump table"
-B31_18c1:
-.addr B31_17ca-1 ; 00
-.addr B31_18d7-1 ; 01
-.addr B31_18db-1 ; 02
-.addr B31_18e5-1 ; 03
-.addr B31_18ed-1 ; 04
-.addr B31_1916-1 ; 05
-.addr B31_1923-1 ; 06
+NMI_Commands:
+.addr NMI_Next-1 ; 00
+.addr NMI_Command_1-1 ; 01
+.addr NMI_Command_2-1 ; 02
+.addr NMI_Command_3-1 ; 03
+.addr NMI_Command_4-1 ; 04
+.addr NMI_Command_5-1 ; 05
+.addr NMI_Command_6-1 ; 06
 .ifdef VER_JP
 .addr L3FA18-1 ; 07
-.addr B31_193c-1 ; 07
-.addr B31_197c-1 ; 09
+.addr NMI_Command_7-1 ; 08
+.addr NMI_Command_9-1 ; 09
 .else
-.addr B31_193c-1 ; 07
-.addr B31_195c-1 ; 08
-.addr B31_197c-1 ; 09
-.addr B31_199f-1 ; 0A
+.addr NMI_Command_7-1 ; 07
+.addr NMI_Command_8-1 ; 08
+.addr NMI_Command_9-1 ; 09
+.addr NMI_Command_A-1 ; 0A
 .endif
 
 ; NMI command - [01]
 ; NOP
-B31_18d7:
+NMI_Command_1:
     iny
-    jmp B31_17ca
+    jmp NMI_Next
 
 ; NMI command - [02 OO]
 ; Skip OO bytes in buffer (BRANCH)
-B31_18db:
+NMI_Command_2:
     iny
     tya
     sec
     adc $0400, y
     tay
-    jmp B31_17ca
+    jmp NMI_Next
 
 ; NMI command - [03 AA]
 ; Go to address AA in buffer (GOTO)
-B31_18e5:
+NMI_Command_3:
     iny
     lda $0400, y
     tay
-    jmp B31_17ca
+    jmp NMI_Next
 
 ; NMI command - [04]
 ; UPDATE_PALETTE
-B31_18ed:
+NMI_Command_4:
     lda #$3f
     ldx #$00
     sta PPUADDR
@@ -9415,31 +9486,31 @@ B31_18ed:
     stx PPUADDR
     stx PPUADDR
     iny
-    jmp B31_17ca
+    jmp NMI_Next
 
 ; NMI command 05 - [05 MM AA AA ...]
 ; Write ?? bytes into PPU address [AA AA] (MM needs to be looked into)
-B31_1916:
-    jsr B31_19ef
+NMI_Command_5:
+    jsr NMI_WritePPUBytes
     lda $0400, y
     cmp #$05
-    beq B31_1916
-    jmp B31_17ca
+    beq NMI_Command_5
+    jmp NMI_Next
 
 ; NMI command - [06 MM AA AA ...]
 ; Same as 05, but with 32-byte address increment
-B31_1923:
+NMI_Command_6:
     lda ram_PPUCTRL
     ora #$04
     sta PPUCTRL ; Increment VRAM address by 32 bytes on read/write
     @B31_192a:
-    jsr B31_19ef
+    jsr NMI_WritePPUBytes
     lda $0400, y
     cmp #$06
     beq @B31_192a
     lda ram_PPUCTRL
     sta PPUCTRL
-    jmp B31_17ca
+    jmp NMI_Next
 
 .ifdef VER_JP
 L3FA18:
@@ -9458,12 +9529,12 @@ L3FA1D:
   iny
   dex
   bne L3FA1D
-  jmp B31_17ca
+  jmp NMI_Next
 .endif
 
 ; NMI command - [07 CC (AA AA VV)...]
 ; Write VV into PPU address [AA AA]. Repeat process CC times (PPU_WRITE)
-B31_193c:
+NMI_Command_7:
     iny
     ldx $0400, y
     iny
@@ -9487,12 +9558,12 @@ B31_193c:
     .endif
     dex
     bne @B31_1941
-    jmp B31_17ca
+    jmp NMI_Next
 
 .ifndef VER_JP
 ; NMI command - [08 CC AA AA VV]
 ; Fill CC bytes at PPU address [AA AA] with VV (PPU_FILL)
-B31_195c:
+NMI_Command_8:
     iny
     ldx $0400, y
     iny
@@ -9508,11 +9579,11 @@ B31_195c:
     sta PPUDATA
     dex
     bne @B31_1973
-    jmp B31_17ca
+    jmp NMI_Next
 .endif
 
 ; NMI command 09 - PPU_READ
-B31_197c:
+NMI_Command_9:
     iny
     ldx $0400, y
     iny
@@ -9529,12 +9600,12 @@ B31_197c:
     iny
     dex
     bne @B31_1992
-    jmp B31_17ca
+    jmp NMI_Next
 
 .ifndef VER_JP
 ; NMI command - [0A BB AA AA]
 ; Read 64 bytes of text data from address [AA AA] in bank BB (READ_TEXT_DATA)
-B31_199f:
+NMI_Command_A:
     lda bankswitch_mode
     pha
     lda $f4
@@ -9574,10 +9645,10 @@ B31_199f:
     sta bankswitch_mode
     ora bankswitch_flags
     sta $8000
-    jmp B31_17ca
+    jmp NMI_Next
 .endif
 
-B31_19ef:
+NMI_WritePPUBytes:
     iny
     ldx $0400, y
     stx $c3
@@ -10061,8 +10132,8 @@ MemoryInit:
 MusicInit:
     .ifndef VER_JP
     ;set music bank to $1c to be loaded
-    lda #$1c
-    sta UNK_7
+    lda #.BANK(B28_0000)
+    sta music_bank
     .endif
     ;clear music ram
     ;0x100 bytes
@@ -10333,6 +10404,7 @@ B31_1e86:
     rts
 
 .segment "VECTORS"
+
 Reset_Vector:
     lda #PPUC_SPR_TableF
     sta PPUCTRL
@@ -10398,8 +10470,7 @@ Reset_Vector:
     jsr MusicInit
 
     ldx #BANK::PRGA000
-    lda #$13
-
+    lda #.BANK(OM_OPEN_FULLSTATS) ;bank 13
     jsr BANK_SWAP
 
     bit PPUSTATUS
@@ -10417,16 +10488,16 @@ Reset_Vector:
 BankswitchMusic:
     .ifdef VER_JP
     ;load bank $1C into $8000
-    lda #$1C
+    lda #.BANK(B28_0000)
     .else
-    ;load bank UNK_7 into $8000
-    lda UNK_7
+    ;load bank music_bank into $8000
+    lda music_bank
     .endif
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 
     ;load bank $1D into $A000
-    lda #$1D
+    lda #.BANK(B28_0000)+1
     ldx #BANK::PRGA000
     ;fallthrough
 

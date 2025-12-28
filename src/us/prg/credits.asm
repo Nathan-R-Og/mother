@@ -35,8 +35,8 @@ Credits_Entry:
     lda #$ff
     jsr PlayMusic
 
-    lda #$1b
-    sta UNK_7
+    lda #.BANK(B27_0000)
+    sta music_bank
 
     jsr WaitNMI
 

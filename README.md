@@ -6,18 +6,43 @@ Supports the English localization of Mother (Zero or Beginnings should work), an
 
 For WSL2 Ubuntu. Probably also works on actual Linux.
 
+Also works natively on Windows.
+
+## Supported Hashes
+
+| Game Version                       | MD5                              |
+|------------------------------------|----------------------------------|
+| MOTHER (JP) (NES 2.0)                       |`218503a880999363ac83945096040492`|
+| MOTHER (JP) (iNES)                          |`bf1e0bc9c390fdbb2b3ca22d784db7d2`|
+| Earthbound Beginnings (Proto) (US) (NES 2.0)|`54387b6e68142d69083a38b437196450`|
+| Earthbound Beginnings (Proto) (US) (iNES)   |`5bacf7ba94c539a1caf623dbe12059a3`|
+
+Headers may be different, making hashes fail. Check your header in a hex viewer against `src/global/header.asm` to see if your ROM is good or not.
+
+Automatically outputs ROM as NES 2.0.
+
 ## Instructions
 
-Note that if you are running on Windows, when it asks you to run a script, run the .bat script of the same name instead.
+Note that if you are running on Windows, when it asks you to run a script, run the `.ps1` script of the same name instead.
 
-1. Obtain cc65:
-  - If running on a supported Linux distribution, run `./install` to download and set up cc65
-  - If running on another platform (ex. Windows), it can be obtained from https://cc65.github.io/
-2. Copy MOTHER (J) and/or Earthbound Beginnings (U) ROMs into this directory.
+1. Install python
+  - Chances are you already have it installed if you are bothering with this repo.
+  - On Linux, `./install` will add python for you.
+  - On Windows, install python and make sure it is added to your system `PATH` under `Environment Variables`.
+2. Obtain cc65
+  - If running on a supported Linux distribution, run `./install` to download and set up cc65.
+  - If running on another platform (ex. Windows), it can be obtained from https://cc65.github.io/.
+  - If cc65 was not built from source, add it to your system `PATH` under `Environment Variables`. (like python)
+2. Drop MOTHER (J) and/or Earthbound Beginnings (U) ROMs into this directory.
 3. Run `./configure` to split banks from supported roms
+  - Each rom will be scanned for in the root of this repository, and will split their own unique assets.
 4. Run `./build` to make a new Earthbound Beginnings (U) ROM from assembly
   - Note that the output path will be `mother_rebuilt.nes`
 5. Run `./build -j` to make a new MOTHER (J) rom
+
+The newly built rom will be compared to the destination version's checksum, to see if it is byte matching. Make sure both US and JP are byte matching before opening a PR!
+
+If you wish to make your own ROM Hack, simply remove all calls to `tools/checksum.py` as well as the file itself. Fork and enjoy!
 
 ## About
 

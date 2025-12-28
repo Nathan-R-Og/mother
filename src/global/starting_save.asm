@@ -35,7 +35,7 @@ repel_counter: .byte $00
 ;area encounter defs for the zoo, since it changes based on flags
 areaEncounterDef 4, $10 ;area $29
 areaEncounterDef 4, 3 ;area $d
-;Duncany Factory Rocket Not-Moved Chunk ID
+;Duncan Factory Rocket Not-Moved Chunk ID
 .byte $42 ;ts2
 
 big_bag_uses: .byte 30

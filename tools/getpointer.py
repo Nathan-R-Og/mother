@@ -38,21 +38,4 @@ def do(toGet):
                 pass
     return re
 
-r = []
-
-slines = open("src/us/prg/bank13.asm", "r").readlines()
-i = 1630-1
-while i < len(slines) and i < 1700:
-    if slines[i].find("$") != -1:
-        val = int(slines[i].split("$")[-1].split(";")[0].strip(), 16)
-        s = do(val)
-        format = s[0]
-        if len(s) > 2:
-            s[0] = s[0].split("$")[-1]
-            format = f".word {s[2]} ; {s[0]} ; {hex(val)}"
-        r.append(format)
-    i += 1
-
-print("ok they start now")
-for tang in r:
-    print(tang)
+print(do(0x06cb))

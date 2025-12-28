@@ -2,16 +2,24 @@
 ;the only real differences between jp and us is the name stuff again
 ;and the repel ring, obviously
 
+;as defined per PlayerUsableBitfieldLUT
 ITEMUSE_NINTEN = 1
 ITEMUSE_ANA = 1 << 1
 ITEMUSE_LLOYD = 1 << 2
 ITEMUSE_TEDDY = 1 << 3
-;guesses????
 ITEMUSE_PIPPI = 1 << 4
 ITEMUSE_EVE = 1 << 5
-ITEMUSE_FLYINGMAN = 0
-;
-ITEMUSE_ALL = ITEMUSE_NINTEN | ITEMUSE_ANA | ITEMUSE_LLOYD | ITEMUSE_TEDDY | ITEMUSE_PIPPI | ITEMUSE_EVE | ITEMUSE_FLYINGMAN
+;while this is never used (and is shared with EVE anyways),
+;this does work (on equipment at least) on technicality of SELECTION_USE
+;prioritizing Equip over anything else.
+ITEMUSE_FLYINGMAN = 1 << 6 ;error prone due to sharing `edible` flag
+
+;EVE and Flying Man can never equip items in the first place.
+;PlayerUsableBitfieldLUT defines them both to share Bit 5.
+ITEMUSE_NPC = 1 << 5
+
+ITEMUSE_ALL = ITEMUSE_NINTEN | ITEMUSE_ANA | ITEMUSE_LLOYD | ITEMUSE_TEDDY | ITEMUSE_PIPPI | ITEMUSE_NPC
+
 
 .macro itemDef name, usableBy, edible, keyitem, effectValue, armorType, overworldAction, battleAction, msgPrice
     .addr name
@@ -129,7 +137,7 @@ itemDef INAME_ORANGEJUICE, ITEMUSE_ALL, 1, 0, 0, 0, $0A, $71, 5
 itemDef INAME_FRENCHFRIES, ITEMUSE_ALL, 1, 0, 0, 0, $0B, $72, 15
 itemDef INAME_MAGIC_HERB, ITEMUSE_ALL, 1, 0, 0, 0, $0C, $73, 30
 itemDef INAME_HAMBURGER, ITEMUSE_ALL, 1, 0, 0, 0, $0D, $7A, 25
-itemDef INAME_SPROTSDRINK, ITEMUSE_ALL, 1, 0, 0, 0, $0E, $74, 75
+itemDef INAME_SPORTSDRINK, ITEMUSE_ALL, 1, 0, 0, 0, $0E, $74, 75
 itemDef INAME_LIFEUPCREAM, ITEMUSE_ALL, 0, 0, 0, 0, $0F, $7B, 194
 itemDef INAME_ASTHMASPRAY, ITEMUSE_NINTEN, 0, 0, 0, 0, $00, $76, 148
 itemDef INAME_ANTIDOTE, ITEMUSE_ALL, 1, 0, 0, 0, $11, $7C, 20

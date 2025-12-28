@@ -19,7 +19,7 @@ ANTI_PIRACY:
 
     ;add nmi queue
     ;PPU_READ $12 ($2307)
-    lda #9
+    lda #NMI_COMMANDS::PPU_READ
     ldx #$12
     sta nmi_queue ; READ_PPU_HIGH_BYTE (TODO: NEEDS A BETTER NAME)
     stx nmi_queue+1 ; Read 0x12 values
@@ -32,7 +32,7 @@ ANTI_PIRACY:
     sta nmi_queue+$16
 
     sta nmi_flags+1
-    lda #.HIBYTE($8000)
+    lda #$80
     sta nmi_flags
 
     jsr PpuSync

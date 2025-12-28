@@ -74,11 +74,13 @@
 
 ; $8000
 ; Sound driver
-B28_0000:
+B28_0000: ;tick
     jmp B28_0277
+
 B28_0003:
     jmp B28_0299
-B28_0006:
+
+B28_0006: ;init
     jmp B28_0216
 
 
@@ -1839,7 +1841,7 @@ Pitch_Envelope_2:
 B28_0acc:
     lda music_id
     tay
-    lda B28_10f4, y
+    lda Music_Table_2_Ids, y
     tay
 
     ldx #0
@@ -1883,7 +1885,7 @@ B28_0aec:
     ldx #$00
     ldy #$00
     B28_0b0a:
-    lda B28_12f8, y
+    lda Path_To_Giegue_BGM_header, y
     sta ME_Transpose, x
     iny
     inx
@@ -1895,7 +1897,7 @@ B28_0aec:
     B28_0b1a:
     lda music_id
     tay
-    lda B28_10DC, y
+    lda Music_Table_Ids, y
     tay
     ldx #$00
     B28_0b24:
@@ -2549,443 +2551,495 @@ B28_0fea:
     .byte $00,$76,$00,$70,$00,$69,$00,$63,$00,$5E,$00,$58,$00,$53,$00,$4F
     .byte $00,$4A,$00,$46,$00,$42,$00,$3E,$00,$3A,$00,$37,$00,$34,$00,$31
     .byte $00,$2E,$00,$2B,$00,$29,$00,$0A,$00,$01
-Tempo_Lengths:
-    ;tempo note length offsets
-    ; 00
-    .byte $04,$08,$10,$20,$40,$18,$30,$0c,$0a,$05,$02,$01
-    ; 0c
-    .byte $05,$0a,$14,$28,$50,$1e,$3c,$0f,$0c,$06,$03,$02
-    ; 18
-    .byte $06,$0c,$18,$30,$60,$24,$48,$12,$10,$08,$03,$01
-    .byte $04,$02,$00,$90
-    ; 28
-    .byte $07,$0e,$1c,$38,$70,$2a,$54,$15,$12,$09,$03,$01
-    .byte $02
-    ; 35
-    .byte $08,$10,$20,$40,$80,$30,$60,$18,$15,$0a,$04,$01
-    .byte $02,$c0
-    ; 43
-    .byte $09,$12,$24,$48,$90,$36,$6c,$1b,$18
-    ; 4C
-    .byte $0a,$14,$28,$50,$a0,$3c,$78,$1e,$1a,$0d,$05,$01
-    .byte $02,$17
-    ; 5A
-    .byte $0b,$16,$2c,$58,$b0,$42,$84,$21,$1d,$0e,$05,$01
-    .byte $02,$17
 
-B28_10DC:
-    .byte $00,$0a,$14,$1e,$28,$3c,$32,$46,$50,$5a,$64,$6e,$78,$82,$8c,$96
-    .byte $a0,$aa,$b4,$be,$c8,$d2,$dc,$e6
-B28_10f4:
-    .byte $00,$0a,$14,$1e,$28,$32,$3c,$46,$50,$5a,$64,$6e,$78,$82,$8c,$96
-    .byte $A0,$AA,$B4,$BE,$C8,$D2,$DC,$E6,$F0
+;tempo note length offsets
+Tempo_Lengths:
+    NLT_00:
+    .byte $04,$08,$10,$20,$40,$18,$30,$0c
+    .byte $0a,$05,$02,$01
+    NLT_0C:
+    .byte $05,$0a,$14,$28,$50,$1e,$3c,$0f
+    .byte $0c,$06,$03,$02
+    NLT_18:
+    .byte $06,$0c,$18,$30,$60,$24,$48,$12
+    .byte $10,$08,$03,$01,$04,$02,$00,$90
+    NLT_28:
+    .byte $07,$0e,$1c,$38,$70,$2a,$54,$15
+    .byte $12,$09,$03,$01,$02
+    NLT_35:
+    .byte $08,$10,$20,$40,$80,$30,$60,$18
+    .byte $15,$0a,$04,$01,$02,$c0
+    NLT_43:
+    .byte $09,$12,$24,$48,$90,$36,$6c,$1b
+    .byte $18
+    NLT_4C:
+    .byte $0a,$14,$28,$50,$a0,$3c,$78,$1e
+    .byte $1a,$0d,$05,$01,$02,$17
+    NLT_5A:
+    .byte $0b,$16,$2c,$58,$b0,$42,$84,$21
+    .byte $1d,$0e,$05,$01,$02,$17
+
+
+.define header_offset(ta) .byte ta-Music_Table
+Music_Table_Ids:
+    header_offset Ocarina_header
+    header_offset Flippant_Battle_header
+    header_offset Dangerous_Battle_header
+    header_offset Hippie_Battle_header
+    header_offset Win_Battle_header
+    header_offset Pollyanna_header
+    header_offset Bein_Friends_header
+    header_offset Yucca_Desert_header
+    header_offset Magicant_BGM_header
+    header_offset Snowman_BGM_header
+    header_offset Mt_Itoi_BGM_header
+    header_offset Factory_BGM_header
+    header_offset Ghastly_Site_header
+    header_offset Twinkle_Elementary_BGM_header
+    header_offset Humoresque_Of_A_Little_Dog_header
+    header_offset Poltergeist_header
+    header_offset Underground_BGM_header
+    header_offset Home_BGM_header
+    header_offset Approaching_Mt_Itoi_header
+    header_offset Paradise_Line_BGM_header
+    header_offset Fallin_Love_header
+    header_offset Mother_Earth_header
+    header_offset Tank_BGM_header
+    header_offset Monkey_Cave_BGM_header
+.define header_offset2(ta) .byte ta-Music_Table_2
+Music_Table_2_Ids:
+    header_offset2 Queen_Marys_Song_header
+    header_offset2 Wisdom_Of_The_World_header
+    header_offset2 Tombstone_BGM_header
+    header_offset2 Game_Over_BGM_header
+    header_offset2 Big_Victory_BGM_header
+    header_offset2 Airplane_BGM_header
+    header_offset2 Level_Up_BGM_header
+    header_offset2 Recovery_BGM_header
+    header_offset2 Fanfare_BGM_header
+    header_offset2 Live_House_BGM_header
+    header_offset2 All_That_I_Needed_Was_You_header
+
+    header_offset2 Melody_1_header
+    header_offset2 Melody_2_header
+    header_offset2 Melody_3_header
+    header_offset2 Melody_4_header
+    header_offset2 Melody_5_header
+    header_offset2 Melody_6_header
+    header_offset2 Melody_7_header
+    header_offset2 Melody_8_header
+
+    header_offset2 VS_Giegue_BGM_header
+    header_offset2 Ending_JP_BGM_header
+    header_offset2 Zoo_BGM_header
+    header_offset2 Phone_BGM_header
+    header_offset2 Youngtown_BGM_header
+    header_offset2 Cave_Of_The_Tail_BGM_header
+
     .ifndef VER_JP
     .byte 0
     .endif
 
-; ocarina melodies
 Music_Table:
+
+Ocarina_header:
 .byte $18
-.byte $18
+.byte NLT_18-Tempo_Lengths
 .addr -1
 .addr -1
 .addr unk_76c
 .addr -1
 
-; flippant battle song header
+Flippant_Battle_header:
 .byte $00
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr mus_b_flippant_pulse1
 .addr mus_b_flippant_pulse2
 .addr mus_b_flippant_triangle
 .addr mus_b_flippant_noise
 
-; dangerous battle song header
+Dangerous_Battle_header:
 .byte $00
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr mus_b_dangerous_pulse1
 .addr mus_b_dangerous_pulse2
 .addr mus_b_dangerous_triangle
 .addr mus_b_dangerous_noise
 
-; hippie battle song header
+Hippie_Battle_header:
 .byte $00
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr mus_b_hippie_pulse1
 .addr mus_b_hippie_pulse2
 .addr mus_b_hippie_triangle
 .addr mus_b_hippie_noise
 
-; win battle song header
+Win_Battle_header:
 .byte $00
-.byte $00
+.byte NLT_00-Tempo_Lengths
 .addr mus_b_win_pulse1
 .addr mus_b_win_pulse2
 .addr mus_b_win_triangle
 .addr -1
 
-; bein friends song header
+Bein_Friends_header:
 .byte $00
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr mus_bein_friends_pulse1
 .addr mus_bein_friends_pulse2
 .addr mus_bein_friends_triangle
 .addr mus_bein_friends_noise
 
-; pollyanna song header
+Pollyanna_header:
 .byte $00
-.byte $35
+.byte NLT_35-Tempo_Lengths
 .addr mus_pollyanna_pulse1
 .addr mus_pollyanna_pulse2
 .addr mus_pollyanna_triangle
 .addr mus_pollyanna_noise
 
-; yucca desert song header
+Yucca_Desert_header:
 .byte $81
-.byte $0C
+.byte NLT_0C-Tempo_Lengths
 .addr mus_yucca_desert_pulse1
 .addr mus_yucca_desert_pulse2
 .addr mus_yucca_desert_triangle
 .addr mus_yucca_desert_noise
 
-; magicant song header
+Magicant_BGM_header:
 .byte $00
-.byte $4C
+.byte NLT_4C-Tempo_Lengths
 .addr mus_magicant_pulse1
 .addr mus_magicant_pulse2
 .addr mus_magicant_triangle
 .addr mus_magicant_noise
 
-; snowman song header
+Snowman_BGM_header:
 .byte $00
-.byte $35
+.byte NLT_35-Tempo_Lengths
 .addr mus_snowman_pulse1
 .addr mus_snowman_pulse2
 .addr mus_snowman_triangle
 .addr -1
 
-; mt itoi song header
+Mt_Itoi_BGM_header:
 .byte $00
-.byte $4C
+.byte NLT_4C-Tempo_Lengths
 .addr mus_mt_itoi_pulse1
 .addr mus_mt_itoi_pulse2
 .addr mus_mt_itoi_triangle
 .addr mus_mt_itoi_noise
 
-; factory song header
+Factory_BGM_header:
 .byte $00
-.byte $35
+.byte NLT_35-Tempo_Lengths
 .addr mus_factory_pulse1
 .addr mus_factory_pulse2
 .addr mus_factory_triangle
 .addr mus_factory_noise
 
-; ghastly site song header
+Ghastly_Site_header:
 .byte $00
-.byte $35
+.byte NLT_35-Tempo_Lengths
 .addr mus_ghastly_site_pulse1
 .addr mus_ghastly_site_pulse2
 .addr mus_ghastly_site_triangle
 .addr mus_ghastly_site_noise
 
-; twinkle elementary song header
+Twinkle_Elementary_BGM_header:
 .byte $00
-.byte $18
+.byte NLT_18-Tempo_Lengths
 .addr mus_twinkle_elementary_pulse1
 .addr mus_twinkle_elementary_pulse2
 .addr mus_twinkle_elementary_triangle
 .addr mus_twinkle_elementary_noise
 
-; humoresque of a little dog song header
+Humoresque_Of_A_Little_Dog_header:
 .byte $00
-.byte $18
+.byte NLT_18-Tempo_Lengths
 .addr mus_humoresque_of_a_little_dog_pulse1
 .addr mus_humoresque_of_a_little_dog_pulse2
 .addr mus_humoresque_of_a_little_dog_triangle
 .addr mus_humoresque_of_a_little_dog_noise
 
-; Poltergeist song header
+Poltergeist_header:
 .byte $87   ; Transpose
-.byte $18   ; Note length table offset
+.byte NLT_18-Tempo_Lengths   ; Note length table offset
 .addr mus_poltergeist_pulse1 ; Pulse1 phrase pointers
 .addr mus_poltergeist_pulse2 ; Pulse2 phrase pointers
 .addr mus_poltergeist_triangle ; Triangle phrase pointers
 .addr mus_poltergeist_noise ; Noise phrase pointers
 
-; underground song header
+Underground_BGM_header:
 .byte $00
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr mus_underground_pulse1
 .addr mus_underground_pulse2
 .addr mus_underground_triangle
 .addr mus_underground_noise
 
-; home song header
+Home_BGM_header:
 .byte $02
-.byte $43
+.byte NLT_43-Tempo_Lengths
 .addr mus_home_pulse1
 .addr mus_home_pulse2
 .addr mus_home_triangle
 .addr mus_home_noise
 
-; approaching mt. itoi song header
+Approaching_Mt_Itoi_header:
 .byte $00
-.byte $35
+.byte NLT_35-Tempo_Lengths
 .addr mus_approaching_mt_itoi_pulse1
 .addr mus_approaching_mt_itoi_pulse2
 .addr mus_approaching_mt_itoi_triangle
 .addr mus_approaching_mt_itoi_noise
 
-; paradise line song header
+Paradise_Line_BGM_header:
 .byte $00
-.byte $18
+.byte NLT_18-Tempo_Lengths
 .addr mus_paradise_line_pulse1
 .addr mus_paradise_line_pulse2
 .addr mus_paradise_line_triangle
 .addr mus_paradise_line_noise
 
-; fallin love song header
+Fallin_Love_header:
 .byte $00
-.byte $43
+.byte NLT_43-Tempo_Lengths
 .addr mus_fallin_love_pulse1
 .addr mus_fallin_love_pulse2
 .addr mus_fallin_love_triangle
 .addr mus_fallin_love_noise
 
-; Mother Earth song header
+Mother_Earth_header:
 .byte $00   ; Transpose
-.byte $28   ; Note length table offset
+.byte NLT_28-Tempo_Lengths   ; Note length table offset
 .addr mus_mother_earth_pulse1 ; Pulse1 phrase pointers
 .addr mus_mother_earth_pulse2 ; Pulse2 phrase pointers
 .addr mus_mother_earth_triangle ; Triangle phrase pointers
 .addr mus_mother_earth_noise ; Noise phrase pointers
 
-; tank song header
+Tank_BGM_header:
 .byte $00
-.byte $18
+.byte NLT_18-Tempo_Lengths
 .addr mus_tank_pulse1
 .addr mus_tank_pulse2
 .addr mus_tank_triangle
 .addr mus_tank_noise
 
-; monkey cave song header
+Monkey_Cave_BGM_header:
 .byte $00
-.byte $0C
+.byte NLT_0C-Tempo_Lengths
 .addr mus_monkey_cave_pulse1
 .addr mus_monkey_cave_pulse2
 .addr mus_monkey_cave_triangle
 .addr -1
 
 Music_Table_2:
-; queen mary's song song header
+
+Queen_Marys_Song_header:
 .byte $00
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr B29_0E84
 .addr B29_0E6C
 .addr -1
 .addr -1
 
-; wisdom of the world song header
+Wisdom_Of_The_World_header:
 .byte $00
-.byte $5A
+.byte NLT_5A-Tempo_Lengths
 .addr B29_0EFB
 .addr B29_0F01
 .addr B29_0F07
 .addr -1
 
-; tombstone song header
+Tombstone_BGM_header:
 .byte $18
-.byte $4C
+.byte NLT_4C-Tempo_Lengths
 .addr B29_0FFF
 .addr B29_0FF7
 .addr -1
 .addr -1
 
-; game over song header
+Game_Over_BGM_header:
 .byte $00
-.byte $4C
+.byte NLT_4C-Tempo_Lengths
 .addr B29_1012
 .addr B29_101A
 .addr B29_1022
 .addr -1
 
-; big victory song header
+Big_Victory_BGM_header:
 .byte $00
-.byte $18
+.byte NLT_18-Tempo_Lengths
 .addr mus_big_victory_pulse1
 .addr mus_big_victory_pulse2
 .addr mus_big_victory_triangle
 .addr -1
 
-; airplane song header
+Airplane_BGM_header:
 .byte $00
-.byte $18
+.byte NLT_18-Tempo_Lengths
 .addr B29_1992
 .addr B29_1998
 .addr B29_199E
 .addr B29_19B0
 
-; level up song header
+Level_Up_BGM_header:
 .byte $06
-.byte $00
+.byte NLT_00-Tempo_Lengths
 .addr mus_level_up_pulse1_intro
 .addr mus_level_up_pulse2_intro
 .addr mus_level_up_triangle_intro
 .addr -1
 
-; recovery song header
+Recovery_BGM_header:
 .byte $83
-.byte $18
+.byte NLT_18-Tempo_Lengths
 .addr B29_0E98
 .addr B29_0E9C
 .addr B29_0E9E
 .addr -1
 
-; fanfare song header
+Fanfare_BGM_header:
 .byte $83
-.byte $43
+.byte NLT_43-Tempo_Lengths
 .addr B29_1438
 .addr B29_143C
 .addr B29_143E
 .addr -1
 
-; live house song header
+Live_House_BGM_header:
 .byte $87
-.byte $18
+.byte NLT_18-Tempo_Lengths
 .addr B29_109E
 .addr B29_10A4
 .addr B29_10B0
 .addr B29_10BC
 
-; all that i needed was you song header
+All_That_I_Needed_Was_You_header:
 .byte $00
-.byte $18
+.byte NLT_18-Tempo_Lengths
 .addr B29_113C
 .addr B29_1152
 .addr B29_1162
 .addr B29_1174
 
-; melody 1 song header
+Melody_1_header:
 .byte $30
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr B28_1302
 .addr B28_1306
 .addr -1
 .addr -1
 
-; melody 2 song header
+Melody_2_header:
 .byte $18
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr B28_130A
 .addr B28_130E
 .addr -1
 .addr -1
 
-; melody 3 song header
+Melody_3_header:
 .byte $00
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr B28_1312
 .addr B28_1316
 .addr -1
 .addr -1
 
-; melody 4 song header
+Melody_4_header:
 .byte $00
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr B28_131A
 .addr B28_131E
 .addr -1
 .addr -1
 
-; melody 5 song header
+Melody_5_header:
 .byte $30
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr B28_1322
 .addr B28_1326
 .addr -1
 .addr -1
 
-; melody 6 song header
+Melody_6_header:
 .byte $18
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr B28_132A
 .addr B28_132E
 .addr -1
 .addr -1
 
-; melody 7 song header
+Melody_7_header:
 .byte $30
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr B28_1332
 .addr B28_1336
 .addr -1
 .addr -1
 
-; melody 8 song header
+Melody_8_header:
 .byte $18
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr B28_133A
 .addr B28_133E
 .addr -1
 .addr -1
 
-; vs giegue song header
+VS_Giegue_BGM_header:
 .byte $00
-.byte $43
+.byte NLT_43-Tempo_Lengths
 .addr B29_1461
 .addr B29_1467
 .addr -1
 .addr -1
 
-; ending (jp) song header
+Ending_JP_BGM_header:
 .byte $00
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr mus_epiloguejp_pulse1_start
 .addr mus_epiloguejp_pulse2_start
 .addr mus_epiloguejp_triangle_start
 .addr mus_epiloguejp_noise_start
 
-; zoo song header
+Zoo_BGM_header:
 .byte $00
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr B29_1479
 .addr B29_147F
 .addr B29_0827
 .addr B29_082F
 
-; phone song header
+Phone_BGM_header:
 .byte $00
-.byte $18
+.byte NLT_18-Tempo_Lengths
 .addr -1
 .addr B29_1495
 .addr -1
 .addr -1
 
-; youngtown song header
+Youngtown_BGM_header:
 .byte $00
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr B29_14A3
 .addr B29_14A9
 .addr B29_14AF
 .addr -1
 
-
-.ifdef VER_JP
-; cave of the tail song header
-B28_12f8:
-.endif
+Cave_Of_The_Tail_BGM_header:
 .byte $00
-.byte $28
+.byte NLT_28-Tempo_Lengths
 .addr B29_1556
 .addr B29_155E
 .addr -1
 .addr -1
 
 .ifndef VER_JP
-; path to giegue song header
-B28_12f8:
+Path_To_Giegue_BGM_header:
 .byte $00
-.byte $43
+.byte NLT_43-Tempo_Lengths
 .addr B29_1580
 .addr B29_1588
 .addr B29_1590

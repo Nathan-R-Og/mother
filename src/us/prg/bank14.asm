@@ -12,165 +12,7 @@ Map_TileProperties:
 ;overworld palettes + map exclusive data
 ;1st and 3rd byte of last palette of each set contains map data
 Map_Palettes:
-    .byte $0F,$00,$10,$30
-    .byte $0F,$00,$10,$30
-    .byte $0F,$00,$10,$30
-    .byte $00,$00,$40,$30
-
-    .byte $0F,$3A,$18,$38
-    .byte $0F,$3A,$10,$20
-    .byte $0F,$3A,$25,$1A
-    .byte $02,$3A,$4B,$12
-
-    .byte $0F,$20,$20,$10
-    .byte $0F,$20,$20,$10
-    .byte $0F,$20,$20,$28
-    .byte $09,$20,$40,$3B
-
-    .byte $0F,$38,$18,$1C
-    .byte $0F,$38,$10,$3B
-    .byte $0F,$38,$25,$1A
-    .byte $1A,$38,$40,$00
-
-    .byte $0F,$38,$18,$16
-    .byte $0F,$10,$30,$21
-    .byte $0F,$3A,$28,$21
-    .byte $17,$38,$40,$3C
-
-    .byte $0F,$39,$00,$00
-    .byte $0F,$39,$20,$10
-    .byte $0F,$39,$30,$2B
-    .byte $1B,$39,$40,$3B
-
-    .byte $0F,$38,$18,$1C
-    .byte $0F,$38,$10,$3B
-    .byte $0F,$38,$25,$1A
-    .byte $1A,$38,$40,$00
-
-    .byte $0F,$38,$18,$21
-    .byte $0F,$10,$30,$2A
-    .byte $0F,$00,$10,$30
-    .byte $14,$10,$40,$21
-
-    .byte $0F,$38,$18,$00
-    .byte $0F,$38,$24,$2B
-    .byte $0F,$12,$31,$02
-    .byte $1A,$21,$40,$00
-
-    .byte $0F,$38,$18,$1C
-    .byte $0F,$38,$10,$3B
-    .byte $0F,$38,$25,$1A
-    .byte $1A,$38,$40,$00
-
-    .byte $0F,$10,$00,$08
-    .byte $0F,$10,$00,$16
-    .byte $0F,$10,$00,$12
-    .byte $13,$00,$66,$30
-
-    .byte $0F,$10,$00,$08
-    .byte $0F,$10,$00,$16
-    .byte $0F,$10,$00,$12
-    .byte $13,$00,$41,$30
-
-    .byte $0F,$10,$00,$08
-    .byte $0F,$10,$00,$16
-    .byte $0F,$10,$00,$12
-    .byte $13,$00,$40,$30
-
-    .byte $0F,$10,$00,$08
-    .byte $0F,$10,$00,$16
-    .byte $0F,$10,$00,$12
-    .byte $13,$00,$40,$30
-
-    .byte $0F,$10,$00,$08
-    .byte $0F,$10,$00,$16
-    .byte $0F,$10,$00,$12
-    .byte $13,$00,$40,$30
-
-    .byte $0F,$10,$00,$08
-    .byte $0F,$10,$00,$16
-    .byte $0F,$10,$00,$12
-    .byte $13,$00,$40,$30
-
-    .byte $0F,$10,$00,$08
-    .byte $0F,$10,$00,$16
-    .byte $0F,$10,$00,$12
-    .byte $13,$00,$40,$30
-
-    .byte $0F,$00,$10,$30
-    .byte $0F,$00,$10,$30
-    .byte $0F,$00,$10,$30
-    .byte $00,$00,$40,$30
-
-    .byte $0F,$38,$18,$17
-    .byte $0F,$38,$18,$28
-    .byte $0F,$38,$00,$27
-    .byte $0A,$38,$76,$22
-
-    .byte $0F,$3B,$18,$38
-    .byte $0F,$28,$18,$38
-    .byte $0F,$33,$25,$38
-    .byte $16,$26,$40,$00
-
-    .byte $0F,$0F,$17,$27
-    .byte $0F,$0F,$17,$27
-    .byte $0F,$0F,$17,$27
-    .byte $0E,$18,$6E,$28
-
-    .byte $0F,$04,$15,$25
-    .byte $0F,$38,$18,$21
-    .byte $0F,$38,$18,$28
-    .byte $1D,$04,$4C,$34
-
-    .byte $0F,$34,$30,$24
-    .byte $0F,$34,$30,$35
-    .byte $0F,$2B,$35,$15
-    .byte $0F,$34,$00,$3B
-
-    .byte $0F,$37,$35,$17
-    .byte $0F,$37,$28,$17
-    .byte $0F,$37,$3A,$17
-    .byte $18,$37,$40,$17
-
-    .byte $0F,$3B,$34,$2B
-    .byte $0F,$3B,$28,$2B
-    .byte $0F,$3B,$29,$2B
-    .byte $18,$3B,$40,$2B
-
-    .byte $0F,$3B,$15,$1B
-    .byte $0F,$38,$15,$1B
-    .byte $0F,$3B,$0B,$1B
-    .byte $18,$3B,$40,$1B
-
-    .byte $0F,$3A,$18,$38
-    .byte $0F,$3A,$00,$20
-    .byte $0F,$3A,$25,$1A
-    .byte $0B,$3A,$42,$12
-
-    .byte $0F,$04,$03,$23
-    .byte $0F,$04,$27,$30
-    .byte $0F,$04,$05,$30
-    .byte $1A,$04,$40,$34
-
-    .byte $0F,$0F,$21,$30
-    .byte $0F,$12,$12,$21
-    .byte $0F,$12,$21,$30
-    .byte $0E,$17,$6E,$30
-
-    .byte $0F,$10,$33,$22
-    .byte $0F,$10,$03,$22
-    .byte $0F,$00,$10,$30
-    .byte $00,$00,$40,$30
-
-    .byte $0F,$37,$18,$31
-    .byte $0F,$37,$10,$3B
-    .byte $0F,$37,$30,$24
-    .byte $1A,$37,$40,$27
-
-    .byte $0F,$00,$10,$30
-    .byte $0F,$00,$10,$30
-    .byte $0F,$00,$10,$30
-    .byte $00,$00,$40,$30
+    .incbin "../../split/us/map_palettes.bin"
 
 ;format seems to be $10 per area, though why they sometimes pad with
 ;the same groups is questionable
@@ -180,86 +22,309 @@ Map_Palettes:
 SPAWN_SETS: ;use this symbol when the handler gets disasmd
 SPAWNS_0:
     .repeat $10
-        .byte $1
+        .byte BATTLEID BATTLE_MYHOUSE_RAT1
     .endrepeat
 SPAWNS_1:
     .repeat 2
-        .byte $3,$05,$07,$08,$09,$0B,$00,$00
+        .byte BATTLEID BATTLE_3
+        .byte BATTLEID BATTLE_5
+        .byte BATTLEID BATTLE_7
+        .byte BATTLEID BATTLE_8
+        .byte BATTLEID BATTLE_9
+        .byte BATTLEID BATTLE_B
+        .byte 0,0
     .endrepeat
 SPAWNS_2:
     .repeat 2
-        .byte $0C,$0D,$0E,$0F,$10,$11,$48,$00
+        .byte BATTLEID BATTLE_C
+        .byte BATTLEID BATTLE_D
+        .byte BATTLEID BATTLE_E
+        .byte BATTLEID BATTLE_F
+        .byte BATTLEID BATTLE_10
+        .byte BATTLEID BATTLE_11
+        .byte BATTLEID BATTLE_48
+        .byte 0
     .endrepeat
 SPAWNS_3:
     .repeat 2
-        .byte $12,$13,$14,$15,$16,$17,$18,$19
+        .byte BATTLEID BATTLE_12
+        .byte BATTLEID BATTLE_13
+        .byte BATTLEID BATTLE_14
+        .byte BATTLEID BATTLE_15
+        .byte BATTLEID BATTLE_16
+        .byte BATTLEID BATTLE_17
+        .byte BATTLEID BATTLE_18
+        .byte BATTLEID BATTLE_19
     .endrepeat
 SPAWNS_4:
     .repeat 2
-        .byte $04,$05,$06,$07,$0B,$1B,$1C,$00
+        .byte BATTLEID BATTLE_4
+        .byte BATTLEID BATTLE_5
+        .byte BATTLEID BATTLE_6
+        .byte BATTLEID BATTLE_7
+        .byte BATTLEID BATTLE_B
+        .byte BATTLEID BATTLE_1B
+        .byte BATTLEID BATTLE_1C
+        .byte 0
     .endrepeat
 SPAWNS_5:
-    .byte $1C,$1D,$1E,$1F,$30,$31,$32,$34,$35,$36,$38,$3A,$3B,$00,$00,$00
+    .byte BATTLEID BATTLE_1C
+    .byte BATTLEID BATTLE_1D
+    .byte BATTLEID BATTLE_1E
+    .byte BATTLEID BATTLE_1F
+    .byte BATTLEID BATTLE_30
+    .byte BATTLEID BATTLE_31
+    .byte BATTLEID BATTLE_32
+    .byte BATTLEID BATTLE_34
+    .byte BATTLEID BATTLE_35
+    .byte BATTLEID BATTLE_36
+    .byte BATTLEID BATTLE_38
+    .byte BATTLEID BATTLE_3A
+    .byte BATTLEID BATTLE_3B
+    .byte 0,0,0
 SPAWNS_6:
-    .byte $0A,$1C,$1D,$31,$32,$3C,$3D,$3E,$3F,$40,$9C,$00,$00,$00,$00,$00
+    .byte BATTLEID BATTLE_A
+    .byte BATTLEID BATTLE_1C
+    .byte BATTLEID BATTLE_1D
+    .byte BATTLEID BATTLE_31
+    .byte BATTLEID BATTLE_32
+    .byte BATTLEID BATTLE_3C
+    .byte BATTLEID BATTLE_3D
+    .byte BATTLEID BATTLE_3E
+    .byte BATTLEID BATTLE_3F
+    .byte BATTLEID BATTLE_40
+    .byte BATTLEID BATTLE_9C
+    .byte 0,0,0,0,0
 SPAWNS_7:
-    .byte $1C,$1E,$20,$21,$30,$32,$33,$36,$37,$47,$00,$00,$00,$00,$00,$00
+    .byte BATTLEID BATTLE_1C
+    .byte BATTLEID BATTLE_1E
+    .byte BATTLEID BATTLE_20
+    .byte BATTLEID BATTLE_21
+    .byte BATTLEID BATTLE_30
+    .byte BATTLEID BATTLE_32
+    .byte BATTLEID BATTLE_33
+    .byte BATTLEID BATTLE_36
+    .byte BATTLEID BATTLE_37
+    .byte BATTLEID BATTLE_47
+    .byte 0,0,0,0,0,0
 SPAWNS_8:
     .repeat 2
-        .byte $55,$56,$57,$58,$59,$00,$00,$00
+        .byte BATTLEID BATTLE_55
+        .byte BATTLEID BATTLE_56
+        .byte BATTLEID BATTLE_57
+        .byte BATTLEID BATTLE_58
+        .byte BATTLEID BATTLE_59
+        .byte 0,0,0
     .endrepeat
 SPAWNS_9:
-    .byte $47,$5A,$5B,$5C,$5D,$61,$62,$63,$64,$66,$69,$00,$00,$00,$00,$00
+    .byte BATTLEID BATTLE_47
+    .byte BATTLEID BATTLE_5A
+    .byte BATTLEID BATTLE_5B
+    .byte BATTLEID BATTLE_5C
+    .byte BATTLEID BATTLE_5D
+    .byte BATTLEID BATTLE_61
+    .byte BATTLEID BATTLE_62
+    .byte BATTLEID BATTLE_63
+    .byte BATTLEID BATTLE_64
+    .byte BATTLEID BATTLE_66
+    .byte BATTLEID BATTLE_69
+    .byte 0,0,0,0,0
 SPAWNS_A:
-    .byte $5C,$5E,$61,$64,$65,$67,$68,$69,$6A,$6B,$6C,$6D,$6E,$00,$00,$00
+    .byte BATTLEID BATTLE_5C
+    .byte BATTLEID BATTLE_5E
+    .byte BATTLEID BATTLE_61
+    .byte BATTLEID BATTLE_64
+    .byte BATTLEID BATTLE_65
+    .byte BATTLEID BATTLE_67
+    .byte BATTLEID BATTLE_68
+    .byte BATTLEID BATTLE_69
+    .byte BATTLEID BATTLE_6A
+    .byte BATTLEID BATTLE_6B
+    .byte BATTLEID BATTLE_6C
+    .byte BATTLEID BATTLE_6D
+    .byte BATTLEID BATTLE_6E
+    .byte 0,0,0
 SPAWNS_B:
-    .byte $5A,$5B,$70,$71,$72,$73,$75,$76,$77,$78,$79,$00,$00,$00,$00,$00
+    .byte BATTLEID BATTLE_5A
+    .byte BATTLEID BATTLE_5B
+    .byte BATTLEID BATTLE_70
+    .byte BATTLEID BATTLE_71
+    .byte BATTLEID BATTLE_72
+    .byte BATTLEID BATTLE_73
+    .byte BATTLEID BATTLE_75
+    .byte BATTLEID BATTLE_76
+    .byte BATTLEID BATTLE_77
+    .byte BATTLEID BATTLE_78
+    .byte BATTLEID BATTLE_79
+    .byte 0,0,0,0,0
 SPAWNS_C:
-    .byte $5F,$60,$61,$66,$69,$73,$74,$7A,$7B,$7C,$7D,$00,$00,$00,$00,$00
+    .byte BATTLEID BATTLE_5F
+    .byte BATTLEID BATTLE_60
+    .byte BATTLEID BATTLE_61
+    .byte BATTLEID BATTLE_66
+    .byte BATTLEID BATTLE_69
+    .byte BATTLEID BATTLE_73
+    .byte BATTLEID BATTLE_74
+    .byte BATTLEID BATTLE_7A
+    .byte BATTLEID BATTLE_7B
+    .byte BATTLEID BATTLE_7C
+    .byte BATTLEID BATTLE_7D
+    .byte 0,0,0,0,0
 SPAWNS_D:
-    .byte $49,$4A,$4B,$4C,$4D,$4E,$4F,$50,$51,$52,$53,$54,$A3,$00,$00,$00
+    .byte BATTLEID BATTLE_49
+    .byte BATTLEID BATTLE_4A
+    .byte BATTLEID BATTLE_4B
+    .byte BATTLEID BATTLE_4C
+    .byte BATTLEID BATTLE_4D
+    .byte BATTLEID BATTLE_4E
+    .byte BATTLEID BATTLE_4F
+    .byte BATTLEID BATTLE_50
+    .byte BATTLEID BATTLE_51
+    .byte BATTLEID BATTLE_52
+    .byte BATTLEID BATTLE_53
+    .byte BATTLEID BATTLE_54
+    .byte BATTLEID BATTLE_A3
+    .byte 0,0,0
 SPAWNS_E:
-    .byte $49,$4A,$4B,$4C,$4D,$4E,$4F,$50,$51,$52,$53,$54,$A3,$00,$00,$00
+    .byte BATTLEID BATTLE_49
+    .byte BATTLEID BATTLE_4A
+    .byte BATTLEID BATTLE_4B
+    .byte BATTLEID BATTLE_4C
+    .byte BATTLEID BATTLE_4D
+    .byte BATTLEID BATTLE_4E
+    .byte BATTLEID BATTLE_4F
+    .byte BATTLEID BATTLE_50
+    .byte BATTLEID BATTLE_51
+    .byte BATTLEID BATTLE_52
+    .byte BATTLEID BATTLE_53
+    .byte BATTLEID BATTLE_54
+    .byte BATTLEID BATTLE_A3
+    .byte 0,0,0
 SPAWNS_F:
-    .byte $49,$4A,$4B,$4C,$4D,$4E,$4F,$50,$51,$A3,$00,$00,$00,$00,$00,$00
+    .byte BATTLEID BATTLE_49
+    .byte BATTLEID BATTLE_4A
+    .byte BATTLEID BATTLE_4B
+    .byte BATTLEID BATTLE_4C
+    .byte BATTLEID BATTLE_4D
+    .byte BATTLEID BATTLE_4E
+    .byte BATTLEID BATTLE_4F
+    .byte BATTLEID BATTLE_50
+    .byte BATTLEID BATTLE_51
+    .byte BATTLEID BATTLE_A3
+    .byte 0,0,0,0,0,0
 SPAWNS_10:
     .repeat 4
-        .byte $01,$02,$06,$1A
+        .byte BATTLEID BATTLE_MYHOUSE_RAT1
+        .byte BATTLEID BATTLE_2
+        .byte BATTLEID BATTLE_6
+        .byte BATTLEID BATTLE_1A
     .endrepeat
 SPAWNS_11:
     .repeat 2
-        .byte $41,$42,$43,$44,$45,$46,$00,$00
+        .byte BATTLEID BATTLE_41
+        .byte BATTLEID BATTLE_42
+        .byte BATTLEID BATTLE_43
+        .byte BATTLEID BATTLE_44
+        .byte BATTLEID BATTLE_45
+        .byte BATTLEID BATTLE_46
+        .byte 0,0
     .endrepeat
 SPAWNS_12:
     .repeat 2
-        .byte $41,$42,$43,$44,$45,$46,$00,$00
+        .byte BATTLEID BATTLE_41
+        .byte BATTLEID BATTLE_42
+        .byte BATTLEID BATTLE_43
+        .byte BATTLEID BATTLE_44
+        .byte BATTLEID BATTLE_45
+        .byte BATTLEID BATTLE_46
+        .byte 0,0
     .endrepeat
 SPAWNS_13:
-    .byte $49,$4A,$4B,$4C,$4D,$4E,$4F,$50,$51,$52,$53,$54,$A3,$00,$00,$00
+    .byte BATTLEID BATTLE_49
+    .byte BATTLEID BATTLE_4A
+    .byte BATTLEID BATTLE_4B
+    .byte BATTLEID BATTLE_4C
+    .byte BATTLEID BATTLE_4D
+    .byte BATTLEID BATTLE_4E
+    .byte BATTLEID BATTLE_4F
+    .byte BATTLEID BATTLE_50
+    .byte BATTLEID BATTLE_51
+    .byte BATTLEID BATTLE_52
+    .byte BATTLEID BATTLE_53
+    .byte BATTLEID BATTLE_54
+    .byte BATTLEID BATTLE_A3
+    .byte 0,0,0
 SPAWNS_14:
     .repeat $10
         .byte BATTLEID BATTLE_MYHOUSE_RAT1
     .endrepeat
 SPAWNS_15:
     .repeat 4
-        .byte $02,$1E,$02,$1E
+        .byte BATTLEID BATTLE_2
+        .byte BATTLEID BATTLE_1E
+        .byte BATTLEID BATTLE_2
+        .byte BATTLEID BATTLE_1E
     .endrepeat
 SPAWNS_16:
-    .byte $81,$82,$83,$84,$85,$86,$87,$88,$89,$8A,$8B,$00,$00,$00,$00,$00
+    .byte BATTLEID BATTLE_81
+    .byte BATTLEID BATTLE_82
+    .byte BATTLEID BATTLE_83
+    .byte BATTLEID BATTLE_84
+    .byte BATTLEID BATTLE_85
+    .byte BATTLEID BATTLE_86
+    .byte BATTLEID BATTLE_87
+    .byte BATTLEID BATTLE_88
+    .byte BATTLEID BATTLE_89
+    .byte BATTLEID BATTLE_8A
+    .byte BATTLEID BATTLE_8B
+    .byte 0,0,0,0,0
 SPAWNS_17:
-    .byte $92,$93,$94,$95,$96,$97,$98,$99,$9A,$00,$00,$00,$00,$00,$00,$00
+    .byte BATTLEID BATTLE_92
+    .byte BATTLEID BATTLE_93
+    .byte BATTLEID BATTLE_94
+    .byte BATTLEID BATTLE_95
+    .byte BATTLEID BATTLE_96
+    .byte BATTLEID BATTLE_97
+    .byte BATTLEID BATTLE_98
+    .byte BATTLEID BATTLE_99
+    .byte BATTLEID BATTLE_9A
+    .byte 0,0,0,0,0,0,0
 SPAWNS_18:
     .repeat 4
-        .byte $7E,$7F,$80,$82
+        .byte BATTLEID BATTLE_7E
+        .byte BATTLEID BATTLE_7F
+        .byte BATTLEID BATTLE_80
+        .byte BATTLEID BATTLE_82
     .endrepeat
 SPAWNS_19:
     .repeat 4
-        .byte $8C,$8D,$8E,$00
+        .byte BATTLEID BATTLE_8C
+        .byte BATTLEID BATTLE_8D
+        .byte BATTLEID BATTLE_8E
+        .byte 0
     .endrepeat
 SPAWNS_1A:
-    .byte $22,$23,$24,$25,$26,$27,$28,$29,$2B,$2C,$2D,$00,$00,$00,$00,$00
+    .byte BATTLEID BATTLE_22
+    .byte BATTLEID BATTLE_23
+    .byte BATTLEID BATTLE_MAGICANT_BIGWOODOH
+    .byte BATTLEID BATTLE_MAGICANT_WOODOH
+    .byte BATTLEID BATTLE_26
+    .byte BATTLEID BATTLE_27
+    .byte BATTLEID BATTLE_28
+    .byte BATTLEID BATTLE_29
+    .byte BATTLEID BATTLE_2B
+    .byte BATTLEID BATTLE_2C
+    .byte BATTLEID BATTLE_2D
+    .byte 0,0,0,0,0
 SPAWNS_1B:
-    .byte $2A,$2B,$2C,$2D,$A1,$00,$00,$00,$2A,$2B,$2C,$2D,$A1,$00,$00,$00
+    .repeat 2
+        .byte BATTLEID BATTLE_2A
+        .byte BATTLEID BATTLE_2B
+        .byte BATTLEID BATTLE_2C
+        .byte BATTLEID BATTLE_2D
+        .byte BATTLEID BATTLE_A1
+        .byte 0,0,0
+    .endrepeat
 SPAWNS_1C:
     .repeat $10
         .byte BATTLEID BATTLE_MYHOUSE_RAT1
@@ -345,7 +410,7 @@ something_init:
     jsr EnablePRGRam
 
     ;text pointers + sram?
-    lda #$18
+    lda #.BANK(MSG_pointerList)
     ldx #BANK::PRGA000
     jsr BANK_SWAP
 
@@ -474,7 +539,7 @@ DoWalkingStep:
     jsr OnStepEffect
 
     ;get areaEncounterDef based on area
-    ldx UNK_15
+    ldx map_area
     lda AREA_ENCOUNTER_LIST, x
 
     @Saveram_Encounter:

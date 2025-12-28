@@ -229,10 +229,90 @@ table_jp = {
 
 }
 
+stopText = 0
+newLine = 1
+waitThenOverwrite = 2
+pauseText = 3
+t_nop = 5
 
-def ebToString(input:str, asm=False, english=True):
+goto = [4,"ADDR"]
+#tx,ty
+set_pos = [0x20,"byte","byte"]
+print_string = [0x21,"ADDR"]
+#ta,tb
+repeatTile = [0x22,"byte","byte"]
+#tb,tc
+print_number = [0x23,"ADDR",'byte',"byte"]
+
+macros_us = {
+b"\x23\x15\x74\x03\x00": "cashDeposit",
+b"\x23\x12\x74\x03\x00": "currentCash",
+b"\x23\x2A\x00\x02\x00": "price",
+b"\x23\x90\x05\x02\x00": "damageAmount",
+b"\x23\x92\x05\x02\x00": "defenseStat",
+b"\x23\x5D\x00\x01\x00": "lvHPPPinc",
+b"\x23\x58\x00\x01\x00": "lvFIGinc",
+b"\x23\x59\x00\x01\x00": "lvSPDinc",
+b"\x23\x5A\x00\x01\x00": "lvWISinc",
+b"\x23\x5B\x00\x01\x00": "lvSTRinc",
+b"\x23\x5C\x00\x01\x00": "lvFORinc",
+b"\x97\x98\x99\x9A\x9B\x9C\x9D\x9E\x9F": "SMAAAAASH",
+b"\x21\x20\x6D": "user",
+b"\x21\x24\x6D": "recipient",
+b"\x21\x00\x6D": "result",
+b"\x21\x89\x76": "favFood",
+b"\x21\x78\x74": "nintenName",
+b"\x21\xF8\x74": "lloydName",
+b"\x21\xB8\x74": "anaName",
+b"\x21\x38\x75": "teddyName",
+b"\x21\x0A\x67": "partyLead",
+b"\x21\x04\x6D": "item",
+b"\x21\x20\x74": "playerName",
+b"\x21\x80\x05": "attacker",
+b"\x21\x88\x05": "beingAttacked",
+b"\x21\x90\x05": "attackResult",
+b"\x20\x08\x06": "unk",
+b"\x20\x08\x07": "unk2",
+b"\x22\xA0\x10": "unk3",
+}
+
+macros_jp = {
+b"\x23\x15\x74\x03\x00": "cashDeposit",
+b"\x23\x12\x74\x03\x00": "currentCash",
+b"\x23\x2A\x00\x02\x00": "price",
+b"\x23\x90\x05\x02\x00": "damageAmount",
+b"\x23\x92\x05\x02\x00": "defenseStat",
+b"\x23\x5D\x00\x01\x00": "lvHPPPinc",
+b"\x23\x58\x00\x01\x00": "lvFIGinc",
+b"\x23\x59\x00\x01\x00": "lvSPDinc",
+b"\x23\x5A\x00\x01\x00": "lvWISinc",
+b"\x23\x5B\x00\x01\x00": "lvSTRinc",
+b"\x23\x5C\x00\x01\x00": "lvFORinc",
+b"\x67\x68\x69\x6A\x6B\x6C\x6D\x6E\x6F": "SMAAAAASH", #diff
+b"\x21\x90\x6D": "user", #diff
+b"\x21\x94\x6D": "recipient", #diff
+b"\x21\x80\x6D": "result", #diff
+b"\x21\x89\x76": "favFood",
+b"\x21\x78\x74": "nintenName",
+b"\x21\xF8\x74": "lloydName",
+b"\x21\xB8\x74": "anaName",
+b"\x21\x38\x75": "teddyName",
+b"\x21\x0A\x6d": "partyLead", #diff
+b"\x21\x84\x6D": "item", #diff
+b"\x21\x20\x74": "playerName",
+b"\x21\x80\x05": "attacker",
+b"\x21\x88\x05": "beingAttacked",
+b"\x21\x07\x94": "beingAttacked2", #diff
+b"\x21\x90\x05": "attackResult",
+b"\x20\x08\x06": "unk",
+b"\x20\x08\x07": "unk2",
+b"\x22\xA0\x10": "unk3",
+b"\x21\x0d\x6d": "unk4", #diff
+}
+
+
+def decompile(input:str, asm=False, english=True):
     lines = []
-    input = input.replace(" ", "")
     string = ""
 
     if english:
@@ -243,7 +323,7 @@ def ebToString(input:str, asm=False, english=True):
         alphabet_l = range(0xe1, 0xfA+1)
         i = 0
         while i < len(input):
-            val = int("0x"+input[i:i+2], 16)
+            val = input[i]
             if val in alphabet_C_B:
                 string += chr(ord("A")+(val-0x41))
             elif val in alphabet_C:
@@ -254,8 +334,8 @@ def ebToString(input:str, asm=False, english=True):
                 string += chr(ord("a")+(val-0xe1))
             elif val in numbers:
                 string += chr(ord("0")+(val-0xb0))
-            elif val in [0, 1, 3] + list(range(0x20, 0x23+1))and asm:
-                if val == 1 or val == 0:
+            elif val in [stopText, newLine, pauseText] + list(range(0x20, 0x23+1))and asm:
+                if val in [newLine, stopText]:
                     if string != "":
                         content = string.split("|")
                         x = 0
@@ -271,106 +351,40 @@ def ebToString(input:str, asm=False, english=True):
                                 else:
                                     content[x] = '"'+content[x]+'"'
                             x += 1
-                        if val == 1:
-                            lines.append(f'.byte   {",".join(content)},newLine')
+                        if val == newLine:
+                            lines.append(f'.byte {",".join(content)},newLine')
                         else:
-                            lines.append(f'.byte   {",".join(content)}')
+                            lines.append(f'.byte {",".join(content)}')
                     #stopTexts dont depend on text and are usually singled if null
-                    if val == 0:
-                        lines.append(".byte   stopText")
+                    if val == stopText:
+                        lines.append(".byte stopText")
                         lines.append("")
 
                     string = ""
-                elif val == 3:
-                    lines.append(".byte   pauseText")
-                elif val in range(0x20, 0x23+1):
-                    i += 2
-                    if input[i:i+8].upper() == "15740300":
-                        string+="|`cashDeposit"
-                        i += 4
-                    elif input[i:i+8].upper() == "12740300":
-                        string+="|`currentCash"
-                        i += 4
-                    elif input[i:i+8].upper() == "2A000200":
-                        string+="|`price"
-                        i += 4
-                    elif input[i:i+8].upper() == "90050200":
-                        string+="|`damageAmount"
-                        i += 4
-                    elif input[i:i+8].upper() == "92050200":
-                        string+="|`defenseStat"
-                        i += 4
-                    elif input[i:i+8].upper() == "5D000100":
-                        string+="|`lvHPPPinc"
-                        i += 4
-                    elif input[i:i+8].upper() == "58000100":
-                        string+="|`lvFIGinc"
-                        i += 4
-                    elif input[i:i+8].upper() == "59000100":
-                        string+="|`lvSPDinc"
-                        i += 4
-                    elif input[i:i+8].upper() == "5A000100":
-                        string+="|`lvWISinc"
-                        i += 4
-                    elif input[i:i+8].upper() == "5B000100":
-                        string+="|`lvSTRinc"
-                        i += 4
-                    elif input[i:i+8].upper() == "5C000100":
-                        string+="|`lvFORinc"
-                        i += 4
-                    elif input[i:i+18].upper() == "9798999A9B9C9D9E9F":
-                        string+="|`SMAAAAASH"
-                        i += 4
-                    elif input[i:i+4].upper() == "206D":
-                        string+="|`user"
-                    elif input[i:i+4].upper() == "246D":
-                        string+="|`recipient"
-                    elif input[i:i+4].upper() == "006D":
-                        string+="|`result"
-                    elif input[i:i+4].upper() == "8976":
-                        string+="|`favFood"
-                    elif input[i:i+4].upper() == "7874":
-                        string+="|`nintenName"
-                    elif input[i:i+4].upper() == "F874":
-                        string+="|`lloydName"
-                    elif input[i:i+4].upper() == "B874":
-                        string+="|`anaName"
-                    elif input[i:i+4].upper() == "3875":
-                        string+="|`teddyName"
-                    elif input[i:i+4].upper() == "0A67":
-                        string+="|`partyLead"
-                    elif input[i:i+4].upper() == "046D":
-                        string+="|`item"
-                    elif input[i:i+4].upper() == "2074":
-                        string+="|`playerName"
-                    elif input[i:i+4].upper() == "8005":
-                        string+="|`attacker"
-                    elif input[i:i+4].upper() == "8805":
-                        string+="|`beingAttacked"
-                    elif input[i:i+4].upper() == "9005":
-                        string+="|`attackResult"
-                    elif input[i:i+4].upper() == "0806":
-                        string+="|`unk"
-                    elif input[i:i+4].upper() == "0807":
-                        string+="|`unk2"
-                    elif input[i:i+4].upper() == "A010":
-                        string+="|`unk3"
-                    else:
-                        cmd = input[i-2:i+4]
+                elif val == pauseText:
+                    lines.append(".byte pauseText")
+                else:
+                    found = False
+                    for key in list(macros_us.keys()):
+                        if input[i:i+len(key)] == key:
+                            string += f"|`{macros_us[key]}"
+                            found = True
+                            i += len(key)-1
+                            break
+
+                    if not found:
+                        cmd = input[i:i+3]
                         string+="|`unk"+cmd
                         print("VARERR "+cmd)
+                        i += 1
                     string += "|"
-                    i += 2
-
-
-
 
             elif val in list(table.keys()):
                 string += table[val]
             else:
                 #unsupported
                 print(hex(val))
-            i += 2
+            i += 1
     else:
         numbers_lo = list(range(0x5B, 0x5F+1))
         numbers_hi = list(range(0x7B, 0x7F+1))
@@ -378,7 +392,7 @@ def ebToString(input:str, asm=False, english=True):
         capitals = range(0x41, 0x5A+1)
         i = 0
         while i < len(input):
-            val = int("0x"+input[i:i+2], 16)
+            val = input[i]
             if val in numbers:
                 if val in numbers_lo:
                     string += chr(ord("0")+(val-0x5b))
@@ -388,101 +402,36 @@ def ebToString(input:str, asm=False, english=True):
                 string += chr(ord("A")+(val-0x41))
             elif val in list(table_jp.keys()):
                 string += table_jp[val]
-            elif val in [0, 1, 3] + list(range(0x20, 0x23+1)) and asm:
+            elif val in [stopText, newLine, pauseText] + list(range(0x20, 0x23+1)) and asm:
                 if string != "":
                     lines.append(f'kanafix "{string}"')
                 string = ""
-                if val == 0:
-                    lines.append(".byte   stopText")
+                if val == stopText:
+                    lines.append(".byte stopText")
                     lines.append("")
-                elif val == 1:
-                    lines.append(".byte   newLine")
-                elif val == 3:
-                    lines.append(".byte   pauseText")
-                elif val in range(0x20, 0x23+1):
-                    i += 2
-                    if input[i:i+8].upper() == "15740300":
-                        lines.append(".byte   cashDeposit")
-                        i += 4
-                    elif input[i:i+8].upper() == "12740300":
-                        lines.append(".byte   currentCash")
-                        i += 4
-                    elif input[i:i+8].upper() == "2A000200":
-                        lines.append(".byte   price")
-                        i += 4
-                    elif input[i:i+8].upper() == "90050200":
-                        lines.append(".byte   damageAmount")
-                        i += 4
-                    elif input[i:i+8].upper() == "92050200":
-                        lines.append(".byte   defenseStat")
-                        i += 4
-                    elif input[i:i+8].upper() == "5D000100":
-                        lines.append(".byte   lvHPPPinc")
-                        i += 4
-                    elif input[i:i+8].upper() == "58000100":
-                        lines.append(".byte   lvFIGinc")
-                        i += 4
-                    elif input[i:i+8].upper() == "59000100":
-                        lines.append(".byte   lvSPDinc")
-                        i += 4
-                    elif input[i:i+8].upper() == "5A000100":
-                        lines.append(".byte   lvWISinc")
-                        i += 4
-                    elif input[i:i+8].upper() == "5B000100":
-                        lines.append(".byte   lvSTRinc")
-                        i += 4
-                    elif input[i:i+8].upper() == "5C000100":
-                        lines.append(".byte   lvFORinc")
-                        i += 4
-                    elif input[i:i+18].upper() == "6768696A6B6C6D6E6F":
-                        lines.append(".byte   SMAAAAASH")
-                        i += 4
-                    elif input[i:i+4].upper() == "906D":
-                        lines.append(".byte   user")
-                    elif input[i:i+4].upper() == "946D":
-                        lines.append(".byte   recipient")
-                    elif input[i:i+4].upper() == "806D":
-                        lines.append(".byte   result")
-                    elif input[i:i+4].upper() == "8976":
-                        lines.append(".byte   favFood")
-                    elif input[i:i+4].upper() == "7874":
-                        lines.append(".byte   nintenName")
-                    elif input[i:i+4].upper() == "F874":
-                        lines.append(".byte   lloydName")
-                    elif input[i:i+4].upper() == "B874":
-                        lines.append(".byte   anaName")
-                    elif input[i:i+4].upper() == "3875":
-                        lines.append(".byte   teddyName")
-                    elif input[i:i+4].upper() == "0A6D":
-                        lines.append(".byte   partyLead")
-                    elif input[i:i+4].upper() == "846D":
-                        lines.append(".byte   item")
-                    elif input[i:i+4].upper() == "2074":
-                        lines.append(".byte   playerName")
-                    elif input[i:i+4].upper() == "8005":
-                        lines.append(".byte   attacker")
-                    elif input[i:i+4].upper() == "8805":
-                        lines.append(".byte   beingAttacked")
-                    elif input[i:i+4].upper() == "0794":
-                        lines.append(".byte   beingAttacked2")
-                    elif input[i:i+4].upper() == "9005":
-                        lines.append(".byte   attackResult")
-                    elif input[i:i+4].upper() == "0806":
-                        lines.append(".byte   unk")
-                    elif input[i:i+4].upper() == "0807":
-                        lines.append(".byte   unk2")
-                    elif input[i:i+4].upper() == "A010":
-                        lines.append(".byte   unk3")
-                    elif input[i:i+4].upper() == "0D6D": #jp only?????
-                        lines.append(".byte   unk4")
-                    else:
-                        cmd = input[i-2:i+4]
-                        lines.append(".byte   unk"+cmd)
+                elif val == newLine:
+                    lines.append(".byte newLine")
+                elif val == pauseText:
+                    lines.append(".byte pauseText")
+                else:
+                    found = False
+                    for key in list(macros_us.keys()):
+                        if input[i:i+len(key)] == key:
+                            string += f"|`{macros_us[key]}"
+                            found = True
+                            i += len(key)
+                            break
+
+                    if not found:
+                        cmd = input[i:i+3]
+                        string+="|`unk"+cmd
                         print("VARERR "+cmd)
-                    i += 2
+                        i += 1
+                    string += "|"
+
             else:
                 print(hex(val), " error")
-            i += 2
+            i += 1
 
     if asm:
         result = ""
@@ -492,31 +441,31 @@ def ebToString(input:str, asm=False, english=True):
     else:
         return string
 
-def stringToEb(string, english=True):
-    output = ""
+def compile(string, english=True):
+    output = bytearray()
     if english:
         i = 0
         while i < len(string):
-            output += hex(ord(string[i]) + 0x80).replace("0x","")
+            output.append(ord(string[i]) + 0x80)
             i += 1
     else:
         i = 0
         while i < len(string):
             val = string[i]
-            o = ""
+            o = 0
             capitals = range(0x41, 0x5A+1)
             numbers_lo = list(range(0x5B, 0x5F+1))
             numbers_hi = list(range(0x7B, 0x7F+1))
             numbers = numbers_lo+numbers_hi
             if ord(val) in range(ord("A"), ord("Z")+1):
-                o = hex(capitals[(ord(val)-ord("A"))]).upper().replace("0X","")+" "
+                o = capitals[(ord(val)-ord("A"))]
             elif ord(val) in range(ord("0"), ord("9")+1):
-                o = hex(numbers[(ord(val)-ord("0"))]).upper().replace("0X","")+" "
-            if o == "":
+                o = numbers[(ord(val)-ord("0"))]
+            if o == 0:
                 for key in list(table_jp.keys()):
                     if table_jp[key] == val:
-                        o = hex(key).upper().replace("0X","")+" "
+                        o = key
                         break
-            output += o
+            output.append(o)
             i += 1
-    return output.strip()
+    return output

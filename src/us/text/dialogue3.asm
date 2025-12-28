@@ -1,5 +1,6 @@
 .segment        "CHR12": absolute
 
+MSG_TWINKLE_SITUPSKID:
 .byte   "*The gym teacher",newLine
 .byte   " made me do extra",newLine
 .byte   " push-ups again.",newLine
@@ -8,6 +9,7 @@
 .byte   " ups though.",newLine
 .byte   stopText
 
+MSG_TWINKLE_BAFFLEDKID:
 .byte   "*How can you get",newLine
 .byte   " lost in a",newLine
 .byte   " schoolyard?",newLine
@@ -16,6 +18,7 @@
 .byte   " believe it.",newLine
 .byte   stopText
 
+MSG_TWINKLE_JANITOR1:
 .byte   "*Of course the door",newLine
 .byte   " to the roof is",newLine
 .byte   " locked!",newLine
@@ -29,6 +32,7 @@
 .byte   " know!",newLine
 .byte   stopText
 
+MSG_TWINKLE_JANITOR3:
 .byte   "*Then, when she",newLine
 .byte   " does get up,",newLine
 .byte   " she goes shopping.",newLine
@@ -42,16 +46,19 @@
 .byte   " wife.",newLine
 .byte   stopText
 
+MSG_TWINKLE_JANITORNOTHORRIBLE:
 .byte   "*Kids don't know",newLine
 .byte   " the sorrows of",newLine
 .byte   " real life...",newLine
 .byte   stopText
 
+MSG_TWINKLE_JANITOR_WIFE:
 .byte   "*How dare you talk",newLine
 .byte   " about my wife",newLine
 .byte   " like that, scram!",newLine
 .byte   stopText
 
+MSG_TWINKLE_JANITOR4:
 .byte   "*When she was",newLine
 .byte   " young, she was",newLine
 .byte   " very pretty,",newLine
@@ -64,6 +71,7 @@
 .byte   " tea?",newLine
 .byte   stopText
 
+MSG_TWINKLE_JANITOR5:
 .byte   "*You are a pretty",newLine
 .byte   " good kid.",newLine
 .byte   pauseText
@@ -72,6 +80,7 @@
 .byte   " roof? Follow me.",newLine
 .byte   stopText
 
+MSG_TWINKLE_JANTIORNOTEA:
 .byte   "*When you're old",newLine
 .byte   " you'll wish that",newLine
 .byte   " young punks",newLine
@@ -87,6 +96,7 @@
 .byte   " for you.",newLine
 .byte   stopText
 
+MSG_TWINKLE_JANITOR_TEA:
 .byte   "*Please, please",newLine
 .byte   " have some tea.",newLine
 .byte   stopText
@@ -119,6 +129,7 @@ MSG_ELLAY_LHCOP_SEEWEAPON:
 .byte   " do you?",newLine
 .byte   stopText
 
+MSG_TWINKLE_TRASHLLOYD1:
 .byte   "*Who are you?!",newLine
 .byte   " I won't come out.",newLine
 .byte   pauseText
@@ -126,6 +137,7 @@ MSG_ELLAY_LHCOP_SEEWEAPON:
 .byte   " will pick on me.",newLine
 .byte   stopText
 
+MSG_TWINKLE_TRASHLLOYD2:
 .byte   "*You want to be",newLine
 .byte   " my friend?",newLine
 .byte   pauseText
@@ -134,10 +146,12 @@ MSG_ELLAY_LHCOP_SEEWEAPON:
 .byte   " explosives.",newLine
 .byte   stopText
 
+MSG_TWINKLE_TRASHLLOYD_YES:
 .byte   "*I'm coming out",newLine
 .byte   " now.",newLine
 .byte   stopText
 
+MSG_TWINKLE_LLOYD_INTRODUCTION:
 .byte   "*Hi, I am ",lloydName,".",newLine
 .byte   " I wanted to fly",newLine
 .byte   " the Bottle Rockets",newLine
@@ -153,6 +167,7 @@ MSG_SWAMP_HOUSEPIPPI_REST:
 .byte   " here tonight?",newLine
 .byte   stopText
 
+MSG_TWINKLE_LLOYDGETROCKET:
 .byte   "*Wow!  This Bottle",newLine
 .byte   " Rocket is sure to",newLine
 .byte   " cause a bang.",newLine
@@ -165,11 +180,13 @@ MSG_SWAMP_HOUSEPIPPI_REST:
 .byte   " to the lab.",newLine
 .byte   stopText
 
+MSG_DUNCANFACTORY_USEROCKET:
 .byte   "*(",lloydName,") Aim on",newLine
 .byte   " the rock...",newLine
 .byte   " OK! 1-2-3 Fire!!",newLine
 .byte   stopText
 
+MSG_ELLAY_LLOYD_TEDDYBED:
 .byte   "*(",lloydName,") Now it is",newLine
 .byte   " the weakling's turn.",newLine
 .byte   pauseText
@@ -177,6 +194,7 @@ MSG_SWAMP_HOUSEPIPPI_REST:
 .byte   " wait!",newLine
 .byte   stopText
 
+MSG_TWINKLE_SCIENTIST_INTRO:
 .byte   "*I'm the Mysterious",newLine
 .byte   " Teacher. Secretly",newLine
 .byte   " I live here.",newLine
@@ -186,16 +204,19 @@ MSG_SWAMP_HOUSEPIPPI_REST:
 .byte   " buy an invention?",newLine
 .byte   stopText
 
+MSG_TWINKLE_SCIENTIST_AGREE:
 .byte   "*Well, please take",newLine
 .byte   " a look at the",newLine
 .byte   " price list.",newLine
 .byte   stopText
 
+MSG_TWINKLE_SCIENTIST_DECLINE:
 .byte   "*You must have some",newLine
 .byte   " money for candy,",newLine
 .byte   " or such, eh?",newLine
 .byte   stopText
 
+MSG_TWINKLE_SCIENTIST_GOODBYE:
 .byte   "*Please drop in",newLine
 .byte   " anytime,",newLine
 .byte   pauseText
@@ -203,6 +224,7 @@ MSG_SWAMP_HOUSEPIPPI_REST:
 .byte   " on a new invention.",newLine
 .byte   stopText
 
+MSG_TWINKLE_SCIENTIST_NOPROGRESS:
 .byte   "*I haven't made any",newLine
 .byte   " progress since",newLine
 .byte   " your last visit.",newLine
@@ -212,6 +234,7 @@ MSG_SWAMP_HOUSEPIPPI_REST:
 .byte   " list?",newLine
 .byte   stopText
 
+MSG_TRAINGUARDIAN:
 .byte   "*I heard on the",newLine
 .byte   " radio that it's a",newLine
 .byte   " mess everywhere.",newLine
@@ -221,6 +244,7 @@ MSG_SWAMP_HOUSEPIPPI_REST:
 .byte   " station.",newLine
 .byte   stopText
 
+MSG_TRAIN1:
 .byte   "*Well, I don't know",newLine
 .byte   " how far the train",newLine
 .byte   " goes through,",newLine
@@ -235,6 +259,7 @@ MSG_ELLAY_LHCOP_TAKEWEAPON:
 .byte   " was confiscated.)",newLine
 .byte   stopText
 
+MSG_TRAIN_ACCEPT:
 .byte   "*Then, it's",newLine
 .byte   " ",price,newLine
 .byte   " dollars.",newLine
@@ -259,6 +284,7 @@ MSG_MISLAY_MOUTHWASHGUY_LEAVE:
 .byte   " long life.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_TRAINDAD:
 .byte   "*I was on my way to",newLine
 .byte   " Youngtown to look",newLine
 .byte   " for my wife.",newLine
@@ -535,10 +561,12 @@ MSG_SPOOKANE_HOTELBELLHOP:
 .byte   "*Ahh - Ha ha ha...",newLine
 .byte   stopText
 
+MSG_ROSEMARYHOUSE_NOBODYHERE:
 .byte   "*Nobody's here.",newLine
 .byte   " Hee hee hee...",newLine
 .byte   stopText
 
+MSG_ROSEMARYHOUSE_WORSTNIGHTMARE:
 .byte   "*This is your worst",newLine
 .byte   " nightmare. You",newLine
 .byte   " cannot get away!",newLine
@@ -546,17 +574,21 @@ MSG_SPOOKANE_HOTELBELLHOP:
 .byte   "*Hee hee hee...",newLine
 .byte   stopText
 
+MSG_ROSEMARYHOUSE_TURNBACK:
 .byte   "*T U R N  B A C K",newLine
 .byte   stopText
 
+MSG_ROSEMARYHOUSE_AGH:
 .byte   "*Aaagghhhhhhhhhh....",newLine
 .byte   stopText
 
+MSG_ROSEMARYHOUSE_NEVERMAKEIT:
 .byte   "*You'll never make",newLine
 .byte   " it...",newLine
 .byte   " Hee hee hee hee.",newLine
 .byte   stopText
 
+MSG_ROSEMARYHOUSE_MOUSE:
 .byte   "*I'm just an",newLine
 .byte   " ordinary mouse.",newLine
 .byte   pauseText
@@ -640,6 +672,7 @@ MSG_SPOOKANE_MRSROSEMARY:
 .byte   " outdoors now.",newLine
 .byte   stopText
 
+MSG_TWINKLE_LABLLOYD:
 .byte   "*(",lloydName,") Your",newLine
 .byte   " Bottle Rocket and",newLine
 .byte   " my...",newLine
@@ -648,6 +681,7 @@ MSG_SPOOKANE_MRSROSEMARY:
 .byte   " Whaaaaat!?",newLine
 .byte   stopText
 
+MSG_MTITOI_GIEGUEPRISON_GUY1:
 .byte   "*Oh, the darkness",newLine
 .byte   " is so thick...",newLine
 .byte   pauseText
@@ -675,6 +709,7 @@ MSG_SPOOKANE_MRSROSEMARY:
 .byte   " be destroyed.",newLine
 .byte   stopText
 
+MSG_TWINKLE_SCIENTISTROCKET3:
 .byte   "*Oops! It's gone",newLine
 .byte   " into orbit.",newLine
 .byte   pauseText
@@ -729,6 +764,7 @@ MSG_SPOOKANE_MRSROSEMARY2:
 .byte   " after you.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_TRAIN:
 .byte   "*This is Snowman",newLine
 .byte   " Terminal.",newLine
 .byte   stopText
@@ -739,6 +775,7 @@ MSG_SNOWMAN_YOUNGTOWNGUY:
 .byte   " disappeared.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_TRAINDAUGHTER:
 .byte   "*Mom left for",newLine
 .byte   " Youngtown.",newLine
 .byte   pauseText
@@ -852,9 +889,11 @@ MSG_SNOWMAN_PHONE_END:
 .byte   " I'd better go now.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_ANA_NINTEN:
 .byte   "*Are you ",partyLead,"?",newLine
 .byte   stopText
 
+MSG_SNOWMAN_ANA_SILLY:
 .byte   "*Don't get silly on",newLine
 .byte   " me now.",newLine
 .byte   stopText

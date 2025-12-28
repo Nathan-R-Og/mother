@@ -6,6 +6,7 @@ MSG_MYHOME_INVASION:
 .byte   " For the moment...",newLine
 .byte   stopText
 
+MSG_TWINKLE_SCIENTISTROCKET2:
 .byte   "*Here, let me show",newLine
 .byte   " you how. Just take",newLine
 .byte   " this switch and...",newLine
@@ -46,9 +47,11 @@ MSG_PODUNK_PIPPIMOM:
 .byte   "*Oh me, oh my!",newLine
 .byte   stopText
 
+MSG_RETURNS_WHICH:
 .byte   "*Which one?",newLine
 .byte   stopText
 
+MSG_RETURNS_PRICE:
 .byte   "*I'll give you",newLine
 .byte   " $",price," for",newLine
 .byte   " ",item,".",newLine
@@ -56,6 +59,7 @@ MSG_PODUNK_PIPPIMOM:
 .byte   "*Is that alright?",newLine
 .byte   stopText
 
+MSG_MAGICAVE_SHELLDIARY:
 .byte   "*Finding the entry",newLine
 .byte   " in Great-Grand",newLine
 .byte   " Father's Diary,",newLine
@@ -68,6 +72,7 @@ MSG_PODUNK_PIPPIMOM:
 .byte   " sails the cosmos.",newLine
 .byte   stopText
 
+MSG_MAGICANT_PHILOSOPHYMAN_YESFLAG:
 .byte   "*I know you're",newLine
 .byte   " lying. I can see",newLine
 .byte   " right through you.",newLine
@@ -91,6 +96,7 @@ MSG_ELLAY_LHBOUNCERGUY_TRIO:
 .byte   " keep?",newLine
 .byte   stopText
 
+MSG_MAGICANT_DRAGON_SLEEP:
 .byte   "*The Dragon was in",newLine
 .byte   " a deep, deep,",newLine
 .byte   " sleep.",newLine
@@ -125,6 +131,7 @@ MSG_MYHOME_MINNIE_STORAGE_TAKE:
 .byte   " with you?",newLine
 .byte   stopText
 
+MSG_TRAIN_CANTMOVE:
 .byte   "*There was a rock-",newLine
 .byte   " slide near Union",newLine
 .byte   " Station.",newLine
@@ -134,10 +141,12 @@ MSG_MYHOME_MINNIE_STORAGE_TAKE:
 .byte   " has been removed.",newLine
 .byte   stopText
 
+MSG_SHOP_CONFIRM:
 .byte   "*You mean",newLine
 .byte   " ",item,"?",newLine
 .byte   stopText
 
+MSG_DRUGSVENDOR_NOMORE:
 .byte   "*I am afraid you",newLine
 .byte   " can't carry",newLine
 .byte   " anything more.",newLine
@@ -160,6 +169,7 @@ MSG_YUCCA_PILOT_NOMONEY:
 .byte   " back when you do.",newLine
 .byte   stopText
 
+MSG_MAGICANT_GOODSKEEPER_BYE:
 .byte   "*Good bye!",newLine
 .byte   " Be careful.",newLine
 .byte   stopText
@@ -170,18 +180,22 @@ MSG_PODUNK_PIPPI_NOROOM:
 .byte   " See you later...",newLine
 .byte   stopText
 
+MSG_ELLAY_FAKEHEALER_LIFEUP:
 .byte   "*Here is your",newLine
 .byte   " medicine.",newLine
 .byte   stopText
 
+MSG_ELLAY_FAKEHEALER_SLEEP:
 .byte   "*Hope you sleep",newLine
 .byte   " well.",newLine
 .byte   stopText
 
+MSG_ATM_HOWMUCH_WITHDRAW:
 .byte   "*How much would you",newLine
 .byte   " like to withdraw?",newLine
 .byte   stopText
 
+MSG_ATM_HOWMUCH_DEPOSIT:
 .byte   "*How much would you",newLine
 .byte   " like to deposit?",newLine
 .byte   stopText
@@ -197,10 +211,12 @@ MSG_PODUNK_PIPPI_NOROOM2:
 .byte   " carry all of them.",newLine
 .byte   stopText
 
+MSG_PETVENDOR_NOCARRY:
 .byte   "*You can't carry it?",newLine
 .byte   " What a shame!",newLine
 .byte   stopText
 
+MSG_ABBOTT_CANTHOLD:
 .byte   "*If you can't carry",newLine
 .byte   " it, come back some",newLine
 .byte   " other time.",newLine
@@ -265,6 +281,7 @@ MSG_MERRYSVILLE_QUESTIONNAIRE_NOROOM:
 .byte   " load is too heavy.",newLine
 .byte   stopText
 
+MSG_ISLAND_ABLE:
 .byte   "*I am Able, the ",newLine
 .byte   " Doctor's assistant.",newLine
 .byte   pauseText
@@ -273,6 +290,7 @@ MSG_MERRYSVILLE_QUESTIONNAIRE_NOROOM:
 .byte   " Strawberry Tofu.",newLine
 .byte   stopText
 
+MSG_ISLAND_ABLE_GIVE:
 .byte   "*Thank you, It",newLine
 .byte   " looks so good!",newLine
 .byte   pauseText
@@ -291,6 +309,7 @@ MSG_MERRYSVILLE_QUESTIONNAIRE_NOROOM:
 .byte   " works.",newLine
 .byte   stopText
 
+MSG_ISLAND_BAKER:
 .byte   "*I look just like",newLine
 .byte   " Able, but I am",newLine
 .byte   " Baker.",newLine
@@ -299,29 +318,35 @@ MSG_MERRYSVILLE_QUESTIONNAIRE_NOROOM:
 .byte   " Strawberry Tofu.",newLine
 .byte   stopText
 
+MSG_ISLAND_BAKER_GIVE:
 .byte   "*Oh! I'm so happy.",newLine
 .byte   " Take these Swear",newLine
 .byte   " Words with you.",newLine
 .byte   stopText
 
+MSG_ELLAY_FAKEHEALER_MENU:
 .byte   "  LifeUp   Sleep"
 .byte   stopText
 
+MSG_MAGICANT_BIGBAGGUY_NOROOM:
 .byte   "*Load is too heavy?",newLine
 .byte   " Remember to come",newLine
 .byte   " back and get it.",newLine
 .byte   stopText
 
+MSG_MAGICANT_BIGBAGGUY_GIFT1:
 .byte   "*You came to get",newLine
 .byte   " the Big Bag?",newLine
 .byte   " My gift to you.",newLine
 .byte   stopText
 
+MSG_MAGICANT_BIGBAGGUY_GIFT2:
 .byte   "*I give you the",newLine
 .byte   " Big Bag.",newLine
 .byte   " A gift for you.",newLine
 .byte   stopText
 
+MSG_TWINKLE_JANITOR2:
 .byte   "*It's not that big",newLine
 .byte   " of a problem.",newLine
 .byte   pauseText
@@ -346,6 +371,7 @@ MSG_MERRYSVILLE_QUESTIONNAIRE_NOROOM:
 .byte   " ",anaName," has fainted!",newLine
 .byte   stopText
 
+MSG_ISLAND_SCIENTIST_AFTER:
 .byte   "*Thank you for being",newLine
 .byte   " so nice. ",newLine
 .byte   " My gratitude...",newLine
@@ -358,6 +384,7 @@ MSG_CANARY_LAURA:
 .byte   "*I am Laura.",newLine
 .byte   stopText
 
+MSG_MAYOR_PIPPI_DEAD:
 .byte   "*What a surprise!",newLine
 .byte   " Our hero ",nintenName,newLine
 .byte   " returning alone!",newLine
@@ -366,20 +393,24 @@ MSG_CANARY_LAURA:
 .byte   " rest for a while?",newLine
 .byte   stopText
 
+MSG_MAYOR_NINTEN_DEAD:
 .byte   "*Little girl! This",newLine
 .byte   " is no place for a",newLine
 .byte   " child like you.",newLine
 .byte   stopText
 
+MSG_ABBOTT_INTRO:
 .byte   "*Hello, ",partyLead,"!",newLine
 .byte   " How are you doing?",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNBOY_GOODBYE:
 .byte   "*Good morning!",newLine
 .byte   " Did you have a",newLine
 .byte   " good night's rest?",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNBOY_GOODBYE2:
 .byte   "*Please come again.",newLine
 .byte   " Promise me you'll",newLine
 .byte   " come again!",newLine
@@ -389,31 +420,37 @@ MSG_SWAMP_HOUSEPIPPI_MORNING:
 .byte   "*Good morning!",newLine
 .byte   stopText
 
+MSG_MCAVE_BEWAREMONKEY:
 .byte   "*Most monkeys here",newLine
 .byte   " will lie to you.",newLine
 .byte   " Beware!",newLine
 .byte   stopText
 
+MSG_MCAVE_RACCOON:
 .byte   "*Huh what?",newLine
 .byte   " Do I look like a",newLine
 .byte   " monkey?",newLine
 .byte   stopText
 
+MSG_MCAVE_RACCOON_YES:
 .byte   "*...I'm really a",newLine
 .byte   " raccoon pretending",newLine
 .byte   " to be a monkey.",newLine
 .byte   stopText
 
+MSG_MCAVE_RACCOON_NO:
 .byte   "*You have good",newLine
 .byte   " eyesight.",newLine
 .byte   " Hats off to you...",newLine
 .byte   stopText
 
+MSG_MCAVE_CHILLMONKEY:
 .byte   "*Cool down dude...",newLine
 .byte   " Are you so serious",newLine
 .byte   " all the time?",newLine
 .byte   stopText
 
+MSG_MCAVE_CHILLMONKEY_YES:
 .byte   "*Well man...",newLine
 .byte   " It's like you don't",newLine
 .byte   " know when to quit.",newLine
@@ -421,10 +458,12 @@ MSG_SWAMP_HOUSEPIPPI_MORNING:
 .byte   "*Take a rest bud...",newLine
 .byte   stopText
 
+MSG_MCAVE_CHILLMONKEY_NO:
 .byte   "*Good to hear it.",newLine
 .byte   " It's just a game!",newLine
 .byte   stopText
 
+MSG_MCAVE_QUICKMONKEY:
 .byte   "*You caught up with",newLine
 .byte   " me. I'll admit",newLine
 .byte   " that's something.",newLine
@@ -433,45 +472,54 @@ MSG_SWAMP_HOUSEPIPPI_MORNING:
 .byte   " something nice.",newLine
 .byte   stopText
 
+MSG_MCAVE_DIRECTIONMONKEY:
 .byte   "*Turn right, then",newLine
 .byte   " left, to find",newLine
 .byte   " something nice.",newLine
 .byte   stopText
 
+MSG_MCAVE_QUIETMONKEY:
 .byte   "*It's so quiet here,",newLine
 .byte   " but too quiet for",newLine
 .byte   " me, I think.",newLine
 .byte   stopText
 
+MSG_MCAVE_TRUTHMONKEY:
 .byte   "*Just walk straight!",newLine
 .byte   " Find truth at the",newLine
 .byte   " end of the path.",newLine
 .byte   stopText
 
+MSG_MCAVE_LADYMONKEY:
 .byte   "*I am a lady...",newLine
 .byte   " Don't talk to me",newLine
 .byte   " so casually.",newLine
 .byte   stopText
 
+MSG_MCAVE_LADYMONKEY_LIE:
 .byte   "*The truth is...",newLine
 .byte   " I am a man.",newLine
 .byte   stopText
 
+MSG_MCAVE_MELODYMONKEY:
 .byte   "*La la la, la la ...",newLine
 .byte   " Never mind, this",newLine
 .byte   " song is not yours.",newLine
 .byte   stopText
 
+MSG_MCAVE_TIMEMONKEY:
 .byte   "*How long did it",newLine
 .byte   " take you to get",newLine
 .byte   " here?",newLine
 .byte   stopText
 
+MSG_MCAVE_STORYMONKEY:
 .byte   "*I've got a good",newLine
 .byte   " story to tell you.",newLine
 .byte   " Want to hear it?",newLine
 .byte   stopText
 
+MSG_MCAVE_STORYMONKEY_YES:
 .byte   "*Well...",newLine
 .byte   " You should be nice",newLine
 .byte   " to friends.",newLine
@@ -480,15 +528,18 @@ MSG_SWAMP_HOUSEPIPPI_MORNING:
 .byte   " to say.",newLine
 .byte   stopText
 
+MSG_MCAVE_STORYMONKEY_NO:
 .byte   "*Have you no",newLine
 .byte   " intellectual",newLine
 .byte   " ambitions?",newLine
 .byte   stopText
 
+MSG_MCAVE_WARNINGMONKEY:
 .byte   "*Don't go any",newLine
 .byte   " farther inside!",newLine
 .byte   stopText
 
+MSG_MCAVE_BTWMONKEY:
 .byte   "*I don't trust",newLine
 .byte   " these monkeys. ",newLine
 .byte   " They're all liars.",newLine
@@ -498,6 +549,7 @@ MSG_SWAMP_HOUSEPIPPI_MORNING:
 .byte   " and right.",newLine
 .byte   stopText
 
+MSG_MCAVE_GOBACKMONKEY:
 .byte   "*Retreat!",newLine
 .byte   " And if you don't",newLine
 .byte   " want to...",newLine
@@ -508,11 +560,13 @@ MSG_SWAMP_HOUSEPIPPI_MORNING:
 .byte   " Go forward!",newLine
 .byte   stopText
 
+MSG_MCAVE_TEDDYMONKEY:
 .byte   "*In the town by the",newLine
 .byte   " sea, you'll meet a",newLine
 .byte   " new friend.",newLine
 .byte   stopText
 
+MSG_MCAVE_SHYMONKEY:
 .byte   "*I am a quiet",newLine
 .byte   " monkey.",newLine
 .byte   pauseText
@@ -523,11 +577,13 @@ MSG_SWAMP_HOUSEPIPPI_MORNING:
 .byte   "*............",newLine
 .byte   stopText
 
+MSG_MCAVE_ANAMONKEY:
 .byte   "*Oh ",anaName," baby,",newLine
 .byte   " Hubba hubba,",newLine
 .byte   " what a dish.",newLine
 .byte   stopText
 
+MSG_MCAVE_LIEMONKEY:
 .byte   "*Don't believe that",newLine
 .byte   " all monkeys are",newLine
 .byte   " liars.",newLine
@@ -536,6 +592,7 @@ MSG_SWAMP_HOUSEPIPPI_MORNING:
 .byte   " a lie.",newLine
 .byte   stopText
 
+MSG_MCAVE_BOSSMONKEY:
 .byte   "*I'm the boss",newLine
 .byte   " monkey.",newLine
 .byte   pauseText
@@ -548,6 +605,7 @@ MSG_SWAMP_HOUSEPIPPI_MORNING:
 .byte   " exit to your right.",newLine
 .byte   stopText
 
+MSG_MCAVE_PENGUIN:
 .byte   "*A big mistake...",newLine
 .byte   " I really shouldn't",newLine
 .byte   " have come here.",newLine
@@ -563,6 +621,7 @@ MSG_MYHOME_MOM_INVASION2:
 .byte   " it!",newLine
 .byte   stopText
 
+MSG_ABBOTT_MAYOR:
 .byte   "*I am Abbott, not",newLine
 .byte   " the Town Mayor,",newLine
 .byte   " but his assistant.",newLine
@@ -571,11 +630,13 @@ MSG_MYHOME_MOM_INVASION2:
 .byte   " there.",newLine
 .byte   stopText
 
+MSG_SECRETARY_SECRET:
 .byte   "*I'll share the",newLine
 .byte   " secret with you",newLine
 .byte   " later.",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNBOY_AGAIN:
 .byte   "*You come to stay",newLine
 .byte   " the night again?",newLine
 .byte   stopText
@@ -595,6 +656,7 @@ MSG_SPOOKANE_HINTGIRL_HINT1:
 .byte   "*Hee-hee-hee.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_PRIEST_ANADEAD:
 .byte   "*I believe that",newLine
 .byte   " ",anaName," may still",newLine
 .byte   " be found somewhere.",newLine
@@ -649,6 +711,7 @@ MSG_YUCCA_MINE:
 .byte   " Shigesato Itoi.",newLine
 .byte   stopText
 
+MSG_MAGICANT_INNKEEPER_GOODBYE:
 .byte   "*Had a good sleep?",newLine
 .byte   " Have a nice trip!",newLine
 .byte   stopText
@@ -759,16 +822,19 @@ MSG_SPOOKANE_HINTGIRL_NOMONEY:
 .byte   " Sorry, come again.",newLine
 .byte   stopText
 
+MSG_BURGERSHOP_MENU:
 .byte   "*Can I help you?",newLine
 .byte   " Please use this",newLine
 .byte   " menu.",newLine
 .byte   stopText
 
+MSG_BURGERSHOP_BUY:
 .byte   "*Thank you very much.",newLine
 .byte   " One ",item,newLine
 .byte   " to go, please!",newLine
 .byte   stopText
 
+MSG_ELLAY_HOTELLADY:
 .byte   "*He may not come",newLine
 .byte   " again...",newLine
 .byte   stopText
@@ -778,15 +844,18 @@ MSG_ELLAY_LHBOUNCERGIRL2:
 .byte   " yourself here.",newLine
 .byte   stopText
 
+MSG_REINDEER_HOTELWAITINGGUY:
 .byte   "*Hey, waiter...",newLine
 .byte   " I'm still waiting",newLine
 .byte   " for some service.",newLine
 .byte   stopText
 
+MSG_REINDEER_HOTELFAVFOODGIRL:
 .byte   "*I want to try",newLine
 .byte   " ",favFood,".",newLine
 .byte   stopText
 
+MSG_GRAVEYARD_PRIEST:
 .byte   "*I'd like to stop",newLine
 .byte   " the zombies evil",newLine
 .byte   " ways, but...",newLine
@@ -810,6 +879,7 @@ MSG_SWAMP_HOUSEPIPPI:
 .byte   " my Mom I came here.",newLine
 .byte   stopText
 
+MSG_BURGERSHOP_SNOTNOSED:
 .byte   "*My!",newLine
 .byte   " You are that",newLine
 .byte   " snot-nosed ",partyLead,newLine
@@ -819,6 +889,7 @@ MSG_SWAMP_HOUSEPIPPI:
 .byte   " kindergarten!",newLine
 .byte   stopText
 
+MSG_BURGERSHOP_CASHNCARRY:
 .byte   "*It's cash, then",newLine
 .byte   " carry 'round here",newLine
 .byte   " boy...",newLine
@@ -828,10 +899,12 @@ MSG_SWAMP_HOUSEPIPPI:
 .byte   " but...",newLine
 .byte   stopText
 
+MSG_REINDEER_FOODSWOMAN:
 .byte   "*You seem to have",newLine
 .byte   " quite an appetite.",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_TRAINMAN:
 .byte   "*The trains have",newLine
 .byte   " stopped. The",newLine
 .byte   " track was ruined.",newLine

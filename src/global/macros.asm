@@ -67,3 +67,25 @@
     cave_1 = $31
     unk_song = $32
 .endenum
+
+
+.enum NMI_COMMANDS
+    SKIP = 0
+    NOTHING = 1
+    BRANCH = 2
+    GOTO = 3
+    UPDATE_PALETTE = 4
+    PPU_WRITE = 5
+    PPU_WRITE_32 = 6
+    .ifdef VER_JP
+    UNK = 7
+    PPU_WRITE_ADDRS = 8
+    .else
+    PPU_WRITE_ADDRS = 7
+    PPU_WRITE_BYTE = 8
+    .endif
+    PPU_READ = 9
+    .ifndef VER_JP
+    PPU_READ_TEXT = 10
+    .endif
+.endenum

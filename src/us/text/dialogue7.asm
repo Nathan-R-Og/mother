@@ -50,6 +50,7 @@ MSG_ELLAY_FISHER2:
 .byte   " the harbor...",newLine
 .byte   stopText
 
+MSG_ELLAY_HOTELCOLDLADY:
 .byte   "*Pardon me young",newLine
 .byte   " whipper-snappers...",newLine
 .byte   pauseText
@@ -58,11 +59,13 @@ MSG_ELLAY_FISHER2:
 .byte   " night, but...",newLine
 .byte   stopText
 
+MSG_REINDEER_HOTELMEANGUY:
 .byte   "*You young little...",newLine
 .byte   " Don't talk to me",newLine
 .byte   " that way!",newLine
 .byte   stopText
 
+MSG_ELLAY_HOTELBIGLADY:
 .byte   "*This game I heard of",newLine
 .byte   pauseText
 .byte   "*was titled",newLine
@@ -129,11 +132,13 @@ MSG_YUCCA_SINGINGCACTUS:
 .byte   " singing.",newLine
 .byte   stopText
 
+MSG_ROSEMARYHOUSE_PIANO_MELODY:
 .byte   "*The Piano began to",newLine
 .byte   " play all by",newLine
 .byte   " itself...",newLine
 .byte   stopText
 
+MSG_MAGICANT_DRAGON_MELODY:
 .byte   "*The Dragon crooned",newLine
 .byte   " his tune without",newLine
 .byte   " much hesitation.",newLine
@@ -143,6 +148,7 @@ MSG_YUCCA_SINGINGCACTUS:
 .byte   " this...",newLine
 .byte   stopText
 
+MSG_MTITOI_EVE_MELODY:
 .byte   "*Robot Eve was",newLine
 .byte   " demolished and",newLine
 .byte   " moved no more.",newLine
@@ -164,6 +170,7 @@ MSG_TWINKLE_F2_UPSTAIRS_PADLOCK:
 .byte   " top of the stairs.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_PRIEST_GOODBYE:
 .byte   "*I must stay here",newLine
 .byte   " with the people of",newLine
 .byte   " Snowman.",newLine
@@ -206,6 +213,7 @@ MSG_MYHOME_MINNIE_STORAGE_CANT:
 .byte   " say.",newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMANGRAVE1:
 .byte   "*",nintenName,"'s faithful",newLine
 .byte   " and loyal servant,",newLine
 .byte   pauseText
@@ -214,6 +222,7 @@ MSG_MYHOME_MINNIE_STORAGE_CANT:
 .byte   " here in peace.",newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMANGRAVE2:
 .byte   "*",nintenName,"'s strong",newLine
 .byte   " and powerful ally,",newLine
 .byte   pauseText
@@ -222,6 +231,7 @@ MSG_MYHOME_MINNIE_STORAGE_CANT:
 .byte   " here in peace.",newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMANGRAVE3:
 .byte   "*",nintenName,"'s",newLine
 .byte   " benevolent buddy,",newLine
 .byte   pauseText
@@ -230,6 +240,7 @@ MSG_MYHOME_MINNIE_STORAGE_CANT:
 .byte   " here in peace.",newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMANGRAVE4:
 .byte   "*To ",nintenName,"'s great",newLine
 .byte   " sorrow,",newLine
 .byte   pauseText
@@ -238,6 +249,7 @@ MSG_MYHOME_MINNIE_STORAGE_CANT:
 .byte   " here in peace.",newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMANGRAVE5:
 .byte   "*To ",nintenName,"'s horror",newLine
 .byte   " and dismay,",newLine
 .byte   pauseText
@@ -286,10 +298,12 @@ MSG_PODUNK_MAGICOP2_LIFTED:
 .byte   " 'listen' to them!",newLine
 .byte   stopText
 
+MSG_ANAHAT_WOMAN1:
 .byte   "*Are you going to",newLine
 .byte   " Snowman?",newLine
 .byte   stopText
 
+MSG_ANAHAT_WOMAN_YES:
 .byte   "*I found this Hat.",newLine
 .byte   " I believe it's the",newLine
 .byte   " property of a girl",newLine
@@ -299,6 +313,7 @@ MSG_PODUNK_MAGICOP2_LIFTED:
 .byte   " her.",newLine
 .byte   stopText
 
+MSG_ANAHAT_WOMAN_NO:
 .byte   "*Well, I had",newLine
 .byte   " something to ask",newLine
 .byte   " you.",newLine
@@ -351,6 +366,7 @@ MSG_MERRYSVILLE_QUESTIONNAIRE_DONE:
 .byte   " these questions...",newLine
 .byte   stopText
 
+MSG_MAGICANT_BENEVOLENT_APPEAR:
 .byte   "*Hearing the soulful",newLine
 .byte   " cry, the Benevolent",newLine
 .byte   " Old Man showed up.",newLine
@@ -362,25 +378,30 @@ MSG_GRAVEYARD_CASKET_GENERIC:
 .byte   " the casket...!!",newLine
 .byte   stopText
 
+MSG_ELLAY_TOWER_TELESCOPE:
 .byte   "*",partyLead," looked",newLine
 .byte   " into the telescope.",newLine
 .byte   stopText
 
+MSG_ELLAY_TOWER_TELESCOPE2:
 .byte   "*The shimmering blue",newLine
 .byte   " sea stretched",newLine
 .byte   " toward the horizon.",newLine
 .byte   stopText
 
+MSG_ELLAY_TOWER_TELESCOPE_ROCKET:
 .byte   "*In the distance,",newLine
 .byte   " on the island,",newLine
 .byte   " something sparkled!",newLine
 .byte   stopText
 
+MSG_ZOO_CAPSULE:
 .byte   "*Suddenly, from",newLine
 .byte   " inside of the",newLine
 .byte   " capsule...",newLine
 .byte   stopText
 
+MSG_SNOWMAN_ANA_GOODBYE:
 .byte   "*(",anaName,")",newLine
 .byte   " Daddy...",newLine
 .byte   " Good-bye...",newLine
@@ -427,6 +448,7 @@ MSG_CHECK_NOTHING:
 .byte   " sand at their feet.",newLine
 .byte   stopText
 
+MSG_WEAPONSHOP:
 .byte   "*Welcome to our shop.",newLine
 .byte   " We sell weapons.",newLine
 .byte   stopText
@@ -654,6 +676,7 @@ MSG_MERRYSVILLE_DUNCANSIGN:
 .byte   " Company Inc.",newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMAN_REPLACE:
 .byte   "*I heard that my",newLine
 .byte   " brother died with",newLine
 .byte   " honor in combat.",newLine
@@ -667,10 +690,12 @@ MSG_MERRYSVILLE_DUNCANSIGN:
 .byte   " his place by you.",newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMAN_SERVE:
 .byte   "*I cannot wait to",newLine
 .byte   " serve you.",newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMAN_INTRO:
 .byte   "*I am the Flying",newLine
 .byte   " Man. My destiny",newLine
 .byte   " is to help you.",newLine
@@ -685,6 +710,7 @@ MSG_PODUNK_MAGICOP2_LIFTED2:
 .byte   " ever restricted.",newLine
 .byte   stopText
 
+MSG_ELLAY_TOWER_ROCKETCHECK:
 .byte   "*Old, rusty rocket.",newLine
 .byte   stopText
 
@@ -717,10 +743,12 @@ MSG_MTITOI_TEDDY_CALL:
 .byte   " wait out here.",newLine
 .byte   stopText
 
+MSG_MTITOI_LLOYDSAVE:
 .byte   "*Oh shoot!",newLine
 .byte   " I missed!",newLine
 .byte   stopText
 
+MSG_MTITOI_ANALOVE_YES:
 .byte   "*Oh ",nintenName,", I've",newLine
 .byte   " loved you for such",newLine
 .byte   " a long time.",newLine
@@ -730,6 +758,7 @@ MSG_MTITOI_TEDDY_CALL:
 .byte   " in my dream.",newLine
 .byte   stopText
 
+MSG_MTITOI_TEDDYLEAVE:
 .byte   "*(",teddyName,")",newLine
 .byte   " Sorry to bother",newLine
 .byte   " you two...",newLine
@@ -738,6 +767,7 @@ MSG_MTITOI_TEDDY_CALL:
 .byte   " those loud noises?",newLine
 .byte   stopText
 
+MSG_MTITOI_TEDDYLEAVE2:
 .byte   "*(",teddyName,")",newLine
 .byte   " Those noises",newLine
 .byte   " coming from outside,",newLine
@@ -745,20 +775,24 @@ MSG_MTITOI_TEDDY_CALL:
 .byte   "*not in here silly.",newLine
 .byte   stopText
 
+MSG_MTITOI_BOAT:
 .byte   "*The boat motor",newLine
 .byte   " appears to be",newLine
 .byte   " broken.",newLine
 .byte   stopText
 
+MSG_MTITOI_BOAT_NOFIX:
 .byte   "*",partyLead," just does",newLine
 .byte   " not seem to be",newLine
 .byte   " able to fix it.",newLine
 .byte   stopText
 
+MSG_MTITOI_BOAT_FIX:
 .byte   "*But ",lloydName," fired",newLine
 .byte   " it right up.",newLine
 .byte   stopText
 
+MSG_MAGICANT_GOODSKEEPER_SEND:
 .byte   "*I'll send this",newLine
 .byte   " ",item," to",newLine
 .byte   " ",nintenName,"'s house.",newLine
@@ -781,6 +815,7 @@ MSG_MERRYSVILLE_SWEETSSIGN:
 .byte   "      Factory",newLine
 .byte   stopText
 
+MSG_MTITOI_GIEGUEPRISON_GUY2:
 .byte   "*I was kidnapped by",newLine
 .byte   " the Mother Ship.",newLine
 .byte   " Please help me!",newLine
@@ -792,6 +827,7 @@ MSG_SNOWMAN_PHONE_CHECK:
 .byte   " correctly?",newLine
 .byte   stopText
 
+MSG_ZOO_WIN:
 .byte   "*The odd sound that",newLine
 .byte   " drove the animals",newLine
 .byte   " insane died down.",newLine
@@ -833,11 +869,13 @@ MSG_PODUNK_NOISYMOUSE:
 .byte   "*Bye!",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_BABY_AFTER:
 .byte   "*Teleportation is a",newLine
 .byte   " Psychic Power not",newLine
 .byte   " to be played with.",newLine
 .byte   stopText
 
+MSG_MAGICANT_MARIA4:
 .byte   "*I loved him...",newLine
 .byte   pauseText
 .byte   "*I loved him,",newLine
@@ -845,6 +883,7 @@ MSG_PODUNK_NOISYMOUSE:
 .byte   " own child...",newLine
 .byte   stopText
 
+MSG_MAGICANT_MARIA5:
 .byte   "*He was always",newLine
 .byte   " wagging his tail,",newLine
 .byte   " just like a pup...",newLine
@@ -854,6 +893,7 @@ MSG_PODUNK_NOISYMOUSE:
 .byte   " lullabies...",newLine
 .byte   stopText
 
+MSG_MAGICANT_MARIA6:
 .byte   "*Ahhh...George!",newLine
 .byte   " This is your wife,",newLine
 .byte   " Maria.",newLine
@@ -863,33 +903,40 @@ MSG_PODUNK_NOISYMOUSE:
 .byte   " complete...",newLine
 .byte   stopText
 
+MSG_ATM_INSERT_CASHCARD:
 .byte   "*Please insert your",newLine
 .byte   " Cash Card.",newLine
 .byte   stopText
 
+MSG_ATM_TOO_MUCH_CASH:
 .byte   "*Don't carry so much",newLine
 .byte   " cash with you.",newLine
 .byte   stopText
 
+MSG_GAMEOVER_SAVEDATA:
 .byte   "*Is it all right to",newLine
 .byte   " go back to the",newLine
 .byte   " data SAVEd earlier?",newLine
 .byte   stopText
 
+MSG_MAGICANT_BIGBAGGUY_NOHAVE:
 .byte   '*You said "Yes",',newLine
 .byte   " but you don't have",newLine
 .byte   " it. Ah ha ha ha...",newLine
 .byte   stopText
 
+MSG_ELLAY_TEDDY_TEDDYBED:
 .byte   "*",teddyName," seems to be",newLine
 .byte   " out of breath.",newLine
 .byte   stopText
 
+MSG_GIVE_CANT:
 .byte   "*You don't have any",newLine
 .byte   " friends to hand",newLine
 .byte   " the Goods to.",newLine
 .byte   stopText
 
+MSG_MAGICANT_GOODSKEEPER_GIVE:
 .byte   "*The ",item," is",newLine
 .byte   " once more in",newLine
 .byte   " your possession.",newLine

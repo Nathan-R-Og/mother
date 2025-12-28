@@ -1802,10 +1802,12 @@ cash_box_top:
 .byte repeatTile uibox_b, 10
 .byte uibox_br
 .byte 1
+
 window_unk:
-.byte goto $6D00
+.byte goto party_menu_buffer_goto_1
 
 ;stat bar top
+battle_statbar_top:
 .byte uibox_tl,uibox_t
 .byte "NAME"
 .byte uibox_t,uibox_t,uibox_t,uibox_t

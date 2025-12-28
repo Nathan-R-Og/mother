@@ -1,5 +1,6 @@
 .segment        "CHR13": absolute
 
+MSG_SNOWMAN_ANA_GO:
 .byte   "*I must go on a",newLine
 .byte   " trip to find my Mom,",newLine
 .byte   " and...",newLine
@@ -16,6 +17,7 @@
 .byte   " in Youngtown.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_ANA:
 .byte   "*You have appeared.",newLine
 .byte   " Just like in my",newLine
 .byte   " dream...",newLine
@@ -25,34 +27,41 @@
 .byte   " like you.",newLine
 .byte   stopText
 
+MSG_MTITOI_ANA:
 .byte   "*",nintenName,"....",newLine
 .byte   " Please stay with",newLine
 .byte   " me.",newLine
 .byte   stopText
 
+MSG_MTITOI_ANA_NO:
 .byte   "*No!!",newLine
 .byte   " Stay with me,",newLine
 .byte   " Please!...",newLine
 .byte   stopText
 
+MSG_MTITOI_ANA2:
 .byte   "*Silence falls...",newLine
 .byte   " Would you like to",newLine
 .byte   " dance?",newLine
 .byte   stopText
 
+MSG_MTITOI_ANALOVE_NO:
 .byte   "*You're right.",newLine
 .byte   " Now isn't the time.",newLine
 .byte   " I wasn't thinking.",newLine
 .byte   stopText
 
+MSG_MTITOI_ANALOVE:
 .byte   "*",nintenName,"?...",newLine
 .byte   " Do you love me?",newLine
 .byte   stopText
 
+MSG_TWINKLE_LLOYDMATTER:
 .byte   "*What's the matter,",newLine
 .byte   " ",lloydName,"?",newLine
 .byte   stopText
 
+MSG_MAGICANT_DRAGON_NOWAKE:
 .byte   "*The Dragon sleeps.",newLine
 .byte   pauseText
 .byte   "*",partyLead,"'s Psychic",newLine
@@ -60,6 +69,7 @@
 .byte   " waking the Dragon.",newLine
 .byte   stopText
 
+MSG_MAGICANT_DRAGON_WAKE:
 .byte   "*Feeling ",partyLead,"'s",newLine
 .byte   " presence, the",newLine
 .byte   " Dragon awoke.",newLine
@@ -69,6 +79,7 @@
 .byte   " musical note.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_PRIEST:
 .byte   "*My daughter,",newLine
 .byte   " ",anaName," has never",newLine
 .byte   " been a brave girl,",newLine
@@ -78,6 +89,7 @@
 .byte   " a secret strength.",newLine
 .byte   stopText
 
+MSG_SNOWMAN_PRIEST_AFTER:
 .byte   "*I know success",newLine
 .byte   " will be yours in",newLine
 .byte   " the end.",newLine
@@ -96,6 +108,7 @@ MSG_MERRYSVILLE_PASSTRIGGER:
 .byte   " had left behind.",newLine
 .byte   stopText
 
+MSG_ELLAY_TOWER_ROCKET:
 .byte   "*They climbed",newLine
 .byte   " into the rocket.",newLine
 .byte   stopText
@@ -324,6 +337,7 @@ MSG_YOUNGTOWN_PLEASEGIRL:
 .byte   " Please, I beg you.",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_TOMGARRICKSON:
 .byte   "*Oh, yes.  My name",newLine
 .byte   " is Tom Garrickson.",newLine
 .byte   pauseText
@@ -332,14 +346,17 @@ MSG_YOUNGTOWN_PLEASEGIRL:
 .byte   " It's my hobby.",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_MYSTICGIRL:
 .byte   "*Mom told me this",newLine
 .byte   " baby has mystic",newLine
 .byte   " power.",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_BABYTALK:
 .byte   "*Goo gaa...",newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_BABY:
 .byte   "*Yes, even though",newLine
 .byte   " my body is that of",newLine
 .byte   " a baby,",newLine
@@ -608,6 +625,7 @@ MSG_MYHOME_MOM_HELP:
 .byte   " accept my help.",newLine
 .byte   stopText
 
+MSG_PAYPHONE_USECARD:
 .byte   "*",partyLead," USEd the",newLine
 .byte   " Telephone Card.",newLine
 .byte   stopText
@@ -650,6 +668,7 @@ MSG_ELLAY_LHTEDDY_REPLACELLOYD:
 .byte   " OK?",newLine
 .byte   stopText
 
+MSG_ELLAY_TEDDY_TEDDYBED_SPEECH:
 .byte   "*Brute strength is",newLine
 .byte   " not enough to beat",newLine
 .byte   " them.",newLine
@@ -661,6 +680,7 @@ MSG_ELLAY_LHTEDDY_REPLACELLOYD:
 .byte   "*I believe.",newLine
 .byte   stopText
 
+MSG_MTITOI_TEDDY_POSTDANCE:
 .byte   "*(",teddyName,")",newLine
 .byte   " Why are you two",newLine
 .byte   " blushing?",newLine
@@ -676,6 +696,7 @@ MSG_ELLAY_LHSIDEGUY:
 .byte   " out!!",newLine
 .byte   stopText
 
+MSG_SWAMP_LLOYDDAD:
 .byte   "*I am ",lloydName,"'s",newLine
 .byte   " father.",newLine
 .byte   pauseText
@@ -686,6 +707,7 @@ MSG_ELLAY_LHSIDEGUY:
 .byte   " your name?",newLine
 .byte   stopText
 
+MSG_SWAMP_LLOYDDAD_YES:
 .byte   "*OK, that's fine.",newLine
 .byte   pauseText
 .byte   "*Please look after",newLine
@@ -706,11 +728,13 @@ MSG_ELLAY_HARBORGUY:
 .byte   "*I mean it.",newLine
 .byte   stopText
 
+MSG_ISLAND_SCIENTIST:
 .byte   "*Have you ever",newLine
 .byte   " tasted Strawberry",newLine
 .byte   " Tofu?",newLine
 .byte   stopText
 
+MSG_ISLAND_SCIENTIST_YES:
 .byte   "*If you find some,",newLine
 .byte   " buy some for me,",newLine
 .byte   " please.",newLine
@@ -720,11 +744,13 @@ MSG_ELLAY_HARBORGUY:
 .byte   " in return.",newLine
 .byte   stopText
 
+MSG_ISLAND_SCIENTIST_NO:
 .byte   "*No way to buy",newLine
 .byte   " things like that",newLine
 .byte   " in this place.",newLine
 .byte   stopText
 
+MSG_ISLAND_SCIENTIST_GIVE:
 .byte   "*Oh!  This is",newLine
 .byte   " Strawberry Tofu!",newLine
 .byte   " Thank you!",newLine
@@ -734,6 +760,7 @@ MSG_ELLAY_HARBORGUY:
 .byte   " return.",newLine
 .byte   stopText
 
+MSG_ELLAY_FAKEHEALER:
 .byte   "*You ever get hurt,",newLine
 .byte   " come to my place.",newLine
 .byte   pauseText
@@ -742,6 +769,7 @@ MSG_ELLAY_HARBORGUY:
 .byte   " bed you can use.",newLine
 .byte   stopText
 
+MSG_ELLAY_FAKEHEALER_LLOYD:
 .byte   "*Hey! ",lloydName,"!...",newLine
 .byte   pauseText
 .byte   "*Now is the time",newLine
@@ -749,10 +777,12 @@ MSG_ELLAY_HARBORGUY:
 .byte   " for yourself.",newLine
 .byte   stopText
 
+MSG_ELLAY_FAKEHEALER_ASK:
 .byte   "*Come on, children,",newLine
 .byte   " what do you need?",newLine
 .byte   stopText
 
+MSG_EVE_EVE:
 .byte   "*MY NAME IS EVE.",newLine
 .byte   pauseText
 .byte   " I HAVE BEEN",newLine
@@ -780,11 +810,13 @@ MSG_ELLAY_HARBORGUY:
 .byte   "*THAT IS MY PURPOSE.",newLine
 .byte   stopText
 
+MSG_MAGICANT_GOODSKEEPER_BAGS:
 .byte   "*Those bags must",newLine
 .byte   " weigh heavy on",newLine
 .byte   " your shoulders.",newLine
 .byte   stopText
 
+MSG_GAMEOVER1:
 .byte   "*",nintenName,"! ",nintenName,"!..",newLine
 .byte   pauseText
 .byte   "*You seem to be worn",newLine
@@ -792,6 +824,7 @@ MSG_ELLAY_HARBORGUY:
 .byte   " One more time?",newLine
 .byte   stopText
 
+MSG_GAMEOVER2:
 .byte   "*With his strength",newLine
 .byte   " regained...",newLine
 .byte   pauseText
@@ -803,6 +836,7 @@ MSG_ELLAY_HARBORGUY:
 .byte   " ",nintenName,"!",newLine
 .byte   stopText
 
+MSG_GAMEOVER_DREAM:
 .byte   "*",nintenName," realized",newLine
 .byte   " that it had only",newLine
 .byte   " been a bad dream.",newLine
@@ -862,6 +896,7 @@ MSG_HOSPITAL_NOPERSON:
 .byte   " description, but...",newLine
 .byte   stopText
 
+MSG_MAGICANT_FOUNTAINREDWEED:
 .byte   "*When placed in the",newLine
 .byte   " fountain,",newLine
 .byte   pauseText
@@ -875,6 +910,7 @@ MSG_HEALER_MAN:
 .byte   " a man!",newLine
 .byte   stopText
 
+MSG_TWINKLE_SCIENTISTROCKET1:
 .byte   "*This is ",item,",",newLine
 .byte   " right? Thank you.",newLine
 .byte   " It's a big help.",newLine
@@ -891,6 +927,7 @@ MSG_REINDEER_MISLAYSIGN2:
 .byte   " under the sign!",newLine
 .byte   stopText
 
+MSG_MAGICANT_DOCTOR:
 .byte   "*I see...",newLine
 .byte   " You don't feel so",newLine
 .byte   " well. Wait...",newLine

@@ -410,7 +410,7 @@ splits:
       - [0x18B6, obj/OBJ_ZOO_OFFICESIGN]
 
       - [0x18C2, obj/obj_bankE_lut]
-      - [0x18CA, obj/OBJ_PODUNK_MAGICANTCAVEENTRANCE]
+      - [0x18CA, obj/OBJ_PODUNK_MAGICAVEENTRANCE]
       - [0x18D2, obj/OBJ_PODUNK_MAGICOP1]
       - [0x190E, obj/OBJ_PODUNK_MAGICOP2]
 

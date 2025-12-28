@@ -130,7 +130,7 @@ INAME_MAGIC_HERB:
 kanafix "マジックハ-ブ",stopText
 INAME_HAMBURGER:
 kanafix "ハンバ-ガ-",stopText
-INAME_SPROTSDRINK:
+INAME_SPORTSDRINK:
 kanafix "スポ-ツドリンク",stopText
 INAME_LIFEUPCREAM:
 kanafix "きずぐすり",stopText
@@ -361,7 +361,7 @@ INAME_MAGIC_HERB:
 .byte "Magic Herb",stopText
 INAME_HAMBURGER:
 .byte "Hamburger",stopText
-INAME_SPROTSDRINK:
+INAME_SPORTSDRINK:
 .byte "SportsDrink",stopText
 INAME_LIFEUPCREAM:
 .byte "LifeUpCream",stopText

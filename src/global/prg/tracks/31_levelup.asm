@@ -22,7 +22,7 @@ mus_level_up_triangle_loop:
 
 mus_level_up_pulse1_phrase02:
     .byte $9F,$0E,$F1
-    Set_NLT $18
+    Set_NLT NLT_18-Tempo_Lengths
     Note_Length nl_t_quarter
     Note_Rest
 

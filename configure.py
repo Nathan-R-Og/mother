@@ -3,7 +3,6 @@ import subprocess
 from glob import glob
 import os
 import shutil
-import sys
 import tools.yamlSplit
 import tools.sameFileRetriever
 
@@ -90,9 +89,8 @@ if __name__ == "__main__":
         # succeeds, it will short-circuit and not evaluate `doSplit()` again
         anySplit = tools.yamlSplit.doSplit(version) or anySplit
     if not anySplit:
-        print("ERROR: did not find any ROM files to extract. Please put a clean\n"
-              "MOTHER or Earthbound ROM in the same directory as configure.py")
-        sys.exit(1)
+        raise(Exception("ERROR: did not find any ROM files to extract. Please put a clean\n"
+              "MOTHER or Earthbound ROM in the same directory as configure.py"))
 
     tools.sameFileRetriever.do()
     splitMerger()

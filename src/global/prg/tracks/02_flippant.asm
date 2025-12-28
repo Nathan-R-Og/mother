@@ -42,7 +42,7 @@ mus_b_flippant_noise:
 
 mus_b_flippant_pulse1_phrase01:
     Set_Timbre 0, 19, timbre_c_square SQTD_12_5, 1, SQTV_ISVOL, 1
-    Set_NLT 0
+    Set_NLT NLT_00-Tempo_Lengths
 
 ; measures 1-4
     Note_Repeat 2
