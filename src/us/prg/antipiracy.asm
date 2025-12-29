@@ -428,7 +428,7 @@ SetupMenu:
     ldx #.HIBYTE(SetupMenu_Choicer)
     sta UNK_80
     stx UNK_80+1
-    jsr B31_0f34
+    jsr PRINT_CURR_CHOICER
 
 
     @main_loop:

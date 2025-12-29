@@ -808,7 +808,7 @@ DrawCurrentWindow:
     @if_equal:
     jmp B30_0274
 
-DrawWindow8Entriesbox:
+DRAW_WINDOW_8ENTRY:
     lda #.LOBYTE(window_8entries)
     ldx #.HIBYTE(window_8entries)
     .ifdef VER_JP
@@ -820,7 +820,7 @@ DrawWindow8Entriesbox:
     jmp DrawCurrentWindow
     .endif
 
-DrawWindowShopitems:
+DRAW_WINDOW_SHOP:
     lda #.LOBYTE(window_shopitems)
     ldx #.HIBYTE(window_shopitems)
     .ifdef VER_JP
@@ -838,7 +838,7 @@ DrawWindowWho:
     jmp DrawCurrentWindow
     .endif
 
-DrawWindowItemactions:
+DRAW_WINDOW_ITEMACTIONS:
     lda #.LOBYTE(window_itemactions)
     ldx #.HIBYTE(window_itemactions)
     .ifdef VER_JP
@@ -847,7 +847,7 @@ DrawWindowItemactions:
     jmp DrawCurrentWindow
     .endif
 
-DrawWindowCashboxmenu:
+DRAW_WINDOW_CASHBOX:
     lda #.LOBYTE(cash_box_menu)
     ldx #.HIBYTE(cash_box_menu)
     .ifdef VER_JP
@@ -2621,7 +2621,7 @@ B30_0cb1:
     jsr WAIT_CLOSE_MENU
     jmp B30_0d79
 
-B30_0cd8:
+PSITELEPORT_START:
     lda current_music
     pha
     lda #$ff
@@ -4680,7 +4680,7 @@ B30_1a48:
     sta $29
     jsr BANKSET_H13
     ;needs label
-    jsr B19_1bc3
+    jsr LOAD_ITEM_PRICE
     lda #$ff
     sta $2a
     lda $2b
@@ -4690,7 +4690,7 @@ B30_1a48:
     asl a
     bcc B30_1b0a
 ; TODO: CHANCE OF GETTING AN ITEM
-    jsr Rand
+    jsr RNG_BYTE
     and $2a
     bne B30_1b30
     jsr B19_1b8c
@@ -4763,7 +4763,7 @@ DoLevelUp:
     jsr DisplayText_battle
     jsr B30_1cdf
     ldy #$03
-:   jsr Rand
+:   jsr RNG_BYTE
     lsr a
     lsr a
     lsr a
@@ -4901,7 +4901,7 @@ B30_1c71:
     lda #$10
     B30_1c77:
     tax
-    jsr Rand
+    jsr RNG_BYTE
     lsr a
     lsr a
     lsr a
@@ -4936,7 +4936,7 @@ B30_1c87:
     and ($38), y
     bne B30_1cc6
 ; TODO: CHANCE OF NOT LEARNING PSI
-    jsr Rand
+    jsr RNG_BYTE
     and #$c0
     bne B30_1cc6
     lda ($38), y
@@ -4989,7 +4989,7 @@ B30_1cdf:
     and #$07
     adc #$98
     sta $69
-    jmp BankswitchLower_Bank00_2nd
+    jmp BANKSET_L00
 
 B30_1d01:
     jsr BeginPartyObjectIteration
@@ -5224,7 +5224,7 @@ SetObjectBank:  cmp #$2b
     pla
     rts
 
-BankswitchLower_Bank00_2nd:
+BANKSET_L00:
     ldx #$06
     lda #$00
     jmp BANK_SWAP
@@ -5729,7 +5729,7 @@ IsObjectNearPlayer:
     @B31_020e:
     rts
 
-B31_020f:
+OBJECT_INTERACTION:
     jsr BeginPartyObjectIteration ; object_pointer = 0x6780, $36 = 0xFC
     ldy #$15
     lda (object_pointer), y
@@ -6730,7 +6730,7 @@ B31_07f9:
 B31_07fc:
     lda $25
     bne @B31_0803
-    jmp Rand
+    jmp RNG_BYTE
     @B31_0803:
     pla
     pla
@@ -7817,7 +7817,7 @@ B31_0ef0:
     sta $60
     asl $60
     bcc @B31_0f1a
-    jsr Rand
+    jsr RNG_BYTE
     and #$c0
     bne @B31_0f1a
     jsr BackupPalette
@@ -7851,7 +7851,7 @@ DarkenPalette:
     bpl @B31_0f1d
     jmp UpdatePalette
 
-B31_0f34:
+PRINT_CURR_CHOICER:
     ldy #$08
     lda ($80), y
     sta $84
@@ -7938,7 +7938,7 @@ B31_0f88:
     ldx #$00
     stx pad1_forced
     @B31_0fbc:
-    jsr Rand
+    jsr RNG_BYTE
     jsr WaitNMI
     lda pad1_forced
     bne @B31_0fe1
@@ -8097,7 +8097,7 @@ B31_10b0:
     jmp AddTileViaNMI
 
 ; $F0D1
-B31_10d1:
+EIGHT_OPTIONS_LUT:
     .byte 1, 2, 3, 4, 5, 6, 7, 8
 
 ; $F0D9 - D-Pad to direction table (no diagonals)
@@ -8325,7 +8325,7 @@ B31_11a4:
     bcc @B31_11ae
     rts
 
-Rand:
+RNG_BYTE:
     clc
     lda random_num
     adc random_num+1
@@ -8508,7 +8508,7 @@ JMPTable:
     pha
     rts
 
-B31_12ed:
+RNG_WORD:
     pha ; PUSH A
     txa
     pha ; PUSH X
@@ -8545,7 +8545,7 @@ B31_12ed:
     lda #$64
     sta $64
     jsr B31_113d
-    jsr Rand
+    jsr RNG_BYTE
     lsr a
     php ; PUSH SIGN
     tax
@@ -8649,7 +8649,7 @@ RNGifySpeed:
     stx $60
     lda #$00
     sta $61
-    jsr B31_12ed
+    jsr RNG_WORD
     lda $61
     beq @B31_1415
     lda #$ff
