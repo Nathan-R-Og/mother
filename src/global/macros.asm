@@ -89,3 +89,26 @@
     PPU_READ_TEXT = 10
     .endif
 .endenum
+
+; items
+.enum itemd
+    nameptr = 0
+    nameptr_hi = 1
+    flags = 2
+    power = 3
+    oa = 4  ; overworld action
+    ba = 5  ; battle action
+    cost = 6
+    cost_hi = 7
+.endenum
+
+.enum psid
+    nameptr = 0
+    nameptr_hi = 1
+    ninten = 2
+    ana = 3
+    oa = 4
+    ba = 5
+    useless = 6
+    cost = 7
+.endenum
