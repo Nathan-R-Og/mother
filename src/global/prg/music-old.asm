@@ -1,10 +1,3 @@
-; variables for music engine
-; defined in ram.asm
-; sfx_framecounter = unk_7e0
-
-; end
-
-
 ;Oct  C  C#   D  D#   E   F  F#   G  G#   A  A#   B  Max Detune at B
 ;1:                                       0*         0.96 cents
 ;2:   2   3   4   5   6   7   8   9   a   b   c   d  1.91 cents
@@ -76,49 +69,6 @@
 .define timbre_c_square(duty, no_length, vol_or_decay, v) (duty << 6) | (no_length << 5) | (vol_or_decay << 4) | v
 .define timbre_c_triangle(autodisable, frames) (autodisable << 7) | frames
 
-; control registers macro for 2a03 channels ($4000-$4013, 4 each)
-; Pulse
-;   DDLC VVVV - Duty, Length Freeze, Constant Volume, Volume
-;   EPPP NSSS - Sweep Enabled, Period, Negate, Shift
-;   TTTT TTTT - Timer Low
-;   LLLL LTTT - Length Counter, Timer High
-.macro SQ_CTRL duty, length_freeze, constant_volume, volume_decay, sweep_enabled, period, negate, shift, timer, length_counter_load
-    timer_lo = (timer & $ff)
-    timer_hi = ((timer >> 8) & $07)
-    .byte (duty << 6) | (length_freeze << 5) | (constant_volume << 4) | volume_decay
-    .byte (sweep_enabled << 7) | (period << 4) | (negate << 3) | shift
-    .byte timer_lo
-    .byte (length_counter_load << 3) | timer_hi
-.endmacro
-
-; Triangle
-;   CRRR RRRR - Linear Counter Control, Linear Counter Load
-;   ---- ---- - unused
-;   TTTT TTTT - Timer Low
-;   LLLL LTTT - Length Counter Load, Timer High
-.macro TRI_CTRL linear_counter_control, linear_counter_load, timer, length_counter_load
-    timer_lo = (timer & $ff)
-    timer_hi = ((timer >> 8) & $07)
-    .byte (linear_counter_control << 7) | linear_counter_load
-    .byte 0
-    .byte timer_lo
-    .byte (length_counter_load << 3) | timer_hi
-.endmacro
-
-; Noise
-;   --LC VVVV - LC Halt, Constant Volume, Volume
-;   ---- ---- - unused
-;   M--- PPPP - noise Mode, noise Period
-;   LLLL L--- - Length counter load
-.macro NOI_CTRL lc_halt, constant_vol, volume, mode, period, load
-    .byte (lc_halt << 5) | (constant_vol << 4) | volume
-    .byte 0
-    .byte (mode << 7) | period
-    .byte (load << 5)
-.endmacro
-
-; dmc ...
-
 .segment        "MUSIC": absolute
 ;.segment        "PRG1C": absolute
 
@@ -135,91 +85,91 @@ B28_0006: ;init
 
 
 SFXPointerTables:
-    NoiseSFXTable_SetUp:
-        .addr NoiseSFX_Hit_SetUp ; 01
-        .addr NoiseSFX_Bomb_SetUp ; 02
-        .addr NoiseSFX_Thunder_SetUp ; 03
-        .addr NoiseSFX_Fire_SetUp ; 04
-        .addr NoiseSFX_Crit_SetUp ; 05
-        .addr NoiseSFX_EnemyKilled_SetUp ; 06
-        .addr NoiseSFX_Unk07_SetUp ; 07
-        .addr NoiseSFX_Stairs_SetUp ; 08
-        .addr NoiseSFX_Rocket_SetUp ; 09
-        .addr NoiseSFX_RocketLand_SetUp ; 0A
-    NoiseSFXTable_Continue:
-        .addr NoiseSFX_Hit_Continue ; 01
-        .addr NoiseSFX_Bomb_Continue ; 02
-        .addr NoiseSFX_Thunder_Continue ; 03
-        .addr NoiseSFX_Fire_Continue ; 04
-        .addr NoiseSFX_Crit_Continue ; 05
-        .addr NoiseSFX_EnemyKilled_Continue ; 06
-        .addr NoiseSFX_Unk07_RocketLand_Continue ; 07
-        .addr NoiseSFX_Stairs_Continue ; 08
-        .addr NoiseSFX_Rocket_Continue ; 09
-        .addr NoiseSFX_Unk07_RocketLand_Continue ; 0A
+NoiseSFXTable_SetUp:
+    .addr NoiseSFX_Hit_SetUp ; 01
+    .addr NoiseSFX_Bomb_SetUp ; 02
+    .addr NoiseSFX_Thunder_SetUp ; 03
+    .addr NoiseSFX_Fire_SetUp ; 04
+    .addr NoiseSFX_Crit_SetUp ; 05
+    .addr NoiseSFX_EnemyKilled_SetUp ; 06
+    .addr NoiseSFX_Unk07_SetUp ; 07
+    .addr NoiseSFX_Stairs_SetUp ; 08
+    .addr NoiseSFX_Rocket_SetUp ; 09
+    .addr NoiseSFX_RocketLand_SetUp ; 0A
+NoiseSFXTable_Continue:
+    .addr NoiseSFX_Hit_Continue ; 01
+    .addr NoiseSFX_Bomb_Continue ; 02
+    .addr NoiseSFX_Thunder_Continue ; 03
+    .addr NoiseSFX_Fire_Continue ; 04
+    .addr NoiseSFX_Crit_Continue ; 05
+    .addr NoiseSFX_EnemyKilled_Continue ; 06
+    .addr NoiseSFX_Unk07_RocketLand_Continue ; 07
+    .addr NoiseSFX_Stairs_Continue ; 08
+    .addr NoiseSFX_Rocket_Continue ; 09
+    .addr NoiseSFX_Unk07_RocketLand_Continue ; 0A
 
-    PulseGroup0SFXTable_SetUp:
-        .addr PulseGroup0SFX_EnemyAttack_SetUp ; 01
-        .addr PulseGroup0SFX_Beam_SetUp ; 02
-        .addr PulseGroup0SFX_StatBoost_SetUp ; 03
-        .addr PulseGroup0SFX_TakeDamage_SetUp ; 04
-        .addr PulseGroup0SFX_MenuBloop_SetUp ; 05
-        .addr PulseGroup0SFX_ItemDropGet_SetUp ; 06
-        .addr PulseGroup0SFX_Recovery_SetUp ; 07
-        .addr PulseGroup0SFX_Canary_SetUp ; 08
-        .addr PulseGroup0SFX_LearnedPSI_SetUp ; 09
-        .addr PulseGroup0SFX_PlayerAttack_SetUp ; 0A
-        .addr PulseGroup0SFX_Purchase_SetUp ; 0B
-        .addr PulseGroup0SFX_Dodge_SetUp ; 0C
-        .addr PulseGroup0SFX_Unk0D_SetUp ; 0D
-        .addr PulseGroup0SFX_Unk0E_SetUp ; 0E
-        .addr PulseGroup0SFX_Miss_SetUp ; 0F
-        .addr PulseGroup0SFX_MagicantWarp_SetUp ; 10
-        .addr PulseGroup0SFX_Laura_SetUp ; 11
-        .ifndef VER_JP
-            .addr PulseGroup0SFX_XXStone_SetUp ; 12
-        .endif
-    PulseGroup0SFXTable_Continue:
-        .addr PulseGroup0SFX_EnemyAttack_Continue ; 01
-        .addr PulseGroup0SFX_Beam_Continue ; 02
-        .addr PulseGroup0SFX_StatBoost_Continue ; 03
-        .addr PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue ; 04
-        .addr PulseGroup0SFX_MenuBloop_Continue ; 05
-        .addr PulseGroup0SFX_ItemDropGet_Continue ; 06
-        .addr PulseGroup0SFX_Recovery_Continue ; 07
-        .addr PulseGroup0SFX_Canary_Laura_Continue ; 08
-        .addr PulseGroup0SFX_LearnedPSI_Continue ; 09
-        .addr PulseGroup0SFX_PlayerAttack_Continue ; 0A
-        .addr PulseGroup0SFX_Purchase_Continue ; 0B
-        .addr PulseGroup0SFX_Dodge_Continue ; 0C
-        .addr PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue ; 0D
-        .addr PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue ; 0E
-        .addr PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue ; 0F
-        .addr PulseGroup0SFX_MagicantWarp_Continue ; 10
-        .addr PulseGroup0SFX_Canary_Laura_Continue ; 11
-        .ifndef VER_JP
-            .addr PulseGroup0SFX_XXStone_Continue ; 12
-        .endif
+PulseGroup0SFXTable_SetUp:
+    .addr PulseGroup0SFX_EnemyAttack_SetUp ; 01
+    .addr PulseGroup0SFX_Beam_SetUp ; 02
+    .addr PulseGroup0SFX_StatBoost_SetUp ; 03
+    .addr PulseGroup0SFX_TakeDamage_SetUp ; 04
+    .addr PulseGroup0SFX_MenuBloop_SetUp ; 05
+    .addr PulseGroup0SFX_ItemDropGet_SetUp ; 06
+    .addr PulseGroup0SFX_Recovery_SetUp ; 07
+    .addr PulseGroup0SFX_Canary_SetUp ; 08
+    .addr PulseGroup0SFX_LearnedPSI_SetUp ; 09
+    .addr PulseGroup0SFX_PlayerAttack_SetUp ; 0A
+    .addr PulseGroup0SFX_Purchase_SetUp ; 0B
+    .addr PulseGroup0SFX_Dodge_SetUp ; 0C
+    .addr PulseGroup0SFX_Unk0D_SetUp ; 0D
+    .addr PulseGroup0SFX_Unk0E_SetUp ; 0E
+    .addr PulseGroup0SFX_Miss_SetUp ; 0F
+    .addr PulseGroup0SFX_MagicantWarp_SetUp ; 10
+    .addr PulseGroup0SFX_Laura_SetUp ; 11
+    .ifndef VER_JP
+        .addr PulseGroup0SFX_XXStone_SetUp ; 12
+    .endif
+PulseGroup0SFXTable_Continue:
+    .addr PulseGroup0SFX_EnemyAttack_Continue ; 01
+    .addr PulseGroup0SFX_Beam_Continue ; 02
+    .addr PulseGroup0SFX_StatBoost_Continue ; 03
+    .addr PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue ; 04
+    .addr PulseGroup0SFX_MenuBloop_Continue ; 05
+    .addr PulseGroup0SFX_ItemDropGet_Continue ; 06
+    .addr PulseGroup0SFX_Recovery_Continue ; 07
+    .addr PulseGroup0SFX_Canary_Laura_Continue ; 08
+    .addr PulseGroup0SFX_LearnedPSI_Continue ; 09
+    .addr PulseGroup0SFX_PlayerAttack_Continue ; 0A
+    .addr PulseGroup0SFX_Purchase_Continue ; 0B
+    .addr PulseGroup0SFX_Dodge_Continue ; 0C
+    .addr PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue ; 0D
+    .addr PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue ; 0E
+    .addr PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue ; 0F
+    .addr PulseGroup0SFX_MagicantWarp_Continue ; 10
+    .addr PulseGroup0SFX_Canary_Laura_Continue ; 11
+    .ifndef VER_JP
+        .addr PulseGroup0SFX_XXStone_Continue ; 12
+    .endif
 
-    TriangleSFXTable_SetUp:
-        .addr TriangleSFX_Freeze_SetUp ; 01
-        .addr TriangleSFX_Unk02_SetUp ; 02
-        .addr TriangleSFX_PlayerKilled_SetUp ; 03
-        .addr TriangleSFX_Equip_SetUp ; 04
-    TriangleSFXTable_Continue:
-        .addr TriangleSFX_Freeze_Continue ; 01
-        .addr TriangleSFX_Unk02_Continue ; 02
-        .addr TriangleSFX_PlayerKilled_Continue ; 03
-        .addr TriangleSFX_Equip_Continue ; 04
+TriangleSFXTable_SetUp:
+    .addr TriangleSFX_Freeze_SetUp ; 01
+    .addr TriangleSFX_Unk02_SetUp ; 02
+    .addr TriangleSFX_PlayerKilled_SetUp ; 03
+    .addr TriangleSFX_Equip_SetUp ; 04
+TriangleSFXTable_Continue:
+    .addr TriangleSFX_Freeze_Continue ; 01
+    .addr TriangleSFX_Unk02_Continue ; 02
+    .addr TriangleSFX_PlayerKilled_Continue ; 03
+    .addr TriangleSFX_Equip_Continue ; 04
 
-    PulseGroup1SFXTable_SetUp:
-        .addr PulseG1SFX_DimensionSlip_SetUp ; 01
-        .addr PulseG1SFX_Status_SetUp ; 02
-        .addr PulseG1SFX_GiegueAttack_SetUp ; 03
-    PulseGroup1SFXTable_Continue:
-        .addr PulseG1SFX_DimensionSlip_Continue ; 01
-        .addr PulseG1SFX_Status_GiegueAttack_Continue ; 02
-        .addr PulseG1SFX_Status_GiegueAttack_Continue ; 03
+PulseGroup1SFXTable_SetUp:
+    .addr PulseG1SFX_DimensionSlip_SetUp ; 01
+    .addr PulseG1SFX_Status_SetUp ; 02
+    .addr PulseG1SFX_GiegueAttack_SetUp ; 03
+PulseGroup1SFXTable_Continue:
+    .addr PulseG1SFX_DimensionSlip_Continue ; 01
+    .addr PulseG1SFX_Status_GiegueAttack_Continue ; 02
+    .addr PulseG1SFX_Status_GiegueAttack_Continue ; 03
 
 
 SetSQ1Registers:
@@ -365,24 +315,24 @@ B28_00fa:
 SFXInstrumentInitData:
 
 .byte $16,$7F,$0E,$80
-noi_instrument_rockettakeoff:
+B28_0104:
 .byte $3E,$7F,$0E,$08
-noi_instrument_bomb: ; used for hit, crit, bomb
+B28_0108:
 .byte $1F,$7F,$0F,$C0
-noi_instrument_thunder:
+B28_010c:
 .byte $3F,$7F,$00,$B0
-noi_instrument_fire:
+B28_0110:
 .byte $11,$7F,$0E,$30
-noi_instrument_stairs:
+B28_0114:
 .byte $9B,$7F,$0C,$28
-noi_instrument_enemyko:
+B28_0118:
 .byte $10,$7F,$87,$B0
-noi_instrument_rocketland:
+B28_011c:
 .byte $0A,$7F,$0F,$08
-sq2_instrument_teleporting:
-.byte $B0,$7F,$1C,$40   ; Bb7 - B7
-sq1_instrument_teleporting:
-.byte $B0,$7F,$32,$40   ; B6
+B28_0120:
+.byte $B0,$7F,$1C,$40
+B28_0124:
+.byte $B0,$7F,$32,$40
 B28_0128:
 .byte $B1,$7F,$40,$40
 B28_012c:
@@ -392,56 +342,56 @@ B28_0130:
 B28_0134:
 .byte $B1,$7F,$FF,$47
 .ifndef VER_JP
-sq1_instrument_xxstone:
+B28_0138:
 .byte $1F,$7F,$30,$08
 .endif
-sq1_instrument_magicant:
+B28_013c:
 .byte $1F,$BB,$D4,$08
-sq1_instrument_learnedpsi:
+B28_0140:
 .byte $81,$A7,$E1,$88
-sq1_instrument_canarychirp:
+B28_0144:
 .byte $99,$7F,$15,$88
 B28_0148:
 .byte $9B,$7F,$1F,$88
-sq1_instrument_menubloop:
+B28_014c:
 .byte $D8,$7F,$20,$28
-sq1_instrument_menubloop_echo:
+B28_0150:
 .byte $D1,$7F,$20,$28
-sq1_instrument_itemget:
+B28_0154:
 .byte $D9,$7F,$54,$28
-sq1_instrument_statboost:
+B28_0158:
 .byte $9E,$9D,$C0,$08
-sq1_instrument_recovery:
+B28_015c:
 .byte $9C,$9A,$E8,$08
-sq1_instrument_beam:
+B28_0160:
 .byte $9E,$7F,$40,$08
-sq1_instrument_playerattack:
+B28_0164:
 .byte $94,$C6,$67,$28
-sq1_instrument_playerattack_cont:
+B28_0168:
 .byte $96,$CE,$47,$28
-sq1_instrument_enemyattack:
+B28_016c:
 .byte $D9,$A5,$7B,$F9
 B28_0170:
 .byte $D6,$A5,$90,$F9
 B28_0174:
 .byte $DA,$96,$46,$F9
-sq1_instrument_buy:
+B28_0178:
 .byte $96,$7F,$76,$20
-sq1_instrument_buy_cont:
+B28_017c:
 .byte $82,$7F,$27,$F8
-sq1_instrument_dodge:
+B28_0180:
 .byte $94,$A5,$89,$48
 B28_0184:
 .byte $96,$AD,$7A,$58
-sq1_instrument_dodge_cont:
+B28_0188:
 .byte $93,$A5,$99,$28
-sq1_instrument_takedmg:
+B28_018c:
 .byte $9F,$84,$80,$FA
-sq1_instrument_unused0D:
+B28_0190:
 .byte $94,$84,$24,$18
-sq1_instrument_textprinting:
+B28_0194:
 .byte $94,$7F,$94,$18
-sq1_instrument_blindmiss:
+B28_0198:
 .byte $95,$B4,$57,$F8
 B28_019c:
 .byte $02,$7F,$67,$09
@@ -694,63 +644,66 @@ B28_02c6:
     sta TRI_LINEAR
     rts
 
-; need A, Y set before calling
-SFX_SetupContinue:
+B28_02dc:
     ldx unk_bd
     sta unk_7d5, x
     txa
     sta unk_7c7, x
     tya
-    beq SetupCHANNEL
+    beq B28_030a
     txa
-    beq SetupNOI
+    beq B28_0307
     cmp #$01
-    beq SetupSQ1
+    beq B28_02f8
     cmp #$02
-    beq SetupSQ2
+    beq B28_02fd
     cmp #$03
-    beq SetupTRI
+    beq B28_0302
     rts
-SetupSQ1:
+
+B28_02f8:
     jsr SetSQ1Registers
-    beq SetupCHANNEL ; unconditional branch
-SetupSQ2:
+    beq B28_030a ; unconditional branch
+
+B28_02fd:
     jsr SetSQ2Registers
-    beq SetupCHANNEL ; unconditional branch
-SetupTRI:
+    beq B28_030a ; unconditional branch
+
+B28_0302:
     jsr SetTRIRegisters
-    beq SetupCHANNEL ; unconditional branch
-SetupNOI:
+    beq B28_030a ; unconditional branch
+
+B28_0307:
     jsr SetNOISERegisters
     ; fallthrough
-SetupCHANNEL:
+B28_030a:
     lda unk_bf
     sta soundactive, x
     lda #$00
     sta unk_7da, x
     ; fallthrough
-StoreCHANNELVariables:
+B28_0314:
     sta unk_7df, x
     sta unk_7e3, x
     sta unk_7e7, x
     sta unk_78a
-B28_0320:
+    B28_0320:
     rts
 
 NoiseSFX_RocketLand_SetUp:
     lda #$30
-    ldy #<noi_instrument_rocketland
-    jmp SFX_SetupContinue
+    ldy #<B28_011c
+    jmp B28_02dc
 
 NoiseSFX_Stairs_SetUp:
     lda #$0c
-    ldy #<noi_instrument_stairs
-    jmp SFX_SetupContinue
+    ldy #<B28_0114
+    jmp B28_02dc
 
 NoiseSFX_Stairs_Continue:
     jsr B28_00d3
     bne B28_0320
-    ldy #<noi_instrument_stairs
+    ldy #<B28_0114
     jsr SetNOISERegisters
     inc unk_7df
     lda unk_7df
@@ -760,8 +713,8 @@ NoiseSFX_Stairs_Continue:
 
 NoiseSFX_Unk07_SetUp:
     lda #$04
-    ldy #<noi_instrument_stairs
-    jsr SFX_SetupContinue
+    ldy #<B28_0114
+    jsr B28_02dc
     lda #$02
     sta soundqueue_triangle
 
@@ -775,11 +728,11 @@ SFX_SetNoisePeriod:
 
 NoiseSFX_EnemyKilled_SetUp:
     lda #$06
-    ldy #<noi_instrument_enemyko
-    jsr SFX_SetupContinue
-    lda noi_instrument_enemyko+2
+    ldy #<B28_0118
+    jsr B28_02dc
+    lda B28_0118+2
     sta unk_7df
-    lda noi_instrument_enemyko
+    lda B28_0118
     sta unk_7e3
     B28_036f:
     rts
@@ -806,9 +759,9 @@ NoiseSFX_EnemyKilled_Continue:
 
 NoiseSFX_Thunder_SetUp:
     lda #$05
-    ldy #<noi_instrument_thunder
-    jsr SFX_SetupContinue
-    lda noi_instrument_thunder+2
+    ldy #<B28_010c
+    jsr B28_02dc
+    lda B28_010c+2
     sta unk_7df
     B28_03a0:
     rts
@@ -846,8 +799,8 @@ SFX_SetNoisePeriodFromC1Table:
 
 NoiseSFX_Fire_SetUp:
     lda #$03
-    ldy #<noi_instrument_fire
-    jmp SFX_SetupContinue
+    ldy #<B28_0110
+    jmp B28_02dc
 
 NoiseSFX_Fire_Continue:
     jsr B28_00d3
@@ -862,8 +815,8 @@ NoiseSFX_Fire_Continue:
 
 NoiseSFX_Hit_SetUp:
     lda #$10
-    ldy #<noi_instrument_bomb
-    jmp SFX_SetupContinue
+    ldy #<B28_0108
+    jmp B28_02dc
 
 ; $8009 table, entry 0A
 NoiseSFX_Hit_Continue:
@@ -887,8 +840,8 @@ NoiseSFX_Unk07_RocketLand_Continue:
 
 NoiseSFX_Crit_SetUp:
     lda #$20
-    ldy #<noi_instrument_bomb
-    jmp SFX_SetupContinue
+    ldy #<B28_0108
+    jmp B28_02dc
 
 NoiseSFX_Crit_Continue:
     jsr B28_00d3
@@ -908,8 +861,8 @@ NoiseSFX_Bomb_SetUp:
     .else
     lda #$40
     .endif
-    ldy #<noi_instrument_bomb
-    jmp SFX_SetupContinue
+    ldy #<B28_0108
+    jmp B28_02dc
 
 NoiseSFX_Bomb_Continue:
     jsr B28_00d3
@@ -965,8 +918,8 @@ SFX_ReadNybbleFromC1Table:
 
 NoiseSFX_Rocket_SetUp:
     lda #$08
-    ldy #<noi_instrument_rockettakeoff
-    jmp SFX_SetupContinue
+    ldy #<B28_0104
+    jmp B28_02dc
 
 NoiseSFX_Rocket_Continue:
     jsr B28_00d3
@@ -1006,7 +959,7 @@ B28_04b0:
 B28_04b9:
     jmp EndNoiseSFX
 
-DoDoublePulseSFX:
+B28_04bc:
     sta unk_7d9
     jsr SetSQ2Registers
     lda unk_bf
@@ -1021,9 +974,8 @@ DoDoublePulseSFX:
     sta unk_7de
     sta soundactive_pulseg0
     ldx #$01
-    jmp StoreCHANNELVariables
-
-B28_04dd:
+    jmp B28_0314
+    B28_04dd:
     jsr EndPulseGroup0SFX
     jsr B28_0840
     inc unk_78a
@@ -1031,19 +983,19 @@ B28_04dd:
     sta soundactive_pulseg1
     ldx #$01
     lda #$7f
-B28_04ef:
+    B28_04ef:
     sta SQ1, x
     sta SQ2, x
     rts
 
 PulseG1SFX_DimensionSlip_SetUp:
-    ldy #<sq1_instrument_teleporting
+    ldy #<B28_0124
     jsr SetSQ1Registers
     lda #$0a
-    ldy #<sq2_instrument_teleporting
-    jsr DoDoublePulseSFX
-    lda sq2_instrument_teleporting
-    sta sfx_framecounter
+    ldy #<B28_0120
+    jsr B28_04bc
+    lda B28_0120
+    sta unk_7e0
     B28_0508:
     rts
 
@@ -1052,12 +1004,12 @@ PulseG1SFX_DimensionSlip_Continue:
     bne B28_0533
     lda unk_7e4
     beq B28_0518
-    dec sfx_framecounter
+    dec unk_7e0
     bne B28_051b
     B28_0518:
-    inc sfx_framecounter
+    inc unk_7e0
     B28_051b:
-    lda sfx_framecounter
+    lda unk_7e0
     cmp #$b0
     bne B28_0525
     jmp B28_04dd
@@ -1092,15 +1044,15 @@ PulseG1SFX_Status_SetUp:
     lda #$03
     ldy #<B28_0128
     B28_0556:
-    jmp DoDoublePulseSFX
+    jmp B28_04bc
 
 PulseG1SFX_Status_GiegueAttack_Continue:
     jsr B28_057e
     jsr B28_00d3
     bne B28_057e
     ldx #$00
-    inc sfx_framecounter
-    lda sfx_framecounter
+    inc unk_7e0
+    lda unk_7e0
     cmp #$12
     beq B28_0576
     cmp #$0e
@@ -1137,8 +1089,8 @@ incbinRange "../../split/us/music.bin", $59c, $5a4
 
 PulseGroup0SFX_Miss_SetUp:
     lda #$0A
-    ldy #<sq1_instrument_blindmiss
-    jmp SFX_SetupContinue
+    ldy #<B28_0198
+    jmp B28_02dc
 
 .ifndef VER_JP
 Purchase_Volumes:
@@ -1148,53 +1100,53 @@ Purchase_Volumes:
 PulseGroup0SFX_Purchase_Continue:
     lda unk_7e4
     beq B28_05c1
-    inc sfx_framecounter
-    lda sfx_framecounter
+    inc unk_7e0
+    lda unk_7e0
     cmp #$16
     bne B28_059b
     jmp EndPulseGroup0SFX
 
 B28_05c1:
-    lda sfx_framecounter
+    lda unk_7e0
     and #$03
     tay
     lda Purchase_Volumes, y
     sta SQ1_VOL
-    inc sfx_framecounter
-    lda sfx_framecounter
+    inc unk_7e0
+    lda unk_7e0
     cmp #$08
     bne B28_059b
     inc unk_7e4
-    ldy #<sq1_instrument_buy_cont
+    ldy #<B28_017c
     jmp SetSQ1Registers
 
 
 PulseGroup0SFX_Unk0D_SetUp:
     lda #$02
-    ldy #<sq1_instrument_unused0D
-    jmp SFX_SetupContinue
+    ldy #<B28_0190
+    jmp B28_02dc
 
 PulseGroup0SFX_Purchase_SetUp:
-    ldy #<sq1_instrument_buy
-    jmp SFX_SetupContinue
+    ldy #<B28_0178
+    jmp B28_02dc
 
 PulseGroup0SFX_PlayerAttack_SetUp:
     lda #$04
-    ldy #<sq1_instrument_playerattack
-    jmp SFX_SetupContinue
+    ldy #<B28_0164
+    jmp B28_02dc
 
 PulseGroup0SFX_PlayerAttack_Continue:
     jsr B28_00d3
     bne B28_066d
-    inc sfx_framecounter
-    lda sfx_framecounter
+    inc unk_7e0
+    lda unk_7e0
     cmp #$01
     beq @B28_0608
     cmp #$04
     bne B28_066d
     jmp EndPulseGroup0SFX
 @B28_0608:
-    ldy #<sq1_instrument_playerattack_cont
+    ldy #<B28_0168
     jmp SetSQ1Registers
 
 PulseGroup0SFX_Laura_SetUp:
@@ -1202,9 +1154,9 @@ PulseGroup0SFX_Laura_SetUp:
     ; fallthrough
 PulseGroup0SFX_Canary_SetUp:
     lda #$0f
-    ldy #<sq1_instrument_canarychirp
-    jsr SFX_SetupContinue
-    lda sq1_instrument_canarychirp+2
+    ldy #<B28_0144
+    jsr B28_02dc
+    lda B28_0144+2
     B28_061a:
     sta unk_7e8
     rts
@@ -1225,8 +1177,8 @@ PulseGroup0SFX_Canary_Laura_Continue:
     ldy #<B28_0148
     bne B28_0641
     B28_063c:
-    lda sq1_instrument_canarychirp+2
-    ldy #<sq1_instrument_canarychirp
+    lda B28_0144+2
+    ldy #<B28_0144
     B28_0641:
     pha
     jsr SetSQ1Registers
@@ -1259,13 +1211,13 @@ PulseGroup0SFX_Unk0E_SetUp:
     cmp #PulseG0_Recovery
     beq B28_066d
     lda #$02
-    ldy #<sq1_instrument_textprinting
-    jmp SFX_SetupContinue
+    ldy #<B28_0194
+    jmp B28_02dc
 
 PulseGroup0SFX_TakeDamage_SetUp:
     lda #$10
-    ldy #<sq1_instrument_takedmg
-    jmp SFX_SetupContinue
+    ldy #<B28_018c
+    jmp B28_02dc
 
 PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue:
     jsr B28_00d3
@@ -1284,14 +1236,14 @@ EndPulseGroup0SFX:
 
 PulseGroup0SFX_Dodge_SetUp:
     lda #$06
-    ldy #<sq1_instrument_dodge
-    jmp SFX_SetupContinue
+    ldy #<B28_0180
+    jmp B28_02dc
 
 PulseGroup0SFX_Dodge_Continue:
     jsr B28_00d3
     bne B28_0698
-    inc sfx_framecounter
-    lda sfx_framecounter
+    inc unk_7e0
+    lda unk_7e0
     cmp #$01
     beq B28_06ba
     cmp #$02
@@ -1303,7 +1255,7 @@ PulseGroup0SFX_Dodge_Continue:
     ldy #<B28_0184
     jmp SetSQ1Registers
     B28_06bf:
-    ldy #<sq1_instrument_dodge_cont
+    ldy #<B28_0188
     jmp SetSQ1Registers
 
 
@@ -1314,8 +1266,8 @@ incbinRange "../../split/jp/music.bin", $69e, $6A4
 
 PulseGroup0SFX_EnemyAttack_SetUp:
     lda #$08
-    ldy #<sq1_instrument_enemyattack
-    jmp SFX_SetupContinue
+    ldy #<B28_016c
+    jmp B28_02dc
 
 PulseGroup0SFX_EnemyAttack_Continue:
     jsr B28_00d3
@@ -1336,7 +1288,7 @@ B28_06e9:
 B28_06ed:
     lda #$00
     sta unk_7e4
-    lda sfx_framecounter
+    lda unk_7e0
     beq B28_0702
     cmp #$01
     beq B28_0706
@@ -1350,20 +1302,20 @@ B28_06ed:
     ldy #<B28_0174
     B28_0708:
     jsr SetSQ1Registers
-    inc sfx_framecounter
+    inc unk_7e0
     B28_070e:
     rts
 
 PulseGroup0SFX_MenuBloop_Continue:
     jsr B28_00d3
     bne B28_070e
-    inc sfx_framecounter
-    lda sfx_framecounter
+    inc unk_7e0
+    lda unk_7e0
     cmp #$02
     bne B28_0721
     jmp EndPulseGroup0SFX
     B28_0721:
-    ldy #<sq1_instrument_menubloop_echo
+    ldy #<B28_0150
     jmp SetSQ1Registers
 
 PulseGroup0SFX_MenuBloop_SetUp:
@@ -1373,56 +1325,55 @@ PulseGroup0SFX_MenuBloop_SetUp:
     beq B28_070e
     .endif
     lda #$03
-    ldy #<sq1_instrument_menubloop
-    bne SFX_SetupContinue_Local
+    ldy #<B28_014c
+    bne B28_075b
 
 PulseGroup0SFX_MagicantWarp_SetUp:
     lda #$10
-    ldy #<sq1_instrument_magicant
-    jsr SFX_SetupContinue_Local
+    ldy #<B28_013c
+    jsr B28_075b
     lda #$18
     bne B28_077b
 
 PulseGroup0SFX_MagicantWarp_Continue:
     jsr B28_00d3
     bne B28_077e
-    ldy #<sq1_instrument_magicant
-    bne SQ1SFX_PKBeamValues
+    ldy #<B28_013c
+    bne B28_0786
 
 PulseGroup0SFX_StatBoost_SetUp:
     lda #$06
-    ldy #<sq1_instrument_statboost
-    jsr SFX_SetupContinue_Local
+    ldy #<B28_0158
+    jsr B28_075b
     lda #$10
     bne B28_077b
 
 PulseGroup0SFX_StatBoost_Continue:
     jsr B28_00d3
     bne B28_077e
-    ldy #<sq1_instrument_statboost
-    bne SQ1SFX_PKBeamValues
+    ldy #<B28_0158
+    bne B28_0786
 
-; local jmp to sfx setup continue
-SFX_SetupContinue_Local:
-    jmp SFX_SetupContinue
+B28_075b:
+    jmp B28_02dc
 
 PulseGroup0SFX_Recovery_SetUp:
     lda #$05
-    ldy #<sq1_instrument_recovery
-    jsr SFX_SetupContinue_Local
+    ldy #<B28_015c
+    jsr B28_075b
     lda #$08
     bne B28_077b
 
 PulseGroup0SFX_Recovery_Continue:
     jsr B28_00d3
     bne B28_077e
-    ldy #<sq1_instrument_recovery
-    bne SQ1SFX_PKBeamValues
+    ldy #<B28_015c
+    bne B28_0786
 
 PulseGroup0SFX_Beam_SetUp:
     lda #$06
-    ldy #<sq1_instrument_beam
-    jsr SFX_SetupContinue_Local
+    ldy #<B28_0160
+    jsr B28_075b
     lda #$00
     B28_077b:
     sta unk_7e4
@@ -1432,31 +1383,31 @@ PulseGroup0SFX_Beam_SetUp:
 PulseGroup0SFX_Beam_Continue:
     jsr B28_00d3
     bne B28_077e
-    ldy #<sq1_instrument_beam
-SQ1SFX_PKBeamValues:
+    ldy #<B28_0160
+    B28_0786:
     jsr SetSQ1Registers
     clc
     lda unk_7e4
-    adc sfx_framecounter
+    adc unk_7e0
     tay
     lda PKBeam_Periods, y
     sta SQ1_LO
-    ldy sfx_framecounter
+    ldy unk_7e0
     lda PKBeam_Volumes, y
     sta SQ1_VOL
     bne B28_07a5
     jmp EndPulseGroup0SFX
 B28_07a5:
-    inc sfx_framecounter
+    inc unk_7e0
     B28_07a8:
     rts
 
 PulseGroup0SFX_ItemDropGet_SetUp:
     lda #$04
-    ldy #<sq1_instrument_itemget
-    jsr SFX_SetupContinue
-    lda sq1_instrument_itemget+2
-    sta sfx_framecounter
+    ldy #<B28_0154
+    jsr B28_02dc
+    lda B28_0154+2
+    sta unk_7e0
     rts
 
 PulseGroup0SFX_ItemDropGet_Continue:
@@ -1468,33 +1419,33 @@ PulseGroup0SFX_ItemDropGet_Continue:
     bne @B28_07c9
     jmp EndPulseGroup0SFX
     @B28_07c9:
-    lda sfx_framecounter
+    lda unk_7e0
     lsr a
     lsr a
     lsr a
     sta unk_7e8
-    lda sfx_framecounter
+    lda unk_7e0
     clc
     sbc unk_7e8
-    sta sfx_framecounter
+    sta unk_7e0
     sta SQ1_LO
     lda #$28
     B28_07e1:
     sta SQ1_HI
     B28_07e4:
     rts
-; "magic" oscilating pulse channel effect used for Beam, Hook, Recovery sfx, etc.
+
 PKBeam_Volumes:
 .byte $9E,$9B,$99,$96,$94,$93,$92,$91,$00
-PKBeam_Periods: ; frequencies
+PKBeam_Periods:
 .byte $20,$40,$20,$40,$20,$40,$20,$40,$90,$60,$90,$90,$60,$80,$90,$60
 .byte $B0,$79,$A8,$58,$90,$40,$80,$30,$76,$9F,$58,$76,$42,$58,$31,$42
 
 PulseGroup0SFX_LearnedPSI_Continue:
     jsr B28_00d3
     bne B28_07e4
-    ldy sfx_framecounter
-    inc sfx_framecounter
+    ldy unk_7e0
+    inc unk_7e0
     lda LearnedPSI_Periods, y
     beq B28_0826
     sta SQ1_LO
@@ -1505,8 +1456,8 @@ PulseGroup0SFX_LearnedPSI_Continue:
 
 PulseGroup0SFX_LearnedPSI_SetUp:
     lda #$04
-    ldy #<sq1_instrument_learnedpsi
-    jmp SFX_SetupContinue
+    ldy #<B28_0140
+    jmp B28_02dc
 
 LearnedPSI_Periods:
 .byte     $A8,$96,$70,$53,$4A,$37,$29
@@ -1524,7 +1475,7 @@ B28_0840:
 TriangleSFX_Unk02_SetUp:
     lda #$04
     ldy #<B28_01a0
-    jsr SFX_SetupContinue
+    jsr B28_02dc
 
     lda unk_bb
     sta TRI_LO
@@ -1535,7 +1486,7 @@ TriangleSFX_Unk02_SetUp:
 TriangleSFX_Freeze_SetUp:
     lda #$04
     ldy #<B28_019c
-    jsr SFX_SetupContinue
+    jsr B28_02dc
     lda #$08
     sta unk_7e6
     rts
@@ -1594,7 +1545,7 @@ TriangleSFX_PlayerKilled_Continue:
 TriangleSFX_PlayerKilled_SetUp:
     lda #$03
     ldy #<B28_01a4
-    jmp SFX_SetupContinue
+    jmp B28_02dc
 
 PlayerKilled_Periods:
     .byte $3f,$48,$52,$6d,$78,$84,$91,$ae,$bd,$00
@@ -1602,7 +1553,7 @@ PlayerKilled_Periods:
 TriangleSFX_Equip_SetUp:
     lda #$08
     ldy #<B28_01a8
-    jmp SFX_SetupContinue
+    jmp B28_02dc
 
 TriangleSFX_Equip_Continue:
     jsr B28_00d3
@@ -1679,8 +1630,8 @@ HandleMusic:
 .ifndef VER_JP
 PulseGroup0SFX_XXStone_SetUp:
     lda #$03
-    ldy #<sq1_instrument_xxstone
-    jsr SFX_SetupContinue
+    ldy #<B28_0138
+    jsr B28_02dc
     jmp PulseGroup0SFX_XXStone_Common
 
 PulseGroup0SFX_XXStone_Continue:
@@ -1688,21 +1639,21 @@ PulseGroup0SFX_XXStone_Continue:
     bne B28_0995
     ; fallthrough
 PulseGroup0SFX_XXStone_Common:
-    lda sfx_framecounter
+    lda unk_7e0
     and #$07
     tay
-    lda sfx_framecounter
+    lda unk_7e0
     lsr a
     lsr a
     lsr a
     tax
-    inc sfx_framecounter
+    inc unk_7e0
     lda XXStone_Volumes, x
     beq B28_0996
     sta SQ1_VOL
     lda XXStone_PeriodLowBytes, y
     sta SQ1_LO
-    lda sq1_instrument_xxstone+3
+    lda B28_0138+3
     sta SQ1_HI
     B28_0995:
     rts
