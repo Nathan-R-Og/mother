@@ -774,11 +774,7 @@ DisplayText_battle:
     asl a
     rol battle_wordvar60+1
     clc
-    .ifdef VER_JP
-    adc #$7a
-    .else
-    adc #$81
-    .endif
+    adc #.LOBYTE(Battle_Text)
     sta battle_wordvar60
     lda battle_wordvar60+1
     .ifdef VER_JP
@@ -1582,7 +1578,7 @@ SelectPSI:
     bne :-
     lda battle_wordvar60
     beq :++
-    jsr B23_0b10
+    jsr BtlOpenPSIMenu
     bcs :+
     jmp SelectRTS
 :   jmp OpenPlayerInputMainMenu
@@ -2011,7 +2007,7 @@ B23_0ae9:
     sec
     rts
 
-B23_0b10:
+BtlOpenPSIMenu:
     ldy #$01
     B23_0b12:
     lda (ptr_chara), y
@@ -2022,8 +2018,8 @@ B23_0b10:
     jsr B31_14ce
     lda #$12
     jsr B31_14ce
-    jsr B23_0b61
-    jsr B23_0bc2
+    jsr LoadandDoPSIMenu
+    jsr BtlDoPSIPageChoicer
     pla
     tay
     cpx #$01
@@ -2033,7 +2029,7 @@ B23_0b10:
     B23_0b32:
     iny
     cpy #$08
-    beq B23_0b10
+    beq BtlOpenPSIMenu
     bne B23_0b12
     B23_0b39:
     ldy menucursor_pos
@@ -2058,7 +2054,7 @@ B23_0b57:
     sec
     rts
 
-B23_0b61:
+LoadandDoPSIMenu:
     tya
     asl a
     asl a
@@ -2115,7 +2111,7 @@ B23_0b86:
     bne B23_0b86
     rts
 
-B23_0bc2:
+BtlDoPSIPageChoicer:
     lda #.LOBYTE(battle_psipage_choicer)
     sta $80
     lda #.HIBYTE(battle_psipage_choicer)
@@ -2129,7 +2125,7 @@ B23_0bc2:
     bne :+
     bit $83
     bvs :++
-    jmp B23_0bc2
+    jmp BtlDoPSIPageChoicer
 :   ldx #$00
     rts
 :   ldx #$02
@@ -2143,11 +2139,11 @@ B23_0be6:
     jsr PRINT_CURR_CHOICER
     lda $83
     and #$08
-    bne B23_0bc2
+    bne BtlDoPSIPageChoicer
     bit $83
     bvs :++
     bmi :+
-    jmp B23_0bc2
+    jmp BtlDoPSIPageChoicer
 :   ldx #$01
     rts
 :   ldx #$02
