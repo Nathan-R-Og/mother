@@ -514,7 +514,7 @@ B20_1505:
 B20_150b:
     jsr rts_3 ; $80 = $6085[x]
 B20_150e:
-    jsr B31_0f34
+    jsr PRINT_CURR_CHOICER
     lda #$ff
     jmp B31_10b0
 
@@ -584,7 +584,7 @@ DoWalkingStep:
     tax
 
     ;get a random value
-    jsr Rand
+    jsr RNG_BYTE
 
     ;get the frequency value
     cmp AREA_FREQ_TABLE-1, x
@@ -618,7 +618,7 @@ DoWalkingStep:
 
     @battle_roll:
     ;get random value
-    jsr Rand
+    jsr RNG_BYTE
     ;only get top nybble
     lsr a
     lsr a
@@ -1673,7 +1673,7 @@ NS_FinalChoicer:
     stx UNK_80+1
 
     ;wait for input
-    jsr B31_0f34
+    jsr PRINT_CURR_CHOICER
 
     ;if menucursor_pos == 0 (Yes), continue
     lda menucursor_pos

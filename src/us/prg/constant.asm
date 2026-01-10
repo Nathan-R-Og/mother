@@ -431,12 +431,12 @@ DrawCurrentWindow:
     jmp B30_0274
 
 ; used by PSI and Items list
-DrawWindow8Entriesbox:
+DRAW_WINDOW_8ENTRY:
     lda #.LOBYTE(window_8entries)
     ldx #.HIBYTE(window_8entries)
     jmp DrawCurrentWindow
 
-DrawWindowShopitems:
+DRAW_WINDOW_SHOP:
     lda #.LOBYTE(window_shopitems)
     ldx #.HIBYTE(window_shopitems)
     jmp DrawCurrentWindow
@@ -446,12 +446,12 @@ DrawWindowWho:
     ldx #.HIBYTE(window_who)
     jmp DrawCurrentWindow
 
-DrawWindowItemactions:
+DRAW_WINDOW_ITEMACTIONS:
     lda #.LOBYTE(window_itemactions)
     ldx #.HIBYTE(window_itemactions)
     jmp DrawCurrentWindow
 
-DrawWindowCashboxmenu:
+DRAW_WINDOW_CASHBOX:
     lda #.LOBYTE(cash_box_menu)
     ldx #.HIBYTE(cash_box_menu)
     jmp DrawCurrentWindow
@@ -2169,7 +2169,7 @@ B30_0cb1:
     jsr WAIT_CLOSE_MENU
     jmp B30_0d79
 
-B30_0cd8:
+PSITELEPORT_START:
     lda current_music
     pha
 
@@ -4692,7 +4692,7 @@ BattleRewardsRoutine:
 
     ;??? get item drop chance from price???
     jsr BANKSET_H13
-    jsr B19_1bc3
+    jsr LOAD_ITEM_PRICE
 
     lda #$ff
     sta global_wordvar
@@ -4702,7 +4702,7 @@ BattleRewardsRoutine:
     asl a
     bcc :-
 ; @TryItemDrop
-    jsr Rand
+    jsr RNG_BYTE
     and global_wordvar
     bne @RewardsEnd
 ; @ItemDropSuccess
@@ -4777,7 +4777,7 @@ DoLevelUp:
     jsr DisplayText_battle
     jsr B30_1cdf
     ldy #$03
-:   jsr Rand
+:   jsr RNG_BYTE
     lsr a
     lsr a
     lsr a
@@ -4915,7 +4915,7 @@ B30_1c71:
     lda #$10
     B30_1c77:
     tax
-    jsr Rand
+    jsr RNG_BYTE
     lsr a
     lsr a
     lsr a
@@ -4949,7 +4949,7 @@ B30_1c87:
     jsr B30_1ccd
     and ($38), y
     bne B30_1cc6
-    jsr Rand
+    jsr RNG_BYTE
     and #%11000000
     bne B30_1cc6
     lda ($38), y
@@ -5002,7 +5002,7 @@ B30_1cdf:
     and #$07
     adc #$98
     sta $69
-    jmp BankswitchLower_Bank00_2nd
+    jmp BANKSET_L00
 
 B30_1d01:
     jsr BeginPartyObjectIteration
@@ -5246,7 +5246,7 @@ SetObjectBank:
     pla
     rts
 
-BankswitchLower_Bank00_2nd:
+BANKSET_L00:
     ldx #BANK::PRG8000
     lda #0
     jmp BANK_SWAP
@@ -5774,7 +5774,7 @@ IsObjectNearPlayer:
     @B31_020e:
     rts
 
-B31_020f:
+OBJECT_INTERACTION:
     jsr BeginPartyObjectIteration ; object_pointer = 0x6780, $36 = 0xFC
     ldy #$15
     lda (object_pointer), y
@@ -6921,7 +6921,7 @@ B31_07f9:
 B31_07fc:
     lda $25
     bne @B31_0803
-    jmp Rand
+    jmp RNG_BYTE
     @B31_0803:
     pla
     pla
@@ -8045,7 +8045,7 @@ B31_0ef0:
     sta UNK_60
     asl UNK_60
     bcc @B31_0f1a
-    jsr Rand
+    jsr RNG_BYTE
     and #$c0
     bne @B31_0f1a
     jsr BackupPalette
@@ -8080,7 +8080,7 @@ DarkenPalette:
     jmp UpdatePalette
 
 ;do choicer
-B31_0f34:
+PRINT_CURR_CHOICER:
     ldy #8
     lda (UNK_80), y
     sta UNK_84
@@ -8163,7 +8163,7 @@ B31_0f88:
     ldx #$00
     stx pad1_forced
     @B31_0fbc:
-    jsr Rand
+    jsr RNG_BYTE
     jsr WaitNMI
     lda pad1_forced
     bne @B31_0fe1
@@ -8324,7 +8324,7 @@ B31_10b0:
 ; $F0D1
 ; Generic Choicer LUT
 ; literally only exists for a generic 1-8 choicer. can be sliced
-B31_10d1:
+EIGHT_OPTIONS_LUT:
     .byte 1, 2, 3, 4, 5, 6, 7, 8
 
 ; $F0D9 - D-Pad to direction table (no diagonals)
@@ -8532,7 +8532,7 @@ B31_11a4:
     bcc @B31_11ae
     rts
 
-Rand:
+RNG_BYTE:
     clc
     lda random_num
     adc random_num+1
@@ -8723,7 +8723,7 @@ JMPTable:
     pha
     rts
 
-B31_12ed:
+RNG_WORD:
     pha ; PUSH A
     txa
     pha ; PUSH X
@@ -8760,7 +8760,7 @@ B31_12ed:
     lda #$64
     sta $64
     jsr B31_113d
-    jsr Rand
+    jsr RNG_BYTE
     lsr a
     php ; PUSH SIGN
     tax
@@ -8861,7 +8861,7 @@ RNGifySpeed:
     stx UNK_60
     lda #$00
     sta UNK_60+1
-    jsr B31_12ed
+    jsr RNG_WORD
     lda UNK_60+1
     beq @B31_1415
     lda #$ff

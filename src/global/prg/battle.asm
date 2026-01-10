@@ -774,11 +774,7 @@ DisplayText_battle:
     asl a
     rol battle_wordvar60+1
     clc
-    .ifdef VER_JP
-    adc #$7a
-    .else
-    adc #$81
-    .endif
+    adc #.LOBYTE(Battle_Text)
     sta battle_wordvar60
     lda battle_wordvar60+1
     .ifdef VER_JP
@@ -1290,7 +1286,7 @@ AutoBash:
     ldy attacker_offset
     lda #BA_BASH
     sta BATTLER_ACTION_ID, y
-:   jsr Rand
+:   jsr RNG_BYTE
     and #$e0                    ; get a random value from 0 to 3
     ora #$80
     tay
@@ -1373,7 +1369,7 @@ TryAddingPSIBattleAction:
 
 ; Picks a random move from the Enemy's Moveset
 EnemyAIRoutine:
-    jsr Rand
+    jsr RNG_BYTE
     and #%00000111
     clc
     adc attacker_offset
@@ -1472,7 +1468,7 @@ AITargetRoutine_RTS:
     rts
 
 B23_07ab:
-    jsr Rand
+    jsr RNG_BYTE
     and #%11100000
     tay
     lda BATTLER, y
@@ -1582,7 +1578,7 @@ SelectPSI:
     bne :-
     lda battle_wordvar60
     beq :++
-    jsr B23_0b10
+    jsr BtlOpenPSIMenu
     bcs :+
     jmp SelectRTS
 :   jmp OpenPlayerInputMainMenu
@@ -1791,7 +1787,7 @@ B23_0991:
     sta $80
     lda #.HIBYTE(battle_whichenemy_choicer)
     sta $81
-    jsr B31_0f34
+    jsr PRINT_CURR_CHOICER
     bit $83
     bvs B23_09b1
     bmi B23_09ad
@@ -2011,7 +2007,7 @@ B23_0ae9:
     sec
     rts
 
-B23_0b10:
+BtlOpenPSIMenu:
     ldy #$01
     B23_0b12:
     lda (ptr_chara), y
@@ -2022,8 +2018,8 @@ B23_0b10:
     jsr B31_14ce
     lda #$12
     jsr B31_14ce
-    jsr B23_0b61
-    jsr B23_0bc2
+    jsr LoadandDoPSIMenu
+    jsr BtlDoPSIPageChoicer
     pla
     tay
     cpx #$01
@@ -2033,7 +2029,7 @@ B23_0b10:
     B23_0b32:
     iny
     cpy #$08
-    beq B23_0b10
+    beq BtlOpenPSIMenu
     bne B23_0b12
     B23_0b39:
     ldy menucursor_pos
@@ -2058,7 +2054,7 @@ B23_0b57:
     sec
     rts
 
-B23_0b61:
+LoadandDoPSIMenu:
     tya
     asl a
     asl a
@@ -2115,12 +2111,12 @@ B23_0b86:
     bne B23_0b86
     rts
 
-B23_0bc2:
+BtlDoPSIPageChoicer:
     lda #.LOBYTE(battle_psipage_choicer)
     sta $80
     lda #.HIBYTE(battle_psipage_choicer)
     sta $81
-    jsr B31_0f34
+    jsr PRINT_CURR_CHOICER
     lda $83
     and #$06
     bne B23_0be6
@@ -2129,7 +2125,7 @@ B23_0bc2:
     bne :+
     bit $83
     bvs :++
-    jmp B23_0bc2
+    jmp BtlDoPSIPageChoicer
 :   ldx #$00
     rts
 :   ldx #$02
@@ -2140,14 +2136,14 @@ B23_0be6:
     sta $80
     lda #.HIBYTE(battle_psi_choicer)
     sta $81
-    jsr B31_0f34
+    jsr PRINT_CURR_CHOICER
     lda $83
     and #$08
-    bne B23_0bc2
+    bne BtlDoPSIPageChoicer
     bit $83
     bvs :++
     bmi :+
-    jmp B23_0bc2
+    jmp BtlDoPSIPageChoicer
 :   ldx #$01
     rts
 :   ldx #$02
@@ -2208,8 +2204,8 @@ TargetingFromActionID:
     lsr a
     tay
 
-    ;battle_wordvar60+1 = B22_1ec7[y] & battle_wordvar60
-    lda B22_1ec7, y
+    ;battle_wordvar60+1 = BATargetingTable[y] & battle_wordvar60
+    lda BATargetingTable, y
     and battle_wordvar60
     sta battle_wordvar60+1
 
@@ -2352,7 +2348,7 @@ DoBattlerTurn:
     and #SLEEP
     beq @CheckPuzzled
 ; Sleep Wake Up Check
-    jsr Rand
+    jsr RNG_BYTE
     and #$e0                    ; 1/8 chance of wake up (sleep is basically an ohko lmao)
     bne @SleepWakeupFail
     lda BATTLER_STATUS, y
@@ -2390,7 +2386,7 @@ DoBattlerTurn:
     lda BATTLER_MINOR_STATUS, y
     and #BIND
     beq @CheckConfuse
-    jsr Rand
+    jsr RNG_BYTE
     and #$c0                    ; 1/4 chance of escaping bind
     bne @BindBreakFail
     lda BATTLER_MINOR_STATUS, y
@@ -2620,7 +2616,7 @@ BINSTC_ITEMSCRIPT:
 ; Battle Instruction C0 ID (Run Breakable Script)
 ; Rolls Break chance and if unlucky, removes item from the inventory and prints msg saying it broke
 BINSTC0_BREAKABLE:
-    jsr Rand
+    jsr RNG_BYTE
     and #$e0                        ; 1/8 chance of breakable breaking
     bne BINSTC_RETURN
     jsr OrganizeAttackerInv
@@ -2632,7 +2628,7 @@ BINSTC0_BREAKABLE:
 ; Same as C0, but the breaking msg is different.
 ; Only used for PSI Stone in vanilla.
 BINSTC1_PSISTONE:
-    jsr Rand
+    jsr RNG_BYTE
     and #$e0                        ; 1/8 chance of breakable breaking
     bne BINSTC_RETURN
     jsr OrganizeAttackerInv
@@ -3073,7 +3069,7 @@ BINSTCONDITION3_BLIND_MISS:
     eor #BLIND
     rol a
     bcs :+
-    jsr Rand
+    jsr RNG_BYTE
     and #$80                    ; 50-50
     rol a
 :   rts
@@ -3135,7 +3131,7 @@ BINSTCONDITION7_NOT_INSECT:
 
 ; no requirement 50-50
 BINSTCONDITION8_50_50:
-    jsr Rand
+    jsr RNG_BYTE
     asl a
     rts
 
@@ -3207,7 +3203,7 @@ DoFightEquation:
     bcs :+
     lda #$00
 :   sta battle_wordvar60
-    jsr Rand
+    jsr RNG_BYTE
     sta battle_wordvar62
     rts
 
@@ -3244,7 +3240,7 @@ BINST51_TARGET_SELECTED:
     sta target_offset
     rts
 @TARGET_WHILE_CONFUSED:
-    jsr Rand
+    jsr RNG_BYTE
     and #$e0
     tay
     lda BATTLER, y
@@ -3261,7 +3257,7 @@ BINST52_TARGET_OPPOSING_LEADER:
     lda BATTLER_STATUS, y
     and #CONFUSE
     beq TARGET_OPPOSING_LEADER
-    jsr Rand
+    jsr RNG_BYTE
     and #$80                            ; 50-50
     bne TARGET_OUR_LEADER
     TARGET_OPPOSING_LEADER:
@@ -3279,7 +3275,7 @@ BINST53_TARGET_OUR_LEADER:
     lda BATTLER_STATUS, y
     and #$08
     beq TARGET_OUR_LEADER
-    jsr Rand
+    jsr RNG_BYTE
     and #$80
     bne TARGET_OPPOSING_LEADER
     TARGET_OUR_LEADER:
@@ -3352,7 +3348,7 @@ BINST60_SETNUMBASH:
     cmp #BSCRIPT_TEDDY
     bne :+
 ; do Teddy script setnum
-    jsr Rand
+    jsr RNG_BYTE
     and #$07
     ora #$04
     sta battle_wordvar60
@@ -3408,7 +3404,7 @@ BINST61_SETNUMCRIT:
     lda battle_script
     cmp #BSCRIPT_TEDDY
     bne :+
-    jsr Rand
+    jsr RNG_BYTE
     and #$0f
     ora #$08
     sta battle_input_num
@@ -3956,7 +3952,7 @@ AnimateGiegueDefeat:
     pha
     lda #Noise_Crit
     sta soundqueue_noise
-    jsr Rand
+    jsr RNG_BYTE
     and #$03
     tax
     inx
@@ -4475,7 +4471,7 @@ DoFakeDamage:
     bne :+
     ldx #$3f
 :   stx battle_wordvar60
-    jsr Rand
+    jsr RNG_BYTE
     and battle_wordvar60
     sta battle_input_num
     lda #$00
@@ -4565,7 +4561,7 @@ DoDamage:
     lda BATTLER_STATUS, y
     and #CONFUSE | PUZZLE
     beq @CheckSleepCure
-    jsr Rand
+    jsr RNG_BYTE
     and #$c0                            ; 1/4 chance of cure confuse & puzzle when hit
     bne @CheckSleepCure
     lda BATTLER_STATUS, y               ; confuse & puzzle cure success
@@ -4577,7 +4573,7 @@ DoDamage:
     lda BATTLER_STATUS, y
     and #SLEEP
     beq :+
-    jsr Rand
+    jsr RNG_BYTE
     and #$c0                            ; 1/4 chance of waking up when hit
     bne :+
     lda BATTLER_STATUS, y               ; sleep cure success
@@ -4635,7 +4631,7 @@ BINST4_0A_Cryo:
     jsr SEC_IsTargetEVE                 ; here the EVE check is relevant, since enemies on Holy Loly use Freeze gamma
     bcs :+                              ; +
     ldy target_offset
-    jsr Rand
+    jsr RNG_BYTE
     and #$03                            ; upper bound of random: 3
     tax
     inx
@@ -5203,7 +5199,7 @@ MOV_input_output:
     sta battle_wordvar60
     lda battle_input_num+1
     sta battle_wordvar60+1
-    jmp B31_12ed
+    jmp RNG_WORD
 
 RaiseBigStat:
     jsr GetValueFromBattlerFulldata
@@ -5359,7 +5355,7 @@ BolsterBigStat:
     sta battle_wordvar60
     lda battle_wordvar62+1
     sta battle_wordvar60+1
-    jsr B31_12ed
+    jsr RNG_WORD
     jmp RaiseBigStat
 
 ; drops a 16-bit stat by 50% additive
@@ -5375,7 +5371,7 @@ CrippleBigStat:
     lda battle_wordvar62
     ror a
     sta battle_wordvar60
-    jsr B31_12ed
+    jsr RNG_WORD
     jmp LowerBigStat
 
 ; not fully understood yet (assumed function)
@@ -5462,7 +5458,7 @@ StatResistingRoutine:
     sta battle_wordvar60
     sta battle_wordvar62
     jsr B31_113d
-    jsr Rand
+    jsr RNG_BYTE
     cmp battle_wordvar60
     rts
 

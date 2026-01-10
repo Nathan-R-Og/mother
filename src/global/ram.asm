@@ -449,7 +449,7 @@ unk_7da = $07da
 unk_7de = $07de
 unk_7df = $07df
 
-unk_7e0 = $07e0
+sfx_framecounter = $07e0
 unk_7e2 = $07e2
 unk_7e3 = $07e3
 unk_7e4 = $07e4
