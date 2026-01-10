@@ -2209,8 +2209,8 @@ PSITELEPORT_START:
     lda #$20
     B30_0d18:
     tax
-    asl shadow_something+4, x
-    asl shadow_something+5, x
+    asl SPRITE_OBJECTS+4, x
+    asl SPRITE_OBJECTS+5, x
     sec
     sbc #$08
     bne B30_0d18
@@ -4110,12 +4110,17 @@ B30_1768:
     pla
     sta party_members+1, x
     jsr LoadPartyObjectDataAndSprite
-    ldy #$19
+
+    ;object_pointer->object_m_unk3 = movement_direction
+    ldy #object_m_unk3
     lda movement_direction
     sta (object_pointer), y
-    ldy #$00
-    lda #$0c
+
+    ;object_pointer->object_m_type = $c
+    ldy #object_m_type
+    lda #$c
     sta (object_pointer), y
+
     clc
     jmp WriteProtectPRGRam
 
@@ -4160,6 +4165,7 @@ B30_179a:
     B30_17cf:
     ldy #$00
     sta (object_pointer), y
+
     jsr NextEntity
     inx
     cpx #$04
@@ -4250,7 +4256,7 @@ SetPartyObjectSprite:
     pha
     and #%11110000
     sta (object_pointer), y
-    ldy #object_m_oam
+    ldy #object_m_tiles
     pla
     and #%00001111
     sta (object_pointer), y
@@ -4570,9 +4576,9 @@ B30_1a16:
 
     ;set spritedef to teleport fry
     lda #.LOBYTE(SPRITEDEF_TELEPORT_FRY)
-    sta shadow_something+6, y
+    sta SPRITE_OBJECTS+6, y
     lda #.HIBYTE(SPRITEDEF_TELEPORT_FRY)
-    sta shadow_something+7, y
+    sta SPRITE_OBJECTS+7, y
 
     B30_1a3c:
     inx
@@ -5170,7 +5176,7 @@ SetObjectType:
     asl a
     asl a
     tax
-    ldy #object_m_oam
+    ldy #object_m_tiles
     lda Object_Configs+2, x
     sta (object_pointer), y
     ldy #object_m_bitfield1
@@ -5465,7 +5471,7 @@ B30_1fda:
     lda #$18
     sta $e3
     lda #$00
-    sta shadow_something+0
+    sta SPRITE_OBJECTS
     ldx #$08
     jsr EnablePRGRam
 
@@ -5481,7 +5487,7 @@ B30_1fda:
     bmi goto_next_object
 
     ;get oam slot
-    ldy #object_m_oam
+    ldy #object_m_tiles
     lda (object_pointer), y
     ;cap to 64 (available tiles)
     and #64-1
@@ -5509,14 +5515,16 @@ B30_1fda:
     txa
     sta (object_pointer), y
 
-    ldy #object_m_oam
-    B31_0024:
+    ;copy object_m_tiles to object_m_sprite
+    ldy #object_m_tiles
+    @copy_to_spriteobj:
     lda (object_pointer), y
-    sta shadow_something+0, x
+    sta SPRITE_OBJECTS, x
     inx
     iny
-    cpy #$0e
-    bcc B31_0024
+    cpy #object_m_sprite
+    bcc @copy_to_spriteobj
+
     clc
     lda $02fa, x
     and #$40
@@ -5524,12 +5532,12 @@ B30_1fda:
     lda #$04
     B31_0039:
     adc (object_pointer), y
-    sta shadow_something+0, x
+    sta SPRITE_OBJECTS, x
     inx
     iny
     lda #$00
     adc (object_pointer), y
-    sta shadow_something+0, x
+    sta SPRITE_OBJECTS, x
     inx
     beq B31_0062
     lda UNK_37
@@ -5542,7 +5550,7 @@ B30_1fda:
 
     B31_0056:
     lda #$00
-    sta shadow_something+0, x
+    sta SPRITE_OBJECTS, x
     clc
     txa
     adc #$08
@@ -5554,16 +5562,16 @@ B30_1fda:
 B31_0065:
     ldx #$00
     @B31_0067:
-    lda shadow_something+0, x
+    lda SPRITE_OBJECTS, x
     and #$40
     beq @B31_007f
     sec
-    lda shadow_something+6, x
+    lda SPRITE_OBJECTS+6, x
     sbc #$04
-    sta shadow_something+6, x
-    lda shadow_something+7, x
+    sta SPRITE_OBJECTS+6, x
+    lda SPRITE_OBJECTS+7, x
     sbc #$00
-    sta shadow_something+7, x
+    sta SPRITE_OBJECTS+7, x
     @B31_007f:
     clc
     txa
@@ -5591,10 +5599,10 @@ B31_0087:
 
     ldy $62
     lda (UNK_60), y
-    sta shadow_something+2, x
+    sta SPRITE_OBJECTS+2, x
     iny
     lda (UNK_60), y
-    sta shadow_something+3, x
+    sta SPRITE_OBJECTS+3, x
     iny
     lda (UNK_60), y
     sta $63
@@ -5603,25 +5611,25 @@ B31_0087:
     lda (UNK_60), y
     ldy #$16
     adc (object_pointer), y
-    sta shadow_something+6, x
+    sta SPRITE_OBJECTS+6, x
     iny
     lda #$00
     adc (object_pointer), y
-    sta shadow_something+7, x
+    sta SPRITE_OBJECTS+7, x
     ldy #$08
     lda (object_pointer), y
     and #$3f
     asl a
     asl $63
     ror a
-    sta shadow_something+0, x
+    sta SPRITE_OBJECTS, x
     lda #$70
     asl $63
     ror a
-    sta shadow_something+1, x
+    sta SPRITE_OBJECTS+1, x
     lda #$00
-    sta shadow_something+4, x
-    sta shadow_something+5, x
+    sta SPRITE_OBJECTS+4, x
+    sta SPRITE_OBJECTS+5, x
     clc
     txa
     adc #$08
@@ -5903,19 +5911,19 @@ B31_02c2:
     ldy #$10
     lda (object_pointer), y
     tay
-    lda shadow_something+0, y
+    lda SPRITE_OBJECTS, y
     and #$3f
     sta $3f
     beq B31_02a1
     lda UNK_60
-    sta shadow_something+6, y
+    sta SPRITE_OBJECTS+6, y
     lda UNK_60+1
-    sta shadow_something+7, y
-    lda shadow_something+2, y
+    sta SPRITE_OBJECTS+7, y
+    lda SPRITE_OBJECTS+2, y
     sta $68
-    lda shadow_something+3, y
+    lda SPRITE_OBJECTS+3, y
     sta $69
-    lda shadow_something+1, y
+    lda SPRITE_OBJECTS+1, y
     asl a
     asl a
     tax
@@ -6448,7 +6456,7 @@ B31_0567:
     lda xy_unknown+7, x ; Y offset
     sta (object_pointer), y
 B31_0577:
-    ldy #object_m_oam
+    ldy #object_m_tiles
     lda (object_pointer), y
     and #%00111111
     ora #%01000000
@@ -6458,7 +6466,7 @@ B31_0577:
     and #%01000000
     eor UNK_60
     sta (object_pointer), y
-    ldy #object_m_oam+1
+    ldy #object_m_not_oam
     lda #$38
     sta (object_pointer), y
     ldy #object_m_direction
@@ -6722,17 +6730,19 @@ OBJTICK_Stairs:
 ; Wandering, constantly shaking
 B31_06d9:
     jsr CheckObjectNoSpawn
-    bcc B31_06df
+    bcc @active
     rts
 
-B31_06df:
+    @active:
+
+    ;if get (rand & 0xf0) >> 3 >= 8, jump to WriteShakePointer
     jsr B31_07fc
     and #$f0
     lsr a
     lsr a
     lsr a
-    cmp #$08
-    bcs B31_06fe
+    cmp #8
+    bcs WriteShakePointer
     jsr B31_07dc
     jmp B31_073d
 
@@ -6746,18 +6756,23 @@ B31_06f7:
     jsr B31_07fc
     and #$f0
     bne B31_0720
-B31_06fe:
-    ldy #$0c
-    lda #$3d
+;do shake?
+WriteShakePointer:
+    ldy #object_m_sxvel
+    lda #.LOBYTE(ShakeTable)
     sta (object_pointer), y
     iny
-    lda #$ec
+    lda #.HIBYTE(ShakeTable)
     sta (object_pointer), y
+
+    ;limit tiles
     jsr B31_073d
-    ldy #$09
+
+    ldy #object_m_not_oam
     lda #$78
     sta (object_pointer), y
-    lda #$00
+
+    lda #0
     jsr B31_059b
     jmp B31_072e
 
@@ -6788,17 +6803,17 @@ B31_0733:
     sta (object_pointer), y
     rts
 
-;sets object_m_oam:low
+;limits object_pointer->object_m_tiles to 63
 B31_073d:
-    ldy #object_m_oam
+    ldy #object_m_tiles
     lda (object_pointer), y
     and #%00111111
     sta (object_pointer), y
     rts
 
-;sets object_m_oam:high
+;sets object_m_not_oam
 B31_0746:
-    ldy #object_m_oam+1
+    ldy #object_m_not_oam
     lda #$38
     sta (object_pointer), y
     rts
@@ -7611,10 +7626,24 @@ xy_unknown:
 
 B31_0c35:
     .byte $54,$14,$1c,$04,$44,$00,$0c,$10
-    .byte $00,$ff,$00,$01,$ff,$00,$01,$00
-    .byte $00,$ff,$00,$01,$00,$ff,$00,$01
-    .byte $ff,$00,$01,$00,$00,$ff,$00,$01
-    .byte $00,$01,$00,$ff,$00,$ff,$00,$01
+
+ShakeTable:
+    .byte 0,-1
+    .byte 0,1
+    .byte -1,0
+    .byte 1,0
+    .byte 0,-1
+    .byte 0,1
+    .byte 0,-1
+    .byte 0,1
+    .byte -1,0
+    .byte 1,0
+    .byte 0,-1
+    .byte 0,1
+    .byte 0,1
+    .byte 0,-1
+    .byte 0,-1
+    .byte 0,1
 
 ; $EC5D
 ;sorted from msb to lsb
@@ -9408,7 +9437,7 @@ B31_16bf:
 
 B31_16c8:
     ldx $68
-    lda shadow_something+0, x
+    lda SPRITE_OBJECTS, x
     pha
     lda #$03
     ldx #.LOBYTE(SPRITEDEF_STAT_WOUNDED)
@@ -9442,25 +9471,25 @@ B31_16f9:
     stx UNK_60
     sty UNK_60+1
     ldx $68
-    sta shadow_something+0, x
+    sta SPRITE_OBJECTS, x
     lda #$08
-    sta shadow_something+1, x
+    sta SPRITE_OBJECTS+1, x
     lda #$70
-    sta shadow_something+2, x
+    sta SPRITE_OBJECTS+2, x
     lda $69
-    sta shadow_something+3, x
+    sta SPRITE_OBJECTS+3, x
     lda #$00
-    sta shadow_something+4, x
-    sta shadow_something+5, x
+    sta SPRITE_OBJECTS+4, x
+    sta SPRITE_OBJECTS+5, x
     lda UNK_60
-    sta shadow_something+6, x
+    sta SPRITE_OBJECTS+6, x
     lda UNK_60+1
-    sta shadow_something+7, x
+    sta SPRITE_OBJECTS+7, x
     rts
 
 B31_1724:
     ldx $68
-    sta shadow_something+0, x
+    sta SPRITE_OBJECTS, x
     lda #$01
     sta nmi_flags
     ldx #$08
@@ -10151,7 +10180,7 @@ B31_1ac9:
     ldx #$10
 B31_1b0b:
     ldy $cc
-    lda shadow_something+0, y
+    lda SPRITE_OBJECTS, y
     and #$3f
     bne B31_1b17
     jmp B31_1c5c
@@ -10159,14 +10188,14 @@ B31_1b0b:
 B31_1b17:
     sta $c0
     stx $c2
-    lda shadow_something+1, y
+    lda SPRITE_OBJECTS+1, y
     and #$c0
     sta $c1
     txa
     lsr a
     lsr a
     ora $c1
-    sta shadow_something+1, y
+    sta SPRITE_OBJECTS+1, y
     sec
     lda #$00
     sbc $ce
@@ -10178,9 +10207,9 @@ B31_1b17:
     ldx $e1
     bit $c1
     bvc B31_1b70
-    lda shadow_something+4, y
+    lda SPRITE_OBJECTS+4, y
     sta $c4
-    lda shadow_something+5, y
+    lda SPRITE_OBJECTS+5, y
     sta $c5
     ldy #$00
     @B31_1b4a:
@@ -10200,19 +10229,19 @@ B31_1b17:
     tya
     adc $c4
     ldy $cc
-    sta shadow_something+4, y
+    sta SPRITE_OBJECTS+4, y
     lda #$00
     adc $c5
-    sta shadow_something+5, y
+    sta SPRITE_OBJECTS+5, y
     jmp B31_1b83
 
 B31_1b70:
     clc
-    lda shadow_something+4, y
+    lda SPRITE_OBJECTS+4, y
     adc $c8
     sta $c8
     clc
-    lda shadow_something+5, y
+    lda SPRITE_OBJECTS+5, y
     adc $ca
     sta $ca
     dex
@@ -10222,50 +10251,50 @@ B31_1b83:
     clc
     lda $c8
     bmi @B31_1b96
-    adc shadow_something+2, y
+    adc SPRITE_OBJECTS+2, y
     sta $c8
-    sta shadow_something+2, y
+    sta SPRITE_OBJECTS+2, y
     bcc @B31_1ba8
     bcs @B31_1ba0
     @B31_1b96:
-    adc shadow_something+2, y
+    adc SPRITE_OBJECTS+2, y
     sta $c8
-    sta shadow_something+2, y
+    sta SPRITE_OBJECTS+2, y
     bcs @B31_1ba8
     @B31_1ba0:
-    lda shadow_something+0, y
+    lda SPRITE_OBJECTS, y
     eor #$80
-    sta shadow_something+0, y
+    sta SPRITE_OBJECTS, y
     @B31_1ba8:
     clc
     lda $ca
     bmi @B31_1bb9
-    adc shadow_something+3, y
+    adc SPRITE_OBJECTS+3, y
     sta $ca
-    sta shadow_something+3, y
+    sta SPRITE_OBJECTS+3, y
     bcc @B31_1bcb
     bcs @B31_1bc3
     @B31_1bb9:
-    adc shadow_something+3, y
+    adc SPRITE_OBJECTS+3, y
     sta $ca
-    sta shadow_something+3, y
+    sta SPRITE_OBJECTS+3, y
     bcs @B31_1bcb
     @B31_1bc3:
-    lda shadow_something+1, y
+    lda SPRITE_OBJECTS+1, y
     eor #$80
-    sta shadow_something+1, y
+    sta SPRITE_OBJECTS+1, y
     @B31_1bcb:
-    lda shadow_something+0, y
+    lda SPRITE_OBJECTS, y
     and #$80
     sta $c9
-    lda shadow_something+1, y
+    lda SPRITE_OBJECTS+1, y
     and #$80
     sta $cb
 
     ;enemy extra tiles pointer -> [$c6]
-    lda shadow_something+6, y
+    lda SPRITE_OBJECTS+6, y
     sta $c6
-    lda shadow_something+7, y
+    lda SPRITE_OBJECTS+7, y
     sta $c7
 
     ldy #$00
@@ -10537,7 +10566,7 @@ WAIT_CLOSE_MENU:
     pla
     rts
 
-;loops over both shadow_something and shadow_oam
+;loops over both SPRITE_OBJECTS and shadow_oam
 ;effectively 'clears' each though shadow_oam only moves them
 ;offscreen
 B31_1d5e:
@@ -10549,9 +10578,9 @@ B31_1d5e:
 
     ldx #0
     @loop:
-    ;reset shadow_something tiles
+    ;reset SPRITE_OBJECTS tiles
     lda #0
-    sta shadow_something+0, x
+    sta SPRITE_OBJECTS, x
 
     ;set ypos to $f0
     lda #$f0
@@ -10630,12 +10659,12 @@ B31_1dc0:
     clc
     @B31_1dd0:
     tax
-    lda shadow_something+1, x
+    lda SPRITE_OBJECTS+1, x
     and #$bf
-    sta shadow_something+1, x
+    sta SPRITE_OBJECTS+1, x
     lda #$00
-    sta shadow_something+4, x
-    sta shadow_something+5, x
+    sta SPRITE_OBJECTS+4, x
+    sta SPRITE_OBJECTS+5, x
     txa
     adc #$08
     bcc @B31_1dd0

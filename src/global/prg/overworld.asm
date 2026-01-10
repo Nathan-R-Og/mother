@@ -3287,7 +3287,7 @@ B19_12de:
 
     ;write typed object to object memory
     lda Object_Configs+2, x
-    sta object_memory+object_m_oam
+    sta object_memory+object_m_tiles
     lda Object_Configs+3, x
     sta object_memory+object_m_bitfield1
 
@@ -3405,7 +3405,7 @@ B19_138b:
     sta object_memory+object_m_sprite_base+1, y
 
     lda Object_Configs+2, x
-    sta object_memory+object_m_oam, y
+    sta object_memory+object_m_tiles, y
 
     lda Object_Configs+3, x
     sta object_memory+object_m_bitfield1, y

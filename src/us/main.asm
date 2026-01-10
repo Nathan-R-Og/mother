@@ -16,7 +16,7 @@
 .include "../global/objects/3.asm"
 
 .include "../global/prg/overworld.asm"
-.include "prg/bank14.asm"
+.include "../global/prg/title.asm"
 
 .include "../global/sprites.asm"
 .include "../global/battle_data.asm"

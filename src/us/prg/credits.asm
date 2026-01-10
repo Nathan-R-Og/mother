@@ -330,35 +330,35 @@ credits_cmd_init_sprite:
     ;write byte
     lda (UNK_40), y
     and #%10000000
-    sta shadow_something+1, x
+    sta SPRITE_OBJECTS+1, x
 
     ;get next byte (????)
     iny
     lda (UNK_40), y
-    sta shadow_something, x
+    sta SPRITE_OBJECTS, x
 
     ;get next byte (X pos)
     iny
     lda (UNK_40), y
-    sta shadow_something+2, x
+    sta SPRITE_OBJECTS+2, x
 
     ;get next byte (Y pos)
     iny
     lda (UNK_40), y
-    sta shadow_something+3, x
+    sta SPRITE_OBJECTS+3, x
 
     ;get next addr (sprite pointer)
     iny
     lda (UNK_40), y
-    sta shadow_something+6, x
+    sta SPRITE_OBJECTS+6, x
     iny
     lda (UNK_40), y
-    sta shadow_something+7, x
+    sta SPRITE_OBJECTS+7, x
 
     ;?
     lda #0
-    sta shadow_something+4, x
-    sta shadow_something+5, x
+    sta SPRITE_OBJECTS+4, x
+    sta SPRITE_OBJECTS+5, x
 
     ;set to after macro
     ldy #7
@@ -385,22 +385,22 @@ credits_cmd_move_sprite:
     ;get next word (def move)
     iny
     lda (UNK_40), y
-    adc shadow_something+6, x
-    sta shadow_something+6, x
+    adc SPRITE_OBJECTS+6, x
+    sta SPRITE_OBJECTS+6, x
     iny
     lda (UNK_40), y
-    adc shadow_something+7, x
-    sta shadow_something+7, x
+    adc SPRITE_OBJECTS+7, x
+    sta SPRITE_OBJECTS+7, x
 
     ;get next byte (move x)
     iny
     lda (UNK_40), y
-    sta shadow_something+4, x
+    sta SPRITE_OBJECTS+4, x
 
     ;get next byte (move y)
     iny
     lda (UNK_40), y
-    sta shadow_something+5, x
+    sta SPRITE_OBJECTS+5, x
 
     ;bye
     ldy #6
@@ -466,7 +466,7 @@ credits_cmd_clear_sprite:
 
     ;reset
     lda #0
-    sta shadow_something, x
+    sta SPRITE_OBJECTS, x
     iny
     rts
 

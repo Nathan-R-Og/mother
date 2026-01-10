@@ -588,33 +588,33 @@ naming_screen_palettes:
 ;UNK_64 == oam slot
 ;UNK_62[0:2] == x,y
 ;UNK_60[0:2] == spritedef pointer
-;y == shadow_something item
+;y == SPRITE_OBJECTS item
 NS_AddCharacterToOam:
     ;set tiles
     lda #4
-    sta shadow_something, y
+    sta SPRITE_OBJECTS, y
 
     ;set oam slot
     lda UNK_64
-    sta shadow_something+1, y
+    sta SPRITE_OBJECTS+1, y
 
     ;set x
     lda UNK_62
-    sta shadow_something+2, y
+    sta SPRITE_OBJECTS+2, y
     ;set y
     lda UNK_62+1
-    sta shadow_something+3, y
+    sta SPRITE_OBJECTS+3, y
 
     ;set pointer1
     lda #0
-    sta shadow_something+4, y
-    sta shadow_something+5, y
+    sta SPRITE_OBJECTS+4, y
+    sta SPRITE_OBJECTS+5, y
 
     ;set spritedef pointer
     lda UNK_60
-    sta shadow_something+6, y
+    sta SPRITE_OBJECTS+6, y
     lda UNK_60+1
-    sta shadow_something+7, y
+    sta SPRITE_OBJECTS+7, y
 
     lda #1
     sta nmi_flags
@@ -821,7 +821,12 @@ ChangeName:
 kanafix "このなまえは つかえない",stopText
 
 ;??????
-.byte $08,$40,$23,$C0,$FF,$00
+B25_0afd:
+    .byte 8    ; PPU_FILL
+    .byte $40    ; Fill 64 bytes
+    .byte $23,$C0  ; at $23c0
+    .byte $FF ;tile (sent to ppudata)
+    .byte 0    ; END
 
 .else
 NintenQuestion:
@@ -1001,6 +1006,7 @@ IntroText2:
 
 ;;;;;;NAMING SCREEN
 ;question box top
+NS_QuestionBox:
 .byte set_pos 2, 1
 .byte " ",uibox_tl
 .byte repeatTile uibox_t, 14
@@ -1035,6 +1041,7 @@ IntroText2:
 .byte 0
 
 ;letter box top
+NS_AlphabetBox:
 .byte set_pos 2, 5
 .byte print_string string_in_question
 .byte 1
@@ -1074,15 +1081,17 @@ string_in_question:
 .byte repeatTile " ", 26
 .byte uibox_r
 .byte 1
-.byte 1
 
 ;choicers
+NS_AlphabetOptions:
+.byte 1
 .byte set_pos 23, 22
 kanafix "*もどる",newLine
 kanafix "*おわり"
 .byte stopText
 
 .byte 0
+NS_Recap_Tiles:
 .byte 1
 ;ninten name
 .byte set_pos 15, 5
@@ -1106,6 +1115,7 @@ kanafix "すきなこんだて ",favFood
 .byte 0
 .byte 0
 
+NS_Recap_Confirmation_Tiles:
 string_in_question_2:
 ;confirmation box top
 .byte set_pos 8, 20
@@ -1133,6 +1143,7 @@ string_in_question_4:
 .byte uibox_br
 .byte 0
 
+NS_Recap_Speed_Tiles:
 .byte print_string string_in_question_2
 .byte 1
 ;battle speed confirmation box

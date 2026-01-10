@@ -4,7 +4,7 @@
 OBJ_BANK_POINTERS2:
 .word OBJ_BANK_1A
 .word OBJ_BANK_1B
-.word $860C
+.word OBJ_BANK_1C
 .word $86D1
 .word $8795
 .word $88BB
@@ -26,5 +26,6 @@ OBJ_BANK_POINTERS2:
 ;general home/heal stuff
 .include "../../global/objects/2/bank1b.asm"
 
+OBJ_BANK_1C:
 .incbin "../../split/jp/objbank_2.bin", $60c
 

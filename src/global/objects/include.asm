@@ -236,7 +236,11 @@ obj_incs = 0
 .define OBJ_NO_ITEMS_CLOSET(label) .byte SCRIPTS::J_NOITEMSCLOSET, label
 .define OBJ_CHOOSE_ITEM_CLOSET(label) .byte SCRIPTS::J_CHOOSEITEMCLOSET, label
 .define OBJ_TAKE_ITEM_FROM_CLOSET(label) .byte SCRIPTS::J_TAKEITEMCLOSET, label
+.ifdef VER_JP
+.define OBJ_CHECK_MELODIES .byte SCRIPTS::J_MELODIES
+.else
 .define OBJ_INCOMPLETE_MELODIES(label) .byte SCRIPTS::J_MELODIES, label
+.endif
 
 ;flag manip
 .define OBJ_FLAG_APPEAR(flag) .byte SCRIPTS::F_APPEAR, flag

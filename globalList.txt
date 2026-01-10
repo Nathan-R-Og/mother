@@ -180,12 +180,6 @@ battles/BATTLE_99.bin
 battles/BATTLE_26.bin
 sample/snare.bin
 sample/kick.bin
-obj/OBJ_MYHOME_FLAGSET_6_2.bin
-obj/obj_bank0_lut.bin
-obj/OBJ_GRAVEYARD_CHURCHENTRANCE.bin
-obj/OBJ_DUNCANFACTORY_ENTRANCE.bin
-obj/OBJ_MYHOME_TELEPORTGAIN.bin
-obj/OBJ_MYHOME_HOUSEENTRANCE.bin
 chr/a/global.bin
 chr/4/global.bin
 chr/7/global10.bin

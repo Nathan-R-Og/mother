@@ -2,17 +2,23 @@
 ;(since it's basically an array, anyways)
 ;specifically to aid in shifting and general reordering.
 .define BATTLEID(ta) .LOBYTE((ta-BATTLES_START)/$A)
+
 .segment        "PRG14": absolute
 
-
-; Map tile properties
 Map_TileProperties:
-    .incbin "../../split/us/map_tile_properties.bin"
-
+    .ifdef VER_JP
+        .incbin "../../split/jp/map_tile_properties.bin"
+    .else
+        .incbin "../../split/us/map_tile_properties.bin"
+    .endif
 ;overworld palettes + map exclusive data
 ;1st and 3rd byte of last palette of each set contains map data
 Map_Palettes:
-    .incbin "../../split/us/map_palettes.bin"
+    .ifdef VER_JP
+        .incbin "../../split/jp/map_palettes.bin"
+    .else
+        .incbin "../../split/us/map_palettes.bin"
+    .endif
 
 ;format seems to be $10 per area, though why they sometimes pad with
 ;the same groups is questionable
@@ -350,7 +356,9 @@ intro:
     jsr Title_Screen
     ;here, you have gone to the save menu
 
+    .ifndef VER_JP
     exited_naming_sequence:
+    .endif
     jsr B31_1d5e ;clear sprites
     jsr B31_1d80 ;clear tilemap 0
     jsr LoadNamingScreen2 ;self explanatory
@@ -358,10 +366,18 @@ intro:
     jsr PpuSync
 
     ;load NAMING_SCREEN_1
-    lda #$19
+    .ifdef VER_JP
+    .import __NAMING_SCREEN_1_RUN__
+    ldy #$7a
+    lda #.LOBYTE(__NAMING_SCREEN_1_RUN__)
+    ldx #.HIBYTE(__NAMING_SCREEN_1_RUN__)
+    jsr B30_0e08
+    .else
+    lda #.BANK(LoadNamingScreen1)
     ldx #.LOBYTE(LoadNamingScreen1-1)
     ldy #.HIBYTE(LoadNamingScreen1-1)
     jsr TempUpperBankswitch
+    .endif
 
     jsr ResetScroll
 
@@ -381,7 +397,7 @@ intro:
 
     ;get offset
     ldy menucursor_pos
-    lda (UNK_84), y
+    lda (UNK_84),y
     asl a
     tax
 
@@ -395,22 +411,27 @@ intro:
     lsr a
     lsr a
 
-    ;jump to last in stack (from list)
     rts
 
 unk_pointers:
     .addr B19_1e88-1
     .addr B20_148c-1
     .addr B20_1472-1
+    .ifdef VER_JP
+    .addr B20X_148c-1
+    .endif
     .addr something_init-1
 
-;new save protocol???
+
 something_init:
     pha
     jsr EnablePRGRam
 
-    ;text pointers + sram?
-    lda #.BANK(MSG_pointerList)
+    .ifdef VER_JP
+    lda #.BANK(B28_0000)+1 ;sram
+    .else
+    lda #.BANK(MSG_pointerList) ;text pointers + sram
+    .endif
     ldx #BANK::PRGA000
     jsr BANK_SWAP
 
@@ -421,8 +442,10 @@ something_init:
 
     ;do naming sequence
     jsr NS_NamingSequence
+    .ifndef VER_JP
     ;if sequence exited, jump back to title
     bcs exited_naming_sequence
+    .endif
     ;else, play the videogame !!!!!!
     jmp Game_Begin
 
@@ -438,6 +461,17 @@ B20_1472:
     jsr WriteProtectPRGRam
     B20_1489:
     jmp B20_142C
+
+.ifdef VER_JP
+B20X_148c:
+    jsr B19_1e88
+    jsr EnablePRGRam
+    jsr rts_6
+    jsr Game_Begin
+    jsr B20_14d7
+    jsr B31_0f7c
+    jmp $9437
+.endif
 
 B20_148c:
     sta $36
@@ -515,9 +549,12 @@ B20_150b:
     jsr rts_3 ; $80 = $6085[x]
 B20_150e:
     jsr PRINT_CURR_CHOICER
-    lda #$ff
+    .ifdef VER_JP
+        lda #$c5
+    .else
+        lda #$ff
+    .endif
     jmp B31_10b0
-
 
 DoWalkingStep:
     ;if any of these are true, exit
@@ -547,12 +584,15 @@ DoWalkingStep:
     bne @EncounterDefExists
     ;else, write 0
     sta UNK_24
+    .ifdef VER_JP
+    beq @B20_9595
+    .else
     @FrequencyFail:
     lda #0
     sta enemy_group
     @quick_exit:
     rts
-
+    .endif
     @EncounterDefExists:
     ;store areaEncounterDef in y
     tay
@@ -629,6 +669,16 @@ DoWalkingStep:
     lda (UNK_68), y
     ;if battle id == 0, keep rerolling
     beq @battle_roll
+
+    .ifdef VER_JP
+    bne @B20_9595
+    @FrequencyFail:
+    lda #$00
+    @B20_9595:
+    sta $48
+    @quick_exit:
+    rts
+    .else
     ;store in ram
     sta enemy_group
 
@@ -637,8 +687,8 @@ DoWalkingStep:
     ldx #.LOBYTE(RepelRing_Effect-1)
     ldy #.HIBYTE(RepelRing_Effect-1)
     jsr TempUpperBankswitch
-
     rts
+    .endif
 
     AREA_FREQ_TABLE:
     ;lookup table for frequencies
@@ -933,8 +983,6 @@ B20_1685:
     rts
 
 ; $96F1 - battle circle
-
-
 Battle_circle:
     ;ringlayer high     ;ring layer????
     ;each nybble represents a layer
@@ -1024,11 +1072,118 @@ GiegueOutro:
     ldx #.HIBYTE(GiegueCommandOutro3)
     jsr GiegueCommandInterpreter
 
+    .ifdef VER_JP
+    lda #$2d
+    jsr PlayMusic
+
+    ldx #$ef
+    jsr WaitXFrames_Min1
+
+    ldx #8
+    @B20_97e5:
+    jsr PpuSync
+
+    clc
+    lda #$10
+    adc SPRITE_OBJECTS+6,x
+    sta SPRITE_OBJECTS+6,x
+    lda #$00
+    adc SPRITE_OBJECTS+7,x
+    sta SPRITE_OBJECTS+7,x
+    lda #$78
+    sta $e5
+    clc
+    txa
+    adc #$08
+    tax
+    cpx #$28
+    bcc @B20_97e5
+
+    ldx #$f0
+    jsr WaitXFrames_Min1
+    lda #$00
+    sta $6a
+    lda #$4c
+    jsr $9a5a
+    jsr EnablePRGRam
+
+    ldx #-1
+    @B20_9819:
+    inx
+    lda player_name,x
+    sta $6e48,x
+    bne @B20_9819
+
+    jsr WriteProtectPRGRam
+
+    lda #.LOBYTE(Credits_CHR)
+    ldx #.HIBYTE(Credits_CHR)
+    jsr BankswitchCHRFromTable
+
+    jsr B20_198b
+    jsr B20_19a3
+    jsr PpuSync
+    stx $fd
+    sty $fc
+
+    @B20_9839:
+
+    lda #.LOBYTE(B20_19f2)
+    ldx #.HIBYTE(B20_19f2)
+    jsr GiegueCommandInterpreter
+
+    ldx #$09
+    jsr WaitXFrames_Min1
+
+    lda $6a
+    cmp #$34
+    bcc @B20_9839
+
+    jsr WAIT_CLOSE_MENU
+
+    ldx #$38
+    @B20_9850:
+    jsr PpuSync
+    lda #0
+    sta SPRITE_OBJECTS,x
+    sec
+    txa
+    sbc #8
+    tax
+    bcs @B20_9850
+
+    lda #$3c
+    sta $e5
+    ldx #$0a
+    ldy #$10
+    stx $76
+    sty $77
+    ldx #$e0
+
+    @B20_986d:
+    txa
+    pha
+    jsr AddTileViaNMI
+    inc $76
+    ldx #2
+    jsr WaitXFrames_Min1
+    pla
+    tax
+    inx
+    cpx #$ef
+    bcc @B20_986d
+
+    @INFLOOP:
+    jmp @INFLOOP
+
+    .else
     ;swap to credits
     lda #.BANK(Credits_Entry)
     ldx #BANK::PRGA000
     jsr BANK_SWAP
     jmp Credits_Entry
+    .endif
+
 
 GiegueCommandInterpreter:
     ;UNK_68 = pointer to giegue command
@@ -1306,7 +1461,7 @@ GiegueGeneric:
     ldx #(8*2)-1
     @copy:
     lda GiegueCliff_Sprites, x
-    sta shadow_something+$40, x
+    sta SPRITE_OBJECTS+$40, x
     dex
     bpl @copy
 
@@ -1454,7 +1609,10 @@ giegue_command 30,   0, 0, 0, 0, 0
 .byte 0
 
 B20_19f2:
-    .byte $04,$80,$00,$a9,$a9,$ab,$aa
+    .byte $04,$80,$00
+    .ifndef VER_JP
+        .byte $a9,$a9,$ab,$aa
+    .endif
 
 ; $99F9 - CHR bank table
 ;mainchar - evemisc - gieguecliff1 - gieguecliff2 - gieguecliff3 - gieguecliff4
@@ -1478,6 +1636,7 @@ B20_1a09:
 
 ; $9A0D
 GiegueCliff_BGPal:
+
     .byte $0f, $12, $30, $00
     .byte $0f, $10, $30, $00
     .byte $0f, $17, $37, $16
@@ -1497,7 +1656,8 @@ GiegueCliff_PartyPos:
 
 ; $9A3D - Unknown
 GiegueCliff_Sprites:
-;shadow_something data
+
+;SPRITE_OBJECTS data
 .byte (%10 << 6) | 6 ;6 tiles
 .byte 0 ;oam slot (gets written over)
 .byte $f4, $76 ;x, y
@@ -1527,20 +1687,33 @@ food_question := NS_QuestionSetups+(4*6)
 ;;;Else, returns carry flag set to go back.
 NS_NamingSequence:
     jsr B20_1B2A
-    @naming_ninten:
     ;NameLength = 6
-    lda #6
+    .ifdef VER_JP
+        lda #5
+    .else
+        @naming_ninten:
+        lda #6
+    .endif
     sta NameLength
+    .ifdef VER_JP
+        @naming_ninten:
+    .endif
 
     lda #.LOBYTE(ninten_question)
     ldx #.HIBYTE(ninten_question)
     jsr NS_LoadQuestion
 
-    bcs @exit
+    .ifdef VER_JP
+        bcs @naming_ninten
+    .else
+        bcs @exit
+    .endif
     @naming_ana:
-    ;NameLength = 6
-    lda #6
-    sta NameLength
+    .ifndef VER_JP
+        ;NameLength = 6
+        lda #6
+        sta NameLength
+    .endif
 
     lda #.LOBYTE(ana_question)
     ldx #.HIBYTE(ana_question)
@@ -1548,9 +1721,11 @@ NS_NamingSequence:
 
     bcs @naming_ninten
     @naming_lloyd:
-    ;NameLength = 6
-    lda #6
-    sta NameLength
+    .ifndef VER_JP
+        ;NameLength = 6
+        lda #6
+        sta NameLength
+    .endif
 
     lda #.LOBYTE(lloyd_question)
     ldx #.HIBYTE(lloyd_question)
@@ -1558,18 +1733,22 @@ NS_NamingSequence:
 
     bcs @naming_ana
     @naming_teddy:
-    ;NameLength = 6
-    lda #6
-    sta NameLength
+    .ifndef VER_JP
+        ;NameLength = 6
+        lda #6
+        sta NameLength
+    .endif
 
     lda #.LOBYTE(teddy_question)
     ldx #.HIBYTE(teddy_question)
     jsr NS_LoadQuestion
 
     bcs @naming_lloyd
-    ;NameLength = 10
-    lda #10
-    sta NameLength
+    .ifndef VER_JP
+        ;NameLength = 6
+        lda #10
+        sta NameLength
+    .endif
 
     lda #.LOBYTE(food_question)
     ldx #.HIBYTE(food_question)
@@ -1587,19 +1766,26 @@ NS_NamingSequence:
     ;else, go back to ninten
     jmp NS_NamingSequence
     @continue:
+    .ifdef VER_JP
+    jsr $9bab
+    .endif
 
     jsr B20_1d50 ;transition (dark)
-
     ;wait 60 frames
     ldx #60
     jsr WaitXFrames
 
     jsr B31_0e30 ;transition (light)
 
-    ;store 2,3 for x,y
-    lda #2
-    sta UNK_76
-    lda #3
+    .ifdef VER_JP
+        lda #4
+        sta UNK_76
+    .else
+        ;store 2,3 for x,y
+        lda #2
+        sta UNK_76
+        lda #3
+    .endif
     sta UNK_76+1
 
     ;prints each line
@@ -1616,17 +1802,25 @@ NS_NamingSequence:
     ;store 6,10 for x,y
     lda #6
     sta UNK_76
-    lda #10
+    .ifdef VER_JP
+        lda #14
+    .else
+        lda #10
+    .endif
     sta UNK_76+1
 
     ;prints each line
     ldx #.LOBYTE(IntroText2)
     ldy #.HIBYTE(IntroText2)
+    .ifdef VER_JP
+    jmp do_story_print
+    .else
     jsr do_story_print
 
     clc
     @exit:
     rts
+    .endif
 
 NS_ShowRecap:
     ;lists off all your answers
@@ -1685,7 +1879,78 @@ NS_FinalChoicer:
     clc
     rts
 
-;y:x == string (tiles) pointer
+.ifdef VER_JP
+B20_9bab:
+    lda #$e5
+    ldx #$6c
+    jsr $9b91
+    lda #$01
+    sta $57
+    lda #$20
+    ldx #$9c
+    sta $80
+    stx $81
+    jsr $f018
+    jmp $9bd0
+    lda $57
+    asl a
+    asl a
+    clc
+    adc #$0a
+    sta $76
+    jsr B31_0f7c
+B20_9bd0:
+    lda $83
+    and #$80
+    bne B20_9c02
+    lda $83
+    and #$02
+    bne B20_9be2
+    lda $83
+    and #$01
+    bne B20_9bf2
+    B20_9be2:
+    sec
+    lda $57
+    sbc #$01
+    cmp #$ff
+    bne B20_9bed
+    lda #$00
+    B20_9bed:
+    sta $57
+    jmp $9bc4
+    B20_9bf2:
+    clc
+    lda $57
+    adc #$01
+    cmp #$03
+    bne B20_9bfd
+    lda #$02
+    B20_9bfd:
+    sta $57
+    jmp $9bc4
+B20_9c02:
+    lda $57
+    jsr JMPTable
+    .addr B20_9c0D
+    .addr B20_9c11
+    .addr B20_9c15
+B20_9c0D:
+    ldx #$05
+    bne B20_9c17
+B20_9c11:
+    ldx #$1e
+    bne B20_9c17
+B20_9c15:
+    ldx #$50
+B20_9c17:
+    jsr EnablePRGRam
+    stx $7418
+    jmp WriteProtectPRGRam
+.byte $01,$01,$00,$00,$83,$3A,$0E,$18
+.byte $20,$9C
+.endif
+
 do_story_print:
     lda #0
     sta UNK_70
@@ -1695,7 +1960,14 @@ do_story_print:
 
     @loop:
     jsr PRINT_STRING
-    dec UNK_77
+    .ifdef VER_JP
+        pha
+        ldx #30
+        jsr WaitXFrames
+        pla
+    .else
+        dec UNK_77
+    .endif
     cmp #0
     bne @loop
 
@@ -1707,16 +1979,65 @@ do_story_print:
 B20_1B2A:
     jsr B20_1d50 ;transition (dark)
     jsr ResetScroll
+    .ifdef VER_JP
+        jsr $9ca2
+        lda #$18
+        ldx #$6c
+        jsr $9b91
+        lda #$30
+        ldx #$6c
+        jsr $9b91
+        lda #$51
+        sta $64
+        lda #$64
+        sta $65
+        lda #$06
+        sta $63
+        ldx #$0a
+    B20_9c6b:
+        txa
+        pha
+        lda #$04
+        sta $62
+        ldx #$04
+    B20_9c73:
+        txa
+        pha
+        lda $62
+        sta $76
+        lda $63
+        sta $77
+        lda $64
+        sta $74
+        lda $65
+        sta $75
+        jsr $c8c6
+        jsr $631d
+        pla
+        tax
+        dex
+        bne B20_9c73
+        jsr $6332
+        pla
+        tax
+        dex
+        bne B20_9c6b
+        lda #$70
+        ldx #$6c
+        jsr NS_LoadTiles
+    .else
+        ;the box surrounding the alphabet
+        lda #.LOBYTE(NS_AlphabetBox)
+        ldx #.HIBYTE(NS_AlphabetBox)
+        jsr NS_LoadTiles
+        jsr B20_1B40
+        jsr NS_LoadQuestionBox
+    .endif
 
-    ;the box surrounding the alphabet
-    lda #.LOBYTE(NS_AlphabetBox)
-    ldx #.HIBYTE(NS_AlphabetBox)
-    jsr NS_LoadTiles
 
-    jsr B20_1B40
-    jsr NS_LoadQuestionBox
     jmp B31_0e30;transition (light)
 
+.ifndef VER_JP
 B20_1B40:
     lda #.LOBYTE(NameCharacters)
     sta $64
@@ -1749,6 +2070,7 @@ B20_1B40:
     lda #.LOBYTE(NS_AlphabetOptions)
     ldx #.HIBYTE(NS_AlphabetOptions)
     jmp NS_LoadTiles
+.endif
 
 NS_LoadQuestionBox:
     ;self explanatory
@@ -1777,9 +2099,15 @@ NS_LoadQuestion:
     ;else,
 
     ;set x,y to $22,$ff
+    .ifdef VER_JP
+    lda #4
+    sta UNK_62
+    lda #$f8
+    .else
     lda #$22
     sta UNK_62
     lda #$ff
+    .endif
     sta UNK_62+1
     ;set oam slot to $80
     lda #$80
@@ -1793,6 +2121,9 @@ NS_LoadQuestion:
     ;show question?
     jsr B20_1bf7
 
+    .ifdef VER_JP
+    jsr B25_1a9b_new
+    .else
     ;hide name entry for a second (does nothing functionally)
     lda #.LOBYTE(NS_NameEntry_Blankout)
     ldx #.HIBYTE(NS_NameEntry_Blankout)
@@ -1824,6 +2155,7 @@ NS_LoadQuestion:
     sta CurrentName, y
     dey
     bpl @remove_whitespace
+    .endif
 
     jsr B20_1C1C
     bcs B20_1be8
@@ -1889,17 +2221,24 @@ B20_1bf7:
     sta tilepack_ptr+1
 
     ;x,y
-    lda #9
+    .ifdef VER_JP
+        lda #5
+    .else
+        lda #9
+    .endif
     sta UNK_76
     lda #3
     sta UNK_76+1
 
-    @wait:
-    jsr DrawTilepackClear
-    cmp #0
-    bne @wait
-
-    rts
+    .ifdef VER_JP
+        jmp DrawTilepackClear
+    .else
+        @wait:
+        jsr DrawTilepackClear
+        cmp #0
+        bne @wait
+        rts
+    .endif
 
 B20_1C1C:
     jsr NS_LoadCursor
@@ -1946,6 +2285,69 @@ B20_1C39:
 NS_InputCharacter:
     ldx menucursor_pos ; cursor (x*width)+y value
     lda NameCharacters, x
+    .ifdef VER_JP
+        cmp #$c1
+        beq B20_1c6e
+
+        cmp #$c2
+        beq NAME_CHECK
+
+
+        ;write
+        ldx CurrentLetterIndex
+        sta CurrentName, x
+
+        ;if CurrentLetterIndex == NameLength, dont increment
+        cpx NameLength
+        beq @no_inc
+        inx
+        stx CurrentLetterIndex
+        @no_inc:
+        jmp B20_1C39
+
+    NAME_CHECK:
+        lda CurrentLetterIndex
+        beq B20_9dae
+        ldx #0
+    B20_9d75:
+        stx $60
+        ldy #0
+    B20_9d79:
+        ;load existing name entries
+        lda ExistEntries, x
+        ;branch if end of line
+        beq B20_9d94 ;if this jumps, it was an unsuccessful check
+        cmp CurrentName, y
+        bne B20_9d8b
+        inx
+        iny
+        cpy #6
+        bne B20_9d79
+        beq B20_9d9a
+    B20_9d8b:
+        clc
+        lda $60
+        adc #$06
+        tax
+        jmp $9d75
+    B20_9d94:
+        lda #$00
+        sta $d6
+        clc
+        rts
+    B20_9d9a:
+        jsr $f555
+        lda #$c5
+        ldx #$63
+        sta $60
+        stx $61
+        jsr $9d0e
+        jsr $f38e
+        jsr $9d01
+    B20_9dae:
+        jmp $9d24
+
+    .else
     ;if char == Back, backspace
     cmp #$a1
     beq NS_Backspace
@@ -1970,9 +2372,11 @@ NS_InputCharacter:
     @no_inc:
     jmp B20_1C39
 
+    .endif
 B20_1c6e:
     sec
     rts
+
 
 NS_Backspace:
     ;load filler character
@@ -1995,10 +2399,16 @@ NS_Backspace:
     stx CurrentLetterIndex
     @as_long:
     ;fill at CurrentName[x] with '?' (this is where it actually backspaces)
+    .ifdef VER_JP
+    @go_negative:
+    sta CurrentName, x
+    .else
     sta CurrentName, x
     @go_negative:
+    .endif
     jmp B20_1C39
 
+.ifndef VER_JP
 NAME_CHECK:
     ;ram - amount of characters/char index
     ldy CurrentLetterIndex
@@ -2086,6 +2496,7 @@ B20_1ccf:
     jsr B20_1bf7
     B20_1d07:
     jmp B20_1C1C
+.endif
 
 NS_LoadCursor:
     ;stash x,y
@@ -2098,9 +2509,20 @@ NS_LoadCursor:
 
     ;a = -NameLength
     sec
-    lda #0
+    .ifdef VER_JP
+        lda #8
+    .else
+        lda #0
+    .endif
     sbc NameLength
 
+    .ifdef VER_JP
+    lsr a
+    clc
+    adc #$14
+    tay
+    lda #$21
+    .else
     ;a = (a >> 1) | 0b10000000
     sec
     ror a
@@ -2114,6 +2536,7 @@ NS_LoadCursor:
 
     ;set sprite y to 89
     lda #89
+    .endif
     sta shadow_oam+(1*4)
 
     ;a = y
@@ -2144,7 +2567,11 @@ NS_LoadCursor:
 
     ;set x,y to a,10
     sta UNK_76
-    lda #10
+    .ifdef VER_JP
+        lda #3
+    .else
+        lda #10
+    .endif
     sta UNK_76+1
 
     ;load tiles at CurrentName
@@ -2228,6 +2655,11 @@ Title_Screen:
     ldx #.HIBYTE(presented_by_tiles)
     jsr DoIntroTransition
 
+    .ifdef VER_JP
+    ldx #.LOBYTE(B20_1EB5)
+    ldy #.HIBYTE(B20_1EB5)
+    jsr fill_nmi_with_pointer_data
+    .else
     lda #.LOBYTE(Title_Palette)
     sta UNK_60
     lda #.HIBYTE(Title_Palette)
@@ -2237,12 +2669,13 @@ Title_Screen:
     jsr OT0_DefaultTransition
 
     BankswitchCHR_Address Title_CHR
+    .endif
 
     lda #.LOBYTE(title_screen_tiles)
     ldx #.HIBYTE(title_screen_tiles)
     jsr load_tilemap_into_queue
 
-    earth_oam = shadow_something+$e0
+    earth_oam = SPRITE_OBJECTS+$e0
     ;get stuff set up for the earth animation
     lda #0
     sta UNK_60
@@ -2262,11 +2695,19 @@ Title_Screen:
     sta earth_oam+5
 
     ;set x
+    .ifdef VER_JP
+    lda #80
+    .else
     lda #88
+    .endif
     sta earth_oam+2
 
     ;set y
+    .ifdef VER_JP
+    lda #79
+    .else
     lda #87
+    .endif
     sta earth_oam+3
 
     ;reset input?
@@ -2317,15 +2758,18 @@ Title_Screen:
     @escape:
     ldx #0
     stx pad1_forced
-    jsr OT0_DefaultTransition
-
+    .ifdef VER_JP
+    jmp OT0_DefaultTransition
+    .else
     ;do antipiracy check
+    jsr OT0_DefaultTransition
     lda #$19
     ldx #.LOBYTE(ANTI_PIRACY-1)
     ldy #.HIBYTE(ANTI_PIRACY-1)
     jsr TempUpperBankswitch
-
     rts
+    .endif
+
 
 ;B20_1e2c
 DoIntroTransition:
@@ -2343,7 +2787,11 @@ DoIntroTransition:
     jsr OT0_DefaultTransition
 
     ;fade wait
-    ldx #64
+    .ifdef VER_JP
+        ldx #80
+    .else
+        ldx #64
+    .endif
     jsr AdvanceIfPressStart
 
     jmp B31_1d80
@@ -2380,10 +2828,12 @@ AdvanceIfPressStart:
 Title_CHR_Old:
     .byte $42, $72, $7c, $7c, $40, $41
 
+.ifndef VER_JP
 ; $9E69 - CHR bankswitch table
 ; spinning earth - evemisc - bold_font - rTospinning earth - earthbound1 - earthbound2
 Title_CHR:
     .byte $42, $72, $7c, $41, $d8, $d9
+.endif
 
 ; $9E6F
 Title_Palette_Old:
@@ -2398,6 +2848,7 @@ Title_Palette_Old:
     .byte $0f, $21, $30, $12
 
 ; $9E8F
+.ifndef VER_JP
 Title_Palette:
     .byte $0f, $21, $30, $16
     .byte $0f, $21, $30, $16
@@ -2408,6 +2859,8 @@ Title_Palette:
     .byte $0f, $21, $30, $12
     .byte $0f, $21, $30, $12
     .byte $0f, $21, $30, $12
+.endif
+
 
 ; $9EAF (transfered to nmi_queue)
 nmi_fill_map_with_palette_2:
@@ -2416,6 +2869,7 @@ nmi_fill_map_with_palette_2:
     .byte $23,$c0  ; at $23c0 (map 0 attr)
     .byte %10101010    ; with $AA (palette 2)
     .byte 0    ; END
+
 
 ;????
 B20_1EB5:
@@ -2431,6 +2885,72 @@ B20_1EB5:
     .byte %00000001 ; with $01
     .byte 0
 
+.ifdef VER_JP
+; $9EC4 - Nintendo produce
+produced_by_tiles:
+    ;Nintendo
+    .byte set_pos 13, 11
+    .byte $E3,$E4,$E5,$E6,$E7,$E8
+    .byte newLine
+
+    ;line
+    .byte set_pos 13, 13
+    .byte repeatTile $CC, 19
+    .byte newLine
+
+    ;produce
+    .byte set_pos 13, 15
+    .byte $C8,$C9,$CA,$CB
+    .byte newLine
+    ;tail of p
+    .byte set_pos 13, 16
+    .byte $D8
+    .byte stopText
+
+; $9EEA - SHIGESATO ITOI presents
+presented_by_tiles:
+    ;SHIGESATO ITOI
+    .byte set_pos 8, 11
+    .byte $F3,$F4,$F5,$F6,$F7,$F8,$F9,$FA,$FB,$FC,$FD,$FE,$FF
+    .byte newLine
+
+    ;line
+    .byte set_pos 0, 13
+    .byte repeatTile $CC, 21
+    .byte newLine
+
+    ;presents
+    .byte set_pos 16, 15
+    .byte $D9,$DA,$DB,$DC,$DD
+    .byte newLine
+    ;tail of p
+    .byte set_pos 16, 16
+    .byte $D8
+    .byte stopText
+
+; $9F18 - title screen
+title_screen_tiles:
+    ;MOTHER logo
+    .byte set_pos 7, 9
+    .byte $82,$83,$84,$85,$86,$87,$88,$89,$8A,$8B,$8C,$8D,$8E,$8F,$C0,$C1,$C2,$90,$91,$01,$92,$93,$94,$95,$96,$97,$98,$99,$9A,$9B,$9C,$9D,$9E,$9F,$D0,$D1,$D2
+    .byte newLine
+    .byte $A2,$A3,$A4,$A5,$A6,$A7,$A8,$A9,$AA,$AB,$AC,$AD,$AE,$AF,$E0,$E1,$E2
+    .byte newLine
+    .byte $B2,$B3,$B4,$B5,$B6,$B7,$B8,$B9,$BA,$BB,$BC,$BD,$BE,$BF,$F0,$F1,$F2
+    .byte newLine
+
+    ;c 1989
+    ;SHIGESATO ITOI
+    ;NINTENDO
+    .byte set_pos 7, 22
+    .byte $C3,$C4,$C5,$C6
+    .byte newLine
+    .byte $E9,$EA,$EB,$EC,$ED,$EE,$EF
+    .byte newLine
+    .byte $D3,$D4,$D5,$D6,$D7
+    .byte stopText
+
+.else
 ; $9EC4 - produced by Nintendo
 produced_by_tiles:
     ;produced by
@@ -2506,3 +3026,4 @@ title_screen_tiles:
     .byte $43,$44,$45,$46,$47,$70
     .byte $69,$6A,$6B,$6C,$6D,$6E,$6F,$53,$54,$55,$56,$57
     .byte 0
+.endif

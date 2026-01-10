@@ -1,8 +1,4 @@
-B20_1630 := $963d
-GiegueIntro := $9786
 B20_1516 := $952b
-GiegueOutro := $97b0
-B20_1641 := $964e
 
 ;bank $1e-$1f start
 .segment        "CONSTANT": absolute
@@ -1036,7 +1032,7 @@ F3C570:
     sta $A5
     dec a:$7a
     bne L3C59C
-    jmp $FE75
+    jmp WriteProtectPRGRam
 .endif
 
 B30_046e:
@@ -6536,7 +6532,7 @@ B31_06df:
     lsr a
     lsr a
     cmp #$08
-    bcs B31_06fe
+    bcs WriteShakePointer
     jsr B31_07dc
     jmp B31_073d
 
@@ -6550,7 +6546,7 @@ B31_06f7:
     jsr B31_07fc
     and #$f0
     bne B31_0720
-B31_06fe:
+WriteShakePointer:
     ldy #$0c
     .ifdef VER_JP
     lda #$21

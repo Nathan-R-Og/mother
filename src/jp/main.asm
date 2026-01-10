@@ -23,7 +23,7 @@ binclude "prg/bank0.asm"
 .include "prg/bank12.asm"
 
 binclude "../global/prg/overworld.asm"
-.include "prg/bank14.asm"
+.include "../global/prg/title.asm"
 .include "../global/sprites.asm"
 .include "../global/battle_data.asm"
 .include "../global/prg/battle.asm"

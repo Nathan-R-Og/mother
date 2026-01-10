@@ -198,9 +198,9 @@ shadow_oam: .res $100 ; $200
 ;76tttttt - t=tiles - 0
 ;oam slot - 1
 ;x,y - 2,3
-;pointer1 - 4,5
+;velx,vely - 4,5 (can also be a shake pointer)
 ;spritedef pointer - 6,7
-shadow_something: .res $100 ; $300 / SpriteDefs
+SPRITE_OBJECTS: .res $100 ; $300 / SpriteDefs
 
 ;just an array of nmi commands
 nmi_queue: .res $100 ;$400 / nmi queue???
@@ -579,11 +579,11 @@ object_m_ypos = 6 ;word (world)
 object_m_tiles = 8 ;byte
 ;bit 6 is used for something else
 
-object_m_oam = 8 ;word
+object_m_not_oam = 9 ;byte
 object_m_sxpos = $a ;byte (screen)
 object_m_sypos = $b ;byte (screen)
-object_m_sxvel = $c ;byte (screen)
-object_m_syvel = $d ;byte (screen)
+object_m_sxvel = $c ;byte (screen) (?)
+object_m_syvel = $d ;byte (screen) (?)
 object_m_sprite = $e ;word
 object_m_oam2 = $10 ;byte
 object_m_colOffset = $11 ;byte
@@ -605,6 +605,7 @@ OBJECT_M_BF1_SCRIPT = $f
 object_m_direction = $15 ;byte
 object_m_sprite_base = $16 ;word
 object_m_unk1 = $18 ;byte
+; movement direction???
 object_m_unk3 = $19 ;word
 object_m_playerTouch = $1b ;byte
 ;(-t---ddd => t=touched, d=direction player is facing)
