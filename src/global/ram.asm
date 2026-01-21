@@ -8,7 +8,7 @@ UNK_2: .res 1
 UNK_3: .res 1
 UNK_4: .res 1
 UNK_5: .res 1
-UNK_6: .res 1
+UNK_6: .res 1 ; antipiracy byte
 music_bank: .res 1 ; $7
 melody_timer: .res 1 ; $8
 UNK_9: .res 3
@@ -652,6 +652,37 @@ WHERE_JP_STRINGS_ARE: .res $700 ;$6d00
     preferences .res 4 ; 0x3c
 .endstruct ;sizeof 0x40
 
+; $00 : Unused (always 00)
+Status_Offset               = $1
+Resistance_Offset           = $2
+HP_Offset                   = $3
+PP_Offset                   = $5
+Off_Offset                  = $7
+Def_Offset                  = $9
+Fit_Offset                  = $B
+Spd_Offset                  = $C
+Wis_Offset                  = $D
+Str_Offset                  = $E
+Fce_Offset                  = $F
+Lv_Offset                   = $10
+Exp_Offset                  = $11
+CurrHP_Offset               = $14
+CurrPP_Offset               = $16
+NamePtr_Offset              = $18
+Inventory_Offset            = $20            ; 8 bytes
+Equipment_Offset            = $28
+    Weapon_Offset           = Equipment_Offset
+    Coin_Offset             = Equipment_Offset + 1
+    Bracelet_Offset         = Equipment_Offset + 2
+    Pendant_Offset          = Equipment_Offset + 3
+Crumbs_Offset               = $2C
+    CrumbsX_Offset          = Crumbs_Offset
+    CrumbsY_Offset          = Crumbs_Offset + 2
+PSILearned_Offset           = $30
+
+Name_Offset                 = $38
+
+
 .struct party_info
     unk_0 .byte ; 0x0
     status .byte ; 0x1
@@ -694,45 +725,15 @@ WHERE_JP_STRINGS_ARE: .res $700 ;$6d00
     pippi_data .tag party_info ;Pippi
     eve_data .tag party_info ;EVE
     flyingman_data .tag party_info ;FlyingMan
+    story_flags .res $20
+    present_flags .res $40
+    counters .res $20 ;?
 .endstruct ;sizeof $300
 
 save_file_current: .tag save_file_structure; $7400
-
-; $00 : Unused (always 00)
-Status_Offset               = $1
-Resistance_Offset           = $2
-HP_Offset                   = $3
-PP_Offset                   = $5
-Off_Offset                  = $7
-Def_Offset                  = $9
-Fit_Offset                  = $B
-Spd_Offset                  = $C
-Wis_Offset                  = $D
-Str_Offset                  = $E
-Fce_Offset                  = $F
-Lv_Offset                   = $10
-Exp_Offset                  = $11
-CurrHP_Offset               = $14
-CurrPP_Offset               = $16
-NamePtr_Offset              = $18
-Inventory_Offset            = $20            ; 8 bytes
-Equipment_Offset            = $28
-    Weapon_Offset           = Equipment_Offset
-    Coin_Offset             = Equipment_Offset + 1
-    Bracelet_Offset         = Equipment_Offset + 2
-    Pendant_Offset          = Equipment_Offset + 3
-Crumbs_Offset               = $2C
-    CrumbsX_Offset          = Crumbs_Offset
-    CrumbsY_Offset          = Crumbs_Offset + 2
-PSILearned_Offset           = $30
-
-Name_Offset                 = $38
-; Terminator_Offset         = $3F   ; always 00
-
-event_flags = $7600
-learned_melodies = event_flags+$1e
-; $7620[64] = UNKNOWN BITFLAGS
-
+event_flags := save_file_current+save_file_structure::story_flags
+learned_melodies := event_flags+$1e
+present_flags := save_file_current+save_file_structure::present_flags
 ;;;; TODO: COUNTERS
 ; Counter 0 -> ???
 ; Counter 1 -> ???
@@ -753,9 +754,7 @@ fav_food = $7689
 
 item_storage = $76B0
 
-
-
-save_file_fill: .res $100
+save_file_fill: .res $80
 
 save_file_1: .res $300
 save_file_2: .res $300

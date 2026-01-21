@@ -1,19 +1,22 @@
 .segment        "ANTIPIRACY": absolute
 
 ;anti-piracy
-ANTI_PIRACY:
+;this is ran before transitioning to the save select
+TITLE_ANTI_PIRACY:
     ;if scroll_x != 0, jump
-    ;if scroll_y != 0, jump
-    ;if ram_PPUCTRL != %10001000, jump
     lda scroll_x
     cmp #0
-    bne B25_0074
+    bne @fail
+
+    ;if scroll_y != 0, jump
     lda scroll_y
     cmp #0
-    bne B25_0074
+    bne @fail
+
+    ;if ram_PPUCTRL != %10001000, jump
     lda ram_PPUCTRL
     cmp #%10001000
-    bne B25_0074
+    bne @fail
 
     jsr PpuSync
 
@@ -21,8 +24,8 @@ ANTI_PIRACY:
     ;PPU_READ $12 ($2307)
     lda #NMI_COMMANDS::PPU_READ
     ldx #$12
-    sta nmi_queue ; READ_PPU_HIGH_BYTE (TODO: NEEDS A BETTER NAME)
-    stx nmi_queue+1 ; Read 0x12 values
+    sta nmi_queue ; PPU_READ
+    stx nmi_queue+1 ; Read $12 values
     lda #.LOBYTE($2307) ; PPUADDR = $2307
     ldx #.HIBYTE($2307)
     stx nmi_queue+2
@@ -31,19 +34,24 @@ ANTI_PIRACY:
     lda #0
     sta nmi_queue+$16
 
-    sta nmi_flags+1
+    ;nmi_data_offset = 0
+    sta nmi_data_offset
+    ;nmi_flags = $80
     lda #$80
     sta nmi_flags
 
+    ;wait for NMI to complete
     jsr PpuSync
 
+    ;check if nmi_queue[4:$16] == nmi_check_1
+    ;;;this quite literally checks if the
+    ;;;copyright text at the bottom of the title screen
+    ;;;was altered :)
     ldx #0
-
-    ;check if nmi_queue[4:$16] == B25_00c6
     @check_nmi_queue:
     lda nmi_queue+4, x
     cmp nmi_check_1, x
-    bne B25_0074
+    bne @fail
     inx
     cpx #nmi_check_1_END-nmi_check_1
     bcc @check_nmi_queue
@@ -52,7 +60,7 @@ ANTI_PIRACY:
     ;[09 10 ($2307)]
     lda #$10
     sta nmi_queue+1
-    ;insert zero???
+    ;insert end
     lda #0
     sta nmi_queue+$14
 
@@ -61,39 +69,42 @@ ANTI_PIRACY:
     sta UNK_60
     lda #.HIBYTE(nmi_check_2)
     sta UNK_60+1
-    lda #$43
-    ldx #$05
-    jsr B25_0079
 
     ;if not passed, jump
-    bne B25_0074
-
-    lda #$69
-    ldx #$08
-    jsr B25_0079
-
-    ;if not passed, jump
-    bne B25_0074
-    lda #$53
-    ldx #$05
-    jsr B25_0079
+    lda #$430 >> 4
+    ldx #($480 - $430) >> 4
+    jsr @checkppu
+    bne @fail
 
     ;if not passed, jump
-    bne B25_0074
+    lda #$690 >> 4
+    ldx #($710 - $690) >> 4
+    jsr @checkppu
+    bne @fail
+
+    ;if not passed, jump
+    lda #$530 >> 4
+    ldx #($580 - $530) >> 4
+    jsr @checkppu
+    bne @fail
 
     ;all checks passed. congratular
     rts
 
-;piracy flag???
-B25_0074:
+
+    ;check has failed.
+    ;piracy flag???
+    @fail:
     lda #$e5
     sta UNK_6
     rts
 
-;nmi_check????
-;returns zero flag (z) if safe.
-;returns !zero flag (z) if pirated(?)
-B25_0079:
+    ;ppu check
+    ;a == ppu addr >> 4
+    ;x == addr length >> 4
+    ;returns zero flag (z) if safe.
+    ;returns !zero flag (z) if pirated(?)
+    @checkppu:
     ; nmi_queue[2:3] = a << 4
     pha
     asl a
@@ -108,11 +119,13 @@ B25_0079:
     lsr a
     sta nmi_queue+2
 
+    ;this loop is ran per x
     @loop:
-
-    lda #.LOBYTE($8000)
-    sta nmi_flags+1
-    lda #.HIBYTE($8000)
+    ;nmi_data_offset = 0
+    lda #0
+    sta nmi_data_offset
+    ;nmi_flags = $80
+    lda #$80
     sta nmi_flags
 
     jsr PpuSync
@@ -125,13 +138,15 @@ B25_0079:
     ;return zero flag off
     bne @exit
     iny
-    cpy #nmi_check_2_END-nmi_check_2
+    ;tile size ($10 bytes per tile)
+    cpy #$10
     bcc @check
 
     ;clear carry
     clc
 
     ;UNK_60 += $10
+    ;could be a tya? probably?
     lda #$10
     adc UNK_60
     sta UNK_60
@@ -146,6 +161,7 @@ B25_0079:
 
     clc
 
+    ;shift nmi forward to read more bytes
     ; nmi_queue[2:3] += $10
     lda #$10
     adc nmi_queue+3
@@ -161,83 +177,121 @@ B25_0079:
     @exit:
     rts
 
+;this is taken straight from title.asm
+    ;c 1989/1990
+    ;SHIGESATO ITOI / NINTENDO
 nmi_check_1:
-    .byte $43, $44, $45, $46, $47, $70, $69, $6a
-    .byte $6b, $6c, $6d, $6e, $6f, $53, $54, $55
-    .byte $56, $57
+    .byte $43,$44,$45,$46,$47,$70
+    .byte $69,$6A,$6B,$6C,$6D,$6E,$6F,$53,$54,$55,$56,$57
 nmi_check_1_END:
 
+;the same tiles as ^, just as the actual 2bpp
 nmi_check_2:
-    .byte $00, $00, $00, $00, $00, $00, $00, $00
-    .byte $00, $38, $44, $ba, $a2, $ba, $44, $38
+    .incbin "../../split/us/nmi_check_2.bin"
 nmi_check_2_END:
 
-B25_00e8:
-incbinRange "../../split/us/antipiracy.bin", $e8, $1f8
 
-B25_01f8:
+;this is checked every time the 'warp to magicant' transition happens
+;namely the onyx hook, shells and gravestone
+ShowAntipiracy:
+    ;fade to black
     jsr OT0_DefaultTransition
-    jsr B31_1dc0
-    jsr B31_1d5e
-    jsr B31_1d80
-    B25_0204:
+
+    ;clear everything
+    jsr Refresh_SpriteObjects
+    jsr ClearSprites
+    jsr ClearTilemaps
+
+    ShowAntipiracy_noclear_useless:
     jsr PpuSync
-    lda #$00
-    sta $ec
+
+    ;irq_count = 0
+    ;scroll_y = 0
+    ;scroll_x = 0
+    lda #0
+    sta irq_count
     sta scroll_y
     sta scroll_x
+
+    ;stop music
     lda #$ff
     jsr PlayMusic
-    B25_0214:
+
+    ShowAntipiracy_nomute_useless:
+    ;swap chr
     lda #$7e
-    ldx #$04
+    ldx #BANK::CHR1800
     jsr BANK_SWAP
     lda #$7f
-    ldx #$05
+    ldx #BANK::CHR1C00
     jsr BANK_SWAP
-    lda #$f4
-    sta $74
-    lda #$06
-    sta $73
-    lda #$02
-    sta $76
-    lda #$02
-    sta $77
-    lda #$00
-    sta $70
-    sta $71
-    B25_0238:
+
+    ;load antipiracy message
+    lda #.LOBYTE(UMSG::ANTIPIRACY)
+    sta UNK_73+1
+    lda #.HIBYTE(UMSG::ANTIPIRACY)
+    sta UNK_73
+
+    ;UNK_76 = 2
+    lda #2
+    sta UNK_76
+    ;UNK_77 = 2
+    lda #2
+    sta UNK_77
+
+    ;could be
+    ;lda #2
+    ;sta UNK_76
+    ;sta UNK_77
+
+    ;UNK_70 = 0
+    ;UNK_71 = 0
+    lda #0
+    sta UNK_70
+    sta UNK_71
+
+    ;load the text manually
+    @B25_0238:
     jsr GetTextData
     jsr DrawTilepackClear
-    cmp #$00
-    beq B25_024a
-    ldy #$00
-    lda (tilepack_ptr), y
-    cmp #$00
-    bne B25_0238
-    B25_024a:
-    jsr PpuSync
-    ldx #$1f
-    B25_024f:
-    lda B25_026b, x
-    sta $0500, x
-    dex
-    bpl B25_024f
-    lda #$04
-    sta $0400 ; UPDATE_PALETTE
-    lda #$00
-    sta $0401 ; END
-    sta $e6
-    lda #$80
-    sta $e5
-    B25_0268:
-    jmp B25_0268
 
-B25_026b:
+    cmp #0
+    beq @B25_024a
+    ldy #0
+    lda (tilepack_ptr), y
+    cmp #0
+    bne @B25_0238
+
+    @B25_024a:
+    jsr PpuSync
+
+    ;load generic palette
+    ldx #$1f
+    @B25_024f:
+    lda ANTIPIRACY_PALETTE, x
+    sta palette_queue, x
+    dex
+    bpl @B25_024f
+
+    lda #NMI_COMMANDS::UPDATE_PALETTE
+    sta nmi_queue ; UPDATE_PALETTE
+
+    lda #0
+    sta nmi_queue+1 ; END
+    sta nmi_data_offset
+
+    lda #$80
+    sta nmi_flags
+
+    @inf_loop:
+    jmp @inf_loop
+
+ANTIPIRACY_PALETTE:
     .byte $0f, $00, $30, $10
     .byte $0f, $00, $30, $10
     .byte $0f, $00, $30, $10
     .byte $0f, $00, $30, $10
+
     .byte $0f, $0f, $00, $30
     .byte $0f, $0f, $16, $37
     .byte $0f, $0f, $24, $37
@@ -279,25 +333,30 @@ LoadNamingScreen1:
 
     jmp WriteProtectPRGRam
 
-B25_02b3:
+;updates the screen with attr data at UNK_A4
+SetMenu_ScreenAttr:
     clc
 
+    ;UNK_AA = (player_x + $40) & $FF80
     lda player_x
     adc #$40
     and #$80
     sta UNK_AA
-
     lda player_x+1
     adc #0
     sta UNK_AA+1
 
+    ;UNK_AC = player_y
     lda player_y
     sta UNK_AC
     lda player_y+1
     sta UNK_AC+1
 
+    ;???
     jsr B30_155d
 
+    ;a = (player_x << 2) << 1 + c
+    ;x = a & 1
     lda player_x
     asl a
     asl a
@@ -307,101 +366,144 @@ B25_02b3:
 
     ldy UNK_A1
 
+    ;UNK_7A = $10
     lda #$10
     sta UNK_7A
 
     jsr EnablePRGRam
-    B25_02de:
+
+    @B25_02de:
+
     tya
     ora #$f0
     sta UNK_7B
-    B25_02e3:
+
+    ;OVERWORLD_attrbuffer[x] = UNK_A4[y]
+    @attrbuffer_loop:
     lda (UNK_A4), y
-    sta $6600, x
+    sta OVERWORLD_attrbuffer, x
     iny
     inx
-    inc $7b
-    bne B25_02e3
+    inc UNK_7B
+    bne @attrbuffer_loop
+
+    ;y -= $10
     tya
     sec
     sbc #$10
     tay
-    lda $a5
-    eor #$01
-    sta $a5
-    lda $a1
+
+    ;UNK_A5 ^= 1
+    lda UNK_A5
+    eor #%00000001
+    sta UNK_A5
+
+    lda UNK_A1
     and #$0f
-    beq B25_030c
-    sta $7b
-    B25_0301:
-    lda ($a4), y
-    sta $6600, x
+    beq @skip_loop2
+    sta UNK_7B
+
+    @attrbuffer_loop2:
+    lda (UNK_A4), y
+    sta OVERWORLD_attrbuffer, x
     iny
     inx
-    dec $7b
-    bne B25_0301
-    B25_030c:
+    dec UNK_7B
+    bne @attrbuffer_loop2
+
+    @skip_loop2:
+
+    ;y += $10
     tya
     clc
     adc #$10
     tay
-    lda $a5
-    eor #$01
-    sta $a5
-    dec $7a
-    bne B25_02de
+
+    ;UNK_A5 ^= 1
+    lda UNK_A5
+    eor #%00000001
+    sta UNK_A5
+
+    dec UNK_7A
+    bne @B25_02de
+
     jmp WriteProtectPRGRam
 
-B25_031e:
+;hides all relevant sprites when you open a menu
+HideSpritesForMenu:
     sec
-    ror $e2
-    lda $76
+    ror oam_and_300_clear_flag
+
+    ;UNK_78 = UNK_76 << 3
+    ;;;UNK_78 is now the top left of a panel
+    lda UNK_76
     asl a
     asl a
     asl a
-    sta $78
+    sta UNK_78
+
+    ;UNK_79 = ((UNK_76 + char_count) << 3) - 4
+    ;;;UNK_79 is now the top right of a panel
     clc
-    lda $76
-    adc $7e
+    lda UNK_76
+    adc char_count
     asl a
     asl a
     asl a
     sec
-    sbc #$04
-    sta $79
-    lda $77
+    sbc #4
+    sta UNK_79
+
+    ;UNK_7C = (UNK_77 & 0x1E) << 3
+    ;;;UNK_7C is now the bottom left of a panel
+    lda UNK_77
     clc
-    and #$1e
+    and #%00011110
     asl a
     asl a
     asl a
-    sta $7c
+    sta UNK_7C
+
+    ;UNK_7D = UNK_7C + 12
+    ;;;UNK_7D is now the bottom right of a panel
     clc
-    adc #$0c
-    sta $7d
-    ldx #$00
-    B25_0346:
-    lda $0200, x
-    cmp $7d
-    bcs B25_0365
-    adc #$04
-    cmp $7c
-    bcc B25_0365
-    lda $0203, x
-    cmp $79
-    bcs B25_0365
-    adc #$04
-    cmp $78
-    bcc B25_0365
+    adc #12
+    sta UNK_7D
+
+    ldx #0
+    @loop:
+    ;if shadow_oam[x] (sprite y) < UNK_7D, skip
+    lda shadow_oam, x
+    cmp UNK_7D
+    bcs @no_match
+
+    ;if shadow_oam[x] (sprite y) + 4 >= UNK_7C, skip
+    adc #4
+    cmp UNK_7C
+    bcc @no_match
+
+    ;if shadow_oam[x]+3 (sprite x) < UNK_79, skip
+    lda shadow_oam+3, x
+    cmp UNK_79
+    bcs @no_match
+
+    ;if shadow_oam[x]+3 (sprite x) + 4 >= UNK_78, skip
+    adc #4
+    cmp UNK_78
+    bcc @no_match
+
+    ;set tile offscreen
     lda #$f0
-    sta $0200, x
-    B25_0365:
+    sta shadow_oam, x
+
+    @no_match:
     inx
     inx
     inx
     inx
-    bne B25_0346
-    asl $e2
+    bne @loop
+
+    asl oam_and_300_clear_flag
     rts
 
 SetupMenu:
@@ -430,16 +532,15 @@ SetupMenu:
     stx UNK_80+1
     jsr PRINT_CURR_CHOICER
 
-
     @main_loop:
     ;if !PAD_A, jump
     bit menucursor_pos+1
     bpl @exit
 
-    ;pos
+    ;x = pos
     lda menucursor_pos
     tax
-    ;y = a >> 3
+    ;y = pos >> 3
     lsr a
     lsr a
     lsr a
@@ -557,66 +658,94 @@ SetupMenu_Choices:
 SetupMenu_MessageSpeeds:
     .byte $41, $31, $21, $11, $01
 
-B25_042d:
-    lda $f6
+.define UNK_61 UNK_60+1
+.define checksum UNK_61
+ValidateBanks:
+    lda current_banks+6
+
     pha
-    ldx #$00
-    B25_0432:
-    stx $60
+
+    ldx #0
+    @bank_loop:
+    stx UNK_60
+
+    ;get bank number
     lda Bank_Checksum, x
-    bmi B25_047a
-    ldx #$06
+    ;if msb, exit
+    bmi @exit
+
+    ;swap to bank in $8000
+    ldx #BANK::PRG8000
     jsr BANK_SWAP
-    lda #$00
-    ldx #$80
-    sta $64
-    stx $65
-    lda #$00
-    sta $61
-    sta $62
+
+    ;UNK_64 = $8000
+    lda #.LOBYTE($8000)
+    ldx #.HIBYTE($8000)
+    sta UNK_64
+    stx UNK_64+1
+
+
+    lda #0
+    sta checksum
+    sta checksum+1
+
+    ;loop over $2000 bytes :)
     ldx #$20
-    B25_044e:
-    ldy #$00
-    B25_0450:
+    @word_loop:
+    ldy #0
+    @byte_loop:
     clc
-    lda ($64), y
-    adc $61
-    sta $61
-    lda #$00
-    adc $62
-    sta $62
+
+    ;get rom byte
+    ;checksum += byte
+    lda (UNK_64), y
+    adc checksum
+    sta checksum
+    lda #0
+    adc checksum+1
+    sta checksum+1
     iny
-    bne B25_0450
-    inc $65
+    bne @byte_loop
+
+    inc UNK_64+1
     dex
-    bne B25_044e
-    ldx $60
+    bne @word_loop
+
+    ;pop checksum id
+    ldx UNK_60
+    inx
+
+    ;get checksum value
+    lda Bank_Checksum, x
+    cmp checksum+1
+    bne @show_antipiracy
     inx
     lda Bank_Checksum, x
-    cmp $62
-    bne B25_0480
+    cmp checksum
+    bne @show_antipiracy
+
+    ;passed
     inx
-    lda Bank_Checksum, x
-    cmp $61
-    bne B25_0480
-    inx
-    bne B25_0432
-    B25_047a:
+    bne @bank_loop
+    @exit:
+
+    ;restore old bank
     pla
-    ldx #$06
+    ldx #BANK::PRG8000
     jmp BANK_SWAP
 
-B25_0480:
+    @show_antipiracy:
+    ;why isnt this just a jmp
     jsr OT0_DefaultTransition
-    jsr B31_1dc0
-    jsr B31_1d5e
-    jsr B31_1d80
-    jmp B25_0204
+    jsr Refresh_SpriteObjects
+    jsr ClearSprites
+    jsr ClearTilemaps
+    jmp ShowAntipiracy_noclear_useless
 
 ; $A48F
 ; ANTI-TAMPERING MEASURE?
 ;  00 -> bank
-;  01 -> checksum? (16-bit)
+;  01 -> checksum (16-bit)
 Bank_Checksum:
     .byte $13
     .word $952C
@@ -639,9 +768,11 @@ Bank_Checksum:
     .byte $1F
     .word $FA36
 
-    ;null entry???
+    ;null entry
     .byte $FF
     .word $3857 ; wtf lol
+
+
 
 RepelRing_Effect:
     ;if repel_counter == 0, leave
@@ -677,16 +808,17 @@ RepelRing_Effect:
     lda #.HIBYTE(UMSG::REPEL_RING_BREAK)
     sta UNK_73
 
-    lda #$13
+    lda #.BANK(O_PrintText)
     ldx #.LOBYTE(O_PrintText-1)
     ldy #.HIBYTE(O_PrintText-1)
     jsr TempUpperBankswitch
 
-    lda #$13
+    lda #.BANK(OINST_END)
     ldx #.LOBYTE(OINST_END-1)
     ldy #.HIBYTE(OINST_END-1)
     jsr TempUpperBankswitch
 
+    ;????
     lda #$13
     ldx #.LOBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
     ldy #.HIBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
@@ -713,184 +845,235 @@ Repel_BattleDifficultyTable:
 .byte $10,$10,$10,$10,$10,$10,$10,$10,$10,$00,$00,$00,$00,$00,$00,$00
 .byte $00,$00,$00,$00,$00,$00,$00,$00
 
-B25_05cc:
-    jsr B25_081a
-    lda #$00
-    sta $2c
-    lda #19
+Tombstone_AntiPiracy:
+    ;checksum
+    jsr ValidateBanks2_Useless
+
+    ;UNK_2C = 0
+    lda #0
+    sta UNK_2C
+
+    ;???
+    lda #$13
     ldx #.LOBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
     ldy #.HIBYTE(CLEAR_TEXTBOXES_ROUTINE-1)
     jsr TempUpperBankswitch
+
+    ;swap gfx
     lda #$6a
-    ldx #$01
+    ldx #BANK::CHR0800
     jsr BANK_SWAP
+
     jsr PpuSync
+
+    ;move all sprite objects $20 forward
     ldx #$df
-    B25_05e8:
-    lda $0300, x
-    sta $0320, x
+    @move:
+    lda SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+$20, x
     dex
     cpx #$ff
-    bne B25_05e8
+    bne @move
+
+    ;write the sparkles
     ldx #$1f
-    B25_05f5:
-    lda B25_06a1, x
-    sta $0300, x
+    @write:
+    lda tombstone_spritedata, x
+    sta SPRITE_OBJECTS, x
     dex
-    bpl B25_05f5
+    bpl @write
+
+    ;UNK_60 = (player_x + $60) - object_pointer->xpos
     clc
     lda player_x
     adc #$60
-    sta $60
+    sta UNK_60
     lda player_x+1
-    adc #$00
-    sta $61
+    adc #0
+    sta UNK_60+1
     sec
-    ldy #$04
+    ldy #object_m_xpos
     lda (object_pointer), y
-    sbc $60
-    sta $60
+    sbc UNK_60
+    sta UNK_60
     iny
     lda (object_pointer), y
-    sbc $61
-    sta $61
-    lsr $61
-    ror $60
-    lsr $61
-    ror $60
+    sbc UNK_60+1
+    sta UNK_60+1
+
+    ;UNK_60 >>= 2
+    lsr UNK_60+1
+    ror UNK_60
+    lsr UNK_60+1
+    ror UNK_60
+
+    ;UNK_64 = (player_y + $a4) - object_pointer->ypos
     clc
     lda player_y
     adc #$a4
-    sta $64
+    sta UNK_64
     lda player_y+1
-    adc #$00
-    sta $65
+    adc #0
+    sta UNK_64+1
     sec
-    ldy #$06
+    ldy #object_m_ypos
     lda (object_pointer), y
-    sbc $64
-    sta $64
+    sbc UNK_64
+    sta UNK_64
     iny
     lda (object_pointer), y
-    sbc $65
-    sta $65
-    lsr $65
-    ror $64
-    lsr $65
-    ror $64
-    lda $60
-    sta $0302
-    sta $030a
-    sta $0312
-    sta $031a
-    lda $64
-    sta $0303
-    sta $030b
-    sta $0313
-    sta $031b
-    lda #$5a
-    sta $e5
+    sbc UNK_64+1
+    sta UNK_64+1
+
+    ;UNK_64 >>= 2
+    lsr UNK_64+1
+    ror UNK_64
+    lsr UNK_64+1
+    ror UNK_64
+
+    ;first four objects.x = UNK_60
+    lda UNK_60
+    sta SPRITE_OBJECTS+(0*8)+2
+    sta SPRITE_OBJECTS+(1*8)+2
+    sta SPRITE_OBJECTS+(2*8)+2
+    sta SPRITE_OBJECTS+(3*8)+2
+
+    ;first four objects.y = UNK_64
+    lda UNK_64
+    sta SPRITE_OBJECTS+(0*8)+3
+    sta SPRITE_OBJECTS+(1*8)+3
+    sta SPRITE_OBJECTS+(2*8)+3
+    sta SPRITE_OBJECTS+(3*8)+3
+
+    ;nmi_flags = 90
+    ;wait for 90 frames
+    lda #90
+    sta nmi_flags
+
+    ;fill palette with color $30
     lda #$30
     jsr BackupAndFillPalette
+
     jsr PpuSync
-    lda #$00
-    sta $0304
-    sta $0305
-    sta $0308
-    sta $0310
-    sta $0318
-    lda $60
-    sta $0302
-    lda $64
-    sta $0303
-    lda #$fc
-    sta $0306
-    lda #$99
-    sta $0307
-    lda #$01
-    sta $e5
+
+    ;remove sparkles
+    lda #0
+    sta SPRITE_OBJECTS+4
+    sta SPRITE_OBJECTS+5
+    sta SPRITE_OBJECTS+(1*8)
+    sta SPRITE_OBJECTS+(2*8)
+    sta SPRITE_OBJECTS+(3*8)
+
+    ;place crystal
+    lda UNK_60
+    sta SPRITE_OBJECTS+2
+    lda UNK_64
+    sta SPRITE_OBJECTS+3
+    lda #.LOBYTE(SPRITEDEF_CREDITS_UNK1)
+    sta SPRITE_OBJECTS+6
+    lda #.HIBYTE(SPRITEDEF_CREDITS_UNK1)
+    sta SPRITE_OBJECTS+7
+
+    ;one frame wait
+    lda #1
+    sta nmi_flags
+
+    ;then resotre palette
     jsr RestoreAndUpdatePalette
+
     ldx #60
     jmp WaitXFrames_Min1
 
+;sparkles :)
+tombstone_spritedata:
+    .byte 4, 0, 50, 50,  1,  1
+    .addr SPRITEDEF_CREDITS_UNK0
+    .byte 4, 0, 66, 50,  1, -1
+    .addr SPRITEDEF_CREDITS_UNK0
+    .byte 4, 0, 50, 66, -1,  1
+    .addr SPRITEDEF_CREDITS_UNK0
+    .byte 4, 0, 66, 66, -1, -1
+    .addr SPRITEDEF_CREDITS_UNK0
 
-B25_06a1:
-    .byte $04, $00, $32, $32
-    .byte $01, $01, $f8, $99
-    .byte $04, $00, $42, $32
-    .byte $01, $ff, $f8, $99
-    .byte $04, $00, $32, $42
-    .byte $ff, $01, $f8, $99
-    .byte $04, $00, $42, $42
-    .byte $ff, $ff, $f8, $99
-
-B25_06c1:
+;yeah man
+Rts_Antipiracy:
     rts
 
-B25_06c2:
-    jsr B25_042d
-    jsr B31_1dc0
+Livehouse_Antipiracy:
+    jsr ValidateBanks
+
+    jsr Refresh_SpriteObjects
+    ;mute music
     lda #$ff
     jsr PlayMusic
+
+    ;wait a second
     ldx #60
     jsr WaitXFrames_Min1
+
+    ;play music
     lda #$23
     sta soundqueue_track
-    lda #$f8
-    ldx #$ff
-    jsr B25_075e
-    lda #$10
-    ldx #$00
-    jsr B25_075e
-    jsr B25_07ad
-    jsr B25_07ad
-    jsr B25_071f
-    jsr B25_0723
-    jsr B25_071f
-    jsr B25_0723
-    jsr B25_07ad
-    jsr B25_0727
-    jsr B25_072b
-    jsr B25_0727
-    jsr B25_072b
+
+    ;party spr pointer -= 8
+    lda #.LOBYTE(-8)
+    ldx #.HIBYTE(-8)
+    jsr LIVEHOUSE_setupParty
+
+    ;party spr pointer += 16
+    lda #.LOBYTE(16)
+    ldx #.HIBYTE(16)
+    jsr LIVEHOUSE_setupParty
+
+    jsr LIVEHOUSE_domotionStopTwice
+    jsr LIVEHOUSE_domotionStopTwice
+    jsr LIVEHOUSE_setmotion0
+    jsr LIVEHOUSE_setmotion8
+    jsr LIVEHOUSE_setmotion0
+    jsr LIVEHOUSE_setmotion8
+    jsr LIVEHOUSE_domotionStopTwice
+    jsr LIVEHOUSE_setmotion10
+    jsr LIVEHOUSE_setmotion18
+    jsr LIVEHOUSE_setmotion10
+    jsr LIVEHOUSE_setmotion18
     jsr PpuSync
     ldx #96
     jsr WaitXFrames_Min1
-    jsr B25_071f
-    jsr B25_0723
-    jsr B25_071f
-    jsr B25_07b0
+    jsr LIVEHOUSE_setmotion0
+    jsr LIVEHOUSE_setmotion8
+    jsr LIVEHOUSE_setmotion0
+    jsr LIVEHOUSE_domotionStop
     ldx #120
     jmp WaitXFrames_Min1
 
-B25_071f:
-    ldy #$00
-    bpl B25_072d
+LIVEHOUSE_setmotion0:
+    ldy #0
+    bpl LIVEHOUSE_setmotionloop
 
-B25_0723:
-    ldy #$08
-    bpl B25_072d
+LIVEHOUSE_setmotion8:
+    ldy #8
+    bpl LIVEHOUSE_setmotionloop
 
-B25_0727:
+LIVEHOUSE_setmotion10:
     ldy #$10
-    bpl B25_072d
+    bpl LIVEHOUSE_setmotionloop
 
-B25_072b:
+LIVEHOUSE_setmotion18:
     ldy #$18
-    B25_072d:
-    lda B25_073e, y
-    ldx B25_073e+1, y
-    jsr B25_07b4
+    LIVEHOUSE_setmotionloop:
+    lda LIVEHOUSE_motions, y
+    ldx LIVEHOUSE_motions+1, y
+    jsr LIVEHOUSE_domotion
     iny
     iny
     tya
-    and #$07
-    bne B25_072d
+    and #%00000111
+    bne LIVEHOUSE_setmotionloop
     rts
 
 ; $A73E
 ; Used by $A71F
-B25_073e:
+LIVEHOUSE_motions:
     .byte 1, 0
     .byte -1, 0
     .byte 1, 0
@@ -912,97 +1095,135 @@ B25_073e:
     .byte -1, 1
 
 
-B25_075e:
-    sta $60
-    stx $61
-    ldx #$08
-    B25_0764:
-    jsr B25_077a
+;in
+;a = UNK_60
+;x = UNK_60+1
+;todo: verify
+LIVEHOUSE_setupParty:
+    sta UNK_60
+    stx UNK_60+1
+
+    ;loop over SPRITE_OBJECTS 1-4 exclusive
+    ldx #(1*8)
+    @loop:
+    jsr LIVEHOUSE_movesprUnk60
+
     lda #$30
-    sta $e5
-    jsr B25_07a7
+    sta nmi_flags
+
+    jsr LIVEHOUSE_movex8
+
     cpx #$20
-    bcc B25_0764
+    bcc @loop
+
     jsr PpuSync
+
     lda #$30
-    sta $e5
+    sta nmi_flags
+
     rts
 
-B25_077a:
+;move sprite object at SPRITE_OBJECT[x] by UNK_60
+LIVEHOUSE_movesprUnk60:
     jsr PpuSync
+
+    ;SPRITE_OBJECTS[x].spritedef += UNK_60
     clc
-    lda $60
-    adc $0306, x
-    sta $0306, x
-    lda $61
-    adc $0307, x
-    sta $0307, x
+    lda UNK_60
+    adc SPRITE_OBJECTS+6, x
+    sta SPRITE_OBJECTS+6, x
+    lda UNK_60+1
+    adc SPRITE_OBJECTS+7, x
+    sta SPRITE_OBJECTS+7, x
+
     rts
 
-B25_078f:
+;check if sprite object >= $20, if so zero out the velocity
+;else, set velocity from UNK_64
+LIVEHOUSE_checksetvel:
     cpx #$20
-    bcs B25_079e
-    lda $64
-    sta $0304, x
-    lda $65
-    sta $0305, x
+    bcs LIVEHOUSE_zerovel
+
+    lda UNK_64
+    sta SPRITE_OBJECTS+4, x
+    lda UNK_64+1
+    sta SPRITE_OBJECTS+5, x
+
     rts
 
-B25_079e:
-    lda #$00
-    sta $0304, x
-    sta $0305, x
+LIVEHOUSE_zerovel:
+    lda #0
+    sta SPRITE_OBJECTS+4, x
+    sta SPRITE_OBJECTS+5, x
+
     rts
 
-B25_07a7:
+;x += 8
+LIVEHOUSE_movex8:
     clc
     txa
-    adc #$08
+    adc #8
     tax
+
     rts
 
-B25_07ad:
-    jsr B25_07b0
-    B25_07b0:
-    lda #$00
-    ldx #$00
-    B25_07b4:
-    sta $64
-    stx $65
-    jsr B25_07bb
+;this is basically an alias for
+;jsr LIVEHOUSE_domotionStop
+;jsr LIVEHOUSE_domotionStop
+LIVEHOUSE_domotionStopTwice:
+    jsr LIVEHOUSE_domotionStop
+    ;fallthrough
 
-B25_07bb:
-    lda #$04
-    ldx #$00
-    sta $60
-    stx $61
-    ldx #$08
-    B25_07c5:
-    jsr B25_077a
-    jsr B25_078f
-    jsr B25_07a7
-    bcc B25_07c5
-    lda #$02
-    sta $e5
-    ldx #$08
-    B25_07d6:
+LIVEHOUSE_domotionStop:
+    lda #0
+    ldx #0
+    LIVEHOUSE_domotion:
+    sta UNK_64
+    stx UNK_64+1
+
+    ;run B25_07bb twice
+    jsr @B25_07bb
+    @B25_07bb:
+    ;UNK_60 = 4
+    lda #.LOBYTE(4)
+    ldx #.HIBYTE(4)
+    sta UNK_60
+    stx UNK_60+1
+
+    ldx #(1*8)
+    @loop_all:
+    jsr LIVEHOUSE_movesprUnk60
+    jsr LIVEHOUSE_checksetvel
+    jsr LIVEHOUSE_movex8
+    bcc @loop_all
+
+    lda #2
+    sta nmi_flags
+
+    ldx #8
+    @loop_all2:
     jsr PpuSync
-    jsr B25_079e
-    jsr B25_07a7
-    bcc B25_07d6
+    jsr LIVEHOUSE_zerovel
+    jsr LIVEHOUSE_movex8
+    bcc @loop_all2
+
     lda #$16
-    sta $e5
-    lda #$fc
-    ldx #$ff
-    sta $60
-    stx $61
-    ldx #$08
-    B25_07ef:
-    jsr B25_077a
-    jsr B25_07a7
-    bcc B25_07ef
+    sta nmi_flags
+
+    lda #.LOBYTE(-4)
+    ldx #.HIBYTE(-4)
+    sta UNK_60
+    stx UNK_60+1
+
+    ldx #8
+    @loop_all3:
+    jsr LIVEHOUSE_movesprUnk60
+    jsr LIVEHOUSE_movex8
+    bcc @loop_all3
+
     lda #$18
-    sta $e5
+    sta nmi_flags
+
     rts
 
 DepleteAttackerPP:
@@ -1014,75 +1235,100 @@ DepleteAttackerPP:
     lda BATTLER_CURR_PP+1, y
     sbc $4f
     sta BATTLER_CURR_PP+1, y
-    bcs B25_0819
+    bcs @exit
     lda #$00
     sta BATTLER_CURR_PP, y
     sta BATTLER_CURR_PP+1, y
-    B25_0819:
+    @exit:
     rts
 
-B25_081a:
-    lda $f6
+ValidateBanks2_Useless:
+    lda current_banks+6
+
     pha
-    ldx #$00
-    B25_081f:
-    stx $60
+
+    ldx #0
+    @bank_loop:
+    stx UNK_60
+
+    ;get bank number
     lda Bank_Checksum_2, x
-    bmi B25_0867
-    ldx #$06
+    ;if msb, exit
+    bmi @exit
+
+    ;swap to bank in $8000
+    ldx #BANK::PRG8000
     jsr BANK_SWAP
-    lda #$00
-    ldx #$80
-    sta $64
-    stx $65
-    lda #$00
-    sta $61
-    sta $62
+
+    ;UNK_64 = $8000
+    lda #.LOBYTE($8000)
+    ldx #.HIBYTE($8000)
+    sta UNK_64
+    stx UNK_64+1
+
+    lda #0
+    sta checksum
+    sta checksum+1
+
+    ;loop over $2000 bytes :)
     ldx #$20
-    B25_083b:
-    ldy #$00
-    B25_083d:
+    @word_loop:
+    ldy #0
+    @byte_loop:
     clc
-    lda ($64), y
-    adc $61
-    sta $61
-    lda #$00
-    adc $62
-    sta $62
+
+    ;get rom byte
+    ;checksum += byte
+    lda (UNK_64), y
+    adc checksum
+    sta checksum
+    lda #0
+    adc checksum+1
+    sta checksum+1
     iny
-    bne B25_083d
-    inc $65
+    bne @byte_loop
+
+    inc UNK_64+1
     dex
-    bne B25_083b
-    ldx $60
+    bne @word_loop
+
+    ;pop checksum id
+    ldx UNK_60
+    inx
+
+    ;get checksum value
+    lda Bank_Checksum_2, x
+    cmp checksum+1
+    bne @show_antipiracy
     inx
     lda Bank_Checksum_2, x
-    cmp $62
-    bne B25_086d
+    cmp checksum
+    bne @show_antipiracy
+
+    ;passed
     inx
-    lda Bank_Checksum_2, x
-    cmp $61
-    bne B25_086d
-    inx
-    bne B25_081f
-    B25_0867:
+    bne @bank_loop
+    @exit:
+
+    ;restore old bank
     pla
-    ldx #$06
+    ldx #BANK::PRG8000
     jmp BANK_SWAP
 
-B25_086d:
+    @show_antipiracy:
+    ;why isnt this just a jmp
     jsr OT0_DefaultTransition
-    jsr B31_1dc0
-    jsr B31_1d5e
-    jsr B31_1d80
+    jsr Refresh_SpriteObjects
+    jsr ClearSprites
+    jsr ClearTilemaps
     jsr PpuSync
     lda #$00
-    sta $ec
+    sta irq_count
     sta scroll_y
     sta scroll_x
     lda #$ff
     jsr PlayMusic
-    jmp B25_0214
+    jmp ShowAntipiracy_nomute_useless
 
 ; $A88C
 ; ANTI-TAMPERING MEASURE?

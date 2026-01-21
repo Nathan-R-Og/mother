@@ -180,7 +180,7 @@ def simplifyPointers(dir:str):
         for file in dFiles:
             lines = open(file, "r").readlines()
             for line in lines:
-                if line.find("MSG_") != -1 and line.find(":") != -1:
+                if line.startswith("MSG_") and line.find(":") != -1:
                     array.append(line.split(":")[0])
 
         UMSGLIST_lines = [

@@ -927,7 +927,7 @@ B23_04cc:
     tax
 B23_04d6:
     jsr PpuSync
-    stx nmi_flags+1
+    stx nmi_data_offset
     lda #$80
     sta nmi_flags+0
     rts

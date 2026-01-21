@@ -150,8 +150,8 @@ credits_cmd_unk2:
 
 credits_cmd_fade_out:
     jsr OT0_DefaultTransition
-    jsr B31_1d5e
-    jsr B31_1d80
+    jsr ClearSprites
+    jsr ClearTilemaps
 
     ;set y to after this
     ldy #1
@@ -252,10 +252,10 @@ credits_cmd_set_metatileprops:
     inx
     cpx nmi_queue+1
     bne B26_011b
-    lda #.LOBYTE($8000)
+    lda #0
     sta nmi_queue+4, x
-    sta nmi_flags+1
-    lda #.HIBYTE($8000)
+    sta nmi_data_offset
+    lda #$80
     sta nmi_flags
     dec UNK_42
     beq B26_0151
@@ -304,8 +304,8 @@ credits_cmd_set_palette:
 
     lda #0
     sta nmi_queue+1 ; END
-    sta nmi_flags+1 ;.LOBYTE($8000)
-    lda #.HIBYTE($8000)
+    sta nmi_data_offset
+    lda #$80
     sta nmi_flags
 
     ;set to after command
@@ -522,9 +522,9 @@ credits_cmd_draw_text:
 
     ldx #2
     @loop2:
-    lda #.LOBYTE($8000)
-    sta nmi_flags+1
-    lda #.HIBYTE($8000)
+    lda #0
+    sta nmi_data_offset
+    lda #$80
     sta nmi_flags
 
     dex

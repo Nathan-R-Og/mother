@@ -16,11 +16,11 @@
     .endif
 .endmacro
 
-binclude "prg/bank0.asm"
+binclude "../global/prg/tiles.asm"
 .include "../global/map.asm"
 .include "../global/objects/1.asm"
-.include "prg/bank11.asm"
-.include "prg/bank12.asm"
+.include "../global/objects/2.asm"
+.include "../global/objects/3.asm"
 
 binclude "../global/prg/overworld.asm"
 .include "../global/prg/title.asm"
@@ -40,7 +40,7 @@ binclude "text/dialogue4.asm"
 binclude "../global/starting_characters.asm"
 
 
-.include "prg/constant.asm"
+.include "../global/prg/constant.asm"
 
 .include "../global/chr/bank0.asm"
 .include "../global/chr/bank1.asm"

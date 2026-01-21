@@ -9,7 +9,7 @@
 
 .include "../global/header.asm"
 
-.include "prg/bank0.asm"
+.include "../global/prg/tiles.asm"
 .include "../global/map.asm"
 .include "../global/objects/1.asm"
 .include "../global/objects/2.asm"
@@ -39,7 +39,7 @@
 .include "prg/credits_music.asm"
 
 .include "../global/prg/music.asm"
-.include "prg/constant.asm"
+.include "../global/prg/constant.asm"
 
 .include "../global/chr/bank0.asm"
 .include "../global/chr/bank1.asm"

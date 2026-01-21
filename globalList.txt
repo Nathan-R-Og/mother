@@ -3,6 +3,7 @@ drain_gfx.bin
 enemy_tiles.bin
 sprites.bin
 drain_tiles.bin
+battlePalettes.bin
 spawn_sets.bin
 map_palettes.bin
 battle_positionings.bin

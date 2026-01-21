@@ -407,11 +407,10 @@ CommandTalk:
 CommandCheck:
     jsr OBJECT_INTERACTION
     jsr B19_09c7
-    bne B19_021d
-    jsr B19_09d6
+    bne @not_a_present
+    jsr OpenPresent
     jmp CLEAR_TEXTBOXES_ROUTINE
-
-B19_021d:
+    @not_a_present:
     asl a
     bpl B19_022d
     and #$0F<<1
@@ -1414,7 +1413,7 @@ OpenMapEffect:
         jsr OINST_END
     .endif
     jsr OT0_DefaultTransition
-    jsr B31_1d5e
+    jsr ClearSprites
 
     ldx #0
     ldy #8
@@ -1482,7 +1481,7 @@ OpenMapEffect:
     .ifdef VER_JP
         jmp B30_0b70
     .else
-        jsr B31_1d5e
+        jsr ClearSprites
         jmp STORE_COORDINATES
     .endif
 
@@ -1650,9 +1649,9 @@ B19_09c7:
     cpy #$20
     rts
 
-B19_09d6:
+OpenPresent:
     jsr GetObjectDataAndBank
-    jsr B31_0772
+    jsr GetPresentFlag
     and All_Bits, x
     bne @B19_09fd
     lda #$04
@@ -1706,9 +1705,9 @@ B19_0a2c:
 
 B19_0a3f:
     jsr EnablePRGRam
-    jsr B31_0772
+    jsr GetPresentFlag
     ora All_Bits, x
-    sta $7620, y
+    sta present_flags, y
     jmp WriteProtectPRGRam
 
 PromptWho:
@@ -1998,7 +1997,7 @@ OverworldScriptLUT:
     .addr OINST_TeachTeleport-1 ; 5F
     .addr OINST_JMP_CharaPPNotFull-1 ; 60
     .addr OINST_RecoverPP-1 ; 61
-    .addr B19_11fd-1 ; 62
+    .addr OINST_RemoveWeapon-1 ; 62
     .addr OINST_LoadConfiscatedWeapon-1 ; 63
     .addr OINST_DoLiveHouse-1 ; 64
     .addr OINST_JMP_NotHas8Melodies-1 ; 65
@@ -2288,7 +2287,7 @@ B19_0d98:
     ldy #$ca
     @four:
     jsr PpuSync
-    sty nmi_flags+1
+    sty nmi_data_offset
     @three:
     lda nmi_queue+0,y
     beq @one
@@ -2322,7 +2321,7 @@ B19_0d98:
     bcc @three
     @one:
     sec
-    lda nmi_flags+1
+    lda nmi_data_offset
     sbc #$36
     tay
     lda #$80
@@ -3040,7 +3039,7 @@ B19_116C:
 OINST_OpenStorage:
     lda #$21
     sta $2C
-    sty $35
+    sty object_script_offset
 
 ;???
 B19_1178:
@@ -3055,7 +3054,7 @@ B19_1178:
 B19_1184:
     lda #$22
     sta printing_state
-    sty $35
+    sty object_script_offset
     lda $76
     pha
     lda $77
@@ -3067,7 +3066,7 @@ B19_1184:
 B19_1196:
     lda #$20
     sta printing_state
-    sty $35
+    sty object_script_offset
     lda $76
     pha
     lda $77
@@ -3082,18 +3081,18 @@ B19_11a5:
     jsr LOAD_ITEM_PRICE
     jsr B19_1b8c
 B19_11b3:
-    ldy $35
+    ldy object_script_offset
     iny
     iny
     rts
 
 B19_11b8:
-    ldy $35
+    ldy object_script_offset
     jmp OINST_JMP
 
 ; Instruction 38 - Jump to J if no items
 OINST_JMP_InvEmpty:
-    sty $35
+    sty object_script_offset
     ldx #0
 B19_11c1:
     jsr GetXCharacter
@@ -3114,7 +3113,7 @@ B19_11d1:
 
 ; Instruction 39 - Jump to J if no items in closet
 OINST_JMP_StorageEmpty:
-    sty $35
+    sty object_script_offset
     jsr B19_11e8
     bcs B19_11b8
     bcc B19_11b3
@@ -3138,8 +3137,10 @@ B19_11f1:
 B19_11fb:
     clc
     rts
-B19_11fd:
-    sty $35
+
+; Instruction 62 - Jump to J if no weapon, else take
+OINST_RemoveWeapon:
+    sty object_script_offset
     jsr LoadCurrPlayerPtr
     jsr EnablePRGRam
     ldy #$28
@@ -3150,13 +3151,13 @@ B19_11fd:
     jsr EquipItemStart_confiscated
     jsr B19_0b41
 B19_1216:
-    ldy $35
+    ldy object_script_offset
     iny
     iny
     rts
 
 B19_121b:
-    ldy $35
+    ldy object_script_offset
     jsr WriteProtectPRGRam
 B19_1220:
     jmp OINST_JMP
@@ -3166,7 +3167,7 @@ OINST_LoadConfiscatedWeapon:
     lda confiscated_weapon
     beq B19_1220
     sta curr_item_id
-    sty $35
+    sty object_script_offset
     jsr LOAD_ITEM_PRICE
     jsr B19_1b8c
     jmp B19_1216
@@ -3176,9 +3177,9 @@ OINST_SetObjectType:
     jsr EnablePRGRam
     iny
     lda (object_data), y
-    sty $35
+    sty object_script_offset
     jsr SetObjectType
-    ldy $35
+    ldy object_script_offset
     iny
     jmp WriteProtectPRGRam
 
@@ -3191,7 +3192,7 @@ OINST_MoveObject:
     iny
     lda (object_data), y
     iny
-    sty $35
+    sty object_script_offset
     ldy #$1f
     sta (object_pointer), y
     dey
@@ -3210,7 +3211,7 @@ OINST_MoveObject:
     and #$bf
     sta (object_pointer), y
     ldy #$1c
-    lda $35
+    lda object_script_offset
     sta (object_pointer), y
     lda object_memory+object_m_direction
     asl a
@@ -3231,14 +3232,14 @@ OINST_MoveRocket:
     lda $f1
     jsr B19_129c
 B19_1295:
-    ldy $35
+    ldy object_script_offset
     iny
     iny
     jmp WriteProtectPRGRam
 
 B19_129c:
     tax
-    sty $35
+    sty object_script_offset
     jsr EnablePRGRam
     txa
     eor $23
@@ -3249,7 +3250,7 @@ B19_129c:
 B19_12aa:
     stx $23
     ldy #$1c
-    lda $35
+    lda object_script_offset
     sta (object_pointer), y
     jsr B19_12c3
     ora #$80
@@ -3291,7 +3292,7 @@ B19_12de:
     lda Object_Configs+3, x
     sta object_memory+object_m_bitfield1
 
-    ldy $35
+    ldy object_script_offset
     iny
     lda (object_data), y
     sta object_memory+object_m_direction
@@ -3423,7 +3424,7 @@ OINST_DoElevator:
 ; Instruction 4C - No Vehicle
 OINST_DismountVehicle:
     iny
-    sty $35
+    sty object_script_offset
     lda (object_data), y
     ora #$80
     sta fade_flag
@@ -3439,20 +3440,20 @@ OINST_DismountVehicle:
     sta $31
     pla
     sta $30
-    ldy $35
+    ldy object_script_offset
     iny
     rts
 
 ; Instruction 36 - Jump if player != object direction
 OINST_JMP_NotFacing:
-    sty $35
+    sty object_script_offset
 
     ;get object direction
     ldy #2
     lda (object_data), y
     and #$3f
 
-    ldy $35
+    ldy object_script_offset
 
     ;compare to player (object 0) direction
     cmp object_memory+object_m_direction
@@ -3460,7 +3461,7 @@ OINST_JMP_NotFacing:
 
 ; Instruction 4F - Unknown Jump 2
 B19_13e8:
-    sty $35
+    sty object_script_offset
     ldy #0
     lda (object_data), y
     and #$c0
@@ -3483,13 +3484,13 @@ B19_13e8:
     ldy #7
     cmp (object_pointer), y
     bne B19_141b
-    ldy $35
+    ldy object_script_offset
     iny
     iny
     rts
 
 B19_141b:
-    ldy $35
+    ldy object_script_offset
     jmp OINST_JMP
 
 ; Instruction 3D - Teleport
@@ -3510,10 +3511,10 @@ B19_142b:
 
 ; Instruction 4E - ???
 B19_1432:
-    sty $35
+    sty object_script_offset
     jsr EnablePRGRam
     jsr B30_19fa
-    ldy $35
+    ldy object_script_offset
     iny
     jmp WriteProtectPRGRam
 
@@ -3530,7 +3531,7 @@ OINST_AddChara:
     sta $31
     pla
     sta $30
-    ldy $35
+    ldy object_script_offset
     jmp JumpCC
 
 ; Instruction 43 - Remove char C from party, Jump to J if not in party
@@ -3546,7 +3547,7 @@ OINST_RemoveChara:
     sta $31
     pla
     sta $30
-    ldy $35
+    ldy object_script_offset
     jmp JumpCC
 
 ; Instruction 44 - Start battle B in battles list
@@ -3557,16 +3558,16 @@ OINST_StartEncounter:
     jsr B19_12c3
     sta $21
     iny
-    sty $35
+    sty object_script_offset
     pla
     pla
     jmp OINST_END
 
 ; Instruction 1F - Show money
 OINST_ShowWallet:
-    sty $35
+    sty object_script_offset
     jsr B19_1c28
-    ldy $35
+    ldy object_script_offset
     iny
     rts
 
@@ -3585,15 +3586,15 @@ OINST_Set7400:
 
 ; Instruction 56 - Save
 OINST_Save:
-    sty $35
+    sty object_script_offset
     jsr Game_Begin
-    ldy $35
+    ldy object_script_offset
     iny
     rts
 
 ; Instruction 57 - Get selected characters' needed exp
 OINST_GetCharaNextLv:
-    sty $35
+    sty object_script_offset
     jsr LoadCurrPlayerPtr
     ldy #$10
     lda (temp_vars), y
@@ -3621,7 +3622,7 @@ B19_14d0:
     sta dad_money+1
     sta dad_money+2
     jsr WriteProtectPRGRam
-    ldy $35
+    ldy object_script_offset
     iny
     rts
 
@@ -3650,7 +3651,7 @@ OINST_JMP_DadMoneyClr:
 
 ; Instruction 45 - Multiply by number of characters
 OINST_MultiplyByPartySize:
-    sty $35
+    sty object_script_offset
     lda input_wordvar
     sta $64
     lda input_wordvar+1
@@ -3676,13 +3677,13 @@ B19_153d:
     inx
     cpx #4
     bcc B19_151d
-    ldy $35
+    ldy object_script_offset
     iny
     rts
 
 ; Instruction 55 - Sleep
 OINST_Sleep:
-    sty $35
+    sty object_script_offset
     ldx #60
     jsr WaitXFrames_Min1
     jsr OT0_DefaultTransition
@@ -3691,7 +3692,7 @@ OINST_Sleep:
     lda #$55
     sta printing_state
     jsr B31_0e30
-    ldy $35
+    ldy object_script_offset
     iny
     rts
 
@@ -3751,11 +3752,11 @@ OINST_JMP_CharaHPNotFull:
     lda (temp_vars), y
     ldy #4
     sbc (temp_vars), y
-    ldy $35
+    ldy object_script_offset
     jmp JumpCS
 
 B19_15c2:
-    sty $35
+    sty object_script_offset
 LoadCurrPlayerPtr:
     lda curr_player_id
     jmp GetPartyMemberPtr
@@ -3772,7 +3773,7 @@ OINST_JMP_CharaPPNotFull:
     lda (temp_vars), y
     ldy #6
     sbc (temp_vars), y
-    ldy $35
+    ldy object_script_offset
     jmp JumpCS
 
 ; Instruction 52 - Jump to J if character has status S
@@ -3781,7 +3782,7 @@ OINST_JMP_CharaHasStatus:
     jsr B19_15c2
     ldy #1
     lda (temp_vars), y
-    ldy $35
+    ldy object_script_offset
     and (object_data), y
     jmp JumpNE
 
@@ -3791,7 +3792,7 @@ OINST_JMP_CharaLvLessThan:
     jsr B19_15c2
     ldy #$10
     lda (temp_vars), y
-    ldy $35
+    ldy object_script_offset
     cmp (object_data), y
     jmp JumpCS
 
@@ -3800,7 +3801,7 @@ OINST_CharaHealStatusExcept:
     iny
     jsr B19_15c2
     jsr EnablePRGRam
-    ldy $35
+    ldy object_script_offset
     lda (object_data), y
     php
     ldy #1
@@ -3817,7 +3818,7 @@ OINST_CharaHealStatusExcept:
     bpl B19_1623
     jsr ReconfigurePartyRoutine
 B19_1623:
-    ldy $35
+    ldy object_script_offset
     iny
     jmp WriteProtectPRGRam
 
@@ -3826,12 +3827,12 @@ OINST_GiveStatusToChara:
     iny
     jsr B19_15c2
     jsr EnablePRGRam
-    ldy $35
+    ldy object_script_offset
     lda (object_data), y
     ldy #1
     ora (temp_vars), y
     sta (temp_vars), y
-    ldy $35
+    ldy object_script_offset
     iny
     jmp WriteProtectPRGRam
 
@@ -3853,7 +3854,7 @@ B19_1652:
     stx $62
     sty $63
     clc
-    ldy $35
+    ldy object_script_offset
     lda (object_data), y
     ldy $62
     adc (temp_vars), y
@@ -3884,7 +3885,7 @@ B19_1681:
     iny
     lda $65
     sta (temp_vars), y
-    ldy $35
+    ldy object_script_offset
     iny
     jmp WriteProtectPRGRam
 
@@ -3939,80 +3940,92 @@ OINST_TeachTeleport:
 
 ; Instruction 64 - Live House performance
 OINST_DoLiveHouse:
-    sty $35
-    .ifdef VER_JP ;us exports the code to ANTIPIRACY for checking.
-        jsr B31_1dc0
+    sty object_script_offset
+    ;us exports the code to ANTIPIRACY for checking.
+    .ifdef VER_JP
+        jsr Refresh_SpriteObjects
+
+        ;mute music
         lda #$ff
         jsr PlayMusic
+
+        ;wait a second
         ldx #60
         jsr WaitXFrames_Min1
+
+        ;play music
         lda #$23
         sta soundqueue_track
-        lda #$f8
-        ldx #$ff
-        jsr B25_075e
-        lda #$10
-        ldx #$00
-        jsr B25_075e
-        jsr B25_07ad
-        jsr B25_07ad
-        jsr B25_071f
-        jsr B25_0723
-        jsr B25_071f
-        jsr B25_0723
-        jsr B25_07ad
-        jsr B25_0727
-        jsr B25_072b
-        jsr B25_0727
-        jsr B25_072b
+
+        ;party spr pointer -= 8
+        lda #.LOBYTE(-8)
+        ldx #.HIBYTE(-8)
+        jsr LIVEHOUSE_setupParty
+
+        ;party spr pointer += 16
+        lda #.LOBYTE(16)
+        ldx #.HIBYTE(16)
+        jsr LIVEHOUSE_setupParty
+
+        jsr LIVEHOUSE_domotionStopTwice
+        jsr LIVEHOUSE_domotionStopTwice
+        jsr LIVEHOUSE_setmotion0
+        jsr LIVEHOUSE_setmotion8
+        jsr LIVEHOUSE_setmotion0
+        jsr LIVEHOUSE_setmotion8
+        jsr LIVEHOUSE_domotionStopTwice
+        jsr LIVEHOUSE_setmotion10
+        jsr LIVEHOUSE_setmotion18
+        jsr LIVEHOUSE_setmotion10
+        jsr LIVEHOUSE_setmotion18
         jsr PpuSync
         ldx #96
         jsr WaitXFrames_Min1
-        jsr B25_071f
-        jsr B25_0723
-        jsr B25_071f
-        jsr B25_07b0
+        jsr LIVEHOUSE_setmotion0
+        jsr LIVEHOUSE_setmotion8
+        jsr LIVEHOUSE_setmotion0
+        jsr LIVEHOUSE_domotionStop
         ldx #120
         jsr WaitXFrames_Min1
     .else
         lda #25
-        ldx #.LOBYTE(B25_06c2-1)
-        ldy #.HIBYTE(B25_06c2)
+        ldx #.LOBYTE(Livehouse_Antipiracy-1)
+        ldy #.HIBYTE(Livehouse_Antipiracy-1)
         jsr TempUpperBankswitch
     .endif
-    ldy $35
+    ldy object_script_offset
     iny
     rts
 
 .ifdef VER_JP
-B25_071f:
-    ldy #$00
-    bpl B25_072d
+LIVEHOUSE_setmotion0:
+    ldy #0
+    bpl LIVEHOUSE_setmotionloop
 
-B25_0723:
-    ldy #$08
-    bpl B25_072d
+LIVEHOUSE_setmotion8:
+    ldy #8
+    bpl LIVEHOUSE_setmotionloop
 
-B25_0727:
+LIVEHOUSE_setmotion10:
     ldy #$10
-    bpl B25_072d
+    bpl LIVEHOUSE_setmotionloop
 
-B25_072b:
+LIVEHOUSE_setmotion18:
     ldy #$18
-    B25_072d:
-    lda B25_073e, y
-    ldx B25_073e+1, y
-    jsr B25_07b4
+    LIVEHOUSE_setmotionloop:
+    lda LIVEHOUSE_motions, y
+    ldx LIVEHOUSE_motions+1, y
+    jsr LIVEHOUSE_domotion
     iny
     iny
     tya
-    and #$07
-    bne B25_072d
+    and #%00000111
+    bne LIVEHOUSE_setmotionloop
     rts
 
 ; $A73E
 ; Used by $A71F
-B25_073e:
+LIVEHOUSE_motions:
     .byte 1, 0
     .byte -1, 0
     .byte 1, 0
@@ -4033,97 +4046,136 @@ B25_073e:
     .byte 1, 1
     .byte -1, 1
 
-B25_075e:
-    sta $60
-    stx $61
-    ldx #$08
-    B25_0764:
-    jsr B25_077a
+
+;in
+;a = UNK_60
+;x = UNK_60+1
+;todo: verify
+LIVEHOUSE_setupParty:
+    sta UNK_60
+    stx UNK_60+1
+
+    ;loop over SPRITE_OBJECTS 1-4 exclusive
+    ldx #(1*8)
+    @loop:
+    jsr LIVEHOUSE_movesprUnk60
+
     lda #$30
-    sta $e5
-    jsr B25_07a7
+    sta nmi_flags
+
+    jsr LIVEHOUSE_movex8
+
     cpx #$20
-    bcc B25_0764
+    bcc @loop
+
     jsr PpuSync
+
     lda #$30
-    sta $e5
+    sta nmi_flags
+
     rts
 
-B25_077a:
+;move sprite object at SPRITE_OBJECT[x] by UNK_60
+LIVEHOUSE_movesprUnk60:
     jsr PpuSync
+
+    ;SPRITE_OBJECTS[x].spritedef += UNK_60
     clc
-    lda $60
-    adc $0306, x
-    sta $0306, x
-    lda $61
-    adc $0307, x
-    sta $0307, x
+    lda UNK_60
+    adc SPRITE_OBJECTS+6, x
+    sta SPRITE_OBJECTS+6, x
+    lda UNK_60+1
+    adc SPRITE_OBJECTS+7, x
+    sta SPRITE_OBJECTS+7, x
+
     rts
 
-B25_078f:
+;check if sprite object >= $20, if so zero out the velocity
+;else, set velocity from UNK_64
+LIVEHOUSE_checksetvel:
     cpx #$20
-    bcs B25_079e
-    lda $64
-    sta $0304, x
-    lda $65
-    sta $0305, x
+    bcs LIVEHOUSE_zerovel
+
+    lda UNK_64
+    sta SPRITE_OBJECTS+4, x
+    lda UNK_64+1
+    sta SPRITE_OBJECTS+5, x
+
     rts
 
-B25_079e:
-    lda #$00
-    sta $0304, x
-    sta $0305, x
+LIVEHOUSE_zerovel:
+    lda #0
+    sta SPRITE_OBJECTS+4, x
+    sta SPRITE_OBJECTS+5, x
+
     rts
 
-B25_07a7:
+;x += 8
+LIVEHOUSE_movex8:
     clc
     txa
-    adc #$08
+    adc #8
     tax
+
     rts
 
-B25_07ad:
-    jsr B25_07b0
-    B25_07b0:
-    lda #$00
-    ldx #$00
-    B25_07b4:
-    sta $64
-    stx $65
-    jsr B25_07bb
+;this is basically an alias for
+;jsr LIVEHOUSE_domotionStop
+;jsr LIVEHOUSE_domotionStop
+LIVEHOUSE_domotionStopTwice:
+    jsr LIVEHOUSE_domotionStop
+    ;fallthrough
 
-B25_07bb:
-    lda #$04
-    ldx #$00
-    sta $60
-    stx $61
-    ldx #$08
-    B25_07c5:
-    jsr B25_077a
-    jsr B25_078f
-    jsr B25_07a7
-    bcc B25_07c5
-    lda #$02
-    sta $e5
-    ldx #$08
-    B25_07d6:
+LIVEHOUSE_domotionStop:
+    lda #0
+    ldx #0
+    LIVEHOUSE_domotion:
+    sta UNK_64
+    stx UNK_64+1
+
+    ;run B25_07bb twice
+    jsr @B25_07bb
+    @B25_07bb:
+    ;UNK_60 = 4
+    lda #.LOBYTE(4)
+    ldx #.HIBYTE(4)
+    sta UNK_60
+    stx UNK_60+1
+
+    ldx #(1*8)
+    @loop_all:
+    jsr LIVEHOUSE_movesprUnk60
+    jsr LIVEHOUSE_checksetvel
+    jsr LIVEHOUSE_movex8
+    bcc @loop_all
+
+    lda #2
+    sta nmi_flags
+
+    ldx #8
+    @loop_all2:
     jsr PpuSync
-    jsr B25_079e
-    jsr B25_07a7
-    bcc B25_07d6
+    jsr LIVEHOUSE_zerovel
+    jsr LIVEHOUSE_movex8
+    bcc @loop_all2
+
     lda #$16
-    sta $e5
-    lda #$fc
-    ldx #$ff
-    sta $60
-    stx $61
-    ldx #$08
-    B25_07ef:
-    jsr B25_077a
-    jsr B25_07a7
-    bcc B25_07ef
+    sta nmi_flags
+
+    lda #.LOBYTE(-4)
+    ldx #.HIBYTE(-4)
+    sta UNK_60
+    stx UNK_60+1
+
+    ldx #8
+    @loop_all3:
+    jsr LIVEHOUSE_movesprUnk60
+    jsr LIVEHOUSE_movex8
+    bcc @loop_all3
+
     lda #$18
-    sta $e5
+    sta nmi_flags
+
     rts
 .endif
 
@@ -4141,9 +4193,9 @@ OINST_JMP_NotHas8Melodies:
     dex
     bpl @loop
     lda #$ff
-    sta save_file_fill+30
+    sta save_file_fill-$62
     ldy #$b
-    jsr B30_19502
+    jsr GAME_OVER_looper
     lda #2
     sta fade_type
     ldy object_script_offset
@@ -4174,7 +4226,7 @@ HolyLolyCabinCoords:
 OINST_RegisterName:
     lda #$66
     sta printing_state
-    sty $35
+    sty object_script_offset
     lda $76
     pha
     lda $77
@@ -4184,7 +4236,7 @@ OINST_RegisterName:
     sta $77
     pla
     sta $76
-    ldy $35
+    ldy object_script_offset
     iny
     rts
 
@@ -4215,25 +4267,25 @@ B19_1737:
 .ifndef VER_JP
 ; Instruction 6A - George crystal (?)
 OINST_DoTombstone:
-    sty $35
-    lda #$19
-    ldx #.LOBYTE(B25_05cc-1)
-    ldy #.HIBYTE(B25_05cc-1)
+    sty object_script_offset
+    lda #.BANK(Tombstone_AntiPiracy)
+    ldx #.LOBYTE(Tombstone_AntiPiracy-1)
+    ldy #.HIBYTE(Tombstone_AntiPiracy-1)
     jsr TempUpperBankswitch
     jsr B19_0b41
-    ldy $35
+    ldy object_script_offset
     iny
     rts
 
-; Instruction 6B - ???
+; Instruction 6B - do literally nothing
 B19_1751:
-    sty $35
-    lda #$19
-    ldx #.LOBYTE(B25_06c1-1)
-    ldy #.HIBYTE(B25_06c1-1)
+    sty object_script_offset
+    lda #.BANK(Rts_Antipiracy)
+    ldx #.LOBYTE(Rts_Antipiracy-1)
+    ldy #.HIBYTE(Rts_Antipiracy-1)
     jsr TempUpperBankswitch
     jsr B19_0b41
-    ldy $35
+    ldy object_script_offset
     iny
     rts
 .endif
@@ -4358,7 +4410,7 @@ B19_1814:
     jsr DRAW_WINDOW_SHOP
     jsr B19_0b41
     sec
-    lda $35
+    lda object_script_offset
     adc object_data
     sta $84
     lda #$00
@@ -4367,9 +4419,9 @@ B19_1814:
     ldy #$03
     B19_1829:
     sty $77
-    ldy $35
+    ldy object_script_offset
     iny
-    sty $35
+    sty object_script_offset
     lda (object_data), y
     sta curr_item_id
     beq B19_1853
@@ -5261,11 +5313,12 @@ OT2_OnyxHook:
     lda #$34
     jsr B31_0e21
     .ifndef VER_JP
-        lda $06
+        ;if antipiracy set, run more checks
+        lda UNK_6
         beq @return
-        lda #25
-        ldx #.LOBYTE(B25_01f8-1)
-        ldy #.HIBYTE(B25_01f8-1)
+        lda #.BANK(ShowAntipiracy)
+        ldx #.LOBYTE(ShowAntipiracy-1)
+        ldy #.HIBYTE(ShowAntipiracy-1)
         jsr TempUpperBankswitch
     @return:
     .endif
@@ -5304,7 +5357,7 @@ OT4_Whirlpool:
     sta soundqueue_noise
     lda #$11
     jsr B31_0e21
-    jsr B31_1d5e
+    jsr ClearSprites
     jsr ResetScroll
 
     ;load drain tiles
@@ -5366,7 +5419,7 @@ OT4_Whirlpool:
     tay
     dey
     bne B19_1d91
-    jsr B31_1d5e
+    jsr ClearSprites
     jsr OT0_DefaultTransition
     ldx #90
     jmp WaitXFrames_Min1
@@ -5377,7 +5430,7 @@ OT5_Flood:
     jsr FillBackgroundColor
     lda #$03
     sta soundqueue_noise
-    jsr B31_1dc0
+    jsr Refresh_SpriteObjects
     ldx #$08
     ldy #$07
     B19_1dea:

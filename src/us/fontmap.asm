@@ -107,35 +107,33 @@ t_nop = 5
 .define repeatTile(ta,tb) $22,ta,tb
 .define print_number(ta, tb, tc) $23,.LOBYTE(ta),.HIBYTE(ta),tb,tc
 
-.define cashDeposit print_number $7415, 3, 0
-.define currentCash print_number $7412, 3, 0
-.define price print_number $002A, 2, 0
-.define damageAmount print_number $0590, 2, 0
-.define defenseStat print_number $0592, 2, 0
-.define lvHPPPinc print_number $005D, 1, 0
-.define lvFIGinc print_number $0058, 1, 0
-.define lvSPDinc print_number $0059, 1, 0
-.define lvWISinc print_number $005A, 1, 0
-.define lvSTRinc print_number $005B, 1, 0
-.define lvFORinc print_number $005C, 1, 0
-.define SMAAAAASH $97,$98,$99,$9A,$9B,$9C,$9D,$9E,$9F ; this isnt a command per se but this is helpful enough
+.define price print_number $2A, 2, 0
+.define lvFIGinc print_number $58, 1, 0
+.define lvSPDinc print_number $59, 1, 0
+.define lvWISinc print_number $5A, 1, 0
+.define lvSTRinc print_number $5B, 1, 0
+.define lvFORinc print_number $5C, 1, 0
+.define lvHPPPinc print_number $5D, 1, 0
+.define attacker print_string $580
+.define beingAttacked print_string $588
+.define attackResult print_string $590
+.define damageAmount print_number $590, 2, 0
+.define defenseStat print_number $592, 2, 0
+.define partyLead print_string $670A
+.define result print_string $6d00
+.define item print_string $6D04
 .define user print_string $6D20
 .define recipient print_string $6D24
-.define result print_string $6d00
-.define favFood print_string $7689
+.define currentCash print_number $7412, 3, 0
+.define cashDeposit print_number $7415, 3, 0
+.define playerName print_string $7420
 .define nintenName print_string Ninten_Data+party_info::name
 .define lloydName print_string Lloyd_Data+party_info::name
 .define anaName print_string Ana_Data+party_info::name
 .define teddyName print_string Teddy_Data+party_info::name
-.define partyLead print_string $670A
-.define item print_string $6D04
-.define playerName print_string $7420
-.define attacker print_string $0580
-.define beingAttacked print_string $0588
-.define attackResult print_string $0590
-.define unk set_pos 8, 6
-.define unk2 set_pos 8, 7
-.define unk3 repeatTile " ", 16
+.define favFood print_string $7689
+.define SMAAAAASH $97,$98,$99,$9A,$9B,$9C,$9D,$9E,$9F ; this isnt a command per se but this is helpful enough
+
 
 ;i cant charmap these :(
 music_note = $96 ;

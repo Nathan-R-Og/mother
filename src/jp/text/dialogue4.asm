@@ -45,6 +45,7 @@ kanafix "はなしが ながくて いけないね。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_ALLCARTWHEELGIRL:
 kanafix "*しょうがく いちねんせいだったら"
 .byte   newLine
 kanafix "さかあがりくらい"
@@ -53,6 +54,7 @@ kanafix "できるものよねぇ。"
 .byte   newLine
 .byte   stopText
 
+MSG_ELLAY_TOWERBELLHOP:
 kanafix "*こちらのエレベ-タ-で"
 .byte   newLine
 kanafix "てんぼうだいまで"
@@ -61,6 +63,7 @@ kanafix "おあがりください。"
 .byte   newLine
 .byte   stopText
 
+MSG_ELLAY_TOWER_GUY:
 kanafix "*ここの てんぼうだいから"
 .byte   newLine
 kanafix "みえる しまで けむりがでてたよ。"
@@ -74,10 +77,12 @@ kanafix "よかったなあ。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_CANTCARTWHEELGIRL:
 kanafix "*ぼく さかあがりできないのよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_SUBTRACTIONGIRL:
 kanafix "*わたしは"
 .byte   newLine
 kanafix "ひきざんの くりさがりが"
@@ -86,6 +91,7 @@ kanafix "まだ よくわからない。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_TOFUKID:
 kanafix "*いちごあじのとうふって"
 .byte   newLine
 kanafix "とかいのほうで"
@@ -97,10 +103,12 @@ kanafix "*くってみてぇよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_HUNGRYKID:
 kanafix "*はら へったな。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_DADGIRL:
 kanafix "*おれを ただのおじさんと"
 .byte   newLine
 kanafix "おもうなよ。"
@@ -110,10 +118,12 @@ kanafix "*って うちのパパのくちぐせなの。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_LATEGIRL:
 kanafix "*あなた ちこくよね!"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_STRANGEGIRL:
 kanafix "*りかしつで"
 .byte   newLine
 kanafix "へんなせんせいを みなかったぁ?"
@@ -123,6 +133,7 @@ kanafix "*‥‥わたし みた。"
 .byte   newLine
 .byte   stopText
 
+MSG_TWINKLE_GAMEKID:
 kanafix "*ドラクエの フォ- やった?"
 .byte   newLine
 kanafix "おれ"
@@ -131,12 +142,14 @@ kanafix "まだスリ-でくろうしてるんだ。"
 .byte   newLine
 .byte   stopText
 
+MSG_DRUGSVENDOR_WELCOME:
 kanafix "*いらっしゃいませ。"
 .byte   newLine
 kanafix "なにを さしあげましょう?"
 .byte   newLine
 .byte   stopText
 
+MSG_VARIETYVENDOR_OUTOFSTOCK:
 kanafix "*もうしわけありません。"
 .byte   newLine
 kanafix "そのしなは"
@@ -145,6 +158,7 @@ kanafix "ただいまうりきれで ございます。"
 .byte   newLine
 .byte   stopText
 
+MSG_BURGERSHOP_NO_BUY:
 kanafix "*あら おやめになるんですか?"
 .byte   newLine
 kanafix "ざんねんですが‥‥"
@@ -156,6 +170,7 @@ kanafix "おまちしております。"
 .byte   newLine
 .byte   stopText
 
+MSG_BURGERSHOP_GOODBYE:
 kanafix "*ありがとうございました。"
 .byte   newLine
 kanafix "また ごりようください。"
@@ -362,18 +377,22 @@ kanafix "もうあずかれないよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_ATM_INTRO:
 kanafix "*イラッシャイマセ"
 .byte   newLine
 .byte   stopText
 
+MSG_ATM_INSUFFICIENT:
 kanafix "*ザンダカガ タリマセン"
 .byte   newLine
 .byte   stopText
 
+MSG_ATM_NOT_ENOUGH_STORED:
 kanafix "*オカネガ タリマセン"
 .byte   newLine
 .byte   stopText
 
+MSG_ATM_DEPOSIT_TOO_MUCH:
 kanafix "*モウシワケ アリマセン"
 .byte   newLine
 .byte   pauseText
@@ -441,12 +460,14 @@ kanafix "たたかいに かった。"
 .byte   newLine
 .byte   stopText
 
+MSG_ATM_MENU:
 kanafix "  ヒキダス   アズケル"
 .byte   stopText
 
 .byte   newLine
 .byte   stopText
 
+MSG_ATM_CURRENT_BALANCE:
 kanafix "*ゲンザイ $"
 .byte   currentCash, c00
 .byte   newLine
@@ -504,12 +525,14 @@ kanafix "おかねが たりないようですよ。"
 .byte   newLine
 .byte   stopText
 
+MSG_BURGERSHOP_NOMONEY:
 kanafix "*まあ おきゃくさま"
 .byte   newLine
 kanafix "おかねが たりませんわ。"
 .byte   newLine
 .byte   stopText
 
+MSG_BURGERSHOP_NO_ROOM:
 kanafix "*おきゃくさま"
 .byte   newLine
 kanafix "それいじょうおもちになろうなんて"
@@ -528,6 +551,7 @@ kanafix "すごいでしょ。"
 .byte   newLine
 .byte   stopText
 
+MSG_RETURNS_CANTSELL:
 kanafix "*もうしわけありません。"
 .byte   newLine
 .byte   item
@@ -573,6 +597,7 @@ kanafix "さびついていた。"
 .byte   newLine
 .byte   stopText
 
+MSG_EVE_EVECHECK:
 kanafix "*"
 .byte   nintenName
 kanafix "の けはいを"
@@ -594,10 +619,12 @@ kanafix "は "
 .byte   newLine
 .byte   stopText
 
+MSG_ELLAY_FAKEHEALER_GOODBYE:
 kanafix "*がんばりなさい。"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_FOUNTAIN:
 kanafix "*いずみの みずにふれると"
 .byte   newLine
 kanafix "すっごく げんきになりました。"
@@ -635,6 +662,7 @@ kanafix "あとでおいで。"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_BENEVOLENT_CURE:
 kanafix "*だれが どくに やられたんだね?"
 .byte   newLine
 .byte   stopText
@@ -705,12 +733,14 @@ kanafix "*いや‥‥あさになってしまったな。"
 .byte   newLine
 .byte   stopText
 
+MSG_ELLAY_HOTELCOLDLADY:
 kanafix "*としよりを たいせつにしなさいね。"
 .byte   newLine
 kanafix "ゴホゴホ。"
 .byte   newLine
 .byte   stopText
 
+MSG_REINDEER_HOTELMEANGUY:
 kanafix "*チビ!"
 .byte   newLine
 kanafix "きやすく はなしかけんじゃねぇよ。"
@@ -775,6 +805,7 @@ kanafix "せつせつと うたいつづけた。"
 .byte   newLine
 .byte   stopText
 
+MSG_ROSEMARYHOUSE_PIANO_MELODY:
 kanafix "*ピアノは ひとりでに"
 .byte   newLine
 kanafix "けんばんが うごいて"
@@ -783,6 +814,7 @@ kanafix "えんそうを はじめた。"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_DRAGON_MELODY:
 kanafix "*ドラゴンは いがいと すなおに"
 .byte   newLine
 kanafix "ふるい がくふを みせてくれた。"
@@ -792,6 +824,7 @@ kanafix "*こんな うただった。"
 .byte   newLine
 .byte   stopText
 
+MSG_MTITOI_EVE_MELODY:
 kanafix "*ロボット イヴは"
 .byte   newLine
 kanafix "はかいされ うごかなくなった。"
@@ -821,6 +854,7 @@ kanafix "かかっている。"
 .byte   newLine
 .byte   stopText
 
+MSG_SNOWMAN_PRIEST_GOODBYE:
 kanafix "*わたしは スノ-マンのまちの"
 .byte   newLine
 kanafix "ひとたちのために ここにのこるが"
@@ -885,6 +919,7 @@ kanafix "*わたし わがままなの。"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMANGRAVE1:
 kanafix "「"
 .byte   nintenName
 kanafix "の"
@@ -898,6 +933,7 @@ kanafix "ここに ねむる。」"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMANGRAVE2:
 kanafix "「"
 .byte   nintenName
 kanafix "の"
@@ -911,6 +947,7 @@ kanafix "ここに ねむる。」"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMANGRAVE3:
 kanafix "「"
 .byte   nintenName
 kanafix "の"
@@ -924,6 +961,7 @@ kanafix "ここに ねむる。」"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMANGRAVE4:
 kanafix "「"
 .byte   nintenName
 kanafix "の"
@@ -937,6 +975,7 @@ kanafix "ここに ねむる。」"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMANGRAVE5:
 kanafix "「"
 .byte   nintenName
 kanafix "の"
@@ -995,6 +1034,7 @@ kanafix "*この にんきもの!"
 .byte   newLine
 .byte   stopText
 
+MSG_ANAHAT_WOMAN1:
 kanafix "*あんた"
 .byte   unk4
 .byte   newLine
@@ -1002,6 +1042,7 @@ kanafix "スノ-マンに いくのかい?"
 .byte   newLine
 .byte   stopText
 
+MSG_ANAHAT_WOMAN_YES:
 kanafix "*このぼうしを ひろったんだけど"
 .byte   newLine
 kanafix "スノ-マンにいる おんなのこの"
@@ -1013,6 +1054,7 @@ kanafix "*とどけてあげて ちょうだいな。"
 .byte   newLine
 .byte   stopText
 
+MSG_ANAHAT_WOMAN_NO:
 kanafix "*たのみたいことが あったんだけど"
 .byte   newLine
 kanafix "ざんねんだわ。"
@@ -1083,6 +1125,7 @@ kanafix "まえに おねがいしましたっけね。"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_BENEVOLENT_APPEAR:
 kanafix "*こころの さけびを ききつけて"
 .byte   newLine
 kanafix "おたすけじいさんが"
@@ -1102,6 +1145,7 @@ kanafix "カンオケのなかから‥‥!!"
 .byte   newLine
 .byte   stopText
 
+MSG_ELLAY_TOWER_TELESCOPE:
 kanafix "*"
 .byte   partyLead
 kanafix "は"
@@ -1110,22 +1154,26 @@ kanafix "ぼうえんきょうを のぞいた。"
 .byte   newLine
 .byte   stopText
 
+MSG_ELLAY_TOWER_TELESCOPE2:
 kanafix "*うみが きれいだった。"
 .byte   newLine
 .byte   stopText
 
+MSG_ELLAY_TOWER_TELESCOPE_ROCKET:
 kanafix "*むこうのしまで"
 .byte   newLine
 kanafix "なにかが ひかった!"
 .byte   newLine
 .byte   stopText
 
+MSG_ZOO_CAPSULE:
 kanafix "*カプセルのなかから"
 .byte   newLine
 kanafix "なにかが とびだした。"
 .byte   newLine
 .byte   stopText
 
+MSG_SNOWMAN_ANA_GOODBYE:
 kanafix "*"
 .byte   anaName
 kanafix " "
@@ -1306,6 +1354,7 @@ kanafix "*しかし からっぽだった。"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_BENEVOLENT_MENU:
 kanafix "  ドクをけす  やわらかくする"
 .byte   stopText
 
@@ -1454,6 +1503,7 @@ kanafix "   ダンカンけんせつがいしゃ」"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMAN_REPLACE:
 kanafix "*アニハ ウツクシク"
 .byte   newLine
 kanafix "タオレタト キキマス。"
@@ -1468,12 +1518,14 @@ kanafix "*ツギハ ワタシノ バンデス。"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMAN_SERVE:
 kanafix "*ワタシモ ハヤク"
 .byte   newLine
 kanafix "アナタノ オテツダイガ シタイ。"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_FLYINGMAN_INTRO:
 kanafix "*ワタシハ ふらいんぐまん。"
 .byte   newLine
 kanafix "アナタノ チカラニナル。"
@@ -1489,6 +1541,7 @@ kanafix "ちょっと おおげさだったけどな。"
 .byte   newLine
 .byte   stopText
 
+MSG_ELLAY_TOWER_ROCKETCHECK:
 kanafix "*ふるぼけた ロケットだ。"
 .byte   newLine
 .byte   stopText
@@ -1533,14 +1586,17 @@ kanafix "おれ ここで ねてるわ。」"
 .byte   newLine
 .byte   stopText
 
+MSG_MTITOI_LLOYDSAVE:
 kanafix "*しまった! まにあわなかった。"
 .byte   newLine
 .byte   stopText
 
+MSG_MTITOI_ANALOVE_YES:
 kanafix "*‥‥よかった。"
 .byte   newLine
 .byte   stopText
 
+MSG_MTITOI_TEDDYLEAVE:
 kanafix "*"
 .byte   teddyName
 kanafix " "
@@ -1551,6 +1607,7 @@ kanafix "とんでもないおとが したぜ。」"
 .byte   newLine
 .byte   stopText
 
+MSG_MTITOI_TEDDYLEAVE2:
 kanafix "*"
 .byte   teddyName
 kanafix " "
@@ -1559,6 +1616,7 @@ kanafix "「ほ-んとかよ!?」"
 .byte   newLine
 .byte   stopText
 
+MSG_MTITOI_BOAT:
 kanafix "*ボ-トは"
 .byte   newLine
 kanafix "エンジンの ちょうしが"
@@ -1567,6 +1625,7 @@ kanafix "わるいようだ。"
 .byte   newLine
 .byte   stopText
 
+MSG_MTITOI_BOAT_NOFIX:
 kanafix "*"
 .byte   partyLead
 kanafix "には"
@@ -1575,6 +1634,7 @@ kanafix "うごかすことが できない。"
 .byte   newLine
 .byte   stopText
 
+MSG_MTITOI_BOAT_FIX:
 kanafix "*しかし "
 .byte   lloydName
 kanafix "は"
@@ -1585,6 +1645,7 @@ kanafix "かけることが できた。"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_GOODSKEEPER_SEND:
 kanafix "*"
 .byte   item
 kanafix "ですね。"
@@ -1615,6 +1676,7 @@ kanafix "「スイ-トリトル こうじょう」"
 .byte   newLine
 .byte   stopText
 
+MSG_MTITOI_GIEGUEPRISON_GUY2:
 kanafix "*やまのうえの"
 .byte   newLine
 kanafix "マザ-シップに つれていかれて"
@@ -1631,6 +1693,7 @@ kanafix "*スペルの まちがいは ないですね?"
 .byte   newLine
 .byte   stopText
 
+MSG_ZOO_WIN:
 kanafix "*どうぶつたちを くるわせていた"
 .byte   newLine
 kanafix "あやしいおとは きえた。"
@@ -1680,18 +1743,21 @@ kanafix "*さいなら。"
 .byte   newLine
 .byte   stopText
 
+MSG_YOUNGTOWN_BABY_AFTER:
 kanafix "*テレポ-テ-ションを"
 .byte   newLine
 kanafix "おもちゃに するんじゃないぞ。"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_MARIA4:
 kanafix "*ほんとうの こどものように"
 .byte   newLine
 kanafix "かわいがったのに‥‥"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_MARIA5:
 kanafix "*しっぽを ふってた"
 .byte   newLine
 kanafix "あかちゃんだった‥‥"
@@ -1700,6 +1766,7 @@ kanafix "こもりうたを‥‥でも‥‥"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_MARIA6:
 kanafix "*ああ ジョ-ジ!"
 .byte   newLine
 kanafix "あなたの つま マリアです。"
@@ -1711,6 +1778,7 @@ kanafix "わたしも いまから むかいます‥‥"
 .byte   newLine
 .byte   stopText
 
+MSG_ATM_INSERT_CASHCARD:
 kanafix "*キャッシュカ-ドヲ イレテクダサイ"
 .byte   newLine
 .byte   stopText
@@ -1722,6 +1790,7 @@ kanafix "もちあるいては いけない。"
 .byte   newLine
 .byte   stopText
 
+MSG_GAMEOVER_SAVEDATA:
 kanafix "*このまえの"
 .byte   newLine
 kanafix "セ-ブデ-タまで もどるが"
@@ -1730,6 +1799,7 @@ kanafix "それで よいのか?"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_BIGBAGGUY_NOHAVE:
 kanafix "*「はい」って いったのに"
 .byte   newLine
 kanafix "もってないじゃないか。"
@@ -1738,6 +1808,7 @@ kanafix "アハハハハ。"
 .byte   newLine
 .byte   stopText
 
+MSG_ELLAY_TEDDY_TEDDYBED:
 kanafix "*こきゅうが みだれて"
 .byte   newLine
 kanafix "くるしそうだ。"
@@ -1751,6 +1822,7 @@ kanafix "なかまが いない。"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_GOODSKEEPER_GIVE:
 kanafix "*"
 .byte   item
 kanafix "ですね。"
@@ -1764,16 +1836,19 @@ kanafix "ありますか?"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_GOODSKEEPER_SOMEONEELSE:
 kanafix "*もちきれない みたいだけど"
 .byte   newLine
 kanafix "ほかのひとに わたしますか?"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_GOODSKEEPER_FULL:
 kanafix "*そうこが いっぱいです。"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_MARIAFADE:
 kanafix "*クイ-ンマリ-は"
 .byte   newLine
 .byte   nintenName
@@ -1797,6 +1872,7 @@ kanafix "まぼろしだったのだ。"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_MARIA_INTRO:
 kanafix "*わたしが"
 .byte   newLine
 kanafix "あなた"
@@ -1827,6 +1903,7 @@ kanafix "*いまが そのときです!"
 .byte   newLine
 .byte   stopText
 
+MSG_MAGICANT_VENDORINTRO:
 kanafix "*し-っ! わたくしどもも"
 .byte   newLine
 kanafix "あなた"
@@ -2080,6 +2157,7 @@ kanafix "かききえてしまった。"
 .byte   newLine
 .byte   stopText
 
+MSG_PAYPHONE_CARDEXPIRE:
 kanafix "*テレホンカ-ドを"
 .byte   newLine
 kanafix "つかいきってしまった。"

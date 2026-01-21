@@ -112,7 +112,11 @@ objectDef OBJ_TYPE::PRESENT, 759, DIRECTIONS::UP, 132
 OBJ_MYHOME_PRESENT2:
 objectDef OBJ_TYPE::PRESENT, 755, DIRECTIONS::UP, 134
 .addr SPRITEDEF_PRESENT
+.ifdef VER_JP
+.byte 113 ; item
+.else
 .byte 71 ; item
+.endif
 .byte 1 ; flag
 
 OBJ_MYHOME_PRESENT3:

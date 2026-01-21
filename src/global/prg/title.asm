@@ -359,8 +359,8 @@ intro:
     .ifndef VER_JP
     exited_naming_sequence:
     .endif
-    jsr B31_1d5e ;clear sprites
-    jsr B31_1d80 ;clear tilemap 0
+    jsr ClearSprites ;clear sprites
+    jsr ClearTilemaps ;clear tilemap 0
     jsr LoadNamingScreen2 ;self explanatory
 
     jsr PpuSync
@@ -851,7 +851,7 @@ B20_1630:
     lda #$30
     jsr BackupAndFillPalette
     jsr RestoreAndUpdatePalette
-    jsr B31_1dc0
+    jsr Refresh_SpriteObjects
     B20_1641:
     ;07 00 "WRITE_PPU"
     lda #7
@@ -949,7 +949,7 @@ B20_1685:
     bcc @not_14
 
     lda #0
-    sta nmi_flags+1
+    sta nmi_data_offset
     lda #1
     sta nmi_flags
     jsr PpuSync
@@ -1453,7 +1453,7 @@ GiegueGeneric:
 
     jsr SetScroll
 
-    jsr B31_1d5e
+    jsr ClearSprites
 
     jsr PpuSync
 
@@ -2182,12 +2182,12 @@ NS_LoadQuestion:
     dey
     bpl @loop
     jsr WriteProtectPRGRam
-    jsr B31_1d5e
+    jsr ClearSprites
     clc
     rts
 
 B20_1be8:
-    jsr B31_1d5e
+    jsr ClearSprites
     sec
     rts
 
@@ -2593,8 +2593,8 @@ NS_LoadCursor:
 ;transition (dark)
 B20_1d50:
     jsr OT0_DefaultTransition
-    jsr B31_1d5e
-    jsr B31_1d80
+    jsr ClearSprites
+    jsr ClearTilemaps
 
     ;clear attr
     ldx #.LOBYTE(B25_0afd)
@@ -2603,8 +2603,8 @@ B20_1d50:
 
 ;;; This contains the entire process of the Title Screen.
 Title_Screen:
-    jsr B31_1d5e ;clear sprites
-    jsr B31_1d80 ;clear tilemap 0
+    jsr ClearSprites ;clear sprites
+    jsr ClearTilemaps ;clear tilemap 0
 
     ;reset tilemap address back to $2000
     ;set scroll to (0,0)
@@ -2763,9 +2763,9 @@ Title_Screen:
     .else
     ;do antipiracy check
     jsr OT0_DefaultTransition
-    lda #$19
-    ldx #.LOBYTE(ANTI_PIRACY-1)
-    ldy #.HIBYTE(ANTI_PIRACY-1)
+    lda #.BANK(TITLE_ANTI_PIRACY)
+    ldx #.LOBYTE(TITLE_ANTI_PIRACY-1)
+    ldy #.HIBYTE(TITLE_ANTI_PIRACY-1)
     jsr TempUpperBankswitch
     rts
     .endif
@@ -2794,7 +2794,7 @@ DoIntroTransition:
     .endif
     jsr AdvanceIfPressStart
 
-    jmp B31_1d80
+    jmp ClearTilemaps
 
 ;load tilepointer to tilepack_ptr
 load_tilemap_into_queue:

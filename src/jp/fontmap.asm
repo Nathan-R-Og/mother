@@ -73,37 +73,35 @@ t_nop = 5
 .define repeatTile(ta,tb) $22,ta,tb
 .define print_number(ta, tb, tc) $23,.LOBYTE(ta),.HIBYTE(ta),tb,tc
 
-.define cashDeposit print_number $7415, 3, 0
-.define currentCash print_number $7412, 3, 0
-.define price print_number $002A, 2, 0
-.define damageAmount print_number $0590, 2, 0
-.define defenseStat print_number $0592, 2, 0
-.define lvHPPPinc print_number $005D, 1, 0
-.define lvFIGinc print_number $0058, 1, 0
-.define lvSPDinc print_number $0059, 1, 0
-.define lvWISinc print_number $005A, 1, 0
-.define lvSTRinc print_number $005B, 1, 0
-.define lvFORinc print_number $005C, 1, 0
-.define SMAAAAASH $67,$68,$69,$6A,$6B,$6C,$6D,$6E,$6F ; this isnt a command per se but this is helpful enough
+.define price print_number $2A, 2, 0
+.define lvFIGinc print_number $58, 1, 0
+.define lvSPDinc print_number $59, 1, 0
+.define lvWISinc print_number $5A, 1, 0
+.define lvSTRinc print_number $5B, 1, 0
+.define lvFORinc print_number $5C, 1, 0
+.define lvHPPPinc print_number $5D, 1, 0
+.define attacker print_string $580
+.define beingAttacked print_string $588
+.define attackResult print_string $590
+.define damageAmount print_number $590, 2, 0
+.define defenseStat print_number $592, 2, 0
+.define partyLead print_string $6d0A
+.define unk4 print_string $6D0D ;what is this and why is it everywhere in jp
+.define result print_string $6d80
+.define item print_string $6D84
 .define user print_string $6D90
 .define recipient print_string $6D94
-.define result print_string $6d80
-.define favFood print_string $7689
-.define nintenName print_string $7478
-.define lloydName print_string $74F8
-.define anaName print_string $74B8
-.define teddyName print_string $7538
-.define partyLead print_string $6d0A
-.define item print_string $6D84
+.define currentCash print_number $7412, 3, 0
+.define cashDeposit print_number $7415, 3, 0
 .define playerName print_string $7420
-.define attacker print_string $0580
-.define beingAttacked print_string $0588
-.define beingAttacked2 print_string $9407 ;????? what
-.define attackResult print_string $0590
-.define unk set_pos $08, $06
-.define unk2 set_pos $08, $07
-.define unk3 repeatTile $A0, 16
-.define unk4 print_string $6D0D ;what is this and why is it everywhere in jp
+.define nintenName print_string Ninten_Data+party_info::name
+.define lloydName print_string Lloyd_Data+party_info::name
+.define anaName print_string Ana_Data+party_info::name
+.define teddyName print_string Teddy_Data+party_info::name
+.define favFood print_string $7689
+.define beingAttacked2 print_string MSG_B_ATTACKEDNAME ;????? what
+.define SMAAAAASH $67,$68,$69,$6A,$6B,$6C,$6D,$6E,$6F ; this isnt a command per se but this is helpful enough
+
 
 ;i cant charmap these :(
 music_note = $77 ;

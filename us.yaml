@@ -411,6 +411,8 @@ splits:
       end: 0x1ea0
       splits:
       - [0, antipiracy]
+      - [0xd8, nmi_check_2]
+      - [0x1f8, antipiracy]
       - [0x8A4]
       - [0x1800]
       - [0x1ae8, naming_stuff]
