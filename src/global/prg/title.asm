@@ -428,7 +428,7 @@ something_init:
     jsr EnablePRGRam
 
     .ifdef VER_JP
-    lda #.BANK(B28_0000)+1 ;sram
+    lda #.BANK(Music_Tick)+1 ;sram
     .else
     lda #.BANK(MSG_pointerList) ;text pointers + sram
     .endif
@@ -793,7 +793,7 @@ OnStepEffect:
     clc
 
     txa
-    adc UNK_D5
+    adc step_count
     and UNK_64
     bne @finish_loop
 
@@ -1492,8 +1492,10 @@ GiegueGeneric:
     pha
     ldx #$20
     jsr B20_188f
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
+
     pla
     tay
     dey
@@ -1529,8 +1531,10 @@ B20_198b:
     @B20_1990:
     pha
     jsr B20_188d
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
+
     pla
     sec
     sbc #$01

@@ -124,13 +124,13 @@
 
 ; $8000
 ; Sound driver
-B28_0000: ;tick
+Music_Tick: ;tick
     jmp B28_0277
 
 B28_0003:
     jmp B28_0299
 
-B28_0006: ;init
+Music_Init: ;init
     jmp B28_0216
 
 
@@ -253,14 +253,14 @@ B28_00a3:
     sty unk_b2
     lda #>SFXInstrumentInitData
     sta unk_b3
-    ldy #$00
-    B28_00b1:
+    ldy #0
+    @loop:
     lda (unk_b2), y
     sta (unk_b0), y
     iny
     tya
-    cmp #$04
-    bne B28_00b1
+    cmp #4
+    bne @loop
     rts
 
 .ifdef VER_JP
@@ -338,10 +338,10 @@ B28_00d3:
     inc unk_7da, x
     lda unk_7da, x
     cmp unk_7d5, x
-    bne B28_00e5
-    lda #$00
+    bne @exit
+    lda #0
     sta unk_7da, x
-    B28_00e5:
+    @exit:
     rts
 
 .ifndef VER_JP
@@ -623,12 +623,12 @@ B28_0248:
 InsertLauraPreMelodyTweeting:
     lda soundqueue_track
     cmp #$25
-    bne @B27_0090
+    bne @exit
     jsr B28_0299
     sta soundqueue_track
     lda #PulseG0_Laura
     sta soundqueue_pulseg0
-    @B27_0090:
+    @exit:
     rts
 .endif
 
@@ -645,12 +645,12 @@ B28_0277:
     jsr HandleTriangleSFX
     jsr HandlePulseGroup0SFX
     jsr HandleMusic
-    lda #$00
-    ldx #$06
-    B28_0292:
-    sta soundqueue-1, x ; Clear $07F0-$07F5
+    lda #0
+    ldx #6
+    @loop:
+    sta sram_mode, x ; Clear $07F0-$07F5
     dex
-    bne B28_0292
+    bne @loop
     rts
 
 ;End song?
@@ -659,7 +659,7 @@ B28_0299:
     ; fallthrough
 B28_029c:
     jsr B28_02c6
-    lda #$00
+    lda #0
     sta DMC_RAW
     sta ME_Envelopes0+2
     rts
@@ -675,22 +675,22 @@ B28_02a8:
     ; Set all sounds and music to be inactive
     tay
     @loop:
-    lda #$00
+    lda #0
     sta soundactive, y
     iny
     tya
-    cmp #$06
+    cmp #6
     bne @loop
     rts
 
 B28_02c6:
-    lda #$00
+    lda #0
     sta DMC_RAW
     lda #$10
     sta SQ1_VOL
     sta SQ2_VOL
     sta NOISE_VOL
-    lda #$00
+    lda #0
     sta TRI_LINEAR
     rts
 
@@ -704,11 +704,11 @@ SFX_SetupContinue:
     beq SetupCHANNEL
     txa
     beq SetupNOI
-    cmp #$01
+    cmp #1
     beq SetupSQ1
-    cmp #$02
+    cmp #2
     beq SetupSQ2
-    cmp #$03
+    cmp #3
     beq SetupTRI
     rts
 SetupSQ1:
@@ -726,7 +726,7 @@ SetupNOI:
 SetupCHANNEL:
     lda unk_bf
     sta soundactive, x
-    lda #$00
+    lda #0
     sta unk_7da, x
     ; fallthrough
 StoreCHANNELVariables:
@@ -878,7 +878,7 @@ NoiseSFX_Unk07_RocketLand_Continue:
     jsr B28_00d3
     bne B28_041f
     EndNoiseSFX:
-    lda #$00
+    lda #0
     sta soundactive_noise
     lda #$10
     sta NOISE_VOL
@@ -1017,19 +1017,19 @@ DoDoublePulseSFX:
     inx
     stx unk_7c8+1
 
-    lda #$00
+    lda #0
     sta unk_7de
     sta soundactive_pulseg0
-    ldx #$01
+    ldx #1
     jmp StoreCHANNELVariables
 
 B28_04dd:
     jsr EndPulseGroup0SFX
     jsr B28_0840
     inc unk_78a
-    lda #$00
+    lda #0
     sta soundactive_pulseg1
-    ldx #$01
+    ldx #1
     lda #$7f
 B28_04ef:
     sta SQ1, x
@@ -1516,7 +1516,7 @@ LearnedPSI_Periods:
 B28_0840:
     lda #$10
     sta SQ2_VOL
-    lda #$00
+    lda #0
     sta unk_7c8+1
     sta soundactive_unknown
     rts
@@ -1651,12 +1651,14 @@ HandleMusic:
     sta music_id
     jmp B28_094e
     B28_0936:
-    cmp #$06
+    ;if playing pollyanna, check if need to play bein friends instead
+    cmp #6
     bne B28_0946
+    ;if party count != 1, play bein friends
     lda pc_count
-    cmp #$01
+    cmp #1
     beq B28_0945
-    lda #$07
+    lda #7
     bne B28_0946
     B28_0945:
     tya
@@ -1755,17 +1757,17 @@ Noise_Instruments:
 
 B28_09cc:
     lda soundactive_track
-    cmp #$01
+    cmp #1
     beq B28_09f5
     txa
-    cmp #$03
+    cmp #3
     beq B28_09f5
     lda ME_Envelopes0, x
     and #$e0
     beq B28_09f5
     sta unk_b0
     lda unk_7c3, x
-    cmp #$02
+    cmp #2
     beq B28_09f2
     ldy unk_be
     lda currptr_pulse0, y
@@ -1841,7 +1843,7 @@ B28_0a33:
     lda unk_b2
     cmp #$0a
     bne B28_0a5a
-    lda #$00
+    lda #0
     B28_0a5a:
     tay
     lda Pitch_Envelope_1_7, y
@@ -1931,15 +1933,15 @@ B28_0aec:
     jmp B28_0b31
     .ifndef VER_JP
     B28_0b06:
-    ldx #$00
-    ldy #$00
+    ldx #0
+    ldy #0
     B28_0b0a:
     lda Path_To_Giegue_BGM_header, y
     sta ME_Transpose, x
     iny
     inx
     txa
-    cmp #$0a
+    cmp #10
     bne B28_0b0a
     jmp B28_0b31
     .endif
@@ -1948,14 +1950,14 @@ B28_0aec:
     tay
     lda Music_Table_Ids, y
     tay
-    ldx #$00
+    ldx #0
     B28_0b24:
     lda Music_Table, y
     sta ME_Transpose, x
     iny
     inx
     txa
-    cmp #$0a
+    cmp #10
     bne B28_0b24
     B28_0b31:
     lda #1
@@ -1963,9 +1965,9 @@ B28_0aec:
     sta MusicChannel_NoteLengthCounter+1
     sta MusicChannel_NoteLengthCounter+2
     sta MusicChannel_NoteLengthCounter+3
-    lda #$00
+    lda #0
     sta unk_ba
-    ldy #$08
+    ldy #8
     B28_0b45:
     sta ME_CurrentNoisePhrase+1, y
     dey
@@ -1996,14 +1998,14 @@ B28_0aec:
     inx
     inx
     txa
-    cmp #$08
+    cmp #8
     bne B28_0b4c
     rts
 
 B28_0b70:
     lda unk_78a
     beq B28_0ba0
-    cmp #$01
+    cmp #1
     beq B28_0b8a
     lda #$7f
     sta SQ2_SWEEP
@@ -2022,23 +2024,23 @@ B28_0b70:
     lda currptr_pulse0+1
     sta SQ1_HI
 
-    lda #$00
+    lda #0
     sta unk_78a
     B28_0ba0:
     rts
 
 B28_0ba1:
     txa
-    cmp #$02
+    cmp #2
     bcs B28_0ba0
     lda ME_Envelopes0, x
     and #$1f
     beq B28_0c06
     sta unk_b1
     lda unk_7c3, x
-    cmp #$02
+    cmp #2
     beq B28_0c10
-    ldy #$00
+    ldy #0
     B28_0bb8:
     dec unk_b1
     beq B28_0bc0
@@ -2184,9 +2186,9 @@ B28_0c69:
     txa
     lsr a
     tax
-    lda #$00
+    lda #0
     sta MusicChannel_Counter, x
-    lda #$01
+    lda #1
     sta MusicChannel_NoteLengthCounter, x
     bne B28_0c95
     B28_0c78:
@@ -2195,7 +2197,7 @@ B28_0c69:
 B28_0c7b:
     jsr B28_0b70
 
-    lda #$00
+    lda #0
     tax
     sta unk_be
     beq B28_0c95
@@ -2206,12 +2208,12 @@ B28_0c7b:
     B28_0c88:
     inx
     txa
-    cmp #$04
+    cmp #4
     beq B28_0c39
     lda unk_be
 
     clc
-    adc #$04
+    adc #4
     sta unk_be
     B28_0c95:
     txa
@@ -2230,10 +2232,11 @@ B28_0c7b:
     tax
     dec MusicChannel_NoteLengthCounter, x
     bne B28_0cfa
-    lda #$00
+    lda #0
     sta unk_7cd, x
     sta unk_7d1, x
     B28_0cb9:
+    ;interpret music commands
     jsr ReadByte
     beq B28_0c78
     cmp #$9f
@@ -2327,7 +2330,7 @@ B28_0d3a:
     sta MusicChannel_NewNoteLength, x
     tay
     txa
-    cmp #$02
+    cmp #2
     beq B28_0d06
     B28_0d4e:
     jsr ReadByte
@@ -2337,7 +2340,7 @@ B28_0d3a:
     tya
     sta unk_7c3, x
     txa
-    cmp #$03
+    cmp #3
     beq B28_0d03
     pha
     ldx unk_be
@@ -2371,10 +2374,10 @@ B28_0d73:
     tax
     tya
     bne B28_0d9c
-    lda #$00
+    lda #0
     sta unk_b0
     txa
-    cmp #$02
+    cmp #2
     beq B28_0da1
     lda #$10
     sta unk_b0
@@ -2390,7 +2393,7 @@ B28_0d73:
     inc unk_7c8, x
     ldy unk_be
     txa
-    cmp #$02
+    cmp #2
     beq B28_0dc7
     lda ME_Envelopes0, x
     and #$1f
@@ -2399,7 +2402,7 @@ B28_0d73:
     cmp #$10
     beq B28_0dc9
     and #$f0
-    ora #$00
+    ora #0
     bne B28_0dc9
     B28_0dc7:
     lda unk_b0
@@ -2463,14 +2466,14 @@ B28_0e17:
 
 B28_0e26:
     lda soundactive_noise
-    bne B28_0e3d
+    bne @exit
     lda Noise_Instruments, y
     sta NOISE_VOL
     lda Noise_Instruments+1, y
     sta NOISE_LO
     lda Noise_Instruments+2, y
     sta NOISE_HI
-    B28_0e3d:
+    @exit:
     rts
 
 B28_0e3e:
@@ -2481,10 +2484,6 @@ B28_0e3e:
     cmp #%10000000 ;is snare
     beq B28_0e54
     rts
-
-;register stuff
-.define dmc_sampleaddr(label) (label - $C000) / 64
-.define dmc_samplelen(labels, labele) ((labele - labels) -1 ) / 16
 
 B28_0e4a:
     ;kick drum
@@ -2503,7 +2502,7 @@ B28_0e4a:
     sta DMC_LEN
     sty DMC_START
     lda disable_dmc
-    bne B28_0e7b
+    bne @exit
     lda unk_b1
     sta DMC_FREQ
     lda #$0f
@@ -2512,7 +2511,7 @@ B28_0e4a:
     sta DMC_RAW
     lda #$1f
     sta SND_CHN
-    B28_0e7b:
+    @exit:
     rts
 
 ReadByte:

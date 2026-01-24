@@ -90,6 +90,10 @@
     .endif
 .endenum
 
+.enum NMI_MODE
+    SKIP = 1 << 7
+.endenum
+
 ; items
 .enum itemd
     nameptr = 0

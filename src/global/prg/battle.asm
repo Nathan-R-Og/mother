@@ -928,8 +928,10 @@ B23_04cc:
 B23_04d6:
     jsr PpuSync
     stx nmi_data_offset
-    lda #$80
-    sta nmi_flags+0
+
+    lda #NMI_MODE::SKIP
+    sta nmi_flags
+
     rts
 
 B23_04e0:
@@ -4155,6 +4157,7 @@ DoAnimatePlayerHit:
 
     lda #1
     sta nmi_flags
+
     jsr WaitNMI
 
     ;if y != length, keep going

@@ -1,23 +1,33 @@
 .segment        "CREDITS": absolute
 
+.define loop_count UNK_47
+
 Credits_Entry:
+    ;wait 120 frames
     ldx #120
     jsr WaitXFrames_Min1
 
+    ;do fade out
     jsr credits_cmd_fade_out
 
+    ;wait a frame
     jsr PpuSync
 
+    ;horizontal tables
     lda #0
     sta MIRROR
 
+    ;irq_count = 0
     lda #0
     sta irq_count
 
+    ;UNK_E7 &= 0xBF
     lda UNK_E7
     and #%10111111
     sta UNK_E7
 
+    ;shift_x = 0
+    ;shift_y = 0
     lda #0
     sta shift_x
     sta shift_y
@@ -31,13 +41,15 @@ Credits_Entry:
     stx scroll_y
     sty scroll_x
 
-    ;clear music?
+    ;clear music
     lda #$ff
     jsr PlayMusic
 
-    lda #.BANK(B27_0000)
+    ;swap music bank to the dedicated credits bank
+    lda #.BANK(CreditsMusic_Tick)
     sta music_bank
 
+    ;wait for nmi
     jsr WaitNMI
 
     ;load pointer
@@ -46,7 +58,7 @@ Credits_Entry:
     lda #.HIBYTE(Credits_Script)
     sta UNK_40+1
 
-    B26_0042:
+    @eval_loop:
 
     ;if byte == 0, loop
     ldy #0
@@ -54,14 +66,17 @@ Credits_Entry:
     beq force_loop
 
     jsr do_credits_eval
+
+    ;UNK_40 += y index
     clc
     tya
     adc UNK_40
     sta UNK_40
-    lda #$00
+    lda #0
     adc UNK_40+1
     sta UNK_40+1
-    jmp B26_0042
+
+    jmp @eval_loop
 
     force_loop:
     jmp force_loop
@@ -100,6 +115,10 @@ credits_lut:
     .addr credits_cmd_draw_text_xy-1 ; [12 AA BB CC DD]          - Display text with a position
     .addr credits_cmd_fade_in-1 ; [13]                      - Fades in
 
+.define ENDING_CMD_00_END .byte 0
+
+.define ENDING_CMD_01_DELAY(frames) .byte 1, frames
+
 credits_cmd_delay:
     ;get next byte
     iny
@@ -122,6 +141,7 @@ credits_cmd_delay:
     ;bye
     rts
 
+.define ENDING_CMD_02(arg1) .byte 2, arg1
 
 ;wait until button pressed?
 credits_cmd_unk2:
@@ -148,6 +168,8 @@ credits_cmd_unk2:
     ;bye
     rts
 
+.define ENDING_CMD_03_FADEOUT .byte 3
+
 credits_cmd_fade_out:
     jsr OT0_DefaultTransition
     jsr ClearSprites
@@ -158,6 +180,13 @@ credits_cmd_fade_out:
 
     ;bye
     rts
+
+.macro ENDING_CMD_0D_SETALLTILESETS arg1, arg2, arg3, arg4, arg5, arg6
+    .byte $D
+    .byte arg1, arg2
+    .byte arg3, arg4
+    .byte arg5, arg6
+.endmacro
 
 credits_cmd_set_alltilesets:
     ;get next byte
@@ -176,6 +205,16 @@ credits_cmd_set_alltilesets:
     ldx #BANK::CHR1C00
     jsr BANK_SWAP
     ;fallthrough
+
+.macro ENDING_CMD_04_LOADTILESETS arg1, arg2, arg3, arg4
+    .byte 4
+    .byte arg1
+    .byte arg2
+    .byte arg3
+    .byte arg4
+.endmacro
+
+.define ENDING_CMD_0C_LOADSECONDARYSPRITETILES(arg1) .byte $C, arg1
 
 credits_cmd_load_tilesets:
     ;get next byte
@@ -217,59 +256,97 @@ credits_cmd_load_tilesets:
     ;byte
     rts
 
+.macro ENDING_CMD_05_LOADBG2MAP arg1, arg2, arg3
+    .byte 5
+    .addr arg1
+    .byte arg2, arg3
+.endmacro
+
+.macro ENDING_CMD_06_SETMETATILEPROPERTIES arg1, arg2, arg3
+    .byte 6
+    .addr arg1
+    .byte arg2, arg3
+.endmacro
+
+.define height UNK_42
+
 credits_cmd_set_metatileprops:
-    lda #$08
-    bne B26_00f5
+    lda #8
+    bne unconditional_funny
     credits_cmd_load_bg2map:
     lda #$20
-    B26_00f5:
+    unconditional_funny:
     sta UNK_43
     jsr PpuSync
-    lda #$05
+
+    lda #NMI_COMMANDS::PPU_WRITE
     sta nmi_queue ; TODO: UNKNOWN NMI COMMAND
-    ldy #$04
+
+    ;height = UNK_40[y]
+    ldy #4
     lda (UNK_40), y
-    sta UNK_42
+    sta height
+
+    ;count
     dey
     lda (UNK_40), y
     sta nmi_queue+1
+
+    ;write-to pointer
     dey
     lda (UNK_40), y
     sta nmi_queue+2
     dey
     lda (UNK_40), y
     sta nmi_queue+3
-    ldy #$05
-    B26_0119:
-    ldx #$00
-    B26_011b:
+
+    ldy #5
+    @y_loop:
+    ldx #0
+    @x_loop:
+    ;get content byte
     lda (UNK_40), y
     sta nmi_queue+4, x
     iny
-    bne B26_0125
+
+    ;if y == 0, UNK_41 += 1
+    bne @not_zero
     inc UNK_41
-    B26_0125:
+    @not_zero:
+
+    ;if x != count, branch
     inx
     cpx nmi_queue+1
-    bne B26_011b
+    bne @x_loop
+
+    ;end
     lda #0
     sta nmi_queue+4, x
     sta nmi_data_offset
-    lda #$80
+
+    ;skip nmi
+    lda #NMI_MODE::SKIP
     sta nmi_flags
-    dec UNK_42
-    beq B26_0151
+
+    dec height
+    beq @exit
+
     jsr PpuSync
+
+    ;nmi_queue+2 += UNK_43
     clc
     lda UNK_43
     adc nmi_queue+3
     sta nmi_queue+3
-    lda #$00
+    lda #0
     adc nmi_queue+2
     sta nmi_queue+2
-    jmp B26_0119
-    B26_0151:
+    jmp @y_loop
+
+    @exit:
     rts
+
+.define ENDING_CMD_07_SETPAL .byte 7
 
 credits_cmd_set_palette:
     jsr PpuSync
@@ -305,7 +382,8 @@ credits_cmd_set_palette:
     lda #0
     sta nmi_queue+1 ; END
     sta nmi_data_offset
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
     ;set to after command
@@ -313,6 +391,12 @@ credits_cmd_set_palette:
 
     ;bye
     rts
+
+.macro ENDING_CMD_09_INITSPRITE id, tiles, arg_x, arg_y, sprite_pointer
+    .byte 9, id, tiles
+    .byte arg_x,arg_y
+    .addr sprite_pointer
+.endmacro
 
 credits_cmd_init_sprite:
     jsr PpuSync
@@ -327,27 +411,27 @@ credits_cmd_init_sprite:
     asl a
     tax
 
-    ;write byte
+    ;write oam slot
     lda (UNK_40), y
     and #%10000000
     sta SPRITE_OBJECTS+1, x
 
-    ;get next byte (????)
+    ;write tile count
     iny
     lda (UNK_40), y
     sta SPRITE_OBJECTS, x
 
-    ;get next byte (X pos)
+    ;write posX
     iny
     lda (UNK_40), y
     sta SPRITE_OBJECTS+2, x
 
-    ;get next byte (Y pos)
+    ;write posY
     iny
     lda (UNK_40), y
     sta SPRITE_OBJECTS+3, x
 
-    ;get next addr (sprite pointer)
+    ;write sprite pointer
     iny
     lda (UNK_40), y
     sta SPRITE_OBJECTS+6, x
@@ -355,7 +439,7 @@ credits_cmd_init_sprite:
     lda (UNK_40), y
     sta SPRITE_OBJECTS+7, x
 
-    ;?
+    ;write velx,vely
     lda #0
     sta SPRITE_OBJECTS+4, x
     sta SPRITE_OBJECTS+5, x
@@ -365,6 +449,12 @@ credits_cmd_init_sprite:
 
     ;bye
     rts
+
+.macro ENDING_CMD_0A_MOVESPRITE id, offset, xvel, yvel
+    .byte $A, id
+    .word offset
+    .byte xvel, yvel
+.endmacro
 
 credits_cmd_move_sprite:
     jsr PpuSync
@@ -382,7 +472,7 @@ credits_cmd_move_sprite:
     ;clear
     clc
 
-    ;get next word (def move)
+    ;pointer += UNK_40[y]
     iny
     lda (UNK_40), y
     adc SPRITE_OBJECTS+6, x
@@ -392,12 +482,11 @@ credits_cmd_move_sprite:
     adc SPRITE_OBJECTS+7, x
     sta SPRITE_OBJECTS+7, x
 
-    ;get next byte (move x)
+    ;velx = UNK_40[y]
     iny
     lda (UNK_40), y
     sta SPRITE_OBJECTS+4, x
-
-    ;get next byte (move y)
+    ;vely = UNK_40[y]
     iny
     lda (UNK_40), y
     sta SPRITE_OBJECTS+5, x
@@ -405,6 +494,8 @@ credits_cmd_move_sprite:
     ;bye
     ldy #6
     rts
+
+.define ENDING_CMD_0B_PLAYMUS(sfx) .byte $B, sfx
 
 credits_cmd_play_mus:
     ;get and play byte
@@ -416,24 +507,36 @@ credits_cmd_play_mus:
     iny
     rts
 
+.define ENDING_CMD_0E_BEGINLOOP(iterations) .byte $E, iterations
+
 credits_cmd_begin_loop:
     ;write byte to $47
     iny
     lda (UNK_40), y
-    sta UNK_47
+    sta loop_count
 
     ;bye
     iny
     rts
 
+.macro ENDING_CMD_0F_ENDLOOP pointer
+    .byte $F
+    .addr pointer
+.endmacro
+
 credits_cmd_end_loop:
     ;loop count down
-    dec UNK_47
+    dec loop_count
     ;if loop count == 0, do a jump to this pointer
     bne credits_cmd_unk8
     ;else, bye
     ldy #3
     rts
+
+.macro ENDING_CMD_08 arg1
+    .byte 8
+    .word arg1
+.endmacro
 
 credits_cmd_unk8:
     ;push addr to stack
@@ -451,6 +554,8 @@ credits_cmd_unk8:
     ldy #0
     rts
 
+.define ENDING_CMD_10_CLEARSPRITE(arg1) .byte $10, arg1
+
 credits_cmd_clear_sprite:
     jsr PpuSync
 
@@ -464,11 +569,17 @@ credits_cmd_clear_sprite:
     asl a
     tax
 
-    ;reset
+    ;set tiles to 0
     lda #0
     sta SPRITE_OBJECTS, x
+
     iny
     rts
+
+.macro ENDING_CMD_11_DRAWTEXT stringId
+    .byte $11
+    .word stringId
+.endmacro
 
 credits_cmd_draw_text:
     ;get next word
@@ -524,7 +635,8 @@ credits_cmd_draw_text:
     @loop2:
     lda #0
     sta nmi_data_offset
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
     dex
@@ -542,8 +654,14 @@ credits_cmd_draw_text:
     jmp @loop2
 
     @break2:
-    ldy #$03
+    ldy #3
     rts
+
+.macro ENDING_CMD_12_DRAWTEXTXY stringId, arg_x, arg_y
+    .byte $12
+    .word stringId
+    .byte arg_x,arg_y
+.endmacro
 
 credits_cmd_draw_text_xy:
     ;get next umsg
@@ -572,8 +690,10 @@ credits_cmd_draw_text_xy:
     jsr DrawTilepackClear
 
     ;bye
-    ldy #$05
+    ldy #5
     rts
+
+.define ENDING_CMD_13_FADEIN .byte $13
 
 credits_cmd_fade_in:
     jsr RestoreAndUpdatePalette
@@ -587,86 +707,6 @@ credits_generic_sprite_pal:
     .byte $0f, $0f, $16, $37
     .byte $0f, $0f, $24, $37
     .byte $0f, $0f, $12, $37
-
-.define ENDING_CMD_00_END .byte 0
-
-.define ENDING_CMD_01_DELAY(frames) .byte 1, frames
-
-.define ENDING_CMD_02(arg1) .byte 2, arg1
-
-.define ENDING_CMD_03_FADEOUT .byte 3
-
-.macro ENDING_CMD_04_LOADTILESETS arg1, arg2, arg3, arg4
-    .byte 4
-    .byte arg1
-    .byte arg2
-    .byte arg3
-    .byte arg4
-.endmacro
-
-.macro ENDING_CMD_05_LOADBG2MAP arg1, arg2, arg3
-    .byte 5
-    .addr arg1
-    .byte arg2, arg3
-.endmacro
-
-.macro ENDING_CMD_06_SETMETATILEPROPERTIES arg1, arg2, arg3
-    .byte 6
-    .addr arg1
-    .byte arg2, arg3
-.endmacro
-
-.define ENDING_CMD_07_SETPAL .byte 7
-
-.macro ENDING_CMD_08 arg1
-    .byte 8
-    .word arg1
-.endmacro
-
-.macro ENDING_CMD_09_INITSPRITE id, tiles, arg_x, arg_y, sprite_pointer
-    .byte 9, id, tiles
-    .byte arg_x,arg_y
-    .addr sprite_pointer
-.endmacro
-
-.macro ENDING_CMD_0A_MOVESPRITE id, offset, xvel, yvel
-    .byte $A, id
-    .word offset
-    .byte xvel, yvel
-.endmacro
-
-.define ENDING_CMD_0B_PLAYMUS(sfx) .byte $B, sfx
-
-.define ENDING_CMD_0C_LOADSECONDARYSPRITETILES(arg1) .byte $C, arg1
-
-.macro ENDING_CMD_0D_SETALLTILESETS arg1, arg2, arg3, arg4, arg5, arg6
-    .byte $D
-    .byte arg1, arg2
-    .byte arg3, arg4
-    .byte arg5, arg6
-.endmacro
-
-.define ENDING_CMD_0E_BEGINLOOP(iterations) .byte $E, iterations
-
-.macro ENDING_CMD_0F_ENDLOOP pointer
-    .byte $F
-    .addr pointer
-.endmacro
-
-.define ENDING_CMD_10_CLEARSPRITE(arg1) .byte $10, arg1
-
-.macro ENDING_CMD_11_DRAWTEXT stringId
-    .byte $11
-    .word stringId
-.endmacro
-
-.macro ENDING_CMD_12_DRAWTEXTXY stringId, arg_x, arg_y
-    .byte $12
-    .word stringId
-    .byte arg_x,arg_y
-.endmacro
-
-.define ENDING_CMD_13_FADEIN .byte $13
 
 ;byte code begin
 Credits_Script:

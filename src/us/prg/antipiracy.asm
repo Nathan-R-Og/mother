@@ -36,8 +36,8 @@ TITLE_ANTI_PIRACY:
 
     ;nmi_data_offset = 0
     sta nmi_data_offset
-    ;nmi_flags = $80
-    lda #$80
+    ;nmi_flags = NMI_MODE::SKIP
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
     ;wait for NMI to complete
@@ -124,8 +124,8 @@ TITLE_ANTI_PIRACY:
     ;nmi_data_offset = 0
     lda #0
     sta nmi_data_offset
-    ;nmi_flags = $80
-    lda #$80
+    ;nmi_flags = NMI_MODE::SKIP
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
     jsr PpuSync
@@ -280,7 +280,7 @@ ShowAntipiracy:
     sta nmi_queue+1 ; END
     sta nmi_data_offset
 
-    lda #$80
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
     @inf_loop:
@@ -969,9 +969,9 @@ Tombstone_AntiPiracy:
     sta SPRITE_OBJECTS+2
     lda UNK_64
     sta SPRITE_OBJECTS+3
-    lda #.LOBYTE(SPRITEDEF_CREDITS_UNK1)
+    lda #.LOBYTE(SPRITEDEF_TOMBSTONE_CRYSTAL)
     sta SPRITE_OBJECTS+6
-    lda #.HIBYTE(SPRITEDEF_CREDITS_UNK1)
+    lda #.HIBYTE(SPRITEDEF_TOMBSTONE_CRYSTAL)
     sta SPRITE_OBJECTS+7
 
     ;one frame wait
@@ -987,13 +987,13 @@ Tombstone_AntiPiracy:
 ;sparkles :)
 tombstone_spritedata:
     .byte 4, 0, 50, 50,  1,  1
-    .addr SPRITEDEF_CREDITS_UNK0
+    .addr SPRITEDEF_TOMBSTONE_SPARKLE
     .byte 4, 0, 66, 50,  1, -1
-    .addr SPRITEDEF_CREDITS_UNK0
+    .addr SPRITEDEF_TOMBSTONE_SPARKLE
     .byte 4, 0, 50, 66, -1,  1
-    .addr SPRITEDEF_CREDITS_UNK0
+    .addr SPRITEDEF_TOMBSTONE_SPARKLE
     .byte 4, 0, 66, 66, -1, -1
-    .addr SPRITEDEF_CREDITS_UNK0
+    .addr SPRITEDEF_TOMBSTONE_SPARKLE
 
 ;yeah man
 Rts_Antipiracy:
@@ -1230,10 +1230,10 @@ DepleteAttackerPP:
     ldy attacker_offset
     sec
     lda BATTLER_CURR_PP, y
-    sbc $4e
+    sbc battle_input_num
     sta BATTLER_CURR_PP, y
     lda BATTLER_CURR_PP+1, y
-    sbc $4f
+    sbc battle_input_num+1
     sta BATTLER_CURR_PP+1, y
     bcs @exit
     lda #$00

@@ -89,3 +89,7 @@
 .define IRQRELOAD $C001
 .define IRQDISABLE $E000
 .define IRQENABLE $E001
+
+;register stuff
+.define dmc_sampleaddr(label) (label - $C000) / 64
+.define dmc_samplelen(labels, labele) ((labele - labels) -1 ) / 16

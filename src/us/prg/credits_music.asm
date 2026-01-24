@@ -3,286 +3,352 @@
 ;smaller music engine dedicated solely to playing the credits tracks.
 
 ; $8000
-B27_0000:
-    jmp B27_0091
+CreditsMusic_Tick:
+    jmp C_B28_0277
+
 B27_0003:
-    jmp B27_00aa
-B27_0006:
-    jmp B27_005a
+    jmp C_B28_0299
 
-B27_0009:
-    lda #$00
-    beq B27_0017
-    B27_000d:
-    lda #$08
-    bne B27_0017
-    B27_0011:
-    lda #$0c
-    bne B27_0017
-    B27_0015:
-    lda #$04
-    B27_0017:
-    sta $b0
+CreditsMusic_Init:
+    jmp C_B28_0216
+
+
+C_SetSQ1Registers:
+    lda #<SQ1
+    beq C_B28_00a3
+
+C_SetTRIRegisters:
+    lda #<TRI
+    bne C_B28_00a3
+
+C_SetNOISERegisters:
+    lda #<NOISE
+    bne C_B28_00a3
+
+C_SetSQ2Registers:
+    lda #<SQ2
+    ; fallthrough
+
+;Inputs:
+;  A: low byte to a pointer to sound registers for a given channel (in page $40xx)
+;  Y: low byte to a pointer to values to set the sound registers to (in the SFXInstrumentInitData page)
+;Effects:
+;  Copy 4 bytes of sound channel data from *Y to *A
+;  Z flag = 0
+;Clobbers:
+;  A, Y, $B0-$B3
+C_B28_00a3:
+    sta unk_b0
     lda #$40
-    sta $b1
-    sty $b2
-    sta $b3
-    ldy #$00
-    B27_0023:
-    lda ($b2), y
-    sta ($b0), y
+    sta unk_b1
+    sty unk_b2
+    sta unk_b3
+    ldy #0
+    @loop:
+    lda (unk_b2), y
+    sta (unk_b0), y
     iny
     tya
-    cmp #$04
-    bne B27_0023
+    cmp #4
+    bne @loop
     rts
 
-B27_002e:
-    lda $bb
-    and #$02
-    sta $07ff
-    lda $bc
-    and #$02
-    eor $07ff
+;Effects:
+;  Advances the RNG state at unk_bb used for sound purposes.
+;  The RNG is a Fibonacci LFSR with taps on bits 1 and 8 (or going by the conventions on Wikipedia, bits 15 and 7).
+;  The state is stored big-endian.
+;Clobbers:
+;  A, unk_7ff
+C_TickRNG:
+    lda unk_bb
+    and #%00000010
+    sta unk_7ff
+
+    lda unk_bb+1
+    and #%00000010
+    eor unk_7ff
+
     clc
-    beq B27_0040
+    beq @shift_in_carry
     sec
-    B27_0040:
-    ror $bb
-    ror $bc
+    @shift_in_carry:
+    ror unk_bb
+    ror unk_bb+1
     rts
 
-B27_0045:
-    ldx $bd
-    inc $07da, x
-    lda $07da, x
-    cmp $07d5, x
-    bne B27_0057
-    lda #$00
-    sta $07da, x
-    B27_0057:
+C_B28_00d3:
+    ldx unk_bd
+    inc unk_7da, x
+    lda unk_7da, x
+    cmp unk_7d5, x
+    bne @exit
+    lda #0
+    sta unk_7da, x
+    @exit:
     rts
 
-B27_0058:
-.byte 0,0
+C_Ocarina_Missing_List:
+.addr 0
 
-B27_005a:
-    lda #$0f
-    sta $4015
+C_B28_0216:
+    ;SND_CHN = $f
+    lda #$f
+    sta SND_CHN
+
+    ;unk_bb = $55
     lda #$55
-    sta $bb
-    lda #$00
-    sta $0786
-    sta $078b
+    sta unk_bb
+
+    ;unk_786 = 0
+    ;unk_78b = 0
+    lda #0
+    sta currptr_pulse1_blank
+    sta unk_78b
+
+    ;copy Ocarina_Missing_List to unk_76c
     tay
-    B27_006c:
-    lda B27_0058, y
-    sta $076c, y
+    @copy:
+    lda C_Ocarina_Missing_List, y
+    sta unk_76c, y
     iny
     tya
-    cmp #$14
-    bne B27_006c
-    jsr B27_00aa
+    cmp #10*2
+    bne @copy
+
+    jsr C_B28_0299
     rts
 
 .byte 0,0
 
-B27_007e:
+; Overrides the song for learning melody 2 to instead begin with a tweet sound effect.
+; (A generic Canary sound effect is added to the script in EB:B instead.)
+C_InsertLauraPreMelodyTweeting:
     lda soundqueue_track
     cmp #$25
-    bne B27_0090
-    jsr B27_00aa
+    bne @exit
+    jsr C_B28_0299
     sta soundqueue_track
-    lda #$11
-    sta $07f1
-    B27_0090:
+    lda #PulseG0_Laura
+    sta soundqueue_pulseg0
+    @exit:
     rts
 
 ; PLAY entry point
-B27_0091:
+C_B28_0277:
     lda #$c0
-    sta $4017 ; APU "frame counter". Select "one 5-step sequence" (whatever that means) and clear interrupt flag
-    jsr B27_002e ; Weird $BB shuffle-around
-    jsr B27_007e
-    jsr B27_01a3
-    lda #$00
-    ldx #$06
-    B27_00a3:
-    sta $07ef, x
+    sta FRAME_COUNTER ; APU "frame counter". Select "one 5-step sequence" (whatever that means) and clear interrupt flag
+    jsr C_TickRNG ; Weird $BB shuffle-around
+    jsr C_InsertLauraPreMelodyTweeting
+    jsr C_HandleMusic
+    lda #0
+    ldx #6
+    @loop:
+    sta sram_mode, x
     dex
-    bne B27_00a3
+    bne @loop
     rts
 
-B27_00aa:
-    jsr B27_00b9
-    B27_00ad:
-    jsr B27_00d7
-    lda #$00
-    sta $4011
-    sta $079c
+;End song?
+C_B28_0299:
+    jsr C_B28_02a8
+    ; fallthrough
+C_B28_029c:
+    jsr C_B28_02c6
+    lda #0
+    sta DMC_RAW
+    sta ME_Envelopes0+2
     rts
-    B27_00b9:
-    lda #$00
-    sta $07c8
-    sta $07c9
-    sta $07ca
+
+C_B28_02a8:
+    lda #0
+    sta unk_7c8
+    sta unk_7c8+1
+    sta unk_7c8+2
+
     sta current_music
-    sta $078a
+    sta unk_78a
+    ; Set all sounds and music to be inactive
     tay
-    B27_00cb:
-    lda #$00
-    sta $07f8, y
+    @loop:
+    lda #0
+    sta soundactive, y
     iny
     tya
-    cmp #$06
-    bne B27_00cb
+    cmp #6
+    bne @loop
     rts
-    B27_00d7:
-    lda #$00
-    sta $4011
+
+C_B28_02c6:
+    lda #0
+    sta DMC_RAW
     lda #$10
-    sta $4000
-    sta $4004
-    sta $400c
-    lda #$00
-    sta $4008
+    sta SQ1_VOL
+    sta SQ2_VOL
+    sta NOISE_VOL
+    lda #0
+    sta TRI_LINEAR
     rts
-    ldx $bd
-    sta $07d5, x
+
+; need A, Y set before calling
+C_SFX_SetupContinue:
+    ldx unk_bd
+    sta unk_7d5, x
     txa
-    sta $07c7, x
+    sta unk_7c7, x
     tya
-    beq B27_011b
+    beq C_SetupCHANNEL
     txa
-    beq B27_0118
-    cmp #$01
-    beq B27_0109
-    cmp #$02
-    beq B27_010e
-    cmp #$03
-    beq B27_0113
+    beq C_SetupNOI
+    cmp #1
+    beq C_SetupSQ1
+    cmp #2
+    beq C_SetupSQ2
+    cmp #3
+    beq C_SetupTRI
     rts
-    B27_0109:
-    jsr B27_0009
-    beq B27_011b
-    B27_010e:
-    jsr B27_0015
-    beq B27_011b
-    B27_0113:
-    jsr B27_000d
-    beq B27_011b
-    B27_0118:
-    jsr B27_0011
-    B27_011b:
-    lda $bf
-    sta $07f8, x
-    lda #$00
-    sta $07da, x
-    B27_0125:
-    sta $07df, x
-    sta $07e3, x
-    sta $07e7, x
-    sta $078a
+C_SetupSQ1:
+    jsr C_SetSQ1Registers
+    beq C_SetupCHANNEL ; unconditional branch
+C_SetupSQ2:
+    jsr C_SetSQ2Registers
+    beq C_SetupCHANNEL ; unconditional branch
+C_SetupTRI:
+    jsr C_SetTRIRegisters
+    beq C_SetupCHANNEL ; unconditional branch
+C_SetupNOI:
+    jsr C_SetNOISERegisters
+    ; fallthrough
+C_SetupCHANNEL:
+    lda unk_bf
+    sta soundactive_noise, x
+    lda #0
+    sta unk_7da, x
+    ; fallthrough
+C_StoreCHANNELVariables:
+    sta unk_7df, x
+    sta unk_7e3, x
+    sta unk_7e7, x
+    sta unk_78a
+C_B28_0320:
     rts
-    jsr B27_0045
-    bne B27_0141
-    lda #$00
-    sta $07f8
+
+C_NoiseSFX_Unk07_RocketLand_Continue:
+    jsr C_B28_00d3
+    bne C_B28_041f
+    C_EndNoiseSFX:
+    lda #0
+    sta soundactive_noise
     lda #$10
-    sta $400c
-    B27_0141:
+    sta NOISE_VOL
+    C_B28_041f:
     rts
-    sta $07d9
-    jsr B27_0015
-    lda $bf
-    sta $07fc
-    ldx #$01
-    stx $07c8
+
+C_DoDoublePulseSFX:
+    sta unk_7d9
+    jsr C_SetSQ2Registers
+    lda unk_bf
+    sta soundactive_pulseg1
+
+    ldx #1
+    stx unk_7c8
     inx
-    stx $07c9
-    lda #$00
-    sta $07de
-    sta $07f9
-    ldx #$01
-    jmp B27_0125
-    jsr B27_0181
-    jsr B27_0192
-    inc $078a
-    lda #$00
-    sta $07fc
-    ldx #$01
+    stx unk_7c8+1
+
+    lda #0
+    sta unk_7de
+    sta soundactive_pulseg0
+    ldx #1
+    jmp C_StoreCHANNELVariables
+
+C_B28_04dd:
+    jsr C_EndPulseGroup0SFX
+    jsr C_B28_0840
+    inc unk_78a
+    lda #0
+    sta soundactive_pulseg1
+    ldx #1
     lda #$7f
-    sta $4000, x
-    sta $4004, x
-    rts
-    jsr B27_0045
-    bne B27_0191
-    B27_0181:
-    lda #$10
-    sta $4000
-    lda #$00
-    sta $07c8
-    sta $07f9
-    inc $078a
-    B27_0191:
-    rts
-    B27_0192:
-    lda #$10
-    sta $4004
-    lda #$00
-    sta $07c9
-    sta $07fa
+C_B28_04ef:
+    sta SQ1_VOL, x
+    sta SQ2_VOL, x
     rts
 
-B27_01a0:
-    jmp B27_00aa
+C_PulseGroup0SFX_TakeDamage_Unk0D_Unk0E_Miss_Continue:
+    jsr C_B28_00d3
+    bne C_B28_0698
+    ; fallthrough
+C_EndPulseGroup0SFX:
+    lda #$10
+    sta SQ1_VOL
 
-B27_01a3:
+    lda #0
+    sta unk_7c8
+    sta soundactive_pulseg0
+    inc unk_78a
+    C_B28_0698:
+    rts
+
+C_B28_0840:
+    lda #$10
+    sta SQ2_VOL
+    lda #0
+    sta unk_7c8+1
+    sta soundactive_unknown
+    rts
+
+C_B28_090e:
+    jmp C_B28_0299
+
+C_HandleMusic:
     lda soundqueue_track
     tay
     cmp #$3f
-    bcs B27_01a0
+    bcs C_B28_090e
+    ;cmp #$01
+    ;beq C_B28_0903
     tya
-    beq B27_01ea
+    beq C_B28_095c
     sta current_music
     cmp #$19
-    beq B27_01b9
+    beq C_B28_092b
     cmp #$19
-    bcc B27_01c4
-    B27_01b9:
-    sta $bf
+    bcc C_B28_0936
+    C_B28_092b:
+    sta unk_bf
     sec
     sbc #$19
-    sta $07cc
-    jmp B27_01dc
-    B27_01c4:
-    cmp #$06
-    bne B27_01d4
+    sta music_id
+    jmp C_B28_094e
+    C_B28_0936:
+    ;if playing pollyanna, check if need to play bein friends instead
+    cmp #6
+    bne C_B28_0946
+    ;if party count != 1, play bein friends
     lda pc_count
-    cmp #$01
-    beq B27_01d3
-    lda #$07
-    bne B27_01d4
-    B27_01d3:
+    cmp #1
+    beq C_B28_0945
+    lda #7
+    bne C_B28_0946
+    C_B28_0945:
     tya
-    B27_01d4:
-    sta $bf
-    sta $07cc
-    dec $07cc
-    B27_01dc:
+    C_B28_0946:
+    sta unk_bf
+    sta music_id
+    dec music_id
+    C_B28_094e:
     lda #$7f
-    sta $07c0
-    sta $07c1
-    jsr B27_0341
-    B27_01e7:
-    jmp B27_04d0
-    B27_01ea:
-    lda $07fd
-    bne B27_01e7
+    sta UNK_7C0
+    sta UNK_7C0+1
+    jsr C_B28_0aec
+    C_B28_0959:
+    jmp C_B28_0c7b
+    C_B28_095c:
+    lda soundactive_track
+    bne C_B28_0959
     rts
 
 ;????
-B27_01f0:
+C_Noise_Instruments:
 .byte $00,$10,$01
 .byte $18,$00,$01
 .byte $38,$00,$03
@@ -296,766 +362,836 @@ B27_01f0:
 .byte $08,$16,$0E
 .byte $28,$16,$0B
 .byte $18
-;the actual music engine ends here
 .byte     $1D,$01
 .byte $28,$16,$01
 .byte $28,$13,$01
 .byte $38,$12,$01
 .byte $38
 
-B27_0221:
-    lda $07fd
-    cmp #$01
-    beq B27_024a
+C_B28_09cc:
+    lda soundactive_track
+    cmp #1
+    beq C_B28_09f5
     txa
-    cmp #$03
-    beq B27_024a
-    lda $079a, x
+    cmp #3
+    beq C_B28_09f5
+    lda ME_Envelopes0, x
     and #$e0
-    beq B27_024a
-    sta $b0
-    lda $07c3, x
-    cmp #$02
-    beq B27_0247
-    ldy $be
-    lda $0780, y
-    sta $b1
-    jsr B27_0288
-    B27_0247:
-    inc $07d1, x
-    B27_024a:
+    beq C_B28_09f5
+    sta unk_b0
+    lda unk_7c3, x
+    cmp #2
+    beq C_B28_09f2
+    ldy unk_be
+    lda currptr_pulse0, y
+    sta unk_b1
+    jsr C_B28_0a33
+    C_B28_09f2:
+    inc unk_7d1, x
+    C_B28_09f5:
     rts
-    B27_024b:
-    lda $b2
+
+C_B28_09f6:
+    lda unk_b2
     cmp #$31
-    bne B27_0253
+    bne C_B28_09fe
     lda #$27
-    B27_0253:
+    C_B28_09fe:
     tay
-    lda B27_02da, y
+    lda C_Pitch_Envelope_4_6, y
     pha
-    lda $07c3, x
+    lda unk_7c3, x
     cmp #$46
-    bne B27_0264
+    bne C_B28_0a0f
     pla
     lda #$00
-    beq B27_02c2
-    B27_0264:
+    beq C_B28_0a6d
+    C_B28_0a0f:
     pla
-    jmp B27_02c2
-    B27_0268:
-    lda $b2
+    jmp C_B28_0a6d
+    C_B28_0a13:
+    lda unk_b2
     tay
     cmp #$10
-    bcs B27_0275
-    lda B27_0311, y
-    jmp B27_02c8
-    B27_0275:
+    bcs C_B28_0a20
+    lda C_Pitch_Envelope_2, y
+    jmp C_B28_0a73
+    C_B28_0a20:
     lda #$f6
-    bne B27_02c8
-    B27_0279:
-    lda $07c3, x
+    bne C_B28_0a73
+    C_B28_0a24:
+    lda unk_7c3, x
     cmp #$4c
-    bcc B27_0284
+    bcc C_B28_0a2f
     lda #$fe
-    bne B27_02c8
-    B27_0284:
+    bne C_B28_0a73
+    C_B28_0a2f:
     lda #$fe
-    bne B27_02c8
-    B27_0288:
-    lda $07d1, x
-    sta $b2
-    lda $b0
-    cmp #$20
-    beq B27_02a7
-    cmp #$a0
-    beq B27_02b6
-    cmp #$60
-    beq B27_0279
-    cmp #$40
-    beq B27_0268
-    cmp #$80
-    beq B27_024b
-    cmp #$c0
-    beq B27_024b
-    B27_02a7:
-    lda $b2
+    bne C_B28_0a73
+
+C_B28_0a33:
+    lda unk_7d1, x
+    sta unk_b2
+    lda unk_b0
+
+    ;pitch envelope 1
+    cmp #(1 << 5)
+    beq C_B28_0a52
+    ;pitch envelope 5
+    cmp #(5 << 5)
+    beq C_B28_0a61
+    ;pitch envelope 3
+    cmp #(3 << 5)
+    beq C_B28_0a24
+    ;pitch envelope 2
+    cmp #(2 << 5)
+    beq C_B28_0a13
+    ;pitch envelope 4
+    cmp #(4 << 5)
+    beq C_B28_09f6
+    ;pitch envelope 6
+    cmp #(6 << 5)
+    beq C_B28_09f6
+    C_B28_0a52:
+    lda unk_b2
     cmp #$0a
-    bne B27_02af
-    lda #$00
-    B27_02af:
+    bne C_B28_0a5a
+    lda #0
+    C_B28_0a5a:
     tay
-    lda B27_0307, y
-    jmp B27_02c2
-    B27_02b6:
-    lda $b2
+    lda C_Pitch_Envelope_1_7, y
+    jmp C_B28_0a6d
+    C_B28_0a61:
+    lda unk_b2
     cmp #$2b
-    bne B27_02be
+    bne C_B28_0a69
     lda #$21
-    B27_02be:
+    C_B28_0a69:
     tay
-    lda B27_02e6, y
-    B27_02c2:
+    lda C_Pitch_Envelope_5, y
+    C_B28_0a6d:
     pha
     tya
-    sta $07d1, x
+    sta unk_7d1, x
     pla
-    B27_02c8:
+    C_B28_0a73:
     pha
-    lda $07c8, x
-    bne B27_02d8
+    lda unk_7c8, x
+    bne C_B28_0a83
     pla
     clc
-    adc $b1
-    ldy $be
-    sta $4002, y
+    adc unk_b1
+
+    ldy unk_be
+    sta SQ1_LO, y
     rts
-    B27_02d8:
+
+C_B28_0a83:
     pla
     rts
 
-;???????
-B27_02da:
-.byte $09,$08,$07,$06,$05,$04,$03,$02,$02,$01,$01,$00
-B27_02e6:
-.byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$01,$00,$00,$00,$00,$FF,$00,$00,$00,$00,$01,$01,$00,$00,$00,$FF,$FF,$00
-B27_0307:
-.byte $00,$01,$01,$02,$01,$00,$FF,$FF,$FE,$FF
-B27_0311:
-.byte $00,$FF,$FE,$FD,$FC,$FB,$FA,$F9,$F8,$F7,$F6,$F5,$F6,$F7,$F6,$F5
+C_Pitch_Envelope_4_6:
+.byte 9,8,7,6,5,4,3,2,2,1,1,0
+C_Pitch_Envelope_5:
+.byte 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+.byte 0,0,0,0,-1,0,0,0,0,1,1,0,0,0,-1,-1
+.byte 0
+C_Pitch_Envelope_1_7:
+.byte 0,1,1,2,1,0,-1,-1,-2,-1
+C_Pitch_Envelope_2:
+.byte 0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-10,-9,-10,-11 ; -10 hardcoded
 
-B27_0321:
-    lda $07cc
+C_B28_0acc:
+    lda music_id
     tay
-    lda B27_09a7, y
+    lda C_Music_Table_2_Ids, y
     tay
-    ldx #$00
-    B27_032b:
-    lda B27_09c3, y
-    sta $0790, x
+
+    ldx #0
+    @copy:
+    lda C_Music_Table, y
+    sta MusicHeader, x
     iny
     inx
     txa
-    cmp #$0a
-    bne B27_032b
+    cmp #10
+    bne @copy
+
     rts
-    B27_0339:
+
+C_B28_0ae4:
     lda #$ff
-    sta $07a0, x
-    jmp B27_03ba
-    B27_0341:
-    jsr B27_00ad
-    lda $bf
-    sta $07fd
+    sta ME_CurrentPulse1Phrase, x
+    jmp C_B28_0b65
+
+C_B28_0aec:
+    jsr C_B28_029c
+    lda unk_bf
+    sta soundactive_track
     cmp #$33
-    beq B27_035b
+    beq C_B28_0b06
     cmp #$19
-    beq B27_0355
+    beq C_B28_0b00
     cmp #$19
-    bcc B27_036f
-    B27_0355:
-    jsr B27_0321
-    jmp B27_0386
-    B27_035b:
-    ldx #$00
-    ldy #$00
-    B27_035f:
-    lda B27_09cd, y
-    sta $0790, x
+    bcc C_B28_0b1a
+    C_B28_0b00:
+    jsr C_B28_0acc
+    jmp C_B28_0b31
+    C_B28_0b06:
+    ldx #0
+    ldy #0
+    C_B28_0b0a:
+    lda C_Path_To_Giegue_BGM_header, y
+    sta ME_Transpose, x
     iny
     inx
     txa
-    cmp #$0a
-    bne B27_035f
-    jmp B27_0386
-    B27_036f:
-    lda $07cc
+    cmp #10
+    bne C_B28_0b0a
+    jmp C_B28_0b31
+    C_B28_0b1a:
+    lda music_id
     tay
-    lda B27_098f, y
+    lda C_Music_Table_Ids, y
     tay
-    ldx #$00
-    B27_0379:
-    lda B27_09c3, y
-    sta $0790, x
+    ldx #0
+    C_B28_0b24:
+    lda C_Music_Table, y
+    sta ME_Transpose, x
     iny
     inx
     txa
-    cmp #$0a
-    bne B27_0379
-    B27_0386:
-    lda #$01
-    sta $07b4
-    sta $07b5
-    sta $07b6
-    sta $07b7
-    lda #$00
-    sta $ba
-    ldy #$08
-    B27_039a:
-    sta $07a7, y
+    cmp #10
+    bne C_B28_0b24
+    C_B28_0b31:
+    lda #1
+    sta MusicChannel_NoteLengthCounter
+    sta MusicChannel_NoteLengthCounter+1
+    sta MusicChannel_NoteLengthCounter+2
+    sta MusicChannel_NoteLengthCounter+3
+    lda #0
+    sta unk_ba
+    ldy #8
+    C_B28_0b45:
+    sta ME_CurrentNoisePhrase+1, y
     dey
-    bne B27_039a
+    bne C_B28_0b45
     tax
-    B27_03a1:
-    lda $0792, x
-    sta $b6
-    lda $0793, x
+    C_B28_0b4c:
+    ;store datapointer lo
+    lda ME_DataPointer, x
+    sta unk_b6
+
+    ;check datapointer hi if ff, else store
+    lda ME_DataPointer+1, x
     cmp #$ff
-    beq B27_0339
-    sta $b7
-    ldy $07a8
-    lda ($b6), y
-    sta $07a0, x
+    beq C_B28_0ae4
+    ;store
+    sta unk_b6+1
+
+    ldy ME_CurrentPhraseIndex
+
+    ;get phrase pointers from pointer
+    lda (unk_b6), y
+    sta ME_CurrentPhrases, x
     iny
-    lda ($b6), y
-    B27_03ba:
-    sta $07a1, x
+    lda (unk_b6), y
+    C_B28_0b65:
+    sta ME_CurrentPhrases+1, x
+
     inx
     inx
     txa
-    cmp #$08
-    bne B27_03a1
+    cmp #8
+    bne C_B28_0b4c
     rts
-    B27_03c5:
-    lda $078a
-    beq B27_03f5
-    cmp #$01
-    beq B27_03df
+
+C_B28_0b70:
+    lda unk_78a
+    beq C_B28_0ba0
+    cmp #1
+    beq C_B28_0b8a
     lda #$7f
-    sta $4005
-    lda $0784
-    sta $4006
-    lda $0785
-    sta $4007
-    B27_03df:
+    sta SQ2_SWEEP
+
+    lda currptr_pulse1
+    sta SQ2_LO
+    lda currptr_pulse1+1
+    sta SQ2_HI
+
+    C_B28_0b8a:
     lda #$7f
-    sta $4001
-    lda $0780
-    sta $4002
-    lda $0781
-    sta $4003
-    lda #$00
-    sta $078a
-    B27_03f5:
+    sta SQ1_SWEEP
+
+    lda currptr_pulse0
+    sta SQ1_LO
+    lda currptr_pulse0+1
+    sta SQ1_HI
+
+    lda #0
+    sta unk_78a
+    C_B28_0ba0:
     rts
-    B27_03f6:
+
+C_B28_0ba1:
     txa
-    cmp #$02
-    bcs B27_03f5
-    lda $079a, x
+    cmp #2
+    bcs C_B28_0ba0
+    lda ME_Envelopes0, x
     and #$1f
-    beq B27_045b
-    sta $b1
-    lda $07c3, x
-    cmp #$02
-    beq B27_0465
-    ldy #$00
-    B27_040d:
-    dec $b1
-    beq B27_0415
+    beq C_B28_0c06
+    sta unk_b1
+    lda unk_7c3, x
+    cmp #2
+    beq C_B28_0c10
+    ldy #0
+    C_B28_0bb8:
+    dec unk_b1
+    beq C_B28_0bc0
     iny
     iny
-    bne B27_040d
-    B27_0415:
-    lda B27_06da, y
-    sta $b2
-    lda B27_06da+1, y
-    sta $b3
-    lda $07cd, x
+    bne C_B28_0bb8
+    C_B28_0bc0:
+    lda C_Volume_Envelope_Table, y
+    sta unk_b2
+    lda C_Volume_Envelope_Table+1, y
+    sta unk_b3
+    lda unk_7cd, x
     lsr a
     tay
-    lda ($b2), y
-    sta $b4
+    lda (unk_b2), y
+    sta unk_b4
     cmp #$ff
-    beq B27_045c
+    beq C_B28_0c07
     cmp #$f0
-    beq B27_0461
-    lda $07cd, x
+    beq C_B28_0c0c
+    lda unk_7cd, x
     and #$01
-    bne B27_043f
-    lsr $b4
-    lsr $b4
-    lsr $b4
-    lsr $b4
-    B27_043f:
-    lda $b4
+    bne C_B28_0bea
+    lsr unk_b4
+    lsr unk_b4
+    lsr unk_b4
+    lsr unk_b4
+    C_B28_0bea:
+    lda unk_b4
     and #$0f
-    sta $b0
-    lda $079d, x
+    sta unk_b0
+    lda ME_Envelopes1, x
     and #$f0
-    ora $b0
+    ora unk_b0
     tay
-    B27_044d:
-    inc $07cd, x
-    B27_0450:
-    lda $07c8, x
-    bne B27_045b
+    C_B28_0bf8:
+    inc unk_7cd, x
+    C_B28_0bfb:
+    lda unk_7c8, x
+    bne C_B28_0c06
     tya
-    ldy $be
-    sta $4000, y
-    B27_045b:
+
+    ldy unk_be
+    sta SQ1_VOL, y
+    C_B28_0c06:
     rts
-    B27_045c:
-    ldy $079d, x
-    bne B27_0450
-    B27_0461:
+
+C_B28_0c07:
+    ldy ME_Envelopes1, x
+    bne C_B28_0bfb
+    C_B28_0c0c:
     ldy #$10
-    bne B27_0450
-    B27_0465:
+    bne C_B28_0bfb
+    C_B28_0c10:
     ldy #$10
-    bne B27_044d
-    B27_0469:
+    bne C_B28_0bf8
+
+;ran when a loop point is found in a list of phrases
+C_DoLoop:
+    ;get 'loop point' address
+    ;must be directly after -1
+
+    ;lo
     iny
-    lda ($b6), y
-    sta $0792, x
+    lda (unk_b6), y
+    sta ME_DataPointer, x
+
+    ;hi
     iny
-    lda ($b6), y
-    sta $0793, x
-    lda $0792, x
-    sta $b6
-    lda $0793, x
-    sta $b7
+    lda (unk_b6), y
+    sta ME_DataPointer+1, x
+
+    ;set start address to that retrieved pointer
+    lda ME_DataPointer, x
+    sta unk_b6
+    lda ME_DataPointer+1, x
+    sta unk_b6+1
+
+    ;x /= 2
     txa
     lsr a
     tax
-    lda #$00
+
+    ;a, y = 0
+    lda #0
     tay
-    sta $07a8, x
-    jmp B27_04a8
-    B27_048b:
-    jsr B27_00aa
-    B27_048e:
+
+    ;phraseIndex[x] = 0
+    sta ME_CurrentPhraseIndex, x
+
+    jmp C_B28_0c53
+
+C_B28_0c36:
+    jsr C_B28_0299
+    C_B28_0c39:
     rts
-    B27_048f:
+
+;Next Phrase?
+C_B28_0c3a:
+
+    ;x *= 2
     txa
     asl a
     tax
-    lda $0792, x
-    sta $b6
-    lda $0793, x
-    sta $b7
+
+    lda ME_DataPointer, x
+    sta unk_b6
+    lda ME_DataPointer+1, x
+    sta unk_b6+1
+
     txa
     lsr a
     tax
-    inc $07a8, x
-    inc $07a8, x
-    ldy $07a8, x
-    B27_04a8:
+
+    ; ME_CurrentPhraseIndex += 2
+    inc ME_CurrentPhraseIndex, x
+    inc ME_CurrentPhraseIndex, x
+
+    ldy ME_CurrentPhraseIndex, x
+    C_B28_0c53:
     txa
     asl a
     tax
-    lda ($b6), y
-    sta $07a0, x
+
+    ;load next phrase
+    ;lo
+    lda (unk_b6), y
+    sta ME_CurrentPhrases, x
+    ;hi
     iny
-    lda ($b6), y
-    sta $07a1, x
-    cmp #$00
-    beq B27_048b
-    cmp #$ff
-    beq B27_0469
+    lda (unk_b6), y
+    sta ME_CurrentPhrases+1, x
+
+    ;if a == 0, end(?)
+    cmp #0
+    beq C_B28_0c36
+    ;elif a == -1, loop
+    cmp #-1
+    beq C_DoLoop
+    ;else, continue as normal
+
+C_B28_0c69:
     txa
     lsr a
     tax
-    lda #$00
-    sta $07ac, x
-    lda #$01
-    sta $07b4, x
-    bne B27_04ea
-    B27_04cd:
-    jmp B27_048f
-    B27_04d0:
-    jsr B27_03c5
-    lda #$00
+    lda #0
+    sta MusicChannel_Counter, x
+    lda #1
+    sta MusicChannel_NoteLengthCounter, x
+    bne C_B28_0c95
+    C_B28_0c78:
+    jmp C_B28_0c3a
+
+C_B28_0c7b:
+    jsr C_B28_0b70
+
+    lda #0
     tax
-    sta $be
-    beq B27_04ea
-    B27_04da:
+    sta unk_be
+    beq C_B28_0c95
+    C_B28_0c85:
     txa
     lsr a
     tax
-    B27_04dd:
+    C_B28_0c88:
     inx
     txa
-    cmp #$04
-    beq B27_048e
-    lda $be
+    cmp #4
+    beq C_B28_0c39
+    lda unk_be
+
     clc
-    adc #$04
-    sta $be
-    B27_04ea:
+    adc #4
+    sta unk_be
+    C_B28_0c95:
     txa
     asl a
     tax
+    lda ME_CurrentPhrases, x
+    sta unk_b6
+    lda ME_CurrentPhrases+1, x
+    sta unk_b6+1
 
-    lda $07a0, x
-    sta $b6
-
-    lda $07a1, x
-    sta $b7
-    lda $07a1, x
+    lda ME_CurrentPhrases+1, x
     cmp #$ff
-    beq B27_04da
+    beq C_B28_0c85
     txa
     lsr a
     tax
-    dec $07b4, x
-    bne B27_054f
-    lda #$00
-    sta $07cd, x
-    sta $07d1, x
-    B27_050e:
-    jsr B27_06d1
-    beq B27_04cd
+    dec MusicChannel_NoteLengthCounter, x
+    bne C_B28_0cfa
+    lda #0
+    sta unk_7cd, x
+    sta unk_7d1, x
+    C_B28_0cb9:
+    ;interpret music commands
+    jsr C_ReadByte
+    beq C_B28_0c78
     cmp #$9f
-    beq B27_055e
+    beq C_B28_0d09
     cmp #$9e
-    beq B27_0576
+    beq C_B28_0d21
     cmp #$9c
-    beq B27_057f
+    beq C_B28_0d2a
     tay
     cmp #$ff
-    beq B27_052d
+    beq C_B28_0cd8
     and #$c0
     cmp #$c0
-    beq B27_053d
-    jmp B27_0588
-    B27_052d:
-    lda $07bc, x
-    beq B27_054c
-    dec $07bc, x
-    lda $07b0, x
-    sta $07ac, x
-    bne B27_054c
-    B27_053d:
+    beq C_B28_0ce8
+    jmp C_B28_0d33
+
+; Command FF, end repeat section
+C_B28_0cd8:
+    lda MusicChannel_LoopCounter, x
+    beq C_B28_0cf7
+    dec MusicChannel_LoopCounter, x
+    lda MusicChannel_LSOffset, x
+    sta MusicChannel_Counter, x
+    bne C_B28_0cf7
+; Commands C0-FE, repeat until FF
+C_B28_0ce8:
     tya
-    and #$3f
-    sta $07bc, x
-    dec $07bc, x
-    lda $07ac, x
-    sta $07b0, x
-    B27_054c:
-    jmp B27_050e
+    and #%00111111
+    sta MusicChannel_LoopCounter, x
+    dec MusicChannel_LoopCounter, x
+    lda MusicChannel_Counter, x
+    sta MusicChannel_LSOffset, x
+    C_B28_0cf7:
+    jmp C_B28_0cb9
 
-B27_054f:
-    jsr B27_03f6
-    jsr B27_0221
-    jmp B27_04dd
+; Note is still playing
+C_B28_0cfa:
+    jsr C_B28_0ba1
+    jsr C_B28_09cc
+    jmp C_B28_0c88
 
-B27_0558:
-    jmp B27_066c
+; Play noise note
+C_B28_0d03:
+    jmp C_B28_0e17
 
-B27_055b:
-    jmp B27_0642
+; Set triangle note length
+C_B28_0d06:
+    jmp C_B28_0ded
 
-B27_055e:
-    jsr B27_06d1
-    sta $079a, x
-    jsr B27_06d1
-    sta $079d, x
-    jmp B27_050e
+; Command 9F, set envelope
+C_B28_0d09:
+    jsr C_ReadByte
+    sta ME_Envelopes0, x
+    jsr C_ReadByte
+    sta ME_Envelopes1, x
+    jmp C_B28_0cb9
 
-B27_056d:
-    jsr B27_06d1
-    jsr B27_06d1
-    jmp B27_050e
+; Unreachable command, consume 2 bytes and do nothing
+C_B28_0d18:
+    jsr C_ReadByte
+    jsr C_ReadByte
+    jmp C_B28_0cb9
 
-B27_0576:
-    jsr B27_06d1
-    sta $0791
-    jmp B27_050e
+; Command 9E, set notelength table offset
+C_B28_0d21:
+    jsr C_ReadByte
+    sta ME_NoteLengthOffset
+    jmp C_B28_0cb9
 
-B27_057f:
-    jsr B27_06d1
-    sta $0790
-    jmp B27_050e
+; Command 9C, set transpose
+C_B28_0d2a:
+    jsr C_ReadByte
+    sta ME_Transpose
+    jmp C_B28_0cb9
 
-B27_0588:
+C_B28_0d33:
     tya
-    and #$b0
+    and #%10110000
     cmp #$b0
-    bne B27_05a7
+    bne C_B28_0d52
+
+; Command B0-BF, set notelength and play note
+C_B28_0d3a:
     tya
-    and #$0f
+    and #%00001111
     clc
-    adc $0791
+    adc ME_NoteLengthOffset
     tay
-    lda B27_091a, y
-    sta $07b8, x
+    lda C_Tempo_Lengths, y
+    sta MusicChannel_NewNoteLength, x
     tay
     txa
-    cmp #$02
-    beq B27_055b
-    B27_05a3:
-    jsr B27_06d1
+    cmp #2
+    beq C_B28_0d06
+    C_B28_0d4e:
+    jsr C_ReadByte
     tay
-    B27_05a7:
+; Play note
+    C_B28_0d52:
     tya
-    sta $07c3, x
+    sta unk_7c3, x
     txa
-    cmp #$03
-    beq B27_0558
+    cmp #3
+    beq C_B28_0d03
     pha
-    ldx $be
-    lda B27_0890+1, y
-    beq B27_05dc
-    lda $0790
-    bpl B27_05c8
+    ldx unk_be
+    lda C_B28_0fea+1, y
+    beq C_B28_0d87
+    lda ME_Transpose
+    bpl C_B28_0d73
     and #$7f
-    sta $b3
+    sta unk_b3
     tya
     clc
-    sbc $b3
-    jmp B27_05cd
-    B27_05c8:
+    sbc unk_b3
+    jmp C_B28_0d78
+
+C_B28_0d73:
     tya
     clc
     adc $0790
-    B27_05cd:
+    C_B28_0d78:
     tay
-    lda B27_0890+1, y
-    sta $0780, x
-    lda B27_0890, y
+
+    lda C_B28_0fea+1, y
+    sta currptr_pulse0, x
+    lda C_B28_0fea, y
     ora #$08
-    sta $0781, x
-    B27_05dc:
+    sta currptr_pulse0+1, x
+
+    C_B28_0d87:
     tay
     pla
     tax
     tya
-    bne B27_05f1
-    lda #$00
-    sta $b0
+    bne C_B28_0d9c
+    lda #0
+    sta unk_b0
     txa
-    cmp #$02
-    beq B27_05f6
+    cmp #2
+    beq C_B28_0da1
     lda #$10
-    sta $b0
-    bne B27_05f6
-    B27_05f1:
-    lda $079d, x
-    sta $b0
-    B27_05f6:
+    sta unk_b0
+    bne C_B28_0da1
+    C_B28_0d9c:
+    lda ME_Envelopes1, x
+    sta unk_b0
+    C_B28_0da1:
     txa
-    dec $07c8, x
-    cmp $07c8, x
-    beq B27_063c
-    inc $07c8, x
-    ldy $be
+    dec unk_7c8, x
+    cmp unk_7c8, x
+    beq C_B28_0de7
+    inc unk_7c8, x
+    ldy unk_be
     txa
-    cmp #$02
-    beq B27_061c
-    lda $079a, x
+    cmp #2
+    beq C_B28_0dc7
+    lda ME_Envelopes0, x
     and #$1f
-    beq B27_061c
-    lda $b0
+    beq C_B28_0dc7
+    lda unk_b0
     cmp #$10
-    beq B27_061e
+    beq C_B28_0dc9
     and #$f0
-    ora #$00
-    bne B27_061e
-    B27_061c:
-    lda $b0
-    B27_061e:
-    sta $4000, y
-    lda $07c0, x
-    sta $4001, y
-    lda $0780, y
-    sta $4002, y
-    lda $0781, y
-    sta $4003, y
-    B27_0633:
-    lda $07b8, x
-    sta $07b4, x
-    jmp B27_04dd
-    B27_063c:
-    inc $07c8, x
-    jmp B27_0633
-    B27_0642:
-    lda $079c
-    and #$1f
-    bne B27_0666
-    lda $079c
-    and #$c0
-    bne B27_0653
-    B27_0650:
+    ora #0
+    bne C_B28_0dc9
+    C_B28_0dc7:
+    lda unk_b0
+    C_B28_0dc9:
+    sta SQ1_VOL, y
+    lda UNK_7C0, x
+    sta SQ1_SWEEP, y
+
+    lda currptr_pulse0, y
+    sta SQ1_LO, y
+    lda currptr_pulse0+1, y
+    sta SQ1_HI, y
+
+    C_B28_0dde:
+    lda MusicChannel_NewNoteLength, x
+    sta MusicChannel_NoteLengthCounter, x
+    jmp C_B28_0c88
+
+C_B28_0de7:
+    inc unk_7c8, x
+    jmp C_B28_0dde
+
+; Set triangle note length
+C_B28_0ded:
+    lda ME_Envelopes0+2
+    and #%00011111
+    bne C_B28_0e11
+    lda ME_Envelopes0+2
+    and #%11000000
+    bne C_B28_0dfe
+    C_B28_0dfb:
     tya
-    bne B27_065b
-    B27_0653:
+    bne C_B28_0e06
+    C_B28_0dfe:
     cmp #$c0
-    beq B27_0650
+    beq C_B28_0dfb
     lda #$ff
-    bne B27_0666
-    B27_065b:
+    bne C_B28_0e11
+    C_B28_0e06:
     clc
     adc #$ff
     asl a
     asl a
     cmp #$3c
-    bcc B27_0666
+    bcc C_B28_0e11
     lda #$3c
-    B27_0666:
-    sta $079f
-    jmp B27_05a3
-    B27_066c:
+    C_B28_0e11:
+    sta ME_Envelopes1+2
+    jmp C_B28_0d4e
+
+; Play noise note
+C_B28_0e17:
     tya
     pha
-    jsr B27_0693
+    jsr C_B28_0e3e
     pla
     and #$3f
     tay
-    jsr B27_067b
-    jmp B27_0633
-    B27_067b:
-    lda $07f8
-    bne B27_0692
-    lda B27_01f0, y
-    sta $400c
-    lda B27_01f0+1, y
-    sta $400e
-    lda B27_01f0+2, y
-    sta $400f
-    B27_0692:
+    jsr C_B28_0e26
+    jmp C_B28_0dde
+
+C_B28_0e26:
+    lda soundactive_noise
+    bne @exit
+    lda C_Noise_Instruments, y
+    sta NOISE_VOL
+    lda C_Noise_Instruments+1, y
+    sta NOISE_LO
+    lda C_Noise_Instruments+2, y
+    sta NOISE_HI
+    @exit:
     rts
-    B27_0693:
+
+C_B28_0e3e:
     tya
-    and #$c0
-    cmp #$40
-    beq B27_069f
-    cmp #$80
-    beq B27_06a9
+    and #%11000000
+    cmp #%01000000 ;is kick
+    beq C_B28_0e4a
+    cmp #%10000000 ;is snare
+    beq C_B28_0e54
     rts
-    B27_069f:
+
+C_B28_0e4a:
+    ;kick drum
     lda #$0e
-    sta $b1
-    lda #$07
-    ldy #$00
-    beq B27_06b1
-    B27_06a9:
+    sta unk_b1
+    lda #dmc_samplelen sample_kick, B30_0071
+    ldy #dmc_sampleaddr sample_kick
+    beq C_B28_0e5c
+    C_B28_0e54:
+    ;snare drum
     lda #$0e
-    sta $b1
-    lda #$0f
-    ldy #$02
-    B27_06b1:
-    sta $4013
-    sty $4012
+    sta unk_b1
+    lda #dmc_samplelen sample_snare, B30_0171
+    ldy #dmc_sampleaddr sample_snare
+    C_B28_0e5c:
+    sta DMC_LEN
+    sty DMC_START
     lda disable_dmc
-    bne B27_06d0
-    lda $b1
-    sta $4010
+    bne @exit
+    lda unk_b1
+    sta DMC_FREQ
     lda #$0f
-    sta $4015
+    sta SND_CHN
     lda #$00
-    sta $4011
+    sta DMC_RAW
     lda #$1f
-    sta $4015
-    B27_06d0:
+    sta SND_CHN
+    @exit:
     rts
 
-B27_06d1:
-    ldy $07ac, x
-    inc $07ac, x
-    lda ($b6), y
+C_ReadByte:
+    ldy MusicChannel_Counter, x
+    inc MusicChannel_Counter, x
+    lda (unk_b6), y
     rts
 
-;envelope table probably
-B27_06da:
-    .addr B27_074C
-    .addr B27_0753
-    .addr B27_0777
-    .addr B27_078A
-    .addr B27_079C
-    .addr B27_07A2
-    .addr B27_0745
-    .addr B27_07A4
-    .addr B27_07AD
-    .addr B27_079F
-    .addr B27_07B6
-    .addr B27_07C3
-    .addr B27_07D1
-    .addr B27_07DE
-    .addr B27_07EA
-    .addr B27_07F4
-    .addr B27_083F
-    .addr B27_0847
-    .addr B27_080D
-    .addr B27_085B
-    .addr B27_0822
-    .addr B27_0718
-    .addr B27_075D
-    .addr B27_073C
-    .addr B27_0735
-    .addr B27_0722
-    .addr B27_071E
-    .addr B27_0773
-    .addr B27_0793
-    .addr B27_086B
-    .addr B27_087F
+; Volume Envelope Table
+C_Volume_Envelope_Table:
+    .addr C_Volume_Envelope_0
+    .addr C_Volume_Envelope_1
+    .addr C_Volume_Envelope_2
+    .addr C_Volume_Envelope_3
+    .addr C_Volume_Envelope_4
+    .addr C_Volume_Envelope_5
+    .addr C_Volume_Envelope_6
+    .addr C_Volume_Envelope_7
+    .addr C_Volume_Envelope_8
+    .addr C_Volume_Envelope_9
+    .addr C_Volume_Envelope_10
+    .addr C_Volume_Envelope_11
+    .addr C_Volume_Envelope_12
+    .addr C_Volume_Envelope_13
+    .addr C_Volume_Envelope_14
+    .addr C_Volume_Envelope_15
+    .addr C_Volume_Envelope_16
+    .addr C_Volume_Envelope_17
+    .addr C_Volume_Envelope_18
+    .addr C_Volume_Envelope_19
+    .addr C_Volume_Envelope_20
+    .addr C_Volume_Envelope_21
+    .addr C_Volume_Envelope_22
+    .addr C_Volume_Envelope_23
+    .addr C_Volume_Envelope_24
+    .addr C_Volume_Envelope_25
+    .addr C_Volume_Envelope_26
+    .addr C_Volume_Envelope_27
+    .addr C_Volume_Envelope_28
+    .addr C_Volume_Envelope_29
+    .addr C_Volume_Envelope_30
 
-B27_0718:
-.byte $76,$11,$11,$14,$31,$FF
-B27_071E:
-.byte $33,$45,$66,$FF
-B27_0722:
-.byte $43,$33,$22,$22,$22,$22,$22,$21,$11,$11,$11,$11,$11,$11,$11,$11,$11,$11,$F0
-B27_0735:
-.byte $23,$33,$32,$22,$22,$22,$FF
-B27_073C:
-.byte $98,$76,$63,$22,$87,$76,$53,$11,$F0
-B27_0745:
-.byte $23,$56,$78,$88,$88,$87,$FF
-B27_074C:
-.byte $23,$34,$56,$77,$65,$54,$FF
-B27_0753:
-.byte $5A,$98,$88,$77,$66,$66,$65,$55,$55,$FF
-B27_075D:
-.byte $11,$11,$22,$22,$33,$33,$44,$44,$44,$45,$55,$55,$55,$66,$66,$77,$78,$88,$76,$54,$32,$FF
-B27_0773:
-.byte $11,$11,$22,$FF
-B27_0777:
-.byte $11,$11,$22,$22,$33,$33,$44,$44,$44,$45,$55,$55,$55,$66,$66,$77,$78,$88,$FF
-B27_078A:
-.byte $F9,$87,$77,$77,$66,$65,$55,$44,$FF
-B27_0793:
-.byte $C8,$76,$66,$66,$55,$55,$55,$44,$FF
-B27_079C:
-.byte $A8,$76,$FF
-B27_079F:
-.byte $74,$32,$FF
-B27_07A2:
-.byte $99,$FF
-B27_07A4:
-.byte $DC,$BA,$99,$88,$87,$76,$55,$44,$FF
-B27_07AD:
-.byte $23,$44,$33,$33,$33,$33,$33,$32,$FF
-B27_07B6:
-.byte $77,$76,$65,$55,$44,$43,$32,$22,$11,$11,$11,$11,$F0
-B27_07C3:
-.byte $54,$43,$33,$33,$32,$22,$22,$11,$11,$11,$11,$11,$11,$F0
-B27_07D1:
-.byte $43,$33,$22,$22,$22,$21,$11,$11,$11,$11,$11,$11,$F0
-B27_07DE:
-.byte $32,$22,$22,$21,$11,$11,$11,$11,$11,$11,$11,$F0
-B27_07EA:
-.byte $21,$11,$11,$11,$11,$11,$11,$11,$11,$F0
-B27_07F4:
-.byte $99,$88,$77,$76,$66,$55,$54,$44,$33,$33,$33,$32,$22,$22,$22,$22,$21,$11,$11,$11,$11,$11,$11,$11,$F0
-B27_080D:
-.byte $65,$55,$54,$44,$33,$33,$33,$33,$22,$22,$22,$22,$11,$11,$11,$11,$11,$11,$11,$11,$F0
-B27_0822:
-.byte $FB,$BA,$AA,$99,$99,$99,$98,$88,$77,$77,$77,$66,$66,$66,$55,$54,$44,$44,$43,$33,$33,$22,$22,$22,$22,$11,$11,$11,$F0
-B27_083F:
-.byte $23,$45,$55,$44,$33,$33,$22,$FF
-B27_0847:
-.byte $87,$65,$43,$21,$44,$33,$21,$11,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$FF
-B27_085B:
-.byte $66,$65,$42,$21,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$FF
-B27_086B:
-.byte $A8,$75,$43,$21,$43,$33,$21,$11,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$FF
-B27_087F:
-.byte $12,$33,$33,$34,$44,$44,$44,$44,$44,$44,$44,$44,$44,$44,$44,$22,$FF
+; Envelope divider/volume table
+C_Volume_Envelope_21:   .byte $76,$11,$11,$14,$31,$ff
+C_Volume_Envelope_26:   .byte $33,$45,$66,$ff
+C_Volume_Envelope_25:    .byte $43,$33,$22,$22,$22,$22,$22,$21,$11,$11,$11,$11,$11,$11,$11,$11,$11,$11,$F0
+C_Volume_Envelope_24:    .byte $23,$33,$32,$22,$22,$22,$FF
+C_Volume_Envelope_23:    .byte $98,$76,$63,$22,$87,$76,$53,$11,$F0
+C_Volume_Envelope_6:    .byte $23,$56,$78,$88,$88,$87,$FF
+C_Volume_Envelope_0:    .byte $23,$34,$56,$77,$65,$54,$FF
+C_Volume_Envelope_1:    .byte $5A,$98,$88,$77,$66,$66,$65,$55,$55,$FF
+C_Volume_Envelope_22:    .byte $11,$11,$22,$22,$33,$33,$44,$44,$44,$45,$55,$55,$55,$66,$66,$77,$78,$88,$76,$54,$32,$FF
+C_Volume_Envelope_27:    .byte $11,$11,$22,$FF
+C_Volume_Envelope_2:    .byte $11,$11,$22,$22,$33,$33,$44,$44,$44,$45,$55,$55,$55,$66,$66,$77,$78,$88,$FF
+C_Volume_Envelope_3:    .byte $F9,$87,$77,$77,$66,$65,$55,$44,$FF
+C_Volume_Envelope_28:    .byte $C8,$76,$66,$66,$55,$55,$55,$44,$FF
+C_Volume_Envelope_4:    .byte $A8,$76,$FF
+C_Volume_Envelope_9:    .byte $74,$32,$FF
+C_Volume_Envelope_5:    .byte $99,$FF
+C_Volume_Envelope_7:    .byte $DC,$BA,$99,$88,$87,$76,$55,$44,$FF
+C_Volume_Envelope_8:    .byte $23,$44,$33,$33,$33,$33,$33,$32,$FF
+C_Volume_Envelope_10:    .byte $77,$76,$65,$55,$44,$43,$32,$22,$11,$11,$11,$11,$F0
+C_Volume_Envelope_11:    .byte $54,$43,$33,$33,$32,$22,$22,$11,$11,$11,$11,$11,$11,$F0
+C_Volume_Envelope_12:    .byte $43,$33,$22,$22,$22,$21,$11,$11,$11,$11,$11,$11,$F0
+C_Volume_Envelope_13:    .byte $32,$22,$22,$21,$11,$11,$11,$11,$11,$11,$11,$F0
+C_Volume_Envelope_14:    .byte $21,$11,$11,$11,$11,$11,$11,$11,$11,$F0
+C_Volume_Envelope_15:    .byte $99,$88,$77,$76,$66,$55,$54,$44,$33,$33,$33,$32,$22,$22,$22,$22,$21,$11,$11,$11,$11,$11,$11,$11,$F0
+C_Volume_Envelope_18:    .byte $65,$55,$54,$44,$33,$33,$33,$33,$22,$22,$22,$22,$11,$11,$11,$11,$11,$11,$11,$11,$F0
+C_Volume_Envelope_20:    .byte $FB,$BA,$AA,$99,$99,$99,$98,$88,$77,$77,$77,$66,$66,$66,$55,$54,$44,$44,$43,$33,$33,$22,$22,$22,$22,$11,$11,$11,$F0
+C_Volume_Envelope_16:    .byte $23,$45,$55,$44,$33,$33,$22,$FF
+C_Volume_Envelope_17:    .byte $87,$65,$43,$21,$44,$33,$21,$11,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$FF
+C_Volume_Envelope_19:    .byte $66,$65,$42,$21,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$FF
+C_Volume_Envelope_29:    .byte $A8,$75,$43,$21,$43,$33,$21,$11,$32,$21,$11,$11,$21,$11,$11,$11,$11,$11,$11,$FF
+C_Volume_Envelope_30:    .byte $12,$33,$33,$34,$44,$44,$44,$44,$44,$44,$44,$44,$44,$44,$44,$22,$FF
 
 ;;???? what are these LOL
-B27_0890:
+C_B28_0fea:
 .byte $07,$F0,$00,$00,$06,$AE,$06,$4E,$05,$F3,$05,$9E,$05,$4D,$05,$01
 .byte $04,$B9,$04,$75,$04,$35,$03,$F8,$03,$BF,$03,$89,$03,$57,$03,$27
 .byte $02,$F9,$02,$CF,$02,$A6,$02,$80,$02,$5C,$02,$3A,$02,$1A,$01,$FC
@@ -1066,25 +1202,43 @@ B27_0890:
 .byte $00,$4A,$00,$46,$00,$42,$00,$3E,$00,$3A,$00,$37,$00,$34,$00,$31
 .byte $00,$2E,$00,$2B,$00,$29,$00,$0A,$00,$01
 
-B27_091a:
-.byte $04,$08,$10,$20,$40,$18
-.byte $30,$0C,$0A,$05,$02,$01,$05,$0A,$14,$28,$50,$1E,$3C,$0F,$0C,$06
-.byte $03,$02,$06,$0C,$18,$30,$60,$24,$48,$12,$10,$08,$03,$01,$04,$02
-.byte $00,$90,$07,$0E,$1C,$38,$70,$2A,$54,$15,$12,$09,$03,$01,$02,$07
-.byte $0F,$1E,$3C,$78,$2D,$5A,$16,$14,$0A,$03,$01,$08,$08,$10,$20,$40
-.byte $80,$30,$60,$18,$15,$0A,$04,$01,$02,$C0,$09,$12,$24,$48,$90,$36
-.byte $6C,$1B,$18,$0A,$14,$28,$50,$A0,$3C,$78,$1E,$1A,$0D,$05,$01,$02
-.byte $17,$0B,$16,$2C,$58,$B0,$42,$84,$21,$1D,$0E,$05,$01,$02,$17
+C_Tempo_Lengths:
+    C_NLT_00:
+    .byte $04,$08,$10,$20,$40,$18,$30,$0c
+    .byte $0a,$05,$02,$01
+    C_NLT_0C:
+    .byte $05,$0a,$14,$28,$50,$1e,$3c,$0f
+    .byte $0c,$06,$03,$02
+    C_NLT_18:
+    .byte $06,$0c,$18,$30,$60,$24,$48,$12
+    .byte $10,$08,$03,$01,$04,$02,$00,$90
+    C_NLT_28:
+    .byte $07,$0e,$1c,$38,$70,$2a,$54,$15
+    .byte $12,$09,$03,$01,$02
+    C_NLT_NEW:
+    .byte $07,$0F,$1E,$3C,$78,$2D,$5A,$16
+    .byte $14,$0A,$03,$01,$08
+    C_NLT_35:
+    .byte $08,$10,$20,$40,$80,$30,$60,$18
+    .byte $15,$0a,$04,$01,$02,$c0
+    C_NLT_43:
+    .byte $09,$12,$24,$48,$90,$36,$6c,$1b
+    .byte $18
+    C_NLT_4C:
+    .byte $0a,$14,$28,$50,$a0,$3c,$78,$1e
+    .byte $1a,$0d,$05,$01,$02,$17
+    C_NLT_5A:
+    .byte $0b,$16,$2c,$58,$b0,$42,$84,$21
+    .byte $1d,$0e,$05,$01,$02,$17
 
-;????
-B27_098f:
+C_Music_Table_Ids:
 .res $18, 0
 
-B27_09a7:
+C_Music_Table_2_Ids:
 .res $1c, 0
 
 ;song header
-B27_09c3:
+C_Music_Table:
 .byte $00
 .byte $28
 .addr credits_mus_table_2
@@ -1093,7 +1247,7 @@ B27_09c3:
 .addr credits_mus_table_4
 
 ;song header
-B27_09cd:
+C_Path_To_Giegue_BGM_header:
 .byte $00
 .byte $18
 .addr credits2_mus_table_1

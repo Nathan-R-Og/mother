@@ -1,15 +1,16 @@
 .segment "SPRITES": absolute
 
 ;sprite
-.macro spritePointerDef pointer, ppu, p1, p2, unkArg1, unkArg2
+.macro spritePointerDef pointer, ppu, p1, p2, p3, p4
     .addr pointer
     .byte ppu
-    .byte (unkArg2 << 5) | (unkArg1 << 4) | (p2 << 2) | p1
+    .byte (p4 << 6) | (p3 << 4) | (p2 << 2) | p1
 .endmacro
 
-.macro spriteTile posX, posY, palette, unkArg1, order, flipX, flipY, index
+.macro spriteTile posX, posY, palette, has_attr, order, flipX, flipY, index
     .byte posX, posY
-    .byte (flipY << 7) | (flipX << 6) | (order << 5) | (unkArg1 << 2) | palette
+    ;this is literally oam attr
+    .byte (flipY << 7) | (flipX << 6) | (order << 5) | ((has_attr << 2) << 2) | palette
     .byte index
 .endmacro
 
@@ -699,10 +700,10 @@ spritePointerDef SPRITE_CHARLEFT1, $C0, 1, 1, 0, 0
 spritePointerDef SPRITE_CHARLEFT2, $C0, 1, 1, 0, 0
 
 SPRITEDEF_LIVEHOUSE_SIGN:
-spritePointerDef SPRITE_1DF, $80, 2, 1, 0, 3
+spritePointerDef SPRITE_1DF, $80, 2, 1, 2, 1
 
 ;unused?
-spritePointerDef SPRITE_1DF, $80, 2, 1, 0, 3
+spritePointerDef SPRITE_1DF, $80, 2, 1, 2, 1
 
 SPRITEDEF_CHARSLOT9_RR_DUPE1: ;bank irrelevant
 SPRITEDEF_BLACKHAIR_WOMAN: ;characters6
@@ -808,7 +809,7 @@ spritePointerDef SPRITE_199, $80, 0, 0, 0, 0
 spritePointerDef SPRITE_19A, $80, 0, 0, 0, 0
 
 SPRITEDEF_FLAMINGOS:
-spritePointerDef SPRITE_142, $C0, 2, 2, 0, 5
+spritePointerDef SPRITE_142, $C0, 2, 2, 2, 2
 
 SPRITEDEF_PANDA:
 spritePointerDef SPRITE_142, $A8, 0, 0, 0, 0
@@ -1080,14 +1081,14 @@ SPRITEDEF_PILL_RED:
 spritePointerDef SPRITE_60, $C6, 1, 1, 1, 0
 
 SPRITEDEF_PLANE:
-spritePointerDef SPRITE_2BF, $80, 1, 1, 1, 2
-spritePointerDef SPRITE_2C0, $80, 1, 1, 1, 2
-spritePointerDef SPRITE_2C1, $80, 1, 1, 1, 2
-spritePointerDef SPRITE_2C2, $80, 1, 1, 1, 2
-spritePointerDef SPRITE_2C3, $80, 1, 1, 1, 2
-spritePointerDef SPRITE_2C4, $80, 1, 1, 1, 2
-spritePointerDef SPRITE_2C5, $80, 1, 1, 1, 2
-spritePointerDef SPRITE_2C6, $80, 1, 1, 1, 2
+spritePointerDef SPRITE_2BF, $80, 1, 1, 1, 1
+spritePointerDef SPRITE_2C0, $80, 1, 1, 1, 1
+spritePointerDef SPRITE_2C1, $80, 1, 1, 1, 1
+spritePointerDef SPRITE_2C2, $80, 1, 1, 1, 1
+spritePointerDef SPRITE_2C3, $80, 1, 1, 1, 1
+spritePointerDef SPRITE_2C4, $80, 1, 1, 1, 1
+spritePointerDef SPRITE_2C5, $80, 1, 1, 1, 1
+spritePointerDef SPRITE_2C6, $80, 1, 1, 1, 1
 
 SPRITEDEF_TANK:
 spritePointerDef SPRITE_2C7, $E0, 0, 0, 0, 0
@@ -1100,892 +1101,892 @@ spritePointerDef SPRITE_2CD, $E0, 0, 0, 0, 0
 spritePointerDef SPRITE_2CE, $E0, 0, 0, 0, 0
 
 SPRITEDEF_BOAT:
-spritePointerDef SPRITE_2C7, $A0, 3, 3, 1, 7
-spritePointerDef SPRITE_2C8, $A0, 3, 3, 1, 7
-spritePointerDef SPRITE_2C9, $A0, 3, 3, 1, 7
-spritePointerDef SPRITE_2CA, $A0, 3, 3, 1, 7
-spritePointerDef SPRITE_2CB, $A0, 3, 3, 1, 7
-spritePointerDef SPRITE_2CC, $A0, 3, 3, 1, 7
-spritePointerDef SPRITE_2CD, $A0, 3, 3, 1, 7
-spritePointerDef SPRITE_2CE, $A0, 3, 3, 1, 7
+spritePointerDef SPRITE_2C7, $A0, 3, 3, 3, 3
+spritePointerDef SPRITE_2C8, $A0, 3, 3, 3, 3
+spritePointerDef SPRITE_2C9, $A0, 3, 3, 3, 3
+spritePointerDef SPRITE_2CA, $A0, 3, 3, 3, 3
+spritePointerDef SPRITE_2CB, $A0, 3, 3, 3, 3
+spritePointerDef SPRITE_2CC, $A0, 3, 3, 3, 3
+spritePointerDef SPRITE_2CD, $A0, 3, 3, 3, 3
+spritePointerDef SPRITE_2CE, $A0, 3, 3, 3, 3
 
 
 SPRITE_CHARUP1:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $04
-spriteTile $18, $20, 0, 4, 0, 0, 0, $05
-spriteTile $10, $28, 1, 4, 0, 0, 0, $12
-spriteTile $18, $28, 1, 4, 0, 0, 0, $13
+spriteTile $10, $20, 0, 1, 0, 0, 0, $04
+spriteTile $18, $20, 0, 1, 0, 0, 0, $05
+spriteTile $10, $28, 1, 1, 0, 0, 0, $12
+spriteTile $18, $28, 1, 1, 0, 0, 0, $13
 SPRITE_CHARUP2:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $04
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $05
-spriteTile $10, $27, 1, 4, 0, 1, 0, $13
-spriteTile $18, $27, 1, 4, 0, 1, 0, $12
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $04
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $05
+spriteTile $10, $27, 1, 1, 0, 1, 0, $13
+spriteTile $18, $27, 1, 1, 0, 1, 0, $12
 SPRITE_CHARRIGHT1:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $07
-spriteTile $18, $20, 0, 4, 0, 1, 0, $06
-spriteTile $10, $28, 1, 4, 0, 1, 0, $15
-spriteTile $18, $28, 1, 4, 0, 1, 0, $14
+spriteTile $10, $20, 0, 1, 0, 1, 0, $07
+spriteTile $18, $20, 0, 1, 0, 1, 0, $06
+spriteTile $10, $28, 1, 1, 0, 1, 0, $15
+spriteTile $18, $28, 1, 1, 0, 1, 0, $14
 SPRITE_CHARRIGHT2:
-spriteTile $10, $1F, 0, 4, 0, 1, 0, $07
-spriteTile $18, $1F, 0, 4, 0, 1, 0, $06
-spriteTile $10, $27, 1, 4, 0, 1, 0, $17
-spriteTile $18, $27, 1, 4, 0, 1, 0, $16
+spriteTile $10, $1F, 0, 1, 0, 1, 0, $07
+spriteTile $18, $1F, 0, 1, 0, 1, 0, $06
+spriteTile $10, $27, 1, 1, 0, 1, 0, $17
+spriteTile $18, $27, 1, 1, 0, 1, 0, $16
 SPRITE_CHARDOWN1:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $02
-spriteTile $18, $20, 0, 4, 0, 0, 0, $03
-spriteTile $10, $28, 1, 4, 0, 0, 0, $10
-spriteTile $18, $28, 1, 4, 0, 0, 0, $11
+spriteTile $10, $20, 0, 1, 0, 0, 0, $02
+spriteTile $18, $20, 0, 1, 0, 0, 0, $03
+spriteTile $10, $28, 1, 1, 0, 0, 0, $10
+spriteTile $18, $28, 1, 1, 0, 0, 0, $11
 SPRITE_CHARDOWN2:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $02
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $03
-spriteTile $10, $27, 1, 4, 0, 1, 0, $11
-spriteTile $18, $27, 1, 4, 0, 1, 0, $10
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $02
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $03
+spriteTile $10, $27, 1, 1, 0, 1, 0, $11
+spriteTile $18, $27, 1, 1, 0, 1, 0, $10
 SPRITE_CHARLEFT1:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $06
-spriteTile $18, $20, 0, 4, 0, 0, 0, $07
-spriteTile $10, $28, 1, 4, 0, 0, 0, $14
-spriteTile $18, $28, 1, 4, 0, 0, 0, $15
+spriteTile $10, $20, 0, 1, 0, 0, 0, $06
+spriteTile $18, $20, 0, 1, 0, 0, 0, $07
+spriteTile $10, $28, 1, 1, 0, 0, 0, $14
+spriteTile $18, $28, 1, 1, 0, 0, 0, $15
 SPRITE_CHARLEFT2:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $06
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $07
-spriteTile $10, $27, 1, 4, 0, 0, 0, $16
-spriteTile $18, $27, 1, 4, 0, 0, 0, $17
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $06
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $07
+spriteTile $10, $27, 1, 1, 0, 0, 0, $16
+spriteTile $18, $27, 1, 1, 0, 0, 0, $17
 SPRITE_10:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $04
-spriteTile $18, $20, 0, 4, 0, 0, 0, $05
-spriteTile $10, $28, 1, 4, 0, 0, 0, $12
-spriteTile $18, $28, 1, 4, 0, 0, 0, $13
+spriteTile $10, $20, 0, 1, 0, 0, 0, $04
+spriteTile $18, $20, 0, 1, 0, 0, 0, $05
+spriteTile $10, $28, 1, 1, 0, 0, 0, $12
+spriteTile $18, $28, 1, 1, 0, 0, 0, $13
 SPRITE_11:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $04
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $05
-spriteTile $0F, $27, 1, 4, 0, 1, 0, $13
-spriteTile $17, $27, 1, 4, 0, 1, 0, $12
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $04
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $05
+spriteTile $0F, $27, 1, 1, 0, 1, 0, $13
+spriteTile $17, $27, 1, 1, 0, 1, 0, $12
 SPRITE_12:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $07
-spriteTile $18, $20, 0, 4, 0, 1, 0, $06
-spriteTile $10, $28, 1, 4, 0, 1, 0, $15
-spriteTile $18, $28, 1, 4, 0, 1, 0, $14
+spriteTile $10, $20, 0, 1, 0, 1, 0, $07
+spriteTile $18, $20, 0, 1, 0, 1, 0, $06
+spriteTile $10, $28, 1, 1, 0, 1, 0, $15
+spriteTile $18, $28, 1, 1, 0, 1, 0, $14
 SPRITE_13:
-spriteTile $10, $1F, 0, 4, 0, 1, 0, $07
-spriteTile $18, $1F, 0, 4, 0, 1, 0, $06
-spriteTile $10, $27, 1, 4, 0, 1, 0, $17
-spriteTile $18, $27, 1, 4, 0, 1, 0, $16
+spriteTile $10, $1F, 0, 1, 0, 1, 0, $07
+spriteTile $18, $1F, 0, 1, 0, 1, 0, $06
+spriteTile $10, $27, 1, 1, 0, 1, 0, $17
+spriteTile $18, $27, 1, 1, 0, 1, 0, $16
 SPRITE_14:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $02
-spriteTile $18, $20, 0, 4, 0, 0, 0, $03
-spriteTile $10, $28, 1, 4, 0, 0, 0, $10
-spriteTile $18, $28, 1, 4, 0, 0, 0, $11
+spriteTile $10, $20, 0, 1, 0, 0, 0, $02
+spriteTile $18, $20, 0, 1, 0, 0, 0, $03
+spriteTile $10, $28, 1, 1, 0, 0, 0, $10
+spriteTile $18, $28, 1, 1, 0, 0, 0, $11
 SPRITE_15:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $02
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $03
-spriteTile $0F, $27, 1, 4, 0, 1, 0, $11
-spriteTile $17, $27, 1, 4, 0, 1, 0, $10
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $02
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $03
+spriteTile $0F, $27, 1, 1, 0, 1, 0, $11
+spriteTile $17, $27, 1, 1, 0, 1, 0, $10
 SPRITE_16:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $06
-spriteTile $18, $20, 0, 4, 0, 0, 0, $07
-spriteTile $10, $28, 1, 4, 0, 0, 0, $14
-spriteTile $18, $28, 1, 4, 0, 0, 0, $15
+spriteTile $10, $20, 0, 1, 0, 0, 0, $06
+spriteTile $18, $20, 0, 1, 0, 0, 0, $07
+spriteTile $10, $28, 1, 1, 0, 0, 0, $14
+spriteTile $18, $28, 1, 1, 0, 0, 0, $15
 SPRITE_17:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $06
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $07
-spriteTile $10, $27, 1, 4, 0, 0, 0, $16
-spriteTile $18, $27, 1, 4, 0, 0, 0, $17
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $06
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $07
+spriteTile $10, $27, 1, 1, 0, 0, 0, $16
+spriteTile $18, $27, 1, 1, 0, 0, 0, $17
 SPRITE_AA:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $40
-spriteTile $18, $20, 0, 4, 0, 0, 0, $41
-spriteTile $10, $28, 1, 4, 0, 0, 0, $28
-spriteTile $18, $28, 1, 4, 0, 0, 0, $29
+spriteTile $10, $20, 0, 1, 0, 0, 0, $40
+spriteTile $18, $20, 0, 1, 0, 0, 0, $41
+spriteTile $10, $28, 1, 1, 0, 0, 0, $28
+spriteTile $18, $28, 1, 1, 0, 0, 0, $29
 SPRITE_AB:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $40
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $41
-spriteTile $10, $27, 1, 4, 0, 1, 0, $29
-spriteTile $18, $27, 1, 4, 0, 1, 0, $28
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $40
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $41
+spriteTile $10, $27, 1, 1, 0, 1, 0, $29
+spriteTile $18, $27, 1, 1, 0, 1, 0, $28
 SPRITE_AC:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $61
-spriteTile $18, $20, 0, 4, 0, 1, 0, $60
-spriteTile $10, $28, 1, 4, 0, 1, 0, $69
-spriteTile $18, $28, 1, 4, 0, 1, 0, $68
+spriteTile $10, $20, 0, 1, 0, 1, 0, $61
+spriteTile $18, $20, 0, 1, 0, 1, 0, $60
+spriteTile $10, $28, 1, 1, 0, 1, 0, $69
+spriteTile $18, $28, 1, 1, 0, 1, 0, $68
 SPRITE_AD:
-spriteTile $10, $1F, 0, 4, 0, 1, 0, $61
-spriteTile $18, $1F, 0, 4, 0, 1, 0, $60
-spriteTile $10, $27, 1, 4, 0, 1, 0, $49
-spriteTile $18, $27, 1, 4, 0, 1, 0, $48
+spriteTile $10, $1F, 0, 1, 0, 1, 0, $61
+spriteTile $18, $1F, 0, 1, 0, 1, 0, $60
+spriteTile $10, $27, 1, 1, 0, 1, 0, $49
+spriteTile $18, $27, 1, 1, 0, 1, 0, $48
 SPRITE_AE:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $20
-spriteTile $18, $20, 0, 4, 0, 0, 0, $21
-spriteTile $10, $28, 1, 4, 0, 0, 0, $08
-spriteTile $18, $28, 1, 4, 0, 0, 0, $09
+spriteTile $10, $20, 0, 1, 0, 0, 0, $20
+spriteTile $18, $20, 0, 1, 0, 0, 0, $21
+spriteTile $10, $28, 1, 1, 0, 0, 0, $08
+spriteTile $18, $28, 1, 1, 0, 0, 0, $09
 SPRITE_AF:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $20
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $21
-spriteTile $10, $27, 1, 4, 0, 1, 0, $09
-spriteTile $18, $27, 1, 4, 0, 1, 0, $08
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $20
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $21
+spriteTile $10, $27, 1, 1, 0, 1, 0, $09
+spriteTile $18, $27, 1, 1, 0, 1, 0, $08
 SPRITE_B0:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $60
-spriteTile $18, $20, 0, 4, 0, 0, 0, $61
-spriteTile $10, $28, 1, 4, 0, 0, 0, $48
-spriteTile $18, $28, 1, 4, 0, 0, 0, $49
+spriteTile $10, $20, 0, 1, 0, 0, 0, $60
+spriteTile $18, $20, 0, 1, 0, 0, 0, $61
+spriteTile $10, $28, 1, 1, 0, 0, 0, $48
+spriteTile $18, $28, 1, 1, 0, 0, 0, $49
 SPRITE_B1:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $60
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $61
-spriteTile $10, $27, 1, 4, 0, 0, 0, $68
-spriteTile $18, $27, 1, 4, 0, 0, 0, $69
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $60
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $61
+spriteTile $10, $27, 1, 1, 0, 0, 0, $68
+spriteTile $18, $27, 1, 1, 0, 0, 0, $69
 SPRITE_B2:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $0C
-spriteTile $18, $20, 0, 4, 0, 0, 0, $0D
-spriteTile $10, $28, 1, 4, 0, 0, 0, $12
-spriteTile $18, $28, 1, 4, 0, 0, 0, $13
+spriteTile $10, $20, 0, 1, 0, 0, 0, $0C
+spriteTile $18, $20, 0, 1, 0, 0, 0, $0D
+spriteTile $10, $28, 1, 1, 0, 0, 0, $12
+spriteTile $18, $28, 1, 1, 0, 0, 0, $13
 SPRITE_B3:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $0C
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $0D
-spriteTile $10, $27, 1, 4, 0, 1, 0, $13
-spriteTile $18, $27, 1, 4, 0, 1, 0, $12
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $0C
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $0D
+spriteTile $10, $27, 1, 1, 0, 1, 0, $13
+spriteTile $18, $27, 1, 1, 0, 1, 0, $12
 SPRITE_B4:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $0F
-spriteTile $18, $20, 0, 4, 0, 1, 0, $0E
-spriteTile $10, $28, 1, 4, 0, 1, 0, $15
-spriteTile $18, $28, 1, 4, 0, 1, 0, $14
+spriteTile $10, $20, 0, 1, 0, 1, 0, $0F
+spriteTile $18, $20, 0, 1, 0, 1, 0, $0E
+spriteTile $10, $28, 1, 1, 0, 1, 0, $15
+spriteTile $18, $28, 1, 1, 0, 1, 0, $14
 SPRITE_B5:
-spriteTile $10, $1F, 0, 4, 0, 1, 0, $0F
-spriteTile $18, $1F, 0, 4, 0, 1, 0, $0E
-spriteTile $10, $27, 1, 4, 0, 1, 0, $17
-spriteTile $18, $27, 1, 4, 0, 1, 0, $16
+spriteTile $10, $1F, 0, 1, 0, 1, 0, $0F
+spriteTile $18, $1F, 0, 1, 0, 1, 0, $0E
+spriteTile $10, $27, 1, 1, 0, 1, 0, $17
+spriteTile $18, $27, 1, 1, 0, 1, 0, $16
 SPRITE_B6:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $0A
-spriteTile $18, $20, 0, 4, 0, 0, 0, $0B
-spriteTile $10, $28, 1, 4, 0, 0, 0, $10
-spriteTile $18, $28, 1, 4, 0, 0, 0, $11
+spriteTile $10, $20, 0, 1, 0, 0, 0, $0A
+spriteTile $18, $20, 0, 1, 0, 0, 0, $0B
+spriteTile $10, $28, 1, 1, 0, 0, 0, $10
+spriteTile $18, $28, 1, 1, 0, 0, 0, $11
 SPRITE_B7:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $0A
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $0B
-spriteTile $10, $27, 1, 4, 0, 1, 0, $11
-spriteTile $18, $27, 1, 4, 0, 1, 0, $10
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $0A
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $0B
+spriteTile $10, $27, 1, 1, 0, 1, 0, $11
+spriteTile $18, $27, 1, 1, 0, 1, 0, $10
 SPRITE_B8:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $0E
-spriteTile $18, $20, 0, 4, 0, 0, 0, $0F
-spriteTile $10, $28, 1, 4, 0, 0, 0, $14
-spriteTile $18, $28, 1, 4, 0, 0, 0, $15
+spriteTile $10, $20, 0, 1, 0, 0, 0, $0E
+spriteTile $18, $20, 0, 1, 0, 0, 0, $0F
+spriteTile $10, $28, 1, 1, 0, 0, 0, $14
+spriteTile $18, $28, 1, 1, 0, 0, 0, $15
 SPRITE_B9:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $0E
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $0F
-spriteTile $10, $27, 1, 4, 0, 0, 0, $16
-spriteTile $18, $27, 1, 4, 0, 0, 0, $17
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $0E
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $0F
+spriteTile $10, $27, 1, 1, 0, 0, 0, $16
+spriteTile $18, $27, 1, 1, 0, 0, 0, $17
 SPRITE_BA:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $2C
-spriteTile $18, $20, 0, 4, 0, 0, 0, $2D
-spriteTile $10, $28, 1, 4, 0, 0, 0, $12
-spriteTile $18, $28, 1, 4, 0, 0, 0, $13
+spriteTile $10, $20, 0, 1, 0, 0, 0, $2C
+spriteTile $18, $20, 0, 1, 0, 0, 0, $2D
+spriteTile $10, $28, 1, 1, 0, 0, 0, $12
+spriteTile $18, $28, 1, 1, 0, 0, 0, $13
 SPRITE_BB:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $2C
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $2D
-spriteTile $10, $27, 1, 4, 0, 1, 0, $13
-spriteTile $18, $27, 1, 4, 0, 1, 0, $12
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $2C
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $2D
+spriteTile $10, $27, 1, 1, 0, 1, 0, $13
+spriteTile $18, $27, 1, 1, 0, 1, 0, $12
 SPRITE_BC:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $2F
-spriteTile $18, $20, 0, 4, 0, 1, 0, $2E
-spriteTile $10, $28, 1, 4, 0, 1, 0, $15
-spriteTile $18, $28, 1, 4, 0, 1, 0, $14
+spriteTile $10, $20, 0, 1, 0, 1, 0, $2F
+spriteTile $18, $20, 0, 1, 0, 1, 0, $2E
+spriteTile $10, $28, 1, 1, 0, 1, 0, $15
+spriteTile $18, $28, 1, 1, 0, 1, 0, $14
 SPRITE_BD:
-spriteTile $10, $1F, 0, 4, 0, 1, 0, $2F
-spriteTile $18, $1F, 0, 4, 0, 1, 0, $2E
-spriteTile $10, $27, 1, 4, 0, 1, 0, $17
-spriteTile $18, $27, 1, 4, 0, 1, 0, $16
+spriteTile $10, $1F, 0, 1, 0, 1, 0, $2F
+spriteTile $18, $1F, 0, 1, 0, 1, 0, $2E
+spriteTile $10, $27, 1, 1, 0, 1, 0, $17
+spriteTile $18, $27, 1, 1, 0, 1, 0, $16
 SPRITE_BE:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $2A
-spriteTile $18, $20, 0, 4, 0, 0, 0, $2B
-spriteTile $10, $28, 1, 4, 0, 0, 0, $10
-spriteTile $18, $28, 1, 4, 0, 0, 0, $11
+spriteTile $10, $20, 0, 1, 0, 0, 0, $2A
+spriteTile $18, $20, 0, 1, 0, 0, 0, $2B
+spriteTile $10, $28, 1, 1, 0, 0, 0, $10
+spriteTile $18, $28, 1, 1, 0, 0, 0, $11
 SPRITE_BF:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $2A
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $2B
-spriteTile $10, $27, 1, 4, 0, 1, 0, $11
-spriteTile $18, $27, 1, 4, 0, 1, 0, $10
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $2A
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $2B
+spriteTile $10, $27, 1, 1, 0, 1, 0, $11
+spriteTile $18, $27, 1, 1, 0, 1, 0, $10
 SPRITE_C0:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $2E
-spriteTile $18, $20, 0, 4, 0, 0, 0, $2F
-spriteTile $10, $28, 1, 4, 0, 0, 0, $14
-spriteTile $18, $28, 1, 4, 0, 0, 0, $15
+spriteTile $10, $20, 0, 1, 0, 0, 0, $2E
+spriteTile $18, $20, 0, 1, 0, 0, 0, $2F
+spriteTile $10, $28, 1, 1, 0, 0, 0, $14
+spriteTile $18, $28, 1, 1, 0, 0, 0, $15
 SPRITE_C1:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $2E
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $2F
-spriteTile $10, $27, 1, 4, 0, 0, 0, $16
-spriteTile $18, $27, 1, 4, 0, 0, 0, $17
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $2E
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $2F
+spriteTile $10, $27, 1, 1, 0, 0, 0, $16
+spriteTile $18, $27, 1, 1, 0, 0, 0, $17
 SPRITE_18:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $02
-spriteTile $18, $20, 0, 4, 0, 0, 0, $03
-spriteTile $10, $28, 1, 4, 0, 0, 0, $14
-spriteTile $18, $28, 1, 4, 0, 0, 0, $15
+spriteTile $10, $20, 0, 1, 0, 0, 0, $02
+spriteTile $18, $20, 0, 1, 0, 0, 0, $03
+spriteTile $10, $28, 1, 1, 0, 0, 0, $14
+spriteTile $18, $28, 1, 1, 0, 0, 0, $15
 SPRITE_19:
-spriteTile $0F, $20, 0, 4, 0, 1, 0, $03
-spriteTile $17, $20, 0, 4, 0, 1, 0, $02
-spriteTile $0F, $28, 1, 4, 0, 1, 0, $15
-spriteTile $17, $28, 1, 4, 0, 1, 0, $14
+spriteTile $0F, $20, 0, 1, 0, 1, 0, $03
+spriteTile $17, $20, 0, 1, 0, 1, 0, $02
+spriteTile $0F, $28, 1, 1, 0, 1, 0, $15
+spriteTile $17, $28, 1, 1, 0, 1, 0, $14
 SPRITE_1A:
-spriteTile $10, $1F, 0, 4, 0, 1, 0, $05
-spriteTile $18, $1F, 0, 4, 0, 1, 0, $04
-spriteTile $10, $27, 1, 4, 0, 1, 0, $17
-spriteTile $18, $27, 1, 4, 0, 1, 0, $16
+spriteTile $10, $1F, 0, 1, 0, 1, 0, $05
+spriteTile $18, $1F, 0, 1, 0, 1, 0, $04
+spriteTile $10, $27, 1, 1, 0, 1, 0, $17
+spriteTile $18, $27, 1, 1, 0, 1, 0, $16
 SPRITE_1B:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $05
-spriteTile $18, $20, 0, 4, 0, 1, 0, $04
-spriteTile $10, $28, 1, 4, 0, 1, 0, $07
-spriteTile $18, $28, 1, 4, 0, 1, 0, $06
+spriteTile $10, $20, 0, 1, 0, 1, 0, $05
+spriteTile $18, $20, 0, 1, 0, 1, 0, $04
+spriteTile $10, $28, 1, 1, 0, 1, 0, $07
+spriteTile $18, $28, 1, 1, 0, 1, 0, $06
 SPRITE_1C:
-spriteTile $11, $1F, 0, 4, 0, 0, 0, $00
-spriteTile $19, $1F, 0, 4, 0, 0, 0, $01
-spriteTile $11, $27, 1, 4, 0, 0, 0, $10
-spriteTile $19, $27, 1, 4, 0, 0, 0, $11
+spriteTile $11, $1F, 0, 1, 0, 0, 0, $00
+spriteTile $19, $1F, 0, 1, 0, 0, 0, $01
+spriteTile $11, $27, 1, 1, 0, 0, 0, $10
+spriteTile $19, $27, 1, 1, 0, 0, 0, $11
 SPRITE_1D:
-spriteTile $0F, $1F, 0, 4, 0, 1, 0, $01
-spriteTile $17, $1F, 0, 4, 0, 1, 0, $00
-spriteTile $0F, $27, 1, 4, 0, 0, 0, $12
-spriteTile $17, $27, 1, 4, 0, 0, 0, $13
+spriteTile $0F, $1F, 0, 1, 0, 1, 0, $01
+spriteTile $17, $1F, 0, 1, 0, 1, 0, $00
+spriteTile $0F, $27, 1, 1, 0, 0, 0, $12
+spriteTile $17, $27, 1, 1, 0, 0, 0, $13
 SPRITE_1E:
-spriteTile $10, $1F, 0, 4, 0, 0, 0, $04
-spriteTile $18, $1F, 0, 4, 0, 0, 0, $05
-spriteTile $10, $27, 1, 4, 0, 0, 0, $16
-spriteTile $18, $27, 1, 4, 0, 0, 0, $17
+spriteTile $10, $1F, 0, 1, 0, 0, 0, $04
+spriteTile $18, $1F, 0, 1, 0, 0, 0, $05
+spriteTile $10, $27, 1, 1, 0, 0, 0, $16
+spriteTile $18, $27, 1, 1, 0, 0, 0, $17
 SPRITE_1F:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $04
-spriteTile $18, $20, 0, 4, 0, 0, 0, $05
-spriteTile $10, $28, 1, 4, 0, 0, 0, $06
-spriteTile $18, $28, 1, 4, 0, 0, 0, $07
+spriteTile $10, $20, 0, 1, 0, 0, 0, $04
+spriteTile $18, $20, 0, 1, 0, 0, 0, $05
+spriteTile $10, $28, 1, 1, 0, 0, 0, $06
+spriteTile $18, $28, 1, 1, 0, 0, 0, $07
 SPRITE_193:
-spriteTile $14, $20, 0, 4, 0, 0, 0, $08
-spriteTile $14, $28, 0, 4, 0, 0, 0, $20
+spriteTile $14, $20, 0, 1, 0, 0, 0, $08
+spriteTile $14, $28, 0, 1, 0, 0, 0, $20
 SPRITE_194:
-spriteTile $14, $1F, 0, 4, 0, 1, 0, $08
-spriteTile $14, $27, 0, 4, 0, 1, 0, $20
+spriteTile $14, $1F, 0, 1, 0, 1, 0, $08
+spriteTile $14, $27, 0, 1, 0, 1, 0, $20
 SPRITE_195:
-spriteTile $14, $20, 0, 4, 0, 0, 0, $09
-spriteTile $14, $28, 0, 4, 0, 1, 0, $21
+spriteTile $14, $20, 0, 1, 0, 0, 0, $09
+spriteTile $14, $28, 0, 1, 0, 1, 0, $21
 SPRITE_196:
-spriteTile $14, $1F, 0, 4, 0, 1, 0, $09
-spriteTile $14, $27, 0, 4, 0, 1, 0, $21
+spriteTile $14, $1F, 0, 1, 0, 1, 0, $09
+spriteTile $14, $27, 0, 1, 0, 1, 0, $21
 SPRITE_197:
-spriteTile $14, $20, 0, 4, 0, 0, 0, $08
-spriteTile $14, $28, 0, 4, 0, 0, 0, $01
+spriteTile $14, $20, 0, 1, 0, 0, 0, $08
+spriteTile $14, $28, 0, 1, 0, 0, 0, $01
 SPRITE_198:
-spriteTile $14, $1F, 0, 4, 0, 1, 0, $08
-spriteTile $14, $27, 0, 4, 0, 1, 0, $01
+spriteTile $14, $1F, 0, 1, 0, 1, 0, $08
+spriteTile $14, $27, 0, 1, 0, 1, 0, $01
 SPRITE_199:
-spriteTile $14, $20, 0, 4, 0, 1, 0, $09
-spriteTile $14, $28, 0, 4, 0, 0, 0, $21
+spriteTile $14, $20, 0, 1, 0, 1, 0, $09
+spriteTile $14, $28, 0, 1, 0, 0, 0, $21
 SPRITE_19A:
-spriteTile $14, $1F, 0, 4, 0, 0, 0, $09
-spriteTile $14, $27, 0, 4, 0, 0, 0, $21
+spriteTile $14, $1F, 0, 1, 0, 0, 0, $09
+spriteTile $14, $27, 0, 1, 0, 0, 0, $21
 SPRITE_263:
-spriteTile $14, $24, 0, 4, 0, 0, 0, $81
-spriteTile $00, $00, 0, 4, 0, 0, 0, $00
-spriteTile $00, $00, 0, 4, 0, 0, 0, $00
-spriteTile $00, $00, 0, 4, 0, 0, 0, $00
+spriteTile $14, $24, 0, 1, 0, 0, 0, $81
+spriteTile $00, $00, 0, 1, 0, 0, 0, $00
+spriteTile $00, $00, 0, 1, 0, 0, 0, $00
+spriteTile $00, $00, 0, 1, 0, 0, 0, $00
 SPRITE_60:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $00
-spriteTile $18, $20, 0, 4, 0, 0, 0, $01
-spriteTile $10, $28, 0, 4, 0, 0, 0, $10
-spriteTile $18, $28, 0, 4, 0, 0, 0, $11
-spriteTile $11, $21, 0, 4, 0, 0, 0, $00
-spriteTile $19, $21, 0, 4, 0, 0, 0, $01
-spriteTile $11, $29, 0, 4, 0, 0, 0, $10
-spriteTile $19, $29, 0, 4, 0, 0, 0, $11
+spriteTile $10, $20, 0, 1, 0, 0, 0, $00
+spriteTile $18, $20, 0, 1, 0, 0, 0, $01
+spriteTile $10, $28, 0, 1, 0, 0, 0, $10
+spriteTile $18, $28, 0, 1, 0, 0, 0, $11
+spriteTile $11, $21, 0, 1, 0, 0, 0, $00
+spriteTile $19, $21, 0, 1, 0, 0, 0, $01
+spriteTile $11, $29, 0, 1, 0, 0, 0, $10
+spriteTile $19, $29, 0, 1, 0, 0, 0, $11
 SPRITE_142:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $00
-spriteTile $18, $20, 0, 4, 0, 0, 0, $01
-spriteTile $10, $28, 0, 4, 0, 0, 0, $20
-spriteTile $18, $28, 0, 4, 0, 0, 0, $21
+spriteTile $10, $20, 0, 1, 0, 0, 0, $00
+spriteTile $18, $20, 0, 1, 0, 0, 0, $01
+spriteTile $10, $28, 0, 1, 0, 0, 0, $20
+spriteTile $18, $28, 0, 1, 0, 0, 0, $21
 SPRITE_66:
-spriteTile $10, $28, 0, 4, 0, 0, 0, $00
-spriteTile $18, $28, 0, 4, 0, 0, 0, $01
+spriteTile $10, $28, 0, 1, 0, 0, 0, $00
+spriteTile $18, $28, 0, 1, 0, 0, 0, $01
 SPRITE_67:
-spriteTile $10, $28, 0, 4, 0, 0, 0, $01
-spriteTile $18, $28, 0, 4, 0, 0, 0, $00
+spriteTile $10, $28, 0, 1, 0, 0, 0, $01
+spriteTile $18, $28, 0, 1, 0, 0, 0, $00
 SPRITE_68:
-spriteTile $10, $28, 0, 4, 0, 0, 0, $00
-spriteTile $18, $28, 0, 4, 0, 1, 0, $00
+spriteTile $10, $28, 0, 1, 0, 0, 0, $00
+spriteTile $18, $28, 0, 1, 0, 1, 0, $00
 SPRITE_69:
-spriteTile $10, $28, 0, 4, 0, 0, 0, $01
-spriteTile $18, $28, 0, 4, 0, 1, 0, $01
+spriteTile $10, $28, 0, 1, 0, 0, 0, $01
+spriteTile $18, $28, 0, 1, 0, 1, 0, $01
 SPRITE_269:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $00
-spriteTile $18, $20, 0, 4, 0, 0, 0, $01
-spriteTile $10, $28, 0, 4, 0, 0, 0, $10
-spriteTile $18, $28, 0, 4, 0, 0, 0, $11
+spriteTile $10, $20, 0, 1, 0, 0, 0, $00
+spriteTile $18, $20, 0, 1, 0, 0, 0, $01
+spriteTile $10, $28, 0, 1, 0, 0, 0, $10
+spriteTile $18, $28, 0, 1, 0, 0, 0, $11
 SPRITE_26B:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $02
-spriteTile $18, $20, 0, 4, 0, 0, 0, $03
-spriteTile $10, $28, 0, 4, 0, 0, 0, $12
-spriteTile $18, $28, 0, 4, 0, 0, 0, $13
+spriteTile $10, $20, 0, 1, 0, 0, 0, $02
+spriteTile $18, $20, 0, 1, 0, 0, 0, $03
+spriteTile $10, $28, 0, 1, 0, 0, 0, $12
+spriteTile $18, $28, 0, 1, 0, 0, 0, $13
 SPRITE_26D:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $04
-spriteTile $18, $20, 0, 4, 0, 0, 0, $05
-spriteTile $10, $28, 0, 4, 0, 0, 0, $14
-spriteTile $18, $28, 0, 4, 0, 0, 0, $15
+spriteTile $10, $20, 0, 1, 0, 0, 0, $04
+spriteTile $18, $20, 0, 1, 0, 0, 0, $05
+spriteTile $10, $28, 0, 1, 0, 0, 0, $14
+spriteTile $18, $28, 0, 1, 0, 0, 0, $15
 SPRITE_26F:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $06
-spriteTile $18, $20, 0, 4, 0, 0, 0, $07
-spriteTile $10, $28, 0, 4, 0, 0, 0, $16
-spriteTile $18, $28, 0, 4, 0, 0, 0, $17
+spriteTile $10, $20, 0, 1, 0, 0, 0, $06
+spriteTile $18, $20, 0, 1, 0, 0, 0, $07
+spriteTile $10, $28, 0, 1, 0, 0, 0, $16
+spriteTile $18, $28, 0, 1, 0, 0, 0, $17
 SPRITE_265:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $C0
-spriteTile $18, $20, 0, 4, 0, 1, 0, $C0
-spriteTile $10, $28, 0, 4, 0, 0, 0, $C1
-spriteTile $18, $28, 0, 4, 0, 1, 0, $C1
-spriteTile $11, $20, 0, 4, 0, 0, 0, $C0
-spriteTile $19, $20, 0, 4, 0, 1, 0, $C0
-spriteTile $11, $28, 0, 4, 0, 0, 0, $C1
-spriteTile $19, $28, 0, 4, 0, 1, 0, $C1
+spriteTile $10, $20, 0, 1, 0, 0, 0, $C0
+spriteTile $18, $20, 0, 1, 0, 1, 0, $C0
+spriteTile $10, $28, 0, 1, 0, 0, 0, $C1
+spriteTile $18, $28, 0, 1, 0, 1, 0, $C1
+spriteTile $11, $20, 0, 1, 0, 0, 0, $C0
+spriteTile $19, $20, 0, 1, 0, 1, 0, $C0
+spriteTile $11, $28, 0, 1, 0, 0, 0, $C1
+spriteTile $19, $28, 0, 1, 0, 1, 0, $C1
 SPRITE_267:
-spriteTile $14, $30, 0, 4, 0, 0, 0, $A0
-spriteTile $00, $00, 0, 4, 0, 0, 0, $00
-spriteTile $00, $00, 0, 4, 0, 0, 0, $00
-spriteTile $00, $00, 0, 4, 0, 0, 0, $00
+spriteTile $14, $30, 0, 1, 0, 0, 0, $A0
+spriteTile $00, $00, 0, 1, 0, 0, 0, $00
+spriteTile $00, $00, 0, 1, 0, 0, 0, $00
+spriteTile $00, $00, 0, 1, 0, 0, 0, $00
 SPRITE_268:
-spriteTile $14, $30, 0, 4, 0, 0, 0, $A1
-spriteTile $00, $00, 0, 4, 0, 0, 0, $00
-spriteTile $00, $00, 0, 4, 0, 0, 0, $00
-spriteTile $00, $00, 0, 4, 0, 0, 0, $00
+spriteTile $14, $30, 0, 1, 0, 0, 0, $A1
+spriteTile $00, $00, 0, 1, 0, 0, 0, $00
+spriteTile $00, $00, 0, 1, 0, 0, 0, $00
+spriteTile $00, $00, 0, 1, 0, 0, 0, $00
 SPRITE_1DF:
-spriteTile $08, $28, 0, 4, 0, 0, 0, $6C
-spriteTile $10, $28, 0, 4, 0, 0, 0, $6D
-spriteTile $18, $28, 0, 4, 0, 0, 0, $6E
-spriteTile $20, $28, 0, 4, 0, 0, 0, $6F
-spriteTile $08, $30, 0, 4, 0, 0, 0, $7C
-spriteTile $10, $30, 0, 4, 0, 0, 0, $7D
-spriteTile $18, $30, 0, 4, 0, 0, 0, $7E
-spriteTile $20, $30, 0, 4, 0, 0, 0, $7F
+spriteTile $08, $28, 0, 1, 0, 0, 0, $6C
+spriteTile $10, $28, 0, 1, 0, 0, 0, $6D
+spriteTile $18, $28, 0, 1, 0, 0, 0, $6E
+spriteTile $20, $28, 0, 1, 0, 0, 0, $6F
+spriteTile $08, $30, 0, 1, 0, 0, 0, $7C
+spriteTile $10, $30, 0, 1, 0, 0, 0, $7D
+spriteTile $18, $30, 0, 1, 0, 0, 0, $7E
+spriteTile $20, $30, 0, 1, 0, 0, 0, $7F
 SPRITE_17A:
-spriteTile $10, $08, 0, 4, 0, 0, 0, $04
-spriteTile $18, $08, 0, 4, 0, 0, 0, $05
-spriteTile $10, $10, 0, 4, 0, 0, 0, $14
-spriteTile $18, $10, 0, 4, 0, 0, 0, $15
-spriteTile $10, $18, 0, 4, 0, 0, 0, $02
-spriteTile $18, $18, 0, 4, 0, 0, 0, $03
-spriteTile $10, $20, 0, 4, 0, 0, 0, $12
-spriteTile $18, $20, 0, 4, 0, 0, 0, $13
-spriteTile $10, $28, 0, 4, 0, 0, 0, $10
-spriteTile $18, $28, 0, 4, 0, 0, 0, $11
+spriteTile $10, $08, 0, 1, 0, 0, 0, $04
+spriteTile $18, $08, 0, 1, 0, 0, 0, $05
+spriteTile $10, $10, 0, 1, 0, 0, 0, $14
+spriteTile $18, $10, 0, 1, 0, 0, 0, $15
+spriteTile $10, $18, 0, 1, 0, 0, 0, $02
+spriteTile $18, $18, 0, 1, 0, 0, 0, $03
+spriteTile $10, $20, 0, 1, 0, 0, 0, $12
+spriteTile $18, $20, 0, 1, 0, 0, 0, $13
+spriteTile $10, $28, 0, 1, 0, 0, 0, $10
+spriteTile $18, $28, 0, 1, 0, 0, 0, $11
 SPRITE_28A:
-spriteTile $10, $1C, 0, 4, 0, 0, 0, $2A
-spriteTile $18, $1C, 0, 4, 0, 0, 0, $2B
-spriteTile $20, $1C, 0, 4, 0, 0, 0, $2C
-spriteTile $10, $24, 0, 4, 0, 0, 0, $17
-spriteTile $18, $24, 0, 4, 0, 0, 0, $18
-spriteTile $20, $24, 0, 4, 0, 0, 0, $19
-spriteTile $10, $2C, 0, 4, 0, 0, 0, $27
-spriteTile $18, $2C, 0, 4, 0, 0, 0, $28
-spriteTile $20, $2C, 0, 4, 0, 0, 0, $29
+spriteTile $10, $1C, 0, 1, 0, 0, 0, $2A
+spriteTile $18, $1C, 0, 1, 0, 0, 0, $2B
+spriteTile $20, $1C, 0, 1, 0, 0, 0, $2C
+spriteTile $10, $24, 0, 1, 0, 0, 0, $17
+spriteTile $18, $24, 0, 1, 0, 0, 0, $18
+spriteTile $20, $24, 0, 1, 0, 0, 0, $19
+spriteTile $10, $2C, 0, 1, 0, 0, 0, $27
+spriteTile $18, $2C, 0, 1, 0, 0, 0, $28
+spriteTile $20, $2C, 0, 1, 0, 0, 0, $29
 SPRITE_28B:
-spriteTile $08, $1C, 0, 4, 0, 1, 0, $2C
-spriteTile $10, $1C, 0, 4, 0, 1, 0, $2B
-spriteTile $18, $1C, 0, 4, 0, 1, 0, $2A
-spriteTile $08, $24, 0, 4, 0, 1, 0, $19
-spriteTile $10, $24, 0, 4, 0, 1, 0, $18
-spriteTile $18, $24, 0, 4, 0, 1, 0, $17
-spriteTile $08, $2C, 0, 4, 0, 1, 0, $29
-spriteTile $10, $2C, 0, 4, 0, 1, 0, $28
-spriteTile $18, $2C, 0, 4, 0, 1, 0, $27
+spriteTile $08, $1C, 0, 1, 0, 1, 0, $2C
+spriteTile $10, $1C, 0, 1, 0, 1, 0, $2B
+spriteTile $18, $1C, 0, 1, 0, 1, 0, $2A
+spriteTile $08, $24, 0, 1, 0, 1, 0, $19
+spriteTile $10, $24, 0, 1, 0, 1, 0, $18
+spriteTile $18, $24, 0, 1, 0, 1, 0, $17
+spriteTile $08, $2C, 0, 1, 0, 1, 0, $29
+spriteTile $10, $2C, 0, 1, 0, 1, 0, $28
+spriteTile $18, $2C, 0, 1, 0, 1, 0, $27
 SPRITE_28F:
-spriteTile $08, $24, 0, 4, 0, 0, 0, $2A
-spriteTile $10, $24, 0, 4, 0, 0, 0, $2B
-spriteTile $18, $24, 0, 4, 0, 0, 0, $2C
-spriteTile $08, $2C, 0, 4, 0, 0, 0, $17
-spriteTile $10, $2C, 0, 4, 0, 0, 0, $18
-spriteTile $18, $2C, 0, 4, 0, 0, 0, $19
-spriteTile $08, $34, 0, 4, 0, 0, 0, $25
-spriteTile $10, $34, 0, 4, 0, 0, 0, $26
-spriteTile $18, $34, 0, 4, 0, 0, 0, $29
+spriteTile $08, $24, 0, 1, 0, 0, 0, $2A
+spriteTile $10, $24, 0, 1, 0, 0, 0, $2B
+spriteTile $18, $24, 0, 1, 0, 0, 0, $2C
+spriteTile $08, $2C, 0, 1, 0, 0, 0, $17
+spriteTile $10, $2C, 0, 1, 0, 0, 0, $18
+spriteTile $18, $2C, 0, 1, 0, 0, 0, $19
+spriteTile $08, $34, 0, 1, 0, 0, 0, $25
+spriteTile $10, $34, 0, 1, 0, 0, 0, $26
+spriteTile $18, $34, 0, 1, 0, 0, 0, $29
 SPRITE_28E:
-spriteTile $10, $24, 0, 4, 0, 1, 0, $2C
-spriteTile $18, $24, 0, 4, 0, 1, 0, $2B
-spriteTile $20, $24, 0, 4, 0, 1, 0, $2A
-spriteTile $10, $2C, 0, 4, 0, 1, 0, $19
-spriteTile $18, $2C, 0, 4, 0, 1, 0, $18
-spriteTile $20, $2C, 0, 4, 0, 1, 0, $17
-spriteTile $10, $34, 0, 4, 0, 1, 0, $29
-spriteTile $18, $34, 0, 4, 0, 1, 0, $26
-spriteTile $20, $34, 0, 4, 0, 1, 0, $25
+spriteTile $10, $24, 0, 1, 0, 1, 0, $2C
+spriteTile $18, $24, 0, 1, 0, 1, 0, $2B
+spriteTile $20, $24, 0, 1, 0, 1, 0, $2A
+spriteTile $10, $2C, 0, 1, 0, 1, 0, $19
+spriteTile $18, $2C, 0, 1, 0, 1, 0, $18
+spriteTile $20, $2C, 0, 1, 0, 1, 0, $17
+spriteTile $10, $34, 0, 1, 0, 1, 0, $29
+spriteTile $18, $34, 0, 1, 0, 1, 0, $26
+spriteTile $20, $34, 0, 1, 0, 1, 0, $25
 SPRITE_28D:
-spriteTile $08, $20, 0, 4, 0, 0, 0, $1A
-spriteTile $10, $20, 0, 4, 0, 0, 0, $1B
-spriteTile $18, $20, 0, 4, 0, 0, 0, $1C
-spriteTile $08, $28, 0, 4, 0, 0, 0, $1D
-spriteTile $10, $28, 0, 4, 0, 0, 0, $1E
-spriteTile $18, $28, 0, 4, 0, 0, 0, $1F
-spriteTile $08, $30, 0, 4, 0, 0, 0, $2D
-spriteTile $10, $30, 0, 4, 0, 0, 0, $2E
-spriteTile $18, $30, 0, 4, 0, 0, 0, $2F
+spriteTile $08, $20, 0, 1, 0, 0, 0, $1A
+spriteTile $10, $20, 0, 1, 0, 0, 0, $1B
+spriteTile $18, $20, 0, 1, 0, 0, 0, $1C
+spriteTile $08, $28, 0, 1, 0, 0, 0, $1D
+spriteTile $10, $28, 0, 1, 0, 0, 0, $1E
+spriteTile $18, $28, 0, 1, 0, 0, 0, $1F
+spriteTile $08, $30, 0, 1, 0, 0, 0, $2D
+spriteTile $10, $30, 0, 1, 0, 0, 0, $2E
+spriteTile $18, $30, 0, 1, 0, 0, 0, $2F
 SPRITE_291:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $1C
-spriteTile $18, $20, 0, 4, 0, 1, 0, $1B
-spriteTile $20, $20, 0, 4, 0, 1, 0, $1A
-spriteTile $10, $28, 0, 4, 0, 1, 0, $1F
-spriteTile $18, $28, 0, 4, 0, 1, 0, $1E
-spriteTile $20, $28, 0, 4, 0, 1, 0, $1D
-spriteTile $10, $30, 0, 4, 0, 1, 0, $2F
-spriteTile $18, $30, 0, 4, 0, 1, 0, $2E
-spriteTile $20, $30, 0, 4, 0, 1, 0, $2D
+spriteTile $10, $20, 0, 1, 0, 1, 0, $1C
+spriteTile $18, $20, 0, 1, 0, 1, 0, $1B
+spriteTile $20, $20, 0, 1, 0, 1, 0, $1A
+spriteTile $10, $28, 0, 1, 0, 1, 0, $1F
+spriteTile $18, $28, 0, 1, 0, 1, 0, $1E
+spriteTile $20, $28, 0, 1, 0, 1, 0, $1D
+spriteTile $10, $30, 0, 1, 0, 1, 0, $2F
+spriteTile $18, $30, 0, 1, 0, 1, 0, $2E
+spriteTile $20, $30, 0, 1, 0, 1, 0, $2D
 SPRITE_2C7:
-spriteTile $0C, $18, 0, 4, 0, 0, 0, $05
-spriteTile $14, $18, 0, 4, 0, 0, 0, $06
-spriteTile $1C, $18, 0, 4, 0, 0, 0, $07
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $16
-spriteTile $14, $20, 0, 4, 0, 0, 0, $17
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $18
-spriteTile $0C, $28, 0, 4, 0, 0, 0, $19
-spriteTile $14, $28, 0, 4, 0, 0, 0, $1A
-spriteTile $1C, $28, 0, 4, 0, 1, 0, $19
+spriteTile $0C, $18, 0, 1, 0, 0, 0, $05
+spriteTile $14, $18, 0, 1, 0, 0, 0, $06
+spriteTile $1C, $18, 0, 1, 0, 0, 0, $07
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $16
+spriteTile $14, $20, 0, 1, 0, 0, 0, $17
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $18
+spriteTile $0C, $28, 0, 1, 0, 0, 0, $19
+spriteTile $14, $28, 0, 1, 0, 0, 0, $1A
+spriteTile $1C, $28, 0, 1, 0, 1, 0, $19
 SPRITE_2C8:
-spriteTile $0C, $18, 0, 4, 0, 0, 0, $05
-spriteTile $14, $18, 0, 4, 0, 0, 0, $06
-spriteTile $1C, $18, 0, 4, 0, 0, 0, $07
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $16
-spriteTile $14, $20, 0, 4, 0, 0, 0, $17
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $18
-spriteTile $0C, $28, 0, 4, 0, 1, 0, $1B
-spriteTile $14, $28, 0, 4, 0, 0, 0, $1A
-spriteTile $1C, $28, 0, 4, 0, 0, 0, $1B
+spriteTile $0C, $18, 0, 1, 0, 0, 0, $05
+spriteTile $14, $18, 0, 1, 0, 0, 0, $06
+spriteTile $1C, $18, 0, 1, 0, 0, 0, $07
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $16
+spriteTile $14, $20, 0, 1, 0, 0, 0, $17
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $18
+spriteTile $0C, $28, 0, 1, 0, 1, 0, $1B
+spriteTile $14, $28, 0, 1, 0, 0, 0, $1A
+spriteTile $1C, $28, 0, 1, 0, 0, 0, $1B
 SPRITE_2C9:
-spriteTile $0C, $18, 0, 4, 0, 1, 0, $0A
-spriteTile $14, $18, 0, 4, 0, 1, 0, $09
-spriteTile $1C, $18, 0, 4, 0, 1, 0, $08
-spriteTile $0C, $20, 0, 4, 0, 1, 0, $0F
-spriteTile $14, $20, 0, 4, 0, 1, 0, $0E
-spriteTile $1C, $20, 0, 4, 0, 1, 0, $0D
-spriteTile $0C, $28, 0, 4, 0, 1, 0, $1C
-spriteTile $14, $28, 0, 4, 0, 1, 0, $0C
-spriteTile $1C, $28, 0, 4, 0, 1, 0, $0B
+spriteTile $0C, $18, 0, 1, 0, 1, 0, $0A
+spriteTile $14, $18, 0, 1, 0, 1, 0, $09
+spriteTile $1C, $18, 0, 1, 0, 1, 0, $08
+spriteTile $0C, $20, 0, 1, 0, 1, 0, $0F
+spriteTile $14, $20, 0, 1, 0, 1, 0, $0E
+spriteTile $1C, $20, 0, 1, 0, 1, 0, $0D
+spriteTile $0C, $28, 0, 1, 0, 1, 0, $1C
+spriteTile $14, $28, 0, 1, 0, 1, 0, $0C
+spriteTile $1C, $28, 0, 1, 0, 1, 0, $0B
 SPRITE_2CA:
-spriteTile $0C, $18, 0, 4, 0, 1, 0, $0A
-spriteTile $14, $18, 0, 4, 0, 1, 0, $09
-spriteTile $1C, $18, 0, 4, 0, 1, 0, $08
-spriteTile $0C, $20, 0, 4, 0, 1, 0, $0F
-spriteTile $14, $20, 0, 4, 0, 1, 0, $0E
-spriteTile $1C, $20, 0, 4, 0, 1, 0, $0D
-spriteTile $0C, $28, 0, 4, 0, 1, 0, $1F
-spriteTile $14, $28, 0, 4, 0, 1, 0, $1E
-spriteTile $1C, $28, 0, 4, 0, 1, 0, $1D
+spriteTile $0C, $18, 0, 1, 0, 1, 0, $0A
+spriteTile $14, $18, 0, 1, 0, 1, 0, $09
+spriteTile $1C, $18, 0, 1, 0, 1, 0, $08
+spriteTile $0C, $20, 0, 1, 0, 1, 0, $0F
+spriteTile $14, $20, 0, 1, 0, 1, 0, $0E
+spriteTile $1C, $20, 0, 1, 0, 1, 0, $0D
+spriteTile $0C, $28, 0, 1, 0, 1, 0, $1F
+spriteTile $14, $28, 0, 1, 0, 1, 0, $1E
+spriteTile $1C, $28, 0, 1, 0, 1, 0, $1D
 SPRITE_2CB:
-spriteTile $0C, $18, 0, 4, 0, 0, 0, $02
-spriteTile $14, $18, 0, 4, 0, 0, 0, $03
-spriteTile $1C, $18, 0, 4, 0, 0, 0, $04
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $10
-spriteTile $14, $20, 0, 4, 0, 0, 0, $11
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $12
-spriteTile $0C, $28, 0, 4, 0, 0, 0, $13
-spriteTile $14, $28, 0, 4, 0, 0, 0, $14
-spriteTile $1C, $28, 0, 4, 0, 1, 0, $13
+spriteTile $0C, $18, 0, 1, 0, 0, 0, $02
+spriteTile $14, $18, 0, 1, 0, 0, 0, $03
+spriteTile $1C, $18, 0, 1, 0, 0, 0, $04
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $10
+spriteTile $14, $20, 0, 1, 0, 0, 0, $11
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $12
+spriteTile $0C, $28, 0, 1, 0, 0, 0, $13
+spriteTile $14, $28, 0, 1, 0, 0, 0, $14
+spriteTile $1C, $28, 0, 1, 0, 1, 0, $13
 SPRITE_2CC:
-spriteTile $0C, $18, 0, 4, 0, 0, 0, $02
-spriteTile $14, $18, 0, 4, 0, 0, 0, $03
-spriteTile $1C, $18, 0, 4, 0, 0, 0, $04
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $10
-spriteTile $14, $20, 0, 4, 0, 0, 0, $11
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $12
-spriteTile $0C, $28, 0, 4, 0, 1, 0, $15
-spriteTile $14, $28, 0, 4, 0, 0, 0, $14
-spriteTile $1C, $28, 0, 4, 0, 0, 0, $15
+spriteTile $0C, $18, 0, 1, 0, 0, 0, $02
+spriteTile $14, $18, 0, 1, 0, 0, 0, $03
+spriteTile $1C, $18, 0, 1, 0, 0, 0, $04
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $10
+spriteTile $14, $20, 0, 1, 0, 0, 0, $11
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $12
+spriteTile $0C, $28, 0, 1, 0, 1, 0, $15
+spriteTile $14, $28, 0, 1, 0, 0, 0, $14
+spriteTile $1C, $28, 0, 1, 0, 0, 0, $15
 SPRITE_2CD:
-spriteTile $0C, $18, 0, 4, 0, 0, 0, $08
-spriteTile $14, $18, 0, 4, 0, 0, 0, $09
-spriteTile $1C, $18, 0, 4, 0, 0, 0, $0A
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $0D
-spriteTile $14, $20, 0, 4, 0, 0, 0, $0E
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $0F
-spriteTile $0C, $28, 0, 4, 0, 0, 0, $1D
-spriteTile $14, $28, 0, 4, 0, 0, 0, $1E
-spriteTile $1C, $28, 0, 4, 0, 0, 0, $1F
+spriteTile $0C, $18, 0, 1, 0, 0, 0, $08
+spriteTile $14, $18, 0, 1, 0, 0, 0, $09
+spriteTile $1C, $18, 0, 1, 0, 0, 0, $0A
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $0D
+spriteTile $14, $20, 0, 1, 0, 0, 0, $0E
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $0F
+spriteTile $0C, $28, 0, 1, 0, 0, 0, $1D
+spriteTile $14, $28, 0, 1, 0, 0, 0, $1E
+spriteTile $1C, $28, 0, 1, 0, 0, 0, $1F
 SPRITE_2CE:
-spriteTile $0C, $18, 0, 4, 0, 0, 0, $08
-spriteTile $14, $18, 0, 4, 0, 0, 0, $09
-spriteTile $1C, $18, 0, 4, 0, 0, 0, $0A
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $0D
-spriteTile $14, $20, 0, 4, 0, 0, 0, $0E
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $0F
-spriteTile $0C, $28, 0, 4, 0, 0, 0, $0B
-spriteTile $14, $28, 0, 4, 0, 0, 0, $0C
-spriteTile $1C, $28, 0, 4, 0, 0, 0, $1C
+spriteTile $0C, $18, 0, 1, 0, 0, 0, $08
+spriteTile $14, $18, 0, 1, 0, 0, 0, $09
+spriteTile $1C, $18, 0, 1, 0, 0, 0, $0A
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $0D
+spriteTile $14, $20, 0, 1, 0, 0, 0, $0E
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $0F
+spriteTile $0C, $28, 0, 1, 0, 0, 0, $0B
+spriteTile $14, $28, 0, 1, 0, 0, 0, $0C
+spriteTile $1C, $28, 0, 1, 0, 0, 0, $1C
 SPRITE_2BF:
-spriteTile $0C, $18, 0, 4, 0, 0, 0, $00
-spriteTile $14, $18, 0, 4, 0, 0, 0, $4C
-spriteTile $1C, $18, 0, 4, 0, 0, 0, $00
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $4D
-spriteTile $14, $20, 0, 4, 0, 0, 0, $4E
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $4F
-spriteTile $0C, $28, 0, 4, 0, 0, 0, $5D
-spriteTile $14, $28, 0, 4, 0, 0, 0, $5E
-spriteTile $1C, $28, 0, 4, 0, 0, 0, $5F
+spriteTile $0C, $18, 0, 1, 0, 0, 0, $00
+spriteTile $14, $18, 0, 1, 0, 0, 0, $4C
+spriteTile $1C, $18, 0, 1, 0, 0, 0, $00
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $4D
+spriteTile $14, $20, 0, 1, 0, 0, 0, $4E
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $4F
+spriteTile $0C, $28, 0, 1, 0, 0, 0, $5D
+spriteTile $14, $28, 0, 1, 0, 0, 0, $5E
+spriteTile $1C, $28, 0, 1, 0, 0, 0, $5F
 SPRITE_2C0:
-spriteTile $0C, $18, 0, 4, 0, 0, 0, $00
-spriteTile $14, $18, 0, 4, 0, 0, 0, $5C
-spriteTile $1C, $18, 0, 4, 0, 0, 0, $00
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $4D
-spriteTile $14, $20, 0, 4, 0, 0, 0, $4E
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $4F
-spriteTile $0C, $28, 0, 4, 0, 0, 0, $5D
-spriteTile $14, $28, 0, 4, 0, 0, 0, $5E
-spriteTile $1C, $28, 0, 4, 0, 0, 0, $5F
+spriteTile $0C, $18, 0, 1, 0, 0, 0, $00
+spriteTile $14, $18, 0, 1, 0, 0, 0, $5C
+spriteTile $1C, $18, 0, 1, 0, 0, 0, $00
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $4D
+spriteTile $14, $20, 0, 1, 0, 0, 0, $4E
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $4F
+spriteTile $0C, $28, 0, 1, 0, 0, 0, $5D
+spriteTile $14, $28, 0, 1, 0, 0, 0, $5E
+spriteTile $1C, $28, 0, 1, 0, 0, 0, $5F
 SPRITE_2C1:
-spriteTile $0C, $18, 0, 4, 0, 1, 0, $00
-spriteTile $14, $18, 0, 4, 0, 1, 0, $51
-spriteTile $1C, $18, 0, 4, 0, 1, 0, $50
-spriteTile $0C, $20, 0, 4, 0, 1, 0, $45
-spriteTile $14, $20, 0, 4, 0, 1, 0, $44
-spriteTile $1C, $20, 0, 4, 0, 1, 0, $43
-spriteTile $0C, $28, 0, 4, 0, 1, 0, $55
-spriteTile $14, $28, 0, 4, 0, 1, 0, $54
-spriteTile $1C, $28, 0, 4, 0, 1, 0, $53
+spriteTile $0C, $18, 0, 1, 0, 1, 0, $00
+spriteTile $14, $18, 0, 1, 0, 1, 0, $51
+spriteTile $1C, $18, 0, 1, 0, 1, 0, $50
+spriteTile $0C, $20, 0, 1, 0, 1, 0, $45
+spriteTile $14, $20, 0, 1, 0, 1, 0, $44
+spriteTile $1C, $20, 0, 1, 0, 1, 0, $43
+spriteTile $0C, $28, 0, 1, 0, 1, 0, $55
+spriteTile $14, $28, 0, 1, 0, 1, 0, $54
+spriteTile $1C, $28, 0, 1, 0, 1, 0, $53
 SPRITE_2C2:
-spriteTile $0C, $18, 0, 4, 0, 1, 0, $00
-spriteTile $14, $18, 0, 4, 0, 1, 0, $51
-spriteTile $1C, $18, 0, 4, 0, 1, 0, $50
-spriteTile $0C, $20, 0, 4, 0, 1, 0, $45
-spriteTile $14, $20, 0, 4, 0, 1, 0, $44
-spriteTile $1C, $20, 0, 4, 0, 1, 0, $42
-spriteTile $0C, $28, 0, 4, 0, 1, 0, $55
-spriteTile $14, $28, 0, 4, 0, 1, 0, $54
-spriteTile $1C, $28, 0, 4, 0, 1, 0, $52
+spriteTile $0C, $18, 0, 1, 0, 1, 0, $00
+spriteTile $14, $18, 0, 1, 0, 1, 0, $51
+spriteTile $1C, $18, 0, 1, 0, 1, 0, $50
+spriteTile $0C, $20, 0, 1, 0, 1, 0, $45
+spriteTile $14, $20, 0, 1, 0, 1, 0, $44
+spriteTile $1C, $20, 0, 1, 0, 1, 0, $42
+spriteTile $0C, $28, 0, 1, 0, 1, 0, $55
+spriteTile $14, $28, 0, 1, 0, 1, 0, $54
+spriteTile $1C, $28, 0, 1, 0, 1, 0, $52
 SPRITE_2C3:
-spriteTile $0C, $18, 0, 4, 0, 0, 0, $00
-spriteTile $14, $18, 0, 4, 0, 0, 0, $48
-spriteTile $1C, $18, 0, 4, 0, 0, 0, $00
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $49
-spriteTile $14, $20, 0, 4, 0, 0, 0, $4A
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $4B
-spriteTile $0C, $28, 0, 4, 0, 0, 0, $59
-spriteTile $14, $28, 0, 4, 0, 0, 0, $5A
-spriteTile $1C, $28, 0, 4, 0, 0, 0, $5B
+spriteTile $0C, $18, 0, 1, 0, 0, 0, $00
+spriteTile $14, $18, 0, 1, 0, 0, 0, $48
+spriteTile $1C, $18, 0, 1, 0, 0, 0, $00
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $49
+spriteTile $14, $20, 0, 1, 0, 0, 0, $4A
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $4B
+spriteTile $0C, $28, 0, 1, 0, 0, 0, $59
+spriteTile $14, $28, 0, 1, 0, 0, 0, $5A
+spriteTile $1C, $28, 0, 1, 0, 0, 0, $5B
 SPRITE_2C4:
-spriteTile $0C, $18, 0, 4, 0, 0, 0, $00
-spriteTile $14, $18, 0, 4, 0, 0, 0, $48
-spriteTile $1C, $18, 0, 4, 0, 0, 0, $00
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $49
-spriteTile $14, $20, 0, 4, 0, 0, 0, $4A
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $4B
-spriteTile $0C, $28, 0, 4, 0, 0, 0, $59
-spriteTile $14, $28, 0, 4, 0, 0, 0, $58
-spriteTile $1C, $28, 0, 4, 0, 0, 0, $5B
+spriteTile $0C, $18, 0, 1, 0, 0, 0, $00
+spriteTile $14, $18, 0, 1, 0, 0, 0, $48
+spriteTile $1C, $18, 0, 1, 0, 0, 0, $00
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $49
+spriteTile $14, $20, 0, 1, 0, 0, 0, $4A
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $4B
+spriteTile $0C, $28, 0, 1, 0, 0, 0, $59
+spriteTile $14, $28, 0, 1, 0, 0, 0, $58
+spriteTile $1C, $28, 0, 1, 0, 0, 0, $5B
 SPRITE_2C5:
-spriteTile $0C, $18, 0, 4, 0, 0, 0, $50
-spriteTile $14, $18, 0, 4, 0, 0, 0, $51
-spriteTile $1C, $18, 0, 4, 0, 0, 0, $00
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $43
-spriteTile $14, $20, 0, 4, 0, 0, 0, $44
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $45
-spriteTile $0C, $28, 0, 4, 0, 0, 0, $53
-spriteTile $14, $28, 0, 4, 0, 0, 0, $54
-spriteTile $1C, $28, 0, 4, 0, 0, 0, $55
+spriteTile $0C, $18, 0, 1, 0, 0, 0, $50
+spriteTile $14, $18, 0, 1, 0, 0, 0, $51
+spriteTile $1C, $18, 0, 1, 0, 0, 0, $00
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $43
+spriteTile $14, $20, 0, 1, 0, 0, 0, $44
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $45
+spriteTile $0C, $28, 0, 1, 0, 0, 0, $53
+spriteTile $14, $28, 0, 1, 0, 0, 0, $54
+spriteTile $1C, $28, 0, 1, 0, 0, 0, $55
 SPRITE_2C6:
-spriteTile $0C, $18, 0, 4, 0, 0, 0, $50
-spriteTile $14, $18, 0, 4, 0, 0, 0, $51
-spriteTile $1C, $18, 0, 4, 0, 0, 0, $00
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $42
-spriteTile $14, $20, 0, 4, 0, 0, 0, $44
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $45
-spriteTile $0C, $28, 0, 4, 0, 0, 0, $52
-spriteTile $14, $28, 0, 4, 0, 0, 0, $54
-spriteTile $1C, $28, 0, 4, 0, 0, 0, $55
+spriteTile $0C, $18, 0, 1, 0, 0, 0, $50
+spriteTile $14, $18, 0, 1, 0, 0, 0, $51
+spriteTile $1C, $18, 0, 1, 0, 0, 0, $00
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $42
+spriteTile $14, $20, 0, 1, 0, 0, 0, $44
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $45
+spriteTile $0C, $28, 0, 1, 0, 0, 0, $52
+spriteTile $14, $28, 0, 1, 0, 0, 0, $54
+spriteTile $1C, $28, 0, 1, 0, 0, 0, $55
 SPRITE_154:
-spriteTile $10, $28, 0, 4, 0, 0, 0, $00
-spriteTile $18, $28, 0, 4, 0, 0, 0, $01
-spriteTile $10, $30, 0, 4, 0, 0, 0, $10
-spriteTile $18, $30, 0, 4, 0, 0, 0, $11
+spriteTile $10, $28, 0, 1, 0, 0, 0, $00
+spriteTile $18, $28, 0, 1, 0, 0, 0, $01
+spriteTile $10, $30, 0, 1, 0, 0, 0, $10
+spriteTile $18, $30, 0, 1, 0, 0, 0, $11
 SPRITE_155:
-spriteTile $10, $29, 0, 4, 0, 0, 0, $00
-spriteTile $18, $29, 0, 4, 0, 0, 0, $01
-spriteTile $10, $31, 0, 4, 0, 0, 0, $10
-spriteTile $18, $31, 0, 4, 0, 0, 0, $11
+spriteTile $10, $29, 0, 1, 0, 0, 0, $00
+spriteTile $18, $29, 0, 1, 0, 0, 0, $01
+spriteTile $10, $31, 0, 1, 0, 0, 0, $10
+spriteTile $18, $31, 0, 1, 0, 0, 0, $11
 SPRITE_292:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $10
-spriteTile $18, $20, 0, 4, 0, 0, 0, $11
-spriteTile $20, $20, 0, 4, 0, 0, 0, $12
-spriteTile $28, $20, 0, 4, 0, 0, 0, $13
-spriteTile $30, $20, 0, 4, 0, 0, 0, $14
-spriteTile $10, $28, 0, 4, 0, 0, 0, $20
-spriteTile $18, $28, 0, 4, 0, 0, 0, $21
-spriteTile $20, $28, 0, 4, 0, 0, 0, $22
-spriteTile $28, $28, 0, 4, 0, 0, 0, $23
-spriteTile $30, $28, 0, 4, 0, 0, 0, $24
+spriteTile $10, $20, 0, 1, 0, 0, 0, $10
+spriteTile $18, $20, 0, 1, 0, 0, 0, $11
+spriteTile $20, $20, 0, 1, 0, 0, 0, $12
+spriteTile $28, $20, 0, 1, 0, 0, 0, $13
+spriteTile $30, $20, 0, 1, 0, 0, 0, $14
+spriteTile $10, $28, 0, 1, 0, 0, 0, $20
+spriteTile $18, $28, 0, 1, 0, 0, 0, $21
+spriteTile $20, $28, 0, 1, 0, 0, 0, $22
+spriteTile $28, $28, 0, 1, 0, 0, 0, $23
+spriteTile $30, $28, 0, 1, 0, 0, 0, $24
 SPRITE_58:
-spriteTile $10, $08, 0, 4, 0, 0, 0, $30
-spriteTile $18, $08, 0, 4, 0, 0, 0, $31
-spriteTile $10, $10, 0, 4, 0, 0, 0, $40
-spriteTile $18, $10, 0, 4, 0, 0, 0, $41
-spriteTile $10, $18, 0, 4, 0, 0, 0, $50
-spriteTile $18, $18, 0, 4, 0, 0, 0, $51
-spriteTile $10, $20, 0, 4, 0, 0, 0, $60
-spriteTile $18, $20, 0, 4, 0, 0, 0, $61
-spriteTile $10, $28, 0, 4, 0, 0, 0, $70
-spriteTile $18, $28, 0, 4, 0, 0, 0, $71
+spriteTile $10, $08, 0, 1, 0, 0, 0, $30
+spriteTile $18, $08, 0, 1, 0, 0, 0, $31
+spriteTile $10, $10, 0, 1, 0, 0, 0, $40
+spriteTile $18, $10, 0, 1, 0, 0, 0, $41
+spriteTile $10, $18, 0, 1, 0, 0, 0, $50
+spriteTile $18, $18, 0, 1, 0, 0, 0, $51
+spriteTile $10, $20, 0, 1, 0, 0, 0, $60
+spriteTile $18, $20, 0, 1, 0, 0, 0, $61
+spriteTile $10, $28, 0, 1, 0, 0, 0, $70
+spriteTile $18, $28, 0, 1, 0, 0, 0, $71
 SPRITE_28:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $4C
-spriteTile $18, $20, 0, 4, 0, 1, 0, $4C
-spriteTile $10, $28, 0, 4, 0, 0, 0, $5C
-spriteTile $18, $28, 0, 4, 0, 1, 0, $5C
+spriteTile $10, $20, 0, 1, 0, 0, 0, $4C
+spriteTile $18, $20, 0, 1, 0, 1, 0, $4C
+spriteTile $10, $28, 0, 1, 0, 0, 0, $5C
+spriteTile $18, $28, 0, 1, 0, 1, 0, $5C
 SPRITE_29:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $4C
-spriteTile $18, $20, 0, 4, 0, 1, 0, $4C
-spriteTile $10, $28, 0, 4, 0, 0, 0, $5C
-spriteTile $18, $28, 0, 4, 0, 1, 0, $5C
+spriteTile $10, $20, 0, 1, 0, 0, 0, $4C
+spriteTile $18, $20, 0, 1, 0, 1, 0, $4C
+spriteTile $10, $28, 0, 1, 0, 0, 0, $5C
+spriteTile $18, $28, 0, 1, 0, 1, 0, $5C
 SPRITE_2A:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $4F
-spriteTile $18, $20, 0, 4, 0, 1, 0, $4E
-spriteTile $10, $28, 0, 4, 0, 1, 0, $5F
-spriteTile $18, $28, 0, 4, 0, 1, 0, $5E
+spriteTile $10, $20, 0, 1, 0, 1, 0, $4F
+spriteTile $18, $20, 0, 1, 0, 1, 0, $4E
+spriteTile $10, $28, 0, 1, 0, 1, 0, $5F
+spriteTile $18, $28, 0, 1, 0, 1, 0, $5E
 SPRITE_2B:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $4F
-spriteTile $18, $20, 0, 4, 0, 1, 0, $4E
-spriteTile $10, $28, 0, 4, 0, 1, 0, $5F
-spriteTile $18, $28, 0, 4, 0, 1, 0, $5E
+spriteTile $10, $20, 0, 1, 0, 1, 0, $4F
+spriteTile $18, $20, 0, 1, 0, 1, 0, $4E
+spriteTile $10, $28, 0, 1, 0, 1, 0, $5F
+spriteTile $18, $28, 0, 1, 0, 1, 0, $5E
 SPRITE_2C:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $4A
-spriteTile $18, $20, 0, 4, 0, 0, 0, $4B
-spriteTile $10, $28, 0, 4, 0, 0, 0, $5A
-spriteTile $18, $28, 0, 4, 0, 0, 0, $5B
+spriteTile $10, $20, 0, 1, 0, 0, 0, $4A
+spriteTile $18, $20, 0, 1, 0, 0, 0, $4B
+spriteTile $10, $28, 0, 1, 0, 0, 0, $5A
+spriteTile $18, $28, 0, 1, 0, 0, 0, $5B
 SPRITE_2D:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $4A
-spriteTile $18, $20, 0, 4, 0, 0, 0, $4B
-spriteTile $10, $28, 0, 4, 0, 0, 0, $5A
-spriteTile $18, $28, 0, 4, 0, 0, 0, $5B
+spriteTile $10, $20, 0, 1, 0, 0, 0, $4A
+spriteTile $18, $20, 0, 1, 0, 0, 0, $4B
+spriteTile $10, $28, 0, 1, 0, 0, 0, $5A
+spriteTile $18, $28, 0, 1, 0, 0, 0, $5B
 SPRITE_2E:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $4E
-spriteTile $18, $20, 0, 4, 0, 0, 0, $4F
-spriteTile $10, $28, 0, 4, 0, 0, 0, $5E
-spriteTile $18, $28, 0, 4, 0, 0, 0, $5F
+spriteTile $10, $20, 0, 1, 0, 0, 0, $4E
+spriteTile $18, $20, 0, 1, 0, 0, 0, $4F
+spriteTile $10, $28, 0, 1, 0, 0, 0, $5E
+spriteTile $18, $28, 0, 1, 0, 0, 0, $5F
 SPRITE_2F:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $4E
-spriteTile $18, $20, 0, 4, 0, 0, 0, $4F
-spriteTile $10, $28, 0, 4, 0, 0, 0, $5E
-spriteTile $18, $28, 0, 4, 0, 0, 0, $5F
+spriteTile $10, $20, 0, 1, 0, 0, 0, $4E
+spriteTile $18, $20, 0, 1, 0, 0, 0, $4F
+spriteTile $10, $28, 0, 1, 0, 0, 0, $5E
+spriteTile $18, $28, 0, 1, 0, 0, 0, $5F
 SPRITE_30:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $5D
-spriteTile $18, $20, 0, 4, 0, 1, 0, $5D
-spriteTile $10, $28, 0, 4, 0, 0, 0, $2F
-spriteTile $18, $28, 0, 4, 0, 1, 0, $2F
+spriteTile $10, $20, 0, 1, 0, 0, 0, $5D
+spriteTile $18, $20, 0, 1, 0, 1, 0, $5D
+spriteTile $10, $28, 0, 1, 0, 0, 0, $2F
+spriteTile $18, $28, 0, 1, 0, 1, 0, $2F
 SPRITE_31:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $5D
-spriteTile $18, $20, 0, 4, 0, 1, 0, $5D
-spriteTile $10, $28, 0, 4, 0, 0, 0, $2F
-spriteTile $18, $28, 0, 4, 0, 1, 0, $2F
+spriteTile $10, $20, 0, 1, 0, 0, 0, $5D
+spriteTile $18, $20, 0, 1, 0, 1, 0, $5D
+spriteTile $10, $28, 0, 1, 0, 0, 0, $2F
+spriteTile $18, $28, 0, 1, 0, 1, 0, $2F
 SPRITE_32:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $39
-spriteTile $18, $20, 0, 4, 0, 1, 0, $38
-spriteTile $10, $28, 0, 4, 0, 1, 0, $59
-spriteTile $18, $28, 0, 4, 0, 1, 0, $58
+spriteTile $10, $20, 0, 1, 0, 1, 0, $39
+spriteTile $18, $20, 0, 1, 0, 1, 0, $38
+spriteTile $10, $28, 0, 1, 0, 1, 0, $59
+spriteTile $18, $28, 0, 1, 0, 1, 0, $58
 SPRITE_33:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $39
-spriteTile $18, $20, 0, 4, 0, 1, 0, $38
-spriteTile $10, $28, 0, 4, 0, 1, 0, $59
-spriteTile $18, $28, 0, 4, 0, 1, 0, $58
+spriteTile $10, $20, 0, 1, 0, 1, 0, $39
+spriteTile $18, $20, 0, 1, 0, 1, 0, $38
+spriteTile $10, $28, 0, 1, 0, 1, 0, $59
+spriteTile $18, $28, 0, 1, 0, 1, 0, $58
 SPRITE_34:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $21
-spriteTile $18, $20, 0, 4, 0, 1, 0, $21
-spriteTile $10, $28, 0, 4, 0, 0, 0, $40
-spriteTile $18, $28, 0, 4, 0, 1, 0, $40
+spriteTile $10, $20, 0, 1, 0, 0, 0, $21
+spriteTile $18, $20, 0, 1, 0, 1, 0, $21
+spriteTile $10, $28, 0, 1, 0, 0, 0, $40
+spriteTile $18, $28, 0, 1, 0, 1, 0, $40
 SPRITE_35:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $21
-spriteTile $18, $20, 0, 4, 0, 1, 0, $21
-spriteTile $10, $28, 0, 4, 0, 0, 0, $40
-spriteTile $18, $28, 0, 4, 0, 1, 0, $40
+spriteTile $10, $20, 0, 1, 0, 0, 0, $21
+spriteTile $18, $20, 0, 1, 0, 1, 0, $21
+spriteTile $10, $28, 0, 1, 0, 0, 0, $40
+spriteTile $18, $28, 0, 1, 0, 1, 0, $40
 SPRITE_36:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $38
-spriteTile $18, $20, 0, 4, 0, 0, 0, $39
-spriteTile $10, $28, 0, 4, 0, 0, 0, $58
-spriteTile $18, $28, 0, 4, 0, 0, 0, $59
+spriteTile $10, $20, 0, 1, 0, 0, 0, $38
+spriteTile $18, $20, 0, 1, 0, 0, 0, $39
+spriteTile $10, $28, 0, 1, 0, 0, 0, $58
+spriteTile $18, $28, 0, 1, 0, 0, 0, $59
 SPRITE_37:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $38
-spriteTile $18, $20, 0, 4, 0, 0, 0, $39
-spriteTile $10, $28, 0, 4, 0, 0, 0, $58
-spriteTile $18, $28, 0, 4, 0, 0, 0, $59
+spriteTile $10, $20, 0, 1, 0, 0, 0, $38
+spriteTile $18, $20, 0, 1, 0, 0, 0, $39
+spriteTile $10, $28, 0, 1, 0, 0, 0, $58
+spriteTile $18, $28, 0, 1, 0, 0, 0, $59
 SPRITE_38:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $4C
-spriteTile $18, $20, 0, 4, 0, 1, 0, $4C
-spriteTile $10, $28, 0, 4, 0, 0, 0, $2F
-spriteTile $18, $28, 0, 4, 0, 1, 0, $2F
+spriteTile $10, $20, 0, 1, 0, 0, 0, $4C
+spriteTile $18, $20, 0, 1, 0, 1, 0, $4C
+spriteTile $10, $28, 0, 1, 0, 0, 0, $2F
+spriteTile $18, $28, 0, 1, 0, 1, 0, $2F
 SPRITE_39:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $4C
-spriteTile $18, $20, 0, 4, 0, 1, 0, $4C
-spriteTile $10, $28, 0, 4, 0, 0, 0, $2F
-spriteTile $18, $28, 0, 4, 0, 1, 0, $2F
+spriteTile $10, $20, 0, 1, 0, 0, 0, $4C
+spriteTile $18, $20, 0, 1, 0, 1, 0, $4C
+spriteTile $10, $28, 0, 1, 0, 0, 0, $2F
+spriteTile $18, $28, 0, 1, 0, 1, 0, $2F
 SPRITE_3A:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $49
-spriteTile $18, $20, 0, 4, 0, 1, 0, $48
-spriteTile $10, $28, 0, 4, 0, 1, 0, $59
-spriteTile $18, $28, 0, 4, 0, 1, 0, $58
+spriteTile $10, $20, 0, 1, 0, 1, 0, $49
+spriteTile $18, $20, 0, 1, 0, 1, 0, $48
+spriteTile $10, $28, 0, 1, 0, 1, 0, $59
+spriteTile $18, $28, 0, 1, 0, 1, 0, $58
 SPRITE_3B:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $49
-spriteTile $18, $20, 0, 4, 0, 1, 0, $48
-spriteTile $10, $28, 0, 4, 0, 1, 0, $59
-spriteTile $18, $28, 0, 4, 0, 1, 0, $58
+spriteTile $10, $20, 0, 1, 0, 1, 0, $49
+spriteTile $18, $20, 0, 1, 0, 1, 0, $48
+spriteTile $10, $28, 0, 1, 0, 1, 0, $59
+spriteTile $18, $28, 0, 1, 0, 1, 0, $58
 SPRITE_3C:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $20
-spriteTile $18, $20, 0, 4, 0, 1, 0, $20
-spriteTile $10, $28, 0, 4, 0, 0, 0, $40
-spriteTile $18, $28, 0, 4, 0, 1, 0, $40
+spriteTile $10, $20, 0, 1, 0, 0, 0, $20
+spriteTile $18, $20, 0, 1, 0, 1, 0, $20
+spriteTile $10, $28, 0, 1, 0, 0, 0, $40
+spriteTile $18, $28, 0, 1, 0, 1, 0, $40
 SPRITE_3D:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $20
-spriteTile $18, $20, 0, 4, 0, 1, 0, $20
-spriteTile $10, $28, 0, 4, 0, 0, 0, $40
-spriteTile $18, $28, 0, 4, 0, 1, 0, $40
+spriteTile $10, $20, 0, 1, 0, 0, 0, $20
+spriteTile $18, $20, 0, 1, 0, 1, 0, $20
+spriteTile $10, $28, 0, 1, 0, 0, 0, $40
+spriteTile $18, $28, 0, 1, 0, 1, 0, $40
 SPRITE_3E:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $48
-spriteTile $18, $20, 0, 4, 0, 0, 0, $49
-spriteTile $10, $28, 0, 4, 0, 0, 0, $58
-spriteTile $18, $28, 0, 4, 0, 0, 0, $59
+spriteTile $10, $20, 0, 1, 0, 0, 0, $48
+spriteTile $18, $20, 0, 1, 0, 0, 0, $49
+spriteTile $10, $28, 0, 1, 0, 0, 0, $58
+spriteTile $18, $28, 0, 1, 0, 0, 0, $59
 SPRITE_3F:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $48
-spriteTile $18, $20, 0, 4, 0, 0, 0, $49
-spriteTile $10, $28, 0, 4, 0, 0, 0, $58
-spriteTile $18, $28, 0, 4, 0, 0, 0, $59
+spriteTile $10, $20, 0, 1, 0, 0, 0, $48
+spriteTile $18, $20, 0, 1, 0, 0, 0, $49
+spriteTile $10, $28, 0, 1, 0, 0, 0, $58
+spriteTile $18, $28, 0, 1, 0, 0, 0, $59
 SPRITE_40:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $2E
-spriteTile $18, $20, 0, 4, 0, 1, 0, $2E
-spriteTile $10, $28, 0, 4, 0, 0, 0, $09
-spriteTile $18, $28, 0, 4, 0, 1, 0, $09
+spriteTile $10, $20, 0, 1, 0, 0, 0, $2E
+spriteTile $18, $20, 0, 1, 0, 1, 0, $2E
+spriteTile $10, $28, 0, 1, 0, 0, 0, $09
+spriteTile $18, $28, 0, 1, 0, 1, 0, $09
 SPRITE_41:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $2E
-spriteTile $18, $20, 0, 4, 0, 1, 0, $2E
-spriteTile $10, $28, 0, 4, 0, 0, 0, $09
-spriteTile $18, $28, 0, 4, 0, 1, 0, $09
+spriteTile $10, $20, 0, 1, 0, 0, 0, $2E
+spriteTile $18, $20, 0, 1, 0, 1, 0, $2E
+spriteTile $10, $28, 0, 1, 0, 0, 0, $09
+spriteTile $18, $28, 0, 1, 0, 1, 0, $09
 SPRITE_42:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $2D
-spriteTile $18, $20, 0, 4, 0, 1, 0, $2C
-spriteTile $10, $28, 0, 4, 0, 1, 0, $3D
-spriteTile $18, $28, 0, 4, 0, 1, 0, $3C
+spriteTile $10, $20, 0, 1, 0, 1, 0, $2D
+spriteTile $18, $20, 0, 1, 0, 1, 0, $2C
+spriteTile $10, $28, 0, 1, 0, 1, 0, $3D
+spriteTile $18, $28, 0, 1, 0, 1, 0, $3C
 SPRITE_43:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $2D
-spriteTile $18, $20, 0, 4, 0, 1, 0, $2C
-spriteTile $10, $28, 0, 4, 0, 1, 0, $3D
-spriteTile $18, $28, 0, 4, 0, 1, 0, $3C
+spriteTile $10, $20, 0, 1, 0, 1, 0, $2D
+spriteTile $18, $20, 0, 1, 0, 1, 0, $2C
+spriteTile $10, $28, 0, 1, 0, 1, 0, $3D
+spriteTile $18, $28, 0, 1, 0, 1, 0, $3C
 SPRITE_44:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $2A
-spriteTile $18, $20, 0, 4, 0, 1, 0, $2A
-spriteTile $10, $28, 0, 4, 0, 0, 0, $08
-spriteTile $18, $28, 0, 4, 0, 1, 0, $08
+spriteTile $10, $20, 0, 1, 0, 0, 0, $2A
+spriteTile $18, $20, 0, 1, 0, 1, 0, $2A
+spriteTile $10, $28, 0, 1, 0, 0, 0, $08
+spriteTile $18, $28, 0, 1, 0, 1, 0, $08
 SPRITE_45:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $2A
-spriteTile $18, $20, 0, 4, 0, 1, 0, $2A
-spriteTile $10, $28, 0, 4, 0, 0, 0, $08
-spriteTile $18, $28, 0, 4, 0, 1, 0, $08
+spriteTile $10, $20, 0, 1, 0, 0, 0, $2A
+spriteTile $18, $20, 0, 1, 0, 1, 0, $2A
+spriteTile $10, $28, 0, 1, 0, 0, 0, $08
+spriteTile $18, $28, 0, 1, 0, 1, 0, $08
 SPRITE_46:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $2C
-spriteTile $18, $20, 0, 4, 0, 0, 0, $2D
-spriteTile $10, $28, 0, 4, 0, 0, 0, $3C
-spriteTile $18, $28, 0, 4, 0, 0, 0, $3D
+spriteTile $10, $20, 0, 1, 0, 0, 0, $2C
+spriteTile $18, $20, 0, 1, 0, 0, 0, $2D
+spriteTile $10, $28, 0, 1, 0, 0, 0, $3C
+spriteTile $18, $28, 0, 1, 0, 0, 0, $3D
 SPRITE_47:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $2C
-spriteTile $18, $20, 0, 4, 0, 0, 0, $2D
-spriteTile $10, $28, 0, 4, 0, 0, 0, $3C
-spriteTile $18, $28, 0, 4, 0, 0, 0, $3D
+spriteTile $10, $20, 0, 1, 0, 0, 0, $2C
+spriteTile $18, $20, 0, 1, 0, 0, 0, $2D
+spriteTile $10, $28, 0, 1, 0, 0, 0, $3C
+spriteTile $18, $28, 0, 1, 0, 0, 0, $3D
 SPRITE_48:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $4D
-spriteTile $18, $20, 0, 4, 0, 1, 0, $4D
-spriteTile $10, $28, 0, 4, 0, 0, 0, $2F
-spriteTile $18, $28, 0, 4, 0, 1, 0, $2F
+spriteTile $10, $20, 0, 1, 0, 0, 0, $4D
+spriteTile $18, $20, 0, 1, 0, 1, 0, $4D
+spriteTile $10, $28, 0, 1, 0, 0, 0, $2F
+spriteTile $18, $28, 0, 1, 0, 1, 0, $2F
 SPRITE_49:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $4D
-spriteTile $18, $20, 0, 4, 0, 1, 0, $4D
-spriteTile $10, $28, 0, 4, 0, 0, 0, $2F
-spriteTile $18, $28, 0, 4, 0, 1, 0, $2F
+spriteTile $10, $20, 0, 1, 0, 0, 0, $4D
+spriteTile $18, $20, 0, 1, 0, 1, 0, $4D
+spriteTile $10, $28, 0, 1, 0, 0, 0, $2F
+spriteTile $18, $28, 0, 1, 0, 1, 0, $2F
 SPRITE_4A:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $29
-spriteTile $18, $20, 0, 4, 0, 1, 0, $28
-spriteTile $10, $28, 0, 4, 0, 1, 0, $59
-spriteTile $18, $28, 0, 4, 0, 1, 0, $58
+spriteTile $10, $20, 0, 1, 0, 1, 0, $29
+spriteTile $18, $20, 0, 1, 0, 1, 0, $28
+spriteTile $10, $28, 0, 1, 0, 1, 0, $59
+spriteTile $18, $28, 0, 1, 0, 1, 0, $58
 SPRITE_4B:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $29
-spriteTile $18, $20, 0, 4, 0, 1, 0, $28
-spriteTile $10, $28, 0, 4, 0, 1, 0, $59
-spriteTile $18, $28, 0, 4, 0, 1, 0, $58
+spriteTile $10, $20, 0, 1, 0, 1, 0, $29
+spriteTile $18, $20, 0, 1, 0, 1, 0, $28
+spriteTile $10, $28, 0, 1, 0, 1, 0, $59
+spriteTile $18, $28, 0, 1, 0, 1, 0, $58
 SPRITE_4C:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $41
-spriteTile $18, $20, 0, 4, 0, 1, 0, $41
-spriteTile $10, $28, 0, 4, 0, 0, 0, $40
-spriteTile $18, $28, 0, 4, 0, 1, 0, $40
+spriteTile $10, $20, 0, 1, 0, 0, 0, $41
+spriteTile $18, $20, 0, 1, 0, 1, 0, $41
+spriteTile $10, $28, 0, 1, 0, 0, 0, $40
+spriteTile $18, $28, 0, 1, 0, 1, 0, $40
 SPRITE_4D:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $41
-spriteTile $18, $20, 0, 4, 0, 1, 0, $41
-spriteTile $10, $28, 0, 4, 0, 0, 0, $40
-spriteTile $18, $28, 0, 4, 0, 1, 0, $40
+spriteTile $10, $20, 0, 1, 0, 0, 0, $41
+spriteTile $18, $20, 0, 1, 0, 1, 0, $41
+spriteTile $10, $28, 0, 1, 0, 0, 0, $40
+spriteTile $18, $28, 0, 1, 0, 1, 0, $40
 SPRITE_4E:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $28
-spriteTile $18, $20, 0, 4, 0, 0, 0, $29
-spriteTile $10, $28, 0, 4, 0, 0, 0, $58
-spriteTile $18, $28, 0, 4, 0, 0, 0, $59
+spriteTile $10, $20, 0, 1, 0, 0, 0, $28
+spriteTile $18, $20, 0, 1, 0, 0, 0, $29
+spriteTile $10, $28, 0, 1, 0, 0, 0, $58
+spriteTile $18, $28, 0, 1, 0, 0, 0, $59
 SPRITE_4F:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $28
-spriteTile $18, $20, 0, 4, 0, 0, 0, $29
-spriteTile $10, $28, 0, 4, 0, 0, 0, $58
-spriteTile $18, $28, 0, 4, 0, 0, 0, $59
+spriteTile $10, $20, 0, 1, 0, 0, 0, $28
+spriteTile $18, $20, 0, 1, 0, 0, 0, $29
+spriteTile $10, $28, 0, 1, 0, 0, 0, $58
+spriteTile $18, $28, 0, 1, 0, 0, 0, $59
 SPRITE_293:
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $0D
-spriteTile $14, $20, 0, 4, 0, 0, 0, $0E
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $0F
-spriteTile $0C, $28, 0, 4, 0, 0, 0, $1D
-spriteTile $14, $28, 0, 4, 0, 0, 0, $1E
-spriteTile $1C, $28, 0, 4, 0, 0, 0, $1F
-spriteTile $0C, $30, 0, 4, 0, 0, 0, $2D
-spriteTile $14, $30, 0, 4, 0, 0, 0, $2E
-spriteTile $1C, $30, 0, 4, 0, 0, 0, $2F
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $0D
+spriteTile $14, $20, 0, 1, 0, 0, 0, $0E
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $0F
+spriteTile $0C, $28, 0, 1, 0, 0, 0, $1D
+spriteTile $14, $28, 0, 1, 0, 0, 0, $1E
+spriteTile $1C, $28, 0, 1, 0, 0, 0, $1F
+spriteTile $0C, $30, 0, 1, 0, 0, 0, $2D
+spriteTile $14, $30, 0, 1, 0, 0, 0, $2E
+spriteTile $1C, $30, 0, 1, 0, 0, 0, $2F
 SPRITE_295:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $01
-spriteTile $18, $20, 0, 4, 0, 0, 0, $02
-spriteTile $10, $28, 0, 4, 0, 0, 0, $00
-spriteTile $18, $28, 0, 4, 0, 0, 0, $00
+spriteTile $10, $20, 0, 1, 0, 0, 0, $01
+spriteTile $18, $20, 0, 1, 0, 0, 0, $02
+spriteTile $10, $28, 0, 1, 0, 0, 0, $00
+spriteTile $18, $28, 0, 1, 0, 0, 0, $00
 SPRITE_296:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $03
-spriteTile $18, $20, 0, 4, 0, 0, 0, $04
-spriteTile $10, $28, 0, 4, 0, 0, 0, $00
-spriteTile $18, $28, 0, 4, 0, 0, 0, $00
+spriteTile $10, $20, 0, 1, 0, 0, 0, $03
+spriteTile $18, $20, 0, 1, 0, 0, 0, $04
+spriteTile $10, $28, 0, 1, 0, 0, 0, $00
+spriteTile $18, $28, 0, 1, 0, 0, 0, $00
 SPRITE_297:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $02
-spriteTile $18, $20, 0, 4, 0, 1, 0, $01
-spriteTile $10, $28, 0, 4, 0, 0, 0, $00
-spriteTile $18, $28, 0, 4, 0, 0, 0, $00
+spriteTile $10, $20, 0, 1, 0, 1, 0, $02
+spriteTile $18, $20, 0, 1, 0, 1, 0, $01
+spriteTile $10, $28, 0, 1, 0, 0, 0, $00
+spriteTile $18, $28, 0, 1, 0, 0, 0, $00
 SPRITE_298:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $04
-spriteTile $18, $20, 0, 4, 0, 1, 0, $03
-spriteTile $10, $28, 0, 4, 0, 0, 0, $00
-spriteTile $18, $28, 0, 4, 0, 0, 0, $00
+spriteTile $10, $20, 0, 1, 0, 1, 0, $04
+spriteTile $18, $20, 0, 1, 0, 1, 0, $03
+spriteTile $10, $28, 0, 1, 0, 0, 0, $00
+spriteTile $18, $28, 0, 1, 0, 0, 0, $00
 SPRITE_299:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $02
-spriteTile $18, $20, 0, 4, 0, 1, 0, $01
-spriteTile $10, $28, 0, 4, 0, 0, 0, $00
-spriteTile $18, $28, 0, 4, 0, 0, 0, $00
+spriteTile $10, $20, 0, 1, 0, 1, 0, $02
+spriteTile $18, $20, 0, 1, 0, 1, 0, $01
+spriteTile $10, $28, 0, 1, 0, 0, 0, $00
+spriteTile $18, $28, 0, 1, 0, 0, 0, $00
 SPRITE_29A:
-spriteTile $10, $20, 0, 4, 0, 1, 0, $04
-spriteTile $18, $20, 0, 4, 0, 1, 0, $03
-spriteTile $10, $28, 0, 4, 0, 0, 0, $00
-spriteTile $18, $28, 0, 4, 0, 0, 0, $00
+spriteTile $10, $20, 0, 1, 0, 1, 0, $04
+spriteTile $18, $20, 0, 1, 0, 1, 0, $03
+spriteTile $10, $28, 0, 1, 0, 0, 0, $00
+spriteTile $18, $28, 0, 1, 0, 0, 0, $00
 SPRITE_29B:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $01
-spriteTile $18, $20, 0, 4, 0, 0, 0, $02
-spriteTile $10, $28, 0, 4, 0, 0, 0, $00
-spriteTile $18, $28, 0, 4, 0, 0, 0, $00
+spriteTile $10, $20, 0, 1, 0, 0, 0, $01
+spriteTile $18, $20, 0, 1, 0, 0, 0, $02
+spriteTile $10, $28, 0, 1, 0, 0, 0, $00
+spriteTile $18, $28, 0, 1, 0, 0, 0, $00
 SPRITE_29C:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $03
-spriteTile $18, $20, 0, 4, 0, 0, 0, $04
-spriteTile $10, $28, 0, 4, 0, 0, 0, $00
-spriteTile $18, $28, 0, 4, 0, 0, 0, $00
+spriteTile $10, $20, 0, 1, 0, 0, 0, $03
+spriteTile $18, $20, 0, 1, 0, 0, 0, $04
+spriteTile $10, $28, 0, 1, 0, 0, 0, $00
+spriteTile $18, $28, 0, 1, 0, 0, 0, $00
 SPRITE_2AD:
-spriteTile $10, $18, 0, 4, 0, 0, 0, $86
-spriteTile $18, $18, 0, 4, 0, 1, 0, $85
-spriteTile $10, $20, 0, 4, 0, 0, 1, $85
-spriteTile $00, $00, 0, 4, 0, 0, 0, $80
+spriteTile $10, $18, 0, 1, 0, 0, 0, $86
+spriteTile $18, $18, 0, 1, 0, 1, 0, $85
+spriteTile $10, $20, 0, 1, 0, 0, 1, $85
+spriteTile $00, $00, 0, 1, 0, 0, 0, $80
 SPRITE_2AF:
-spriteTile $10, $18, 0, 4, 0, 1, 1, $85
-spriteTile $20, $18, 0, 4, 0, 1, 0, $85
-spriteTile $18, $20, 0, 4, 0, 1, 0, $86
-spriteTile $10, $28, 0, 4, 0, 1, 0, $85
+spriteTile $10, $18, 0, 1, 0, 1, 1, $85
+spriteTile $20, $18, 0, 1, 0, 1, 0, $85
+spriteTile $18, $20, 0, 1, 0, 1, 0, $86
+spriteTile $10, $28, 0, 1, 0, 1, 0, $85
 SPRITE_2B1:
-spriteTile $08, $18, 0, 4, 0, 0, 0, $85
-spriteTile $10, $18, 0, 4, 0, 1, 0, $86
-spriteTile $10, $20, 0, 4, 0, 0, 0, $85
-spriteTile $18, $28, 0, 4, 0, 0, 0, $85
+spriteTile $08, $18, 0, 1, 0, 0, 0, $85
+spriteTile $10, $18, 0, 1, 0, 1, 0, $86
+spriteTile $10, $20, 0, 1, 0, 0, 0, $85
+spriteTile $18, $28, 0, 1, 0, 0, 0, $85
 SPRITE_2B3:
-spriteTile $18, $18, 0, 4, 0, 1, 0, $85
-spriteTile $18, $20, 0, 4, 0, 0, 1, $85
-spriteTile $10, $28, 0, 4, 0, 1, 0, $85
-spriteTile $18, $28, 0, 4, 0, 0, 0, $85
+spriteTile $18, $18, 0, 1, 0, 1, 0, $85
+spriteTile $18, $20, 0, 1, 0, 0, 1, $85
+spriteTile $10, $28, 0, 1, 0, 1, 0, $85
+spriteTile $18, $28, 0, 1, 0, 0, 0, $85
 
 SPRITEDEF_EARTH:
 spritePointerDef SPRITE_EARTH, 4, 0, 0, 0, 0
@@ -1997,238 +1998,238 @@ spritePointerDef SPRITE_EARTH, $48, 0, 0, 0, 0
 spritePointerDef SPRITE_EARTH, $4c, 0, 0, 0, 0
 
 SPRITE_EARTH:
-spriteTile $00, $00, 0, 4, 0, 0, 0, $00
-spriteTile $08, $00, 0, 4, 0, 0, 0, $01
-spriteTile $10, $00, 0, 4, 0, 0, 0, $02
-spriteTile $18, $00, 0, 4, 0, 0, 0, $03
-spriteTile $00, $08, 0, 4, 0, 0, 0, $10
-spriteTile $08, $08, 0, 4, 0, 0, 0, $11
-spriteTile $10, $08, 0, 4, 0, 0, 0, $12
-spriteTile $18, $08, 0, 4, 0, 0, 0, $13
-spriteTile $00, $10, 0, 4, 0, 0, 0, $20
-spriteTile $08, $10, 0, 4, 0, 0, 0, $21
-spriteTile $10, $10, 0, 4, 0, 0, 0, $22
-spriteTile $18, $10, 0, 4, 0, 0, 0, $23
-spriteTile $00, $18, 0, 4, 0, 0, 0, $30
-spriteTile $08, $18, 0, 4, 0, 0, 0, $31
-spriteTile $10, $18, 0, 4, 0, 0, 0, $32
-spriteTile $18, $18, 0, 4, 0, 0, 0, $33
+spriteTile $00, $00, 0, 1, 0, 0, 0, $00
+spriteTile $08, $00, 0, 1, 0, 0, 0, $01
+spriteTile $10, $00, 0, 1, 0, 0, 0, $02
+spriteTile $18, $00, 0, 1, 0, 0, 0, $03
+spriteTile $00, $08, 0, 1, 0, 0, 0, $10
+spriteTile $08, $08, 0, 1, 0, 0, 0, $11
+spriteTile $10, $08, 0, 1, 0, 0, 0, $12
+spriteTile $18, $08, 0, 1, 0, 0, 0, $13
+spriteTile $00, $10, 0, 1, 0, 0, 0, $20
+spriteTile $08, $10, 0, 1, 0, 0, 0, $21
+spriteTile $10, $10, 0, 1, 0, 0, 0, $22
+spriteTile $18, $10, 0, 1, 0, 0, 0, $23
+spriteTile $00, $18, 0, 1, 0, 0, 0, $30
+spriteTile $08, $18, 0, 1, 0, 0, 0, $31
+spriteTile $10, $18, 0, 1, 0, 0, 0, $32
+spriteTile $18, $18, 0, 1, 0, 0, 0, $33
 
 SPRITEDEF_STAT_WOUNDED:
 spritePointerDef SPRITE_STAT_BG, $6D, 0, 0, 0, 0
 SPRITEDEF_STAT_UNCON:
 spritePointerDef SPRITE_STAT_BG, $6E, 0, 0, 0, 0
 SPRITEDEF_AUTOBATTLER:
-spritePointerDef SPRITE_AUTOBATTLER,  0, 0, 0, 0, 0
+spritePointerDef SPRITE_AUTOBATTLER, 0, 0, 0, 0, 0
 
 SPRITE_STAT_BG:
-spriteTile $00, $00, 0, 4, 1, 0, 0, $00
-spriteTile $08, $00, 0, 4, 1, 0, 0, $00
-spriteTile $10, $00, 0, 4, 1, 0, 0, $00
-spriteTile $18, $00, 0, 4, 1, 0, 0, $00
-spriteTile $20, $00, 0, 4, 1, 0, 0, $00
-spriteTile $28, $00, 0, 4, 1, 0, 0, $00
+spriteTile $00, $00, 0, 1, 1, 0, 0, $00
+spriteTile $08, $00, 0, 1, 1, 0, 0, $00
+spriteTile $10, $00, 0, 1, 1, 0, 0, $00
+spriteTile $18, $00, 0, 1, 1, 0, 0, $00
+spriteTile $20, $00, 0, 1, 1, 0, 0, $00
+spriteTile $28, $00, 0, 1, 1, 0, 0, $00
 
 SPRITE_AUTOBATTLER:
-spriteTile $00, $00, 0, 4, 0, 0, 0, $6F
-spriteTile $08, $00, 0, 4, 0, 0, 0, $7D
-spriteTile $10, $00, 0, 4, 0, 0, 0, $7E
-spriteTile $18, $00, 0, 4, 0, 0, 0, $7F
+spriteTile $00, $00, 0, 1, 0, 0, 0, $6F
+spriteTile $08, $00, 0, 1, 0, 0, 0, $7D
+spriteTile $10, $00, 0, 1, 0, 0, 0, $7E
+spriteTile $18, $00, 0, 1, 0, 0, 0, $7F
 
 ;enemy extra tiles
 SPRITEDEF_DADSEYES_EXTRATILES: ;DadsEyes
-spritePointerDef SPRITE_DADSEYES_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_DADSEYES_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_MOMSEYES_EXTRATILES: ;MomsEyes
-spritePointerDef SPRITE_MOMSEYES_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_MOMSEYES_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_BIGWOODOH_EXTRATILES: ;BigWoodoh
-spritePointerDef SPRITE_BIGWOODOH_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_BIGWOODOH_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_R7037_EXTRATILES: ;R7037
-spritePointerDef SPRITE_R7037_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_R7037_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_R7038_EXTRATILES: ;R7038
-spritePointerDef SPRITE_R7038_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_R7038_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_R7038XX_EXTRATILES: ;R7038XX
-spritePointerDef SPRITE_R7038XX_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_R7038XX_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_SCRAPPER_EXTRATILES: ;Scrapper
-spritePointerDef SPRITE_SCRAPPER_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_SCRAPPER_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_FIRE_BALL_EXTRATILES: ;Fire Ball
-spritePointerDef SPRITE_FIRE_BALL_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_FIRE_BALL_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_CENTIPEDE_EXTRATILES: ;Centipede
-spritePointerDef SPRITE_CENTIPEDE_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_CENTIPEDE_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_ARMOR_EXTRATILES: ;Armor
-spritePointerDef SPRITE_ARMOR_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_ARMOR_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_RATTLESNAKE_EXTRATILES: ;RattleSnake
-spritePointerDef SPRITE_RATTLESNAKE_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_RATTLESNAKE_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_STRAY_DOG_EXTRATILES: ;Stray Dog
-spritePointerDef SPRITE_STRAY_DOG_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_STRAY_DOG_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_KELLY_EXTRATILES: ;Kelly
-spritePointerDef SPRITE_KELLY_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_KELLY_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_JUANA_EXTRATILES: ;Juana
-spritePointerDef SPRITE_JUANA_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_JUANA_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_GIEGUE_EXTRATILES: ;Giegue
-spritePointerDef SPRITE_GIEGUE_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_GIEGUE_EXTRATILES, 0, 1, 2, 3, 0
 SPRITEDEF_SKY_YDDET_EXTRATILES: ;Sky_Yddet
-spritePointerDef SPRITE_SKY_YDDET_EXTRATILES, 0, 1, 2, 1, 1
+spritePointerDef SPRITE_SKY_YDDET_EXTRATILES, 0, 1, 2, 3, 0
 
 SPRITE_DADSEYES_EXTRATILES:
-spriteTile $0F, $0C, 0, 4, 0, 0, 0, $20
-spriteTile $17, $0C, 0, 4, 0, 0, 0, $21
-spriteTile $20, $0C, 0, 4, 0, 1, 0, $21
-spriteTile $28, $0C, 0, 4, 0, 1, 0, $20
+spriteTile $0F, $0C, 0, 1, 0, 0, 0, $20
+spriteTile $17, $0C, 0, 1, 0, 0, 0, $21
+spriteTile $20, $0C, 0, 1, 0, 1, 0, $21
+spriteTile $28, $0C, 0, 1, 0, 1, 0, $20
 SPRITE_MOMSEYES_EXTRATILES:
-spriteTile $0F, $0C, 0, 4, 0, 0, 0, $30
-spriteTile $17, $0C, 0, 4, 0, 0, 0, $31
-spriteTile $20, $0C, 0, 4, 0, 1, 0, $31
-spriteTile $28, $0C, 0, 4, 0, 1, 0, $30
+spriteTile $0F, $0C, 0, 1, 0, 0, 0, $30
+spriteTile $17, $0C, 0, 1, 0, 0, 0, $31
+spriteTile $20, $0C, 0, 1, 0, 1, 0, $31
+spriteTile $28, $0C, 0, 1, 0, 1, 0, $30
 SPRITE_BIGWOODOH_EXTRATILES:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $01
-spriteTile $10, $28, 0, 4, 0, 0, 0, $11
-spriteTile $40, $18, 0, 4, 0, 0, 0, $03
-spriteTile $48, $18, 0, 4, 0, 0, 0, $04
-spriteTile $48, $20, 0, 4, 0, 0, 0, $14
+spriteTile $10, $20, 0, 1, 0, 0, 0, $01
+spriteTile $10, $28, 0, 1, 0, 0, 0, $11
+spriteTile $40, $18, 0, 1, 0, 0, 0, $03
+spriteTile $48, $18, 0, 1, 0, 0, 0, $04
+spriteTile $48, $20, 0, 1, 0, 0, 0, $14
 SPRITE_R7037_EXTRATILES:
-spriteTile $28, $28, 1, 4, 0, 0, 0, $29
-spriteTile $30, $28, 1, 4, 0, 0, 0, $2A
-spriteTile $28, $30, 1, 4, 0, 0, 0, $39
-spriteTile $30, $30, 1, 4, 0, 0, 0, $3A
+spriteTile $28, $28, 1, 1, 0, 0, 0, $29
+spriteTile $30, $28, 1, 1, 0, 0, 0, $2A
+spriteTile $28, $30, 1, 1, 0, 0, 0, $39
+spriteTile $30, $30, 1, 1, 0, 0, 0, $3A
 SPRITE_R7038_EXTRATILES:
-spriteTile $10, $18, 0, 4, 0, 0, 0, $07
-spriteTile $18, $18, 0, 4, 0, 0, 0, $08
-spriteTile $10, $20, 0, 4, 0, 0, 0, $17
-spriteTile $18, $20, 0, 4, 0, 0, 0, $18
-spriteTile $10, $28, 0, 4, 0, 0, 0, $27
-spriteTile $18, $28, 0, 4, 0, 0, 0, $28
-spriteTile $10, $30, 0, 4, 0, 0, 0, $37
-spriteTile $18, $30, 0, 4, 0, 0, 0, $38
-spriteTile $28, $10, 1, 4, 0, 0, 0, $2B
-spriteTile $30, $10, 1, 4, 0, 0, 0, $2C
-spriteTile $28, $18, 1, 4, 0, 0, 0, $3B
-spriteTile $30, $18, 1, 4, 0, 0, 0, $3C
-spriteTile $28, $28, 2, 4, 0, 0, 0, $29
-spriteTile $30, $28, 2, 4, 0, 0, 0, $2A
-spriteTile $28, $30, 2, 4, 0, 0, 0, $39
-spriteTile $30, $30, 2, 4, 0, 0, 0, $3A
+spriteTile $10, $18, 0, 1, 0, 0, 0, $07
+spriteTile $18, $18, 0, 1, 0, 0, 0, $08
+spriteTile $10, $20, 0, 1, 0, 0, 0, $17
+spriteTile $18, $20, 0, 1, 0, 0, 0, $18
+spriteTile $10, $28, 0, 1, 0, 0, 0, $27
+spriteTile $18, $28, 0, 1, 0, 0, 0, $28
+spriteTile $10, $30, 0, 1, 0, 0, 0, $37
+spriteTile $18, $30, 0, 1, 0, 0, 0, $38
+spriteTile $28, $10, 1, 1, 0, 0, 0, $2B
+spriteTile $30, $10, 1, 1, 0, 0, 0, $2C
+spriteTile $28, $18, 1, 1, 0, 0, 0, $3B
+spriteTile $30, $18, 1, 1, 0, 0, 0, $3C
+spriteTile $28, $28, 2, 1, 0, 0, 0, $29
+spriteTile $30, $28, 2, 1, 0, 0, 0, $2A
+spriteTile $28, $30, 2, 1, 0, 0, 0, $39
+spriteTile $30, $30, 2, 1, 0, 0, 0, $3A
 SPRITE_R7038XX_EXTRATILES:
-spriteTile $10, $18, 0, 4, 0, 0, 0, $07
-spriteTile $18, $18, 0, 4, 0, 0, 0, $08
-spriteTile $10, $20, 0, 4, 0, 0, 0, $17
-spriteTile $18, $20, 0, 4, 0, 0, 0, $18
-spriteTile $10, $28, 0, 4, 0, 0, 0, $27
-spriteTile $18, $28, 0, 4, 0, 0, 0, $28
-spriteTile $10, $30, 0, 4, 0, 0, 0, $37
-spriteTile $18, $30, 0, 4, 0, 0, 0, $38
-spriteTile $40, $18, 0, 4, 0, 1, 0, $08
-spriteTile $48, $18, 0, 4, 0, 1, 0, $07
-spriteTile $40, $20, 0, 4, 0, 1, 0, $18
-spriteTile $48, $20, 0, 4, 0, 1, 0, $17
-spriteTile $40, $28, 0, 4, 0, 1, 0, $28
-spriteTile $48, $28, 0, 4, 0, 1, 0, $27
-spriteTile $40, $30, 0, 4, 0, 1, 0, $38
-spriteTile $48, $30, 0, 4, 0, 1, 0, $37
-spriteTile $28, $16, 1, 4, 0, 0, 0, $2D
-spriteTile $30, $16, 1, 4, 0, 0, 0, $2E
-spriteTile $28, $1E, 1, 4, 0, 0, 0, $3D
-spriteTile $30, $1E, 1, 4, 0, 0, 0, $3E
-spriteTile $28, $28, 2, 4, 0, 0, 0, $29
-spriteTile $30, $28, 2, 4, 0, 0, 0, $2A
-spriteTile $28, $30, 2, 4, 0, 0, 0, $39
-spriteTile $30, $30, 2, 4, 0, 0, 0, $3A
+spriteTile $10, $18, 0, 1, 0, 0, 0, $07
+spriteTile $18, $18, 0, 1, 0, 0, 0, $08
+spriteTile $10, $20, 0, 1, 0, 0, 0, $17
+spriteTile $18, $20, 0, 1, 0, 0, 0, $18
+spriteTile $10, $28, 0, 1, 0, 0, 0, $27
+spriteTile $18, $28, 0, 1, 0, 0, 0, $28
+spriteTile $10, $30, 0, 1, 0, 0, 0, $37
+spriteTile $18, $30, 0, 1, 0, 0, 0, $38
+spriteTile $40, $18, 0, 1, 0, 1, 0, $08
+spriteTile $48, $18, 0, 1, 0, 1, 0, $07
+spriteTile $40, $20, 0, 1, 0, 1, 0, $18
+spriteTile $48, $20, 0, 1, 0, 1, 0, $17
+spriteTile $40, $28, 0, 1, 0, 1, 0, $28
+spriteTile $48, $28, 0, 1, 0, 1, 0, $27
+spriteTile $40, $30, 0, 1, 0, 1, 0, $38
+spriteTile $48, $30, 0, 1, 0, 1, 0, $37
+spriteTile $28, $16, 1, 1, 0, 0, 0, $2D
+spriteTile $30, $16, 1, 1, 0, 0, 0, $2E
+spriteTile $28, $1E, 1, 1, 0, 0, 0, $3D
+spriteTile $30, $1E, 1, 1, 0, 0, 0, $3E
+spriteTile $28, $28, 2, 1, 0, 0, 0, $29
+spriteTile $30, $28, 2, 1, 0, 0, 0, $2A
+spriteTile $28, $30, 2, 1, 0, 0, 0, $39
+spriteTile $30, $30, 2, 1, 0, 0, 0, $3A
 SPRITE_SCRAPPER_EXTRATILES:
-spriteTile $18, $28, 0, 4, 0, 0, 0, $1D
-spriteTile $10, $30, 0, 4, 0, 0, 0, $0C
-spriteTile $18, $30, 0, 4, 0, 0, 0, $0D
-spriteTile $10, $38, 0, 4, 0, 0, 0, $1C
-spriteTile $18, $38, 0, 4, 0, 0, 0, $2F
-spriteTile $28, $20, 1, 4, 0, 0, 0, $0E
-spriteTile $30, $20, 1, 4, 0, 0, 0, $0F
-spriteTile $28, $28, 1, 4, 0, 0, 0, $1E
-spriteTile $30, $28, 1, 4, 0, 0, 0, $1F
+spriteTile $18, $28, 0, 1, 0, 0, 0, $1D
+spriteTile $10, $30, 0, 1, 0, 0, 0, $0C
+spriteTile $18, $30, 0, 1, 0, 0, 0, $0D
+spriteTile $10, $38, 0, 1, 0, 0, 0, $1C
+spriteTile $18, $38, 0, 1, 0, 0, 0, $2F
+spriteTile $28, $20, 1, 1, 0, 0, 0, $0E
+spriteTile $30, $20, 1, 1, 0, 0, 0, $0F
+spriteTile $28, $28, 1, 1, 0, 0, 0, $1E
+spriteTile $30, $28, 1, 1, 0, 0, 0, $1F
 SPRITE_FIRE_BALL_EXTRATILES:
-spriteTile $18, $18, 0, 4, 0, 0, 0, $10
-spriteTile $10, $20, 0, 4, 0, 0, 0, $02
-spriteTile $18, $20, 0, 4, 0, 0, 0, $00
-spriteTile $10, $28, 0, 4, 0, 0, 0, $12
-spriteTile $28, $20, 0, 4, 0, 0, 0, $13
-spriteTile $20, $28, 0, 4, 0, 0, 0, $19
-spriteTile $28, $28, 0, 4, 0, 0, 0, $1A
+spriteTile $18, $18, 0, 1, 0, 0, 0, $10
+spriteTile $10, $20, 0, 1, 0, 0, 0, $02
+spriteTile $18, $20, 0, 1, 0, 0, 0, $00
+spriteTile $10, $28, 0, 1, 0, 0, 0, $12
+spriteTile $28, $20, 0, 1, 0, 0, 0, $13
+spriteTile $20, $28, 0, 1, 0, 0, 0, $19
+spriteTile $28, $28, 0, 1, 0, 0, 0, $1A
 SPRITE_CENTIPEDE_EXTRATILES:
-spriteTile $10, $18, 1, 4, 0, 0, 0, $40
-spriteTile $20, $18, 1, 4, 0, 0, 0, $41
-spriteTile $18, $38, 1, 4, 0, 0, 0, $42
-spriteTile $20, $38, 1, 4, 0, 0, 0, $43
-spriteTile $28, $38, 1, 4, 0, 0, 0, $44
+spriteTile $10, $18, 1, 1, 0, 0, 0, $40
+spriteTile $20, $18, 1, 1, 0, 0, 0, $41
+spriteTile $18, $38, 1, 1, 0, 0, 0, $42
+spriteTile $20, $38, 1, 1, 0, 0, 0, $43
+spriteTile $28, $38, 1, 1, 0, 0, 0, $44
 SPRITE_ARMOR_EXTRATILES:
-spriteTile $10, $10, 0, 4, 0, 0, 0, $09
-spriteTile $18, $10, 0, 4, 0, 0, 0, $0A
-spriteTile $28, $10, 0, 4, 0, 0, 0, $0B
-spriteTile $28, $18, 0, 4, 0, 0, 0, $1B
+spriteTile $10, $10, 0, 1, 0, 0, 0, $09
+spriteTile $18, $10, 0, 1, 0, 0, 0, $0A
+spriteTile $28, $10, 0, 1, 0, 0, 0, $0B
+spriteTile $28, $18, 0, 1, 0, 0, 0, $1B
 SPRITE_RATTLESNAKE_EXTRATILES:
-spriteTile $28, $2F, 2, 4, 0, 0, 0, $45
-spriteTile $30, $2F, 2, 4, 0, 0, 0, $46
-spriteTile $28, $37, 2, 4, 0, 0, 0, $47
-spriteTile $30, $37, 2, 4, 0, 0, 0, $48
+spriteTile $28, $2F, 2, 1, 0, 0, 0, $45
+spriteTile $30, $2F, 2, 1, 0, 0, 0, $46
+spriteTile $28, $37, 2, 1, 0, 0, 0, $47
+spriteTile $30, $37, 2, 1, 0, 0, 0, $48
 SPRITE_STRAY_DOG_EXTRATILES:
-spriteTile $38, $20, 0, 4, 0, 0, 0, $49
-spriteTile $40, $20, 0, 4, 0, 0, 0, $4A
-spriteTile $40, $28, 0, 4, 0, 0, 0, $4B
-spriteTile $18, $10, 1, 4, 0, 0, 0, $4C
-spriteTile $20, $10, 1, 4, 0, 0, 0, $4D
-spriteTile $18, $18, 1, 4, 0, 0, 0, $0E
-spriteTile $20, $18, 1, 4, 0, 0, 0, $4F
+spriteTile $38, $20, 0, 1, 0, 0, 0, $49
+spriteTile $40, $20, 0, 1, 0, 0, 0, $4A
+spriteTile $40, $28, 0, 1, 0, 0, 0, $4B
+spriteTile $18, $10, 1, 1, 0, 0, 0, $4C
+spriteTile $20, $10, 1, 1, 0, 0, 0, $4D
+spriteTile $18, $18, 1, 1, 0, 0, 0, $0E
+spriteTile $20, $18, 1, 1, 0, 0, 0, $4F
 SPRITE_KELLY_EXTRATILES:
-spriteTile $20, $10, 0, 4, 0, 0, 0, $22
+spriteTile $20, $10, 0, 1, 0, 0, 0, $22
 SPRITE_JUANA_EXTRATILES:
-spriteTile $10, $10, 1, 4, 0, 0, 0, $23
-spriteTile $18, $10, 1, 4, 0, 0, 0, $24
-spriteTile $20, $10, 1, 4, 0, 0, 0, $25
-spriteTile $28, $10, 1, 4, 0, 0, 0, $26
-spriteTile $10, $18, 1, 4, 0, 0, 0, $33
-spriteTile $18, $18, 1, 4, 0, 0, 0, $34
-spriteTile $20, $18, 1, 4, 0, 0, 0, $35
-spriteTile $28, $18, 1, 4, 0, 0, 0, $36
+spriteTile $10, $10, 1, 1, 0, 0, 0, $23
+spriteTile $18, $10, 1, 1, 0, 0, 0, $24
+spriteTile $20, $10, 1, 1, 0, 0, 0, $25
+spriteTile $28, $10, 1, 1, 0, 0, 0, $26
+spriteTile $10, $18, 1, 1, 0, 0, 0, $33
+spriteTile $18, $18, 1, 1, 0, 0, 0, $34
+spriteTile $20, $18, 1, 1, 0, 0, 0, $35
+spriteTile $28, $18, 1, 1, 0, 0, 0, $36
 SPRITE_GIEGUE_EXTRATILES:
-spriteTile $28, $10, 1, 4, 0, 0, 0, $58
-spriteTile $30, $10, 1, 4, 0, 0, 0, $59
-spriteTile $28, $18, 1, 4, 0, 0, 0, $68
-spriteTile $30, $18, 1, 4, 0, 0, 0, $69
-spriteTile $28, $20, 1, 4, 0, 0, 0, $78
-spriteTile $30, $20, 1, 4, 0, 0, 0, $79
-spriteTile $28, $28, 1, 4, 0, 0, 0, $5A
-spriteTile $30, $28, 1, 4, 0, 0, 0, $5B
-spriteTile $28, $30, 1, 4, 0, 0, 0, $6A
-spriteTile $30, $30, 1, 4, 0, 0, 0, $6B
-spriteTile $28, $38, 1, 4, 0, 0, 0, $7A
-spriteTile $30, $38, 1, 4, 0, 0, 0, $7B
-spriteTile $08, $28, 0, 4, 0, 0, 0, $53
-spriteTile $10, $28, 0, 4, 0, 0, 0, $54
-spriteTile $00, $30, 0, 4, 0, 0, 0, $50
-spriteTile $08, $30, 0, 4, 0, 0, 0, $51
-spriteTile $10, $30, 0, 4, 0, 0, 0, $52
-spriteTile $00, $38, 0, 4, 0, 0, 0, $60
-spriteTile $08, $38, 0, 4, 0, 0, 0, $61
-spriteTile $10, $38, 0, 4, 0, 0, 0, $62
-spriteTile $00, $40, 0, 4, 0, 0, 0, $70
-spriteTile $08, $40, 0, 4, 0, 0, 0, $71
-spriteTile $10, $40, 0, 4, 0, 0, 0, $72
-spriteTile $48, $28, 0, 4, 0, 0, 0, $63
-spriteTile $50, $28, 0, 4, 0, 0, 0, $64
-spriteTile $48, $30, 0, 4, 0, 0, 0, $55
-spriteTile $50, $30, 0, 4, 0, 0, 0, $56
-spriteTile $58, $30, 0, 4, 0, 0, 0, $57
-spriteTile $48, $38, 0, 4, 0, 0, 0, $65
-spriteTile $50, $38, 0, 4, 0, 0, 0, $66
-spriteTile $58, $38, 0, 4, 0, 0, 0, $67
-spriteTile $48, $40, 0, 4, 0, 0, 0, $75
-spriteTile $50, $40, 0, 4, 0, 0, 0, $76
-spriteTile $58, $40, 0, 4, 0, 0, 0, $77
+spriteTile $28, $10, 1, 1, 0, 0, 0, $58
+spriteTile $30, $10, 1, 1, 0, 0, 0, $59
+spriteTile $28, $18, 1, 1, 0, 0, 0, $68
+spriteTile $30, $18, 1, 1, 0, 0, 0, $69
+spriteTile $28, $20, 1, 1, 0, 0, 0, $78
+spriteTile $30, $20, 1, 1, 0, 0, 0, $79
+spriteTile $28, $28, 1, 1, 0, 0, 0, $5A
+spriteTile $30, $28, 1, 1, 0, 0, 0, $5B
+spriteTile $28, $30, 1, 1, 0, 0, 0, $6A
+spriteTile $30, $30, 1, 1, 0, 0, 0, $6B
+spriteTile $28, $38, 1, 1, 0, 0, 0, $7A
+spriteTile $30, $38, 1, 1, 0, 0, 0, $7B
+spriteTile $08, $28, 0, 1, 0, 0, 0, $53
+spriteTile $10, $28, 0, 1, 0, 0, 0, $54
+spriteTile $00, $30, 0, 1, 0, 0, 0, $50
+spriteTile $08, $30, 0, 1, 0, 0, 0, $51
+spriteTile $10, $30, 0, 1, 0, 0, 0, $52
+spriteTile $00, $38, 0, 1, 0, 0, 0, $60
+spriteTile $08, $38, 0, 1, 0, 0, 0, $61
+spriteTile $10, $38, 0, 1, 0, 0, 0, $62
+spriteTile $00, $40, 0, 1, 0, 0, 0, $70
+spriteTile $08, $40, 0, 1, 0, 0, 0, $71
+spriteTile $10, $40, 0, 1, 0, 0, 0, $72
+spriteTile $48, $28, 0, 1, 0, 0, 0, $63
+spriteTile $50, $28, 0, 1, 0, 0, 0, $64
+spriteTile $48, $30, 0, 1, 0, 0, 0, $55
+spriteTile $50, $30, 0, 1, 0, 0, 0, $56
+spriteTile $58, $30, 0, 1, 0, 0, 0, $57
+spriteTile $48, $38, 0, 1, 0, 0, 0, $65
+spriteTile $50, $38, 0, 1, 0, 0, 0, $66
+spriteTile $58, $38, 0, 1, 0, 0, 0, $67
+spriteTile $48, $40, 0, 1, 0, 0, 0, $75
+spriteTile $50, $40, 0, 1, 0, 0, 0, $76
+spriteTile $58, $40, 0, 1, 0, 0, 0, $77
 SPRITE_SKY_YDDET_EXTRATILES:
-spriteTile $10, $10, 1, 4, 0, 0, 0, $05
-spriteTile $18, $10, 1, 4, 0, 0, 0, $06
-spriteTile $10, $18, 1, 4, 0, 0, 0, $15
-spriteTile $18, $18, 1, 4, 0, 0, 0, $16
-spriteTile $30, $10, 1, 4, 0, 1, 0, $06
-spriteTile $38, $10, 1, 4, 0, 1, 0, $05
-spriteTile $30, $18, 1, 4, 0, 1, 0, $16
-spriteTile $38, $18, 1, 4, 0, 1, 0, $15
+spriteTile $10, $10, 1, 1, 0, 0, 0, $05
+spriteTile $18, $10, 1, 1, 0, 0, 0, $06
+spriteTile $10, $18, 1, 1, 0, 0, 0, $15
+spriteTile $18, $18, 1, 1, 0, 0, 0, $16
+spriteTile $30, $10, 1, 1, 0, 1, 0, $06
+spriteTile $38, $10, 1, 1, 0, 1, 0, $05
+spriteTile $30, $18, 1, 1, 0, 1, 0, $16
+spriteTile $38, $18, 1, 1, 0, 1, 0, $15
 
 SPRITEDEF_GIEGUECLIFF1:
 spritePointerDef SPRITE_GIEGUECLIFF1, 0, 1, 0, 0, 0
@@ -2237,26 +2238,28 @@ SPRITEDEF_GIEGUECLIFF2:
 spritePointerDef SPRITE_GIEGUECLIFF2, 0, 1, 0, 0, 0
 
 SPRITE_GIEGUECLIFF1:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $6A
-spriteTile $18, $20, 0, 4, 0, 0, 0, $6B
+spriteTile $10, $20, 0, 1, 0, 0, 0, $6A
+spriteTile $18, $20, 0, 1, 0, 0, 0, $6B
 spriteTile $20, $20, 0, 0, 0, 0, 0, $00
-spriteTile $10, $28, 0, 4, 0, 0, 0, $7A
-spriteTile $18, $28, 0, 4, 0, 0, 0, $7B
-spriteTile $20, $28, 0, 4, 0, 0, 0, $7C
+spriteTile $10, $28, 0, 1, 0, 0, 0, $7A
+spriteTile $18, $28, 0, 1, 0, 0, 0, $7B
+spriteTile $20, $28, 0, 1, 0, 0, 0, $7C
 SPRITE_GIEGUECLIFF2:
-spriteTile $08, $20, 0, 4, 0, 0, 0, $6D
-spriteTile $10, $20, 0, 4, 0, 0, 0, $6A
-spriteTile $18, $20, 0, 4, 0, 0, 0, $6B
-spriteTile $08, $28, 0, 4, 0, 0, 0, $7D
-spriteTile $10, $28, 0, 4, 0, 0, 0, $7E
-spriteTile $18, $28, 0, 4, 0, 0, 0, $7F
+spriteTile $08, $20, 0, 1, 0, 0, 0, $6D
+spriteTile $10, $20, 0, 1, 0, 0, 0, $6A
+spriteTile $18, $20, 0, 1, 0, 0, 0, $6B
+spriteTile $08, $28, 0, 1, 0, 0, 0, $7D
+spriteTile $10, $28, 0, 1, 0, 0, 0, $7E
+spriteTile $18, $28, 0, 1, 0, 0, 0, $7F
 
 ;are these tiles or pointers?
 .ifndef VER_JP
-SPRITEDEF_CREDITS_UNK0:
+SPRITEDEF_TOMBSTONE_SPARKLE:
 spritePointerDef SPRITE_CREDITS_UNK0, $F8, 0, 0, 0, 0
-SPRITEDEF_CREDITS_UNK1:
+
+SPRITEDEF_TOMBSTONE_CRYSTAL:
 spritePointerDef SPRITE_60, $EA, 0, 0, 0, 0
+
 SPRITEDEF_CREDITS_UNK2:
 spritePointerDef SPRITE_CHARUP1, $60, 2, 1, 0, 0
 SPRITEDEF_CREDITS_UNK3:
@@ -2517,69 +2520,69 @@ SPRITEDEF_CREDITS_UNK130:
 spritePointerDef SPRITE_CHARLEFT2, $88, 1, 2, 1, 0
 
 SPRITE_CREDITS_UNK0:
-spriteTile $10, $20, 0, 4, 0, 0, 0, $00
-spriteTile $18, $20, 0, 4, 0, 1, 0, $00
-spriteTile $10, $28, 0, 4, 0, 0, 1, $00
-spriteTile $18, $28, 0, 4, 0, 1, 1, $00
+spriteTile $10, $20, 0, 1, 0, 0, 0, $00
+spriteTile $18, $20, 0, 1, 0, 1, 0, $00
+spriteTile $10, $28, 0, 1, 0, 0, 1, $00
+spriteTile $18, $28, 0, 1, 0, 1, 1, $00
 SPRITE_CREDITS_UNK4:
-spriteTile $00, $00, 0, 4, 0, 0, 0, $00
-spriteTile $08, $00, 0, 4, 0, 0, 0, $01
-spriteTile $10, $00, 0, 4, 0, 0, 0, $02
-spriteTile $18, $00, 0, 4, 0, 0, 0, $03
-spriteTile $20, $00, 0, 4, 0, 0, 0, $04
-spriteTile $28, $00, 0, 4, 0, 0, 0, $05
-spriteTile $00, $08, 0, 4, 0, 0, 0, $10
-spriteTile $08, $08, 0, 4, 0, 0, 0, $11
-spriteTile $10, $08, 0, 4, 0, 0, 0, $12
-spriteTile $18, $08, 0, 4, 0, 0, 0, $13
-spriteTile $20, $08, 0, 4, 0, 0, 0, $14
-spriteTile $28, $08, 0, 4, 0, 0, 0, $15
-spriteTile $00, $10, 0, 4, 0, 0, 0, $20
-spriteTile $08, $10, 0, 4, 0, 0, 0, $21
-spriteTile $10, $10, 0, 4, 0, 0, 0, $22
-spriteTile $18, $10, 0, 4, 0, 0, 0, $23
-spriteTile $20, $10, 0, 4, 0, 0, 0, $24
-spriteTile $28, $10, 0, 4, 0, 0, 0, $25
-spriteTile $00, $18, 0, 4, 0, 0, 0, $30
-spriteTile $08, $18, 0, 4, 0, 0, 0, $31
-spriteTile $10, $18, 0, 4, 0, 0, 0, $32
-spriteTile $18, $18, 0, 4, 0, 0, 0, $33
-spriteTile $20, $18, 0, 4, 0, 0, 0, $34
-spriteTile $28, $18, 0, 4, 0, 0, 0, $35
-spriteTile $00, $20, 0, 4, 0, 0, 0, $40
-spriteTile $08, $20, 0, 4, 0, 0, 0, $41
-spriteTile $10, $20, 0, 4, 0, 0, 0, $42
-spriteTile $18, $20, 0, 4, 0, 0, 0, $43
-spriteTile $20, $20, 0, 4, 0, 0, 0, $44
-spriteTile $28, $20, 0, 4, 0, 0, 0, $45
-spriteTile $00, $28, 0, 4, 0, 0, 0, $50
-spriteTile $08, $28, 0, 4, 0, 0, 0, $51
-spriteTile $10, $28, 0, 4, 0, 0, 0, $52
-spriteTile $18, $28, 0, 4, 0, 0, 0, $53
-spriteTile $20, $28, 0, 4, 0, 0, 0, $54
-spriteTile $28, $28, 0, 4, 0, 0, 0, $55
-spriteTile $08, $30, 0, 4, 0, 0, 0, $46
-spriteTile $10, $30, 0, 4, 0, 0, 0, $47
-spriteTile $00, $38, 0, 4, 0, 0, 0, $56
-spriteTile $08, $38, 0, 4, 0, 0, 0, $57
+spriteTile $00, $00, 0, 1, 0, 0, 0, $00
+spriteTile $08, $00, 0, 1, 0, 0, 0, $01
+spriteTile $10, $00, 0, 1, 0, 0, 0, $02
+spriteTile $18, $00, 0, 1, 0, 0, 0, $03
+spriteTile $20, $00, 0, 1, 0, 0, 0, $04
+spriteTile $28, $00, 0, 1, 0, 0, 0, $05
+spriteTile $00, $08, 0, 1, 0, 0, 0, $10
+spriteTile $08, $08, 0, 1, 0, 0, 0, $11
+spriteTile $10, $08, 0, 1, 0, 0, 0, $12
+spriteTile $18, $08, 0, 1, 0, 0, 0, $13
+spriteTile $20, $08, 0, 1, 0, 0, 0, $14
+spriteTile $28, $08, 0, 1, 0, 0, 0, $15
+spriteTile $00, $10, 0, 1, 0, 0, 0, $20
+spriteTile $08, $10, 0, 1, 0, 0, 0, $21
+spriteTile $10, $10, 0, 1, 0, 0, 0, $22
+spriteTile $18, $10, 0, 1, 0, 0, 0, $23
+spriteTile $20, $10, 0, 1, 0, 0, 0, $24
+spriteTile $28, $10, 0, 1, 0, 0, 0, $25
+spriteTile $00, $18, 0, 1, 0, 0, 0, $30
+spriteTile $08, $18, 0, 1, 0, 0, 0, $31
+spriteTile $10, $18, 0, 1, 0, 0, 0, $32
+spriteTile $18, $18, 0, 1, 0, 0, 0, $33
+spriteTile $20, $18, 0, 1, 0, 0, 0, $34
+spriteTile $28, $18, 0, 1, 0, 0, 0, $35
+spriteTile $00, $20, 0, 1, 0, 0, 0, $40
+spriteTile $08, $20, 0, 1, 0, 0, 0, $41
+spriteTile $10, $20, 0, 1, 0, 0, 0, $42
+spriteTile $18, $20, 0, 1, 0, 0, 0, $43
+spriteTile $20, $20, 0, 1, 0, 0, 0, $44
+spriteTile $28, $20, 0, 1, 0, 0, 0, $45
+spriteTile $00, $28, 0, 1, 0, 0, 0, $50
+spriteTile $08, $28, 0, 1, 0, 0, 0, $51
+spriteTile $10, $28, 0, 1, 0, 0, 0, $52
+spriteTile $18, $28, 0, 1, 0, 0, 0, $53
+spriteTile $20, $28, 0, 1, 0, 0, 0, $54
+spriteTile $28, $28, 0, 1, 0, 0, 0, $55
+spriteTile $08, $30, 0, 1, 0, 0, 0, $46
+spriteTile $10, $30, 0, 1, 0, 0, 0, $47
+spriteTile $00, $38, 0, 1, 0, 0, 0, $56
+spriteTile $08, $38, 0, 1, 0, 0, 0, $57
 SPRITE_CREDITS_UNK44:
-spriteTile $0C, $18, 0, 4, 0, 0, 0, $00
-spriteTile $14, $18, 0, 4, 0, 0, 0, $01
-spriteTile $1C, $18, 0, 4, 0, 0, 0, $02
-spriteTile $0C, $20, 0, 4, 0, 0, 0, $10
-spriteTile $14, $20, 0, 4, 0, 0, 0, $11
-spriteTile $1C, $20, 0, 4, 0, 0, 0, $12
-spriteTile $0C, $28, 0, 4, 0, 0, 0, $20
-spriteTile $14, $28, 0, 4, 0, 0, 0, $21
-spriteTile $1C, $28, 0, 4, 0, 0, 0, $22
+spriteTile $0C, $18, 0, 1, 0, 0, 0, $00
+spriteTile $14, $18, 0, 1, 0, 0, 0, $01
+spriteTile $1C, $18, 0, 1, 0, 0, 0, $02
+spriteTile $0C, $20, 0, 1, 0, 0, 0, $10
+spriteTile $14, $20, 0, 1, 0, 0, 0, $11
+spriteTile $1C, $20, 0, 1, 0, 0, 0, $12
+spriteTile $0C, $28, 0, 1, 0, 0, 0, $20
+spriteTile $14, $28, 0, 1, 0, 0, 0, $21
+spriteTile $1C, $28, 0, 1, 0, 0, 0, $22
 SPRITE_CREDITS_UNK53:
-spriteTile $0C, $18, 0, 4, 0, 1, 0, $02
-spriteTile $14, $18, 0, 4, 0, 1, 0, $01
-spriteTile $1C, $18, 0, 4, 0, 1, 0, $00
-spriteTile $0C, $20, 0, 4, 0, 1, 0, $12
-spriteTile $14, $20, 0, 4, 0, 1, 0, $11
-spriteTile $1C, $20, 0, 4, 0, 1, 0, $10
-spriteTile $0C, $28, 0, 4, 0, 1, 0, $22
-spriteTile $14, $28, 0, 4, 0, 1, 0, $21
-spriteTile $1C, $28, 0, 4, 0, 1, 0, $20
+spriteTile $0C, $18, 0, 1, 0, 1, 0, $02
+spriteTile $14, $18, 0, 1, 0, 1, 0, $01
+spriteTile $1C, $18, 0, 1, 0, 1, 0, $00
+spriteTile $0C, $20, 0, 1, 0, 1, 0, $12
+spriteTile $14, $20, 0, 1, 0, 1, 0, $11
+spriteTile $1C, $20, 0, 1, 0, 1, 0, $10
+spriteTile $0C, $28, 0, 1, 0, 1, 0, $22
+spriteTile $14, $28, 0, 1, 0, 1, 0, $21
+spriteTile $1C, $28, 0, 1, 0, 1, 0, $20
 .endif

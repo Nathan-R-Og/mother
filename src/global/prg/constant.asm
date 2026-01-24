@@ -137,103 +137,156 @@ B30_01D1:
 ; THIS HERE IS CODE.
 
 ; Leftover routine from JP.
-B30_0200:
+; cycle count: 61
+; 34 + jmp 27
+;;;Prepares BANKSELECT and sets the x register
+PreparePerLineEffect:
+    ;2+4 = 6 cycles
     lda #$f
-    sta UNK_100
+    sta $100
 
-    lda #3
+    ;ready second bg page
+    ;2+3+4 = 9 cycles
+    lda #BANK::CHR1400
     ora bankswitch_flags
     sta BANKSELECT
 
+    ;start a loop of 9
+    ;2 cycles
     ldx #9
+
+    ;2 cycles
     ldy #2
     @loop:
+    ;(2*2) cycles
     dey
+    ;2+3 cycles
     bne @loop
+    ;2+4+5 = 11 cycles
 
-    bit UNK_0
-    jmp B30_0220
+    ;3 cycles
+    bit 0
 
+    ;3+27 cycles
+    jmp Waste27Cycles
+
+;in:
 ;a = IRQLATCH
-B30_0218:
+;out:
+;x = BANKSELECT
+SetIRQLatchBankselect:
     sta IRQLATCH
 
-    ;x = 2 | bankswitch_flags
-    lda #2
+    ;x = BANK::CHR1000 | bankswitch_flags
+    lda #BANK::CHR1000
     ora bankswitch_flags
     tax
 
-B30_0220:
+    ;fallthrough
+
+;cycle count:
+;2+8+11+6 = 27
+Waste27Cycles:
+    ;2 cycles
     ldy #4
     @loop:
+    ;(2*4) = 8 cycles
     dey
+    ;(3*3)+2 = 11 cycles
     bne @loop
 
+    ;6 cycles
     rts
 
-B30_0226:
-    ;UNK_100 = $f
+;cycle count:
+;6+6 = 12
+Waste12Cycles:
+    ;2+4 cycles
     lda #$f
-    sta UNK_100
+    sta $100
 
+    ;6 cycles
     rts
 
 .ifdef VER_JP
 
-;pause_menu_process ?
-;called on irq. what does this accomplish
-;seems to load the english characters for a couple of frames???
-;okay??
-;also seems to be what's lagging menu opening. hmm...
-B30_022C:
-    jsr B30_0200
+;pause_menu_process
+;called on irq
+;loads the english characters for a couple of frames
+;then returns them back to normal.
+;these are cycle based. have fun
+;1087 total cycles
+;covers ~4 tiles, two out from the left
+commands_irq:
+    ;6+61 cycles
+    ;this sets x to 9 and readies BANKSELECT
+    jsr PreparePerLineEffect
+
+    ;(6+10+6+76+5+5+5)=113 * 6 = 678
+    ;(6+10+6+76+5+5+4)=112 * 3 = 336
+    ;1014 total cycles
     @loop:
 
     ;load the second quarter of ui_gfx
+    ;2+4 cycles
     lda #$7D
     sta BANKDATA
 
+    ;2 * 5 = 10 cycles
     nop
     nop
     nop
     nop
     nop
 
-    ;unload it??? lmao???
+    ;unload it
+    ;2+4 cycles
     lda current_banks+3
     sta BANKDATA
 
-    ldy #$F
+    ;2 cycles
+    ldy #15
     @wait:
+    ;(2*15) cycles
     dey
+    ;(3*14)+2 cycles
     bne @wait
+    ;2+(2*15)+(3*14)+2 = 76 cycles
 
+    ;5 cycles
+    ;(4 on 7th)
     cpx #7
     bne @useless_jump
     @useless_jump:
 
+    ;5 cycles
+    ;(4 on 4th)
     cpx #4
     bne @useless_jump2
     @useless_jump2:
 
     ;x--
     ;if x > 0, loop
+
+    ;5 cycles
+    ;(4 on 0th)
     dex
     bne @loop
 
+    ;6 cycles
     rts
 
-;draw_stats ?
-;ran on irq. breaks specifically when print_number happens.
-;basically a copy of the previous. hm
-B30_024F:
-    jsr B30_0200
+;ran on irq
+;literally only used for the cashbox. lol
+cashbox_irq:
+    jsr PreparePerLineEffect
     @loop:
 
     ;load the second quarter of ui_gfx
     lda #$7D
     sta BANKDATA
 
+    ;2 * 5 = 10 cycles
     nop
     nop
     nop
@@ -263,7 +316,7 @@ B30_024F:
     dey
     bne @wait2
 
-    bit UNK_0
+    bit 0
 
     ;unload it??? lmao???
     lda current_banks+3
@@ -295,15 +348,15 @@ B30_024F:
     rts
 
 L3C28E:
-    jsr B30_0200
+    jsr PreparePerLineEffect
     jmp L3C32A
 
 L3C294:
-    jsr B30_0200
+    jsr PreparePerLineEffect
     jmp L3C354
 
 L3C29A:
-    jsr B30_0200
+    jsr PreparePerLineEffect
 
     @loop:
 
@@ -348,7 +401,7 @@ L3C29A:
     rts
 
 L3C2C2:
-    jsr B30_0200
+    jsr PreparePerLineEffect
     @loop:
 
     ;load the second quarter of ui_gfx
@@ -469,7 +522,7 @@ L3C32A:
     nop
     nop
     nop
-    bit UNK_0
+    bit 0
     @loop:
     ;load the second quarter of ui_gfx
     lda #$7D
@@ -597,14 +650,14 @@ B30_0274:
 
     jsr WaitNMI
 
-    ;fill irq_pointers with B30_0226
+    ;fill irq_pointers with Waste12Cycles
     ;(13 times)
     ldx #0
 @next_irq_handler:
-    lda #.LOBYTE(B30_0226-1)
+    lda #.LOBYTE(Waste12Cycles-1)
     sta irq_pointers, x
     inx
-    lda #.HIBYTE(B30_0226-1)
+    lda #.HIBYTE(Waste12Cycles-1)
     sta irq_pointers, x
     inx
     cpx #26
@@ -699,7 +752,7 @@ B30_0306:
     sta nmi_queue, x
     sta nmi_data_offset
 
-    lda #$80
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
     ;this is effectively the same call
@@ -724,7 +777,7 @@ BankswitchLower_Bank00:
 .ifdef VER_JP
     party_irq := L3C2C2
 .else
-    party_irq := B30_0226
+    party_irq := Waste12Cycles
 .endif
 party_menu_1char:
     .byte set_pos 1, 23
@@ -1639,7 +1692,8 @@ AddTileViaNMI:
     lda #0
     sta nmi_queue+5 ; END
     sta nmi_data_offset
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
     rts
@@ -1686,12 +1740,14 @@ TilesTilNMI:
     jsr TiledArea
     jsr AddSpacesOnScreen
 
+    ; save marker end of block
     lda #0
-    sta nmi_queue, y        ; save marker end of block
+    sta nmi_queue, y
 
     ;lda #$00
-    sta nmi_data_offset            ; save to OffsetNMI_Data+1
-    lda #$80     ; NMI Flags
+    sta nmi_data_offset
+    ; NMI Flags
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
 TilesTilNMI_CheckLastRow:
@@ -1828,8 +1884,10 @@ NextChar:
         sta nmi_queue+5
     .endif
     sta nmi_data_offset
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
+
     jsr PpuSync
     bit sram_mode
     bvc @NextNTAddr
@@ -1940,8 +1998,10 @@ PrintScroll:
     lda nmi_data_offset
     sbc #$29
     tax
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
+
     cpx #$5c
     bcs PrintScroll
     rts
@@ -2619,7 +2679,7 @@ B30_0aa9:
 
     lda #0
     sta nmi_data_offset
-    lda #$80
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
     lda #.LOBYTE(text_data_buffer)
@@ -2860,8 +2920,10 @@ B30_0c2b:
     lda UNK_1F
     cmp #$07
     bcs B30_0c5d
+
     lda #$10
     sta nmi_flags
+
     jsr B30_105e
     jsr B30_10b1
     B30_0c3b:
@@ -2879,18 +2941,23 @@ B30_0c2b:
     lda #$00
     sta nmi_queue, x
     sta nmi_data_offset
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
+
     bne B30_0c83
     B30_0c5d:
     jsr B30_105e
     jsr B30_10b1
     jsr B30_1232
-    lda #$00
+
+    lda #0
     sta nmi_queue, x
     sta nmi_data_offset
+
     lda #$10
     sta nmi_flags
+
     lda UNK_1F
     cmp #$0f
     bcs B30_0c83
@@ -2902,19 +2969,21 @@ B30_0c2b:
     jsr B31_0065
     asl $e2
     B30_0c83:
-    lda $a0
+    lda UNK_A0
     lsr a
     bcc B30_0c96
     jsr B30_121c
     lda #$00
     sta nmi_queue, x
     sta nmi_data_offset
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
+
     B30_0c96:
-    bit $a0
+    bit UNK_A0
     bmi B30_0c9c
-    inc $d5
+    inc step_count
     B30_0c9c:
     rts
 
@@ -3155,9 +3224,11 @@ B30_0e08:
     sta nmi_queue+4+64 ; END
     ldx #times ; Repeat this 32 times (for a total of $800 bytes)
     @loop:
-    lda #$00
+
+    lda #0
     sta nmi_data_offset
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
     jsr PpuSync
@@ -3264,10 +3335,10 @@ B30_0eb2:
     lda #$00
     sta nmi_queue+4+64
 
-    ;0080
     lda #0
     sta nmi_data_offset
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
     rts
@@ -3532,7 +3603,8 @@ STORE_COORDINATES:
     lda #0
     sta nmi_queue, x
     sta nmi_data_offset
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
     dec UNK_9B
@@ -3570,7 +3642,8 @@ STORE_COORDINATES:
     lda #0
     sta nmi_queue+1 ; END
     sta nmi_data_offset
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
     ;UNK_A0 = $88
@@ -3597,7 +3670,7 @@ B30_104f:
 B30_105d:
     .byte $20
 B30_105e:
-    lda $a0
+    lda UNK_A0
 
     bmi B30_10b0
     asl a
@@ -3650,10 +3723,10 @@ B30_105e:
 
 B30_10b1:
     jsr SwapPatternTables
-    lda $a0
+    lda UNK_A0
     bmi B30_10c0
     jsr B30_10c4
-    lda $a0
+    lda UNK_A0
     lsr a
     bcs B30_10c1
     B30_10c0:
@@ -3941,7 +4014,7 @@ B30_111d:
 B30_121c:
     lda nmi_flags
     bne B30_121c
-    lda $a0
+    lda UNK_A0
     bmi B30_122f
     and #$07
     asl a
@@ -3957,7 +4030,7 @@ B30_121c:
 B30_1232:
     lda nmi_flags
     bne B30_1232
-    lda $a0
+    lda UNK_A0
     bmi B30_122f
     and #$07
     asl a
@@ -7959,7 +8032,7 @@ B31_0905:
     beq @B31_0940
     rts
     @B31_0940:
-    lda $d5
+    lda step_count
     asl a
     and #$02
     ora #$70
@@ -7968,11 +8041,16 @@ B31_0905:
 
 B31_094c:
     lda #$88
-    sta $a0
-    lda #$00
+    sta UNK_A0
+
+    ;UNK_E7 = 0
+    ;shift_x = 0
+    ;shift_y = 0
+    lda #0
     sta UNK_E7
     sta shift_x
     sta shift_y
+
     jsr ResetObjectMScreenVel
 B31_095b:
     lda #$00
@@ -8284,7 +8362,7 @@ B31_0b3a:
     bmi B31_0b70
     ldy #object_m_direction
     sta (object_pointer), y
-    sta $a0
+    sta UNK_A0
     tax
     ldy #object_m_unk3+1
     lda (object_pointer), y
@@ -8313,16 +8391,19 @@ B31_0b3a:
 
 B31_0b70:
     lda #$88
-    sta $a0
+    sta UNK_A0
     sta movement_direction
 B31_0b76:
     jsr B31_0567
     jsr B31_074d
-    lda $a0
+    lda UNK_A0
     sta movement_direction
     jsr B31_0607 ; X = movement_direction * 8
+
+    ;UNK_E7 = UNK_1F
     lda UNK_1F
     sta UNK_E7
+
     lda xy_unknown+6, x ; X offset
     sta shift_x
     lda xy_unknown+7, x ; Y offset
@@ -8524,14 +8605,14 @@ B31_0ca3:
     ldx #BANK::CHR0000
     jsr BANK_SWAP
 
-    lda #$00
+    lda #0
     sta MIRROR
     sta irq_count
-    sta $70
-    sta $71
+    sta UNK_70
+    sta UNK_71
     sta enemy_group
-    sta $07ef
-    sta $d7
+    sta sram_mode
+    sta UNK_D7
     plp
     jmp WaitNMI
 
@@ -8578,7 +8659,7 @@ B31_0d22:
     clc
     lda #$02
     adc $46
-    jsr B30_0218
+    jsr SetIRQLatchBankselect
     bit $45
     bpl B31_0d6f
 B31_0d2e:
@@ -8617,7 +8698,7 @@ B31_0d62:
     lda #$23
     sbc $46
     asl a
-    jsr B30_0218
+    jsr SetIRQLatchBankselect
     bit $45
     bvs B31_0d2e
     B31_0d6f:
@@ -8647,7 +8728,7 @@ B31_0d9b:
     lda $44
     sta $46
     lda #$c8
-    jsr B30_0218
+    jsr SetIRQLatchBankselect
     sta IRQDISABLE
     lda $f2
     stx BANKSELECT
@@ -8668,9 +8749,9 @@ B31_0d9b:
 
 ;used in the giegue cliff cutscene?
 B31_0dcb:
-    jsr B30_0220
-    ldx #$24
-    lda #$1f
+    jsr Waste27Cycles
+    ldx #.HIBYTE($241f)
+    lda #.LOBYTE($241f)
     bit PPUSTATUS ; Clear PPUADDR latch
     stx PPUADDR
     sta PPUADDR
@@ -8852,7 +8933,8 @@ B31_0eb5:
 
     ;lda #$00
     sta nmi_data_offset
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
 
     jmp WaitXFrames_Min1
@@ -9838,9 +9920,10 @@ QueuePaletteUpdate:
     lda #0
     sta nmi_queue+1
 
-    lda #$00
+    lda #0
     sta nmi_data_offset
-    lda #$80
+
+    lda #NMI_MODE::SKIP
     sta nmi_flags
     rts
 
@@ -10374,25 +10457,26 @@ fill_nmi_with_pointer_data:
     dey
     bpl @fill
 
-    lda #$80
+    lda #NMI_MODE::SKIP
     sta nmi_flags
-    lda #$00
+
+    lda #0
     sta nmi_data_offset
 
     rts
 
 B31_174c:
     lda #.LOBYTE(B31_176a)
-    sta $d8
+    sta UNK_D7+1
     lda #.HIBYTE(B31_176a)
-    sta $d9
-    lda #$4c ; JMP $xxxx
-    sta $d7
+    sta UNK_D7+2
+    lda #$4c ; JMP command
+    sta UNK_D7
     rts
 
 B31_1759:
-    lda #$00
-    sta $d7
+    lda #0
+    sta UNK_D7
     jmp WaitNMI
 
 B31_1760:
@@ -10441,8 +10525,8 @@ NmiHandler:
     ; Acknowledge NMI
     bit PPUSTATUS
 
-    ;if nmi_flag.7, exit immediately
-    bit nmi_flag
+    ;if nmi_mode & NMI_MODE::SKIP, exit immediately
+    bit nmi_mode
     bpl @do_nmi
     rti
 
@@ -10455,19 +10539,19 @@ NmiHandler:
     pha
 
     ;OAMADDR = 0 (game uses oamdma instead)
-    ;OAMDMA = $200
+    ;OAMDMA = shadow_oam
     ldx #.HIBYTE(0)
     lda #.HIBYTE(shadow_oam)
     stx OAMADDR
     sta OAMDMA
 
+    ;y = nmi_data_offset
     ldy nmi_data_offset
 
     ;if UNK_E0 == 0, branch
     lda UNK_E0
     beq @e0_is_zero
-    ;else,
-    ;if nmi_flags != 0, branch
+    ;else if nmi_flags != 0, branch
     lda nmi_flags
     bne NMI_Next
     ;else, branch
@@ -10485,11 +10569,15 @@ NmiHandler:
 NMI_Next:
     ;get byte (command?)
     lda nmi_queue, y
-    ;if byte == 0, jump
-    beq B31_17e3
+    ;if byte == 0, branch
+    beq @B31_17e3
+    ;else if byte.7, branch
     bmi @B31_17dc
+    ;else
+    ;x = a << 1
     asl a
     tax
+    ;jmp to pointer
     lda NMI_Commands+1, x
     pha
     lda NMI_Commands, x
@@ -10500,7 +10588,7 @@ NMI_Next:
     and #$7f
     sta nmi_queue, y
     bne B31_17e5
-B31_17e3:
+    @B31_17e3:
     sta nmi_flags
 B31_17e5:
     ldx irq_count
@@ -10530,17 +10618,25 @@ B31_17e5:
     sta irq_index
     cli
     @B31_1827:
+    ;set ppuscroll
     lda scroll_y
     ldx scroll_x
     sta PPUSCROLL
     stx PPUSCROLL
+
+    ;set ppuctrl and ppumask
     lda ram_PPUCTRL
     ldx ram_PPUMASK
     sta PPUCTRL
     stx PPUMASK
+
     sty nmi_data_offset
-    lda #$80
-    sta nmi_flag
+
+    ;skip next nmi
+    lda #NMI_MODE::SKIP
+    sta nmi_mode
+
+    ;push current cpu state for switching
     lda bankswitch_mode
     pha
     lda current_banks+6
@@ -10564,30 +10660,44 @@ B31_17e5:
     .endif
     ;do music tick
     jsr BankswitchMusic
-    jsr B28_0000
+    jsr Music_Tick
 
+    ;if oam_and_300_clear_flag.7, branch
     lda oam_and_300_clear_flag
-    bmi B31_188a
+    bmi @B31_188a
+    ;else
+
+    ;UNK_E1 = UNK_E7 & 0x3F
     lda UNK_E7
     and #$3f
     sta UNK_E1
-    lda UNK_E0
-    bne B31_1879
-    jsr B31_1c96
-    jmp B31_188a
 
-B31_1879:
+    ;if UNK_E0, branch
+    lda UNK_E0
+    bne @B31_1879
+
+    jsr B31_1c96
+    jmp @B31_188a
+
+    @B31_1879:
     clc
-    sbc $e1
+
+    ;if UNK_E1 - UNK_E0 sets carry, branch
+    ;this (probably) usually results in UNK_E0 -= 1
+    sbc UNK_E1
     bcs @B31_1885
+    ;else
+    ;UNK_E1 = UNK_E0 - 1
     ldx UNK_E0
     dex
-    stx $e1
-    lda #$00
+    stx UNK_E1
+    lda #0
     @B31_1885:
+    ;UNK_E0 = result
     sta UNK_E0
-    jsr B31_1a81
-B31_188a:
+    jsr SpriteObjectsToOam
+    @B31_188a:
+
     pla
     ldx #BANK::PRGA000
     jsr BANK_SWAP
@@ -10607,13 +10717,16 @@ B31_188a:
     lda pad2_press
     ora pad2_forced
     sta pad2_forced
-    jsr B31_1e86
-    lda $d7
-    beq @B31_18b7
-    jsr $00d7
-    @B31_18b7:
-    lda #$00
-    sta nmi_flag
+    jsr IncrementFramecounter
+
+    lda UNK_D7
+    beq @dont_jsr
+    jsr UNK_D7
+    @dont_jsr:
+
+    lda #0
+    sta nmi_mode
+
     pla
     tay
     pla
@@ -10937,12 +11050,13 @@ NMI_Command_A:
 ;;besides, this is effectively a loop over x but they skip
 ;;the first 3 bits for some reason. ok man
 ;;is this optimized for cycles? surely not, right?
+.define byte_count UNK_C0+3
 NMI_WritePPUBytes:
-    ;UNK_C3 = nmi_queue[y]++
+    ;byte_count = nmi_queue[y]++
     ;bytecount
     iny
     ldx nmi_queue, y
-    stx UNK_C3
+    stx byte_count
 
     ;PPUADDR = nmi_queue[y]++, ++
     iny
@@ -10954,7 +11068,7 @@ NMI_WritePPUBytes:
 
     ;if bytecount.0, copy one byte to ppudata
     iny
-    lsr UNK_C3
+    lsr byte_count
     bcc @one_byte
     lda nmi_queue, y
     sta PPUDATA
@@ -10962,7 +11076,7 @@ NMI_WritePPUBytes:
     @one_byte:
 
     ;if bytecount.1, copy two bytes to ppudata
-    lsr UNK_C3
+    lsr byte_count
     bcc @two_bytes
     .repeat 2
     lda nmi_queue, y
@@ -10972,7 +11086,7 @@ NMI_WritePPUBytes:
     @two_bytes:
 
     ;if bytecount.2, copy four bytes to ppudata
-    lsr UNK_C3
+    lsr byte_count
     bcc @four_bytes
     .repeat 4
     lda nmi_queue, y
@@ -10982,7 +11096,7 @@ NMI_WritePPUBytes:
     @four_bytes:
 
     ;if bytecount == 0, exit
-    ldx UNK_C3
+    ldx byte_count
     beq @exit
     ;else, write 8 bytes per
     @loop:
@@ -10997,28 +11111,51 @@ NMI_WritePPUBytes:
     @exit:
     rts
 
-B31_1a81:
+.define tile_count UNK_C0
+.define temp_oamslot UNK_C0+1
+.define spritetiles_attr UNK_C0+1
+.define temp_tilecount UNK_C0+2
+.define spritedef_ppu_offset UNK_C0+2
+.define spritedef_palettes UNK_C0+3
+.define spritetiles_pointer UNK_C0+4
+.define spritedef_pointer UNK_C0+6
+.define wip_velx UNK_C0+8
+.define wip_value_x2 UNK_C0+9
+.define wip_vely UNK_C0+10
+.define wip_value_y2 UNK_C0+11
+.define current_sprite UNK_C0+12
+.define adder UNK_C0+13
+.define UNK_CE UNK_C0+14
+.define UNK_CF UNK_C0+15
+SpriteObjectsToOam:
+    ;swap to the sprite bank
     lda #.BANK(SPRITES) ;bank $15
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 
-    lda #$00
-    sta $ce
-    sta $cf
-    ldx $e1
+    ;UNK_CE = 0
+    ;UNK_CF = 0
+    lda #0
+    sta UNK_CE
+    sta UNK_CF
+
+    ;x = UNK_E1
+    ldx UNK_E1
+
+    ;if !UNK_E7.6, branch
     bit UNK_E7
-    bvc B31_1ab8
-    ldy #$00
+    bvc @B31_1ab8
+    ldy #0
     @B31_1a96:
     clc
     lda (shift_x), y
-    adc $ce
-    sta $ce
+    adc UNK_CE
+    sta UNK_CE
     iny
     clc
     lda (shift_x), y
-    adc $cf
-    sta $cf
+    adc UNK_CF
+    sta UNK_CF
     iny
     dex
     bpl @B31_1a96
@@ -11026,292 +11163,459 @@ B31_1a81:
     tya
     adc shift_x
     sta shift_x
-    lda #$00
+    lda #0
     adc shift_y
     sta shift_y
-    jmp B31_1ac9
+    jmp @B31_1ac9
 
-B31_1ab8:
+    ;loop until x < 0
+    @B31_1ab8:
+    ;UNK_CE += shift_x
     clc
     lda shift_x
-    adc $ce
-    sta $ce
+    adc UNK_CE
+    sta UNK_CE
+
+    ;UNK_CF += shift_y
     clc
     lda shift_y
-    adc $cf
-    sta $cf
+    adc UNK_CF
+    sta UNK_CF
+
     dex
-    bpl B31_1ab8
-B31_1ac9:
+    bpl @B31_1ab8
+
+    @B31_1ac9:
+    ;if UNK_CE.7, branch
     clc
-    lda $ce
-    bmi @B31_1ad6
+    lda UNK_CE
+    bmi @msb_UNK_CE
+    ;else
+    ;scroll_y += UNK_CE
     adc scroll_y
     sta scroll_y
-    bcc @B31_1ae2
-    bcs @B31_1adc
-    @B31_1ad6:
+    ;if no carry, skip all
+    bcc @no_scrolly_carry
+    bcs @scrolly_carry
+    @msb_UNK_CE:
+    ;scroll_y += UNK_CE
     adc scroll_y
     sta scroll_y
-    bcs @B31_1ae2
-    @B31_1adc:
+    bcs @no_scrolly_carry
+    @scrolly_carry:
+
+    ;flip base nametable addr
+    ;ram_PPUCTRL ^= 1
     lda ram_PPUCTRL
-    eor #$01
+    eor #1
     sta ram_PPUCTRL
-    @B31_1ae2:
+
+    @no_scrolly_carry:
+
+    ;if UNK_CF.7, branch
     clc
-    lda $cf
-    bmi @B31_1aef
+    lda UNK_CF
+    bmi @msb_UNK_CF
+    ;else
+    ;a += scroll_x + $10
     adc #$10
     adc scroll_x
-    bcc @B31_1af3
-    bcs @B31_1af5
-    @B31_1aef:
+    bcc @no_scrollx_carry
+    bcs @scrollx_carry
+    @msb_UNK_CF:
     adc scroll_x
-    bcs @B31_1af5
-    @B31_1af3:
-    adc #$f0
-    @B31_1af5:
+    bcs @scrollx_carry
+    @no_scrollx_carry:
+    ;a += $f0
+    ;this makes a reset from the +$10
+    adc #-$10
+    @scrollx_carry:
+    ;scroll_x = a
     sta scroll_x
-    lda $e2
+
+    ;oam_and_300_clear_flag &= 0x3f
+    ;oam_and_300_clear_flag ^= 0x20
+    lda oam_and_300_clear_flag
     and #$3f
     eor #$20
-    sta $e2
-    lda #$00
-    sta $cc
-    sta $e4
-    lda #$08
-    sta $cd
-    ldx #$10
-B31_1b0b:
-    ldy $cc
-    lda SPRITE_OBJECTS, y
-    and #$3f
-    bne B31_1b17
-    jmp B31_1c5c
+    sta oam_and_300_clear_flag
 
-B31_1b17:
-    sta $c0
-    stx $c2
+    ;current_sprite = 0
+    ;this is the current SPRITE_OBJECT
+    ;UNK_E4 = 0
+    lda #0
+    sta current_sprite
+    sta UNK_E4
+
+    ;adder = 8
+    ;this is how much current_sprite will increment by
+    lda #8
+    sta adder
+
+    ldx #$10
+@WriteSPRObjectsToOam:
+    ;a = SPRITE_OBJECTS[y]
+    ;y (starts out) at byte 0
+    ;assuming this is tiles
+    ldy current_sprite
+    lda SPRITE_OBJECTS, y
+    ;get actual tile count
+    and #$3f
+    ;if tiles != 0, branch
+    bne @has_tiles
+    ;else, jump
+    jmp @B31_1c5c
+
+    @has_tiles:
+    ;tile_count = tiles
+    sta tile_count
+
+    ;temp_tilecount = x
+    stx temp_tilecount
+
+    ;is this a sorter???
+    ;probably
+    ;temp_oamslot = SPRITE_OBJECTS[y].oamslot & 0xC0
+    ;SPRITE_OBJECTS[y].oamslot = (x >> 2) | temp_oamslot
     lda SPRITE_OBJECTS+1, y
-    and #$c0
-    sta $c1
+    and #%11000000
+    sta temp_oamslot
     txa
     lsr a
     lsr a
-    ora $c1
+    ora temp_oamslot
     sta SPRITE_OBJECTS+1, y
+
+    ;wip_velx = -UNK_CE
     sec
-    lda #$00
-    sbc $ce
-    sta $c8
+    lda #0
+    sbc UNK_CE
+    sta wip_velx
+
+    ;wip_vely = -UNK_CF
     sec
-    lda #$00
-    sbc $cf
-    sta $ca
-    ldx $e1
-    bit $c1
-    bvc B31_1b70
+    lda #0
+    sbc UNK_CF
+    sta wip_vely
+
+    ldx UNK_E1
+    ;if !oamslot.6, branch
+    bit temp_oamslot
+    bvc @B31_1b70
+
+    ;get (shake) pointer to c4
     lda SPRITE_OBJECTS+4, y
-    sta $c4
+    sta spritetiles_pointer
     lda SPRITE_OBJECTS+5, y
-    sta $c5
-    ldy #$00
-    @B31_1b4a:
+    sta spritetiles_pointer+1
+
+    ldy #0
+    @shake_loop_probably:
+    ;wip_velx += spritetiles_pointer[y]
     clc
-    lda ($c4), y
-    adc $c8
-    sta $c8
+    lda (spritetiles_pointer), y
+    adc wip_velx
+    sta wip_velx
     iny
+
+    ;wip_vely += spritetiles_pointer[y]
     clc
-    lda ($c4), y
-    adc $ca
-    sta $ca
+    lda (spritetiles_pointer), y
+    adc wip_vely
+    sta wip_vely
     iny
+
     dex
-    bpl @B31_1b4a
+    bpl @shake_loop_probably
+
+    ;add new y to SPRITE_OBJECTS[y].shakepointer
+    ;this updates the pointer for next shake
     clc
     tya
-    adc $c4
-    ldy $cc
+    adc spritetiles_pointer
+    ldy current_sprite
     sta SPRITE_OBJECTS+4, y
-    lda #$00
-    adc $c5
+    lda #0
+    adc spritetiles_pointer+1
     sta SPRITE_OBJECTS+5, y
-    jmp B31_1b83
 
-B31_1b70:
+    jmp @B31_1b83
+
+    @B31_1b70:
+    ;wip_velx += SPRITE_OBJECTS[y].velx
     clc
     lda SPRITE_OBJECTS+4, y
-    adc $c8
-    sta $c8
+    adc wip_velx
+    sta wip_velx
+
+    ;wip_vely += SPRITE_OBJECTS[y].vely
     clc
     lda SPRITE_OBJECTS+5, y
-    adc $ca
-    sta $ca
+    adc wip_vely
+    sta wip_vely
+
     dex
-    bpl B31_1b70
-B31_1b83:
-    ldx $c2
+    bpl @B31_1b70
+
+    @B31_1b83:
+    ldx temp_tilecount
+
+    ;if wip_velx.7, branch
     clc
-    lda $c8
-    bmi @B31_1b96
+    lda wip_velx
+    bmi @msb_wip_velx
+    ;else
+    ;SPRITE_OBJECTS[y].x += wip_velx
     adc SPRITE_OBJECTS+2, y
-    sta $c8
+    sta wip_velx
     sta SPRITE_OBJECTS+2, y
-    bcc @B31_1ba8
-    bcs @B31_1ba0
-    @B31_1b96:
+
+    ;if no carry, finish
+    bcc @wip_velx_finish
+    ;else, branch
+    bcs @wip_velx_carry
+    @msb_wip_velx:
+    ;SPRITE_OBJECTS[y].x += wip_velx
     adc SPRITE_OBJECTS+2, y
-    sta $c8
+    sta wip_velx
     sta SPRITE_OBJECTS+2, y
-    bcs @B31_1ba8
-    @B31_1ba0:
+
+    ;if carry, branch
+    bcs @wip_velx_finish
+    @wip_velx_carry:
+    ;SPRITE_OBJECTS[y].tiles ^= $80
     lda SPRITE_OBJECTS, y
-    eor #$80
+    eor #%10000000
     sta SPRITE_OBJECTS, y
-    @B31_1ba8:
+
+    @wip_velx_finish:
+
+    ;if wip_vely.7, branch
     clc
-    lda $ca
-    bmi @B31_1bb9
+    lda wip_vely
+    bmi @msb_wip_vely
+    ;else
+    ;SPRITE_OBJECTS[y].y += wip_vely
     adc SPRITE_OBJECTS+3, y
-    sta $ca
+    sta wip_vely
     sta SPRITE_OBJECTS+3, y
-    bcc @B31_1bcb
-    bcs @B31_1bc3
-    @B31_1bb9:
+
+    ;if no carry, finish
+    bcc @wip_vely_finish
+    ;else, branch
+    bcs @wip_vely_carry
+    @msb_wip_vely:
+    ;SPRITE_OBJECTS[y].y += wip_vely
     adc SPRITE_OBJECTS+3, y
-    sta $ca
+    sta wip_vely
     sta SPRITE_OBJECTS+3, y
-    bcs @B31_1bcb
-    @B31_1bc3:
+
+    ;if carry, branch
+    bcs @wip_vely_finish
+    @wip_vely_carry:
+    ;SPRITE_OBJECTS[y].oamslot ^= $80
     lda SPRITE_OBJECTS+1, y
-    eor #$80
+    eor #%10000000
     sta SPRITE_OBJECTS+1, y
-    @B31_1bcb:
+
+    @wip_vely_finish:
+
+    ;;;either of these will only be set on carry
+    ;;;or whatever the condition is. find out
+    ;wip_value_x2 = SPRITE_OBJECTS[y].tiles.7
     lda SPRITE_OBJECTS, y
-    and #$80
-    sta $c9
+    and #%10000000
+    sta wip_value_x2
+
+    ;wip_value_y2 = SPRITE_OBJECTS[y].oamslot.7
     lda SPRITE_OBJECTS+1, y
-    and #$80
-    sta $cb
+    and #%10000000
+    sta wip_value_y2
 
-    ;enemy extra tiles pointer -> [$c6]
+    ;spritedef_pointer = SPRITE_OBJECTS[y].spritedef
     lda SPRITE_OBJECTS+6, y
-    sta $c6
+    sta spritedef_pointer
     lda SPRITE_OBJECTS+7, y
-    sta $c7
+    sta spritedef_pointer+1
 
-    ldy #$00
-    lda ($c6), y
-    sta $c4
+    ;spritetiles_pointer = spritedef_pointer->pointer
+    ldy #0
+    lda (spritedef_pointer), y
+    sta spritetiles_pointer
     iny
-    lda ($c6), y
-    sta $c5
+    lda (spritedef_pointer), y
+    sta spritetiles_pointer+1
     iny
-    lda ($c6), y
-    sta $c2
+
+    ;spritedef_ppu_offset = spritedef_pointer->ppu_offset
+    lda (spritedef_pointer), y
+    sta spritedef_ppu_offset
     iny
-    lda ($c6), y
-    sta UNK_C3
-    ldy #$00
-B31_1bfa:
-    lda ($c4), y
+
+    ;spritedef_palettes = spritedef_pointer->args
+    lda (spritedef_pointer), y
+    sta spritedef_palettes
+    ldy #0
+@B31_1bfa:
+    ;(spriteTile)
+    ;shadow_oam[x].x = spritetiles_pointer->posX + wip_velx
+    lda (spritetiles_pointer), y
     iny
     clc
-    adc $c8
+    adc wip_velx
     sta shadow_oam+3, x
+
+    ;a = (shadow_oam[x].x >> 1) ^ wip_value_x2
     ror a
-    eor $c9
-    bmi @B31_1c1f
-    lda ($c4), y
+    eor wip_value_x2
+    ;if a.7, branch
+    bmi @is_offscreen
+
+    ;shadow_oam[x].y = spritetiles_pointer->posY + wip_vely
+    lda (spritetiles_pointer), y
     clc
-    adc $ca
+    adc wip_vely
     sta shadow_oam, x
+
+    ;a = (shadow_oam[x].y >> 1) ^ wip_value_y2
     ror a
-    eor $cb
+    eor wip_value_y2
+    ;if a.7, branch
     bmi @B31_1c1b
+
+    ;if a < $f0, branch
     cmp #$f0
-    bcc B31_1c25
-    bcs @B31_1c1f
+    bcc @do_normal_spritetile
+    ;else, branch
+    bcs @is_offscreen
+
     @B31_1c1b:
+    ;if a >= $f9, branch
     cmp #$f9
-    bcs B31_1c25
-    @B31_1c1f:
+    bcs @do_normal_spritetile
+    @is_offscreen:
     iny
     iny
     iny
-    jmp B31_1c58
+    jmp @B31_1c58
 
-B31_1c25:
+    @do_normal_spritetile:
+    ;spritetiles_attr = spritetiles_pointer[y]->oam_args
     iny
-    lda ($c4), y
-    sta $c1
-    lda UNK_C3
-    lsr $c1
-    bcc @B31_1c32
+    lda (spritetiles_pointer), y
+    sta spritetiles_attr
+
+    ;a = spritedef_palettes (spritedef_pointer->args)
+    lda spritedef_palettes
+    ;;;shift spriteTile.palette into carry
+    ;;;if carry set, that means the sprite is using palette 2
+    ;;;else, using palette 1.
+    ;;;adjust accordingly
+    lsr spritetiles_attr
+    ;if spritetiles_attr carry clear, skip
+    bcc @is_using_palette_1
+    ;shift args right 2 for spritePointerDef.p2
     lsr a
     lsr a
-    @B31_1c32:
-    lsr $c1
-    bcc @B31_1c3a
+    @is_using_palette_1:
+    ;;;a's lower two bits is now whatever palette index the sprite is using
+    ;;;shift one more (because spriteTile.palette is 2 bits)
+    lsr spritetiles_attr
+    ;;;if carry is STILL set, shift spritedef_pointer->args 4 times
+    bcc @is_using_palette_3
     lsr a
     lsr a
     lsr a
     lsr a
-    @B31_1c3a:
-    and #$03
-    asl $c1
-    asl $c1
-    ora $c1
+    @is_using_palette_3:
+    ;;;by now, a is the chosen palette into palette ram
+    ;;;and it to isolate
+    and #%00000011
+
+    ;;;now that the palette chosing is done, shift spritetiles_attr
+    ;;;back into place
+    ;spritetiles_attr <<= 2
+    asl spritetiles_attr
+    asl spritetiles_attr
+
+    ;;;or with a to make an attr
+    ora spritetiles_attr
+
+    ;shadow_oam[x].attr = a
     sta shadow_oam+2, x
+
     iny
-    and #$10
-    beq @B31_1c4c
-    lda $c2
-    @B31_1c4c:
-    adc ($c4), y
+    ;check msb of unused (has_attr)
+    and #%00010000
+    ;if not set, skip ppu_offset load
+    beq @doesnt_have_attr
+    ;a = spritedef_pointer->ppu_offset
+    lda spritedef_ppu_offset
+    @doesnt_have_attr:
+    ;shadow_oam[x].tile a + spritetiles_pointer[y].tile_index
+    adc (spritetiles_pointer), y
     sta shadow_oam+1, x
+
+    ;next spritetile
     iny
+
+    ;next oam
     inx
     inx
     inx
     inx
-    beq B31_1c95
-B31_1c58:
-    dec $c0
-    bne B31_1bfa
-B31_1c5c:
+
+    ;if x == 0, rts
+    beq ClearOam_rts
+    ;else, fallthrough
+@B31_1c58:
+    ;if tilecount-- > 0, branch
+    dec tile_count
+    bne @B31_1bfa
+    ;else
+@B31_1c5c:
+    ;;;iterate over next SPRITE_OBJECT
+    ;if adder.7, branch
     clc
-    lda $cd
-    bmi B31_1c6e
-    adc $cc
-    sta $cc
+    lda adder
+    bmi @B31_1c6e
+    ;else
+    ;current_sprite += addr (probably 8)
+    adc current_sprite
+    sta current_sprite
+    ;if !current_sprite, branch
     beq ClearOam
-    cmp $e3
-    beq B31_1c79
-    jmp B31_1b0b
+    ;else
+    ;if current_sprite == UNK_E3, branch
+    cmp UNK_E3
+    beq @B31_1c79
+    ;else
+    jmp @WriteSPRObjectsToOam
 
-B31_1c6e:
-    adc $cc
-    sta $cc
-    cmp $e3
+    @B31_1c6e:
+    adc current_sprite
+    sta current_sprite
+    cmp UNK_E3
     bcc ClearOam
-    jmp B31_1b0b
+    jmp @WriteSPRObjectsToOam
 
-B31_1c79:
-    stx $e4
-    lda $e2
+    @B31_1c79:
+    stx UNK_E4
+    ;if oam_and_300_clear_flag & 0x20, exit
+    lda oam_and_300_clear_flag
     and #$20
-    bne @B31_1c87
+    bne @exit
+    ;else
+    ;current_sprite = $f8
+    ;adder = $f8
     lda #$f8
-    sta $cc
-    sta $cd
-    @B31_1c87:
-    jmp B31_1b0b
+    sta current_sprite
+    sta adder
+    @exit:
+    jmp @WriteSPRObjectsToOam
 
 ClearOam:
-    ;put all oam out of range
+    ;put all oam y's out of range
     lda #$f0
     @clear:
     sta shadow_oam, x
@@ -11321,15 +11625,17 @@ ClearOam:
     inx
     bne @clear
 
-    B31_1c95:
+    ClearOam_rts:
     rts
 
 B31_1c96:
-    lda $e2
+    ;oam_and_300_clear_flag ^= $40
+    lda oam_and_300_clear_flag
     eor #$40
-    sta $e2
+    sta oam_and_300_clear_flag
+
     ldy #$fc
-    ldx $e4
+    ldx UNK_E4
     bne B31_1ce7
     rts
 
@@ -11370,8 +11676,8 @@ B31_1ca3:
     sbc #$07
     tay
 B31_1ce7:
-    sty $c0
-    cpx $c0
+    sty tile_count
+    cpx tile_count
     bcc B31_1ca3
     rts
 
@@ -11393,9 +11699,10 @@ MemoryInit:
     sta PPUCTRL ; Sprite pattern table at $1000
     sta ram_PPUCTRL
 
+    ; CHR inversion: two 2KB banks at $1000-$1FFF, four 1KB banks at $0000-$0FFF
     lda #$80
     sta bankswitch_flags
-    sta BANKSELECT ; CHR inversion: two 2KB banks at $1000-$1FFF, four 1KB banks at $0000-$0FFF
+    sta BANKSELECT
 
     lda #$18
     sta PPUMASK ; Enable BG and OBJ
@@ -11409,7 +11716,7 @@ MemoryInit:
 MusicInit:
     .ifndef VER_JP
     ;set music bank to $1c to be loaded
-    lda #.BANK(B28_0000)
+    lda #.BANK(Music_Tick)
     sta music_bank
     .endif
 
@@ -11424,7 +11731,7 @@ MusicInit:
 
     ;init music ram
     jsr BankswitchMusic
-    jmp B28_0006
+    jmp Music_Init
 
 ; $FD28 - Play music track (without restarting, but wait next frame)
 PlayMusic:
@@ -11449,26 +11756,30 @@ WaitXFrames_Min1:
 ; waits for NMI interrupt to complete
 WaitNMI:
     lda #1
-    sta nmi_flag
+    sta nmi_mode
     @loop:
-    lda nmi_flag
+    lda nmi_mode
     bne @loop
     rts
 
 SUPRESS_INPUT:
-    lda $eb
+    lda irq_latch
     bne SUPRESS_INPUT
     rts
 
 ; After a menu is printed, loops until the player inputs any button.
 ; Then, wipes menus off screen.
 WAIT_CLOSE_MENU:
-    lda #$00
+    lda #0
     sta pad1_forced
-:   lda pad1_forced
-    beq :-
+
+    ;wait
+    @inf:
+    lda pad1_forced
+    beq @inf
+
     pha
-    lda #$00
+    lda #0
     sta pad1_forced
     pla
     rts
@@ -11537,8 +11848,8 @@ ClearTilemaps:
     sta nmi_queue+5
 
     @loop:
-    ldx #$00
-    lda #$80
+    ldx #0
+    lda #NMI_MODE::SKIP
     stx nmi_data_offset
     sta nmi_flags
 
@@ -11669,7 +11980,7 @@ IrqHandler:
     lda irq_pointers+1, x
     bne @B31_1e34
     sta IRQDISABLE ; Disable IRQ
-    sta $eb
+    sta irq_latch
     @B31_1e34:
     pla
     tay
@@ -11694,27 +12005,40 @@ GotoIRQPointer:
     rts
 
 ReadPads:
+    ;x is the controller number
+    ;1 == JOY2
+    ;0 == JOY1
+    ;they use , x just the programmatically index
+    ;like an array
     ldx #1
-    @B31_1e4d:
+
+    @loop:
     sec
     @B31_1e4e:
     php
+
+    ;start poll
     lda #1
     sta JOY1
+
+    ;clear poll
     lda #0
     sta JOY1
+
     ldy #8
     @B31_1e5b:
     lda JOY1, x
     lsr a
-    rol $c0
+    rol UNK_C0
     lsr a
-    rol $c1
+    rol UNK_C0+1
     dey
     bne @B31_1e5b
-    lda $c0
-    ora $c1
+
+    lda UNK_C0
+    ora UNK_C0+1
     plp
+
     bcc @B31_1e73
     sta pad1_press, x
     clc
@@ -11730,28 +12054,33 @@ ReadPads:
     sta pad1_press, x
     sty pad1_hold, x
     dex
-    bpl @B31_1e4d
+    bpl @loop
     rts
 
-B31_1e86:
+IncrementFramecounter:
+    ;if pad is pressed, branch
     lda pad1_press
-    bne @B31_1e91
-    lda $d3
-    cmp #$2a
-    bcc @B31_1e95
+    bne @pad_is_pressed
+
+    ;UNK_D3 < 42, branch
+    lda UNK_D3
+    cmp #42
+    bcc @less_than_42
     rts
 
-    @B31_1e91:
-    lda #$00
-    sta $d3
-    @B31_1e95:
+    @pad_is_pressed:
+    lda #0
+    sta UNK_D3
+    @less_than_42:
+
     inc frame_counter
-    bne @B31_1ea1
-    inc $d3
+    bne @exit
+    inc UNK_D3
     inc frame_counter+1
-    bne @B31_1ea1
+    bne @exit
     inc frame_counter+2
-    @B31_1ea1:
+
+    @exit:
     rts
 
 .segment "VECTORS"
@@ -11839,7 +12168,7 @@ Reset_Vector:
 BankswitchMusic:
     .ifdef VER_JP
     ;load bank $1C into $8000
-    lda #.BANK(B28_0000)
+    lda #.BANK(Music_Tick)
     .else
     ;load bank music_bank into $8000
     lda music_bank
@@ -11848,7 +12177,7 @@ BankswitchMusic:
     jsr BANK_SWAP
 
     ;load bank $1D into $A000
-    lda #.BANK(B28_0000)+1
+    lda #.BANK(Music_Tick)+1
     ldx #BANK::PRGA000
     ;fallthrough
 

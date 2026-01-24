@@ -7,28 +7,28 @@ kanafix "コマン"
 .byte jp_do ;ド
 .byte uibox_t,uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_022C-1), 0 ;irqValue, irqIndex
+.byte .LOBYTE(commands_irq-1), 0 ;irqValue, irqIndex
 ;command box middle
 .byte uibox_l
 kanafix " はなす  "
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_022C-1), 2 ;irqValue, irqIndex
+.byte .LOBYTE(commands_irq-1), 2 ;irqValue, irqIndex
 .byte uibox_l
 kanafix " チェック "
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_022C-1), 4 ;irqValue, irqIndex
+.byte .LOBYTE(commands_irq-1), 4 ;irqValue, irqIndex
 .byte uibox_l
 .byte " PSI  "
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_022C-1), 6 ;irqValue, irqIndex
+.byte .LOBYTE(commands_irq-1), 6 ;irqValue, irqIndex
 .byte uibox_l
 kanafix " グッズ  "
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(B30_022C-1), 8 ;irqValue, irqIndex
+.byte .LOBYTE(commands_irq-1), 8 ;irqValue, irqIndex
 ;command box bottom
 .byte uibox_bl
 .byte uibox_b,uibox_b,uibox_b,uibox_b,uibox_b,uibox_b
@@ -41,13 +41,13 @@ cash_box_top:
 .byte repeatTile uibox_t, 10
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_022C-1), 0 ;irqValue, irqIndex
+.byte .LOBYTE(commands_irq-1), 0 ;irqValue, irqIndex
 ;cash box middle
 .byte uibox_l,"  $"
 .byte print_number $7410, 2, 5
 .byte c00," ",uibox_r
 .byte stopText
-.byte .LOBYTE(B30_024F-1), 2 ;irqValue, irqIndex
+.byte .LOBYTE(cashbox_irq-1), 2 ;irqValue, irqIndex
 ;cash box bottom
 .byte uibox_bl
 .byte repeatTile uibox_b, 10
@@ -78,7 +78,7 @@ window_message:
 .byte repeatTile uibox_t, 20
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 16 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 16 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 20
@@ -158,7 +158,7 @@ window_shopitems:
 .byte repeatTile uibox_t, 18
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 0 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 18
@@ -195,13 +195,13 @@ window_who:
 .byte repeatTile uibox_t, 4
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 14 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 14 ;irqValue, irqIndex
 
 .byte uibox_l
 kanafix " だれ "
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 16 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 16 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 4
@@ -215,31 +215,31 @@ window_itemactions:
 .byte repeatTile uibox_t, 4
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 4 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 4 ;irqValue, irqIndex
 
 .byte uibox_l
 kanafix " つかう" ; Use
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 6 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 6 ;irqValue, irqIndex
 
 .byte uibox_l
 kanafix " たべる" ; Eat
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 8 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 8 ;irqValue, irqIndex
 
 .byte uibox_l
 kanafix " わたす" ; Give
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 10 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 10 ;irqValue, irqIndex
 
 .byte uibox_l
 kanafix " すてる" ; Drop
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 12 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 12 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 4
@@ -259,14 +259,14 @@ cash_box_top_2:
 .byte repeatTile uibox_t, 10
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_022C-1), 0 ;irqValue, irqIndex
+.byte .LOBYTE(commands_irq-1), 0 ;irqValue, irqIndex
 
 .byte uibox_l,"  $"
 .byte print_number $7410, 2, 5
 .byte c00," "
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(B30_024F-1), 2 ;irqValue, irqIndex
+.byte .LOBYTE(cashbox_irq-1), 2 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 10
@@ -279,7 +279,7 @@ cash_box_middle:
 .byte repeatTile uibox_t, 8
 .byte uibox_tr
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 0 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 8
@@ -468,17 +468,17 @@ command_box_top:
 .byte repeatTile uibox_t, 4
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 0 ;irqValue, irqIndex
 ;command box middle
 .byte uibox_l," Talk  Check",uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 2 ;irqValue, irqIndex
 .byte uibox_l," Goods State",uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 4 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 4 ;irqValue, irqIndex
 .byte uibox_l," PSI   Setup",uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 6 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 6 ;irqValue, irqIndex
 ;command box bottom
 .byte uibox_bl
 .byte repeatTile uibox_b, 12
@@ -489,13 +489,13 @@ cash_box_top:
 .byte set_pos 21, 1
 .byte uibox_tl,uibox_t,uibox_t,uibox_tc,"Cash",uibox_t,uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 0 ;irqValue, irqIndex
 ;cash box middle
 .byte uibox_l,"$"
 .byte print_number $7410, 2, 5
 .byte c00," ",uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 2 ;irqValue, irqIndex
 ;cash box bottom
 .byte uibox_bl
 .byte repeatTile uibox_b, 8
@@ -527,31 +527,31 @@ window_message:
 .byte repeatTile uibox_t, 22
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 16 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 16 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 22
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 18 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 18 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 22
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 20 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 20 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 22
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 22 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 22 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 22
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 24 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 24 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 22
@@ -566,31 +566,31 @@ window_8entries:
 .byte uibox_tr
 window_8entries_goto:
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 2 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 24
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 4 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 4 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 24
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 6 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 6 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 24
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 8 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 8 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 24
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 10 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 10 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 24
@@ -605,31 +605,31 @@ window_shopitems:
 .byte repeatTile uibox_t, 20
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 0 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 20
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 2 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 20
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 4 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 4 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 20
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 6 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 6 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 20
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 8 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 8 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 20
@@ -642,11 +642,11 @@ window_who:
 .byte repeatTile uibox_t, 4
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 14 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 14 ;irqValue, irqIndex
 
 .byte uibox_l,"Who?",uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 16 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 16 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 4
@@ -660,27 +660,27 @@ window_itemactions:
 .byte repeatTile uibox_t, 6
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1),4 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1),4 ;irqValue, irqIndex
 
 .byte uibox_l," Use  ",uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1),6 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1),6 ;irqValue, irqIndex
 
 .byte uibox_l," Eat  ",uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1),8 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1),8 ;irqValue, irqIndex
 
 .byte uibox_l," Give ",uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1),10 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1),10 ;irqValue, irqIndex
 
 .byte uibox_l," Drop ",uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1),12 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1),12 ;irqValue, irqIndex
 
 .byte uibox_l," Look ",uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 14 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 14 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 6
@@ -700,14 +700,14 @@ cash_box_top_2:
 .byte "Cash"
 .byte uibox_t,uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 0 ;irqValue, irqIndex
 
 .byte uibox_l,"$"
 .byte print_number $7410, 2, 5
 .byte c00," "
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 2 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 8
@@ -720,7 +720,7 @@ cash_box_middle:
 .byte repeatTile uibox_t, 8
 .byte uibox_tr
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 0 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 8
@@ -736,7 +736,7 @@ state_menu:
 .byte repeatTile uibox_t, 6
 .byte uibox_tr
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 2 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 7
@@ -757,7 +757,7 @@ state_menu:
 .byte repeatTile " ", 10
 .byte " ",uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 4 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 4 ;irqValue, irqIndex
 
 .byte uibox_l," HP"
 .byte print_number $0614, 2, 6
@@ -769,7 +769,7 @@ state_menu:
 .byte repeatTile " ", 10
 .byte " ",uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 6 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 6 ;irqValue, irqIndex
 
 .byte uibox_l," PP"
 .byte print_number $0616, 2, 6
@@ -781,7 +781,7 @@ state_menu:
 .byte repeatTile " ", 10
 .byte " ",uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 8 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 8 ;irqValue, irqIndex
 
 .byte uibox_l," Offense"
 .byte print_number $0607, 2, 5
@@ -791,7 +791,7 @@ state_menu:
 .byte repeatTile " ", 10
 .byte " ",uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 10 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 10 ;irqValue, irqIndex
 
 .byte uibox_l_r,"  "
 .byte repeatTile " ", 11
@@ -811,7 +811,7 @@ state_menu:
 .byte repeatTile uibox_t, 6
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1),12 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1),12 ;irqValue, irqIndex
 
 .byte uibox_l," Fight "
 .byte print_number $060B, 1, 6
@@ -821,7 +821,7 @@ state_menu:
 .byte print_number $0680, 0, 11
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 14 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 14 ;irqValue, irqIndex
 
 .byte uibox_l," Speed "
 .byte print_number $060C, 1, 6
@@ -831,7 +831,7 @@ state_menu:
 .byte print_number $0690, 0, 11
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 16 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 16 ;irqValue, irqIndex
 
 .byte uibox_l," Wisdom"
 .byte print_number $060D, 1, 6
@@ -841,7 +841,7 @@ state_menu:
 .byte print_number $06A0, 0, 11
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 18 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 18 ;irqValue, irqIndex
 
 .byte uibox_l," Strength"
 .byte print_number $060E, 1, 4
@@ -851,7 +851,7 @@ state_menu:
 .byte print_number $06B0, 0, 11
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 20 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 20 ;irqValue, irqIndex
 
 .byte uibox_l_r," "
 .byte repeatTile " ", 12
@@ -871,7 +871,7 @@ state_menu:
 .byte repeatTile uibox_t, 5
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 22 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 22 ;irqValue, irqIndex
 
 .byte uibox_l," Exp "
 .byte print_number $0611, 3, 8
@@ -881,7 +881,7 @@ state_menu:
 .byte print_number $06F0, 0, 10
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 24 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 24 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 14
@@ -898,74 +898,74 @@ setup_menu:
 .byte repeatTile uibox_t, 22
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 0 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 0 ;irqValue, irqIndex
 
 .byte uibox_l," To change button function: ",uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 2 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 2 ;irqValue, irqIndex
 
 .byte uibox_l,"  Move Cursor with CROSS,   ",uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 4 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 4 ;irqValue, irqIndex
 
 .byte uibox_l,"   press A button to change.",uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 6 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 6 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 28
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 8 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 8 ;irqValue, irqIndex
 
 .byte uibox_l," B button assignment"
 .byte repeatTile " ", 8
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 10 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 10 ;irqValue, irqIndex
 
 .byte uibox_l,"   ",radial_empty,"State  ",radial_empty,"Map    ",radial_empty,"Run"
 .byte repeatTile " ", 5
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1),12 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1),12 ;irqValue, irqIndex
 
 .byte uibox_l," START button assignment"
 .byte repeatTile " ", 4
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 14 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 14 ;irqValue, irqIndex
 
 .byte uibox_l,"   ",radial_empty,"State  ",radial_empty,"Map    ",radial_empty,"Run"
 .byte repeatTile " ", 5
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 16 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 16 ;irqValue, irqIndex
 
 
 .byte uibox_l," SELECT button assignment"
 .byte repeatTile " ", 3
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 18 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 18 ;irqValue, irqIndex
 
 .byte uibox_l,"   ",radial_empty,"State  ",radial_empty,"Map    ",radial_empty,"Run"
 .byte repeatTile " ", 5
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 20 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 20 ;irqValue, irqIndex
 
 .byte uibox_l," Fight message speed"
 .byte repeatTile " ", 8
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(B30_0226-1), 22 ;irqValue, irqIndex
+.byte .LOBYTE(Waste12Cycles-1), 22 ;irqValue, irqIndex
 
 .byte uibox_l,"   ",radial_empty,"1  ",radial_empty,"2  ",radial_empty,"3  ",radial_empty,"4  ",radial_empty,"5"
 .byte repeatTile " ", 7
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(B30_0226-1), 24
+.byte .LOBYTE(Waste12Cycles-1), 24
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 28

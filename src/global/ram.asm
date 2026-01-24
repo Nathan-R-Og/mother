@@ -136,17 +136,15 @@ unk_bb: .res 2 ; $bb ;SOMETIMES two byte???? lohi??? probably
 unk_bd: .res 1 ; $bd
 unk_be: .res 1 ; $be
 unk_bf: .res 1 ; $bf
-UNK_C0: .res 3
-UNK_C3: .res 1
-UNK_C4: .res 12
+;basically func ram.
+UNK_C0: .res $10
 frame_counter: .res 3 ; $d0 ; 24 bit
 UNK_D3: .res 1 ; V the frame counter in question
 UNK_D4: .res 1 ; How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the frame counter also stops counting (wtf...?)
-UNK_D5: .res 1
+step_count: .res 1 ; $d5 ; used for poison / cold. every 8 steps inflicts damage
 UNK_D6: .res 1 ;seems to copy UNK_D4, but UNK_D4 can continue???
-UNK_D7: .res 1
-UNK_D8: .res 1
-UNK_D9: .res 1
+;jmp instruction???
+UNK_D7: .res 3
 ; $d3 -> ; $d7 has a JMP instruction (if zero, then don't jump)
 pad1_forced: .res 1 ; $da
 pad2_forced: .res 1 ; $db
@@ -164,12 +162,14 @@ nmi_data_offset: .res 1 ; $e6
 UNK_E7: .res 1
 shift_x: .res 1 ; $e8
 shift_y: .res 1 ; $e9
-nmi_flag: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running NMI handler ;ignores controller input while set
+nmi_mode: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running NMI handler ;ignores controller input while set
 irq_latch: .res 1 ; $eb
 irq_count: .res 1 ; $ec ; IRQ Count
 irq_index: .res 1 ; $ed ; IRQ routine index (multiple of 2)
 bankswitch_mode: .res 1 ; $ee ; Bankswitch "mode"  (-----mmm), $8000 MMC3 register
-bankswitch_flags: .res 1 ; $ef ; Bankswitch "flags" (ff------), $8000 MMC3 register
+; $ef ; Bankswitch "flags" (ff------), $8000 MMC3 register
+;basically read only for the top two bits of BANKSELECT, set at the start of Reset
+bankswitch_flags: .res 1
 current_banks: .res 8 ; $f0 ; Current banks for each "mode" (8 bytes)
 UNK_F8: .res 4
 scroll_x: .res 1 ; $fc
@@ -438,6 +438,8 @@ UNK_7C0: .res $30 ; $07C0 = Music channel sweep ($4001/$4005), not used for tria
 unk_7c3 = $07c3
 unk_7c7 = $07c7
 unk_7c8 = $07c8
+unk_7c9 = $07c9
+unk_7ca = $07ca
 music_id = $07cc ; $07CC = Current music ID (gets value from $07F5 minus one)
 unk_7cd = $07cd
 

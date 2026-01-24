@@ -2324,8 +2324,10 @@ B19_0d98:
     lda nmi_data_offset
     sbc #$36
     tay
-    lda #$80
-    sta nmi_flags+0
+
+    lda #NMI_MODE::SKIP
+    sta nmi_flags
+
     cpy #$5e
     bcs @four
     dec UNK_77
