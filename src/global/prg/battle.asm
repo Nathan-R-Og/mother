@@ -1,149 +1,97 @@
-wordvar0590 = $0590
-
 ; import table ids
 ; battle action ids
-BA_NONE             = $00
-BA_BASH             = $01
-BA_SING             = $1c
-BA_FLAMES           = $19
-BA_EXPLODE          = $1a
-BA_ENEMY_GUARD      = $53
-BA_PLAYER_GUARD     = $59
-BA_ASTHMA_SPRAY     = $76
-BA_EVEEXPLOSION     = $88
-BA_COMPLETE         = $ff   ; true constant
+.define BA_NONE $00
+.define BA_BASH $01
+.define BA_SING $1c
+.define BA_FLAMES $19
+.define BA_EXPLODE $1a
+.define BA_ENEMY_GUARD $53
+.define BA_PLAYER_GUARD $59
+.define BA_ASTHMA_SPRAY $76
+.define BA_EVEEXPLOSION $88
+.define BA_COMPLETE $ff   ; true constant
 ; psi table ids
-LIFEUP_ALPHA        = $08
-LIFEUP_BETA         = $09
-LIFEUP_GAMMA        = $0A
-HEALING_BETA        = $11
-HEALING_GAMMA       = $12
-HEALING_PI          = $13
-HEALING_SUPER       = $14
+.define LIFEUP_ALPHA $08
+.define LIFEUP_BETA $09
+.define LIFEUP_GAMMA $0A
+.define HEALING_BETA $11
+.define HEALING_GAMMA $12
+.define HEALING_PI $13
+.define HEALING_SUPER $14
 ; item table ids
-ITEM_BADGE          = $68
-; music table ids
-MUSIC_WIN           = $5
-MUSIC_SING          = $19
-MUSIC_BATTLE_GIEGUE = $2c
-MUSIC_NONE          = $ff
+.define ITEM_BADGE $68
 
 ; zeropage ram variables
 ; $40 series : battle variables
-battle_endtype              = $47
-    ENDTYPE_RUN             = $1
-    ENDTYPE_DIMENSION_SLIP  = $2
-    ENDTYPE_BLUEROBO_SLIP   = $3
+.define battle_endtype UNK_47
+.define ENDTYPE_RUN 1
+.define ENDTYPE_DIMENSION_SLIP 2
+.define ENDTYPE_BLUEROBO_SLIP 3
 
 ; .importzp enemy_group     ; $48
 
 ; length 5 ($49 ~ $4D) used to hold battle rewards
-battle_reward_vars          = $49
+.define battle_reward_vars UNK_49
 
 ; 16-bit variable typically used for carrying values
-battle_input_num            = $4E
+.define battle_input_num UNK_49+5
 
 ; $50 series : byte sized local global variables
-battle_bytevar50            = $50
-battle_bytevar51            = $51
-battle_bytevar52            = $52   ; message counter?
-attacker_offset             = $53
-target_offset               = $54
-battle_bytevar55            = $55
-battle_script               = $56
-    BSCRIPT_NONE            = $0
-    BSCRIPT_TEDDY           = $1
-    BSCRIPT_GREYROBO        = $2
-    BSCRIPT_REDROBO         = $3
-    BSCRIPT_BLUEROBO        = $4
-    BSCRIPT_GIEGUE_YAPPING  = $5 ; changes to 6 once Giegue stops yapping
-    BSCRIPT_GIEGUE_FIGHTING = $6
+.define battle_bytevar50 UNK_50
+.define battle_bytevar51 UNK_50+1
+.define battle_bytevar52 UNK_50+2   ; message counter?
+.define attacker_offset UNK_50+3
+.define target_offset UNK_50+4
+.define battle_bytevar55 UNK_50+5
+.define battle_script UNK_50+6
+.define BSCRIPT_NONE 0
+.define BSCRIPT_TEDDY 1
+.define BSCRIPT_GREYROBO 2
+.define BSCRIPT_REDROBO 3
+.define BSCRIPT_BLUEROBO 4
+.define BSCRIPT_GIEGUE_YAPPING 5 ; changes to 6 once Giegue stops yapping
+.define BSCRIPT_GIEGUE_FIGHTING 6
 
-battle_bytevar57            = $57
-battle_bytevar58            = $58
-is_auto                     = $59
+.define battle_bytevar57 UNK_50+7
+.define battle_bytevar58 UNK_50+8
+.define is_auto UNK_50+9
 
-battle_var5a                = $5a
+.define battle_var5a UNK_50+$a
 
 ; Counts turns starting at 255 and decrementing by 1, draws fight at 0
 ; BattleScript 1 (Teddy) sets this value to 3
 ; When BSCRIPT 1 is active, DrawEffect doesnt lag & print msg
-turn_counter                = $5b
-ptr_chara                   = $5c   ; stores ptr to character's full data (for various purposes)
+.define turn_counter UNK_50+$b
+.define ptr_chara UNK_50+$c   ; stores ptr to character's full data (for various purposes)
 
-battle_var5e                = $5e
-battle_var5f                = $5f
+.define battle_var5e UNK_50+$e
+.define battle_var5f UNK_50+$f
 
 ; $60 series : word sized local variables
 ; Used for various operations, like holding pointers or 16-bit numbers
 ; used in more limited and flexible scope
-battle_wordvar60            = $60
-battle_wordvar62            = $62
-battle_wordvar64            = $64
-battle_wordvar66            = $66
-battle_wordvar68            = $68
+.define battle_wordvar60 UNK_60
+.define battle_wordvar62 UNK_62
+.define battle_wordvar64 UNK_64
+.define battle_wordvar66 UNK_66
+.define battle_wordvar68 UNK_68
 
 ; ram registers (non-zeropage)
-
-; $0300 (super scary)
-; They seem to be cross-bank & cross-gamestate ram.
-bytevar_0300                = $0300
-bytevar_0301                = $0301
-bytevar_0302                = $0302
-bytevar_0303                = $0303
-bytevar_0304                = $0304
-bytevar_0305                = $0305
-bytevar_0306                = $0306
-bytevar_0307                = $0307
-
-; $0400 (PPU Address)
-; not labeled
-; nmi_queue
 
 ; $0500 (between banks)
 ; used to hold information when bankswitching
 ; battle engine uses max up to 5 bytes (bytevar_0594)
 ; Calling Bankswitch operations requires 4 bytes from $0590 ~ $0593
-bytevar_0590                = $0590
-bytevar_0591                = $0591
-bytevar_0592                = $0592
-bytevar_0593                = $0593
-bytevar_0594                = $0594
+.define bytevar_0590 UNK_580+$10
+.define bytevar_0591 UNK_580+$11
+.define bytevar_0592 UNK_580+$12
+.define bytevar_0593 UNK_580+$13
+.define bytevar_0594 UNK_580+$14
 ; for clarity, will use human language "wordvar" when the code is using the RAM address as a word, not a byte
-wordvar_0590                = $0590
-wordvar_0591                = $0591
-wordvar_0592                = $0592
+.define wordvar_0590 UNK_580+$10
+.define wordvar_0591 UNK_580+$11
+.define wordvar_0592 UNK_580+$12
 
-
-; $0600 battler data in src/global/ram.asm
-
-; Battle Instruction lut
-; sound effects
-SFX_Nothing         = $00
-SFX_PlayerAttack    = $01
-SFX_Hit             = $02
-SFX_Crit            = $03
-SFX_Thunder         = $04
-SFX_Fire            = $05
-SFX_Beam            = $06
-SFX_Freeze          = $07
-SFX_Bomb            = $08
-SFX_StatBoost       = $09
-SFX_Recovery        = $0a
-SFX_Dodge           = $0b
-SFX_DimensionSlip   = $0c
-SFX_StatusDelay     = $0d
-SFX_MenuBloop       = $0e
-SFX_EnemyAttack     = $0f
-SFX_TakeDamage      = $10
-SFX_Run             = $11
-SFX_Status          = $12
-SFX_BlindMiss       = $13
-SFX_GiegueAttack    = $14
-SFX_Unconned        = $15
-
-
-;yeah
 .segment        "PRG17": absolute
 
 BattleMain:
@@ -174,8 +122,9 @@ BattleMain:
     lda #0
     sta attacker_offset
 
+    ; loop thru all party members to init data
     ldx #0
-@InitPlayerBattler: ; loop thru all party members to init data
+    @InitPlayerBattler:
     txa
     pha
     lda party_members, x
@@ -185,19 +134,22 @@ BattleMain:
     lda attacker_offset
     adc #BATTLER_DATASIZE
     sta attacker_offset
-; skip init if party member ID is 0 (empty)
-@EmptyPlayer:
+    ; skip init if party member ID is 0 (empty)
+    @EmptyPlayer:
     pla
     tax
     inx
-    cpx #$04 ; loop thru party members 4 times
+    ; loop thru party members 4 times
+    cpx #4
     bne @InitPlayerBattler
+
     ; init enemies
     jsr GetEnemyGroupPointer
     lda #BATTLER_DATASIZE * 4
     sta attacker_offset
-    ldy #$00
-@EnemyInitStart:
+
+    ldy #0
+    @EnemyInitStart:
     lda (ptr_chara), y
     sta battle_wordvar60
     iny
@@ -210,37 +162,41 @@ BattleMain:
     cmp #$ff
     beq @EmptyEnemy
     jsr CopyEnemy
-; skip init if enemy ID is FF (empty)
-@EmptyEnemy:
+    ; skip init if enemy ID is FF (empty)
+    @EmptyEnemy:
     clc
     lda attacker_offset
     adc #BATTLER_DATASIZE
     sta attacker_offset
     pla
     tay
-    cpy #$08                            ; there are 8 battler slots total (0-3 players, 4-7 enemies)
+    ; there are 8 battler slots total (0-3 players, 4-7 enemies)
+    cpy #8
     bne @EnemyInitStart
+
     lda (ptr_chara), y
     and #$e0
-    ldx #$05
-; copy battle script into ram (this is used by bosses Teddy, the Robos, and Giga-Gas himself)
-@GetBattleScript:
+    ldx #5
+    ; copy battle script into ram (this is used by bosses Teddy, the Robos, and Giegue)
+    @GetBattleScript:
     lsr a
     dex
     bne @GetBattleScript
     sta battle_script
 
+    ; enemy position
     lda (ptr_chara), y
     and #$1f
-    sta battle_var5a                    ; enemy position
+    sta battle_var5a
+
     iny
     lda (ptr_chara), y
     and #$0f
     sta battle_wordvar60
-    lda #$00
-    ldx #$05
-; pulls palette (0-3) from upper 2 bits of enemy's Offense stat
-@GetPaletteFromOffense:
+    lda #0
+    ldx #5
+    ; pulls palette (0-3) from upper 2 bits of enemy's Offense stat
+    @GetPaletteFromOffense:
     asl battle_wordvar60
     rol a
     dex
@@ -269,19 +225,23 @@ BattleMain:
     sta turn_counter
     lda #$80
     sta attacker_offset
-:   ldx attacker_offset         ; --
+    @xloop1:
+    ldx attacker_offset
     lda BATTLER, x
-    beq :+
+    beq @skip_jsr
     jsr B23_028a
-:   inc turn_counter
+    @skip_jsr:
+    inc turn_counter
     clc
     lda attacker_offset
     adc #BATTLER_DATASIZE
     sta attacker_offset
-    bcc :--                     ; --
-    ldy #$00
-    ldx #$00
-:   lda BATTLER_1BASED, y
+    bcc @xloop1
+
+    ldy #0
+    ldx #0
+    @all_battlers_loop:
+    lda BATTLER_1BASED, y
     iny
     ora BATTLER_1BASED, y
     sta battle_wordvar60
@@ -301,111 +261,130 @@ BattleMain:
     sta BATTLER_1BASED, x
     iny
     inx
-    cpx #$08
-    bne :-
+    cpx #8
+    bne @all_battlers_loop
+
     jsr PpuSync
-    lda #$05
+    lda #NMI_COMMANDS::PPU_WRITE
     sta nmi_queue
     lda #$10
     sta nmi_queue+1
-    ldy #$00
-    ldx #$04
-:   lda BATTLER_1BASED, y
+
+    ldy #0
+    ldx #4
+    @copy_to_nmi_queue:
+    lda BATTLER_1BASED, y
     sta nmi_queue, x
     sta nmi_queue+8, x
     iny
     inx
-    cpy #$08
-    bne :-
-    lda #$00
+    cpy #8
+    bne @copy_to_nmi_queue
+
+    lda #0
     sta nmi_queue+8, x
     lda #$80
-    sta $e5
-    lda #$23
+    sta nmi_flags
+    lda #.HIBYTE($23d8)
     sta nmi_queue+2
-    lda #$d8
+    lda #.LOBYTE($23d8)
     sta nmi_queue+3
-    lda #$00
-    sta $e6
-    lda #$00
+    lda #0
+    sta nmi_data_offset
+    lda #0
     sta battle_endtype
     sta enemy_group
     ldx #$80
-:   txa                     ; --
+    @copy_x:
+    txa
     pha
-    ldy #$04
-:   lda BATTLER_CURR_HP+1, x
+    ldy #4
+    @copy_y:
+    lda BATTLER_CURR_HP+1, x
     and #$03
     sta BATTLER_CURR_HP+1, x
     inx
     inx
     dey
-    bne :-
+    bne @copy_y
     pla
     clc
     adc #$20
     tax
-    bne :--                 ; --
-    ldx #$00
-; check teddy script
+    bne @copy_x
+
+    ldx #0
+    ; check teddy script
     lda battle_script
+    ; skip if not
     cmp #BSCRIPT_TEDDY
-    bne :+                              ; + skip if not
-; effects
-    ldx #$04                            ; turn counter is set to 4
-    lda #$ff                            ; set enemy1 hp to 16-bit max
+    bne @not_teddy
+    ; effects
+    ; turn counter is set to 4
+    ldx #$04
+    ; set enemy1 hp to 16-bit max
+    lda #$ff
     sta BATTLER_ENEMY1 + HP_Offset
     sta BATTLER_ENEMY1 + HP_Offset+1
-    lda #$00
+    lda #0
     sta BATTLER_PLAYER2
     sta BATTLER_PLAYER3
     sta BATTLER_PLAYER4
-:   stx turn_counter                    ; +
-; check tank
+    @not_teddy:
+    stx turn_counter
+    ; check tank
     lda is_tank
-    beq :++                             ; if not, branch to check giegue script
-; effects
-    ldy #$00                            ; set battle script to 0 (in vanilla, the grey robo fight becomes normal)
+    ; if not, branch to check giegue script
+    beq @not_tank
+    ; effects
+    ; set battle script to 0 (in vanilla, the grey robo fight becomes normal)
+    ldy #0
     sty battle_script
-:   lda BATTLER_MINOR_STATUS, y         ; give players barrier
+    ; give players barrier
+    @party_loop:
+    lda BATTLER_MINOR_STATUS, y
     ora #BARRIER
     sta BATTLER_MINOR_STATUS, y
     tya
     clc
     adc #$20
     tay
-    bpl :-
-; check giegue script
-:   lda battle_script
+    bpl @party_loop
+    ; check giegue script
+    @not_tank:
+    lda battle_script
     cmp #BSCRIPT_GIEGUE_YAPPING
-    bne :+
-; effects
+    bne @end
+    ; effects
     lda #$96
     sta battle_bytevar55
-    lda BATTLER_SPD                     ; infamous effect where giegue yoinks the player leader's speed stat
-    sta BATTLER_SPD+ENEMY1_OFFSET       ; fun fact, his original speed is 69
-; end of all bscript checks
-:   ldx #20
+    ; infamous effect where giegue yoinks the player leader's speed stat
+    ; fun fact, his original speed is 69
+    lda BATTLER_SPD
+    sta BATTLER_SPD+ENEMY1_OFFSET
+    ; end of all bscript checks
+    @end:
+    ldx #20
     jsr WaitXFrames
     jsr B31_174c
 
 ; Turn Input main loop
 BattleTurnInput:
-    lda #$00
+    lda #0
     jsr B31_14ce
     jsr BattleTurnEngine
     bcs @BattleTurnInputExit
     ldx #20
     jsr WaitXFrames
-    lda #$07
+    lda #7
     jsr B31_14ce
-    lda #$00
+    lda #0
     sta battle_bytevar52
     jsr B31_0cff
     jsr B31_1765
     jsr SubroutinePlayerTurnInput
     jsr B31_1760
-    lda #$03
+    lda #3
     jsr B31_14ce
     jsr B31_0cfc
     jmp BattleTurnInput
@@ -424,31 +403,34 @@ InitializePlayerBattler:
     sta battle_wordvar60
     lda #.HIBYTE(party_data-$40)
     sta battle_wordvar60+1
-:   clc
+    @add_64:
+    clc
     lda battle_wordvar60
-    adc #$40
+    adc #.LOBYTE($40)
     sta battle_wordvar60
     lda battle_wordvar60+1
-    adc #$00
+    adc #.HIBYTE($40)
     sta battle_wordvar60+1
     dex
-    bne :-
-    ldy #$01
+    bne @add_64
+    ldy #1
     ldx attacker_offset
-:   lda (battle_wordvar60), y
+    @copy_status:
+    lda (battle_wordvar60), y
     sta BATTLER_STATUS, x
     iny
     inx
     cpy #$10
-    bne :-
+    bne @copy_status
     ldy #$14
     ldx attacker_offset
-:   lda (battle_wordvar60), y
+    @copy_hp:
+    lda (battle_wordvar60), y
     sta BATTLER_CURR_HP, x
     inx
     iny
     cpy #$18
-    bne :-
+    bne @copy_hp
     ldx attacker_offset
     lda #$ff
     sta BATTLER, x
@@ -469,30 +451,30 @@ CopyEnemy:
     sta BATTLER_LETTER, x
     lda battle_wordvar60
     sta battle_wordvar62
-    lda #$00
-    ldx #$05
-    B23_023e:
+    lda #0
+    ldx #5
+    @B23_023e:
     asl battle_wordvar62
     rol a
     dex
-    bne B23_023e
+    bne @B23_023e
     sta battle_wordvar62+1
     clc
-    lda #$00
+    lda #0
     adc battle_wordvar62
     sta battle_wordvar62
     lda #$80
     adc battle_wordvar62+1
     sta battle_wordvar62+1
-    ldy #$01
+    ldy #1
     ldx attacker_offset
-    B23_0257:
+    @B23_0257:
     lda (battle_wordvar62), y
     sta BATTLER_STATUS, x
     iny
     inx
     cpy #$18
-    bne B23_0257
+    bne @B23_0257
     ldx attacker_offset
     ldy enemy_group
     iny
@@ -504,12 +486,12 @@ CopyEnemy:
     sta BATTLER_FULLDATA_PTR+1, x
     ldy #$5e
     lda battle_wordvar60+1
-    bpl B23_0285
+    bpl @B23_0285
     lda BATTLER_MINOR_STATUS, x
     ora #CALLABLE
     sta BATTLER_MINOR_STATUS, x
-    ldy #$00
-    B23_0285:
+    ldy #0
+    @B23_0285:
     tya
     sta BATTLER_ACTION_ID, x
     rts
@@ -519,10 +501,10 @@ CopyEnemy:
 B23_028a:
     lda BATTLER_MINOR_STATUS, x
     and #CALLABLE
-    beq B23_0296
-    lda #$00
+    beq @B23_0296
+    lda #0
     sta BATTLER, x
-    B23_0296:
+    @B23_0296:
     lda BATTLER_LETTER, x
     ora turn_counter
     sta BATTLER_LETTER, x
@@ -544,7 +526,7 @@ B23_028a:
     lsr a
     lsr a
     sta battle_wordvar66
-    ldy #$00
+    ldy #0
     lda (battle_wordvar60), y
     sta battle_wordvar62
     iny
@@ -557,11 +539,11 @@ B23_028a:
     tay
     iny
     lda #$e0
-    B23_02d2:
+    @B23_02d2:
     clc
     adc #$20
     dey
-    bne B23_02d2
+    bne @B23_02d2
     sta battle_wordvar64
     lda battle_var5a
     asl a
@@ -575,19 +557,19 @@ B23_028a:
     lsr a
     lsr a
     ldy battle_wordvar64+1
-    ldx #$00
-    B23_02f1:
+    ldx #0
+    @B23_02f1:
     sta BATTLER_1BASED, y
     iny
     inx
     cpx battle_wordvar62+1
-    bne B23_02f1
+    bne @B23_02f1
     clc
     lda battle_wordvar64+1
     adc battle_wordvar64
     adc #$80
     sta battle_wordvar64
-    lda #$00
+    lda #0
     adc #$21
     sta battle_wordvar64+1
     lda battle_wordvar64
@@ -613,18 +595,18 @@ B23_028a:
     ldx turn_counter
     inx
     lda #$c0
-    B23_032f:
+    @B23_032f:
     clc
     adc #$40
     dex
-    bne B23_032f
+    bne @B23_032f
     sta battle_wordvar66
-    ldy #$02
-    B23_0339:
+    ldy #2
+    @B23_0339:
     jsr PpuSync
-    ldx #$00
-    lda #$05
-    sta nmi_queue, x ; TODO: NMI command
+    ldx #0
+    lda #NMI_COMMANDS::PPU_WRITE
+    sta nmi_queue, x
     inx
     lda battle_wordvar62+1
     sta nmi_queue, x
@@ -635,7 +617,7 @@ B23_028a:
     inx
     lda battle_wordvar64
     sta nmi_queue, x
-    B23_0357:
+    @B23_0357:
     iny
     lda (battle_wordvar60), y
     clc
@@ -643,27 +625,30 @@ B23_028a:
     inx
     sta nmi_queue, x
     dec battle_wordvar66+1
-    bne B23_0357
-    lda #$00
+    bne @B23_0357
+    lda #0
     inx
     sta nmi_queue, x
     clc
+
+    ;battle_wordvar64 += $20
     lda battle_wordvar64
-    adc #$20
+    adc #.LOBYTE($20)
     sta battle_wordvar64
     lda battle_wordvar64+1
-    adc #$00
+    adc #.HIBYTE($20)
     sta battle_wordvar64+1
-    lda #$00
-    sta $e6
+
+    lda #0
+    sta nmi_data_offset
     lda #$80
-    sta $e5
+    sta nmi_flags
     dec battle_wordvar62
-    bne B23_0339
+    bne @B23_0339
     ldx attacker_offset
     lda BATTLER_CURR_PP+1, x
     and #$fc
-    beq B23_03d1
+    beq @B23_03d1
     lsr a
     lsr a
     sta battle_wordvar60
@@ -672,10 +657,11 @@ B23_028a:
     clc
     adc #.LOBYTE(battle_extra_tiles)
     sta battle_wordvar60
-    lda #$00
+    lda #0
     adc #.HIBYTE(battle_extra_tiles)
     sta battle_wordvar60+1
-    ldy #$00
+
+    ldy #0
     lda (battle_wordvar60), y
     sta BATTLER_TARGET, x
     lda turn_counter
@@ -683,25 +669,25 @@ B23_028a:
     asl a
     asl a
     tax
-    lda #$00
-    sta bytevar_0300, x
-    sta bytevar_0301, x
-    sta bytevar_0304, x
-    sta bytevar_0305, x
+    lda #0
+    sta SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+1, x
+    sta SPRITE_OBJECTS+4, x
+    sta SPRITE_OBJECTS+5, x
     lda battle_wordvar68+1
-    sta bytevar_0302, x
+    sta SPRITE_OBJECTS+2, x
     lda battle_wordvar68
-    sta bytevar_0303, x
+    sta SPRITE_OBJECTS+3, x
 
     ;enemy extra tile pointer -> [$306]
     ldy #1
     lda (battle_wordvar60), y
-    sta bytevar_0306, x
+    sta SPRITE_OBJECTS+6, x
     iny
     lda (battle_wordvar60), y
-    sta bytevar_0307, x
+    sta SPRITE_OBJECTS+7, x
 
-    B23_03d1:
+    @B23_03d1:
     rts
 
 ; Fill 64 bytes at PPU address in YX with 0xFF
@@ -709,23 +695,23 @@ ClearNametableAttribute:
     jsr PpuSync
     stx nmi_queue+2
     sty nmi_queue+3
-    lda #$08
-    sta nmi_queue ; PPU_FILL
+    lda #NMI_COMMANDS::PPU_WRITE_BYTE
+    sta nmi_queue
     lda #$40
     sta nmi_queue+1 ; Fill 64 bytes
     lda #$ff
     sta nmi_queue+4 ; With $FF
-    lda #$00
+    lda #0
     sta nmi_queue+5 ; END
     lda #$80
-    sta $e5
-    lda #$00
-    sta $e6
+    sta nmi_flags
+    lda #0
+    sta nmi_data_offset
     rts
 
 
 DisplayText_battle:
-    cmp #$00
+    cmp #0
     beq DisplayText_RTS
     pha
     jsr B23_04bb
@@ -733,43 +719,43 @@ DisplayText_battle:
     pla
 
     .ifndef VER_JP
-    cmp #$ff
-    bne B23_042d
-    sec
+        cmp #$ff
+        bne B23_042d
+        sec
 
-    ;get ram pointer - $8000
-    ldy target_offset
-    lda BATTLER_FULLDATA_PTR, y
-    sbc #.LOBYTE($8000)
-    sta tilepack_ptr
-    lda BATTLER_FULLDATA_PTR+1, y
-    sbc #.HIBYTE($8000)
+        ;get ram pointer - $8000
+        ldy target_offset
+        lda BATTLER_FULLDATA_PTR, y
+        sbc #.LOBYTE($8000)
+        sta tilepack_ptr
+        lda BATTLER_FULLDATA_PTR+1, y
+        sbc #.HIBYTE($8000)
 
-    ;ram pointer << 3
-    asl tilepack_ptr
-    rol a
-    asl tilepack_ptr
-    rol a
-    asl tilepack_ptr
-    rol a
-    ;by this point, it basically discards the lower half
+        ;ram pointer << 3
+        asl tilepack_ptr
+        rol a
+        asl tilepack_ptr
+        rol a
+        asl tilepack_ptr
+        rol a
+        ;by this point, it basically discards the lower half
 
-    clc
+        clc
 
-    ;lo = hi + 20
-    adc #20
-    sta tilepack_ptr
+        ;lo = hi + 20
+        adc #20
+        sta tilepack_ptr
 
-    ;a = 5 + carry
-    lda #0
-    adc #5
-    sta tilepack_ptr-1
+        ;a = 5 + carry
+        lda #0
+        adc #5
+        sta tilepack_ptr-1
 
-    bcc PrintChar
-    B23_042d:
+        bcc PrintChar
+        B23_042d:
     .endif
 
-    ldy #$00
+    ldy #0
     sty battle_wordvar60+1
     asl a
     rol battle_wordvar60+1
@@ -777,75 +763,71 @@ DisplayText_battle:
     adc #.LOBYTE(Battle_Text)
     sta battle_wordvar60
     lda battle_wordvar60+1
-    .ifdef VER_JP
-    adc #$87
-    .else
-    adc #$90
-    .endif
+    adc #.HIBYTE(Battle_Text)
     sta battle_wordvar60+1
-    ldy #$00
+    ldy #0
     lda (battle_wordvar60), y
     .ifdef VER_JP
-    sta UNK_50
-    iny
-    lda (battle_wordvar60),y
-    sta UNK_50+1
+        sta UNK_50
+        iny
+        lda (battle_wordvar60), y
+        sta UNK_50+1
     .else
-    sta tilepack_ptr
-    iny
-    lda (battle_wordvar60), y
-    sta UNK_73
+        sta tilepack_ptr
+        iny
+        lda (battle_wordvar60), y
+        sta UNK_73
     .endif
     PrintChar: ; assumed function
     .ifdef VER_JP
-    lda battle_bytevar52
-    cmp #$03
-    bne :+
-    ldx #$ca
-    jsr B23_04cc
-    ldx #$94
-    jsr B23_04bf
-    ldx #$5e
-    jsr B23_04bf
-    jsr PpuSync
-    lda #$06
-    jsr B31_14ce
-    jsr BANKSWAP_L00
-    ldx #$94
-    jsr B23_04bf
-    ldx #$5e
-    jsr B23_04bf
-    jsr PpuSync
-    lda #$05
-    jsr B31_14ce
-    jsr BANKSWAP_L00
+        lda battle_bytevar52
+        cmp #3
+        bne :+
+        ldx #$ca
+        jsr B23_04cc
+        ldx #$94
+        jsr B23_04bf
+        ldx #$5e
+        jsr B23_04bf
+        jsr PpuSync
+        lda #6
+        jsr B31_14ce
+        jsr BANKSWAP_L00
+        ldx #$94
+        jsr B23_04bf
+        ldx #$5e
+        jsr B23_04bf
+        jsr PpuSync
+        lda #5
+        jsr B31_14ce
+        jsr BANKSWAP_L00
     .else
-    jsr GetTextData
-    lda tilepack_ptr
-    sta battle_bytevar50
-    lda tilepack_ptr+1
-    sta battle_bytevar51
-    lda battle_bytevar52
-    cmp #$03
-    bne :+
-    ldx #$03
-    jsr DELAY_PRINT_SCROLL
+        jsr GetTextData
+        lda tilepack_ptr
+        sta battle_bytevar50
+        lda tilepack_ptr+1
+        sta battle_bytevar51
+        lda battle_bytevar52
+        cmp #3
+        bne :+
+        ldx #3
+        jsr DELAY_PRINT_SCROLL
     .endif
     dec battle_bytevar52
 :   jsr B23_0479
-    cmp #$02
+    cmp #2
     beq :+
     inc battle_bytevar52
-    cmp #$00
+    cmp #0
     .ifdef VER_JP
-    beq :+
-    lda tilepack_ptr
-    sta battle_bytevar50
-    lda tilepack_ptr+1
-    sta battle_bytevar51
-    jmp PrintChar
+        beq :+
+        lda tilepack_ptr
+        sta battle_bytevar50
+        lda tilepack_ptr+1
+        sta battle_bytevar51
+        jmp PrintChar
     .else
-    bne PrintChar
+        bne PrintChar
     .endif
 :   jsr BANKSWAP_L16
     ldx battle_message_speed
@@ -857,55 +839,57 @@ DisplayText_battle:
 B23_0479:
     lda battle_bytevar52
     asl a
-    adc #$03
-    sta $77
-    ldy #$00
+    adc #3
+    sta ntbl_y
+    ldy #0
     lda (battle_bytevar50), y
-    cmp #$03
+    cmp #3
     .ifdef VER_JP
-    bne B23_0495
+        bne @B23_0495
     .else
-    bne B23_049d
+        bne @B23_049d
     .endif
     lda #$0f
-    sta $76
+    sta ntbl_x
     jsr B31_15c2
     inc battle_bytevar50
-    bne B23_0495
+    bne @B23_0495
     inc battle_bytevar51
-    B23_0495:
-    ldy #$00
+    @B23_0495:
+    ldy #0
     lda (battle_bytevar50), y
-    cmp #$02
-    beq B23_04ba
+    cmp #2
+    beq @B23_04ba
     .ifdef VER_JP
-    lda #$13
+        lda #$13
     .else
-    B23_049d:
-    lda #$16
+        @B23_049d:
+        lda #$16
     .endif
-    sta $70
+    sta UNK_70
     .ifdef VER_JP
-    lda #$07
+        lda #7
     .else
-    lda #$05
+        lda #5
     .endif
-    sta $76
+    sta ntbl_x
     jsr PpuSync
     lda battle_bytevar50
-    sta $74
-    lda battle_bytevar51
     .ifdef VER_JP
-    sta UNK_73
-    jsr GetTextData
+        sta text_id+1
+        lda battle_bytevar51
+        sta text_id
+        jsr GetTextData
     .else
-    sta $75
+        sta tilepack_ptr
+        lda battle_bytevar51
+        sta tilepack_ptr+1
     .endif
     jsr PRINT_STRING    ; PrintLine
-    lda #$01
+    lda #1
     jsr B30_07af
-    lda $72
-    B23_04ba:
+    lda UNK_72
+    @B23_04ba:
     rts
 
 .ifdef VER_JP
@@ -936,19 +920,19 @@ B23_04d6:
 
 B23_04e0:
     sec
-    lda nmi_queue+3,x
+    lda nmi_queue+3, x
     sbc #$20
-    sta nmi_queue+3,x
-    lda nmi_queue+2,x
-    sbc #$00
-    sta nmi_queue+2,x
+    sta nmi_queue+3, x
+    lda nmi_queue+2, x
+    sbc #0
+    sta nmi_queue+2, x
     clc
-    lda nmi_queue+1,x
-    adc #$04
-    sta UNK_60+0
+    lda nmi_queue+1, x
+    adc #4
+    sta UNK_60
     clc
     txa
-    adc UNK_60+0
+    adc UNK_60
     tax
     rts
 .endif
@@ -956,20 +940,20 @@ B23_04e0:
 
 B23_04bb:
     lda #$21
-    sta $0580
-    sta $0588
+    sta UNK_580
+    sta UNK_580+8
     lda #$80
     sta battle_wordvar62
-    lda #$05
+    lda #5
     sta battle_wordvar62+1
     ldx attacker_offset
-    jsr B23_04da
+    jsr @B23_04da
     lda #$88
     sta battle_wordvar62
-    lda #$05
+    lda #5
     sta battle_wordvar62+1
     ldx target_offset
-    B23_04da:
+    @B23_04da:
     lda BATTLER_FULLDATA_PTR, x
     sta battle_wordvar60
     lda BATTLER_FULLDATA_PTR+1, x
@@ -979,7 +963,7 @@ B23_04bb:
     pha
     iny
     lda (battle_wordvar60), y
-    ldy #$02
+    ldy #2
     sta (battle_wordvar62), y
     pla
     dey
@@ -988,15 +972,15 @@ B23_04bb:
     iny
     lda BATTLER_LETTER, x
     and #$1c
-    beq B23_0505
+    beq @B23_0505
     lsr a
     lsr a
     clc
     adc #$40
     sta (battle_wordvar62), y
     iny
-    B23_0505:
-    lda #$00
+    @B23_0505:
+    lda #0
     sta (battle_wordvar62), y
     rts
 
@@ -1012,32 +996,35 @@ B23_04bb:
 ;           $40 = Player Battler 3
 ;           $60 = Player Battler 4
 SubroutinePlayerTurnInput:
-    lda #$00
+    lda #0
     sta attacker_offset
-    ; jmp @PlayerTurnRoutine
-
-; Start of Main loop
-@PlayerTurnInput_MainLoop:
+    ; Start of Main loop
+    @PlayerTurnInput_MainLoop:
     ldy attacker_offset
-    lda #$00
+    lda #0
     sta BATTLER_ACTION_ID, y
+    ; and away guard status
     lda BATTLER_MINOR_STATUS, y
     and #~GUARD
     sta BATTLER_MINOR_STATUS, y
+    ; skip turn if BATTLER ID is 0
     lda BATTLER, y
-    beq @PlayerTurnInput_INC                                    ; skip turn if BATTLER ID is 0
-    lda BATTLER_STATUS, y                                       ; skip turn if battler has bad status
+    beq @PlayerTurnInput_INC
+    ; skip turn if battler has bad status
+    lda BATTLER_STATUS, y
     and #UNCON | PETRIFICATION | PARALYSIS | SLEEP | PUZZLE
     bne @PlayerTurnInput_INC
-    lda BATTLER_MINOR_STATUS, y                                 ; ditto for minor status (being bound by rope)
+    ; ditto for minor status (being bound by rope)
+    lda BATTLER_MINOR_STATUS, y
     and #BIND
     bne @PlayerTurnInput_INC
-    jsr @PromptPlayerTurnInput                                  ; prompt player for input
+    ; prompt player for input
+    jsr @PromptPlayerTurnInput
     bcs @PlayerTurnInput_MainLoop
-@PlayerTurnInput_INC:
+    @PlayerTurnInput_INC:
     clc
     lda attacker_offset
-    adc #$20
+    adc #BATTLER_DATASIZE
     sta attacker_offset
     bne @PlayerTurnInput_MainLoop
     rts
@@ -1048,51 +1035,59 @@ SubroutinePlayerTurnInput:
     bne @InputTurnAsAI
     ldy attacker_offset
     bmi @InputTurnAsAI
+    ; check for NPC
     lda BATTLER_PLAYER_ID, y
     and #EVE
-    eor #EVE                     ; check for Flying Man
+    eor #EVE
     beq @InputTurnAsAI
     jsr OpenPlayerInputMainMenu
-    bcs :++                     ; ++ branch to RTS
+    ; branch to RTS
+    bcs @end_input
     lda is_auto
     beq @PlayerInputtedTurn
-@InputTurnAsAI:
+    @InputTurnAsAI:
     jsr @BattleAIDeterminer
 
 ; Guarding gets priority (immediately adds Guard status)
-; the only diff between enemy and player guard is the text it prints (what a waste of processing power... and incredibly misleading!)
+; the only diff between enemy and player guard is the text it prints
 @PlayerInputtedTurn:
     ldy attacker_offset
     lda BATTLER_ACTION_ID, y
     cmp #BA_ENEMY_GUARD
     beq @AddGuardingStatus
     cmp #BA_PLAYER_GUARD
-    bne :+                      ; +
+    bne @skip_guarding
 @AddGuardingStatus:
     lda BATTLER_MINOR_STATUS, y
-    ora #$08
+    ora #GUARD
     sta BATTLER_MINOR_STATUS, y
-:   clc                         ; +  jump here to skip guarding
-:   rts                         ; ++ branch here to end turn input
+    ; jump here to skip guarding
+    @skip_guarding:
+    clc
+    ; branch here to end turn input
+    @end_input:
+    rts
 
 @BattleAIDeterminer:
     lda attacker_offset
-    bmi :+
+    bmi @no_auto
     jmp AutoFightRoutine
-:   jmp EnemyAIRoutine
+    @no_auto:
+    jmp EnemyAIRoutine
 
 
 AutoFightRoutine:
-    ldy #$00
+    ldy #0
 @AutoFight_MainLoop:
     sty target_offset
     lda BATTLER, y
     beq @AutoFight_LoopINC
+    ; check for NPC
     lda BATTLER_PLAYER_ID, y
     and #EVE
-    eor #EVE                     ; check for Flying Man
+    eor #EVE
     beq @AutoFight_LoopINC
-; Try to use Super Healing
+    ; Try to use Super Healing
     lda BATTLER_STATUS, y
     bmi @AutoSuperHealing_JMP
 @AutoFight_LoopINC:
@@ -1102,101 +1097,109 @@ AutoFightRoutine:
     tay
     bpl @AutoFight_MainLoop
     .ifdef VER_JP
-    jmp B23_05a0
+        jmp B23_05a0
     .else
-    bmi B23_05a0
+        bmi B23_05a0
     .endif
 @AutoSuperHealing_JMP:
     jmp AutoSuperHealing
 
 
 B23_05a0:
-    ldy #$00
-B23_05a2:
+    ldy #0
+    @B23_05a2:
     sty target_offset
+    ; branch if battler.unk == 0
     lda BATTLER, y
-    beq B23_05bc
+    beq @B23_05bc
+    ; branch if unconned
     lda BATTLER_STATUS, y
-    bmi B23_05bc                    ; branch if unconned
+    bmi @B23_05bc
+    ; check for NPC
     lda BATTLER_PLAYER_ID, y
     and #EVE
     eor #EVE
-    beq B23_05bc
+    beq @B23_05bc
     jsr B31_1673
-    bcc B23_05c5
-B23_05bc:
+    bcc @B23_05c5
+    @B23_05bc:
     tya
     clc
-    adc #$20
+    adc #BATTLER_DATASIZE
     tay
-    bpl B23_05a2
+    bpl @B23_05a2
     .ifdef VER_JP
-    jmp B23_05e9
-B23_05c5:
-    jmp @dude
-    @dude:
+        jmp B23_05e9
+        @B23_05c5:
+        jmp @dude
+        @dude:
     .else
-    bmi B23_05e9
-B23_05c5:
+        bmi B23_05e9
+        @B23_05c5:
     .endif
-    ldx #$00
-    ldy #$00
-    B23_05c9:
+    ldx #0
+    ldy #0
+    @B23_05c9:
+    ; branch if battler.unk == 0
     lda BATTLER, y
-    beq B23_05db
+    beq @B23_05db
+    ; branch if unconned
     lda BATTLER_STATUS, y
-    bmi B23_05db
+    bmi @B23_05db
     jsr B31_1673
-    bcs B23_05db
+    bcs @B23_05db
     inx
     sty target_offset
-    B23_05db:
+    @B23_05db:
     tya
     clc
-    adc #$20
+    adc #BATTLER_DATASIZE
     tay
-    bpl B23_05c9
-    cpx #$01
+    bpl @B23_05c9
+    cpx #1
     .ifdef VER_JP
-    bcs @skip
-    jmp B23_0611
-    @skip:
+        bcs @skip
+        jmp B23_0611
+        @skip:
     .else
-    bcc B23_0611
+        bcc B23_0611
     .endif
     jmp AutoLifeup
-    B23_05e9:
-    ldy #$00
-    B23_05eb:
+B23_05e9:
+    ldy #0
+    @B23_05eb:
     sty target_offset
+    ; branch if battler.unk == 0
     lda BATTLER, y
-    beq B23_0604
+    beq @B23_0604
+    ; check for NPC
     lda BATTLER_PLAYER_ID, y
-    and #$06
-    eor #$06
-    beq B23_0604
+    and #EVE
+    eor #EVE
+    beq @B23_0604
+    ; branch if unconned
     lda BATTLER_STATUS, y
-    bmi B23_0604
+    bmi @B23_0604
     and #$70
-    bne B23_060e
-    B23_0604:
+    bne @B23_060e
+    @B23_0604:
     tya
     clc
-    adc #$20
+    adc #BATTLER_DATASIZE
     tay
-    bpl B23_05eb
+    bpl @B23_05eb
     jmp AutoBash
-    B23_060e:
+    @B23_060e:
     jmp AutoHealing
-    B23_0611:
+B23_0611:
     lda #$0c
     jsr TryAddingPSIBattleAction
-    bcc B23_0622
+    bcc @B23_0622
     lda #$0b
     jsr TryAddingPSIBattleAction
-    bcc B23_0622
+    bcc @B23_0622
     jmp AutoLifeup
-    B23_0622:
+    @B23_0622:
     rts
 
 AutoLifeup:
@@ -1216,18 +1219,18 @@ AutoLifeup:
     jsr CLC_FindFoodInInventory
 
     .ifdef VER_JP
-    bcs @B23_068f
-    cpx #$84
-    bne @B23_0692
-    @B23_068f:
-    jmp B23_05e9
-    @B23_0692:
+        bcs @B23_068f
+        cpx #$84
+        bne @B23_0692
+        @B23_068f:
+        jmp B23_05e9
+        @B23_0692:
     .else
-    bcs B23_05e9
-    cpx #$7c
-    beq B23_05e9
-    cpx #$84
-    beq B23_05e9
+        bcs B23_05e9
+        cpx #$7c
+        beq B23_05e9
+        cpx #$84
+        beq B23_05e9
     .endif
     tya
     ldy attacker_offset
@@ -1283,19 +1286,25 @@ AutoHealing:
 ; Random algorithm:
 ;   - pick random num from 0 to 3
 ;   - Check Status of that Slot on opposing team
-;       If Deadge: Try again
+;       If Dead: Try again
 AutoBash:
     ldy attacker_offset
     lda #BA_BASH
     sta BATTLER_ACTION_ID, y
-:   jsr RNG_BYTE
-    and #$e0                    ; get a random value from 0 to 3
+    @not_valid:
+    ; get a random value from 0 to 3
+    jsr RNG_BYTE
+    and #$e0
     ora #$80
     tay
+    ;check if battler is valid
     lda BATTLER, y
-    beq :-
+    beq @not_valid
+
+    ; branch if unconned
     lda BATTLER_STATUS, y
-    bmi :-                      ; branch if unconned
+    bmi @not_valid
+
     tya
     ldy attacker_offset
     sta BATTLER_TARGET, y
@@ -1304,9 +1313,10 @@ AutoBash:
 AutoSuperHealing:
     lda #HEALING_SUPER
     jsr TryAddingPSIBattleAction
-    bcc :+
+    bcc @skip
     jmp B23_05a0
-:   ldy attacker_offset
+    @skip:
+    ldy attacker_offset
     lda target_offset
     sta BATTLER_TARGET, y
     rts
@@ -1324,16 +1334,16 @@ TryAddingPSIBattleAction:
     tax
     inx
     sec
-    lda #$00
-    B23_06d6:
+    lda #0
+    @B23_06d6:
     ror a
     dex
-    bne B23_06d6
+    bne @B23_06d6
     sta battle_wordvar60+1
     lda (ptr_chara), y
     and battle_wordvar60+1
-    beq B23_0721
-    lda #$00
+    beq @B23_0721
+    lda #0
     asl battle_wordvar60
     rol a
     asl battle_wordvar60
@@ -1342,35 +1352,43 @@ TryAddingPSIBattleAction:
     rol a
     sta battle_wordvar60+1
     clc
+
     lda battle_wordvar60
-    adc #$00
+    adc #.LOBYTE(PSI_Data)
     sta battle_wordvar60
     lda battle_wordvar60+1
-    adc #$9e
+    adc #.HIBYTE(PSI_Data)
     sta battle_wordvar60+1
+
     jsr BANKSWAP_L00
-    ldy #$05
+
+    ;get battle action id
+    ldy #psid::ba
     lda (battle_wordvar60), y
     ldy attacker_offset
     sta BATTLER_ACTION_ID, y
-    ldy #$07
+
+    ;get cost
+    ;they use 0 instead of the high byte...
+    ldy #psid::cost
     lda (battle_wordvar60), y
     sta battle_input_num
-    lda #$00
+    lda #0
     sta battle_input_num+1
     jsr BANKSWAP_L16
     jsr SubtractPP
-    bcc B23_0721
+    bcc @B23_0721
     jsr SetCarryAttackerNotBlocked
-    bcc B23_0721
+    bcc @B23_0721
     clc
     rts
-    B23_0721:
+    @B23_0721:
     sec
     rts
 
 ; Picks a random move from the Enemy's Moveset
 EnemyAIRoutine:
+    ;BATTLER_ACTION_ID[attacker_offset] = BATTLER_MOVESET[rand() % 8]
     jsr RNG_BYTE
     and #%00000111
     clc
@@ -1379,9 +1397,9 @@ EnemyAIRoutine:
     lda BATTLER_MOVESET, y
     ldy attacker_offset
     sta BATTLER_ACTION_ID, y
+
     jsr TargetingFromActionID
     jsr JMPTable
-
 
     .addr AITargetRoutine_RTS ; 0 - ???
     .addr AITargetsPlayerRoutine ; 1 - ???
@@ -1461,7 +1479,8 @@ AISelectTargetRoutine:
     jmp AITargetRoutine_RTS
 
 JMP_AITargetRoutine_RTS:
-    jmp AITargetRoutine_RTS ; really fucking stupid line of code
+    ;couldve been a fallthrough
+    jmp AITargetRoutine_RTS
 
 AITargetRoutine_RTS:
     lda target_offset
@@ -1470,20 +1489,25 @@ AITargetRoutine_RTS:
     rts
 
 B23_07ab:
+    ;y = random multiple of $20
     jsr RNG_BYTE
     and #%11100000
     tay
+    ;check if valid
     lda BATTLER, y
     beq B23_07ab
+    ;check if uncon
     lda BATTLER_STATUS, y
     bmi B23_07ab
     sty target_offset
     rts
 
 ; used to do things like target front to back (Blue robo) or always target back (Red robo)
+; return carry set on succeed
+; return carry clear on fail
 TargetSpecificPlayer:
     cmp party_members, x
-    bne :+
+    bne @fail
     txa
     asl a
     asl a
@@ -1492,36 +1516,39 @@ TargetSpecificPlayer:
     asl a
     tay
     lda BATTLER, y
-    beq :+
+    beq @fail
     lda BATTLER_STATUS, y
-    bmi :+
+    bmi @fail
     sty target_offset
     sec
     rts
-:   clc
+    @fail:
+    clc
     rts
+
 ; lookup table for player selection
 ; main code for interpreting player's action
 OpenPlayerInputMainMenu:
     jsr DrawSelectionMenu
-    ; jmp UpdatePlayerinputMainMenu
-
 UpdatePlayerinputMainMenu:
-    lda #$02
+    ;ui_actionbox
+    lda #2
+    ;jp checks battle script
+    ;us checks flags
     .ifdef VER_JP
-    ldx battle_script
-    cpx #BSCRIPT_GIEGUE_FIGHTING
-    bne :+
+        ldx battle_script
+        cpx #BSCRIPT_GIEGUE_FIGHTING
+        bne @no_sing
     .else
-    ldx event_flags+28
-    bpl :+
+        ldx event_flags+28
+        bpl @no_sing
     .endif
+    ;ui_actionbox_melodies
     lda #$13
-:   jsr B31_14ce
+    @no_sing:
+    jsr B31_14ce
     jsr SelectionMenuCheckScenario
     jsr JMPTable
-
-
 
     .addr SelectFight
     .addr SelectAuto
@@ -1531,7 +1558,8 @@ UpdatePlayerinputMainMenu:
     .addr SelectRun
     .addr SelectCheck
     .addr SelectSing
-    .addr SelectBack            ; when B button is pressed
+    ; when B button is pressed
+    .addr SelectBack
 
 SelectRTS:
     rts
@@ -1541,60 +1569,70 @@ SelectFight:
     ldy attacker_offset
     sta BATTLER_ACTION_ID, y
     jsr B23_0962
-    bcc :+
+    bcc @exit
     jmp UpdatePlayerinputMainMenu
-:   jmp SelectRTS
+    @exit:
+    jmp SelectRTS
 
 SelectAuto:
     jsr PpuSync
-    lda #$01
+
+    ;is_auto = 1
+    lda #1
     sta is_auto
+
     lda #.LOBYTE(SPRITEDEF_AUTOBATTLER)
-    sta $03e6
+    sta SPRITE_OBJECTS+(8*$1c)+6
     lda #.HIBYTE(SPRITEDEF_AUTOBATTLER)
-    sta $03e7
-    lda #$04
-    sta $03e0
-    lda #$00
-    sta $03e1
-    sta $03e4
-    sta $03e5
+    sta SPRITE_OBJECTS+(8*$1c)+7
+
+    lda #4
+    sta SPRITE_OBJECTS+(8*$1c)
+    lda #0
+    sta SPRITE_OBJECTS+(8*$1c)+1
+    sta SPRITE_OBJECTS+(8*$1c)+4
+    sta SPRITE_OBJECTS+(8*$1c)+5
     lda #$d0
-    sta $03e2
+    sta SPRITE_OBJECTS+(8*$1c)+2
     lda #$47
-    sta $03e3
-    lda #$01
-    sta $e5
+    sta SPRITE_OBJECTS+(8*$1c)+3
+
+    lda #1
+    sta nmi_flags
+
     clc
     jmp SelectRTS
 
 SelectPSI:
     jsr LoadPlayerBattlerLearnedPSIs
-    lda #$00
+    lda #0
     sta battle_wordvar60
-    ldy #$07
-:   lda (ptr_chara), y
+    ldy #7
+    @bit_loop:
+    lda (ptr_chara), y
     ora battle_wordvar60
     sta battle_wordvar60
     dey
-    bne :-
+    bne @bit_loop
     lda battle_wordvar60
-    beq :++
+    beq @update
     jsr BtlOpenPSIMenu
-    bcs :+
+    bcs @input
     jmp SelectRTS
-:   jmp OpenPlayerInputMainMenu
-:   jmp UpdatePlayerinputMainMenu
+    @input:
+    jmp OpenPlayerInputMainMenu
+    @update:
+    jmp UpdatePlayerinputMainMenu
 
-; seems to load in a player's learned PSIs
+; loads in a player's learned PSIs
 LoadPlayerBattlerLearnedPSIs:
     ldy attacker_offset
     clc
     lda BATTLER_FULLDATA_PTR, y
-    adc #$30
+    adc #.LOBYTE(party_info::psi_learntable)
     sta ptr_chara
     lda BATTLER_FULLDATA_PTR+1, y
-    adc #$00
+    adc #.HIBYTE(party_info::psi_learntable)
     sta ptr_chara+1
     rts
 
@@ -1609,27 +1647,34 @@ SelectGuard:
 SelectItem:
     ldy attacker_offset
     clc
+
     lda BATTLER_FULLDATA_PTR, y
-    adc #$20
+    adc #.LOBYTE(party_info::items)
     sta ptr_chara
     lda BATTLER_FULLDATA_PTR+1, y
-    adc #$00
-    sta $5d
-    lda #$00
+    adc #.HIBYTE(party_info::items)
+    sta ptr_chara+1
+
+    lda #0
     sta battle_wordvar60
-    ldy #$07
-:   lda (ptr_chara), y
+
+    ldy #7
+    @loop:
+    lda (ptr_chara), y
     ora battle_wordvar60
     sta battle_wordvar60
     dey
-    bpl :-
+    bpl @loop
+
     lda battle_wordvar60
-    beq :++
+    beq @update
     jsr B23_0a08
-    bcs :+
+    bcs @input
     jmp SelectRTS
-:   jmp OpenPlayerInputMainMenu
-:   jmp UpdatePlayerinputMainMenu
+    @input:
+    jmp OpenPlayerInputMainMenu
+    @update:
+    jmp UpdatePlayerinputMainMenu
 
 SelectRun:
     lda #$48
@@ -1639,7 +1684,7 @@ SelectCheck:
     lda #$80
     sta target_offset
     jsr B23_0991
-    bcs :+
+    bcs @update
     ldx menucursor_pos
     lda bytevar_0591, x
     tax
@@ -1651,7 +1696,8 @@ SelectCheck:
     lda #$6f
     sta BATTLER_ACTION_ID, y
     jmp SelectRTS
-:   jmp UpdatePlayerinputMainMenu
+    @update:
+    jmp UpdatePlayerinputMainMenu
 
 SelectSing:
     lda #BA_SING
@@ -1660,7 +1706,7 @@ SelectSing:
 SelectBack:
     sec
     lda attacker_offset
-    beq :+                          ; if at player 1, go "back" to player 1
+    beq @exit                          ; if at player 1, go "back" to player 1
     sbc #BATTLER_DATASIZE            ; go back 1 offset to prev. player slot
     sta attacker_offset
     tay
@@ -1674,14 +1720,15 @@ SelectBack:
     lda BATTLER_MINOR_STATUS, y
     and #BIND
     bne SelectBack
-:   sec
+    @exit:
+    sec
     jmp SelectRTS
 
 SelectionMenuCheckScenario:
     ldx #.LOBYTE(battle_commands_normal)
     ldy #.HIBYTE(battle_commands_normal)
-    .ifdef VER_JP
 
+    .ifdef VER_JP
     ;if battle != giegue, jump
     lda battle_script
     cmp #BSCRIPT_GIEGUE_FIGHTING
@@ -1712,22 +1759,22 @@ SelectionMenuCheckScenario:
     ldy #.HIBYTE(battle_commands_giegue)
     .endif
     @no_sing:
-    stx $84
-    sty $85
+    stx UNK_84
+    sty UNK_84+1
 
     ldx #.LOBYTE(battle_commands_choicer)
     ldy #.HIBYTE(battle_commands_choicer)
-    stx $80
-    sty $81
+    stx UNK_80
+    sty UNK_80+1
     jsr B31_0f3f
-    bit $83
+    bit menucursor_pos+1
     bvs @exit
-    lda #$09
+    lda #9
     jsr B23_0945
     lda menucursor_pos
     rts
     @exit:
-    lda #$08
+    lda #8
     rts
 
 B23_0945:
@@ -1736,15 +1783,15 @@ B23_0945:
     lsr a
     asl a
     clc
-    adc $77
-    sta $77
+    adc ntbl_y
+    sta ntbl_y
     lda menucursor_pos
     and #$01
     beq B23_095d
     clc
-    lda $76
+    lda ntbl_x
     adc battle_wordvar60
-    sta $76
+    sta ntbl_x
     B23_095d:
     lda #$0d
     jmp B31_14ce
@@ -1786,11 +1833,11 @@ B23_0991:
     jsr B23_09b3
 
     lda #.LOBYTE(battle_whichenemy_choicer)
-    sta $80
+    sta UNK_80
     lda #.HIBYTE(battle_whichenemy_choicer)
-    sta $81
+    sta UNK_80+1
     jsr PRINT_CURR_CHOICER
-    bit $83
+    bit menucursor_pos+1
     bvs B23_09b1
     bmi B23_09ad
     jmp B23_0991
@@ -1805,8 +1852,8 @@ B23_09ad:
 
 B23_09b3:
     lda #$12
-    sta $77
-    ldx #$00
+    sta ntbl_y
+    ldx #0
     stx bytevar_0591
     stx bytevar_0592
     stx bytevar_0593
@@ -1815,20 +1862,20 @@ B23_09b3:
     stx bytevar_0590
     lda target_offset
     pha
-    ldy #$04
-    B23_09ce:
+    ldy #4
+    @B23_09ce:
     tya
     pha
     ldy target_offset
     lda BATTLER, y
-    beq B23_09f8
+    beq @B23_09f8
     ldy target_offset
-    bmi B23_09e4
+    bmi @B23_09e4
     lda BATTLER_PLAYER_ID, y
     and #$06
     eor #$06
-    beq B23_09f8
-    B23_09e4:
+    beq @B23_09f8
+    @B23_09e4:
     iny
     tya
     sta bytevar_0590, x
@@ -1838,10 +1885,10 @@ B23_09b3:
     jsr B23_04bb
     lda #$0c
     jsr B31_14ce
-    inc $77
+    inc ntbl_y
     pla
     tax
-    B23_09f8:
+    @B23_09f8:
     clc
     lda target_offset
     adc #$20
@@ -1849,7 +1896,7 @@ B23_09b3:
     pla
     tay
     dey
-    bne B23_09ce
+    bne @B23_09ce
     pla
     sta target_offset
     rts
@@ -1870,10 +1917,10 @@ B23_0a08:
     jsr B23_0c49
     bcs B23_0a43
     jsr BANKSWAP_L00
-    ldy #$05
+    ldy #5
     lda (battle_wordvar62), y
     jsr BANKSWAP_L16
-    cmp #$00
+    cmp #0
     beq B23_0a4c
     ldy attacker_offset
     sta BATTLER_ACTION_ID, y
@@ -1911,31 +1958,31 @@ B23_0a67:
     and #$01
     tax
     lda B22_1fb1+1, x
-    sta $76
+    sta ntbl_x
     tya
     lsr a
     tax
     lda B22_1fb1+3, x
-    sta $77
+    sta ntbl_y
     lda (ptr_chara), y
-    beq B23_0a9c
+    beq @B23_0a9c
     jsr GetItemPointer
     jsr BANKSWAP_L00
-    lda #$04
-    sta $0588
-    ldy #$00
+    lda #4
+    sta UNK_580+8
+    ldy #0
     lda (battle_wordvar62), y
-    sta $0589
+    sta UNK_580+9
     iny
     lda (battle_wordvar62), y
-    sta $058a
+    sta UNK_580+$a
     lda #$0f
     jsr B31_14ce
-    B23_0a9c:
+    @B23_0a9c:
     pla
     tay
     iny
-    cpy #$08
+    cpy #8
     bne B23_0a69
     rts
 
@@ -1944,10 +1991,11 @@ GetItemPointer:
     ldx #$00
     stx battle_wordvar62+1
     ldx #$03
-:   asl a
+    @shift:
+    asl a
     rol battle_wordvar62+1
     dex
-    bne :-
+    bne @shift
     clc
     adc #.LOBYTE(Item_Data)
     sta battle_wordvar62
@@ -1960,10 +2008,10 @@ GetItemPointer:
 GetInventoryPointer_battle:
     clc
     lda BATTLER_FULLDATA_PTR, y
-    adc #$20
+    adc #BATTLER_DATASIZE
     sta battle_wordvar60
     lda BATTLER_FULLDATA_PTR+1, y
-    adc #$00
+    adc #0
     sta battle_wordvar60+1
     rts
 
@@ -1975,45 +2023,45 @@ StoreItemName:
     jsr BANKSWAP_L00
     lda #$21
     sta bytevar_0590
-    ldy #$00
+    ldy #0
     lda (battle_wordvar62), y
     sta wordvar_0591
     iny
     lda (battle_wordvar62), y
     sta wordvar_0591+1
-    lda #$00
+    lda #0
     sta bytevar_0593
     jmp BANKSWAP_L16
 
 B23_0ae9:
     lda #.LOBYTE(battle_goods_choicer)
-    sta $80
+    sta UNK_80
     lda #.HIBYTE(battle_goods_choicer)
-    sta $81
+    sta UNK_80+1
     lda ptr_chara
-    sta $84
-    lda $5d
-    sta $85
+    sta UNK_84
+    lda ptr_chara+1
+    sta UNK_84+1
     jsr B31_0f3f
-    bit $83
-    bvs B23_0b0e
-    bmi B23_0b05
+    bit menucursor_pos+1
+    bvs @B23_0b0e
+    bmi @B23_0b05
     jmp B23_0ae9
-    B23_0b05:
+    @B23_0b05:
     lda #$0c
     jsr B23_0945
     lda menucursor_pos
     clc
     rts
-    B23_0b0e:
+    @B23_0b0e:
     sec
     rts
 
 BtlOpenPSIMenu:
-    ldy #$01
-    B23_0b12:
+    ldy #1
+    @B23_0b12:
     lda (ptr_chara), y
-    beq B23_0b32
+    beq @B23_0b32
     tya
     pha
     lda #$0e
@@ -2024,35 +2072,34 @@ BtlOpenPSIMenu:
     jsr BtlDoPSIPageChoicer
     pla
     tay
-    cpx #$01
-    beq B23_0b39
-    cpx #$02
-    beq B23_0b5f
-    B23_0b32:
+    cpx #1
+    beq @B23_0b39
+    cpx #2
+    beq @B23_0b5f
+    @B23_0b32:
     iny
-    cpy #$08
+    cpy #8
     beq BtlOpenPSIMenu
-    bne B23_0b12
-    B23_0b39:
+    bne @B23_0b12
+    @B23_0b39:
     ldy menucursor_pos
     lda BATTLER_1BASED, y
     jsr GetPsiDataPointer
     jsr BANKSWAP_L00
-    ldy #$05
+    ldy #5
     lda (battle_wordvar62), y
-    beq B23_0b57
+    beq @B23_0b57
     ldy attacker_offset
     sta BATTLER_ACTION_ID, y
     pha
     jsr BANKSWAP_L16
     pla
     jmp B23_0962
-
-B23_0b57:
+    @B23_0b57:
     lda #$10
     jsr B31_14ce
     jsr WaitABPressed
-    B23_0b5f:
+    @B23_0b5f:
     sec
     rts
 
@@ -2064,91 +2111,95 @@ LoadandDoPSIMenu:
     sta battle_wordvar60
     lda #$80
     sta battle_wordvar60+1
-    ldx #$00
-    B23_0b6d:
-    lda #$00
+    ldx #0
+    @B23_0b6d:
+    lda #0
     sta BATTLER_1BASED, x
     lda (ptr_chara), y
     and battle_wordvar60+1
-    beq B23_0b7d
+    beq @B23_0b7d
     lda battle_wordvar60
     sta BATTLER_1BASED, x
-    B23_0b7d:
+    @B23_0b7d:
     inc battle_wordvar60
     inx
     lsr battle_wordvar60+1
-    bcc B23_0b6d
-    ldy #$00
-B23_0b86:
+    bcc @B23_0b6d
+    ldy #0
+    @B23_0b86:
     tya
     pha
     and #$01
     tax
     lda B22_1fb1+1, x
-    sta $76
+    sta ntbl_x
     tya
     lsr a
     tax
     lda B22_1fb1+3, x
-    sta $77
+    sta ntbl_y
     lda BATTLER_1BASED, y
-    beq B23_0bba
+    beq @B23_0bba
     jsr GetPsiDataPointer
     jsr BANKSWAP_L00
-    lda #$04
-    sta $0588
-    ldy #$00
+    lda #4
+    sta UNK_580+8
+    ldy #0
     lda (battle_wordvar62), y
-    sta $0589
+    sta UNK_580+9
     iny
     lda (battle_wordvar62), y
-    sta $058a
+    sta UNK_580+$a
     lda #$0f
     jsr B31_14ce
-    B23_0bba:
+    @B23_0bba:
     pla
     tay
     iny
-    cpy #$08
-    bne B23_0b86
+    cpy #8
+    bne @B23_0b86
     rts
 
 BtlDoPSIPageChoicer:
     lda #.LOBYTE(battle_psipage_choicer)
-    sta $80
+    sta UNK_80
     lda #.HIBYTE(battle_psipage_choicer)
-    sta $81
+    sta UNK_80+1
     jsr PRINT_CURR_CHOICER
-    lda $83
+    lda menucursor_pos+1
     and #$06
     bne B23_0be6
-    lda $83
+    lda menucursor_pos+1
     and #$81
-    bne :+
-    bit $83
-    bvs :++
+    bne @load_0
+    bit menucursor_pos+1
+    bvs @load_2
     jmp BtlDoPSIPageChoicer
-:   ldx #$00
+    @load_0:
+    ldx #0
     rts
-:   ldx #$02
+    @load_2:
+    ldx #2
     rts
 
 B23_0be6:
     lda #.LOBYTE(battle_psi_choicer)
-    sta $80
+    sta UNK_80
     lda #.HIBYTE(battle_psi_choicer)
-    sta $81
+    sta UNK_80+1
     jsr PRINT_CURR_CHOICER
-    lda $83
+    lda menucursor_pos+1
     and #$08
     bne BtlDoPSIPageChoicer
-    bit $83
-    bvs :++
-    bmi :+
+    bit menucursor_pos+1
+    bvs @load_2
+    bmi @load_1
     jmp BtlDoPSIPageChoicer
-:   ldx #$01
+    @load_1:
+    ldx #1
     rts
-:   ldx #$02
+    @load_2:
+    ldx #2
     rts
 
 ; assumed
@@ -2160,16 +2211,18 @@ DrawSelectionMenu:
     jsr BANKSWAP_L00
 
     lda #0
-    sta $70
-
-    lda #.LOBYTE(ui_thing_tiles11)
-    sta $74
-    lda #.HIBYTE(ui_thing_tiles11)
+    sta UNK_70
     .ifdef VER_JP
-    sta UNK_73
-    jsr GetTextData
+        lda #.LOBYTE(ui_thing_tiles11)
+        sta text_id+1
+        lda #.HIBYTE(ui_thing_tiles11)
+        sta text_id
+        jsr GetTextData
     .else
-    sta $75
+        lda #.LOBYTE(ui_thing_tiles11)
+        sta tilepack_ptr
+        lda #.HIBYTE(ui_thing_tiles11)
+        sta tilepack_ptr+1
     .endif
 
     jsr DrawTilepackClear
@@ -2232,25 +2285,27 @@ B23_0c49:
     sta battle_wordvar64
     tax
     sec
-    lda #$00
-:   rol a
+    lda #0
+    @shift:
+    rol a
     dex
-    bne :-
+    bne @shift
     sta battle_wordvar66+1
-    ldy #$02
+    ldy #2
     lda (battle_wordvar62), y
     jsr BANKSWAP_L16
     and battle_wordvar66+1
-    beq :+
+    beq @carry_set
     clc
     rts
-:   sec
+    @carry_set:
+    sec
     rts
 
 BattleTurnEngine:
     jsr ConcludeBattle
     bcs @TurnEngineReturn
-    ldx #$08
+    ldx #8
 @TurnEngineSort_LS:
     txa
     pha
@@ -2260,7 +2315,8 @@ BattleTurnEngine:
     ldy attacker_offset
     sta BATTLER_ACTION_ID, y
     jsr ConcludeBattle
-    bcs :+                       ; turn engine loop break out
+    ; turn engine loop break out
+    bcs @te_break_out
     pla
     tax
     dex
@@ -2269,7 +2325,8 @@ BattleTurnEngine:
     beq BattleDrawEffect
     clc
     rts
-:   pla                         ; break out jumps here
+    @te_break_out:
+    pla
 @TurnEngineReturn:
     sec
     rts
@@ -2278,16 +2335,19 @@ BattleTurnEngine:
 BattleDrawEffect:
     lda battle_script
     cmp #BSCRIPT_TEDDY
-    beq :+                      ; dont print draw msg if teddy script
+    ; dont print draw msg if teddy script
+    beq @teddy
     ldx #100
     jsr WaitXFrames
-    lda #$92                    ; battle lingered on and on msg
+    ; battle lingered on and on msg
+    lda #$92
     jsr DisplayText_battle
-:   sec
+    @teddy:
+    sec
     rts
 
 SortTurnOrder:
-    lda #$00
+    lda #0
     sta battle_wordvar60
     sta battle_wordvar60+1
 @SortTurnOrder_LS:
@@ -2321,28 +2381,32 @@ DoBattlerTurn:
     ldy attacker_offset
     lda BATTLER, y
     bne @CheckUncon
-    lda #$00                    ; no msg
+    ; no msg
+    lda #0
     jmp DisplayText_battle2
 
 @CheckUncon:
     lda BATTLER_STATUS, y
     and #UNCON
     beq @CheckPetrified
-    lda #$00                    ; no msg
+    ; no msg
+    lda #0
     jmp DisplayText_battle2
 
 @CheckPetrified:
     lda BATTLER_STATUS, y
     and #PETRIFICATION
     beq @CheckParalyzed
-    lda #$47                    ; battler is petrified msg
+    ; battler is petrified msg
+    lda #$47
     jmp DisplayText_battle2
 
 @CheckParalyzed:
     lda BATTLER_STATUS, y
     and #PARALYSIS
     beq @CheckSleeped
-    lda #$46                    ; battler is paralyzed msg
+    ; battler is paralyzed msg
+    lda #$46
     jmp DisplayText_battle2
 
 @CheckSleeped:
@@ -2351,18 +2415,21 @@ DoBattlerTurn:
     beq @CheckPuzzled
 ; Sleep Wake Up Check
     jsr RNG_BYTE
-    and #$e0                    ; 1/8 chance of wake up (sleep is basically an ohko lmao)
+    ; 1/8 chance of wake up (sleep is basically an ohko lmao)
+    and #$e0
     bne @SleepWakeupFail
     lda BATTLER_STATUS, y
     and #~SLEEP
     sta BATTLER_STATUS, y
     sty target_offset
     jsr B31_15e5
-    lda #$8e                    ; battler wakes up msg
+    ; battler wakes up msg
+    lda #$8e
     jmp DisplayText_battle2
 
 @SleepWakeupFail:
-    lda #$3c                    ; battler continues to sleep msg
+    ; battler continues to sleep msg
+    lda #$3c
     jmp DisplayText_battle2
 
 ; puzzle is basically permanent sleep that gets cured by confuse curing item
@@ -2371,7 +2438,8 @@ DoBattlerTurn:
     lda BATTLER_STATUS, y
     and #PUZZLE
     beq @CheckAsthma
-    lda #$68                    ; battler is puzzled msg
+    ; battler is puzzled msg
+    lda #$68
     jmp DisplayText_battle2
 
 @CheckAsthma:
@@ -2381,7 +2449,8 @@ DoBattlerTurn:
     lda BATTLER_ACTION_ID, y
     cmp #BA_ASTHMA_SPRAY
     beq @CheckBound
-    lda #$56                    ; battler has asthma msg
+    ; battler has asthma msg
+    lda #$56
     jmp DisplayText_battle2
 
 @CheckBound:
@@ -2389,16 +2458,19 @@ DoBattlerTurn:
     and #BIND
     beq @CheckConfuse
     jsr RNG_BYTE
-    and #$c0                    ; 1/4 chance of escaping bind
+    ; 1/4 chance of escaping bind
+    and #$c0
     bne @BindBreakFail
     lda BATTLER_MINOR_STATUS, y
     and #~BIND
     sta BATTLER_MINOR_STATUS, y
-    lda #$8b                    ; battler escaped bind msg
+    ; battler escaped bind msg
+    lda #$8b
     jmp DisplayText_battle2
 
 @BindBreakFail:
-    lda #$1c                    ; battler is bound msg
+    ; battler is bound msg
+    lda #$1c
     jmp DisplayText_battle2
 
 ; unlike the other status conditions, confuse still prints text but doesn't eat your turn
@@ -2406,15 +2478,17 @@ DoBattlerTurn:
     lda BATTLER_STATUS, y
     and #CONFUSE
     beq @PerformBattlerAction
-    lda #$3a                    ; battler is confused msg
+    ; battler is confused msg
+    lda #$3a
     jsr DisplayText_battle
 
 ; (finally) performs the battler's BA!
 @PerformBattlerAction:
     ldy attacker_offset
     lda BATTLER_ACTION_ID, y
-    PerformBattleAction2:                      ; wip label
-    ldy #$00
+    ; wip label
+    PerformBattleAction2:
+    ldy #0
     sty battle_wordvar60+1
     asl a
     rol battle_wordvar60+1
@@ -2426,7 +2500,7 @@ DoBattlerTurn:
     lda #.HIBYTE(BATTLE_ACTION_POINTERS)
     adc battle_wordvar60+1
     sta battle_wordvar60+1
-    ldy #$00
+    ldy #0
     lda (battle_wordvar60), y
     sta battle_var5e
     iny
@@ -2440,7 +2514,7 @@ DoBattlerTurn:
 ; BA data is composed of these instructions, which call upon already programmed functions.
 ; They can take in .byte or .word as arguments depending on the script's "opcode."
 BattleScriptInterpreter:
-    ldy #$00
+    ldy #0
     lda (battle_var5e), y
     lsr a
     lsr a
@@ -2468,7 +2542,8 @@ DisplayText_battle2:
 
 ; Battle Instruction 0 : End
 BINST0_END:
-    lda #$01                        ; advance script counter by 1
+    ; advance script counter by 1
+    lda #1
     jmp AdvanceScriptPtr
 
 ; Battle Instruction 1 : Variety Effects
@@ -2495,7 +2570,8 @@ BINST1_VARIETY:
     .addr BINST1B_ANIMATE_CRIT
 
 BINST1_RETURN:
-    lda #1                        ; advance script counter by 1
+    ; advance script counter by 1
+    lda #1
     jmp AdvanceAndContinue
 
 ; Battle Instruction 2N ID (Lookup and use PSI ID)
@@ -2511,26 +2587,29 @@ BINST2_LUTPSI:
     ldy #1
     lda (battle_var5e), y
 
-    ldx #$00
+    ldx #0
     stx battle_wordvar60+1
-    ldx #$03
-:   asl a
+    ldx #3
+    @shift:
+    asl a
     rol battle_wordvar60+1
     dex
-    bne :-
+    bne @shift
 
+    ; battle_wordvar60 = pointer to PSI data table entry
     clc
-    adc #$00
+    adc #.LOBYTE(PSI_Data)
     sta battle_wordvar60
     lda battle_wordvar60+1
-    adc #$9e
-    sta battle_wordvar60+1         ; $60 = pointer to PSI data table
+    adc #.HIBYTE(PSI_Data)
+    sta battle_wordvar60+1
     jsr BANKSWAP_L00
 
-    ldy #$07
+    ; store power cost
+    ldy #7
     lda (battle_wordvar60), y
-    sta battle_input_num            ; store power cost
-    lda #$00
+    sta battle_input_num
+    lda #0
     sta battle_input_num+1
 
     lda #$21
@@ -2545,30 +2624,36 @@ BINST2_LUTPSI:
     sta bytevar_0593
     jsr BANKSWAP_L16
 
-    lda #$64                        ; Attacker tried PSI msg
+    ; Attacker tried PSI msg
+    lda #$64
     jsr DisplayText_battle
 
+    ; branch when NOT Attacker NOT Blocked (Attacker is Blocked)
     jsr SetCarryAttackerNotBlocked
-    bcc @PSIFailedBlock             ; branch when NOT Attacker NOT Blocked (Attacker is Blocked)
+    bcc @PSIFailedBlock
 
+    ; branch when Power cost is too high
     jsr SubtractPP
-    bcc @PSIFailedPowerCost         ; branch when Power cost is too high
+    bcc @PSIFailedPowerCost
 
     jsr DepletePower
     lda battle_bytevar58
     jsr PlayBattleSFX
-    lda #$00
+    lda #0
     sta battle_bytevar58
 
-    lda #$02                        ; advance script counter by 2
+    ; advance script counter by 2
+    lda #2
     jmp AdvanceAndContinue
 
 @PSIFailedBlock:
-    lda #$51                        ; PSI was Blocked msg
+    ; PSI was Blocked msg
+    lda #$51
     jmp DisplayText_battle
 
 @PSIFailedPowerCost:
-    lda #$54                        ; Not enough power msg
+    ; Not enough power msg
+    lda #$54
     jmp DisplayText_battle
 
 ; Battle Instruction 3N ID (Lookup and use Item ID)
@@ -2974,19 +3059,19 @@ DepletePower:
     .ifdef VER_JP
     ldy attacker_offset
     sec
-    lda BATTLER_CURR_PP,y
+    lda BATTLER_CURR_PP, y
     sbc battle_input_num
-    sta BATTLER_CURR_PP,y
-    lda BATTLER_CURR_PP+1,y
+    sta BATTLER_CURR_PP, y
+    lda BATTLER_CURR_PP+1, y
     sbc battle_input_num+1
-    sta BATTLER_CURR_PP+1,y
+    sta BATTLER_CURR_PP+1, y
     bcs @exit
     lda #0
-    sta BATTLER_CURR_PP,y
-    sta BATTLER_CURR_PP+1,y
+    sta BATTLER_CURR_PP, y
+    sta BATTLER_CURR_PP+1, y
     @exit:
     .else
-    lda #$19
+    lda #.BANK(DepleteAttackerPP)
     ldx #.LOBYTE(DepleteAttackerPP-1)
     ldy #.HIBYTE(DepleteAttackerPP-1)
     jsr TempUpperBankswitch
@@ -3837,24 +3922,24 @@ EnemyLongFlashing:
     tay
     lda BATTLER_TARGET, y
     ldx battle_wordvar64+1
-    sta bytevar_0300, x
+    sta SPRITE_OBJECTS, x
     lda #$01
-    sta $e5
+    sta nmi_flags
     jsr WaitNMI
     lda #$80
-    sta $e5
+    sta nmi_flags
     rts
 
 DoEnemyDeadAnimation:
     jsr LoadEnemyLetterExtrabits
     lda #$00
     ldx battle_wordvar64+1
-    sta bytevar_0300, x
+    sta SPRITE_OBJECTS, x
     lda #$01
-    sta $e5
+    sta nmi_flags
     jsr WaitNMI
     lda #$80
-    sta $e5
+    sta nmi_flags
     lda #$00
     sta BATTLER, y
     lda #$00
@@ -3908,7 +3993,7 @@ LoadEnemyLetterExtrabits:
     lda BATTLER_FULLDATA_PTR, y
     sta ptr_chara
     lda BATTLER_FULLDATA_PTR+1, y
-    sta $5d
+    sta ptr_chara+1
     lda BATTLER_LETTER, y
     and #$03                        ; lo 2 bits of letter
     sta battle_wordvar64
@@ -3988,12 +4073,12 @@ DoAnimateEnemyHit:
 :   txa                             ; animate loop start
     pha
     ldx battle_wordvar64+1
-    lda bytevar_0300, x
+    lda SPRITE_OBJECTS, x
     pha
     lda #$00
-    sta bytevar_0300, x
+    sta SPRITE_OBJECTS, x
     lda #$01
-    sta $e5
+    sta nmi_flags
     jsr WaitNMI
     lda #$7c
     ldx battle_wordvar64
@@ -4003,9 +4088,9 @@ DoAnimateEnemyHit:
     jsr WaitNMI
     pla
     ldx battle_wordvar64+1
-    sta bytevar_0300, x
+    sta SPRITE_OBJECTS, x
     lda #$01
-    sta $e5
+    sta nmi_flags
     jsr WaitNMI
     ldy #$1f
     lda (ptr_chara), y
@@ -4027,17 +4112,17 @@ ANIMATE_LONG_ENEMY:
     lda BATTLER_TARGET, y
     pha
     ldx battle_wordvar64+1
-    lda bytevar_0300, x
+    lda SPRITE_OBJECTS, x
     ldy target_offset
     sta BATTLER_TARGET, y
     lda #$00
     ldx battle_wordvar64+1
-    sta bytevar_0300, x
+    sta SPRITE_OBJECTS, x
     lda #$01
-    sta $e5
+    sta nmi_flags
     jsr WaitNMI
     lda #$80
-    sta $e5
+    sta nmi_flags
     ldy target_offset
     jsr EnemyLongFlashing
     pla
@@ -4209,9 +4294,9 @@ ConcludeBattle:
 
     lda #$80
     sta BATTLER_STATUS
-    sta $0621
-    sta $0641
-    sta $0661
+    sta BATTLER_STATUS+(1*BATTLER_DATASIZE)
+    sta BATTLER_STATUS+(2*BATTLER_DATASIZE)
+    sta BATTLER_STATUS+(3*BATTLER_DATASIZE)
     lda battle_script
     cmp #BSCRIPT_BLUEROBO
     bne @NormalL
@@ -4224,7 +4309,7 @@ ConcludeBattle:
     jsr DisplayText_battle
     jmp @ConcludeBattleReturn
 @NormalL:
-    lda #$00
+    lda #0
     sta attacker_offset             ; ?? useless
     lda #$0e                        ; defeat msg
     jsr DisplayText_battle
@@ -4263,7 +4348,7 @@ PlayersWinRoutine:
     jmp WinReturn
 
 NormalWin:
-    lda #MUSIC_WIN
+    lda #music::b_win
     jsr ChangeMusic
     lda #$0d                        ; players win msg
     jsr DisplayText_battle
@@ -4976,7 +5061,7 @@ BINST4_29_Sing:
 ; SingYapping
 ; while Giegue is yapping, he doesn't "take damage" from the song. it still plays the animation, though.
 ; the check for not giegue fight is in the Sing BA. If that's true it just displays no effect msg
-    lda #MUSIC_SING
+    lda #music::queen_marys_song
     jsr ChangeMusic
     lda current_music
     pha
@@ -4995,7 +5080,7 @@ BINST4_29_Sing:
 ; advances the counter towards Giegue's demise (it's also used to determine what he says)
 SingFighting:
 .endif
-    lda #MUSIC_SING
+    lda #music::queen_marys_song
     jsr ChangeMusic
     sec
     lda battle_bytevar55
@@ -5007,7 +5092,7 @@ SingFighting:
     jsr ANIMATE_FAST_PLAYER
     lda battle_bytevar55
     jsr DisplayText_battle
-    lda #MUSIC_BATTLE_GIEGUE
+    lda #music::vs_giegue
     jsr ChangeMusic
     ldx battle_bytevar55
     inx
@@ -5018,7 +5103,7 @@ SingFighting:
 
 BINST_GIEGUELOSE:
     jsr AnimateGiegueDefeat
-    lda #MUSIC_NONE
+    lda #music::mute
     jsr ChangeMusic
     ldx #200
     jsr WaitXFrames
@@ -5243,7 +5328,7 @@ RaiseBigStat:
     lda battle_wordvar66+1
     sta BATTLER_STATUS, x
     rts
-:   jmp CLR_wordvar0590
+:   jmp CLR_wordvar_0590
 
 ; BUG : Stat cap can overflow if base stat is > 127.
 ; BigStat doesn't have this issue since it is 16-bit
@@ -5273,7 +5358,7 @@ RaiseSmallStat:
     lda battle_wordvar66
     sta BATTLER, x
     rts
-:   jmp CLR_wordvar0590
+:   jmp CLR_wordvar_0590
 
 LowerBigStat:
     jsr GetValueFromBattlerFulldata
@@ -5312,7 +5397,7 @@ LowerBigStat:
     lda battle_wordvar66+1
     sta BATTLER_STATUS, x
     rts
-:   jmp CLR_wordvar0590
+:   jmp CLR_wordvar_0590
 
 LowerSmallStat:
     jsr GetValueFromBattlerFulldata
@@ -5335,7 +5420,7 @@ LowerSmallStat:
     lda battle_wordvar66
     sta BATTLER, x
     rts
-:   jmp CLR_wordvar0590
+:   jmp CLR_wordvar_0590
 
 ; raises big stat's value by flat number from input
 RaiseBigStatByNum:
@@ -5499,11 +5584,11 @@ CLC_FindFoodInInventory:
     clc
     rts
 
-; clears wordvar0590
-CLR_wordvar0590:
-    lda #$00
-    sta wordvar0590
-    sta wordvar0590+1
+; clears wordvar_0590
+CLR_wordvar_0590:
+    lda #0
+    sta wordvar_0590
+    sta wordvar_0590+1
     clc
     rts
 

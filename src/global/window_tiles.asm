@@ -84,25 +84,25 @@ window_message:
 .byte repeatTile " ", 20
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(L3C294-1), 18 ;irqValue, irqIndex
+.byte .LOBYTE(dialogue_irq-1), 18 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 20
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(L3C294-1), 20 ;irqValue, irqIndex
+.byte .LOBYTE(dialogue_irq-1), 20 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 20
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(L3C294-1), 22 ;irqValue, irqIndex
+.byte .LOBYTE(dialogue_irq-1), 22 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 20
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(L3C294-1), 24 ;irqValue, irqIndex
+.byte .LOBYTE(dialogue_irq-1), 24 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 20
@@ -119,31 +119,31 @@ window_8entries:
 .byte uibox_tr
 window_8entries_goto:
 .byte newLine
-.byte .LOBYTE(L3C2C2-1), 2 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 2 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 24
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(L3C2C2-1), 4 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 4 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 24
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(L3C2C2-1), 6 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 6 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 24
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(L3C2C2-1), 8 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 8 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 24
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(L3C28E-1), 10 ;irqValue, irqIndex
+.byte .LOBYTE(eightwindow_irq-1), 10 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 24
@@ -164,25 +164,25 @@ window_shopitems:
 .byte repeatTile " ", 18
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(L3C2C2-1), 2 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 2 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 18
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(L3C29A-1), 4 ;irqValue, irqIndex
+.byte .LOBYTE(shopitems_irq-1), 4 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 18
 .byte uibox_r
 .byte newLine
-.byte .LOBYTE(L3C29A-1), 6 ;irqValue, irqIndex
+.byte .LOBYTE(shopitems_irq-1), 6 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 18
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(L3C29A-1), 8 ;irqValue, irqIndex
+.byte .LOBYTE(shopitems_irq-1), 8 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 18
@@ -297,7 +297,7 @@ state_menu:
 .byte repeatTile uibox_t, 6
 .byte uibox_tr
 .byte stopText
-.byte .LOBYTE(L3C2C2-1), 2 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 2 ;irqValue, irqIndex
 
 .byte uibox_l
 .byte repeatTile " ", 7
@@ -318,7 +318,7 @@ state_menu:
 .byte repeatTile " ", 10
 .byte " ",uibox_r
 .byte newLine
-.byte .LOBYTE(L3C2C2-1), 4 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 4 ;irqValue, irqIndex
 
 .byte uibox_l," HP"
 .byte print_number $0614, 2, 6
@@ -330,7 +330,7 @@ state_menu:
 .byte repeatTile " ", 10
 .byte " ",uibox_r
 .byte newLine
-.byte .LOBYTE(L3C2C2-1), 6 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 6 ;irqValue, irqIndex
 
 .byte uibox_l," PP"
 .byte print_number $0616, 2, 6
@@ -342,7 +342,7 @@ state_menu:
 .byte repeatTile " ", 10
 .byte " ",uibox_r
 .byte newLine
-.byte .LOBYTE(L3C2C2-1), 8 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 8 ;irqValue, irqIndex
 
 .byte uibox_l
 kanafix " オフェンス "
@@ -353,7 +353,7 @@ kanafix " オフェンス "
 .byte repeatTile " ", 10
 .byte " ",uibox_r
 .byte stopText
-.byte .LOBYTE(L3C2C2-1), 10 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 10 ;irqValue, irqIndex
 
 .byte uibox_l_r," ",$FE
 .byte repeatTile " ", 11
@@ -374,7 +374,7 @@ kanafix " ティフェンス"
 .byte repeatTile uibox_t, 6
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(L3C2C2-1), 12 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 12 ;irqValue, irqIndex
 
 .byte uibox_l
 kanafix " ファイト  "
@@ -385,7 +385,7 @@ kanafix " ファイト  "
 .byte print_number $0680, 0, 10
 .byte " ",uibox_r
 .byte newLine
-.byte .LOBYTE(L3C2C2-1), 14 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 14 ;irqValue, irqIndex
 
 .byte uibox_l
 kanafix " スピ-ド  "
@@ -396,7 +396,7 @@ kanafix " スピ-ド  "
 .byte print_number $0690, 0, 10
 .byte " ",uibox_r
 .byte newLine
-.byte .LOBYTE(L3C2C2-1), 16 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 16 ;irqValue, irqIndex
 
 .byte uibox_l
 kanafix " かしこさ  "
@@ -407,7 +407,7 @@ kanafix " かしこさ  "
 .byte print_number $06A0, 0, 10
 .byte " ",uibox_r
 .byte newLine
-.byte .LOBYTE(L3C2C2-1), 18 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 18 ;irqValue, irqIndex
 
 .byte uibox_l
 kanafix " たいりょく "
@@ -418,7 +418,7 @@ kanafix " たいりょく "
 .byte print_number $06B0, 0, 10
 .byte " ",uibox_r
 .byte stopText
-.byte .LOBYTE(L3C2C2-1), 20 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 20 ;irqValue, irqIndex
 
 .byte uibox_l_r," "
 .byte repeatTile " ", 12
@@ -439,7 +439,7 @@ kanafix " フォ-ス  "
 .byte repeatTile uibox_t, 5
 .byte uibox_tr
 .byte newLine
-.byte .LOBYTE(L3C2C2-1), 22 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 22 ;irqValue, irqIndex
 
 .byte uibox_l," EX  "
 .byte print_number $0611, 3, 8
@@ -449,7 +449,7 @@ kanafix " フォ-ス  "
 .byte print_number $06F0, 0, 10
 .byte uibox_r
 .byte stopText
-.byte .LOBYTE(L3C2C2-1), 24 ;irqValue, irqIndex
+.byte .LOBYTE(longwindow_irq-1), 24 ;irqValue, irqIndex
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 14

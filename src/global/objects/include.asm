@@ -130,7 +130,7 @@ obj_incs = 0
     D_ELEVATOR = $4B ;spawn players in elevator (?)
     D_NOVEC = $4C ;spawn players in direction (?)
     PLANEEND = $4D ;ending of plane paths
-    UNK = $4E ;???????
+    MOVE_PARTY = $4E ;move all party members to savemeta location
     J_HASMOVED = $4F ;jump to j if ?????
     J_NOTMAX = $50 ;jump to j if < max hp
     N_HEAL = $51 ;heal hp n
@@ -157,7 +157,7 @@ obj_incs = 0
     LANDMINE = $68 ;in yucca desert
     SHAKE = $69 ;????
     .ifndef VER_JP
-    TOMBSTONE = $6A ;do george tombstone
+        TOMBSTONE = $6A ;do george tombstone
     .endif
 .endenum
 
@@ -338,12 +338,12 @@ obj_incs = 0
 .define OBJ_TRAIN .byte SCRIPTS::TRAIN
 .define OBJ_TELEPORT_TO_SAVEGAME .byte SCRIPTS::SAVEGAMETP
 .define OBJ_TEACH_TELEPORT .byte SCRIPTS::TEACH_TELEPORT
-.define OBJ_UNK .byte SCRIPTS::UNK
+.define OBJ_MOVE_PARTY .byte SCRIPTS::MOVE_PARTY
 .define OBJ_REGISTER_NAME .byte SCRIPTS::REGNAME
 .define OBJ_DARKEN .byte SCRIPTS::DARKEN
 
 .ifndef VER_JP
-.define OBJ_TOMBSTONE .byte SCRIPTS::TOMBSTONE
+    .define OBJ_TOMBSTONE .byte SCRIPTS::TOMBSTONE
 .endif
 
 

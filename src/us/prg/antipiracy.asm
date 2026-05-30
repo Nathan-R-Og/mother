@@ -3,13 +3,13 @@
 ;anti-piracy
 ;this is ran before transitioning to the save select
 TITLE_ANTI_PIRACY:
-    ;if scroll_x != 0, jump
-    lda scroll_x
+    ;if scroll_y != 0, jump
+    lda scroll_y
     cmp #0
     bne @fail
 
-    ;if scroll_y != 0, jump
-    lda scroll_y
+    ;if scroll_x != 0, jump
+    lda scroll_x
     cmp #0
     bne @fail
 
@@ -206,12 +206,12 @@ ShowAntipiracy:
     jsr PpuSync
 
     ;irq_count = 0
-    ;scroll_y = 0
     ;scroll_x = 0
+    ;scroll_y = 0
     lda #0
     sta irq_count
-    sta scroll_y
     sta scroll_x
+    sta scroll_y
 
     ;stop music
     lda #$ff
@@ -232,17 +232,17 @@ ShowAntipiracy:
     lda #.HIBYTE(UMSG::ANTIPIRACY)
     sta UNK_73
 
-    ;UNK_76 = 2
+    ;ntbl_x = 2
     lda #2
-    sta UNK_76
-    ;UNK_77 = 2
+    sta ntbl_x
+    ;ntbl_y = 2
     lda #2
-    sta UNK_77
+    sta ntbl_y
 
     ;could be
     ;lda #2
-    ;sta UNK_76
-    ;sta UNK_77
+    ;sta ntbl_x
+    ;sta ntbl_y
 
     ;UNK_70 = 0
     ;UNK_71 = 0
@@ -434,18 +434,18 @@ HideSpritesForMenu:
     sec
     ror oam_and_300_clear_flag
 
-    ;UNK_78 = UNK_76 << 3
+    ;UNK_78 = ntbl_x << 3
     ;;;UNK_78 is now the top left of a panel
-    lda UNK_76
+    lda ntbl_x
     asl a
     asl a
     asl a
     sta UNK_78
 
-    ;UNK_79 = ((UNK_76 + char_count) << 3) - 4
+    ;UNK_79 = ((ntbl_x + char_count) << 3) - 4
     ;;;UNK_79 is now the top right of a panel
     clc
-    lda UNK_76
+    lda ntbl_x
     adc char_count
     asl a
     asl a
@@ -454,9 +454,9 @@ HideSpritesForMenu:
     sbc #4
     sta UNK_79
 
-    ;UNK_7C = (UNK_77 & 0x1E) << 3
+    ;UNK_7C = (ntbl_y & 0x1E) << 3
     ;;;UNK_7C is now the bottom left of a panel
-    lda UNK_77
+    lda ntbl_y
     clc
     and #%00011110
     asl a
@@ -565,17 +565,17 @@ SetupMenu:
     jsr WriteProtectPRGRam
 
     ;re-run the displaying script to add the new choice
-    lda UNK_76
+    lda ntbl_x
     pha
-    lda UNK_76+1
+    lda ntbl_x+1
     pha
     jsr Display_SetupMenuChoices
 
-    ;reset UNK_76
+    ;reset ntbl_x
     pla
-    sta UNK_76+1
+    sta ntbl_x+1
     pla
-    sta UNK_76
+    sta ntbl_x
 
     jsr B31_0f7c
     jmp @main_loop
@@ -587,12 +587,12 @@ SetupMenu:
 
 ;y = preference index
 Display_SetupMenuChoices:
-    ;UNK_77 = (y << 2) + 13
+    ;ntbl_y = (y << 2) + 13
     tya
     asl a
     asl a
     adc #13 ;y pos offset?
-    sta UNK_77
+    sta ntbl_y
 
     ;get preferences[y]
     lda preferences, y
@@ -603,7 +603,7 @@ Display_SetupMenuChoices:
 
     ldx #5
     @loop:
-    stx UNK_76
+    stx ntbl_x
 
     ;get tile value from `preferences` boolean
     ;radial_empty + 0 or 1
@@ -621,8 +621,8 @@ Display_SetupMenuChoices:
     @no_add:
     clc
 
-    ;x = UNK_76+4
-    lda UNK_76
+    ;x = ntbl_x+4
+    lda ntbl_x
     adc #4
     tax
     ;if x == 25, break
@@ -1324,8 +1324,8 @@ ValidateBanks2_Useless:
     jsr PpuSync
     lda #$00
     sta irq_count
-    sta scroll_y
     sta scroll_x
+    sta scroll_y
     lda #$ff
     jsr PlayMusic
     jmp ShowAntipiracy_nomute_useless

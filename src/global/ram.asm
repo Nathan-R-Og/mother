@@ -42,8 +42,7 @@ global_wordvar: .res 2 ; $2A ; Object script 16-bit number
 UNK_2C: .res 4
 object_pointer: .res 2 ; $30 ; Pointer to object_memory
 object_data: .res 2 ; $32 ; Pointer to ROM object data
-UNK_34: .res 1
-; $34 -> Object script interaction type
+UNK_34: .res 1 ; $34 -> Object script interaction type
 object_script_offset: .res 1 ; $35 ; TODO: APPLY ALL LABELS
 UNK_36: .res 1
 UNK_37: .res 1
@@ -76,10 +75,11 @@ UNK_6E: .res 2
 UNK_70: .res 1
 UNK_71: .res 1
 UNK_72: .res 1
+text_id:
 UNK_73: .res 1
 tilepack_ptr: .res 2        ; $74
-UNK_76: .res 1
-UNK_77: .res 1
+ntbl_x: .res 1
+ntbl_y: .res 1
 UNK_78: .res 1
 UNK_79: .res 1
 UNK_7A: .res 1
@@ -95,7 +95,7 @@ menucursor_pos: .res 2 ; $82
 UNK_84: .res 2
 menu_x_pos: .res 1 ; $86 ; X pos in whole numbers
 menu_y_pos: .res 1 ; $87 ; Y pos in whole numbers
-map_tmp_ptr: .res 2
+map_tmp_ptr: .res 2 ; $88
 UNK_8A: .res 2
 UNK_8C: .res 4
 UNK_90: .res 4
@@ -157,7 +157,7 @@ UNK_E1: .res 1
 oam_and_300_clear_flag: .res 1 ; $e2 ; Set Bit 7 before Clear OAM & $300 are, Free bit after
 UNK_E3: .res 1
 UNK_E4: .res 1
-nmi_flags: .res 1 ; $e5 ;some kind of pointer (TODO: change name to something less similar to nmi flag)
+nmi_flags: .res 1 ; $e5 ; is this a timer????
 nmi_data_offset: .res 1 ; $e6
 UNK_E7: .res 1
 shift_x: .res 1 ; $e8
@@ -172,8 +172,8 @@ bankswitch_mode: .res 1 ; $ee ; Bankswitch "mode"  (-----mmm), $8000 MMC3 regist
 bankswitch_flags: .res 1
 current_banks: .res 8 ; $f0 ; Current banks for each "mode" (8 bytes)
 UNK_F8: .res 4
-scroll_x: .res 1 ; $fc
-scroll_y: .res 1 ; $fd
+scroll_y: .res 1 ; $fc
+scroll_x: .res 1 ; $fd
 ram_PPUMASK: .res 1 ; $fe
 ram_PPUCTRL: .res 1 ; $ff
 
@@ -203,10 +203,10 @@ shadow_oam: .res $100 ; $200
 SPRITE_OBJECTS: .res $100 ; $300 / SpriteDefs
 
 ;just an array of nmi commands
-nmi_queue: .res $100 ;$400 / nmi queue???
+nmi_queue: .res $100 ;$400 / nmi queue
 
-palette_queue: .res $20 ;$500 / palette queue???
-palette_backup: .res $20 ;$520 / palette queue backup???
+palette_queue: .res $20 ;$500 / palette queue
+palette_backup: .res $20 ;$520 / palette queue backup
 irq_pointers: .res $40 ; $540 / (-1 because of it uses the RTS trick)
 UNK_580: .res $80
 
@@ -356,8 +356,8 @@ BATTLER_MINOR_STATUS := BATTLER + battler_struct::m_status ;$600+$1e
 UNK_700: .res $80
 
 ;actual ram
-unk_76c = $076c
-unk_76e = $076e
+ntbl_xc = $076c
+ntbl_xe = $076e
 
 ; SOUND STUFF: https://pastebin.com/F3hkv8Cw
 ; $0780 = Sound driver RAM
@@ -465,30 +465,31 @@ sram_mode = $07ef
 ; direct sfx (put into soundqueues)
 ; $0 : noise
 ; this is the only one directly used by battle engine bank
-Noise_Hit                   = $1
-Noise_Bomb                  = $2
-Noise_Thunder               = $3
-Noise_Fire                  = $4
-Noise_Crit                  = $5
-Noise_EnemyKilled           = $6
-; $7 not used (plays junk data)
-Noise_Stairs                = $8
-Noise_Rocket                = $9
+Noise_Hit                   = 1
+Noise_Bomb                  = 2
+Noise_Thunder               = 3
+Noise_Fire                  = 4
+Noise_Crit                  = 5
+Noise_EnemyKilled           = 6
+Noise_Junk                  = 7 ; $7 not used (plays junk data)
+Noise_Stairs                = 8
+Noise_Rocket                = 9
 Noise_RocketLand            = $A
 ; $1 : pulses group 0
-PulseG0_EnemyAttack         = $1
-PulseG0_Beam                = $2
-PulseG0_StatBoost           = $3
-PulseG0_TakeDamage          = $4
-PulseG0_MenuBloop           = $5
-PulseG0_ItemDropGet         = $6
-PulseG0_Recovery            = $7
-PulseG0_Canary              = $8
-PulseG0_LearnedPSI          = $9
+PulseG0_EnemyAttack         = 1
+PulseG0_Beam                = 2
+PulseG0_StatBoost           = 3
+PulseG0_TakeDamage          = 4
+PulseG0_MenuBloop           = 5
+PulseG0_ItemDropGet         = 6
+PulseG0_Recovery            = 7
+PulseG0_Canary              = 8
+PulseG0_LearnedPSI          = 9
 PulseG0_PlayerAttack        = $a
 PulseG0_Purchase            = $b
 PulseG0_Dodge               = $c
-; PulseG0_LowMenuBloop  = $e (unused)
+PulseG0_Unk                 = $d
+PulseG0_LowMenuBloop        = $e ;(unused)
 ; PulseG0_HighMenuBloop = $f (unused)
 PulseG0_Miss                = $f
 PulseG0_MagicantWarp        = $10
@@ -496,15 +497,14 @@ PulseG0_Laura               = $11   ; plays canary then swaps track to 2nd melod
 PulseG0_XXStone             = $12
 ; $2 : unused
 ; $3 : triangle
-Triangle_Freeze             = $1    ; also used for teleport
-Triangle_Equip              = $4
-; $2 plays junk
-Triangle_PlayerKilled       = $3
-Triangle_Equipped           = $4
+Triangle_Freeze             = 1    ; also used for teleport
+Triangle_Junk               = 2    ; $2 plays junk
+Triangle_PlayerKilled       = 3
+Triangle_Equip              = 4
 ; $4 pulse group 1
-PulseG1_DimensionSlip       = $1    ; also used for teleport
-PulseG1_Status              = $2
-PulseG1_GiegueAttack        = $3
+PulseG1_DimensionSlip       = 1    ; also used for teleport
+PulseG1_Status              = 2
+PulseG1_GiegueAttack        = 3
 ; $5 : track
 Track_LevelUp               = $1f
 Track_Clear                 = $ff
@@ -654,37 +654,6 @@ WHERE_JP_STRINGS_ARE: .res $700 ;$6d00
     preferences .res 4 ; 0x3c
 .endstruct ;sizeof 0x40
 
-; $00 : Unused (always 00)
-Status_Offset               = $1
-Resistance_Offset           = $2
-HP_Offset                   = $3
-PP_Offset                   = $5
-Off_Offset                  = $7
-Def_Offset                  = $9
-Fit_Offset                  = $B
-Spd_Offset                  = $C
-Wis_Offset                  = $D
-Str_Offset                  = $E
-Fce_Offset                  = $F
-Lv_Offset                   = $10
-Exp_Offset                  = $11
-CurrHP_Offset               = $14
-CurrPP_Offset               = $16
-NamePtr_Offset              = $18
-Inventory_Offset            = $20            ; 8 bytes
-Equipment_Offset            = $28
-    Weapon_Offset           = Equipment_Offset
-    Coin_Offset             = Equipment_Offset + 1
-    Bracelet_Offset         = Equipment_Offset + 2
-    Pendant_Offset          = Equipment_Offset + 3
-Crumbs_Offset               = $2C
-    CrumbsX_Offset          = Crumbs_Offset
-    CrumbsY_Offset          = Crumbs_Offset + 2
-PSILearned_Offset           = $30
-
-Name_Offset                 = $38
-
-
 .struct party_info
     unk_0 .byte ; 0x0
     status .byte ; 0x1
@@ -718,6 +687,36 @@ Name_Offset                 = $38
     name .res 8 ; 0x38
 .endstruct ;sizeof 0x40
 
+; $00 : Unused (always 00)
+.define Status_Offset party_info::status
+.define Resistance_Offset party_info::resistances
+.define HP_Offset party_info::max_hp
+.define PP_Offset party_info::max_pp
+.define Off_Offset party_info::offense
+.define Def_Offset party_info::defense
+.define Fit_Offset party_info::fight
+.define Spd_Offset party_info::speed
+.define Wis_Offset party_info::wisdom
+.define Str_Offset party_info::strength
+.define Fce_Offset party_info::force
+.define Lv_Offset party_info::level
+.define Exp_Offset party_info::exp
+.define CurrHP_Offset party_info::curr_hp
+.define CurrPP_Offset party_info::curr_pp
+.define NamePtr_Offset party_info::name_pointer
+.define Sprite_Offset party_info::sprite_pointer
+.define Inventory_Offset party_info::items
+.define Equipment_Offset party_info::weapon
+.define Weapon_Offset Equipment_Offset
+.define Coin_Offset Equipment_Offset+1
+.define Bracelet_Offset Equipment_Offset+2
+.define Pendant_Offset Equipment_Offset+3
+.define Crumbs_Offset party_info::crumb_coords
+.define CrumbsX_Offset Crumbs_Offset
+.define CrumbsY_Offset Crumbs_Offset+2
+.define PSILearned_Offset party_info::psi_learntable
+.define Name_Offset party_info::name
+
 .struct save_file_structure
     meta .tag save_meta
     ninten_data .tag party_info ;Ninten
@@ -732,10 +731,10 @@ Name_Offset                 = $38
     counters .res $20 ;?
 .endstruct ;sizeof $300
 
-save_file_current: .tag save_file_structure; $7400
-event_flags := save_file_current+save_file_structure::story_flags
+save_file_current: .tag save_file_structure ; $7400
+event_flags := save_file_current+save_file_structure::story_flags ; $7600
 learned_melodies := event_flags+$1e
-present_flags := save_file_current+save_file_structure::present_flags
+present_flags := save_file_current+save_file_structure::present_flags ; $7620
 ;;;; TODO: COUNTERS
 ; Counter 0 -> ???
 ; Counter 1 -> ???

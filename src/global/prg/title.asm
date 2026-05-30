@@ -357,7 +357,7 @@ intro:
     ;here, you have gone to the save menu
 
     .ifndef VER_JP
-    exited_naming_sequence:
+        exited_naming_sequence:
     .endif
     jsr ClearSprites ;clear sprites
     jsr ClearTilemaps ;clear tilemap 0
@@ -367,16 +367,16 @@ intro:
 
     ;load NAMING_SCREEN_1
     .ifdef VER_JP
-    .import __NAMING_SCREEN_1_RUN__
-    ldy #$7a
-    lda #.LOBYTE(__NAMING_SCREEN_1_RUN__)
-    ldx #.HIBYTE(__NAMING_SCREEN_1_RUN__)
-    jsr B30_0e08
+        .import __NAMING_SCREEN_1_RUN__
+        ldy #$7a
+        lda #.LOBYTE(__NAMING_SCREEN_1_RUN__)
+        ldx #.HIBYTE(__NAMING_SCREEN_1_RUN__)
+        jsr B30_0e08
     .else
-    lda #.BANK(LoadNamingScreen1)
-    ldx #.LOBYTE(LoadNamingScreen1-1)
-    ldy #.HIBYTE(LoadNamingScreen1-1)
-    jsr TempUpperBankswitch
+        lda #.BANK(LoadNamingScreen1)
+        ldx #.LOBYTE(LoadNamingScreen1-1)
+        ldy #.HIBYTE(LoadNamingScreen1-1)
+        jsr TempUpperBankswitch
     .endif
 
     jsr ResetScroll
@@ -392,12 +392,13 @@ intro:
     jsr B20_14d7
     jsr B20_150e ;wait for input
 
+    B20_1437:
     lda #0
     sta UNK_D6
 
     ;get offset
     ldy menucursor_pos
-    lda (UNK_84),y
+    lda (UNK_84), y
     asl a
     tax
 
@@ -418,7 +419,7 @@ unk_pointers:
     .addr B20_148c-1
     .addr B20_1472-1
     .ifdef VER_JP
-    .addr B20X_148c-1
+        .addr B20X_148c-1
     .endif
     .addr something_init-1
 
@@ -428,9 +429,9 @@ something_init:
     jsr EnablePRGRam
 
     .ifdef VER_JP
-    lda #.BANK(Music_Tick)+1 ;sram
+        lda #.BANK(Music_Tick)+1 ;sram
     .else
-    lda #.BANK(MSG_pointerList) ;text pointers + sram
+        lda #.BANK(MSG_pointerList) ;text pointers + sram
     .endif
     ldx #BANK::PRGA000
     jsr BANK_SWAP
@@ -443,8 +444,8 @@ something_init:
     ;do naming sequence
     jsr NS_NamingSequence
     .ifndef VER_JP
-    ;if sequence exited, jump back to title
-    bcs exited_naming_sequence
+        ;if sequence exited, jump back to title
+        bcs exited_naming_sequence
     .endif
     ;else, play the videogame !!!!!!
     jmp Game_Begin
@@ -455,8 +456,8 @@ B20_1472:
     lda save_slot
     jsr B19_1ebb
     jsr EnablePRGRam
-    ldy #$03
-    lda #$00
+    ldy #3
+    lda #0
     sta (UNK_68), y
     jsr WriteProtectPRGRam
     B20_1489:
@@ -466,18 +467,18 @@ B20_1472:
 B20X_148c:
     jsr B19_1e88
     jsr EnablePRGRam
-    jsr rts_6
+    jsr ns_save_speedchanger
     jsr Game_Begin
     jsr B20_14d7
     jsr B31_0f7c
-    jmp $9437
+    jmp B20_1437
 .endif
 
 B20_148c:
-    sta $36
+    sta UNK_36
     ldx #$10
     jsr B20_1505
-    lda $36
+    lda UNK_36
     sec
     rol a
     asl a
@@ -486,15 +487,15 @@ B20_148c:
     bit menucursor_pos+1
     bvs B20_14bd
     lda menucursor_pos
-    sta $37
+    sta UNK_37
     jsr B20_14c0
     bcs B20_14ab
     bne B20_14bd
     B20_14ab:
-    lda $36
+    lda UNK_36
     jsr B19_1e88
     jsr EnablePRGRam
-    lda $37
+    lda UNK_37
     ora #$b0
     sta save_slot
     jsr Game_Begin
@@ -538,7 +539,7 @@ B20_14d7:
     cmp #12
     bcc B20_14d9
     ldx #12
-    jsr rts_3
+    jsr ns_load_choicer
     jmp rts_4
 
 B20_1505:
@@ -546,7 +547,7 @@ B20_1505:
     jmp WriteTilesIn74
 
 B20_150b:
-    jsr rts_3 ; $80 = $6085[x]
+    jsr ns_load_choicer ; $80 = $6085[x]
 B20_150e:
     jsr PRINT_CURR_CHOICER
     .ifdef VER_JP
@@ -585,13 +586,13 @@ DoWalkingStep:
     ;else, write 0
     sta UNK_24
     .ifdef VER_JP
-    beq @B20_9595
+        beq @B20_9595
     .else
-    @FrequencyFail:
-    lda #0
-    sta enemy_group
-    @quick_exit:
-    rts
+        @FrequencyFail:
+        lda #0
+        sta enemy_group
+        @quick_exit:
+        rts
     .endif
     @EncounterDefExists:
     ;store areaEncounterDef in y
@@ -673,9 +674,9 @@ DoWalkingStep:
     .ifdef VER_JP
     bne @B20_9595
     @FrequencyFail:
-    lda #$00
+    lda #0
     @B20_9595:
-    sta $48
+    sta enemy_group
     @quick_exit:
     rts
     .else
@@ -683,7 +684,7 @@ DoWalkingStep:
     sta enemy_group
 
     ;run repel ring to ward off that battle
-    lda #$19
+    lda #.BANK(RepelRing_Effect)
     ldx #.LOBYTE(RepelRing_Effect-1)
     ldy #.HIBYTE(RepelRing_Effect-1)
     jsr TempUpperBankswitch
@@ -844,142 +845,166 @@ OnStepEffect:
 
 ;battle start?
 B20_1630:
+    ;if battle == giegue, dont bother doing battle circle
     lda enemy_group
-    cmp #$a2
-    beq B20_1684
+    cmp #BATTLEID BATTLE_A2
+    beq giegue_escape
     ;white flash?
     lda #$30
     jsr BackupAndFillPalette
     jsr RestoreAndUpdatePalette
     jsr Refresh_SpriteObjects
     B20_1641:
+    ;;start write_addrs command
     ;07 00 "WRITE_PPU"
-    lda #7
+    lda #NMI_COMMANDS::PPU_WRITE_ADDRS
     sta nmi_queue
     lda #0
-    sta nmi_queue+1
-    sta UNK_60
+    .define bc_loopcount UNK_60
+    .define bc_hi UNK_60+1
+    .define bc_lo UNK_62
+    .define bc_nmicount nmi_queue+1
+    sta bc_nmicount
+    sta bc_loopcount
 
-    B20_164d:
+    @loop:
     ;get battle_circle byte
-    ldx UNK_60
+    ldx bc_loopcount
     lda Battle_circle, x
     ;if $ff, escape
     cmp #$ff
-    beq @B20_1675_escape_loop
-    ;a >>= 4
-    lsr a
-    lsr a
-    lsr a
-    lsr a
-    sta UNK_60+1 ;store high nybble in UNK_60+1 (could just be an and #%11110000???)
+    beq @escape
 
-    ;get byte again
+    ;store high nybble in bc_hi
+    lsr a
+    lsr a
+    lsr a
+    lsr a
+    sta bc_hi
+
+    ;store low nybble in bc_lo
     lda Battle_circle, x
     and #%00001111
-    sta UNK_62 ;store low nybble in $62
+    sta bc_lo
 
-    jsr B20_1685
+    ;render 1
+    jsr BattleCircle_Render
 
-    ldx UNK_60+1
-    ldy UNK_62
-    sty UNK_60+1
-    stx UNK_62
+    ;swap hi and lo
+    ldx bc_hi
+    ldy bc_lo
+    sty bc_hi
+    stx bc_lo
 
-    jsr B20_1685
+    ;render 2
+    jsr BattleCircle_Render
 
-    inc UNK_60
-    bne B20_164d
-    @B20_1675_escape_loop:
-    lda nmi_queue+1
-    cmp #$00
-    beq B20_1684
-    lda #$00
-    sta $e6
-    lda #$01
-    sta $e5
-    B20_1684:
+    inc bc_loopcount
+    bne @loop
+    @escape:
+    lda bc_nmicount
+    cmp #0
+    beq giegue_escape
+
+    lda #0
+    sta nmi_data_offset
+
+    lda #1
+    sta nmi_flags
+
+    giegue_escape:
     rts
 
-B20_1685:
-    lda #$e
+;in:
+;bc_lo = low nybble of battle_circle byte
+;bc_hi = high nybble of battle_circle byte
+BattleCircle_Render:
+    ;ntbl_y = 14 - bc_lo
+    ;clamp to 0 - 14 inclusive
+    lda #14
     sec
-    sbc UNK_62
+    sbc bc_lo
     bcs @no_carry
     lda #0
     @no_carry:
-    sta UNK_77
+    sta ntbl_y
 
     ;store result
     pha
 
-    lda #$f
+    ;ntbl_x = 15 - bc_hi
+    lda #15
     sec
-    sbc UNK_60+1
-    sta UNK_76
+    sbc bc_hi
+    sta ntbl_x
 
     jsr B20_16b8
 
     lda #$f
     clc
-    adc UNK_62
+    adc bc_lo
     cmp #$1e
     bcc @no_carry2
     lda #$1d
     @no_carry2:
-    sta UNK_77
+    sta ntbl_y
 
     jsr B20_16b8
 
     lda #$10
     clc
-    adc UNK_60+1
-    sta UNK_76
+    adc bc_hi
+    sta ntbl_x
 
     jsr B20_16b8
 
     ;restore result
     pla
-    sta UNK_77
+    sta ntbl_y
+    ;fallthrough
 
     B20_16b8:
-    ;if nmi_queue+1 < $14, jump
-    lda nmi_queue+1
-    cmp #$14
-    bcc @not_14
+    ;if bc_nmicount < 20, jump
+    lda bc_nmicount
+    cmp #20
+    bcc @not_20
 
     lda #0
     sta nmi_data_offset
     lda #1
     sta nmi_flags
+
     jsr PpuSync
 
     lda #0
-    sta nmi_queue+1
-    @not_14:
-    ;UNK_77 and UNK_76 get sent to UNK_78 and UNK_79 respectively
+    sta bc_nmicount
+
+    @not_20:
+    ;ntbl_y and ntbl_x get sent to UNK_78 and UNK_79 respectively
     jsr CalculateNTAddr
 
-    ;x = (nmi_queue[1] << 1) + nmi_queue[1]
-    lda nmi_queue+1
+    ;x = (bc_nmicount << 1) + bc_nmicount
+    ;basically, x = bc_nmicount * 3
+    lda bc_nmicount
     asl a
     clc
-    adc nmi_queue+1
+    adc bc_nmicount
     tax
 
-    ;nmi_queue[2] = UNK_78
+    ;write pointer
+    ; nmi_queue[2:3] = UNK_78, UNK_79
     lda UNK_78
     sta nmi_queue+2, x
-    ;nmi_queue[3] = UNK_79
     lda UNK_79
     sta nmi_queue+3, x
+    ;end. gets overwritten with more data
     ; nmi_queue[4:5] = 0
     lda #0
     sta nmi_queue+4, x
     sta nmi_queue+5, x
 
-    ;nmi_queue[1]++
-    inc nmi_queue+1
+    ;bc_nmicount++
+    inc bc_nmicount
     rts
 
 ; $96F1 - battle circle
@@ -1085,34 +1110,35 @@ GiegueOutro:
 
     clc
     lda #$10
-    adc SPRITE_OBJECTS+6,x
-    sta SPRITE_OBJECTS+6,x
-    lda #$00
-    adc SPRITE_OBJECTS+7,x
-    sta SPRITE_OBJECTS+7,x
+    adc SPRITE_OBJECTS+6, x
+    sta SPRITE_OBJECTS+6, x
+    lda #0
+    adc SPRITE_OBJECTS+7, x
+    sta SPRITE_OBJECTS+7, x
     lda #$78
-    sta $e5
+    sta nmi_flags
     clc
     txa
-    adc #$08
+    adc #8
     tax
     cpx #$28
     bcc @B20_97e5
 
-    ldx #$f0
+    ldx #240
     jsr WaitXFrames_Min1
-    lda #$00
-    sta $6a
+    lda #0
+    sta UNK_6A
     lda #$4c
-    jsr $9a5a
+    jsr LoadGiegueCliffTiles
     jsr EnablePRGRam
 
     ldx #-1
-    @B20_9819:
+    @copy_player_name:
     inx
-    lda player_name,x
-    sta $6e48,x
-    bne @B20_9819
+    lda player_name, x
+    .define temp_playerName $6e48
+    sta temp_playerName, x
+    bne @copy_player_name
 
     jsr WriteProtectPRGRam
 
@@ -1123,8 +1149,8 @@ GiegueOutro:
     jsr B20_198b
     jsr B20_19a3
     jsr PpuSync
-    stx $fd
-    sty $fc
+    stx scroll_x
+    sty scroll_y
 
     @B20_9839:
 
@@ -1132,10 +1158,10 @@ GiegueOutro:
     ldx #.HIBYTE(B20_19f2)
     jsr GiegueCommandInterpreter
 
-    ldx #$09
+    ldx #9
     jsr WaitXFrames_Min1
 
-    lda $6a
+    lda UNK_6A
     cmp #$34
     bcc @B20_9839
 
@@ -1145,7 +1171,7 @@ GiegueOutro:
     @B20_9850:
     jsr PpuSync
     lda #0
-    sta SPRITE_OBJECTS,x
+    sta SPRITE_OBJECTS, x
     sec
     txa
     sbc #8
@@ -1153,18 +1179,19 @@ GiegueOutro:
     bcs @B20_9850
 
     lda #$3c
-    sta $e5
+    sta nmi_flags
+
     ldx #$0a
     ldy #$10
-    stx $76
-    sty $77
-    ldx #$e0
+    stx ntbl_x
+    sty ntbl_y
 
+    ldx #$e0
     @B20_986d:
     txa
     pha
     jsr AddTileViaNMI
-    inc $76
+    inc ntbl_x
     ldx #2
     jsr WaitXFrames_Min1
     pla
@@ -1280,10 +1307,10 @@ GiegueCommandInterpreter:
     ;shake
 
     ;by this point, a will always be 4
-    ;scroll_y.2 = !scroll_y.2
+    ;scroll_x.2 = !scroll_x.2
     lsr a
-    eor scroll_y
-    sta scroll_y
+    eor scroll_x
+    sta scroll_x
 
     ;play rocket noise
     lda #Noise_RocketLand
@@ -1302,57 +1329,57 @@ GiegueCommandInterpreter:
     rts
 
 B20_183d:
-    bit $6d
-    bpl B20_1877
-    bvc B20_1859
+    bit UNK_6C+1
+    bpl @B20_1877
+    bvc @B20_1859
     jsr B20_1878
-    bne B20_1851
+    bne @B20_1851
     dex
-    cpx #$05
-    bcc B20_1877
+    cpx #5
+    bcc @B20_1877
     txa
     jsr B20_1883
-    B20_1851:
+    @B20_1851:
     sec
-    lda scroll_x
-    sbc #$01
-    jmp B20_1871
-    B20_1859:
+    lda scroll_y
+    sbc #1
+    jmp @B20_1871
+    @B20_1859:
     jsr B20_1878
     eor #$0f
-    bne B20_186c
+    bne @B20_186c
     inx
     cpx #$3c
-    bcs B20_1877
+    bcs @B20_1877
     txa
     clc
     adc #$0a
     jsr B20_1883
-    B20_186c:
+    @B20_186c:
     clc
-    lda scroll_x
+    lda scroll_y
     adc #$11
-    B20_1871:
-    bcs B20_1875
+    @B20_1871:
+    bcs @B20_1875
     sbc #$0f
-    B20_1875:
-    sta scroll_x
-    B20_1877:
+    @B20_1875:
+    sta scroll_y
+    @B20_1877:
     rts
 
 B20_1878:
     jsr PpuSync
-    ldx $6a
+    ldx UNK_6A
     clc
-    lda scroll_x
+    lda scroll_y
     and #$0f
     rts
 
 B20_1883:
-    stx $6a
+    stx UNK_6A
     jsr B20_188d
     lda #$80
-    sta $e5
+    sta nmi_flags
     rts
 
 B20_188d:
@@ -1396,11 +1423,11 @@ B20_188d:
     ora #$c0
     sta UNK_64
     jsr PpuSync
-    lda #5 ; TODO: UNKNOWN NMI COMMAND
+    lda #NMI_COMMANDS::PPU_WRITE
     ldy #$40
     sta nmi_queue
     sty nmi_queue+1
-    ldy #$08
+    ldy #8
     sta nmi_queue+$44
     sty nmi_queue+$45
     lda UNK_60+1
@@ -1437,7 +1464,7 @@ B20_188d:
     rts
 
 B20_1919:
-    cpx #$04
+    cpx #4
     bcc @exit
     lda #0
     @exit:
@@ -1504,9 +1531,9 @@ GiegueGeneric:
     jsr B20_198b ;???
 
     ;these draw the cliff over the ship?
-    ldx #(GiegueCliff_BGPal-B20_1a09)-1
+    ldx #(GiegueCliff_BGPal-Giegue_IRQ_Routines)-1
     @pointercopy:
-    lda B20_1a09, x
+    lda Giegue_IRQ_Routines, x
     sta irq_pointers, x
     dex
     bpl @pointercopy
@@ -1527,7 +1554,7 @@ GiegueGeneric:
 B20_198b:
     clc
     lda UNK_6A
-    adc #$0b
+    adc #11
     @B20_1990:
     pha
     jsr B20_188d
@@ -1537,7 +1564,7 @@ B20_198b:
 
     pla
     sec
-    sbc #$01
+    sbc #1
     bcc @B20_19a2
     cmp UNK_6A
     bcs @B20_1990
@@ -1545,7 +1572,7 @@ B20_198b:
     rts
 
 B20_19a3:
-    lda $6a
+    lda UNK_6A
     asl a
     asl a
     asl a
@@ -1570,50 +1597,51 @@ LoadGiegueCliffTiles:
     jmp B30_0e08
 
 .macro giegue_command length, arg2, no_roll, arg3, shake, flash
-    .byte length << 3
+    .byte length
     .byte (arg2 << 6) | (no_roll << 5) | (arg3 << 3) | (shake << 2) | flash
 .endmacro
 
 ;rise + flash
 GiegueCommandIntro1:
-giegue_command 16,   0, 0, 0, 0, 0
-giegue_command 16, %10, 0, 0, 0, 0
-giegue_command 16, %10, 0, 0, 0, 2
-giegue_command  4, %10, 0, 0, 0, 3
-giegue_command  4, %10, 0, 0, 0, 2
-giegue_command 24, %10, 0, 0, 0, 1
-giegue_command 16, %10, 0, 0, 0, 2
-giegue_command  4, %10, 0, 0, 0, 3
-giegue_command  4, %10, 0, 0, 0, 2
+giegue_command 128,   0, 0, 0, 0, 0
+giegue_command 128, %10, 0, 0, 0, 0
+giegue_command 128, %10, 0, 0, 0, 2
+giegue_command  32, %10, 0, 0, 0, 3
+giegue_command  32, %10, 0, 0, 0, 2
+giegue_command 192, %10, 0, 0, 0, 1
+giegue_command 128, %10, 0, 0, 0, 2
+giegue_command  32, %10, 0, 0, 0, 3
+giegue_command  32, %10, 0, 0, 0, 2
 .byte 0
 
 ;go back down? + flashes
 GiegueCommandOutro1:
-giegue_command 16, %11, 0, 0, 0, 0
-giegue_command  4, %11, 0, 0, 0, 3
-giegue_command  4, %11, 0, 0, 0, 2
-giegue_command 16, %11, 0, 0, 0, 1
-giegue_command 16, %11, 0, 0, 0, 3
+giegue_command 128, %11, 0, 0, 0, 0
+giegue_command  32, %11, 0, 0, 0, 3
+giegue_command  32, %11, 0, 0, 0, 2
+giegue_command 128, %11, 0, 0, 0, 1
+giegue_command 128, %11, 0, 0, 0, 3
 .byte 0
 
 ;shake
 GiegueCommandOutro2:
-giegue_command  8, 0, 0, 0, 0, 2
-giegue_command  2, 0, 0, 0, 1, 3
-giegue_command  4, 0, 0, 0, 1, 2
-giegue_command 10, 0, 0, 0, 1, 1
+giegue_command 64, 0, 0, 0, 0, 2
+giegue_command 16, 0, 0, 0, 1, 3
+giegue_command 32, 0, 0, 0, 1, 2
+giegue_command 80, 0, 0, 0, 1, 1
 .byte 0
 
 ;blast off
 GiegueCommandOutro3:
-giegue_command  1,   0, 1, 0, 0, 3
-giegue_command  1,   0, 1, 0, 0, 2
-giegue_command 30, %10, 1, 0, 0, 1
-giegue_command 30,   0, 0, 0, 0, 0
+giegue_command   8,   0, 1, 0, 0, 3
+giegue_command   8,   0, 1, 0, 0, 2
+giegue_command 240, %10, 1, 0, 0, 1
+giegue_command 240,   0, 0, 0, 0, 0
 .byte 0
 
 B20_19f2:
-    .byte $04,$80,$00
+    giegue_command 4, %10, 0, 0, 0, 0
+    .byte 0
     .ifndef VER_JP
         .byte $a9,$a9,$ab,$aa
     .endif
@@ -1633,14 +1661,13 @@ Credits_CHR:
 GiegueCliff_BGFlash:
     .byte $0f, $38, $21, $34
 
-; $9A09 - Unknown pointers
-B20_1a09:
+; $9A09 - Giegue IRQ
+Giegue_IRQ_Routines:
     .addr B31_0dcb-1
     .addr 0
 
 ; $9A0D
 GiegueCliff_BGPal:
-
     .byte $0f, $12, $30, $00
     .byte $0f, $10, $30, $00
     .byte $0f, $17, $37, $16
@@ -1660,28 +1687,27 @@ GiegueCliff_PartyPos:
 
 ; $9A3D - Unknown
 GiegueCliff_Sprites:
+    ;SPRITE_OBJECTS data
+    .byte (%10 << 6) | 6 ;6 tiles
+    .byte 0 ;oam slot (gets written over)
+    .byte $f4, $76 ;x, y
+    .addr 0 ;? pointer
+    .addr SPRITEDEF_GIEGUECLIFF1 ;spritedef pointer
 
-;SPRITE_OBJECTS data
-.byte (%10 << 6) | 6 ;6 tiles
-.byte 0 ;oam slot (gets written over)
-.byte $f4, $76 ;x, y
-.addr 0 ;? pointer
-.addr SPRITEDEF_GIEGUECLIFF1 ;spritedef pointer
+    .byte 6 ;6 tiles
+    .byte 0 ;oam slot (gets written over)
+    .byte $e4, $76 ;x, y
+    .addr 0 ;? pointer
+    .addr SPRITEDEF_GIEGUECLIFF2 ;spritedef pointer
 
-.byte 6 ;6 tiles
-.byte 0 ;oam slot (gets written over)
-.byte $e4, $76 ;x, y
-.addr 0 ;? pointer
-.addr SPRITEDEF_GIEGUECLIFF2 ;spritedef pointer
+.define NameLength UNK_50+6
+.define CurrentLetterIndex UNK_50+5
 
-NameLength := UNK_50+6
-CurrentLetterIndex := UNK_50+5
-
-ninten_question := NS_QuestionSetups+(0*6)
-ana_question := NS_QuestionSetups+(1*6)
-lloyd_question := NS_QuestionSetups+(2*6)
-teddy_question := NS_QuestionSetups+(3*6)
-food_question := NS_QuestionSetups+(4*6)
+.define ninten_question NS_QuestionSetups+(0*6)
+.define ana_question NS_QuestionSetups+(1*6)
+.define lloyd_question NS_QuestionSetups+(2*6)
+.define teddy_question NS_QuestionSetups+(3*6)
+.define food_question NS_QuestionSetups+(4*6)
 
 ;;;This is the entirety of the Naming screen.
 ;;;This loads a question for each character, defines the name length,
@@ -1771,7 +1797,7 @@ NS_NamingSequence:
     jmp NS_NamingSequence
     @continue:
     .ifdef VER_JP
-    jsr $9bab
+        jsr B20_9bab
     .endif
 
     jsr B20_1d50 ;transition (dark)
@@ -1783,14 +1809,14 @@ NS_NamingSequence:
 
     .ifdef VER_JP
         lda #4
-        sta UNK_76
+        sta ntbl_x
     .else
         ;store 2,3 for x,y
         lda #2
-        sta UNK_76
+        sta ntbl_x
         lda #3
     .endif
-    sta UNK_76+1
+    sta ntbl_x+1
 
     ;prints each line
     ldx #.LOBYTE(IntroText1)
@@ -1798,32 +1824,32 @@ NS_NamingSequence:
     jsr do_story_print
 
     ;quit music next text
-    lda #$ff
+    lda #music::mute
     sta soundqueue_track
 
     jsr B31_0e30;transition (light)
 
     ;store 6,10 for x,y
     lda #6
-    sta UNK_76
+    sta ntbl_x
     .ifdef VER_JP
         lda #14
     .else
         lda #10
     .endif
-    sta UNK_76+1
+    sta ntbl_x+1
 
     ;prints each line
     ldx #.LOBYTE(IntroText2)
     ldy #.HIBYTE(IntroText2)
     .ifdef VER_JP
-    jmp do_story_print
+        jmp do_story_print
     .else
-    jsr do_story_print
+        jsr do_story_print
 
-    clc
-    @exit:
-    rts
+        clc
+        @exit:
+        rts
     .endif
 
 NS_ShowRecap:
@@ -1885,74 +1911,83 @@ NS_FinalChoicer:
 
 .ifdef VER_JP
 B20_9bab:
-    lda #$e5
-    ldx #$6c
-    jsr $9b91
-    lda #$01
-    sta $57
-    lda #$20
-    ldx #$9c
-    sta $80
-    stx $81
-    jsr $f018
-    jmp $9bd0
-    lda $57
+    ;ask for your preferred speed
+    lda #.LOBYTE(NS_Recap_Speed_Tiles)
+    ldx #.HIBYTE(NS_Recap_Speed_Tiles)
+    jsr NS_LoadTiles
+
+    lda #1
+    sta UNK_50+7
+
+    lda #.LOBYTE(@B20_9c20)
+    ldx #.HIBYTE(@B20_9c20)
+    sta UNK_80
+    stx UNK_80+1
+    jsr PRINT_CURR_CHOICER
+    jmp @B20_9bd0
+    @B20_9bc4:
+    lda UNK_50+7
     asl a
     asl a
     clc
-    adc #$0a
-    sta $76
+    adc #10
+    sta ntbl_x
     jsr B31_0f7c
-B20_9bd0:
-    lda $83
+    @B20_9bd0:
+    lda menucursor_pos+1
     and #$80
-    bne B20_9c02
-    lda $83
+    bne @B20_9c02
+    lda menucursor_pos+1
     and #$02
-    bne B20_9be2
-    lda $83
+    bne @B20_9be2
+    lda menucursor_pos+1
     and #$01
-    bne B20_9bf2
-    B20_9be2:
+    bne @B20_9bf2
+    @B20_9be2:
     sec
-    lda $57
-    sbc #$01
+    lda UNK_50+7
+    sbc #1
     cmp #$ff
-    bne B20_9bed
-    lda #$00
-    B20_9bed:
-    sta $57
-    jmp $9bc4
-    B20_9bf2:
+    bne @B20_9bed
+    lda #0
+    @B20_9bed:
+    sta UNK_50+7
+    jmp @B20_9bc4
+    @B20_9bf2:
     clc
-    lda $57
-    adc #$01
-    cmp #$03
-    bne B20_9bfd
-    lda #$02
-    B20_9bfd:
-    sta $57
-    jmp $9bc4
-B20_9c02:
-    lda $57
+    lda UNK_50+7
+    adc #1
+    cmp #3
+    bne @B20_9bfd
+    lda #2
+    @B20_9bfd:
+    sta UNK_50+7
+    jmp @B20_9bc4
+    @B20_9c02:
+    lda UNK_50+7
     jsr JMPTable
-    .addr B20_9c0D
-    .addr B20_9c11
-    .addr B20_9c15
-B20_9c0D:
-    ldx #$05
-    bne B20_9c17
-B20_9c11:
-    ldx #$1e
-    bne B20_9c17
-B20_9c15:
-    ldx #$50
-B20_9c17:
+    .addr @fastest
+    .addr @medium
+    .addr @slowest
+    @fastest:
+    ldx #5
+    bne @write
+    @medium:
+    ldx #30
+    bne @write
+    @slowest:
+    ldx #80
+    @write:
     jsr EnablePRGRam
-    stx $7418
+    stx save_file_current+save_meta::battle_message_speed
     jmp WriteProtectPRGRam
-.byte $01,$01,$00,$00,$83,$3A,$0E,$18
-.byte $20,$9C
+@B20_9c20:
+    .byte 1, 1 ;width/height
+    .byte 0, 0 ;x/y inc
+    .byte PAD_RIGHT | PAD_LEFT | PAD_A ;bits
+    .byte $3A ;tile
+    .byte 14, 24 ;x/y init
+    .addr @B20_9c20
 .endif
 
 do_story_print:
@@ -1970,7 +2005,7 @@ do_story_print:
         jsr WaitXFrames
         pla
     .else
-        dec UNK_77
+        dec ntbl_y
     .endif
     cmp #0
     bne @loop
@@ -1984,50 +2019,50 @@ B20_1B2A:
     jsr B20_1d50 ;transition (dark)
     jsr ResetScroll
     .ifdef VER_JP
-        jsr $9ca2
-        lda #$18
-        ldx #$6c
-        jsr $9b91
-        lda #$30
-        ldx #$6c
-        jsr $9b91
-        lda #$51
-        sta $64
-        lda #$64
-        sta $65
-        lda #$06
-        sta $63
-        ldx #$0a
+        jsr NS_LoadQuestionBox
+        lda #.LOBYTE(NS_EntryBox)
+        ldx #.HIBYTE(NS_EntryBox)
+        jsr NS_LoadTiles
+        lda #.LOBYTE(NS_AlphabetBox)
+        ldx #.HIBYTE(NS_AlphabetBox)
+        jsr NS_LoadTiles
+        lda #.LOBYTE(NameCharacters)
+        sta UNK_64
+        lda #.HIBYTE(NameCharacters)
+        sta UNK_64+1
+        lda #6
+        sta UNK_62+1
+        ldx #10
     B20_9c6b:
         txa
         pha
-        lda #$04
-        sta $62
-        ldx #$04
+        lda #4
+        sta UNK_62
+        ldx #4
     B20_9c73:
         txa
         pha
-        lda $62
-        sta $76
-        lda $63
-        sta $77
-        lda $64
-        sta $74
-        lda $65
-        sta $75
-        jsr $c8c6
-        jsr $631d
+        lda UNK_62
+        sta ntbl_x
+        lda UNK_62+1
+        sta ntbl_y
+        lda UNK_64
+        sta tilepack_ptr
+        lda UNK_64+1
+        sta tilepack_ptr+1
+        jsr DrawTilepackClear
+        jsr B25_1ab5_new
         pla
         tax
         dex
         bne B20_9c73
-        jsr $6332
+        jsr B25_1ab5
         pla
         tax
         dex
         bne B20_9c6b
-        lda #$70
-        ldx #$6c
+        lda #.LOBYTE(NS_AlphabetOptions)
+        ldx #.HIBYTE(NS_AlphabetOptions)
         jsr NS_LoadTiles
     .else
         ;the box surrounding the alphabet
@@ -2044,25 +2079,25 @@ B20_1B2A:
 .ifndef VER_JP
 B20_1B40:
     lda #.LOBYTE(NameCharacters)
-    sta $64
+    sta UNK_64
     lda #.HIBYTE(NameCharacters)
-    sta $65
-    lda #$0e
-    sta $63
-    ldx #$04
+    sta UNK_64+1
+    lda #14
+    sta UNK_62+1
+    ldx #4
     B20_1b4e:
     txa
     pha
-    lda #$08
-    sta $62
-    lda $62
-    sta $76
-    lda $63
-    sta $77
-    lda $64
-    sta $74
-    lda $65
-    sta $75
+    lda #8
+    sta UNK_62
+    lda UNK_62
+    sta ntbl_x
+    lda UNK_62+1
+    sta ntbl_y
+    lda UNK_64
+    sta tilepack_ptr
+    lda UNK_64+1
+    sta tilepack_ptr+1
     jsr DrawTilepackClear
     jsr B25_1ab5
     pla
@@ -2104,13 +2139,13 @@ NS_LoadQuestion:
 
     ;set x,y to $22,$ff
     .ifdef VER_JP
-    lda #4
-    sta UNK_62
-    lda #$f8
+        lda #4
+        sta UNK_62
+        lda #$f8
     .else
-    lda #$22
-    sta UNK_62
-    lda #$ff
+        lda #$22
+        sta UNK_62
+        lda #$ff
     .endif
     sta UNK_62+1
     ;set oam slot to $80
@@ -2230,9 +2265,9 @@ B20_1bf7:
     .else
         lda #9
     .endif
-    sta UNK_76
+    sta ntbl_x
     lda #3
-    sta UNK_76+1
+    sta ntbl_x+1
 
     .ifdef VER_JP
         jmp DrawTilepackClear
@@ -2247,6 +2282,7 @@ B20_1bf7:
 B20_1C1C:
     jsr NS_LoadCursor
 
+    B20_1C1F:
     ;load setup pointer to UNK_80
     lda #.LOBYTE(letterSetup)
     ldx #.HIBYTE(letterSetup)
@@ -2314,7 +2350,7 @@ NS_InputCharacter:
         beq B20_9dae
         ldx #0
     B20_9d75:
-        stx $60
+        stx UNK_60
         ldy #0
     B20_9d79:
         ;load existing name entries
@@ -2330,26 +2366,26 @@ NS_InputCharacter:
         beq B20_9d9a
     B20_9d8b:
         clc
-        lda $60
-        adc #$06
+        lda UNK_60
+        adc #6
         tax
-        jmp $9d75
+        jmp B20_9d75
     B20_9d94:
-        lda #$00
-        sta $d6
+        lda #0
+        sta UNK_D6
         clc
         rts
     B20_9d9a:
-        jsr $f555
-        lda #$c5
-        ldx #$63
-        sta $60
-        stx $61
-        jsr $9d0e
-        jsr $f38e
-        jsr $9d01
+        jsr ErrBuzzer
+        lda #.LOBYTE(ChangeName)
+        ldx #.HIBYTE(ChangeName)
+        sta UNK_60
+        stx UNK_60+1
+        jsr B20_1c04
+        jsr WaitABPressed
+        jsr B20_1bf7
     B20_9dae:
-        jmp $9d24
+        jmp B20_1C1F
 
     .else
     ;if char == Back, backspace
@@ -2404,11 +2440,11 @@ NS_Backspace:
     @as_long:
     ;fill at CurrentName[x] with '?' (this is where it actually backspaces)
     .ifdef VER_JP
-    @go_negative:
-    sta CurrentName, x
+        @go_negative:
+        sta CurrentName, x
     .else
-    sta CurrentName, x
-    @go_negative:
+        sta CurrentName, x
+        @go_negative:
     .endif
     jmp B20_1C39
 
@@ -2417,7 +2453,7 @@ NAME_CHECK:
     ;ram - amount of characters/char index
     ldy CurrentLetterIndex
 @UNKNOWN3:
-    lda CurrentName,Y
+    lda CurrentName, y
     ;if char == ? (blank)
     cmp #'?'
     beq @UNKNOWN4 ;if z set
@@ -2425,7 +2461,7 @@ NAME_CHECK:
     cmp #' '
     bne @UNKNOWN5 ;if z not set
     lda #'?'
-    sta CurrentName,Y
+    sta CurrentName, y
 @UNKNOWN4:
     dey
     bpl @UNKNOWN3
@@ -2437,76 +2473,97 @@ NAME_CHECK:
     sty CurrentLetterIndex
     ;if y == 0, branch
     cpy #0
-    beq B20_1d07
+    beq @B20_1d07
+
     ldx #0
-@EXIST_LOOP_AGAIN:
+    @EXIST_LOOP_AGAIN:
     ldy #0
-@EXIST_LOOP:
+
+    @EXIST_LOOP:
     ;load existing name entries
-    lda ExistEntries,X
-    ;branch if end of line
-    beq @UNKNOWN10 ;if this jumps, it was an unsuccessful check
-    ;check if newLine
+    ;get a byte
+    lda ExistEntries, x
+    ;if byte == 0, finish checking (unsuccessful check)
+    beq @end
+    ;if byte == 1, trigger error (successful check)
     cmp #newLine
-    ;branch if newline
-    beq B20_1ccf ;if this jumps, it was a successful check
-    ;inc reg
+    beq @err
+    ;x += 1
+    ;y += 1
     inx
     iny
-    ;check against name(?)
-    cmp CurrentName-1,Y
+
+    ;compare against the player's entry
+    cmp CurrentName-1, y
     ;loop if equal
     beq @EXIST_LOOP
     ;fall through if not equal
-@EXIST_NEXTENTRY: ;skips to the next one
+
+    ;skips to the next one
+    @EXIST_NEXTENTRY:
     ;load entry, check if at newline
-    lda ExistEntries,X
+    lda ExistEntries, x
     inx
+    ;loop if no
     cmp #newLine
-    bne @EXIST_NEXTENTRY ;loop if no
-    beq @EXIST_LOOP_AGAIN ;loop back to main loop if yes
-@UNKNOWN10:
+    bne @EXIST_NEXTENTRY
+    ;loop back to main loop if yes
+    beq @EXIST_LOOP_AGAIN
+    @end:
+    ;UNK_D6 = 0
     lda #0
-    sta $D6
+    sta UNK_D6
     clc
     rts
 
-B20_1ccf:
-    jsr B31_1465
+    @err:
+    ;play the sound
+    jsr ErrBuzzer
+
+    ;draw the box
     jsr NS_LoadQuestionBox
-    lda #$7f
-    ldx #$63
-    sta $60
-    stx $61
+
+    ;print the 'please change this name'
+    lda #.LOBYTE(ChangeName)
+    ldx #.HIBYTE(ChangeName)
+    sta UNK_60
+    stx UNK_60+1
     jsr B20_1c04
+
+    ;if CurrentName[0] = ' ', simply print the "Change Name"
     lda CurrentName
-    cmp #$a0
-    beq B20_1cfe
-    lda #$98
-    ldx #$63
-    sta $74
-    stx $75
-    ldx #$08
-    ldy #$0e
-    stx $76
-    sty $77
-    B20_1cf7:
+    cmp #' '
+    beq @wait
+
+    ;print
+    lda #.LOBYTE(CharExists)
+    ldx #.HIBYTE(CharExists)
+    sta tilepack_ptr
+    stx tilepack_ptr+1
+    ldx #8
+    ldy #14
+    stx ntbl_x
+    sty ntbl_y
+
+    @existloop:
     jsr DrawTilepackClear
-    cmp #$00
-    bne B20_1cf7
-    B20_1cfe:
+    cmp #0
+    bne @existloop
+
+    @wait:
     jsr WaitABPressed
     jsr B20_1B40
     jsr B20_1bf7
-    B20_1d07:
+
+    @B20_1d07:
     jmp B20_1C1C
 .endif
 
 NS_LoadCursor:
     ;stash x,y
-    lda UNK_76
+    lda ntbl_x
     pha
-    lda UNK_76+1
+    lda ntbl_x+1
     pha
 
     jsr WaitNMI
@@ -2570,13 +2627,13 @@ NS_LoadCursor:
     tya
 
     ;set x,y to a,10
-    sta UNK_76
+    sta ntbl_x
     .ifdef VER_JP
         lda #3
     .else
         lda #10
     .endif
-    sta UNK_76+1
+    sta ntbl_x+1
 
     ;load tiles at CurrentName
     lda #.LOBYTE(CurrentName)
@@ -2588,9 +2645,9 @@ NS_LoadCursor:
 
     ;load stored x,y
     pla
-    sta UNK_76+1
+    sta ntbl_x+1
     pla
-    sta UNK_76
+    sta ntbl_x
 
     rts
 
@@ -2617,8 +2674,8 @@ Title_Screen:
     ldx #0
     ldy #0
     sta ram_PPUCTRL
-    stx scroll_y
-    sty scroll_x
+    stx scroll_x
+    sty scroll_y
 
     ;load title chr pages (old)
     BankswitchCHR_Address Title_CHR_Old
@@ -2660,19 +2717,19 @@ Title_Screen:
     jsr DoIntroTransition
 
     .ifdef VER_JP
-    ldx #.LOBYTE(B20_1EB5)
-    ldy #.HIBYTE(B20_1EB5)
-    jsr fill_nmi_with_pointer_data
+        ldx #.LOBYTE(B20_1EB5)
+        ldy #.HIBYTE(B20_1EB5)
+        jsr fill_nmi_with_pointer_data
     .else
-    lda #.LOBYTE(Title_Palette)
-    sta UNK_60
-    lda #.HIBYTE(Title_Palette)
-    sta UNK_60+1
-    jsr LoadPaletteFrom
+        lda #.LOBYTE(Title_Palette)
+        sta UNK_60
+        lda #.HIBYTE(Title_Palette)
+        sta UNK_60+1
+        jsr LoadPaletteFrom
 
-    jsr OT0_DefaultTransition
+        jsr OT0_DefaultTransition
 
-    BankswitchCHR_Address Title_CHR
+        BankswitchCHR_Address Title_CHR
     .endif
 
     lda #.LOBYTE(title_screen_tiles)
@@ -2700,17 +2757,17 @@ Title_Screen:
 
     ;set x
     .ifdef VER_JP
-    lda #80
+        lda #80
     .else
-    lda #88
+        lda #88
     .endif
     sta earth_oam+2
 
     ;set y
     .ifdef VER_JP
-    lda #79
+        lda #79
     .else
-    lda #87
+        lda #87
     .endif
     sta earth_oam+3
 
@@ -2763,15 +2820,15 @@ Title_Screen:
     ldx #0
     stx pad1_forced
     .ifdef VER_JP
-    jmp OT0_DefaultTransition
+        jmp OT0_DefaultTransition
     .else
-    ;do antipiracy check
-    jsr OT0_DefaultTransition
-    lda #.BANK(TITLE_ANTI_PIRACY)
-    ldx #.LOBYTE(TITLE_ANTI_PIRACY-1)
-    ldy #.HIBYTE(TITLE_ANTI_PIRACY-1)
-    jsr TempUpperBankswitch
-    rts
+        ;do antipiracy check
+        jsr OT0_DefaultTransition
+        lda #.BANK(TITLE_ANTI_PIRACY)
+        ldx #.LOBYTE(TITLE_ANTI_PIRACY-1)
+        ldy #.HIBYTE(TITLE_ANTI_PIRACY-1)
+        jsr TempUpperBankswitch
+        rts
     .endif
 
 
@@ -2807,7 +2864,7 @@ load_tilemap_into_queue:
 
     @loop:
     jsr DrawTilepack
-    dec UNK_77
+    dec ntbl_y
     cmp #0
     bne @loop
 

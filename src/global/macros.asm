@@ -66,6 +66,7 @@
     youngtown = $30
     cave_1 = $31
     unk_song = $32
+    mute = $ff
 .endenum
 
 
@@ -77,16 +78,11 @@
     UPDATE_PALETTE = 4
     PPU_WRITE = 5
     PPU_WRITE_32 = 6
-    .ifdef VER_JP
-    UNK = 7
-    PPU_WRITE_ADDRS = 8
-    .else
     PPU_WRITE_ADDRS = 7
     PPU_WRITE_BYTE = 8
-    .endif
     PPU_READ = 9
     .ifndef VER_JP
-    PPU_READ_TEXT = 10
+        PPU_READ_TEXT = 10
     .endif
 .endenum
 
@@ -95,24 +91,46 @@
 .endenum
 
 ; items
-.enum itemd
-    nameptr = 0
-    nameptr_hi = 1
-    flags = 2
-    power = 3
-    oa = 4  ; overworld action
-    ba = 5  ; battle action
-    cost = 6
-    cost_hi = 7
-.endenum
+.struct itemd
+    nameptr .addr
+    flags .byte
+    power .byte
+    oa .byte ; overworld action
+    ba .byte ; battle action
+    cost .word
+.endstruct
 
-.enum psid
-    nameptr = 0
-    nameptr_hi = 1
-    ninten = 2
-    ana = 3
-    oa = 4
-    ba = 5
-    useless = 6
-    cost = 7
-.endenum
+.struct psid
+    nameptr .addr
+    nintenLevel .byte
+    anaLevel .byte
+    oa .byte  ; overworld action
+    ba .byte  ; battle action
+    not_used .byte
+    cost .byte
+.endstruct
+
+; Battle Instruction lut
+; sound effects
+.define SFX_Nothing $00
+.define SFX_PlayerAttack $01
+.define SFX_Hit $02
+.define SFX_Crit $03
+.define SFX_Thunder $04
+.define SFX_Fire $05
+.define SFX_Beam $06
+.define SFX_Freeze $07
+.define SFX_Bomb $08
+.define SFX_StatBoost $09
+.define SFX_Recovery $0a
+.define SFX_Dodge $0b
+.define SFX_DimensionSlip $0c
+.define SFX_StatusDelay $0d
+.define SFX_MenuBloop $0e
+.define SFX_EnemyAttack $0f
+.define SFX_TakeDamage $10
+.define SFX_Run $11
+.define SFX_Status $12
+.define SFX_BlindMiss $13
+.define SFX_GiegueAttack $14
+.define SFX_Unconned $15

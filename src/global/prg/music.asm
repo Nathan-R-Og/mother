@@ -302,10 +302,10 @@ SFXTablePtrRead:
     rts
 @load_ptr:
     ; The index is set up, so read from the table
-    lda (unk_b0),Y
+    lda (unk_b0), y
     sta unk_b2
     iny
-    lda (unk_b0),Y
+    lda (unk_b0), y
     sta unk_b3
     jmp @return
 .endif
@@ -549,11 +549,11 @@ B28_0216:
     sta currptr_pulse1_blank
     sta unk_78b
 
-    ;copy Ocarina_Missing_List to unk_76c
+    ;copy Ocarina_Missing_List to ntbl_xc
     tay
     @copy:
     lda Ocarina_Missing_List, y
-    sta unk_76c, y
+    sta ntbl_xc, y
     iny
     tya
     cmp #10*2
@@ -596,10 +596,10 @@ B28_0248:
     beq B28_025d
     B28_0251:
     lda #<mus_ocarina_missing
-    sta unk_76e, y
+    sta ntbl_xe, y
     iny
     lda #>mus_ocarina_missing
-    sta unk_76e, y
+    sta ntbl_xe, y
     iny
     B28_025d:
     tya
@@ -608,10 +608,10 @@ B28_0248:
     lsr unk_b0
     bcc B28_0251
     lda B28_0238, y
-    sta unk_76e, y
+    sta ntbl_xe, y
     iny
     lda B28_0238, y
-    sta unk_76e, y
+    sta ntbl_xe, y
     iny
     bne B28_025d
     B28_0276:
@@ -762,7 +762,7 @@ NoiseSFX_Unk07_SetUp:
     lda #$04
     ldy #<noi_instrument_stairs
     jsr SFX_SetupContinue
-    lda #$02
+    lda #Triangle_Junk
     sta soundqueue_triangle
 
     lda unk_bb
@@ -1550,7 +1550,7 @@ TriangleSFX_Freeze_Continue:
     bne B28_08b3
     @loop:
     ldy unk_7e2
-    lda Freeze_Periods,Y
+    lda Freeze_Periods, y
     beq @inc_period_high_byte
     cmp #$FF
     beq EndTriangleSFX
@@ -2695,7 +2695,7 @@ Ocarina_header:
 .byte NLT_18-Tempo_Lengths
 .addr -1
 .addr -1
-.addr unk_76c
+.addr ntbl_xc
 .addr -1
 
 Flippant_Battle_header:

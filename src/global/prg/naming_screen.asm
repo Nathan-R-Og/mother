@@ -2,9 +2,9 @@
 ;intro stuff
 rts_1:
     tay
-    beq beq_1
+    beq @beq_1
     ldy #4
-    beq_1:
+    @beq_1:
     lda B25_1a22, y
     sta UNK_580+4, x
     lda B25_1a22+1, y
@@ -14,44 +14,48 @@ rts_1:
     lda B25_1a22+3, y
     sta UNK_580+7, x
     .ifdef VER_JP
-    tya
-    bne L0046
-    lda save_file_current+save_meta::battle_message_speed
-    cmp #$32
-    bcs L0037
-    cmp #$0A
-    bcs L0031
-    lda #$3E
-    ldx #$62
-    bne L003B
-    L0031:
-    lda #$3A
-    ldx #$62
-    bne L003B
-    L0037:
-    lda #$36
-    ldx #$62
-    L003B:
-    sta UNK_580+1
-    stx UNK_580+2
-    lda #$04
-    sta UNK_580
-    L0046:
+        tya
+        bne @exit
+        lda save_file_current+save_meta::battle_message_speed
+        ;if speed >= 50, show slow
+        cmp #50
+        bcs @show_slow
+        ;else if speed >= 10, show normal
+        cmp #10
+        bcs @show_normal
+        ;else, show quick
+        lda #.LOBYTE(NS_SpeedQuick)
+        ldx #.HIBYTE(NS_SpeedQuick)
+        bne @speed_fallthrough
+        @show_normal:
+        lda #.LOBYTE(NS_SpeedNormal)
+        ldx #.HIBYTE(NS_SpeedNormal)
+        bne @speed_fallthrough
+        @show_slow:
+        lda #.LOBYTE(NS_SpeedSlow)
+        ldx #.HIBYTE(NS_SpeedSlow)
+        @speed_fallthrough:
+        sta UNK_580+1
+        stx UNK_580+2
+
+        lda #4
+        sta UNK_580
+        @exit:
     .endif
     rts
 
 ;x == index * 2
 ns_load_ui_element:
-    lda B25_1873, x
+    lda NS_UiPointers, x
     sta tilepack_ptr
-    lda B25_1873+1, x
+    lda NS_UiPointers+1, x
     sta tilepack_ptr+1
     rts
 
-rts_3:
-    lda B25_1885, x
+ns_load_choicer:
+    lda NS_ChoicerPointers, x
     sta UNK_80
-    lda B25_1885+1, x
+    lda NS_ChoicerPointers+1, x
     sta UNK_80+1
     rts
 
@@ -60,20 +64,20 @@ rts_4:
     sta UNK_D6
     ldx #6
     ldy #5
-    stx UNK_76
-    sty UNK_76+1
+    stx ntbl_x
+    sty ntbl_x+1
     rts
 
 .ifdef VER_JP
-rts_6:
+ns_save_speedchanger:
     clc
     lda save_file_current+save_meta::battle_message_speed
-    adc #$0A
-    asl A
-    cmp #$64
-    bcc L0077
-    lda #$05
-    L0077:
+    adc #10
+    asl a
+    cmp #100
+    bcc @no_reset
+    lda #5
+    @no_reset:
     sta save_file_current+save_meta::battle_message_speed
     rts
 .endif
@@ -132,7 +136,7 @@ SetupFreshSaveData:
 
     rts
 
-B25_1873:
+NS_UiPointers:
     .addr ui_save_slot_1
     .addr ui_empty_slot_1
     .addr ui_save_slot_2
@@ -143,7 +147,7 @@ B25_1873:
     .addr ui_delete_save
     .addr ui_copy_save
 
-B25_1885:
+NS_ChoicerPointers:
     .addr B25_19f0
     .addr B25_19f0
     .addr B25_19f0
@@ -156,15 +160,15 @@ B25_1885:
 B25_1895:
     .byte set_pos 4, 20
     .byte repeatTile " ", 24
-    .byte 1
+    .byte newLine
     .byte repeatTile " ", 24
-    .byte 1
+    .byte newLine
     .byte repeatTile " ", 24
-    .byte 1
+    .byte newLine
     .byte repeatTile " ", 24
-    .byte 0
+    .byte stopText
     .byte repeatTile " ", 24
-    .byte 0
+    .byte stopText
 
 .ifdef VER_JP
 ui_delete_save:
@@ -184,30 +188,30 @@ ui_delete_save:
     kanafix uibox_l," けしても よろしいですか?    ",uibox_r
     .byte newLine
     kanafix uibox_l,"     はい   いいえ     ",uibox_r
-    .byte 0
+    .byte stopText
     ;bottom
     .byte uibox_bl
     .byte repeatTile uibox_b, 18
     .byte uibox_br
-    .byte 0
+    .byte stopText
 
 ui_copy_save:
     .byte set_pos 8, 21
     .byte uibox_tl
     .byte repeatTile uibox_t, 14
     .byte uibox_tr
-    .byte 1
+    .byte newLine
     kanafix uibox_l," どこへ うつしますか?  ",uibox_r
-    .byte 0
+    .byte stopText
     .byte uibox_bl
     .byte repeatTile uibox_b, 14
     .byte uibox_br
-    .byte 0
+    .byte stopText
 
 ui_save_slot_1:
     .byte set_pos 4, 1
     .byte " "
-    .byte 1
+    .byte newLine
     .byte " "
     .byte uibox_tl,uibox_t,uibox_t
     .byte print_number $7778, 0, 6
@@ -216,14 +220,14 @@ ui_save_slot_1:
     .byte uibox_t,uibox_t,uibox_t
     kanafix "ひょうじ"
     .byte uibox_t,uibox_tr
-    .byte 1
+    .byte newLine
     .byte goto slot_middle
 
 
 ui_save_slot_2:
     .byte set_pos 4, 7
     .byte " "
-    .byte 1
+    .byte newLine
     .byte " "
     .byte uibox_tl,uibox_t,uibox_t
     .byte print_number $7A78, 0, 6
@@ -232,13 +236,13 @@ ui_save_slot_2:
     .byte uibox_t,uibox_t,uibox_t
     kanafix "ひょうじ"
     .byte uibox_t,uibox_tr
-    .byte 1
+    .byte newLine
     .byte goto slot_middle
 
 ui_save_slot_3:
     .byte set_pos 4, 13
     .byte " "
-    .byte 1
+    .byte newLine
     .byte " "
     .byte uibox_tl,uibox_t,uibox_t
     .byte print_number $7D78, 0, 6
@@ -247,46 +251,46 @@ ui_save_slot_3:
     .byte uibox_t,uibox_t,uibox_t
     kanafix "ひょうじ"
     .byte uibox_t,uibox_tr
-    .byte 1
+    .byte newLine
     ;fallthrough
     slot_middle:
     kanafix " ",uibox_l," つづき  うつす  けす   "
     .byte print_string $0580," ",uibox_r
-    .byte 0
+    .byte stopText
     ;bottom
     .byte " ",uibox_bl
     .byte repeatTile uibox_b, 20
     .byte uibox_br
-    .byte 0
+    .byte stopText
 
 ui_empty_slot_1:
     .byte set_pos 4, 1
     .byte " "
-    .byte 1
+    .byte newLine
     .byte " ",uibox_tl,uibox_t,uibox_t,"GAME(1)"
     .byte repeatTile uibox_t, 11
     .byte uibox_tr
-    .byte 1
+    .byte newLine
     .byte goto empty_slot_middle
 
 ui_empty_slot_2:
     .byte set_pos 4, 7
     .byte " "
-    .byte 1
+    .byte newLine
     .byte " ",uibox_tl,uibox_t,uibox_t,"GAME(2)"
     .byte repeatTile uibox_t, 11
     .byte uibox_tr
-    .byte 1
+    .byte newLine
     .byte goto empty_slot_middle
 
 ui_empty_slot_3:
     .byte set_pos 4, 13
     .byte " "
-    .byte 1
+    .byte newLine
     .byte " ",uibox_tl,uibox_t,uibox_t,"GAME(3)"
     .byte repeatTile uibox_t, 11
     .byte uibox_tr
-    .byte 1
+    .byte newLine
     ;fallthrough
     empty_slot_middle:
     .byte " ",uibox_l
@@ -294,27 +298,27 @@ ui_empty_slot_3:
     kanafix "ゲ-ムをはじめる"
     .byte repeatTile " ", 6
     .byte uibox_r
-    .byte 0
+    .byte stopText
     ;empty slot bottom
     .byte " ",uibox_bl
     .byte repeatTile uibox_b, 20
     .byte uibox_br
-    .byte 0
+    .byte stopText
 
     ;speed options
-    kanafix "おそい"
-    .byte 0
-    kanafix "ふつう"
-    .byte 0
-    kanafix "はやい"
-    .byte 0
+NS_SpeedSlow:
+    kanafix "おそい", stopText
+NS_SpeedNormal:
+    kanafix "ふつう", stopText
+NS_SpeedQuick:
+    kanafix "はやい", stopText
 
 
 ; $61F0 - UNKNOWN
 B25_19f0:
     .byte 1, 3  ;width, height
     .byte 0, 6  ; X, Y
-    .byte %11000000 ; Input mask
+    .byte PAD_A | PAD_B ; Input mask
     .byte $3a       ; Tile
     .byte 4, 4  ;init x, init y
     .addr B25_1a2c
@@ -323,7 +327,7 @@ B25_19f0:
 B25_19fa:
     .byte 1, 3  ;width, height
     .byte 0, 6  ; X, Y
-    .byte %11000000 ; Input mask
+    .byte PAD_A | PAD_B ; Input mask
     .byte $3a       ; Tile
     .byte 4, 4  ;init x, init y
     .addr B25_1a2f
@@ -332,7 +336,7 @@ B25_19fa:
 B25_1a04:
     .byte 1, 3  ;width, height
     .byte 0, 6  ; X, Y
-    .byte %11000000 ; Input mask
+    .byte PAD_A | PAD_B ; Input mask
     .byte $3a       ; Tile
     .byte 4, 4  ;init x, init y
     .addr B25_1a32
@@ -341,7 +345,7 @@ B25_1a04:
 B25_1a0e:
     .byte 4, 3  ;width, height
     .byte 5, 6  ; X, Y
-    .byte %10000000 ; Input mask
+    .byte PAD_A ; Input mask
     .byte $3a       ; Tile
     .byte 6, 5  ;init x, init y
     .addr $0584
@@ -350,7 +354,7 @@ B25_1a0e:
 B25_1a18:
     .byte 2, 1  ;width, height
     .byte 5, 0  ; X, Y
-    .byte %10000000 ; Input mask
+    .byte PAD_A ; Input mask
     .byte $3a       ; Tile
     .byte 11, 26  ;init x, init y
     .addr B25_1a2a
@@ -380,30 +384,30 @@ ui_delete_save:
     .byte uibox_l," will vanish. OK? ",uibox_r
     .byte newLine
     .byte uibox_l,"     Yes  No      ",uibox_r
-    .byte 0
+    .byte stopText
     ;bottom
     .byte uibox_bl
     .byte repeatTile uibox_b, 18
     .byte uibox_br
-    .byte 0
+    .byte stopText
 
 ui_copy_save:
     .byte set_pos 8, 21
     .byte uibox_tl
     .byte repeatTile uibox_t, 14
     .byte uibox_tr
-    .byte 1
+    .byte newLine
     .byte uibox_l,"   To which?  ",uibox_r
-    .byte 0
+    .byte stopText
     .byte uibox_bl
     .byte repeatTile uibox_b, 14
     .byte uibox_br
-    .byte 0
+    .byte stopText
 
 ui_save_slot_1:
     .byte set_pos 3, 1
     .byte " "
-    .byte 1
+    .byte newLine
     .byte " "
     .byte uibox_tl,uibox_t,uibox_tc
     .byte print_number $7778, 0, 8
@@ -411,13 +415,13 @@ ui_save_slot_1:
     .byte print_number $7750, 1, 2
     .byte repeatTile uibox_t, 7
     .byte uibox_tr
-    .byte 1
+    .byte newLine
     .byte goto slot_middle
 
 ui_save_slot_2:
     .byte set_pos 3, 7
     .byte " "
-    .byte 1
+    .byte newLine
     .byte " "
     .byte uibox_tl,uibox_t,uibox_tc
     .byte print_number $7A78, 0, 8
@@ -425,13 +429,13 @@ ui_save_slot_2:
     .byte print_number $7A50, 1, 2
     .byte repeatTile uibox_t, 7
     .byte uibox_tr
-    .byte 1
+    .byte newLine
     .byte goto slot_middle
 
 ui_save_slot_3:
     .byte set_pos 3, 13
     .byte " "
-    .byte 1
+    .byte newLine
     .byte " "
     .byte uibox_tl,uibox_t,uibox_tc
     .byte print_number $7D78, 0, 8
@@ -439,45 +443,45 @@ ui_save_slot_3:
     .byte print_number $7D50, 1, 2
     .byte repeatTile uibox_t, 7
     .byte uibox_tr
-    .byte 1
+    .byte newLine
     ;fallthrough
     slot_middle:
     .byte " ",uibox_l," Continue  Copy Erase ",uibox_r
-    .byte 0
+    .byte stopText
     ;bottom
     .byte " ",uibox_bl
     .byte repeatTile uibox_b, 22
     .byte uibox_br
-    .byte 0
+    .byte stopText
 
 ui_empty_slot_1:
     .byte set_pos 3, 1
     .byte " "
-    .byte 1
+    .byte newLine
     .byte " ",uibox_tl,uibox_t,uibox_tc,"GAME(1)"
     .byte repeatTile uibox_t, 13
     .byte uibox_tr
-    .byte 1
+    .byte newLine
     .byte goto empty_slot_middle
 
 ui_empty_slot_2:
     .byte set_pos 3, 7
     .byte " "
-    .byte 1
+    .byte newLine
     .byte " ",uibox_tl,uibox_t,uibox_tc,"GAME(2)"
     .byte repeatTile uibox_t, 13
     .byte uibox_tr
-    .byte 1
+    .byte newLine
     .byte goto empty_slot_middle
 
 ui_empty_slot_3:
     .byte set_pos 3, 13
     .byte " "
-    .byte 1
+    .byte newLine
     .byte " ",uibox_tl,uibox_t,uibox_tc,"GAME(3)"
     .byte repeatTile uibox_t, 13
     .byte uibox_tr
-    .byte 1
+    .byte newLine
     ;fallthrough
     empty_slot_middle:
     .byte " ",uibox_l
@@ -485,18 +489,18 @@ ui_empty_slot_3:
     .byte "Start up"
     .byte repeatTile " ", 8
     .byte uibox_r
-    .byte 0
+    .byte stopText
     ;empty slot bottom
     .byte " ",uibox_bl
     .byte repeatTile uibox_b, 22
     .byte uibox_br
-    .byte 0
+    .byte stopText
 
 ; $61F0 - UNKNOWN
 B25_19f0:
     .byte 1, 3  ;width, height
     .byte 0, 6  ; X, Y
-    .byte %11000000 ; Input mask
+    .byte PAD_A | PAD_B ; Input mask
     .byte $3a       ; Tile
     .byte 3, 4  ;init x, init y
     .addr B25_1a2c
@@ -505,7 +509,7 @@ B25_19f0:
 B25_19fa:
     .byte 1, 3  ;width, height
     .byte 0, 6  ; X, Y
-    .byte %11000000 ; Input mask
+    .byte PAD_A | PAD_B ; Input mask
     .byte $3a       ; Tile
     .byte 3, 4  ;init x, init y
     .addr B25_1a2f
@@ -514,7 +518,7 @@ B25_19fa:
 B25_1a04:
     .byte 1, 3  ;width, height
     .byte 0, 6  ; X, Y
-    .byte %11000000 ; Input mask
+    .byte PAD_A | PAD_B ; Input mask
     .byte $3a       ; Tile
     .byte 3, 4  ;init x, init y
     .addr B25_1a32
@@ -523,7 +527,7 @@ B25_1a04:
 B25_1a0e:
     .byte 4, 3  ;width, height
     .byte 5, 6  ; X, Y
-    .byte %10000000 ; Input mask
+    .byte PAD_A ; Input mask
     .byte $3a       ; Tile
     .byte 5, 5  ;init x, init y
     .addr $0584
@@ -532,7 +536,7 @@ B25_1a0e:
 B25_1a18:
     .byte 2, 1  ;width, height
     .byte 5, 0  ; X, Y
-    .byte %10000000 ; Input mask
+    .byte PAD_A ; Input mask
     .byte $3a       ; Tile
     .byte 11, 26  ;init x, init y
     .addr B25_1a2a
@@ -647,70 +651,78 @@ NS_PrepCharIcons:
 
 .ifdef VER_JP
 B25_1a9b_new:
-    lda #$00
-    sta $55
-    sta $70
-    ldx $56
-    sta $0581, x
+    lda #0
+    sta UNK_50+5
+    sta UNK_70
+
+    ldx UNK_50+6
+    sta UNK_580+1, x
+
     lda #$C2
-    ldx $56
-    L004F:
-    sta $0580, x
+    ldx UNK_50+6
+    @copy:
+    sta UNK_580, x
     dex
-    bpl L004F
+    bpl @copy
     rts
 .endif
 
 B25_1a9b:
     clc
-    lda $60
+    lda UNK_60
     adc #$20
-    sta $60
-    lda $61
-    adc #$00
-    sta $61
+    sta UNK_60
+    lda UNK_60+1
+    adc #0
+    sta UNK_60+1
+
     clc
-    lda $63
+    lda UNK_62+1
     adc #$18
-    sta $63
+    sta UNK_62+1
+
     clc
     tya
-    adc #$08
+    adc #8
     tay
     rts
 
 .ifdef VER_JP
 B25_1ab5_new:
     clc
-    lda $64
-    adc #$06
-    sta $64
-    lda $65
-    adc #$00
-    sta $65
+    lda UNK_64
+    adc #6
+    sta UNK_64
+    lda UNK_64+1
+    adc #0
+    sta UNK_64+1
+
     clc
-    lda $62
-    adc #$06
-    sta $62
+    lda UNK_62
+    adc #6
+    sta UNK_62
+
     rts
 .endif
 
 B25_1ab5:
     clc
-    lda $64
+    lda UNK_64
     .ifdef VER_JP
-    adc #$01
+        adc #1
     .else
-    adc #$10
+        adc #16
     .endif
-    sta $64
-    lda $65
-    adc #$00
-    sta $65
+    sta UNK_64
+    lda UNK_64+1
+    adc #0
+    sta UNK_64+1
+
     clc
-    lda $63
-    adc #$02
-    sta $63
+    lda UNK_62+1
+    adc #2
+    sta UNK_62+1
+
     rts
 
 ;character name stuff
@@ -740,22 +752,22 @@ NS_QuestionSetups:
 letterSetup:
 ;the width and height are array dimensions
 .ifdef VER_JP
-gridWidth: .byte 25
-gridHeight: .byte 10
+    gridWidth: .byte 25
+    gridHeight: .byte 10
 .else
-gridWidth: .byte 16
-gridHeight: .byte 6
+    gridWidth: .byte 16
+    gridHeight: .byte 6
 .endif
 moveTilesX: .byte 1
 moveTilesY: .byte 2
 controllerBits: .byte PAD_A | PAD_B | PAD_START
 cursorSpriteTile: .byte $01
 .ifdef VER_JP
-cursorInitX: .byte 4
-cursorInitY: .byte 6
+    cursorInitX: .byte 4
+    cursorInitY: .byte 6
 .else
-cursorInitX: .byte 8
-cursorInitY: .byte 14
+    cursorInitX: .byte 8
+    cursorInitY: .byte 14
 .endif
 
 ;$80 == finalSetup and $84 == finalChoicers
@@ -773,14 +785,11 @@ finalcursorInitY: .byte 24
 .ifdef VER_JP
 
 .addr speed_choicers_maybe
-.byte 3 ;width
-.byte 1 ;height
-.byte 4 ;x
-.byte 0 ;y
-.byte PAD_A ;mask
-.byte $3A ;tile
-.byte 10 ;initx
-.byte 24 ;inity
+.byte 3, 1 ;width, height
+.byte 4, 0 ; X, Y
+.byte PAD_A ; Input mask
+.byte $3A ; Tile
+.byte 10, 24 ;init x, init y
 
 .addr speed_choicers_maybe
 speed_choicers_maybe:
@@ -879,7 +888,7 @@ kanafix "ガリクソン?" ;Garrickson
 .byte "  ????"
 .byte " ?????"
 .byte "??????"
-.byte 0
+.byte stopText
 
 .else
 
@@ -954,13 +963,13 @@ kanafix "らりるれろ",stopText
 kanafix "ラリルレロ",stopText
 kanafix "バビブベボ",stopText
 .byte 0,$C1,0,0,0,0 ;choicer
-.byte 0
+.byte stopText
 
 kanafix "わ を ん",stopText
 kanafix "ワ ヲ ン",stopText
 kanafix "パピプペポ",stopText
 .byte 0,$C2,0,0,0,0 ;choicer
-.byte 0
+.byte stopText
 
 .else
 .byte   "ABCDEFG HIJKLMN",stopText
@@ -1011,109 +1020,110 @@ NS_QuestionBox:
 .byte " ",uibox_tl
 .byte repeatTile uibox_t, 14
 .byte uibox_tr
-.byte 1 ;?
+.byte newLine ;?
 ;question box middle
 .byte " ", uibox_l
 .byte repeatTile " ", 14
 .byte uibox_r
-.byte 0
+.byte stopText
 ;question box bottom
 .byte uibox_tl,uibox_bl
 .byte repeatTile uibox_b, 14
 .byte uibox_br
-.byte 0
+.byte stopText
 
+NS_EntryBox:
 ;entry box top
 .byte set_pos 19, 1
 .byte uibox_tl
 .byte repeatTile uibox_t, 8
 .byte uibox_tr," "
-.byte 1
+.byte newLine
 ;entry box middle
 .byte uibox_l
 .byte repeatTile " ", 8
 .byte uibox_r," "
-.byte 0
+.byte stopText
 ;entry box bottom
 .byte uibox_bl
 .byte repeatTile uibox_b, 8
 .byte uibox_br,uibox_tr
-.byte 0
+.byte stopText
 
 ;letter box top
 NS_AlphabetBox:
 .byte set_pos 2, 5
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte uibox_l
 .byte repeatTile " ", 26
 .byte uibox_r
-.byte 0
+.byte stopText
 
 ;letter box bottom
 .byte set_pos 2, 26
 .byte uibox_bl
 .byte repeatTile uibox_b, 26
 .byte uibox_br
-.byte 0
+.byte stopText
 
 ;letter box sides
 string_in_question:
 .byte uibox_l
 .byte repeatTile " ", 26
 .byte uibox_r
-.byte 1
+.byte newLine
 
 ;choicers
 NS_AlphabetOptions:
-.byte 1
+.byte newLine
 .byte set_pos 23, 22
 kanafix "*もどる",newLine
 kanafix "*おわり"
 .byte stopText
 
-.byte 0
+.byte stopText
 NS_Recap_Tiles:
-.byte 1
+.byte newLine
 ;ninten name
 .byte set_pos 15, 5
 .byte nintenName
-.byte 1
+.byte newLine
 ;ana name
 .byte set_pos 15, 8
 .byte anaName
-.byte 1
+.byte newLine
 ;lloyd name
 .byte set_pos 15, 11
 .byte lloydName
-.byte 1
+.byte newLine
 ;teddy name
 .byte set_pos 15, 14
 .byte teddyName
-.byte 1
+.byte newLine
 ;favorite food (for the end of the sequence)
 .byte set_pos 9, 17
 kanafix "すきなこんだて ",favFood
-.byte 0
-.byte 0
+.byte stopText
+.byte stopText
 
 NS_Recap_Confirmation_Tiles:
 string_in_question_2:
@@ -1122,39 +1132,39 @@ string_in_question_2:
 .byte uibox_tl
 .byte repeatTile uibox_t, 14
 .byte uibox_tr
-.byte 1
+.byte newLine
 ;confirmation box side
 kanafix uibox_l," これで よろしいですか  ", uibox_r  ;is this okay?
-.byte 1
+.byte newLine
 .byte uibox_l
 .byte repeatTile " ", 4
 kanafix "はい  いいえ   ", uibox_r
-.byte 1
+.byte newLine
 string_in_question_3:
 .byte uibox_l
 .byte repeatTile " ", 14
 .byte uibox_r
-.byte 0
+.byte stopText
 string_in_question_4:
 ;confirmation box bottom
 .byte set_pos 8, 26
 .byte uibox_bl
 .byte repeatTile uibox_b, 14
 .byte uibox_br
-.byte 0
+.byte stopText
 
 NS_Recap_Speed_Tiles:
 .byte print_string string_in_question_2
-.byte 1
+.byte newLine
 ;battle speed confirmation box
 kanafix uibox_l,"  メッセ-ジスピ-ド   ",uibox_r
-.byte 1
+.byte newLine
 kanafix uibox_l,"  はやい ふつう おそい ",uibox_r
-.byte 1
+.byte newLine
 .byte print_string string_in_question_3
-.byte 0
+.byte stopText
 .byte print_string string_in_question_4
-.byte 0
+.byte stopText
 
 IntroText1:
 kanafix "1900ねんだいの はじめ",newLine
@@ -1186,121 +1196,123 @@ NS_QuestionBox:
 .byte uibox_tl
 .byte repeatTile uibox_t, 15
 .byte uibox_tr
-.byte 1
+.byte newLine
 .byte uibox_l
 .byte repeatTile " ", 15
 .byte uibox_r
-.byte 1
+.byte newLine
 .byte uibox_l
 .byte repeatTile " ", 15
 .byte uibox_r
-.byte 1
+.byte newLine
 
 .byte set_pos 7, 6
 .byte uibox_l
 .byte repeatTile " ", 15
 .byte uibox_r
-.byte 0
+.byte stopText
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 15
 .byte uibox_br
-.byte 0
+.byte stopText
 
 NS_NameEntry_Blankout:
-.byte 1
+.byte newLine
 .byte set_pos 8, 10
 .byte repeatTile " ", 15
-.byte 0,0
+.byte stopText
+.byte stopText
 
 NS_AlphabetBox:
 .byte set_pos 5, 7
 .byte uibox_tl
 .byte repeatTile uibox_t, 19
 .byte uibox_tr
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 1
+.byte newLine
 .byte print_string string_in_question
-.byte 0
+.byte stopText
 
 .byte uibox_bl
 .byte repeatTile uibox_b, 19
 .byte uibox_br
-.byte 0
+.byte stopText
 
 string_in_question:
 .byte uibox_l
 .byte repeatTile " ", 19
 .byte uibox_r
-.byte 1
+.byte newLine
 
 NS_AlphabetOptions:
-.byte 1
+.byte newLine
 .byte set_pos 8, 22
 .byte "  *Back  *End  ",newLine
 .byte "   *Previous   "
 .byte stopText
 
-.byte 0
+.byte stopText
 
 NS_Recap_Tiles:
-.byte 1
+.byte newLine
 ;end sequence
 ;ninten name
 .byte set_pos 15, 5
 .byte nintenName
-.byte 1
+.byte newLine
 ;ana name
 .byte set_pos 15, 8
 .byte anaName
-.byte 1
+.byte newLine
 ;lloyd name
 .byte set_pos 15, 11
 .byte lloydName
-.byte 1
+.byte newLine
 ;teddy name
 .byte set_pos 15, 14
 .byte teddyName
-.byte 1
+.byte newLine
 .byte set_pos 3, 17
 .byte "Favorite food: ",favFood
-.byte 0
-.byte 0,1
+.byte stopText
+.byte stopText
+.byte newLine
 
 NS_Recap_Confirmation_Tiles:
 .byte set_pos 7, 20
 .byte uibox_tl
 .byte repeatTile uibox_t, 16
 .byte uibox_tr
-.byte 1
+.byte newLine
 .byte uibox_l,"  Is this OK?   ",uibox_r
-.byte 1
+.byte newLine
 .byte uibox_l,"     Yes No     ",uibox_r
-.byte 1
+.byte newLine
 .byte uibox_l
 .byte repeatTile " ", 16
 .byte uibox_r
-.byte 0
+.byte stopText
 .byte set_pos 7, 26
 .byte uibox_bl
 .byte repeatTile uibox_b, 16
 .byte uibox_br
-.byte 0
+.byte stopText
 
 ;SUPPOSED to be padding
 .res $102, $FF

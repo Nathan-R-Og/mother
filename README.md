@@ -31,8 +31,9 @@ Note that if you are running on Windows, when it asks you to run a script, run t
   - On Windows, install python and make sure it is added to your system `PATH` under `Environment Variables`.
 2. Obtain cc65
   - If running on a supported Linux distribution, run `./install` to download and set up cc65.
-  - If running on another platform (ex. Windows), it can be obtained from https://cc65.github.io/.
-  - If cc65 was not built from source, add it to your system `PATH` under `Environment Variables`. (like python)
+  - If running on another platform (ex. Windows), it can be obtained from https://cc65.github.io/, or by running your relative `install` script.
+  - If cc65 was not built from source, add the `cc65/bin` folder to your system `PATH` under `Environment Variables`. (like python)
+  - Windows does not like external powershell scripts. To run `.ps1` files, open a powershell terminal and enter `powershell -ExecutionPolicy Bypass -File <filename>.ps1`. Administrator permissions may also be required. (Needs testing)
 2. Drop MOTHER (J) and/or Earthbound Beginnings (U) ROMs into this directory.
 3. Run `./configure` to split banks from supported roms
   - Each rom will be scanned for in the root of this repository, and will split their own unique assets.

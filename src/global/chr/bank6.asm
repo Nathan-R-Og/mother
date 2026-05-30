@@ -1,133 +1,35 @@
 .segment        "CHR6": absolute
     ;enemy gfx 3
-    .incbin "../../split/global/chr/6/global1.bin"
+    .incbin "../../split/global/chr/battle_16.bin"
+    .incbin "../../split/global/chr/battle_17.bin"
 
-    ;nancy 1
-    ;2 tiles
+    ;nancy
+    ;4 tiles
     .ifdef VER_JP
-    .incbin "../../split/jp/chr/6/jp1.bin"
+        .incbin "../../split/jp/chr/battle_18.bin"
     .else
-    .incbin "../../split/us/chr/6/us1.bin"
+        .incbin "../../split/us/chr/battle_18.bin"
     .endif
 
-    .incbin "../../split/global/chr/6/global2.bin"
+    .incbin "../../split/global/chr/battle_19.bin"
 
-    ;nancy 2
-    ;2 tiles
-    .ifdef VER_JP
-    .incbin "../../split/jp/chr/6/jp2.bin"
-    .else
-    .incbin "../../split/us/chr/6/us2.bin"
-    .endif
-
-    .incbin "../../split/global/chr/6/global3.bin"
-
-    ;shroudley 1
+    ;shroudley
     ;blood
-    ;1 tile
+    ;9 tiles
     .ifdef VER_JP
-    .incbin "../../split/jp/chr/6/jp3.bin"
+        .incbin "../../split/jp/chr/battle_20.bin"
     .else
-    .incbin "../../split/us/chr/6/us3.bin"
+        .incbin "../../split/us/chr/battle_20.bin"
     .endif
 
-    .incbin "../../split/global/chr/6/global4.bin"
-
-    ;shroudley 2
-    ;blood
-    ;3 tiles
-    .ifdef VER_JP
-    .incbin "../../split/jp/chr/6/jp4.bin"
-    .else
-    .incbin "../../split/us/chr/6/us4.bin"
-    .endif
-
-    .incbin "../../split/global/chr/6/global5.bin"
-
-    ;shroudley 3
-    ;blood
-    ;1 tile
-    .ifdef VER_JP
-    .incbin "../../split/jp/chr/6/jp5.bin"
-    .else
-    .incbin "../../split/us/chr/6/us5.bin"
-    .endif
-
-    .incbin "../../split/global/chr/6/global6.bin"
-
-    ;shroudley 4
-    ;???? hand????
-    ;1 tile
-    .ifdef VER_JP
-    .incbin "../../split/jp/chr/6/jp6.bin"
-    .else
-    .incbin "../../split/us/chr/6/us6.bin"
-    .endif
-
-    .incbin "../../split/global/chr/6/global7.bin"
-
-    ;shroudley 5
-    ;blood. probably
-    ;1 tile
-    .ifdef VER_JP
-    .incbin "../../split/jp/chr/6/jp7.bin"
-    .else
-    .incbin "../../split/us/chr/6/us7.bin"
-    .endif
-
-    .incbin "../../split/global/chr/6/global8.bin"
-
-    ;shroudley 6
-    ;blood
-    ;2 tiles
-    .ifdef VER_JP
-    .incbin "../../split/jp/chr/6/jp8.bin"
-    .else
-    .incbin "../../split/us/chr/6/us8.bin"
-    .endif
-
-    .incbin "../../split/global/chr/6/global9.bin"
+    .incbin "../../split/global/chr/battle_21.bin"
+    .incbin "../../split/global/chr/battle_22.bin"
 
     ;bb boss 1
     ;knife
-    ;2 tiles
+    ;6 tiles
     .ifdef VER_JP
-    .incbin "../../split/jp/chr/6/jp9.bin"
+        .incbin "../../split/jp/chr/battle_23.bin"
     .else
-    .incbin "../../split/us/chr/6/us9.bin"
+        .incbin "../../split/us/chr/battle_23.bin"
     .endif
-
-    .incbin "../../split/global/chr/6/global10.bin"
-
-    ;bb boss 2
-    ;knife
-    ;2 tiles
-    .ifdef VER_JP
-    .incbin "../../split/jp/chr/6/jp10.bin"
-    .else
-    .incbin "../../split/us/chr/6/us10.bin"
-    .endif
-
-    .incbin "../../split/global/chr/6/global11.bin"
-
-    ;bb boss 3
-    ;????
-    ;1 tiles
-    .ifdef VER_JP
-    .incbin "../../split/jp/chr/6/jp11.bin"
-    .else
-    .incbin "../../split/us/chr/6/us11.bin"
-    .endif
-
-    .incbin "../../split/global/chr/6/global12.bin"
-
-    ;bb boss 4
-    ;???????? arm?????? thing???? idk man
-    ;1 tile
-    .ifdef VER_JP
-    .incbin "../../split/jp/chr/6/jp12.bin"
-    .else
-    .incbin "../../split/us/chr/6/us12.bin"
-    .endif
-
-    .incbin "../../split/global/chr/6/global13.bin"

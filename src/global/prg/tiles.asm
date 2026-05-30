@@ -1,4 +1,6 @@
 .segment        "PRG0": absolute
+TILES:
+
 
 .ifdef VER_JP
     .byte 0
@@ -747,6 +749,8 @@ Battle_Text:
     .res $a4, 0
 .endif
 
+;must be 8 aligned if B30_1cdf is to work
+.align 8
 .include "../../global/items.asm"
 .include "../../global/choicers.asm"
 .include "../../global/character_rates.asm"

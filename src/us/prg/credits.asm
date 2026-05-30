@@ -38,8 +38,8 @@ Credits_Entry:
     ldx #$10
     ldy #8
     sta ram_PPUCTRL
-    stx scroll_y
-    sty scroll_x
+    stx scroll_x
+    sty scroll_y
 
     ;clear music
     lda #$ff
@@ -591,9 +591,9 @@ credits_cmd_draw_text:
     sta UNK_73
 
     lda #2
-    sta UNK_76
+    sta ntbl_x
     lda #$13
-    sta UNK_76+1
+    sta ntbl_x+1
 
     lda #$1c
     sta UNK_70
@@ -675,12 +675,12 @@ credits_cmd_draw_text_xy:
     ;get next byte (x pos)
     iny
     lda (UNK_40), y
-    sta UNK_76
+    sta ntbl_x
 
     ;get next byte (y pos)
     iny
     lda (UNK_40), y
-    sta UNK_76+1
+    sta ntbl_x+1
 
     lda #0
     sta UNK_70
