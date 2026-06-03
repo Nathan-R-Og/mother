@@ -138,14 +138,12 @@ unk_be: .res 1 ; $be
 unk_bf: .res 1 ; $bf
 ;basically func ram.
 UNK_C0: .res $10
-frame_counter: .res 3 ; $d0 ; 24 bit
-UNK_D3: .res 1 ; V the frame counter in question
-UNK_D4: .res 1 ; How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the frame counter also stops counting (wtf...?)
+dad_call_timer: .res 3 ; $d0 ; 24 bit
+dad_call_input_timer: .res 1 ; How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the dad call timer also stops counting.
+UNK_D4: .res 1 
 step_count: .res 1 ; $d5 ; used for poison / cold. every 8 steps inflicts damage
 UNK_D6: .res 1 ;seems to copy UNK_D4, but UNK_D4 can continue???
-;jmp instruction???
-UNK_D7: .res 3
-; $d3 -> ; $d7 has a JMP instruction (if zero, then don't jump)
+post_nmi_callback: .res 3 ;either a valid JMP instruction, or the first byte is 00 (if zero, then don't jump)
 pad1_forced: .res 1 ; $da
 pad2_forced: .res 1 ; $db
 pad1_press: .res 1 ; $dc
@@ -162,7 +160,7 @@ nmi_data_offset: .res 1 ; $e6
 UNK_E7: .res 1
 shift_x: .res 1 ; $e8
 shift_y: .res 1 ; $e9
-nmi_mode: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running NMI handler ;ignores controller input while set
+nmi_mode: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running non-reentrant part of NMI handler
 irq_latch: .res 1 ; $eb
 irq_count: .res 1 ; $ec ; IRQ Count
 irq_index: .res 1 ; $ed ; IRQ routine index (multiple of 2)

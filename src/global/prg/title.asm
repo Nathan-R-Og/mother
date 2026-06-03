@@ -1520,7 +1520,7 @@ GiegueGeneric:
     ldx #$20
     jsr B20_188f
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     pla
@@ -1559,7 +1559,7 @@ B20_198b:
     pha
     jsr B20_188d
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     pla

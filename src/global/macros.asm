@@ -87,7 +87,12 @@
 .endenum
 
 .enum NMI_MODE
-    SKIP = 1 << 7
+    ; The NMI handler has run to completion
+    FINISHED = 0
+    ; The NMI handler has not run yet, and WaitNMI has been called and is waiting for NMI to finish
+    WAITING_FOR_NMI = 1
+    ; The NMI handler is running, and it has progressed far enough that calling it again should be a no-op to avoid issues
+    RUNNING = 1 << 7
 .endenum
 
 ; items

@@ -325,7 +325,7 @@ credits_cmd_set_metatileprops:
     sta nmi_data_offset
 
     ;skip nmi
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     dec height
@@ -383,7 +383,7 @@ credits_cmd_set_palette:
     sta nmi_queue+1 ; END
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     ;set to after command
@@ -636,7 +636,7 @@ credits_cmd_draw_text:
     lda #0
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     dex

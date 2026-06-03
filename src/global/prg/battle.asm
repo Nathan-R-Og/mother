@@ -913,7 +913,7 @@ B23_04d6:
     jsr PpuSync
     stx nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     rts

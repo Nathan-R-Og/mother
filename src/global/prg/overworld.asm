@@ -244,13 +244,13 @@ Idle_DadPhonecall:
     lda #$80
     bit UNK_D4
     bne @exit
-    ldx frame_counter+2
-    ldy frame_counter+1
+    ldx dad_call_timer+2
+    ldy dad_call_timer+1
     cpx #6
     bcc @exit
     cpy #$90
     bcc @exit
-    ;if framecounter >= 0x069000, get a call from dad
+    ;if dad_call_timer >= 0x069000, get a call from dad
 
     ora UNK_D4
     sta UNK_D4
@@ -280,10 +280,10 @@ Idle_DadPhonecall:
     ldx #$43*2 ;saved, resetting
     jsr DisplayText
     jmp OINST_Reset
-    @exit:
+@exit:
     rts
 
-    @decline:
+@decline:
     ldx #$41*2 ;say no
     jsr DisplayText
     ldx #$42*2 ;good luck

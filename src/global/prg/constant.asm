@@ -241,12 +241,12 @@ commands_irq:
 
     ;unload it
     ;2+4 cycles
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ;2 cycles
     ldy #15
-    @wait:
+@wait:
     ;(2*15) cycles
     dey
     ;(3*14)+2 cycles
@@ -257,13 +257,13 @@ commands_irq:
     ;(4 on 7th)
     cpx #7
     bne @useless_jump
-    @useless_jump:
+@useless_jump:
 
     ;5 cycles
     ;(4 on 4th)
     cpx #4
     bne @useless_jump2
-    @useless_jump2:
+@useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -294,11 +294,11 @@ cashbox_irq:
     nop
 
     ;unload it??? lmao???
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ldy #4
-    @wait1:
+@wait1:
     dey
     bne @wait1
 
@@ -312,18 +312,18 @@ cashbox_irq:
     sta BANKDATA
 
     ldy #3
-    @wait2:
+@wait2:
     dey
     bne @wait2
 
     bit 0
 
     ;unload it??? lmao???
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ldy #2
-    @wait3:
+@wait3:
     dey
     bne @wait3
 
@@ -334,11 +334,11 @@ cashbox_irq:
 
     cpx #6
     bne @useless_jump
-    @useless_jump:
+@useless_jump:
 
     cpx #3
     bne @useless_jump2
-    @useless_jump2:
+@useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -362,14 +362,14 @@ dialogue_irq:
 shopitems_irq:
     jsr PreparePerLineEffect
 
-    @loop:
+@loop:
 
     ;load the second quarter of ui_gfx
     lda #$7D
     sta BANKDATA
 
     ldy #7
-    @wait:
+@wait:
     dey
     bne @wait
 
@@ -379,11 +379,11 @@ shopitems_irq:
     nop
 
     ;unload it??? lmao???
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ldy #8
-    @wait2:
+@wait2:
     dey
     bne @wait2
 
@@ -391,11 +391,11 @@ shopitems_irq:
 
     cpx #6
     bne @useless_jump
-    @useless_jump:
+@useless_jump:
 
     cpx #3
     bne @useless_jump2
-    @useless_jump2:
+@useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -408,25 +408,25 @@ shopitems_irq:
 ;extends from tile 2 to -2
 longwindow_irq:
     jsr PreparePerLineEffect
-    @loop:
+@loop:
 
     ;load the second quarter of ui_gfx
     lda #$7D
     sta BANKDATA
 
     ldy #13
-    @wait1:
+@wait1:
     dey
     bne @wait1
 
     bit UNK_0
 
     ;unload it??? lmao???
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ldy #2
-    @wait2:
+@wait2:
     dey
     bne @wait2
 
@@ -437,11 +437,11 @@ longwindow_irq:
 
     cpx #6
     bne @useless_jump
-    @useless_jump:
+@useless_jump:
 
     cpx #3
     bne @useless_jump2
-    @useless_jump2:
+@useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -529,13 +529,13 @@ eightwindow_irq_jmp:
     nop
     nop
     bit 0
-    @loop:
+@loop:
     ;load the second quarter of ui_gfx
     lda #$7D
     sta BANKDATA
 
     ldy #10
-    @wait1:
+@wait1:
     dey
     bne @wait1
 
@@ -545,11 +545,11 @@ eightwindow_irq_jmp:
     nop
 
     ;unload it??? lmao???
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ldy #5
-    @wait2:
+@wait2:
     dey
     bne @wait2
 
@@ -558,11 +558,11 @@ eightwindow_irq_jmp:
 
     cpx #6
     bne @useless_jump
-    @useless_jump:
+@useless_jump:
 
     cpx #3
     bne @useless_jump2
-    @useless_jump2:
+@useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -573,29 +573,29 @@ eightwindow_irq_jmp:
 
 dialogue_irq_jmp:
     ldy #3
-    @wait1:
+@wait1:
     dey
     bne @wait1
 
     nop
     nop
 
-    @loop:
+@loop:
     ;load the second quarter of ui_gfx
     lda #$7D
     sta BANKDATA
 
     ldy #9
-    @wait2:
+@wait2:
     dey
     bne @wait2
 
     ;unload it??? lmao???
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ldy #7
-    @wait3:
+@wait3:
     dey
     bne @wait3
 
@@ -604,11 +604,11 @@ dialogue_irq_jmp:
 
     cpx #6
     bne @useless_jump
-    @useless_jump:
+@useless_jump:
 
     cpx #3
     bne @useless_jump2
-    @useless_jump2:
+@useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -758,7 +758,7 @@ B30_0306:
     sta nmi_queue, x
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     ;this is effectively the same call
@@ -1048,7 +1048,7 @@ SavePlayerBattlers:
     jsr SetupPartyUi
 
     ;get $8000 bank
-    lda current_banks+6
+    lda current_banks+BANK::PRG8000
     pha
 
     jsr BankswitchLower_Bank00
@@ -1700,7 +1700,7 @@ AddTileViaNMI:
     sta nmi_queue+5 ; END
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     rts
@@ -1754,7 +1754,7 @@ TilesTilNMI:
     ;lda #$00
     sta nmi_data_offset
     ; NMI Flags
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
 TilesTilNMI_CheckLastRow:
@@ -1888,7 +1888,7 @@ NextChar:
     .endif
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     jsr PpuSync
@@ -2002,7 +2002,7 @@ PrintScroll:
     sbc #$29
     tax
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     cpx #$5c
@@ -2608,11 +2608,11 @@ GetTextData:
     bpl @L3CC2F
     inx
     inx
-    @L3CC2F:
+@L3CC2F:
     asl a
     bpl @L3CC33
     inx
-    @L3CC33:
+@L3CC33:
     lda text_id
     and #$1F
     ora #$80
@@ -2647,7 +2647,7 @@ GetTextRowPtr:
     lda #$7f
     sta text_id
 
-    lda current_banks+6
+    lda current_banks+BANK::PRG8000
     pha
 
     ;swap text pointers in
@@ -2668,7 +2668,7 @@ GetTextRowPtr:
     pla
     jsr BANK_SWAP
 
-    @B30_0ae1:
+@B30_0ae1:
     jsr PpuSync
 
     lda #NMI_COMMANDS::PPU_READ_TEXT
@@ -2699,7 +2699,7 @@ GetTextRowPtr:
     lda #0
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     lda #.LOBYTE(text_data_buffer)
@@ -2714,7 +2714,7 @@ GetTextRowPtr:
     sta text_id
     rts
 
-    @B30_0b21:
+@B30_0b21:
     sec
     lda text_id+1
     sbc #$10
@@ -2759,7 +2759,7 @@ PostInit:
     sta sram_mode
 
     ;fade out
-    B30_0b57:
+B30_0b57:
     jsr BANKSET_H13
     jsr OverworldTransitionIntepreter
 
@@ -2775,11 +2775,11 @@ PostInit:
     eor #%10000100
     sta UNK_d
 
-    B30_0b70:
+B30_0b70:
     jsr ClearSprites
     jsr STORE_COORDINATES
 
-    B30_0b76:
+B30_0b76:
     jsr B30_1e99
     jsr B31_0ef0
 
@@ -2798,10 +2798,10 @@ PostInit:
         and #%00001000
         beq @B30_0b8f
         lda #1
-        @B30_0b8f:
+    @B30_0b8f:
         sta UNK_1F
 
-        @B30_0b91:
+    @B30_0b91:
     .endif
     jsr PpuSync
 
@@ -2826,7 +2826,7 @@ PostInit:
     jsr B19_01c6
     bcc @B30_0beb
 
-    @am_i_scripted:
+@am_i_scripted:
 
     jsr BANKSET_H13
 
@@ -2884,7 +2884,7 @@ PostInit:
 
 @OpenCommands:
     jsr B19_0178
-    @DoNormalFrame:
+@DoNormalFrame:
 
     jsr BANKSET_H14
     jsr DoWalkingStep
@@ -2918,16 +2918,16 @@ PostInit:
     jsr B19_0b53
     lda fade_flag
     bne @whatever_case_this_is
-    @isnt_scripted:
+@isnt_scripted:
     jmp B30_0b70
 
-    @whatever_case_this_is:
+@whatever_case_this_is:
     jmp B30_0b5d
 
-    @no_battle:
+@no_battle:
     jmp B30_0b76
 
-    @giegue_battle:
+@giegue_battle:
     jsr BANKSET_H14
     jsr GiegueIntro
     jsr ENTERBATTLE
@@ -2945,11 +2945,11 @@ B30_0c2b:
 
     jsr B30_105e
     jsr B30_10b1
-    @B30_0c3b:
+@B30_0c3b:
     lda nmi_flags
     bne @B30_0c3b
 
-    @B30_0c3f:
+@B30_0c3f:
     lda UNK_E0
     cmp #9
     bcs @B30_0c3f
@@ -2963,11 +2963,11 @@ B30_0c2b:
     sta nmi_queue, x
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     bne @B30_0c83
-    @B30_0c5d:
+@B30_0c5d:
     jsr B30_105e
     jsr B30_10b1
     jsr B30_1232
@@ -2983,7 +2983,7 @@ B30_0c2b:
     cmp #$0f
     bcs @B30_0c83
 
-    @B30_0c77:
+@B30_0c77:
     lda nmi_flags
     bne @B30_0c77
 
@@ -2991,7 +2991,7 @@ B30_0c2b:
     ror $e2
     jsr B31_0065
     asl $e2
-    @B30_0c83:
+@B30_0c83:
     lda UNK_A0
     lsr a
     bcc @B30_0c96
@@ -3000,14 +3000,14 @@ B30_0c2b:
     sta nmi_queue, x
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
-    @B30_0c96:
+@B30_0c96:
     bit UNK_A0
     bmi @B30_0c9c
     inc step_count
-    @B30_0c9c:
+@B30_0c9c:
     rts
 
 .ifndef VER_JP
@@ -3029,7 +3029,7 @@ GetButtonMode:
     rts
 
     ;prioritize b, then start
-    @ButtonPriorityTable:
+@ButtonPriorityTable:
     .byte 0 ; how
     .byte 1 ; PAD_START
     .byte 2 ; PAD_SELECT
@@ -3058,7 +3058,7 @@ PSITELEPORT_Crash:
 
     ;screenshake
     ldx #8
-    @loop:
+@loop:
     jsr DoHorizontalShake
     dex
     bne @loop
@@ -3090,7 +3090,7 @@ PSITELEPORT_START:
     jsr B30_0d9d
 
     ldx #5
-    @B30_0cf0:
+@B30_0cf0:
     jsr B30_0d8b
     ;if collision??
     lda UNK_A0
@@ -3108,7 +3108,7 @@ PSITELEPORT_START:
     cmp #$04
     beq @B30_0d0c
     stx autowalk_direction
-    @B30_0d0c:
+@B30_0d0c:
     ldx UNK_24+1
     inx
     cpx #$2d
@@ -3116,7 +3116,7 @@ PSITELEPORT_START:
 
     jsr PpuSync
     lda #$20
-    @B30_0d18:
+@B30_0d18:
     tax
     asl SPRITE_OBJECTS+4, x
     asl SPRITE_OBJECTS+5, x
@@ -3124,7 +3124,7 @@ PSITELEPORT_START:
     sbc #$08
     bne @B30_0d18
     lda #$0a
-    @B30_0d26:
+@B30_0d26:
     pha
     jsr B30_0c2b
     jsr PpuSync
@@ -3164,13 +3164,13 @@ PSITELEPORT_START:
     jsr STORE_COORDINATES
     jsr B30_0d9d
     ldx #$2c
-    @B30_0d70:
+@B30_0d70:
     jsr B30_0d8b
     ldx UNK_24+1
     dex
     dex
     bpl @B30_0d70
-    B30_0d79:
+B30_0d79:
     ldx #0
     stx autowalk_direction
     stx pad1_forced
@@ -3203,7 +3203,7 @@ B30_0daf:
     sta UNK_1F
     rts
 
-    @TeleportSpeeds:
+@TeleportSpeeds:
     .res 5, 0
     .res 5, 1
     .res 4, 2
@@ -3220,12 +3220,12 @@ B30_0de4:
     jsr PlayMusic
     lda #0
     sta pad1_forced
-    @B30_0df1:
+@B30_0df1:
     bit pad1_forced
     bvs @B30_0dfa
     lda current_music
     bne @B30_0df1
-    @B30_0dfa:
+@B30_0dfa:
     lda #0
     sta pad1_forced
     txa
@@ -3270,12 +3270,12 @@ B30_0e08:
     lda #0
     sta nmi_queue+4+64 ; END
     ldx #times ; Repeat this 32 times (for a total of $800 bytes)
-    @loop:
+@loop:
 
     lda #0
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     jsr PpuSync
@@ -3283,7 +3283,7 @@ B30_0e08:
     jsr EnablePRGRam
 
     ldy #0
-    @copy:
+@copy:
     lda nmi_queue+4, y
     sta (UNK_60), y
     iny
@@ -3336,7 +3336,7 @@ B30_0e6d:
     lda #$10
     sta UNK_68
 
-    @B30_0e81:
+@B30_0e81:
     lda UNK_60
     ldx UNK_60+1
 
@@ -3387,7 +3387,7 @@ B30_0eb2:
     lda #0
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     rts
@@ -3418,12 +3418,12 @@ BankswitchCHRFromTable:
     ldx #5 ;stored for the bank index
     ldy #5 ;stored for the iterator
 
-    @loop:
+@loop:
     ;get chr page
     lda (UNK_60), y
     beq @zeroed_page
     jsr BANK_SWAP
-    @zeroed_page:
+@zeroed_page:
 
     ;if x and y < 0, break
     dex
@@ -3467,7 +3467,7 @@ GetScreenMapData:
     jsr PpuSync
 
     ldy #$f
-    @add_palette_to_queue:
+@add_palette_to_queue:
     lda (map_tmp_ptr), y
     bpl @is_positive
     ;fix???
@@ -3476,7 +3476,7 @@ GetScreenMapData:
     ;this doesnt even work half the time...
     ;youd think this would be for map metadata,,, guess not
     jsr GetMetaSaveA
-    @is_positive:
+@is_positive:
     ;put byte into palette queue (relative)
     sta palette_queue, y
     ;y--, loop if y > 0
@@ -3485,7 +3485,7 @@ GetScreenMapData:
 
     ;standard copy the sprite palette
     ldy #$f
-    @copy_sprite_palette:
+@copy_sprite_palette:
     lda Field_Sprite_Palette, y
     sta palette_queue+$10, y
     dey
@@ -3527,7 +3527,7 @@ GetScreenMapData:
     ;UNK_9B = $10
     lda #$10
     sta UNK_9B
-    @loop:
+@loop:
     sec
 
     ;UNK_AA = (player_x & 0xFFC0) - $40
@@ -3561,7 +3561,7 @@ GetScreenMapData:
 
     jmp @loop
 
-    @B30_0f92:
+@B30_0f92:
     jsr B30_109e
     ldy #0
     sty UNK_1c+1
@@ -3613,7 +3613,7 @@ STORE_COORDINATES:
 
     lda #$f
     sta UNK_9B
-    @draw_loop:
+@draw_loop:
 
     clc
 
@@ -3624,7 +3624,7 @@ STORE_COORDINATES:
     bcs @skip
     ;UNK_98+1 += $F0
     adc #$f0
-    @skip:
+@skip:
     sta UNK_98+1
 
     ;UNK_AA = player_x & 0xffc0
@@ -3643,7 +3643,7 @@ STORE_COORDINATES:
     bne @no_load
     ;a = @B30_104f-1[x]
     lda @B30_104f-1, x
-    @no_load:
+@no_load:
     sta UNK_90+3
 
     jsr PpuSync
@@ -3655,7 +3655,7 @@ STORE_COORDINATES:
     sta nmi_queue, x
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     dec UNK_9B
@@ -3683,7 +3683,7 @@ STORE_COORDINATES:
 
     jmp @draw_loop
 
-    @break:
+@break:
     jsr PpuSync
 
     jsr SwapPatternTables
@@ -3694,7 +3694,7 @@ STORE_COORDINATES:
     sta nmi_queue+1 ; END
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     ;UNK_A0 = $88
@@ -3710,7 +3710,7 @@ STORE_COORDINATES:
 
     rts
 
-    @B30_104f:
+@B30_104f:
     .byte $f0, $10
     .byte $10, $10
     .byte $10, $10
@@ -3752,15 +3752,15 @@ B30_105e:
     adc #$20
     bcc @B30_109a
     bcs @B30_109c
-    @B30_1094:
+@B30_1094:
     lda UNK_1c+1
     adc #$f0
     bcs @B30_109c
-    @B30_109a:
+@B30_109a:
     adc #$f0
-    @B30_109c:
+@B30_109c:
     sta UNK_1c+1
-    B30_109e:
+B30_109e:
     lda player_x+1
     and #%00000111
     sta UNK_1c+2
@@ -3771,7 +3771,7 @@ B30_105e:
     lsr UNK_1c+2
     ror a
     sta UNK_1c
-    B30_10b0:
+B30_10b0:
     rts
 
 B30_10b1:
@@ -3782,7 +3782,7 @@ B30_10b1:
     lda UNK_A0
     lsr a
     bcs B30_10c1
-    @B30_10c0:
+@B30_10c0:
     rts
 
 B30_10c1:
@@ -3825,7 +3825,7 @@ B30_10fd:
 
 B30_111d:
     jsr B30_155d ;setup ram a's??????
-    Draw_NewChunk:
+Draw_NewChunk:
     jsr GetCurrentSector
 
     ;get palette
@@ -3838,7 +3838,7 @@ B30_111d:
     lda map_meta_nullchunk
     jmp @is_null_chunk
 
-    @palettes_match:
+@palettes_match:
     ;get relevant map bank to $8000
     lda UNK_94
     ldx #BANK::PRG8000
@@ -3863,8 +3863,8 @@ B30_111d:
     ;else, return chunk id of save_ram[chunk_id]
     ;MAP EVENT
     jsr GetMetaSaveA
-    @skip_map_event:
-    @is_null_chunk:
+@skip_map_event:
+@is_null_chunk:
     ;store chunk_probably in x
     tax
 
@@ -3885,7 +3885,7 @@ B30_111d:
     ;load tileset 2
     lda map_tileset_2_lobits
     .byte $2c ; BIT trick
-    @is_zero:
+@is_zero:
     ;load tileset 1
     lda map_tileset_1_lobits
 
@@ -3928,7 +3928,7 @@ B30_111d:
     ldx #BANK::PRGA000
     jsr BANK_SWAP
 
-    Draw_CurrentChunk:
+Draw_CurrentChunk:
     ;x, y = ((UNK_AA >> 2) | UNK_AC) >> 4
     lda UNK_AA
     lsr a
@@ -4028,7 +4028,7 @@ B30_111d:
 
     jmp Draw_NewChunk
 
-    @B30_11f9:
+@B30_11f9:
     ;on scroll?
     ldx UNK_AE+1
     beq @exit
@@ -4057,11 +4057,11 @@ B30_111d:
     sta UNK_AC+1
 
     jmp Draw_NewChunk
-    @skiptocurrentchunk:
+@skiptocurrentchunk:
     jmp Draw_CurrentChunk
-    @skiptonewchunk:
+@skiptonewchunk:
     jmp Draw_NewChunk
-    @exit:
+@exit:
     rts
 
 B30_121c:
@@ -4076,7 +4076,7 @@ B30_121c:
     tax
     lda B30_1284+7, x
     bpl B30_123f
-    B30_122f:
+B30_122f:
     ldx #0
     rts
 
@@ -4089,7 +4089,7 @@ B30_1232:
     asl a
     asl a
     asl a
-    B30_123f:
+B30_123f:
     tax
     clc
     lda player_x
@@ -4112,7 +4112,7 @@ B30_1232:
     adc UNK_1c+1
     bcs @B30_126c
     adc #$f0
-    @B30_126c:
+@B30_126c:
     sta UNK_98+1
     lda B30_1284+6, x
     bmi @B30_1281
@@ -4120,10 +4120,10 @@ B30_1232:
     and #%00010000
     bne @B30_127c
     lda B30_1284+5, x
-    @B30_127c:
+@B30_127c:
     sta UNK_90+3
     jmp B30_12c4
-    @B30_1281:
+@B30_1281:
     jmp B30_1398
 
 B30_1284:
@@ -4144,7 +4144,7 @@ B30_12c4:
     sta UNK_90+1
 
     ldx #0
-    @B30_12cd:
+@B30_12cd:
     ;[05 (UNK_90+1 << 1) UNK_8C bytes]
     lda #NMI_COMMANDS::PPU_WRITE
     sta nmi_queue, x
@@ -4168,7 +4168,7 @@ B30_12c4:
     sta nmi_queue+$2a, x
 
     inx
-    @B30_12f4:
+@B30_12f4:
     ;setup map_tmp_ptr
     jsr B30_1537
 
@@ -4245,7 +4245,7 @@ B30_12c4:
 
     jmp @B30_12cd
 
-    @B30_1355:
+@B30_1355:
 
     ;UNK_90+1 = 9
     lda #9
@@ -4263,7 +4263,7 @@ B30_12c4:
     sta nmi_queue, x
 
     inx
-    @whatever_this_is:
+@whatever_this_is:
     jsr B30_1480
 
     dec UNK_90+1
@@ -4306,7 +4306,7 @@ B30_12c4:
 
     jmp @whatever_this_is
 
-    @exit:
+@exit:
     rts
 
 B30_1398:
@@ -4342,7 +4342,7 @@ B30_1398:
     inx
     lda $99
     sta UNK_8C
-    @B30_13da:
+@B30_13da:
     lda UNK_8C
     sec
     sbc #$10
@@ -4351,7 +4351,7 @@ B30_1398:
     lda UNK_A1
     adc #$10
     sta UNK_A1
-    @B30_13e9:
+@B30_13e9:
     jsr B30_1537
 
     ldy #0
@@ -4388,7 +4388,7 @@ B30_1398:
     sta UNK_A1
     jmp @B30_13da
 
-    @B30_1425:
+@B30_1425:
     lda #8
     sta UNK_90+1
     ldx #$44
@@ -4414,12 +4414,12 @@ B30_1398:
     lda #$10
     sta UNK_90+3
     bne @B30_145c
-    @B30_1455:
+@B30_1455:
     lda #$10
     sta UNK_90+3
-    @B30_1459:
+@B30_1459:
     jsr B30_1480
-    @B30_145c:
+@B30_145c:
     dec UNK_90+1
     beq @B30_147e
     clc
@@ -4438,7 +4438,7 @@ B30_1398:
     sbc #$10
     sta UNK_90+2
     jmp @B30_1459
-    @B30_147e:
+@B30_147e:
     rts
 
 B30_147f:
@@ -8771,7 +8771,7 @@ B31_0ca3:
     sta UNK_71
     sta enemy_group
     sta sram_mode
-    sta UNK_D7
+    sta post_nmi_callback
     plp
     jmp WaitNMI
 
@@ -8897,22 +8897,22 @@ B31_0d9b:
     jsr SetIRQLatchBankselect
     sta IRQDISABLE
 
-    lda current_banks+2
+    lda current_banks+BANK::CHR1000
     stx BANKSELECT
     sta BANKDATA
     inx
 
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     stx BANKSELECT
     sta BANKDATA
     inx
 
-    lda current_banks+4
+    lda current_banks+BANK::CHR1800
     stx BANKSELECT
     sta BANKDATA
     inx
 
-    lda current_banks+5
+    lda current_banks+BANK::CHR1C00
     stx BANKSELECT
     sta BANKDATA
     rts
@@ -9103,7 +9103,7 @@ B31_0eb5:
     ;lda #$00
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     jmp WaitXFrames_Min1
@@ -10100,7 +10100,7 @@ QueuePaletteUpdate:
     lda #0
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
     rts
 
@@ -10634,7 +10634,7 @@ fill_nmi_with_pointer_data:
     dey
     bpl @fill
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     lda #0
@@ -10644,16 +10644,16 @@ fill_nmi_with_pointer_data:
 
 B31_174c:
     lda #.LOBYTE(B31_176a)
-    sta UNK_D7+1
+    sta post_nmi_callback+1
     lda #.HIBYTE(B31_176a)
-    sta UNK_D7+2
+    sta post_nmi_callback+2
     lda #$4c ; JMP command
-    sta UNK_D7
+    sta post_nmi_callback
     rts
 
 B31_1759:
     lda #0
-    sta UNK_D7
+    sta post_nmi_callback
     jmp WaitNMI
 
 B31_1760:
@@ -10702,12 +10702,12 @@ NmiHandler:
     ; Acknowledge NMI
     bit PPUSTATUS
 
-    ;if nmi_mode & NMI_MODE::SKIP, exit immediately
+    ;if nmi_mode & NMI_MODE::RUNNING, exit immediately, a previous NMI was already running!
     bit nmi_mode
     bpl @do_nmi
     rti
 
-    @do_nmi:
+@do_nmi:
     ;store all registers
     pha
     txa
@@ -10715,114 +10715,126 @@ NmiHandler:
     tya
     pha
 
-    ;OAMADDR = 0 (game uses oamdma instead)
-    ;OAMDMA = shadow_oam
-    ldx #.HIBYTE(0)
+    ;Copy in OAM using OAMDMA
+    ldx #0
     lda #.HIBYTE(shadow_oam)
     stx OAMADDR
     sta OAMDMA
 
-    ;y = nmi_data_offset
+    ; y = offset into nmi_queue
     ldy nmi_data_offset
 
-    ;if UNK_E0 == 0, branch
+    ; if UNK_E0 and nmi_flags are both nonzero, go to NMI_ProcessCommands
     lda UNK_E0
     beq @e0_is_zero
-    ;else if nmi_flags != 0, branch
     lda nmi_flags
-    bne NMI_Next
-    ;else, branch
-    beq B31_17e5
-    @e0_is_zero:
-    ;if nmi_flags == 0, branch
+    bne NMI_ProcessCommands
+    ; if UNK_E0 is nonzero but nmi_flags is 0, go to NMI_Schedule_IRQs
+    beq NMI_Schedule_IRQs
+@e0_is_zero:
+    ; if UNK_E0 and nmi_flags are both 0, go to NMI_Schedule_IRQs
     lda nmi_flags
-    beq B31_17e5
-    ;else,
-    ;UNK_E0 = nmi_flags & %01111111
+    beq NMI_Schedule_IRQs
+    ; if UNK_E0 is zero but nmi_flags is nonzero,
+    ; update UNK_E0 based on nmi_flags's low 7 bits,
+    ; and go to NMI_ProcessCommands
     and #%01111111
     sta UNK_E0
-
-;y == nmi_queue offset
-NMI_Next:
-    ;get byte (command?)
+    ; fallthrough
+NMI_ProcessCommands:
+    ;get command byte
     lda nmi_queue, y
-    ;if byte == 0, branch
-    beq @B31_17e3
-    ;else if byte.7, branch
-    bmi @B31_17dc
-    ;else
-    ;x = a << 1
+    ;if byte == 0, that's the "end" command. Stop running commands
+    beq @end_of_queue
+    ;else if byte.7, defer the rest of the commands till next time
+    bmi @end_of_this_frames_commands
+    ;otherwise, it's a command byte. index NMI_Commands and jump to the appropriate case,
+    ;by pushing the address on the stack and "returning" to it
     asl a
     tax
-    ;jmp to pointer
     lda NMI_Commands+1, x
     pha
     lda NMI_Commands, x
     pha
     rts
 
-    @B31_17dc:
+@end_of_this_frames_commands:
+    ;mask off the MSB so we can continue with this command next frame
     and #$7f
     sta nmi_queue, y
-    bne B31_17e5
-    @B31_17e3:
+    bne NMI_Schedule_IRQs
+@end_of_queue:
+    ; Clear nmi_flags to 0 if we hit a 00 command
     sta nmi_flags
-B31_17e5:
+NMI_Schedule_IRQs:
     ldx irq_count
-    beq @B31_1827
+    beq @no_irq
+    ; Temporarily set the IRQ counter to 255 scanlines from now, so that it won't fire
     lda #$ff
     sta IRQLATCH
-    sta IRQRELOAD ; Interrupt at scanline 255?
+    sta IRQRELOAD
+    ; Manually clock the PPU address bits that the MMC3 checks for its scanline counter, to reset it...?
+    ; In the *middle* of vblank? After we potentially ran a variable amount of PPU copying code? Why??
+    ; The nesdev wiki suggests that this sort of thing is more suitable for a reset vector to have...
     lda #$00
     sta PPUADDR
-    sta PPUADDR ; PPUADDR = 0x0000
+    sta PPUADDR
     lda #$10
     sta PPUADDR
-    sta PPUADDR ; PPUADDR = 0x1010
+    sta PPUADDR
     lda #$00
     sta PPUADDR
-    sta PPUADDR ; PPUADDR = 0x0000
+    sta PPUADDR
     lda #$10
     sta PPUADDR
-    sta PPUADDR ; PPUADDR = 0x1010
+    sta PPUADDR
     lda #$00
     sta PPUADDR
-    sta PPUADDR  ; PPUADDR = 0x0000
+    sta PPUADDR
+    ; irq_count is the number of scanlines from now that the first IRQ should fire
+    ; (where "now" means the end of the current scanline)
     stx IRQLATCH
-    stx IRQRELOAD ; Interrupt at scanline [$EC]?
-    stx IRQENABLE ; Enable IRQ
+    stx IRQRELOAD
+    ; Enable IRQs on the cartridge side
+    stx IRQENABLE
+    ; update RAM mirror of the IRQ latch value
     stx irq_latch
+    ; reset the IRQ handler to the beginning of irq_pointers again
     sta irq_index
+    ; allow the CPU to respond to interrupt requests
     cli
-    @B31_1827:
-    ;set ppuscroll
+@no_irq:
+    ;set PPUSCROLL
     lda scroll_x
     ldx scroll_y
     sta PPUSCROLL
     stx PPUSCROLL
 
-    ;set ppuctrl and ppumask
+    ;set PPUCTRL and PPUMASK
     lda ram_PPUCTRL
     ldx ram_PPUMASK
     sta PPUCTRL
     stx PPUMASK
 
+    ; commit current nmi_queue index
     sty nmi_data_offset
 
-    ;skip next nmi
-    lda #NMI_MODE::SKIP
+    ;make sure that another NMI can't occur while we're doing everything below this point
+    lda #NMI_MODE::RUNNING
     sta nmi_mode
 
-    ;push current cpu state for switching
+    ;push current bank switching state and PRG banks
     lda bankswitch_mode
     pha
-    lda current_banks+6
+    lda current_banks+BANK::PRG8000
     pha
-    lda current_banks+7
+    lda current_banks+BANK::PRGA000
     pha
-    .ifndef VER_JP
+.ifndef VER_JP
+    ; in the US version, do the melody effect if necessary
     lda melody_timer
-    beq @B31_185f
+    beq @skip_melody_lines
+    ; Every 2 frames, in an 8-frame loop, change the first two small CHR banks (for backgrounds) to banks $47/$46/$45/$44
     lsr a
     and #$03
     ora #$44
@@ -10832,49 +10844,54 @@ B31_17e5:
     ldx #BANK::CHR1400
     jsr BANK_SWAP
 
+    ; decrement timer
     dec melody_timer
-    @B31_185f:
-    .endif
+@skip_melody_lines:
+.endif
     ;do music tick
     jsr BankswitchMusic
     jsr Music_Tick
 
-    ;if oam_and_300_clear_flag.7, branch
+    ;if oam_and_300_clear_flag.7 == 0...
     lda oam_and_300_clear_flag
     bmi @B31_188a
-    ;else
 
     ;UNK_E1 = UNK_E7 & 0x3F
     lda UNK_E7
     and #$3f
     sta UNK_E1
 
-    ;if UNK_E0, branch
+    ;if UNK_E0 == 0, handle sprite flickering
     lda UNK_E0
     bne @B31_1879
 
     jsr B31_1c96
     jmp @B31_188a
 
-    @B31_1879:
-    clc
+@B31_1879:
+    ; otherwise, if UNK_E0 is nonzero and if oam_and_300_clear_flag.7 == 1...
 
-    ;if UNK_E1 - UNK_E0 sets carry, branch
-    ;this (probably) usually results in UNK_E0 -= 1
+    ; if UNK_E1 - UNK_E0 - 1 >= 0, then
+    ;     UNK_E1 = UNK_E0 - 1
+    ;     UNK_E0 = 0
+    ; else
+    ;     UNK_E0 = (UNK_E1 - UNK_E0 - 1), and UNK_E1 is unchanged
+    clc
     sbc UNK_E1
     bcs @B31_1885
-    ;else
-    ;UNK_E1 = UNK_E0 - 1
     ldx UNK_E0
     dex
     stx UNK_E1
     lda #0
-    @B31_1885:
-    ;UNK_E0 = result
+@B31_1885:
     sta UNK_E0
-    jsr SpriteObjectsToOam
-    @B31_188a:
 
+    ; Then, after setting UNK_E0 and UNK_E1 properly,
+    ; render out the sprites
+    jsr SpriteObjectsToOam
+
+@B31_188a:
+    ; restore PRG banks and mapper state
     pla
     ldx #BANK::PRGA000
     jsr BANK_SWAP
@@ -10887,6 +10904,7 @@ B31_17e5:
     sta bankswitch_mode
     ora bankswitch_flags
     sta BANKSELECT
+
     jsr ReadPads
     lda pad1_press
     ora pad1_forced
@@ -10894,14 +10912,15 @@ B31_17e5:
     lda pad2_press
     ora pad2_forced
     sta pad2_forced
-    jsr IncrementFramecounter
 
-    lda UNK_D7
+    jsr TickDadCallTimer
+
+    lda post_nmi_callback
     beq @dont_jsr
-    jsr UNK_D7
-    @dont_jsr:
-
-    lda #0
+    jsr post_nmi_callback
+@dont_jsr:
+    ; Allow NMI to run again without returning, and unblock any WaitNMI loops
+    lda #NMI_MODE::FINISHED
     sta nmi_mode
 
     pla
@@ -10914,7 +10933,7 @@ B31_17e5:
 ; $F8C1
 ; NMI Lut
 NMI_Commands:
-.addr NMI_Next-1 ; 00
+.addr NMI_ProcessCommands-1 ; 00
 .addr NMI_Nothing-1 ; 01
 .addr NMI_Branch-1 ; 02
 .addr NMI_Goto-1 ; 03
@@ -10936,12 +10955,16 @@ NMI_Nothing:
     ;y++
     iny
     ;bye
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 ; NMI command 2
 ; args : OO (length)
-; does : skips ahead OO bytes
+; does : branches to OO bytes away
 ; Skip OO bytes in buffer (BRANCH)
+; The branch offset is relative to the address of the next command, same as 6502 branch instructions.
+; That means [02 00] is a two-byte no-op.
+; Technically signed offsets probably work, to jump backwards into the NMI queue.
+; Though I don't know if that's *useful*, necessarily...
 NMI_Branch:
     ;y++
     iny
@@ -10951,12 +10974,13 @@ NMI_Branch:
     adc nmi_queue, y
     tay
     ;bye
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 ; NMI command 3
 ; args : AA (addr)
 ; does : moves to nmi_queue[AA]
 ; Go to address AA in buffer (GOTO)
+; Differs from command 2 because it's an absolute position in the nmi_queue, instead of a relative offset
 NMI_Goto:
     ;y++
     iny
@@ -10964,28 +10988,30 @@ NMI_Goto:
     lda nmi_queue, y
     tay
     ;bye
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 ; NMI command 4
 ; args : none
 ; does : copies palette_queue into ppu palette
 ; UPDATE_PALETTE
 NMI_UpdatePalette:
-    ;PPUADDR = palette
+    ; PPUADDR = palette
+    ; note that the 00 byte goes in X, initializing the loop counter
     lda #.HIBYTE($3f00)
     ldx #.LOBYTE($3f00)
     sta PPUADDR
     stx PPUADDR
 
-    ;copy palette_queue to ppu
-    @copy:
+    ; copy palette_queue to PPU
+@copy:
     lda palette_queue, x
     sta PPUDATA
     inx
     cpx #$20
     bne @copy
 
-    ;PPUADDR = palette
+    ; PPUADDR = palette
+    ; X is the 00 byte again
     lda #.HIBYTE($3f00)
     ldx #.LOBYTE($3f00)
     sta PPUADDR
@@ -10998,51 +11024,50 @@ NMI_UpdatePalette:
     ;y++
     iny
     ;bye
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 ; NMI command 5
 ; args : bytecount, ppuaddr, BYTES
 ; does : writes an arbitray amount of bytes to ppu
 ; Write MM bytes into PPU address [AA AA]
+; Probably good for writing a partial row of nametable data?
 NMI_PPUWrite:
     jsr NMI_WritePPUBytes
-    ;jump straight back if next is cmd 5
-    ;not technically needed but probably good practice
+    ;optimization: jump straight back if next is also cmd 5 (another row of tilemap data?)
     lda nmi_queue, y
     cmp #NMI_COMMANDS::PPU_WRITE
     beq NMI_PPUWrite
     ;bye
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 ; NMI command 6
 ; args : bytecount, ppuaddr, BYTES
 ; does : writes an arbitray amount of bytes to ppu (but with 32-byte increments)
 ; Same as 05, but with 32-byte address increment
+; Probably good for writing a partial column of nametable data?
 NMI_PPUWrite32:
     ; Increment VRAM address by 32 bytes on read/write
     lda ram_PPUCTRL
     ora #%00000100
     sta PPUCTRL
 
-    @loop:
+@loop:
     jsr NMI_WritePPUBytes
-    ;jump straight back if next is cmd 6
-    ;not technically needed but probably good practice
-    ;(more applicable than command 5 at least)
+    ;optimization: jump straight back if next is cmd 6 (another column of tilemap data?)
     lda nmi_queue, y
     cmp #NMI_COMMANDS::PPU_WRITE_32
     beq @loop
 
-    ;reset ppu control
+    ;revert PPUCTRL to normal
     lda ram_PPUCTRL
     sta PPUCTRL
     ;bye
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 ; NMI command 7
 ; args : loopcount, [ppuaddr, byte]
 ; does : write groups of [ppuaddr, byte] multiple times
-; Write VV into PPU address [AA AA]. Repeat process CC times (PPU_WRITE)
+; Write (loopcount) different individual bytes to (loopcount) different individual PPU addresses
 NMI_PPUWriteAddrs:
     ;y++
     iny
@@ -11050,7 +11075,7 @@ NMI_PPUWriteAddrs:
     ldx nmi_queue, y
     iny
 
-    @loop:
+@loop:
     ;PPUADDR = nmi_queue[y]++, ++
     lda nmi_queue, y
     sta PPUADDR
@@ -11065,8 +11090,9 @@ NMI_PPUWriteAddrs:
 
     dex
     bne @loop
+
     ;bye
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 ; NMI command 8
 ; args : bytecount, ppuaddr, byte
@@ -11090,18 +11116,18 @@ NMI_PPUWriteByte:
     ;a = nmi_queue[y]++
     lda nmi_queue, y
     iny
-    @loop:
+@loop:
     ;PPUDATA = a
     sta PPUDATA
     dex
     bne @loop
 
     ;bye
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 ; NMI command 9
-; args : bytecount, ppuaddr
-; does : reads an arbitrary amount of bytes from ppuaddr, writes to after this command
+; args : bytecount, ppuaddr, [buffer of bytecount bytes]
+; does : reads an arbitrary amount of bytes from ppuaddr, writes to a buffer stored after this command
 ; PPU_READ
 NMI_PPURead:
     ;y++
@@ -11118,13 +11144,13 @@ NMI_PPURead:
     iny
 
     lda PPUDATA
-    @loop:
+@loop:
     lda PPUDATA
     sta nmi_queue, y
     iny
     dex
     bne @loop
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 .ifndef VER_JP
 ; NMI command A
@@ -11136,9 +11162,9 @@ NMI_PPUReadText:
     lda bankswitch_mode
     pha
     ;stash current tileset chr banks
-    lda current_banks+4
+    lda current_banks+BANK::CHR1800
     pha
-    lda current_banks+5
+    lda current_banks+BANK::CHR1C00
     pha
     iny
 
@@ -11164,7 +11190,7 @@ NMI_PPUReadText:
     ;text_data_buffer[x] = PPUDATA
     lda PPUDATA
     ldx #0
-    @write:
+@write:
     lda PPUDATA
     sta text_data_buffer, x
     inx
@@ -11185,20 +11211,18 @@ NMI_PPUReadText:
     ora bankswitch_flags
     sta BANKSELECT
 
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 .endif
 
-;;this could work without all of the bit manip.
-;;besides, this is effectively a loop over x but they skip
-;;the first 3 bits for some reason. ok man
-;;is this optimized for cycles? surely not, right?
-.define byte_count UNK_C0+3
+; Writes bytes from the NMI queue to PPU memory, according to the current PPUCTRL setting.
+; The loop is unrolled, apparently in an attempt to improve performance.
+; TODO: count cycles
+.define ppu_byte_count UNK_C0+3
 NMI_WritePPUBytes:
-    ;byte_count = nmi_queue[y]++
-    ;bytecount
+    ;ppu_byte_count = nmi_queue[y]++
     iny
     ldx nmi_queue, y
-    stx byte_count
+    stx ppu_byte_count
 
     ;PPUADDR = nmi_queue[y]++, ++
     iny
@@ -11208,40 +11232,40 @@ NMI_WritePPUBytes:
     lda nmi_queue, y
     sta PPUADDR
 
-    ;if bytecount.0, copy one byte to ppudata
+    ;if ppu_byte_count.0, copy one byte to PPUDATA
     iny
-    lsr byte_count
+    lsr ppu_byte_count
     bcc @one_byte
     lda nmi_queue, y
     sta PPUDATA
     iny
-    @one_byte:
+@one_byte:
 
-    ;if bytecount.1, copy two bytes to ppudata
-    lsr byte_count
+    ;if ppu_byte_count.1, copy two bytes to PPUDATA
+    lsr ppu_byte_count
     bcc @two_bytes
     .repeat 2
         lda nmi_queue, y
         sta PPUDATA
         iny
     .endrepeat
-    @two_bytes:
+@two_bytes:
 
-    ;if bytecount.2, copy four bytes to ppudata
-    lsr byte_count
+    ;if ppu_byte_count.2, copy four bytes to PPUDATA
+    lsr ppu_byte_count
     bcc @four_bytes
     .repeat 4
         lda nmi_queue, y
         sta PPUDATA
         iny
     .endrepeat
-    @four_bytes:
+@four_bytes:
 
-    ;if bytecount == 0, exit
-    ldx byte_count
+    ;if ppu_byte_count == 0, exit
+    ldx ppu_byte_count
     beq @exit
-    ;else, write 8 bytes per
-    @loop:
+    ;else, write 8 bytes per loop
+@loop:
     .repeat 8
         lda nmi_queue, y
         sta PPUDATA
@@ -11250,8 +11274,9 @@ NMI_WritePPUBytes:
     dex
     bne @loop
 
-    @exit:
+@exit:
     rts
+.undef ppu_byte_count
 
 .define tile_count UNK_C0
 .define temp_oamslot UNK_C0+1
@@ -11288,7 +11313,7 @@ SpriteObjectsToOam:
     bit UNK_E7
     bvc @B31_1ab8
     ldy #0
-    @B31_1a96:
+@B31_1a96:
     clc
     lda (shift_x), y
     adc UNK_CE
@@ -11311,7 +11336,7 @@ SpriteObjectsToOam:
     jmp @B31_1ac9
 
     ;loop until x < 0
-    @B31_1ab8:
+@B31_1ab8:
     ;UNK_CE += shift_x
     clc
     lda shift_x
@@ -11327,7 +11352,7 @@ SpriteObjectsToOam:
     dex
     bpl @B31_1ab8
 
-    @B31_1ac9:
+@B31_1ac9:
     ;if UNK_CE.7, branch
     clc
     lda UNK_CE
@@ -11339,21 +11364,19 @@ SpriteObjectsToOam:
     ;if no carry, skip all
     bcc @no_scrolly_carry
     bcs @scrolly_carry
-    @msb_UNK_CE:
+
+@msb_UNK_CE:
     ;scroll_x += UNK_CE
     adc scroll_x
     sta scroll_x
     bcs @no_scrolly_carry
-    @scrolly_carry:
-
+@scrolly_carry:
     ;flip base nametable addr
     ;ram_PPUCTRL ^= 1
     lda ram_PPUCTRL
     eor #1
     sta ram_PPUCTRL
-
-    @no_scrolly_carry:
-
+@no_scrolly_carry:
     ;if UNK_CF.7, branch
     clc
     lda UNK_CF
@@ -11364,14 +11387,15 @@ SpriteObjectsToOam:
     adc scroll_y
     bcc @no_scrollx_carry
     bcs @scrollx_carry
-    @msb_UNK_CF:
+
+@msb_UNK_CF:
     adc scroll_y
     bcs @scrollx_carry
-    @no_scrollx_carry:
+@no_scrollx_carry:
     ;a += $f0
     ;this makes a reset from the +$10
     adc #-$10
-    @scrollx_carry:
+@scrollx_carry:
     ;scroll_y = a
     sta scroll_y
 
@@ -11452,7 +11476,7 @@ SpriteObjectsToOam:
     sta spritetiles_pointer+1
 
     ldy #0
-    @shake_loop_probably:
+@shake_loop_probably:
     ;wip_velx += spritetiles_pointer[y]
     clc
     lda (spritetiles_pointer), y
@@ -11483,7 +11507,7 @@ SpriteObjectsToOam:
 
     jmp @B31_1b83
 
-    @B31_1b70:
+@B31_1b70:
     ;wip_velx += SPRITE_OBJECTS[y].velx
     clc
     lda SPRITE_OBJECTS+4, y
@@ -11499,7 +11523,7 @@ SpriteObjectsToOam:
     dex
     bpl @B31_1b70
 
-    @B31_1b83:
+@B31_1b83:
     ldx temp_tilecount
 
     ;if wip_velx.7, branch
@@ -11516,7 +11540,7 @@ SpriteObjectsToOam:
     bcc @wip_velx_finish
     ;else, branch
     bcs @wip_velx_carry
-    @msb_wip_velx:
+@msb_wip_velx:
     ;SPRITE_OBJECTS[y].x += wip_velx
     adc SPRITE_OBJECTS+2, y
     sta wip_velx
@@ -11524,13 +11548,13 @@ SpriteObjectsToOam:
 
     ;if carry, branch
     bcs @wip_velx_finish
-    @wip_velx_carry:
+@wip_velx_carry:
     ;SPRITE_OBJECTS[y].tiles ^= $80
     lda SPRITE_OBJECTS, y
     eor #%10000000
     sta SPRITE_OBJECTS, y
 
-    @wip_velx_finish:
+@wip_velx_finish:
 
     ;if wip_vely.7, branch
     clc
@@ -11546,7 +11570,7 @@ SpriteObjectsToOam:
     bcc @wip_vely_finish
     ;else, branch
     bcs @wip_vely_carry
-    @msb_wip_vely:
+@msb_wip_vely:
     ;SPRITE_OBJECTS[y].y += wip_vely
     adc SPRITE_OBJECTS+3, y
     sta wip_vely
@@ -11554,13 +11578,13 @@ SpriteObjectsToOam:
 
     ;if carry, branch
     bcs @wip_vely_finish
-    @wip_vely_carry:
+@wip_vely_carry:
     ;SPRITE_OBJECTS[y].oamslot ^= $80
     lda SPRITE_OBJECTS+1, y
     eor #%10000000
     sta SPRITE_OBJECTS+1, y
 
-    @wip_vely_finish:
+@wip_vely_finish:
 
     ;;;either of these will only be set on carry
     ;;;or whatever the condition is. find out
@@ -11631,17 +11655,17 @@ SpriteObjectsToOam:
     ;else, branch
     bcs @is_offscreen
 
-    @B31_1c1b:
+@B31_1c1b:
     ;if a >= $f9, branch
     cmp #$f9
     bcs @do_normal_spritetile
-    @is_offscreen:
+@is_offscreen:
     iny
     iny
     iny
     jmp @B31_1c58
 
-    @do_normal_spritetile:
+@do_normal_spritetile:
     ;spritetiles_attr = spritetiles_pointer[y]->oam_args
     iny
     lda (spritetiles_pointer), y
@@ -11659,7 +11683,7 @@ SpriteObjectsToOam:
     ;shift args right 2 for spritePointerDef.p2
     lsr a
     lsr a
-    @is_using_palette_1:
+@is_using_palette_1:
     ;;;a's lower two bits is now whatever palette index the sprite is using
     ;;;shift one more (because spriteTile.palette is 2 bits)
     lsr spritetiles_attr
@@ -11669,7 +11693,7 @@ SpriteObjectsToOam:
     lsr a
     lsr a
     lsr a
-    @is_using_palette_3:
+@is_using_palette_3:
     ;;;by now, a is the chosen palette into palette ram
     ;;;and it to isolate
     and #%00000011
@@ -11693,7 +11717,7 @@ SpriteObjectsToOam:
     beq @doesnt_have_attr
     ;a = spritedef_pointer->ppu_offset
     lda spritedef_ppu_offset
-    @doesnt_have_attr:
+@doesnt_have_attr:
     ;shadow_oam[x].tile a + spritetiles_pointer[y].tile_index
     adc (spritetiles_pointer), y
     sta shadow_oam+1, x
@@ -11734,14 +11758,14 @@ SpriteObjectsToOam:
     ;else
     jmp @WriteSPRObjectsToOam
 
-    @B31_1c6e:
+@B31_1c6e:
     adc current_sprite
     sta current_sprite
     cmp UNK_E3
     bcc ClearOam
     jmp @WriteSPRObjectsToOam
 
-    @B31_1c79:
+@B31_1c79:
     stx UNK_E4
     ;if oam_and_300_clear_flag & 0x20, exit
     lda oam_and_300_clear_flag
@@ -11753,7 +11777,7 @@ SpriteObjectsToOam:
     lda #$f8
     sta current_sprite
     sta adder
-    @exit:
+@exit:
     jmp @WriteSPRObjectsToOam
 
 ClearOam:
@@ -11778,10 +11802,10 @@ B31_1c96:
 
     ldy #$fc
     ldx UNK_E4
-    bne B31_1ce7
+    bne @reverse_oam_loop_condition
     rts
-
-B31_1ca3:
+@reverse_oam_loop:
+    ; swap first byte and increment
     lda shadow_oam, x
     pha
     lda shadow_oam, y
@@ -11790,6 +11814,7 @@ B31_1ca3:
     sta shadow_oam, y
     inx
     iny
+    ; swap second byte and increment
     lda shadow_oam, x
     pha
     lda shadow_oam, y
@@ -11798,6 +11823,7 @@ B31_1ca3:
     sta shadow_oam, y
     inx
     iny
+    ; swap third byte and increment
     lda shadow_oam, x
     pha
     lda shadow_oam, y
@@ -11806,21 +11832,23 @@ B31_1ca3:
     sta shadow_oam, y
     inx
     iny
+    ; swap fourth byte
     lda shadow_oam, x
     pha
     lda shadow_oam, y
     sta shadow_oam, x
     pla
     sta shadow_oam, y
+    ; increment X to the next OAM entry, move Y back to the previous OAM entry
     inx
     tya
     sec
     sbc #7
     tay
-B31_1ce7:
+@reverse_oam_loop_condition:
     sty tile_count
     cpx tile_count
-    bcc B31_1ca3
+    bcc @reverse_oam_loop
     rts
 
 ;Sets up hardware stuff
@@ -11897,9 +11925,10 @@ WaitXFrames_Min1:
 
 ; waits for NMI interrupt to complete
 WaitNMI:
-    lda #1
+    lda #NMI_MODE::WAITING_FOR_NMI
     sta nmi_mode
-    @loop:
+    ; loop while not equal to NMI_MODE::FINISHED
+@loop:
     lda nmi_mode
     bne @loop
     rts
@@ -11985,9 +12014,9 @@ ClearTilemaps:
     sta nmi_queue+4
     sta nmi_queue+5
 
-    @loop:
+@loop:
     ldx #0
-    lda #NMI_MODE::SKIP
+    lda #$80
     stx nmi_data_offset
     sta nmi_flags
 
@@ -12083,7 +12112,8 @@ TempUpperBankswitch:
     tsx
 
     ;swap the stacked bank and the low current prg bank
-    lda current_banks+7
+    ;we've pushed 5 bytes to the stack, so add 5 back to the address of the stack page
+    lda current_banks+BANK::PRGA000
     ldy UNK_100+5, x
     sta UNK_100+5, x
     tya
@@ -12100,6 +12130,7 @@ TempUpperBankswitch:
 .endif
 
 IrqHandler:
+    ; save registers and mapper state
     pha
     txa
     pha
@@ -12107,19 +12138,28 @@ IrqHandler:
     pha
     lda bankswitch_mode
     pha
-    jsr GotoIRQPointer ; Handle IRQ
+
+    ; call the handler for the current IRQ
+    jsr GotoIRQPointer
+
+    ; restore mapper state
     pla
     ora bankswitch_flags
     sta BANKSELECT
+
+    ; advance irq_index to refer to the next IRQ handler in the list
     ldx irq_index
     inx
     inx
     stx irq_index
+
+    ; if there are no more IRQ handlers set up to run, disable them for the rest of the frame
     lda irq_pointers+1, x
     bne @B31_1e34
+    ; A = 0 right now
     sta IRQDISABLE ; Disable IRQ
     sta irq_latch
-    @B31_1e34:
+@B31_1e34:
     pla
     tay
     pla
@@ -12129,17 +12169,20 @@ IrqHandler:
 
 ;self explanatory
 GotoIRQPointer:
-    sta IRQDISABLE ; Disable IRQ
+    ; acknowledge the IRQ, and disable further IRQs so that we only run this IRQ once
+    sta IRQDISABLE
 
+    ; push the pointer to the IRQ handler onto the stack
     ldx irq_index
     lda irq_pointers+1, x
     pha
     lda irq_pointers, x
     pha
 
-    sta IRQENABLE ; Enable IRQ
+    ; re-enable IRQs
+    sta IRQENABLE
 
-    ;bye bye
+    ;jump to the IRQ handler
     rts
 
 ReadPads:
@@ -12150,75 +12193,87 @@ ReadPads:
     ;like an array
     ldx #1
 
-    @loop:
+@loop:
     sec
-    @B31_1e4e:
+@poll_controller:
     php
 
     ;start poll
     lda #1
     sta JOY1
-
     ;clear poll
     lda #0
     sta JOY1
 
+    ; read 8 bits of normal controller input
     ldy #8
-    @B31_1e5b:
+@read_bits:
     lda JOY1, x
+    ; read both from the normal controller port (stored in UNK_C0)
+    ; and the Famicom's expansion ports (stored in UNK_C0+1)
     lsr a
     rol UNK_C0
     lsr a
     rol UNK_C0+1
     dey
-    bne @B31_1e5b
+    bne @read_bits
 
+    ; combine the results
     lda UNK_C0
     ora UNK_C0+1
     plp
 
-    bcc @B31_1e73
+    ; If we've only read the controller port once this frame, store our results
+    ; and read them again to account for potential DPCM conflict
+    bcc @second_read
     sta pad1_press, x
     clc
-    bcc @B31_1e4e
-    @B31_1e73:
+    bcc @poll_controller
+
+@second_read:
     cmp pad1_press, x
-    beq @B31_1e79
+    beq @store_inputs
+    ; If the results are different this time, we ran into a DPCM conflict.
+    ; Throw away these inputs and use the inputs from last frame instead
     lda pad1_hold, x
-    @B31_1e79:
+@store_inputs:
     tay
+    ; Set pad_press[x] to only this frame's newly pressed buttons
     eor pad1_hold, x
     and pad1_press, x
     sta pad1_press, x
+    ; Set pad_hold[x] to this frame's raw inputs
     sty pad1_hold, x
     dex
     bpl @loop
     rts
 
-IncrementFramecounter:
-    ;if pad is pressed, branch
+TickDadCallTimer:
     lda pad1_press
     bne @pad_is_pressed
 
-    ;UNK_D3 < 42, branch
-    lda UNK_D3
+    ; if no buttons are being pressed and dad_call_input_timer >= 42 (meaning
+    ; it's been ~42*256 = 10752 frames, just shy of 3 minutes without inputs),
+    ; return and don't increment anything
+    lda dad_call_input_timer
     cmp #42
     bcc @less_than_42
     rts
 
-    @pad_is_pressed:
+@pad_is_pressed:
+    ;otherwise, if a button is being newly pressed, reset dad_call_input_timer to 0
     lda #0
-    sta UNK_D3
-    @less_than_42:
-
-    inc frame_counter
+    sta dad_call_input_timer
+    ; fallthrough
+@less_than_42:
+    inc dad_call_timer
     bne @exit
-    inc UNK_D3
-    inc frame_counter+1
+    inc dad_call_input_timer
+    inc dad_call_timer+1
     bne @exit
-    inc frame_counter+2
-
-    @exit:
+    inc dad_call_timer+2
+    ; fallthrough
+@exit:
     rts
 
 .segment "VECTORS"
