@@ -20,7 +20,7 @@
 .endif
 
 ;battle ui stuff
-ui_list:
+BattleWindowLUT:
 .addr ui_battlelog
 .addr ui_partybox
 .addr ui_actionbox

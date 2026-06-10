@@ -28,13 +28,6 @@ MUSIC_SING          = $19
 MUSIC_BATTLE_GIEGUE = $2c
 MUSIC_NONE          = $ff
 
-; zeropage ram variables
-; $40 series : battle variables
-battle_endtype              = $47
-    ENDTYPE_RUN             = $1
-    ENDTYPE_DIMENSION_SLIP  = $2
-    ENDTYPE_BLUEROBO_SLIP   = $3
-
 ; .importzp enemy_group     ; $48
 
 ; length 5 ($49 ~ $4D) used to hold battle rewards
@@ -62,8 +55,6 @@ battle_script               = $56
 battle_bytevar57            = $57
 battle_bytevar58            = $58
 is_auto                     = $59
-
-battle_var5a                = $5a
 
 ; Counts turns starting at 255 and decrementing by 1, draws fight at 0
 ; BattleScript 1 (Teddy) sets this value to 3
@@ -264,7 +255,7 @@ BattleMain:
     ldx #.HIBYTE($2bc0)
     ldy #.LOBYTE($2bc0)
     jsr ClearNametableAttribute
-    jsr B31_15e5
+    jsr BTL_REFRESH_PARTY_UI
     lda #0
     sta turn_counter
     lda #$80
@@ -303,7 +294,7 @@ BattleMain:
     inx
     cpx #$08
     bne :-
-    jsr PpuSync
+    jsr PPU_SYNC
     lda #$05
     sta nmi_queue
     lda #$10
@@ -362,7 +353,7 @@ BattleMain:
     sta BATTLER_PLAYER4
 :   stx turn_counter                    ; +
 ; check tank
-    lda is_tank
+    lda vehicle
     beq :++                             ; if not, branch to check giegue script
 ; effects
     ldy #$00                            ; set battle script to 0 (in vanilla, the grey robo fight becomes normal)
@@ -392,22 +383,22 @@ BattleMain:
 ; Turn Input main loop
 BattleTurnInput:
     lda #$00
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     jsr BattleTurnEngine
     bcs @BattleTurnInputExit
     ldx #20
     jsr WaitXFrames
     lda #$07
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     lda #$00
     sta battle_bytevar52
-    jsr B31_0cff
-    jsr B31_1765
+    jsr BTL_SCROLL_DOWN
+    jsr CLR_5A
     jsr SubroutinePlayerTurnInput
-    jsr B31_1760
+    jsr LOCK_5A
     lda #$03
-    jsr B31_14ce
-    jsr B31_0cfc
+    jsr BTL_PRINT_WINDOW
+    jsr BTL_SCROLL_UP
     jmp BattleTurnInput
 
 @BattleTurnInputExit:
@@ -621,7 +612,7 @@ B23_028a:
     sta battle_wordvar66
     ldy #$02
     B23_0339:
-    jsr PpuSync
+    jsr PPU_SYNC
     ldx #$00
     lda #$05
     sta nmi_queue, x ; TODO: NMI command
@@ -706,7 +697,7 @@ B23_028a:
 
 ; Fill 64 bytes at PPU address in YX with 0xFF
 ClearNametableAttribute:
-    jsr PpuSync
+    jsr PPU_SYNC
     stx nmi_queue+2
     sty nmi_queue+3
     lda #$08
@@ -807,17 +798,17 @@ DisplayText_battle:
     jsr B23_04bf
     ldx #$5e
     jsr B23_04bf
-    jsr PpuSync
+    jsr PPU_SYNC
     lda #$06
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     jsr BANKSWAP_L00
     ldx #$94
     jsr B23_04bf
     ldx #$5e
     jsr B23_04bf
-    jsr PpuSync
+    jsr PPU_SYNC
     lda #$05
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     jsr BANKSWAP_L00
     .else
     jsr GetTextData
@@ -891,7 +882,7 @@ B23_0479:
     lda #$05
     .endif
     sta $76
-    jsr PpuSync
+    jsr PPU_SYNC
     lda battle_bytevar50
     sta $74
     lda battle_bytevar51
@@ -903,7 +894,7 @@ B23_0479:
     .endif
     jsr PRINT_STRING    ; PrintLine
     lda #$01
-    jsr B30_07af
+    jsr SHIFT_TILES_FOR_SCROLL
     lda $72
     B23_04ba:
     rts
@@ -926,7 +917,7 @@ B23_04cc:
     pla
     tax
 B23_04d6:
-    jsr PpuSync
+    jsr PPU_SYNC
     stx nmi_data_offset
 
     lda #NMI_MODE::SKIP
@@ -1517,7 +1508,7 @@ UpdatePlayerinputMainMenu:
     bpl :+
     .endif
     lda #$13
-:   jsr B31_14ce
+:   jsr BTL_PRINT_WINDOW
     jsr SelectionMenuCheckScenario
     jsr JMPTable
 
@@ -1546,7 +1537,7 @@ SelectFight:
 :   jmp SelectRTS
 
 SelectAuto:
-    jsr PpuSync
+    jsr PPU_SYNC
     lda #$01
     sta is_auto
     lda #.LOBYTE(SPRITEDEF_AUTOBATTLER)
@@ -1640,7 +1631,7 @@ SelectCheck:
     sta target_offset
     jsr B23_0991
     bcs :+
-    ldx menucursor_pos
+    ldx menu_cursorindex
     lda bytevar_0591, x
     tax
     dex
@@ -1719,12 +1710,12 @@ SelectionMenuCheckScenario:
     ldy #.HIBYTE(battle_commands_choicer)
     stx $80
     sty $81
-    jsr B31_0f3f
+    jsr DO_GENERIC_CHOICER
     bit $83
     bvs @exit
     lda #$09
     jsr B23_0945
-    lda menucursor_pos
+    lda menu_cursorindex
     rts
     @exit:
     lda #$08
@@ -1732,13 +1723,13 @@ SelectionMenuCheckScenario:
 
 B23_0945:
     sta battle_wordvar60
-    lda menucursor_pos
+    lda menu_cursorindex
     lsr a
     asl a
     clc
     adc $77
     sta $77
-    lda menucursor_pos
+    lda menu_cursorindex
     and #$01
     beq B23_095d
     clc
@@ -1747,7 +1738,7 @@ B23_0945:
     sta $76
     B23_095d:
     lda #$0d
-    jmp B31_14ce
+    jmp BTL_PRINT_WINDOW
     B23_0962:
     jsr TargetingFromActionID
     ;if targeting == 0, jump
@@ -1765,7 +1756,7 @@ B23_0945:
     sta target_offset
     jsr B23_0991
     bcs B23_098f
-    ldx menucursor_pos
+    ldx menu_cursorindex
     lda bytevar_0591, x
     tax
     dex
@@ -1782,7 +1773,7 @@ B23_0945:
 
 B23_0991:
     lda #$0b
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     jsr B23_09b3
 
     lda #.LOBYTE(battle_whichenemy_choicer)
@@ -1796,7 +1787,7 @@ B23_0991:
     jmp B23_0991
 
 B23_09ad:
-    lda menucursor_pos
+    lda menu_cursorindex
     clc
     rts
     B23_09b1:
@@ -1837,7 +1828,7 @@ B23_09b3:
     pha
     jsr B23_04bb
     lda #$0c
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     inc $77
     pla
     tax
@@ -1856,14 +1847,14 @@ B23_09b3:
 
 B23_0a08:
     lda #$0e
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     jsr B23_0a67
     jsr B23_0ae9
     bcs B23_0a65
     ldy attacker_offset
-    lda menucursor_pos
+    lda menu_cursorindex
     sta BATTLER_TEMP_VARS, y
-    ldy menucursor_pos
+    ldy menu_cursorindex
     lda (ptr_chara), y
     jsr GetItemPointer
     ldy attacker_offset
@@ -1897,7 +1888,7 @@ B23_0a43:
     ldx #$11
     B23_0a5e:
     txa
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     jsr WaitABPressed
     B23_0a65:
     sec
@@ -1930,7 +1921,7 @@ B23_0a67:
     lda (battle_wordvar62), y
     sta $058a
     lda #$0f
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     B23_0a9c:
     pla
     tay
@@ -1994,7 +1985,7 @@ B23_0ae9:
     sta $84
     lda $5d
     sta $85
-    jsr B31_0f3f
+    jsr DO_GENERIC_CHOICER
     bit $83
     bvs B23_0b0e
     bmi B23_0b05
@@ -2002,7 +1993,7 @@ B23_0ae9:
     B23_0b05:
     lda #$0c
     jsr B23_0945
-    lda menucursor_pos
+    lda menu_cursorindex
     clc
     rts
     B23_0b0e:
@@ -2017,9 +2008,9 @@ BtlOpenPSIMenu:
     tya
     pha
     lda #$0e
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     lda #$12
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     jsr LoadandDoPSIMenu
     jsr BtlDoPSIPageChoicer
     pla
@@ -2034,9 +2025,9 @@ BtlOpenPSIMenu:
     beq BtlOpenPSIMenu
     bne B23_0b12
     B23_0b39:
-    ldy menucursor_pos
+    ldy menu_cursorindex
     lda BATTLER_1BASED, y
-    jsr GetPsiDataPointer
+    jsr GET_PSI_TABLEPTR
     jsr BANKSWAP_L00
     ldy #$05
     lda (battle_wordvar62), y
@@ -2050,7 +2041,7 @@ BtlOpenPSIMenu:
 
 B23_0b57:
     lda #$10
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     jsr WaitABPressed
     B23_0b5f:
     sec
@@ -2093,7 +2084,7 @@ B23_0b86:
     sta $77
     lda BATTLER_1BASED, y
     beq B23_0bba
-    jsr GetPsiDataPointer
+    jsr GET_PSI_TABLEPTR
     jsr BANKSWAP_L00
     lda #$04
     sta $0588
@@ -2104,7 +2095,7 @@ B23_0b86:
     lda (battle_wordvar62), y
     sta $058a
     lda #$0f
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     B23_0bba:
     pla
     tay
@@ -2154,7 +2145,7 @@ B23_0be6:
 ; assumed
 DrawSelectionMenu:
     lda #$0a
-    jsr B31_14ce
+    jsr BTL_PRINT_WINDOW
     jsr B23_04bb
 
     jsr BANKSWAP_L00
@@ -2357,7 +2348,7 @@ DoBattlerTurn:
     and #~SLEEP
     sta BATTLER_STATUS, y
     sty target_offset
-    jsr B31_15e5
+    jsr BTL_REFRESH_PARTY_UI
     lda #$8e                    ; battler wakes up msg
     jmp DisplayText_battle2
 
@@ -2991,7 +2982,7 @@ DepletePower:
     ldy #.HIBYTE(DepleteAttackerPP-1)
     jsr TempUpperBankswitch
     .endif
-    jmp B31_15e5
+    jmp BTL_REFRESH_PARTY_UI
 
 ; Honestly completely useless and even negative, since there is logic in the battler turn routine to make them do nothing if they are deadge.
 ; The only effect this has is making group hitting moves stop hitting the player if the enemy died while using it. The only way this happens is from the enemy hitting a Barrier.
@@ -3023,7 +3014,7 @@ BINSTCONDITION6_NOT_TARGET_ALIVE:
 ; Certain status conditions prevent dodging alltogether.
 ; The tank being active also prevents dodging, which is good for you since the tank script sets Barrier on the whole party.
 BINSTCONDITION1_DODGED:
-    lda is_tank
+    lda vehicle
     bne @DodgeFalse
     ldy target_offset
     lda BATTLER_STATUS, y
@@ -3080,7 +3071,7 @@ BINSTCONDITION3_BLIND_MISS:
 BINSTCONDITION4_NOT_USING_TANK:
     lda attacker_offset
     bmi :+                      ; enemies can never have tank
-    lda is_tank                 ; check is_tank to see if set
+    lda vehicle                 ; check vehicle to see if set
     beq :+
     clc                         ; tank is active
     rts
@@ -3715,7 +3706,7 @@ KillPlayerEffect:
     lda #SFX_Unconned
     jsr PlayBattleSFX
     KillTargetReturn:
-    jsr B31_15e5
+    jsr BTL_REFRESH_PARTY_UI
     pla
     tay
     rts
@@ -3983,7 +3974,7 @@ DoAnimateEnemyHit:
     jsr PlayBattleSFX
     ldy target_offset
     jsr LoadEnemyLetterExtrabits
-    jsr PpuSync
+    jsr PPU_SYNC
     ldx battle_wordvar60
 :   txa                             ; animate loop start
     pha
@@ -4103,7 +4094,7 @@ DoAnimatePlayerHit:
     sty battle_wordvar60+1
     lda #$10
     jsr PlayBattleSFX
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;battle_wordvar62 = loop
     ldy #0
@@ -4239,7 +4230,7 @@ PlayersWinRoutine:
     ora BATTLER_ENEMY4
     bne SetCarryIsBSCRIPTTeddy         ; branch when enemies are still alive
 
-    lda is_tank
+    lda vehicle
     beq :+
     ; Print Tank Deadge msg
     ; funnily enough, the tank dies even if it never gets hit or used. it always dies immediately after the 1st fight since it always blows up at battle conclusion if active
@@ -4450,7 +4441,7 @@ BINST4_0F_Recoil:
     bcc :+
     ora BATTLER_CURR_HP, y
     beq :+
-    jmp B31_15e5
+    jmp BTL_REFRESH_PARTY_UI
 :   jmp DeathActionInterpreter
 
 ; Runs the damage routine
@@ -4587,7 +4578,7 @@ DoDamage:
 ; continue
 :   pla
     sta target_offset
-    jmp B31_15e5
+    jmp BTL_REFRESH_PARTY_UI
 @DeathEffect:
     jsr DeathActionInterpreter
     pla
@@ -5115,7 +5106,7 @@ PlaySFX_X_PrintText_A:
     txa
     beq :+
     jsr PlayBattleSFX
-:   jsr B31_15e5
+:   jsr BTL_REFRESH_PARTY_UI
     pla
     jmp DisplayText_battle
 
@@ -5460,7 +5451,7 @@ StatResistingRoutine:
     lda #$00
     sta battle_wordvar60
     sta battle_wordvar62
-    jsr B31_113d
+    jsr DIV24x8
     jsr RNG_BYTE
     cmp battle_wordvar60
     rts

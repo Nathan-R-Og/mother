@@ -54,7 +54,7 @@ cash_box_top:
 .byte uibox_br
 .byte newLine
 
-window_unk:
+window_variablepartybuffer:
 .byte goto party_menu_buffer_goto_1
 
 ;stat bar top
@@ -502,7 +502,7 @@ cash_box_top:
 .byte uibox_br
 .byte newLine
 
-window_unk:
+window_variablepartybuffer:
 .byte goto party_menu_buffer_goto_1
 
 ;stat bar top

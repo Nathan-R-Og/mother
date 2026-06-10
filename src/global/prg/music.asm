@@ -626,8 +626,8 @@ InsertLauraPreMelodyTweeting:
     bne @exit
     jsr B28_0299
     sta soundqueue_track
-    lda #PulseG0_Laura
-    sta soundqueue_pulseg0
+    lda #pulsesfx::laura
+    sta soundqueue_pulse
     @exit:
     rts
 .endif
@@ -1256,7 +1256,7 @@ B28_065a:
 
 PulseGroup0SFX_Unk0E_SetUp:
     lda soundactive_pulseg0
-    cmp #PulseG0_Recovery
+    cmp #pulsesfx::Recovery
     beq B28_066d
     lda #$02
     ldy #<sq1_instrument_textprinting
@@ -1369,7 +1369,7 @@ PulseGroup0SFX_MenuBloop_Continue:
 PulseGroup0SFX_MenuBloop_SetUp:
     .ifndef VER_JP
     lda soundactive_pulseg0
-    cmp #PulseG0_Recovery
+    cmp #pulsesfx::Recovery
     beq B28_070e
     .endif
     lda #$03

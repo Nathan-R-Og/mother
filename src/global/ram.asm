@@ -15,7 +15,8 @@ UNK_9: .res 3
 player_direction: .res 1 ;$C
 UNK_d: .res 1
 fade_type: .res 1 ;$E
-UNK_f: .res 1
+can_enter_doors: .res 1           ; $0F = Can enter doors (00 = yes, ff when teleporting = no)
+
 map_tileset_1: .res 1 ; $10
 map_tileset_1_lobits: .res 1 ; $11
 map_tileset_2: .res 1 ; $12
@@ -27,13 +28,20 @@ map_meta_nulltilesetchr: .res 1 ; $17
 player_x: .res 2 ; $18
 player_y: .res 2 ; $1A
 UNK_1c: .res 3
-UNK_1F: .res 1 ; $1F -> 1 when run button is held?
+overworld_ticking_speed: .res 1 ; 1 when running, also used by teleporting subroutine
+
 fade_flag: .res 1 ; $20
 is_scripted: .res 1 ; $21 -> An object index?
 autowalk_direction: .res 1 ; $22 ; For cutscenes? If bit 4 is set, then walks through other objects
-is_tank: .res 1 ; $23
+vehicle: .res 1 ; $23
+	.enum vehicle
+        foot     = 0
+        generic  = $74      ; tank, plane, boat - enables different collision rules
+        train    = $f0
+        elevator = $f2
+    .endenum
 UNK_24: .res 2 ; $24
-; $25 -> Cutscene flag? Doesn't allow run button and NPCs are frozen
+cutscene_counter = $25 ; $25 -> Cutscene flag? Doesn't allow run button and NPCs are frozen (also used by teleport to count speed changes)
 random_num: .res 2 ; $26
 ; $28 -> Object script character ID
 ; $29 -> Object script item ID
@@ -42,14 +50,14 @@ global_wordvar: .res 2 ; $2A ; Object script 16-bit number
 UNK_2C: .res 4
 object_pointer: .res 2 ; $30 ; Pointer to object_memory
 object_data: .res 2 ; $32 ; Pointer to ROM object data
-UNK_34: .res 1
-; $34 -> Object script interaction type
+UNK_34: .res 1 ; $34 -> Object script interaction type
 object_script_offset: .res 1 ; $35 ; TODO: APPLY ALL LABELS
 UNK_36: .res 1
 UNK_37: .res 1
 UNK_38: .res 2 ;probably a party_info pointer
 UNK_3A: .res 4
 movement_direction: .res 2 ; $3E
+
 UNK_40: .res 1 ; $40 -> CHR bank 2 during IRQ?
 UNK_41: .res 1 ; $41 -> CHR bank 3 during IRQ?
 UNK_42: .res 1 ; $42 -> CHR bank 4 during IRQ? -- ALSO: Another party member? Seems related to $28
@@ -58,28 +66,45 @@ UNK_44: .res 1
 UNK_45: .res 1
 UNK_46: .res 1 ; $46 -> Some scanline for IRQ?
 UNK_47: .res 1
+battle_endtype := UNK_47
+    ENDTYPE_RUN             = $1
+    ENDTYPE_DIMENSION_SLIP  = $2
+    ENDTYPE_BLUEROBO_SLIP   = $3
 enemy_group: .res 1 ; $48
 UNK_49: .res 7
 ; $4E -> Damage (16-bit) -- only during battle?
+
+; in vanilla, only used in battle and naming screen for some bizarre reason
 UNK_50: .res $10
-; $53 -> Attacker offset -- in battles
-; $54 -> Target offset -- in battles
-; $58 -> Move type -- only during battle?
+    ; ptr to text data buffer used for indirect indexed : (zpptr), y : addressing
+    battle_zp_textptr              = $50
+    ; $53 -> Attacker offset -- in battles
+    ; $54 -> Target offset -- in battles
+    ; $58 -> Move type -- only during battle?
+    battle_var5a                := UNK_50 + $a
+
+    ; $5d -> item select??
+
+; current working text and printing ptrs
 UNK_60: .res 2
 UNK_62: .res 2
-UNK_64: .res 2
+UNK_64: .res 1
+zp_frame_counter: .res 1    ; $65
 UNK_66: .res 2
 UNK_68: .res 2
 UNK_6A: .res 2
 UNK_6C: .res 2
 UNK_6E: .res 2
-UNK_70: .res 1
+
+; text engine variables and ptrs
+string_padding_length: .res 1  ; $70 - used w/ char_count to count no. of spaces to pad out text
 UNK_71: .res 1
 UNK_72: .res 1
-UNK_73: .res 1
+UNK_73: .res 1              ; $73 - text id
+text_id := UNK_73
 tilepack_ptr: .res 2        ; $74
-UNK_76: .res 1
-UNK_77: .res 1
+tileprinter_ypos: .res 1    ; $76
+tileprinter_xpos: .res 1    ; $77
 UNK_78: .res 1
 UNK_79: .res 1
 UNK_7A: .res 1
@@ -87,17 +112,19 @@ UNK_7B: .res 1
 UNK_7C: .res 1
 UNK_7D: .res 1
 char_count: .res 1          ; counts chars (not charas...)
-byte_count: .res 1          ; counts bytes (todo: find purpose)
-UNK_80: .res 2
+byte_count: .res 1          ; counts bytes
 
-; Position of menu cursor in whole numbers, incrementing by 1 per step
-menucursor_pos: .res 2 ; $82
-UNK_84: .res 2
-menu_x_pos: .res 1 ; $86 ; X pos in whole numbers
-menu_y_pos: .res 1 ; $87 ; Y pos in whole numbers
+; menu engine variables and ptrs
+menu_indir_jmp_addr: .res 2     ; $80 - short-term indir jmp address storage
+menu_cursorindex: .res 1        ; $82 - 0-based current chooser's cursor pos in whole numbers, incrementing by 1 per step
+menu_controllerinput: .res 1    ; $83 - user's controller input return after a chooser, subject to chooser's valid return bounds
+indir_addr: .res 2              ; $84 ; variable ptr for indirect indexed addressing
+menu_col: .res 1               ; $86 ; X pos (column) in whole numbers
+menu_row: .res 1               ; $87 ; Y pos (row) in whole numbers
 map_tmp_ptr: .res 2
 UNK_8A: .res 2
 UNK_8C: .res 4
+
 UNK_90: .res 4
 UNK_94: .res 1 ; map bank
 UNK_95: .res 1
@@ -106,6 +133,7 @@ UNK_97: .res 1
 UNK_98: .res 3
 UNK_9B: .res 1
 UNK_9C: .res 4
+
 ; $a0 -> Player movement direction?
 UNK_A0: .res 1
 UNK_A1: .res 1
@@ -121,6 +149,7 @@ UNK_AA: .res 2 ;mirror of xpos? object world xpos?
 ; $ac -> Y position for collision detection?
 UNK_AC: .res 2 ;mirror of ypos? object world ypos?
 UNK_AE: .res 2
+
 unk_b0: .res 1 ; $b0
 unk_b1: .res 1 ; $b1
 unk_b2: .res 1 ; $b2
@@ -138,6 +167,7 @@ unk_be: .res 1 ; $be
 unk_bf: .res 1 ; $bf
 ;basically func ram.
 UNK_C0: .res $10
+; on every frame watchers
 frame_counter: .res 3 ; $d0 ; 24 bit
 UNK_D3: .res 1 ; V the frame counter in question
 UNK_D4: .res 1 ; How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the frame counter also stops counting (wtf...?)
@@ -152,6 +182,8 @@ pad1_press: .res 1 ; $dc
 pad2_press: .res 1 ; $dd
 pad1_hold: .res 1 ; $de
 pad2_hold: .res 1 ; $df
+
+; hardware flags
 UNK_E0: .res 1
 UNK_E1: .res 1
 oam_and_300_clear_flag: .res 1 ; $e2 ; Set Bit 7 before Clear OAM & $300 are, Free bit after
@@ -163,6 +195,9 @@ UNK_E7: .res 1
 shift_x: .res 1 ; $e8
 shift_y: .res 1 ; $e9
 nmi_mode: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running NMI handler ;ignores controller input while set
+    .enum NMI_MODE
+        SKIP = 1 << 7
+    .endenum
 irq_latch: .res 1 ; $eb
 irq_count: .res 1 ; $ec ; IRQ Count
 irq_index: .res 1 ; $ed ; IRQ routine index (multiple of 2)
@@ -176,16 +211,16 @@ scroll_x: .res 1 ; $fc
 scroll_y: .res 1 ; $fd
 ram_PPUMASK: .res 1 ; $fe
 ram_PPUCTRL: .res 1 ; $ff
-
-
+; ====================================================================================================
 ; *** RAM DEFINES ***
 .segment        "RAM": absolute
-UNK_100: .res $10
+stack_head: .res $10
 
 ; Zone where text data from CHR is stored to write into PPU
 text_data_buffer: .res $40 ;$0110 ~ $014F
 stack: .res $B0 ; $150
-
+; ====================================================================================================
+; $200 - $2ff : Shadow OAM
 ;format
 ;literally just normal nes oam
 ;y - 0
@@ -193,7 +228,8 @@ stack: .res $B0 ; $150
 ;attr - 2
 ;x - 3
 shadow_oam: .res $100 ; $200
-
+; ====================================================================================================
+; $300 - $3ff : Shadow SpriteDefs
 ;format
 ;76tttttt - t=tiles - 0
 ;oam slot - 1
@@ -201,18 +237,77 @@ shadow_oam: .res $100 ; $200
 ;velx,vely - 4,5 (can also be a shake pointer)
 ;spritedef pointer - 6,7
 SPRITE_OBJECTS: .res $100 ; $300 / SpriteDefs
+shadow_palette = $3f00
 
-;just an array of nmi commands
-nmi_queue: .res $100 ;$400 / nmi queue???
+; ====================================================================================================
+; $400 - $4ff : NMI Queue for renders & text
+; $400 - $404 : Variables
+; $405 - $4FF : Text render, Windows/Menu at head, Text touching tail
+;   (Overworld) : $6d / 109 bytes on nmi tile printing data
+nmi_queue: .res $100
+    ; first 4 bytes are reserved for header
+    nmiheader = nmi_queue
+        nmiheader_command   := nmiheader    ; 00
+            .enum NMI_COMMANDS
+                SKIP = 0
+                NOTHING = 1
+                BRANCH = 2
+                GOTO = 3
+                UPDATE_PALETTE = 4
+                PPU_WRITE = 5
+                PPU_WRITE_32 = 6
+                .ifdef VER_JP
+                    UNK = 7
+                    PPU_WRITE_ADDRS = 8
+                .else
+                PPU_WRITE_ADDRS = 7
+                PPU_WRITE_BYTE = 8
+                .endif
+                PPU_READ = 9
+                .ifndef VER_JP
+                PPU_READ_TEXT = 10
+                .endif
+            .endenum
+        nmiheader_offset    := nmiheader+1  ; 01
+        nmiheader_lineptr   := nmiheader+2  ; 02~03 - ptr to current row's tilepack
+        ; extras sometimes filled in with common controlcodes such as setpos(x, y)
+        nmi_var4 := nmiheader+4
+        nmi_var5 := nmiheader+5
+        ; var6?
 
+    ; first x bytes preserved for single line printing
+
+; text starts as far back as possible to prevent text data getting clobbered by quickprinting lines
+.ifdef VER_JP
+        line_head = $28
+        line_tail = $5e
+    .else
+        line_head = $33
+        line_tail = $5c
+.endif
+    line_qty                = line_tail - line_head
+    scrolling_lines_size    = line_qty * 4
+    scrolling_line_src     := nmi_queue+line_head-1
+    scrolling_line_dst     := nmi_queue+line_tail-1
+
+; ====================================================================================================
+; $500 - $5ff : Palette queue
 palette_queue: .res $20 ;$500 / palette queue???
 palette_backup: .res $20 ;$520 / palette queue backup???
 irq_pointers: .res $40 ; $540 / (-1 because of it uses the RTS trick)
+
+; overworld PSI printing
+; $580 - 587 - 8 entries
+; battle extra variables
+; naming screen
 UNK_580: .res $80
 
 ; ====================================================================================================
-; Length : 0x20 (32) bytes per battler, 8 battlers total
-
+; $600 - $6ff
+; (Overworld) State Menu buffer
+; (Battle) Battler Data Structures
+;    Length : 0x20 (32) bytes per battler, 8 battlers total
+BATTLER_DATASIZE = $20
 .struct battler_struct
     unk_0 .byte
     status .byte
@@ -244,7 +339,6 @@ UNK_580: .res $80
     unk_1f .byte
 .endstruct
 
-BATTLER_DATASIZE = $20
 ; Battler Data Structure (in RAM)
 ; The data starts at $0600, but much of the code uses 1-Based indexing, hence the $0580 entry.
 BATTLER: .tag battler_struct ; should always be 00 for player, EnemyTableID when enemy, FF when enemy deadge
@@ -351,8 +445,9 @@ BATTLER_MINOR_STATUS := BATTLER + battler_struct::m_status ;$600+$1e
     CALLABLE    = %00000001
 
 ; $1F goes unused
-; ====================================================================================================
 
+; ====================================================================================================
+; $700 SPACE - free property ram (most of it unused)
 UNK_700: .res $80
 
 ;actual ram
@@ -471,29 +566,31 @@ Noise_Thunder               = $3
 Noise_Fire                  = $4
 Noise_Crit                  = $5
 Noise_EnemyKilled           = $6
-; $7 not used (plays junk data)
+Noise_7                     = $7
 Noise_Stairs                = $8
 Noise_Rocket                = $9
 Noise_RocketLand            = $A
 ; $1 : pulses group 0
-PulseG0_EnemyAttack         = $1
-PulseG0_Beam                = $2
-PulseG0_StatBoost           = $3
-PulseG0_TakeDamage          = $4
-PulseG0_MenuBloop           = $5
-PulseG0_ItemDropGet         = $6
-PulseG0_Recovery            = $7
-PulseG0_Canary              = $8
-PulseG0_LearnedPSI          = $9
-PulseG0_PlayerAttack        = $a
-PulseG0_Purchase            = $b
-PulseG0_Dodge               = $c
-; PulseG0_LowMenuBloop  = $e (unused)
-; PulseG0_HighMenuBloop = $f (unused)
-PulseG0_Miss                = $f
-PulseG0_MagicantWarp        = $10
-PulseG0_Laura               = $11   ; plays canary then swaps track to 2nd melody (doesnt change track back)
-PulseG0_XXStone             = $12
+.enum pulsesfx
+    EnemyAttack         = $1
+    Beam                = $2
+    StatBoost           = $3
+    TakeDamage          = $4
+    MenuBloop           = $5
+    ItemDropGet         = $6
+    Recovery            = $7
+    Canary              = $8
+    LearnedPSI          = $9
+    PlayerAttack        = $a
+    Purchase            = $b
+    Dodge               = $c
+    menuscroll          = $d
+    TextPrint           = $e
+    miss                = $f
+    magicantwarp        = $10
+    laura               = $11   ; plays canary then swaps track to 2nd melody (doesnt change track back)
+    XXStone             = $12
+.endenum
 ; $2 : unused
 ; $3 : triangle
 Triangle_Freeze             = $1    ; also used for teleport
@@ -521,10 +618,10 @@ Track_Clear                 = $ff
 ;   $5 : Track (changes track on next mainloop)
 soundqueue: ; $07F0
     soundqueue_noise: .res 1
-    soundqueue_pulseg0: .res 1 ; $07F1
+    soundqueue_pulse: .res 1 ; $07F1
     soundactive_unk: .res 1 ; $07F2
     soundqueue_triangle: .res 1 ; $07F3
-    soundqueue_pulseg1: .res 1 ; $07F4
+    soundqueue_doublepulse: .res 1 ; $07F4
     soundqueue_track: .res 1 ; $07F5
 
 UNK_7f6: .res 1
@@ -558,6 +655,9 @@ OVERWORLD_attrbuffer: .res $100 ; $6600
 .ifdef VER_JP
 padding_maybe: .res $80
 .else
+
+; Current Running Save File's Data!
+; $6700 - ?
 party_menu_buffer_main: ;$6700
 party_menu_buffer_goto_1: .res 3
 pmb_pad1: .res 1 ; $6703
@@ -572,6 +672,7 @@ party_member_3_stats: .res $1e ;$674C
 UNK_676A: .res $16
 .endif
 
+; WRAM for running Objects in game!
 object_memory: .res $580 ; $6780
 object_m_type = 0 ;byte
 object_m_area = 1 ;byte
@@ -614,6 +715,9 @@ object_m_playerTouch = $1b ;byte
 object_m_scriptOffset = $1c; byte
 object_m_unk2 = $1d ;3 bytes
 object_m_sizeof = $20
+
+; pseudo-WRAM (SRAM used for WRAM-like purposes)
+; 99% of it is empty!
 
 .ifdef VER_JP
 party_menu_buffer_main:
@@ -735,6 +839,7 @@ Name_Offset                 = $38
 save_file_current: .tag save_file_structure; $7400
 event_flags := save_file_current+save_file_structure::story_flags
 learned_melodies := event_flags+$1e
+sram_flags_761f := $761f
 present_flags := save_file_current+save_file_structure::present_flags
 ;;;; TODO: COUNTERS
 ; Counter 0 -> ???
@@ -755,6 +860,9 @@ fav_food = $7689
 ; $7689 -> Favorite Food name
 
 item_storage = $76B0
+    storage_size = $50 ; holy shit
+
+
 
 save_file_fill: .res $80
 

@@ -11,7 +11,7 @@ Credits_Entry:
     jsr credits_cmd_fade_out
 
     ;wait a frame
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;horizontal tables
     lda #0
@@ -129,7 +129,7 @@ credits_cmd_delay:
 
     ;do ppu syncs until x == 0
     @loop:
-    jsr PpuSync
+    jsr PPU_SYNC
     lda #1
     sta nmi_flags
     dex
@@ -172,7 +172,7 @@ credits_cmd_unk2:
 
 credits_cmd_fade_out:
     jsr OT0_DefaultTransition
-    jsr ClearSprites
+    jsr CLEAR_OAM_SPRITES
     jsr ClearTilemaps
 
     ;set y to after this
@@ -277,7 +277,7 @@ credits_cmd_set_metatileprops:
     lda #$20
     unconditional_funny:
     sta UNK_43
-    jsr PpuSync
+    jsr PPU_SYNC
 
     lda #NMI_COMMANDS::PPU_WRITE
     sta nmi_queue ; TODO: UNKNOWN NMI COMMAND
@@ -331,7 +331,7 @@ credits_cmd_set_metatileprops:
     dec height
     beq @exit
 
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;nmi_queue+2 += UNK_43
     clc
@@ -349,7 +349,7 @@ credits_cmd_set_metatileprops:
 .define ENDING_CMD_07_SETPAL .byte 7
 
 credits_cmd_set_palette:
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;palette size
     ldy #$10
@@ -399,7 +399,7 @@ credits_cmd_set_palette:
 .endmacro
 
 credits_cmd_init_sprite:
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;get next byte (Slot)
     iny
@@ -457,7 +457,7 @@ credits_cmd_init_sprite:
 .endmacro
 
 credits_cmd_move_sprite:
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;get next byte (Slot)
     iny
@@ -557,7 +557,7 @@ credits_cmd_unk8:
 .define ENDING_CMD_10_CLEARSPRITE(arg1) .byte $10, arg1
 
 credits_cmd_clear_sprite:
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;get byte
     iny
@@ -591,12 +591,12 @@ credits_cmd_draw_text:
     sta UNK_73
 
     lda #2
-    sta UNK_76
+    sta tileprinter_ypos
     lda #$13
-    sta UNK_76+1
+    sta tileprinter_ypos+1
 
     lda #$1c
-    sta UNK_70
+    sta string_padding_length
     lda #0
     sta UNK_71
 
@@ -612,7 +612,7 @@ credits_cmd_draw_text:
     bne @loop
 
     @break:
-    jsr PpuSync
+    jsr PPU_SYNC
 
     lda #8
     sta nmi_queue ; PPU_FILL
@@ -641,7 +641,7 @@ credits_cmd_draw_text:
 
     dex
     beq @break2
-    jsr PpuSync
+    jsr PPU_SYNC
 
     clc
 
@@ -675,15 +675,15 @@ credits_cmd_draw_text_xy:
     ;get next byte (x pos)
     iny
     lda (UNK_40), y
-    sta UNK_76
+    sta tileprinter_ypos
 
     ;get next byte (y pos)
     iny
     lda (UNK_40), y
-    sta UNK_76+1
+    sta tileprinter_ypos+1
 
     lda #0
-    sta UNK_70
+    sta string_padding_length
     sta UNK_71
 
     jsr GetTextData

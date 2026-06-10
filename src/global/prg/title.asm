@@ -359,11 +359,11 @@ intro:
     .ifndef VER_JP
     exited_naming_sequence:
     .endif
-    jsr ClearSprites ;clear sprites
+    jsr CLEAR_OAM_SPRITES ;clear sprites
     jsr ClearTilemaps ;clear tilemap 0
     jsr LoadNamingScreen2 ;self explanatory
 
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;load NAMING_SCREEN_1
     .ifdef VER_JP
@@ -396,8 +396,8 @@ intro:
     sta UNK_D6
 
     ;get offset
-    ldy menucursor_pos
-    lda (UNK_84),y
+    ldy menu_cursorindex
+    lda (indir_addr),y
     asl a
     tax
 
@@ -469,7 +469,7 @@ B20X_148c:
     jsr rts_6
     jsr Game_Begin
     jsr B20_14d7
-    jsr B31_0f7c
+    jsr CHOICER_MAINLOOP
     jmp $9437
 .endif
 
@@ -483,9 +483,9 @@ B20_148c:
     asl a
     tax
     jsr B20_150b
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs B20_14bd
-    lda menucursor_pos
+    lda menu_cursorindex
     sta $37
     jsr B20_14c0
     bcs B20_14ab
@@ -510,7 +510,7 @@ B20_148c:
     ldx #$0e
     jsr B20_150b
     clc
-    lda menucursor_pos
+    lda menu_cursorindex
     B20_14d6:
     rts
 
@@ -554,7 +554,7 @@ B20_150e:
     .else
         lda #$ff
     .endif
-    jmp B31_10b0
+    jmp DRAW_TILE_IN_CURSOR_POS
 
 DoWalkingStep:
     ;if any of these are true, exit
@@ -562,7 +562,7 @@ DoWalkingStep:
     ora fade_flag
     ora is_scripted
     ora autowalk_direction
-    ora is_tank
+    ora vehicle
     ora UNK_24+1
     bne @quick_exit
 
@@ -843,7 +843,7 @@ OnStepEffect:
     rts
 
 ;battle start?
-B20_1630:
+PERFORM_BATTLE_INTRO:
     lda enemy_group
     cmp #$a2
     beq B20_1684
@@ -908,7 +908,7 @@ B20_1685:
     bcs @no_carry
     lda #0
     @no_carry:
-    sta UNK_77
+    sta tileprinter_xpos
 
     ;store result
     pha
@@ -916,7 +916,7 @@ B20_1685:
     lda #$f
     sec
     sbc UNK_60+1
-    sta UNK_76
+    sta tileprinter_ypos
 
     jsr B20_16b8
 
@@ -927,20 +927,20 @@ B20_1685:
     bcc @no_carry2
     lda #$1d
     @no_carry2:
-    sta UNK_77
+    sta tileprinter_xpos
 
     jsr B20_16b8
 
     lda #$10
     clc
     adc UNK_60+1
-    sta UNK_76
+    sta tileprinter_ypos
 
     jsr B20_16b8
 
     ;restore result
     pla
-    sta UNK_77
+    sta tileprinter_xpos
 
     B20_16b8:
     ;if nmi_queue+1 < $14, jump
@@ -952,12 +952,12 @@ B20_1685:
     sta nmi_data_offset
     lda #1
     sta nmi_flags
-    jsr PpuSync
+    jsr PPU_SYNC
 
     lda #0
     sta nmi_queue+1
     @not_14:
-    ;UNK_77 and UNK_76 get sent to UNK_78 and UNK_79 respectively
+    ;tileprinter_xpos and tileprinter_ypos get sent to UNK_78 and UNK_79 respectively
     jsr CalculateNTAddr
 
     ;x = (nmi_queue[1] << 1) + nmi_queue[1]
@@ -1012,7 +1012,7 @@ Battle_circle:
 ; $9779 - TODO: Giegue battle intro?
 GiegueIntro:
     lda #$38
-    jsr B31_0e21
+    jsr LIGHTEN_PALETTES_TRANSITION
 
     lda #$05
     jsr GiegueGeneric
@@ -1065,7 +1065,7 @@ GiegueOutro:
 
     ;dimslip sound
     lda #PulseG1_DimensionSlip
-    sta soundqueue_pulseg1
+    sta soundqueue_doublepulse
 
     ;blasting off again!
     lda #.LOBYTE(GiegueCommandOutro3)
@@ -1081,7 +1081,7 @@ GiegueOutro:
 
     ldx #8
     @B20_97e5:
-    jsr PpuSync
+    jsr PPU_SYNC
 
     clc
     lda #$10
@@ -1122,7 +1122,7 @@ GiegueOutro:
 
     jsr B20_198b
     jsr B20_19a3
-    jsr PpuSync
+    jsr PPU_SYNC
     stx $fd
     sty $fc
 
@@ -1143,7 +1143,7 @@ GiegueOutro:
 
     ldx #$38
     @B20_9850:
-    jsr PpuSync
+    jsr PPU_SYNC
     lda #0
     sta SPRITE_OBJECTS,x
     sec
@@ -1341,7 +1341,7 @@ B20_183d:
     rts
 
 B20_1878:
-    jsr PpuSync
+    jsr PPU_SYNC
     ldx $6a
     clc
     lda scroll_x
@@ -1395,7 +1395,7 @@ B20_188d:
     and #$38
     ora #$c0
     sta UNK_64
-    jsr PpuSync
+    jsr PPU_SYNC
     lda #5 ; TODO: UNKNOWN NMI COMMAND
     ldy #$40
     sta nmi_queue
@@ -1453,9 +1453,9 @@ GiegueGeneric:
 
     jsr SetScroll
 
-    jsr ClearSprites
+    jsr CLEAR_OAM_SPRITES
 
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;copy sprite data
     ldx #(8*2)-1
@@ -1783,14 +1783,14 @@ NS_NamingSequence:
 
     .ifdef VER_JP
         lda #4
-        sta UNK_76
+        sta tileprinter_ypos
     .else
         ;store 2,3 for x,y
         lda #2
-        sta UNK_76
+        sta tileprinter_ypos
         lda #3
     .endif
-    sta UNK_76+1
+    sta tileprinter_ypos+1
 
     ;prints each line
     ldx #.LOBYTE(IntroText1)
@@ -1805,13 +1805,13 @@ NS_NamingSequence:
 
     ;store 6,10 for x,y
     lda #6
-    sta UNK_76
+    sta tileprinter_ypos
     .ifdef VER_JP
         lda #14
     .else
         lda #10
     .endif
-    sta UNK_76+1
+    sta tileprinter_ypos+1
 
     ;prints each line
     ldx #.LOBYTE(IntroText2)
@@ -1853,7 +1853,7 @@ NS_ShowRecap:
 
 ;inherits NS_AddCharacterToOam's arguments
 NS_DisplayCharacter:
-    jsr PpuSync
+    jsr PPU_SYNC
     jmp NS_AddCharacterToOam
 
 ;x:a -> tilepack_ptr
@@ -1867,14 +1867,14 @@ NS_FinalChoicer:
     ;process choicer
     lda #.LOBYTE(finalSetup)
     ldx #.HIBYTE(finalSetup)
-    sta UNK_80
-    stx UNK_80+1
+    sta menu_indir_jmp_addr
+    stx menu_indir_jmp_addr+1
 
     ;wait for input
     jsr PRINT_CURR_CHOICER
 
-    ;if menucursor_pos == 0 (Yes), continue
-    lda menucursor_pos
+    ;if menu_cursorindex == 0 (Yes), continue
+    lda menu_cursorindex
     beq @finalize
     ;else (No), return carry flag
     sec
@@ -1902,7 +1902,7 @@ B20_9bab:
     clc
     adc #$0a
     sta $76
-    jsr B31_0f7c
+    jsr CHOICER_MAINLOOP
 B20_9bd0:
     lda $83
     and #$80
@@ -1957,7 +1957,7 @@ B20_9c17:
 
 do_story_print:
     lda #0
-    sta UNK_70
+    sta string_padding_length
 
     stx tilepack_ptr
     sty tilepack_ptr+1
@@ -1970,7 +1970,7 @@ do_story_print:
         jsr WaitXFrames
         pla
     .else
-        dec UNK_77
+        dec tileprinter_xpos
     .endif
     cmp #0
     bne @loop
@@ -2141,8 +2141,8 @@ NS_LoadQuestion:
     ldy NameLength
 
     lda #0
-    ; UNK_70 = 0
-    sta UNK_70
+    ; string_padding_length = 0
+    sta string_padding_length
     ;zero terminate CurrentName
     sta CurrentName+1, y
 
@@ -2186,12 +2186,12 @@ NS_LoadQuestion:
     dey
     bpl @loop
     jsr WriteProtectPRGRam
-    jsr ClearSprites
+    jsr CLEAR_OAM_SPRITES
     clc
     rts
 
 B20_1be8:
-    jsr ClearSprites
+    jsr CLEAR_OAM_SPRITES
     sec
     rts
 
@@ -2230,9 +2230,9 @@ B20_1bf7:
     .else
         lda #9
     .endif
-    sta UNK_76
+    sta tileprinter_ypos
     lda #3
-    sta UNK_76+1
+    sta tileprinter_ypos+1
 
     .ifdef VER_JP
         jmp DrawTilepackClear
@@ -2247,17 +2247,17 @@ B20_1bf7:
 B20_1C1C:
     jsr NS_LoadCursor
 
-    ;load setup pointer to UNK_80
+    ;load setup pointer to menu_indir_jmp_addr
     lda #.LOBYTE(letterSetup)
     ldx #.HIBYTE(letterSetup)
-    sta UNK_80
-    stx UNK_80+1
+    sta menu_indir_jmp_addr
+    stx menu_indir_jmp_addr+1
 
-    ;load alphabet to UNK_84
+    ;load alphabet to indir_addr
     lda #.LOBYTE(NameCharacters)
     ldx #.HIBYTE(NameCharacters)
-    sta UNK_84
-    stx UNK_84+1
+    sta indir_addr
+    stx indir_addr+1
 
     ;UNK_D6 = 1
     lda #1
@@ -2265,21 +2265,21 @@ B20_1C1C:
 
     B20_1C33:
     ;wait for input
-    jsr B31_0f3f
+    jsr DO_GENERIC_CHOICER
 
     jmp B20_1C3f
 
 B20_1C39:
     jsr NS_LoadCursor
-    jsr B31_0f7c
+    jsr CHOICER_MAINLOOP
     B20_1C3f:
     ;if PAD_B, backspace
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs NS_Backspace
     ;if PAD_A, add character
     bmi NS_InputCharacter
     ;if PAD_START, confirm
-    lda menucursor_pos+1
+    lda menu_controllerinput
     and #PAD_START
     bne NAME_CHECK
 
@@ -2287,7 +2287,7 @@ B20_1C39:
     jmp B20_1C33
 
 NS_InputCharacter:
-    ldx menucursor_pos ; cursor (x*width)+y value
+    ldx menu_cursorindex ; cursor (x*width)+y value
     lda NameCharacters, x
     .ifdef VER_JP
         cmp #$c1
@@ -2504,9 +2504,9 @@ B20_1ccf:
 
 NS_LoadCursor:
     ;stash x,y
-    lda UNK_76
+    lda tileprinter_ypos
     pha
-    lda UNK_76+1
+    lda tileprinter_ypos+1
     pha
 
     jsr WaitNMI
@@ -2570,13 +2570,13 @@ NS_LoadCursor:
     tya
 
     ;set x,y to a,10
-    sta UNK_76
+    sta tileprinter_ypos
     .ifdef VER_JP
         lda #3
     .else
         lda #10
     .endif
-    sta UNK_76+1
+    sta tileprinter_ypos+1
 
     ;load tiles at CurrentName
     lda #.LOBYTE(CurrentName)
@@ -2588,16 +2588,16 @@ NS_LoadCursor:
 
     ;load stored x,y
     pla
-    sta UNK_76+1
+    sta tileprinter_ypos+1
     pla
-    sta UNK_76
+    sta tileprinter_ypos
 
     rts
 
 ;transition (dark)
 B20_1d50:
     jsr OT0_DefaultTransition
-    jsr ClearSprites
+    jsr CLEAR_OAM_SPRITES
     jsr ClearTilemaps
 
     ;clear attr
@@ -2607,7 +2607,7 @@ B20_1d50:
 
 ;;; This contains the entire process of the Title Screen.
 Title_Screen:
-    jsr ClearSprites ;clear sprites
+    jsr CLEAR_OAM_SPRITES ;clear sprites
     jsr ClearTilemaps ;clear tilemap 0
 
     ;reset tilemap address back to $2000
@@ -2807,7 +2807,7 @@ load_tilemap_into_queue:
 
     @loop:
     jsr DrawTilepack
-    dec UNK_77
+    dec tileprinter_xpos
     cmp #0
     bne @loop
 

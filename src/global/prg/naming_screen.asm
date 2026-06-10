@@ -50,9 +50,9 @@ ns_load_ui_element:
 
 rts_3:
     lda B25_1885, x
-    sta UNK_80
+    sta menu_indir_jmp_addr
     lda B25_1885+1, x
-    sta UNK_80+1
+    sta menu_indir_jmp_addr+1
     rts
 
 rts_4:
@@ -60,8 +60,8 @@ rts_4:
     sta UNK_D6
     ldx #6
     ldy #5
-    stx UNK_76
-    sty UNK_76+1
+    stx tileprinter_ypos
+    sty tileprinter_ypos+1
     rts
 
 .ifdef VER_JP

@@ -28,7 +28,7 @@ curr_player_dataptr     = $68
 ; Overworld Engine
 OM_OPEN_FULLSTATS:
     lda #$05
-    sta soundqueue_pulseg0
+    sta soundqueue_pulse
 CommandState:
     ;store learned_melodies
     lda learned_melodies
@@ -97,15 +97,15 @@ CommandState:
     ;do choicer
     lda #.LOBYTE(State_Choicer)
     ldx #.HIBYTE(State_Choicer)
-    sta UNK_80
-    stx UNK_80+1
+    sta menu_indir_jmp_addr
+    stx menu_indir_jmp_addr+1
     jsr PRINT_CURR_CHOICER
 
     B19_0064:
-    ;test bits of menucursor_pos+1 (the buttons pressed)
-    bit menucursor_pos+1
+    ;test bits of menu_controllerinput (the buttons pressed)
+    bit menu_controllerinput
     bvs B19_008b
-    lda menucursor_pos
+    lda menu_cursorindex
     beq B19_0082
     jsr B19_00b3
     bcs B19_0074
@@ -115,9 +115,9 @@ CommandState:
     ;store 10,3 for x,y
     ldx #10
     ldy #3
-    stx UNK_76
-    sty UNK_76+1
-    jsr B31_0f7c
+    stx tileprinter_ypos
+    sty tileprinter_ypos+1
+    jsr CHOICER_MAINLOOP
 
     jmp B19_0064
 
@@ -255,7 +255,7 @@ Idle_DadPhonecall:
 
     ;play phonecall
     lda #$2f
-    jsr B30_0de4
+    jsr PLAY_TRACK_SFX
 
     ldx #$3E*2 ;intro
     jsr DisplayText
@@ -269,9 +269,9 @@ Idle_DadPhonecall:
 
     jsr B19_0dc1
 
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs @decline
-    lda menucursor_pos
+    lda menu_cursorindex
     beq @decline
     jsr Game_Begin
 
@@ -290,18 +290,18 @@ Idle_DadPhonecall:
     jsr OINST_END
     jmp CLEAR_TEXTBOXES_ROUTINE
 
-B19_0178:
+OPEN_OVERWORLD_COMMANDS:
     lda #$05
-    sta soundqueue_pulseg0
-    jsr B30_026c
+    sta soundqueue_pulse
+    jsr IRQ_DO_COMMANDBOX
     lda #.LOBYTE(Command_Choicer)
     ldx #.HIBYTE(Command_Choicer)
-    sta UNK_80
-    stx UNK_80+1
+    sta menu_indir_jmp_addr
+    stx menu_indir_jmp_addr+1
     jsr PRINT_CURR_CHOICER
     .ifdef VER_JP
     lda #$c5
-    jsr B31_10b0
+    jsr DRAW_TILE_IN_CURSOR_POS
     .endif
     bit $83
     bmi B19_0192
@@ -309,7 +309,7 @@ B19_0178:
     B19_0192:
     .ifndef VER_JP
     lda #$ff
-    jsr B31_10b0
+    jsr DRAW_TILE_IN_CURSOR_POS
     .endif
     lda $82
     asl a
@@ -371,7 +371,7 @@ B19_01c6:
     beq B19_01e9
     lda #$35 ; Interaction type: TOUCH
     sta $34
-    jsr B19_0b0f
+    jsr StartObjectScriptInterpreter
     bcs B19_01e9
     B19_01e1:
     jmp CLEAR_TEXTBOXES_ROUTINE
@@ -391,7 +391,7 @@ CommandTalk:
     jsr B31_02a2
     lda #$0a ; Interaction type: TALK
     sta $34
-    jsr B19_0b0f
+    jsr StartObjectScriptInterpreter
     bcc B19_020c
     B19_0200:
     ldx #$02
@@ -417,7 +417,7 @@ CommandCheck:
     beq B19_022d
     lda #$0b
     sta $34 ; Interaction type: CHECK
-    jsr B19_0b0f
+    jsr StartObjectScriptInterpreter
     bcc B19_0235
     B19_022d:
     ldx #$06
@@ -474,12 +474,12 @@ SelectedOverworldGood:
     stx $85
     lda #.LOBYTE(ItemUse_Choicer)
     ldx #.HIBYTE(ItemUse_Choicer)
-    sta UNK_80
-    stx UNK_80+1
-    jsr B31_0f3f
+    sta menu_indir_jmp_addr
+    stx menu_indir_jmp_addr+1
+    jsr DO_GENERIC_CHOICER
     .ifdef VER_JP
     lda #$c5
-    jsr B31_10b0
+    jsr DRAW_TILE_IN_CURSOR_POS
     .endif
     bit $83
     bmi B19_02a7
@@ -511,7 +511,7 @@ ItemUse_WhateverThisIS:
 B19_02a7:
     .ifndef VER_JP
     lda #$ff
-    jsr B31_10b0
+    jsr DRAW_TILE_IN_CURSOR_POS
     .endif
     jsr OA_End
     lda $82
@@ -598,7 +598,7 @@ SELECTION_GIVE:
     bcs @CancelGive
 
     ;if target's inventory is full, say it is full
-    jsr IsTargetInventoryFull
+    jsr TRY_GIVING_ITEM_TO_TARGET
     bcs @ReceiverFull
     ;else, remove the item
     jsr RemoveItem
@@ -782,7 +782,7 @@ OA25_TELEPATHY:
     beq OA_TriedUselessPSI
     lda #$C
     sta $34
-    jsr B19_0b0f
+    jsr StartObjectScriptInterpreter
     bcs OA_TriedUselessPSI
     rts
 
@@ -812,7 +812,7 @@ OA_INTERACT:
     beq OA_NothingHappened
     lda #$0D
     sta $34
-    jsr B19_0b0f
+    jsr StartObjectScriptInterpreter
     bcs OA_NothingHappened
     rts
 
@@ -845,7 +845,7 @@ OA_CRUMBS:
     jmp DisplayText
 
 OA_BREAD:
-    lda menucursor_pos
+    lda menu_cursorindex
     bne @BreadEat
 ; @BreadUse
     lda #$03
@@ -874,7 +874,7 @@ OA_BREAD:
     jmp OA_Eat
 
 OA_TOFU:
-    lda menucursor_pos
+    lda menu_cursorindex
     bne @TofuEat
     jmp OA_INTERACT
 @TofuEat:
@@ -1122,8 +1122,8 @@ RestoreHP:
     ldy #CurrHP_Offset
     jsr IncreaseBigStat
     jsr WriteProtectPRGRam
-    lda #PulseG0_Recovery
-    sta soundqueue_pulseg0
+    lda #pulsesfx::Recovery
+    sta soundqueue_pulse
     ldx #$34
     jsr DisplayText
     ldx #$30
@@ -1214,7 +1214,7 @@ ReconfigurePartyRoutine:
     ldx #$06
     jsr BANK_SWAP
     lda #$1d
-    jsr B30_0de4
+    jsr PLAY_TRACK_SFX
     jsr B30_1977
 @SkipRoutine:
     jsr EnablePRGRam
@@ -1343,7 +1343,7 @@ OA_HOOK:
     dex
     bpl @copy_loop
 
-    jsr B30_19fa
+    jsr NEW_CHAR_COORDINATES
     jsr REMOVE_EVE_FROM_PARTY
     lda #2
     sta fade_type
@@ -1368,7 +1368,7 @@ OA_OCARINA:
     ldx #$70
     jsr DisplayText
     lda #$01
-    jsr B30_0de4
+    jsr PLAY_TRACK_SFX
     ldx #$72
     jmp DisplayText
 
@@ -1383,8 +1383,8 @@ OA_MAP:
 
 ; call located in constant bank
 OpenMapWithButton:
-    lda #PulseG0_MenuBloop
-    sta soundqueue_pulseg0
+    lda #pulsesfx::MenuBloop
+    sta soundqueue_pulse
     ;fallthrough
 
 OpenMapEffect:
@@ -1413,7 +1413,7 @@ OpenMapEffect:
         jsr OINST_END
     .endif
     jsr OT0_DefaultTransition
-    jsr ClearSprites
+    jsr CLEAR_OAM_SPRITES
 
     ldx #0
     ldy #8
@@ -1467,7 +1467,7 @@ OpenMapEffect:
     sta $da
     lda #$f0
     sta $0200
-    jsr PpuSync
+    jsr PPU_SYNC
     jsr B31_0ddf
     jsr RestorePalette
     lda #$f9
@@ -1481,8 +1481,8 @@ OpenMapEffect:
     .ifdef VER_JP
         jmp B30_0b70
     .else
-        jsr ClearSprites
-        jmp STORE_COORDINATES
+        jsr CLEAR_OAM_SPRITES
+        jmp DRAW_SCREEN
     .endif
 
 B19_08d4:
@@ -1587,7 +1587,7 @@ PlayerStatusCheck:
     and #$f0
     rts
 
-IsTargetInventoryFull:
+TRY_GIVING_ITEM_TO_TARGET:
     lda #$00
     jsr GetItemInventorySlot
     bcs OLocal_SEC_RTS
@@ -1653,57 +1653,57 @@ OpenPresent:
     jsr GetObjectDataAndBank
     jsr GetPresentFlag
     and All_Bits, x
-    bne @B19_09fd
+    bne @PresentEmpty
     lda #$04
     jsr B31_02c2
     ldx #$66
     jsr DisplayText
     lda #$0a
-    sta soundqueue_pulseg0
+    sta soundqueue_pulse
     ldy #$06
     lda (object_data), y
     and #$7f
     sta curr_item_id
-    bne B19_0a05
-    jsr B19_0a3f
-    @B19_09fd:
+    bne @PresentHasItem
+    jsr OpenedPresentInSRAM
+    @PresentEmpty:
     ldx #$76
     jsr DisplayText
     jmp OINST_END
 
-B19_0a05:
+@PresentHasItem:
     jsr B19_1b8c
     ldx #$68
     jsr DisplayText
     ldx #$00
-    B19_0a0f:
+    @PresentGivingLoop:
     jsr GetXCharacter
-    bcs B19_0a1f
+    bcs @PresentItemInvFull
     sta curr_player_id
     txa
     pha
-    jsr IsTargetInventoryFull
+    jsr TRY_GIVING_ITEM_TO_TARGET
     pla
     tax
-    bcc B19_0a2c
-    B19_0a1f:
+    bcc @PresentItemGet
+    @PresentItemInvFull:
     inx
     cpx #$04
-    bcc B19_0a0f
+    bcc @PresentGivingLoop
     ldx #$6e
     jsr DisplayText
     jmp OINST_END
 
-B19_0a2c:
-    jsr B19_0a3f
+@PresentItemGet:
+    jsr OpenedPresentInSRAM
     jsr B19_1b6f
     ldx #$6a
     jsr DisplayText
     lda #$06
-    sta soundqueue_pulseg0
+    sta soundqueue_pulse
     jmp OINST_END
 
-B19_0a3f:
+OpenedPresentInSRAM:
     jsr EnablePRGRam
     jsr GetPresentFlag
     ora All_Bits, x
@@ -1832,7 +1832,7 @@ OverworldMessageLUT:
     .word UMSG::PHONE_GOODLUCK ; 42
     .word UMSG::PHONE_SAVED_RESETPROMPT ; 43
 
-B19_0b0f:
+StartObjectScriptInterpreter:
     jsr GetObjectDataAndBank
     ldy #$14
     lda (object_pointer), y
@@ -1850,7 +1850,7 @@ B19_0b23:
     jsr B31_0266
     lda #$40
     sta $34 ; Interaction type: SIGNAL
-    bne B19_0b0f
+    bne StartObjectScriptInterpreter
 
 ; Instruction 00 - End script
 OINST_END:
@@ -2230,7 +2230,7 @@ O_TextInterpretLine:
     sta $71
     .endif
     jsr PRINT_STRING
-    jsr B30_07af
+    jsr SHIFT_TILES_FOR_SCROLL
     cmp #0
     beq OTC_End
     ldy #0
@@ -2286,7 +2286,7 @@ B19_0d98:
 .ifdef VER_JP
     ldy #$ca
     @four:
-    jsr PpuSync
+    jsr PPU_SYNC
     sty nmi_data_offset
     @three:
     lda nmi_queue+0,y
@@ -2330,14 +2330,14 @@ B19_0d98:
 
     cpy #$5e
     bcs @four
-    dec UNK_77
-    dec UNK_77
+    dec tileprinter_xpos
+    dec tileprinter_xpos
     lda tilepack_ptr+0
     pha
     lda UNK_73
     pha
     lda #$12
-    sta UNK_70
+    sta string_padding_length
     lda #$bf
     ldx #$ad
     jsr O_DrawCurrentTilepack
@@ -2378,10 +2378,10 @@ B19_0dc1:
     ldx #.HIBYTE(string_yesnocursor2)
 ; Requires A, X to be loaded if called from outside!
 T_DoBreak:
-    sta UNK_80
-    stx UNK_80+1
+    sta menu_indir_jmp_addr
+    stx menu_indir_jmp_addr+1
     ldy #6
-    lda (UNK_80), y
+    lda (menu_indir_jmp_addr), y
     sta $76
     .ifdef VER_JP
     lda #$b5
@@ -2392,7 +2392,7 @@ T_DoBreak:
     .endif
     sta $84
     stx $85
-    jsr B31_0f4b
+    jsr INIT_CHOICER_MENU
     .ifdef VER_JP
     lda #11
     .else
@@ -2670,7 +2670,7 @@ OINST_DivideNumBy100:
     jsr Mult16x8 ; $60 *= $64
     lda #100
     sta temp_vars+4
-    jsr B31_113d
+    jsr DIV24x8
     ldy object_script_offset
     iny
     lda temp_vars+2
@@ -2948,8 +2948,8 @@ B19_10eb:
     jsr O_TextInterpretString
     lda #.LOBYTE(B19_116C)
     ldx #.HIBYTE(B19_116C)
-    sta UNK_80
-    stx UNK_80+1
+    sta menu_indir_jmp_addr
+    stx menu_indir_jmp_addr+1
     lda #$6c
     ldx #0
     sta $84
@@ -2965,7 +2965,7 @@ B19_1118:
     ldx #$c
     .endif
     stx $76
-    jsr B31_0f7c
+    jsr CHOICER_MAINLOOP
     lda $83
     and #$c
     beq B19_1146
@@ -3007,7 +3007,7 @@ B19_1136:
 B19_113d:
     tya
     sta $6c, x
-    jsr B31_10b0
+    jsr DRAW_TILE_IN_CURSOR_POS
     jmp B19_1118
 
 B19_1146:
@@ -3312,7 +3312,7 @@ OINST_DoPlane:
     lda #$f
     sta object_memory+object_m_unk1+2
     ldx #$10
-    jsr B30_0daf
+    jsr CHANGE_OVERWORLD_TICKSPEED
     jmp B19_1295
 
 ; Instruction 4D - Airplane End
@@ -3332,7 +3332,7 @@ OINST_DoTank:
     ldy #.HIBYTE(SPRITEDEF_TANK)
     jsr B19_12d8
     ldx #8
-    jsr B30_0daf
+    jsr CHANGE_OVERWORLD_TICKSPEED
     jmp B19_1295
 
 ; Instruction 49 - Boat
@@ -3350,7 +3350,7 @@ OINST_DoTrain:
     sty object_script_offset
 
     lda #$f0
-    sta is_tank
+    sta vehicle
 
     lda #$3f
     sta map_area
@@ -3385,7 +3385,7 @@ OINST_DoTrain:
     jsr B19_1bd4
 
     ldx #$10
-    jsr B30_0daf
+    jsr CHANGE_OVERWORLD_TICKSPEED
 
     ;return
     ldy object_script_offset
@@ -3432,7 +3432,7 @@ OINST_DismountVehicle:
     sta fade_flag
     ldx #0
     stx $23
-    jsr B30_0daf
+    jsr CHANGE_OVERWORLD_TICKSPEED
     lda $30
     pha
     lda $31
@@ -3515,7 +3515,7 @@ B19_142b:
 B19_1432:
     sty object_script_offset
     jsr EnablePRGRam
-    jsr B30_19fa
+    jsr NEW_CHAR_COORDINATES
     ldy object_script_offset
     iny
     jmp WriteProtectPRGRam
@@ -3716,7 +3716,7 @@ B19_157a:
     bcc B19_1566
     jsr WriteProtectPRGRam
     lda #$20
-    jmp B30_0de4
+    jmp PLAY_TRACK_SFX
 
 ; Set HP of character in $60 to their max HP
 MaxCurrCharaHP:
@@ -3916,7 +3916,7 @@ OINST_QueueNoise:
 OINST_QueuePulse:
     iny
     lda (object_data), y
-    sta soundqueue_pulseg0
+    sta soundqueue_pulse
     iny
     rts
 
@@ -3980,7 +3980,7 @@ OINST_DoLiveHouse:
         jsr LIVEHOUSE_setmotion18
         jsr LIVEHOUSE_setmotion10
         jsr LIVEHOUSE_setmotion18
-        jsr PpuSync
+        jsr PPU_SYNC
         ldx #96
         jsr WaitXFrames_Min1
         jsr LIVEHOUSE_setmotion0
@@ -4070,7 +4070,7 @@ LIVEHOUSE_setupParty:
     cpx #$20
     bcc @loop
 
-    jsr PpuSync
+    jsr PPU_SYNC
 
     lda #$30
     sta nmi_flags
@@ -4079,7 +4079,7 @@ LIVEHOUSE_setupParty:
 
 ;move sprite object at SPRITE_OBJECT[x] by UNK_60
 LIVEHOUSE_movesprUnk60:
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;SPRITE_OBJECTS[x].spritedef += UNK_60
     clc
@@ -4156,7 +4156,7 @@ LIVEHOUSE_domotionStop:
 
     ldx #8
     @loop_all2:
-    jsr PpuSync
+    jsr PPU_SYNC
     jsr LIVEHOUSE_zerovel
     jsr LIVEHOUSE_movex8
     bcc @loop_all2
@@ -4244,7 +4244,7 @@ OINST_RegisterName:
 
 ; Instruction 67 - Darken palette
 OINST_DarkenPalettes:
-    jsr PpuSync
+    jsr PPU_SYNC
     jsr DarkenPalette
     iny
     rts
@@ -4321,8 +4321,8 @@ B19_1763:
     jsr B19_0b41
     lda #.LOBYTE(Who_Choicer)
     ldx #.HIBYTE(Who_Choicer)
-    sta UNK_80
-    stx UNK_80+1
+    sta menu_indir_jmp_addr
+    stx menu_indir_jmp_addr+1
     jsr PRINT_CURR_CHOICER
     bit $83
     bmi B19_179e
@@ -4334,7 +4334,7 @@ B19_1763:
     .else
     lda #$ff
     .endif
-    jsr B31_10b0
+    jsr DRAW_TILE_IN_CURSOR_POS
     ldx $82
     lda party_choice_is, x
     sta curr_player_id
@@ -4390,7 +4390,7 @@ OpenOverworldGoods:
     .else
     lda #$ff
     .endif
-    jsr B31_10b0
+    jsr DRAW_TILE_IN_CURSOR_POS
     ldy $82
     lda ($84), y
     sta curr_item_id
@@ -4456,9 +4456,9 @@ B19_1814:
     bcc B19_1829
     lda #.LOBYTE(ShopChoicer)
     ldx #.HIBYTE(ShopChoicer)
-    sta UNK_80
-    stx UNK_80+1
-    jsr B31_0f3f
+    sta menu_indir_jmp_addr
+    stx menu_indir_jmp_addr+1
+    jsr DO_GENERIC_CHOICER
     bit $83
     bmi B19_186c
     sec
@@ -4729,7 +4729,7 @@ B19_19e4:
     jmp @bb22
     @yump1:
     jsr B19_1a8d
-    jsr B31_0f7c
+    jsr CHOICER_MAINLOOP
 
     @bb22:
     bit $83
@@ -4748,7 +4748,7 @@ B19_19e4:
     sta player_name, y
     bne @yump1
     @B19_1a39:
-    ldy menucursor_pos+0
+    ldy menu_cursorindex+0
     cpy #$10
     beq @B19_1a24
 
@@ -4804,7 +4804,7 @@ B19_19e4:
 
 B19_1a18:
     jsr B19_1a8d
-    jsr B31_0f7c
+    jsr CHOICER_MAINLOOP
 B19_1a1e:
     bit $83
     bmi B19_1a39
@@ -4888,8 +4888,8 @@ B19_1a8d:
     sta shadow_oam+7
     lda #.LOBYTE(RegisterName_Choicer)
     ldx #.HIBYTE(RegisterName_Choicer)
-    sta UNK_80+0
-    stx UNK_80+1
+    sta menu_indir_jmp_addr+0
+    stx menu_indir_jmp_addr+1
     rts
 
 B19_1ab6:
@@ -4923,8 +4923,8 @@ RegisterName_Choicer:
 Load8Entry_CharChoicer:
     lda #.LOBYTE(Overworld8Entry_Choicer)
     ldx #.HIBYTE(Overworld8Entry_Choicer)
-    sta UNK_80
-    stx UNK_80+1
+    sta menu_indir_jmp_addr
+    stx menu_indir_jmp_addr+1
     jmp PRINT_CURR_CHOICER
 
 ; Overworld 8-Menu Choicer
@@ -4946,9 +4946,9 @@ B19_1b0e:
     lda #.LOBYTE(PartyContentTrue_Choicer)
     ldx #.HIBYTE(PartyContentTrue_Choicer)
 B19_1b12:
-    sta UNK_80
-    stx UNK_80+1
-    jmp B31_0f3f
+    sta menu_indir_jmp_addr
+    stx menu_indir_jmp_addr+1
+    jmp DO_GENERIC_CHOICER
 
 ;the actual items in the list
 ;see Overworld8Entry_Choicer for name explanation
@@ -5311,9 +5311,9 @@ OT1_Stairs:
 ; Screen transition type #2 (Onyx Hook)
 OT2_OnyxHook:
     lda #$10
-    sta soundqueue_pulseg0
+    sta soundqueue_pulse
     lda #$34
-    jsr B31_0e21
+    jsr LIGHTEN_PALETTES_TRANSITION
     .ifndef VER_JP
         ;if antipiracy set, run more checks
         lda UNK_6
@@ -5358,8 +5358,8 @@ OT4_Whirlpool:
     lda #$09
     sta soundqueue_noise
     lda #$11
-    jsr B31_0e21
-    jsr ClearSprites
+    jsr LIGHTEN_PALETTES_TRANSITION
+    jsr CLEAR_OAM_SPRITES
     jsr ResetScroll
 
     ;load drain tiles
@@ -5390,7 +5390,7 @@ OT4_Whirlpool:
     pha
     ldx #$08
     B19_1d95:
-    jsr PpuSync
+    jsr PPU_SYNC
     lda #$01
     sta $0305, x
     lda $0303, x
@@ -5421,7 +5421,7 @@ OT4_Whirlpool:
     tay
     dey
     bne B19_1d91
-    jsr ClearSprites
+    jsr CLEAR_OAM_SPRITES
     jsr OT0_DefaultTransition
     ldx #90
     jmp WaitXFrames_Min1

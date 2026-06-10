@@ -18,7 +18,7 @@ TITLE_ANTI_PIRACY:
     cmp #%10001000
     bne @fail
 
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;add nmi queue
     ;PPU_READ $12 ($2307)
@@ -41,7 +41,7 @@ TITLE_ANTI_PIRACY:
     sta nmi_flags
 
     ;wait for NMI to complete
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;check if nmi_queue[4:$16] == nmi_check_1
     ;;;this quite literally checks if the
@@ -128,7 +128,7 @@ TITLE_ANTI_PIRACY:
     lda #NMI_MODE::SKIP
     sta nmi_flags
 
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;verify NMI queue
     ldy #0
@@ -199,11 +199,11 @@ ShowAntipiracy:
 
     ;clear everything
     jsr Refresh_SpriteObjects
-    jsr ClearSprites
+    jsr CLEAR_OAM_SPRITES
     jsr ClearTilemaps
 
     ShowAntipiracy_noclear_useless:
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;irq_count = 0
     ;scroll_y = 0
@@ -232,22 +232,22 @@ ShowAntipiracy:
     lda #.HIBYTE(UMSG::ANTIPIRACY)
     sta UNK_73
 
-    ;UNK_76 = 2
+    ;tileprinter_ypos = 2
     lda #2
-    sta UNK_76
-    ;UNK_77 = 2
+    sta tileprinter_ypos
+    ;tileprinter_xpos = 2
     lda #2
-    sta UNK_77
+    sta tileprinter_xpos
 
     ;could be
     ;lda #2
-    ;sta UNK_76
-    ;sta UNK_77
+    ;sta tileprinter_ypos
+    ;sta tileprinter_xpos
 
-    ;UNK_70 = 0
+    ;string_padding_length = 0
     ;UNK_71 = 0
     lda #0
-    sta UNK_70
+    sta string_padding_length
     sta UNK_71
 
     ;load the text manually
@@ -263,7 +263,7 @@ ShowAntipiracy:
     bne @B25_0238
 
     @B25_024a:
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;load generic palette
     ldx #$1f
@@ -434,18 +434,18 @@ HideSpritesForMenu:
     sec
     ror oam_and_300_clear_flag
 
-    ;UNK_78 = UNK_76 << 3
+    ;UNK_78 = tileprinter_ypos << 3
     ;;;UNK_78 is now the top left of a panel
-    lda UNK_76
+    lda tileprinter_ypos
     asl a
     asl a
     asl a
     sta UNK_78
 
-    ;UNK_79 = ((UNK_76 + char_count) << 3) - 4
+    ;UNK_79 = ((tileprinter_ypos + char_count) << 3) - 4
     ;;;UNK_79 is now the top right of a panel
     clc
-    lda UNK_76
+    lda tileprinter_ypos
     adc char_count
     asl a
     asl a
@@ -454,9 +454,9 @@ HideSpritesForMenu:
     sbc #4
     sta UNK_79
 
-    ;UNK_7C = (UNK_77 & 0x1E) << 3
+    ;UNK_7C = (tileprinter_xpos & 0x1E) << 3
     ;;;UNK_7C is now the bottom left of a panel
-    lda UNK_77
+    lda tileprinter_xpos
     clc
     and #%00011110
     asl a
@@ -528,17 +528,17 @@ SetupMenu:
     ;do menu choicer
     lda #.LOBYTE(SetupMenu_Choicer)
     ldx #.HIBYTE(SetupMenu_Choicer)
-    sta UNK_80
-    stx UNK_80+1
+    sta menu_indir_jmp_addr
+    stx menu_indir_jmp_addr+1
     jsr PRINT_CURR_CHOICER
 
     @main_loop:
     ;if !PAD_A, jump
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bpl @exit
 
     ;x = pos
-    lda menucursor_pos
+    lda menu_cursorindex
     tax
     ;y = pos >> 3
     lsr a
@@ -565,19 +565,19 @@ SetupMenu:
     jsr WriteProtectPRGRam
 
     ;re-run the displaying script to add the new choice
-    lda UNK_76
+    lda tileprinter_ypos
     pha
-    lda UNK_76+1
+    lda tileprinter_ypos+1
     pha
     jsr Display_SetupMenuChoices
 
-    ;reset UNK_76
+    ;reset tileprinter_ypos
     pla
-    sta UNK_76+1
+    sta tileprinter_ypos+1
     pla
-    sta UNK_76
+    sta tileprinter_ypos
 
-    jsr B31_0f7c
+    jsr CHOICER_MAINLOOP
     jmp @main_loop
 
     @exit:
@@ -587,12 +587,12 @@ SetupMenu:
 
 ;y = preference index
 Display_SetupMenuChoices:
-    ;UNK_77 = (y << 2) + 13
+    ;tileprinter_xpos = (y << 2) + 13
     tya
     asl a
     asl a
     adc #13 ;y pos offset?
-    sta UNK_77
+    sta tileprinter_xpos
 
     ;get preferences[y]
     lda preferences, y
@@ -603,7 +603,7 @@ Display_SetupMenuChoices:
 
     ldx #5
     @loop:
-    stx UNK_76
+    stx tileprinter_ypos
 
     ;get tile value from `preferences` boolean
     ;radial_empty + 0 or 1
@@ -621,8 +621,8 @@ Display_SetupMenuChoices:
     @no_add:
     clc
 
-    ;x = UNK_76+4
-    lda UNK_76
+    ;x = tileprinter_ypos+4
+    lda tileprinter_ypos
     adc #4
     tax
     ;if x == 25, break
@@ -738,7 +738,7 @@ ValidateBanks:
     ;why isnt this just a jmp
     jsr OT0_DefaultTransition
     jsr Refresh_SpriteObjects
-    jsr ClearSprites
+    jsr CLEAR_OAM_SPRITES
     jsr ClearTilemaps
     jmp ShowAntipiracy_noclear_useless
 
@@ -864,7 +864,7 @@ Tombstone_AntiPiracy:
     ldx #BANK::CHR0800
     jsr BANK_SWAP
 
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;move all sprite objects $20 forward
     ldx #$df
@@ -954,7 +954,7 @@ Tombstone_AntiPiracy:
     lda #$30
     jsr BackupAndFillPalette
 
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;remove sparkles
     lda #0
@@ -1036,7 +1036,7 @@ Livehouse_Antipiracy:
     jsr LIVEHOUSE_setmotion18
     jsr LIVEHOUSE_setmotion10
     jsr LIVEHOUSE_setmotion18
-    jsr PpuSync
+    jsr PPU_SYNC
     ldx #96
     jsr WaitXFrames_Min1
     jsr LIVEHOUSE_setmotion0
@@ -1116,7 +1116,7 @@ LIVEHOUSE_setupParty:
     cpx #$20
     bcc @loop
 
-    jsr PpuSync
+    jsr PPU_SYNC
 
     lda #$30
     sta nmi_flags
@@ -1125,7 +1125,7 @@ LIVEHOUSE_setupParty:
 
 ;move sprite object at SPRITE_OBJECT[x] by UNK_60
 LIVEHOUSE_movesprUnk60:
-    jsr PpuSync
+    jsr PPU_SYNC
 
     ;SPRITE_OBJECTS[x].spritedef += UNK_60
     clc
@@ -1202,7 +1202,7 @@ LIVEHOUSE_domotionStop:
 
     ldx #8
     @loop_all2:
-    jsr PpuSync
+    jsr PPU_SYNC
     jsr LIVEHOUSE_zerovel
     jsr LIVEHOUSE_movex8
     bcc @loop_all2
@@ -1319,9 +1319,9 @@ ValidateBanks2_Useless:
     ;why isnt this just a jmp
     jsr OT0_DefaultTransition
     jsr Refresh_SpriteObjects
-    jsr ClearSprites
+    jsr CLEAR_OAM_SPRITES
     jsr ClearTilemaps
-    jsr PpuSync
+    jsr PPU_SYNC
     lda #$00
     sta irq_count
     sta scroll_y

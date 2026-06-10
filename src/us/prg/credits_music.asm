@@ -128,8 +128,8 @@ C_InsertLauraPreMelodyTweeting:
     bne @exit
     jsr C_B28_0299
     sta soundqueue_track
-    lda #PulseG0_Laura
-    sta soundqueue_pulseg0
+    lda #pulsesfx::laura
+    sta soundqueue_pulse
     @exit:
     rts
 
