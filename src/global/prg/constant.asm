@@ -696,8 +696,8 @@ IRQ_DoTilepack:
 	    ;nmi_data_offset = y
 	    sty nmi_data_offset
 	
-	    ;tileprinter_xpos++
-	    inc tileprinter_xpos
+	    ;ntbl_y++
+	    inc ntbl_y
 	
 	    ;push tilepack_ptr[y:y+1]
 	    ;this means it expects a word.
@@ -734,7 +734,7 @@ IRQ_DoTilepack:
 	    rts
 
 B30_02f0:
-    inc tileprinter_xpos
+    inc ntbl_y
     jsr ClearAreaOnScreen
     jsr B30_0306
 
@@ -1043,7 +1043,7 @@ SavePlayerBattlers:
     ;close saveram
     jsr WriteProtectPRGRam
 
-    RefreshPartyUI:
+RefreshPartyUI:
     ;???? why
     jsr SetupPartyUi
 
@@ -1069,7 +1069,7 @@ SavePlayerBattlers:
     cmp #0
     bne @B30_0455
 
-    inc UNK_77
+    inc ntbl_y
     jsr DrawTilepack
 
     ;reload bank & return
@@ -1201,16 +1201,16 @@ B30_046e:
     adc #0
     tax
 
-    ;UNK_7A = (UNK_77 & %00011110) << 3
-    lda UNK_77
+    ;UNK_7A = (ntbl_y & %00011110) << 3
+    lda ntbl_y
     and #%00011110
     asl a
     asl a
     asl a
     sta abs_UNK_7A
 
-    ;UNK_7A |= (UNK_76+1) >> 1
-    lda UNK_76
+    ;UNK_7A |= (ntbl_x+1) >> 1
+    lda ntbl_x
     adc #1
     lsr a
     ora abs_UNK_7A
@@ -1343,18 +1343,18 @@ HideSpritesForMenu:
     sec
     ror oam_and_300_clear_flag
 
-    ;UNK_78 = UNK_76 << 3
+    ;UNK_78 = ntbl_x << 3
     ;;;UNK_78 is now the top left of a panel
-    lda UNK_76
+    lda ntbl_x
     asl A
     asl A
     asl A
     sta abs_UNK_78
 
-    ;UNK_79 = ((UNK_76 + char_count) << 3) - 4
+    ;UNK_79 = ((ntbl_x + char_count) << 3) - 4
     ;;;UNK_79 is now the top right of a panel
     clc
-    lda UNK_76
+    lda ntbl_x
     adc abs_char_count
     asl A
     asl A
@@ -1363,9 +1363,9 @@ HideSpritesForMenu:
     sbc #4
     sta abs_UNK_79
 
-    ;UNK_7C = (UNK_77 & 0x1E) << 3
+    ;UNK_7C = (ntbl_y & 0x1E) << 3
     ;;;UNK_7C is now the bottom left of a panel
-    lda UNK_77
+    lda ntbl_y
     clc
     and #%00011110
     asl A
@@ -1472,7 +1472,7 @@ SetupPartyUi:
     pha
     ldy #$00
     @B30_0572:
-    lda B30_0398, y
+    lda string_longblankline, y
     sta TEST_anchor, x
     inx
     iny
@@ -1664,10 +1664,10 @@ WriteTilesIn74:
     bne @B30_0682
     @B30_067f:
     jsr DrawTilepackClear
-    B30_0682:
+    @B30_0682:
     cmp #$00
-    bne B30_067f
-    inc UNK_77
+    bne @B30_067f
+    inc ntbl_y
     jmp DrawTilepack
 
 ;a == tile value
@@ -1678,7 +1678,7 @@ AddTileViaNMI:
     ;flush NMI while syncing
     jsr PPU_SYNC
 
-    ;this will modifiy UNK_78 with UNK_76
+    ;this will modifiy UNK_78 with ntbl_x
     jsr CalculateNTAddr
 
     ;add to nmi_queue
@@ -1704,7 +1704,7 @@ AddTileViaNMI:
     rts
 
 AddSpacesOnScreen:
-    lda UNK_70
+    lda string_padding_length
     clc
     sbc char_count
     bcc @B30_06cf
@@ -1760,8 +1760,8 @@ TilesTilNMI_CheckLastRow:
     lda UNK_72              ; UnpackID
     cmp #1
     bne @EndBlock
-    inc UNK_77              ; Row
-    inc UNK_77
+    inc ntbl_y              ; Row
+    inc ntbl_y
 @EndBlock:
     rts
 
@@ -1875,7 +1875,7 @@ NextChar:
     lsr a
     bcc @PrintSingleChar
     lda #$0e                        ; infamous blip sfx when chars are printed to the screen
-    sta soundqueue_pulseg0
+    sta soundqueue_pulse
 
 @PrintSingleChar:
     lda #0
@@ -2069,7 +2069,7 @@ PrintLine:
 
 
 ClearAreaOnScreen:
-    dec UNK_77                  ; Row
+    dec ntbl_y                  ; Row
     jsr CalculateNTAddr
 
     lda UNK_71
@@ -2254,7 +2254,7 @@ TILES_set_pos:
     ldx nmi_data_offset
     B30_0924:
     jsr CalculateNTAddr
-    jsr WriteRowHeader
+    jsr WriteNMIHeader
     ldy $7a
     jmp (UNK_7C)
 
@@ -2345,7 +2345,7 @@ TILES_print_number:
     bcc @B30_09c0
     @B30_09b2:
     lda ($64), y
-    jsr B30_0a7c
+    jsr ConvertControlCode
     bcs @B30_09c6
     bcc @B30_09c0
     @B30_09bb:
@@ -2386,8 +2386,8 @@ CalculateNTAddr:
     adc #8
     sta UNK_79
 
-    ;a = ((UNK_77 + 1) << 2) + UNK_79
-    lda UNK_77
+    ;a = ((ntbl_y + 1) << 2) + UNK_79
+    lda ntbl_y
     adc #1
     asl a
     asl a
@@ -2423,13 +2423,13 @@ CalculateNTAddr:
 
     ;these are nametable calculations
 
-    ;a = (scroll_y >> 3) + UNK_76
-    lda scroll_y
+    ;a = (scroll_x >> 3) + ntbl_x
+    lda scroll_x
     ror a
     lsr a
     lsr a
     clc
-    adc UNK_76
+    adc ntbl_x
     ;store a in y
     tay
 
@@ -2667,8 +2667,8 @@ GetTextRowPtr:
     pla
     jsr BANK_SWAP
 
-    B30_0ae1:
-    jsr PpuSync
+    @B30_0ae1:
+    jsr PPU_SYNC
 
     lda #NMI_COMMANDS::PPU_READ_TEXT
     sta nmiheader_command ; READ_TEXT_DATA
@@ -2775,11 +2775,11 @@ B30_0b57:
     sta UNK_d
 
     B30_0b70:
-    jsr ClearSprites
-    jsr STORE_COORDINATES
+    jsr CLEAR_OAM_SPRITES
+    jsr DRAW_SCREEN
 
     B30_0b76:
-    jsr B30_1e99
+    jsr AvailableObjectsFunc
     jsr B31_0ef0
 
     .ifndef VER_JP
@@ -2798,7 +2798,7 @@ B30_0b57:
         beq @B30_0b8f
         lda #1
     @B30_0b8f:
-    sta UNK_1F
+    sta overworld_ticking_speed
 
     @B30_0b91:
     .endif
@@ -2877,13 +2877,13 @@ B30_0b57:
     jmp @DoNormalFrame
 .endif
 
-OpenState:
+@OpenState:
     jsr OM_OPEN_FULLSTATS
     jmp @DoNormalFrame
 
-OpenCommands:
-    jsr B19_0178
-    DoNormalFrame:
+@OpenCommands:
+    jsr OPEN_OVERWORLD_COMMANDS
+    @DoNormalFrame:
 
     jsr BANKSET_H14
     jsr DoWalkingStep
@@ -2934,23 +2934,23 @@ B30_0beb:
     jsr BANKSET_H14
     jmp GiegueOutro
 
-B30_0c2b:
-    lda UNK_1F
+SpawnPlayers_theory:
+    lda overworld_ticking_speed
     cmp #$07
-    bcs B30_0c5d
+    bcs @B30_0c5d
 
     lda #$10
     sta nmi_flags
 
-    jsr B30_105e
-    jsr B30_10b1
-    B30_0c3b:
+    jsr GetNewCoordinates
+    jsr CheckLoadMap
+    @B30_0c3b:
     lda nmi_flags
-    bne B30_0c3b
-    B30_0c3f:
+    bne @B30_0c3b
+    @B30_0c3f:
     lda $e0
     cmp #$09
-    bcs B30_0c3f
+    bcs @B30_0c3f
     sec
     ror $e2
     jsr B31_0065
@@ -2963,10 +2963,10 @@ B30_0c2b:
     lda #$80
     sta nmi_flags
 
-    bne B30_0c83
-    B30_0c5d:
-    jsr B30_105e
-    jsr B30_10b1
+    bne @B30_0c83
+    @B30_0c5d:
+    jsr GetNewCoordinates
+    jsr CheckLoadMap
     jsr B30_1232
 
     lda #0
@@ -2987,7 +2987,7 @@ B30_0c2b:
     ror $e2
     jsr B31_0065
     asl $e2
-    B30_0c83:
+    @B30_0c83:
     lda UNK_A0
     lsr a
     bcc @B30_0c96
@@ -3047,7 +3047,7 @@ B30_0cb1:
     sta ram_PPUMASK
     ldx #$08
     @B30_0cc6:
-    jsr B31_0ee4
+    jsr DoHorizontalShake
     dex
     bne @B30_0cc6
     lda #$1e
@@ -3064,39 +3064,39 @@ PSITELEPORT_START:
 
     ;mute music
     lda #$ff
-    sta UNK_f
+    sta can_enter_doors
 
     jsr PlayMusic
 
     jsr CLEAR_TEXTBOXES_ROUTINE
 
     lda #1
-    sta soundqueue_pulseg1
+    sta soundqueue_doublepulse
 
     jsr B30_0d9d
     ; do teleport
     ldx #5
     @B30_0cf0:
-    jsr B30_0d8b
+    jsr DoTeleportTick
     lda UNK_A0
     bmi B30_0cb1
     lda pad1_hold
     and #%00001111
     tax
     lda Direction_By_Input, x
-    bmi @B30_0d0c
+    bmi @tp2
     ora #$40
     tax
     eor autowalk_direction
     cmp #$04
     beq @tp2
     stx autowalk_direction
-    @B30_0d0c:
+    @tp2:
     ldx $25
     inx
     cpx #$2d
     bcc @B30_0cf0
-    jsr PpuSync
+    jsr PPU_SYNC
     lda #$20
 @B30_0d18:
     tax
@@ -3123,7 +3123,7 @@ PSITELEPORT_START:
     jsr BANKSET_H13
     jsr EnablePRGRam
     jsr B19_1bd4
-    jsr B30_19fa
+    jsr NEW_CHAR_COORDINATES
     pla
     lda xpos_music
     tax
@@ -3144,7 +3144,7 @@ PSITELEPORT_START:
     jsr B30_0d9d
     ldx #$2c
     @B30_0d70:
-    jsr B30_0d8b
+    jsr DoTeleportTick
     ldx $25
     dex
     dex
@@ -3154,14 +3154,14 @@ B30_0d79:
     stx autowalk_direction
     stx pad1_forced
     stx $0f
-    jsr B30_0daf
+    jsr CHANGE_OVERWORLD_TICKSPEED
     pla
     jsr PlayMusic
     jmp B30_0b76
 
 DoTeleportTick:
     jsr CHANGE_OVERWORLD_TICKSPEED
-    jsr AvaliableObjectsFunc
+    jsr AvailableObjectsFunc
     jsr PPU_SYNC
     jsr SetPlayerPosition
     jsr PrepAnim
@@ -3176,13 +3176,13 @@ B30_0d9d:
     sta autowalk_direction
     jmp WriteProtectPRGRam
 
-B30_0daf:
+CHANGE_OVERWORLD_TICKSPEED:
     stx $25
-    lda B30_0db7, x
-    sta UNK_1F
+    lda @TeleportSpeeds, x
+    sta overworld_ticking_speed
     rts
 
-B30_0db7:
+@TeleportSpeeds:
     .byte $00, $00, $00, $00
     .byte $00, $01, $01, $01
     .byte $01, $01, $02, $02
@@ -3196,7 +3196,7 @@ B30_0db7:
     .byte $0f, $0f, $0f, $0f
     .byte $0f
 
-B30_0de4:
+PLAY_TRACK_SFX:
     pha
     lda current_music
     tax
@@ -3667,7 +3667,7 @@ DRAW_SCREEN:
     jmp @draw_loop
 
     @break:
-    jsr PpuSync
+    jsr PPU_SYNC
 
     jsr SwapPatternTables
 
@@ -3760,12 +3760,12 @@ B30_10b0:
 CheckLoadMap:
     jsr SwapPatternTables
     lda UNK_A0
-    bmi B30_10c0
+    bmi @load_map_rts
     jsr B30_10c4
     lda $a0
     lsr a
     bcs B30_10c1
-@B30_10c0:
+@load_map_rts:
     rts
 
 B30_10c1:
@@ -4077,32 +4077,32 @@ B30_123f:
     clc
     lda player_x
     and #$c0
-    adc B30_1284, x
+    adc EpicUnknownNMITable, x
     sta $aa
     lda player_x+1
-    adc B30_1284+1, x
+    adc EpicUnknownNMITable+1, x
     sta $ab
     clc
     lda player_y
     and #$c0
-    adc B30_1284+2, x
+    adc EpicUnknownNMITable+2, x
     sta $ac
     lda player_y+1
-    adc B30_1284+3, x
+    adc EpicUnknownNMITable+3, x
     sta $ad
     clc
-    lda B30_1284+4, x
+    lda EpicUnknownNMITable+4, x
     adc $1d
     bcs @B30_126c
     adc #$f0
     @B30_126c:
     sta $99
-    lda B30_1284+6, x
+    lda EpicUnknownNMITable+6, x
     bmi @B30_1281
     eor UNK_98+1
     and #%00010000
     bne @B30_127c
-    lda B30_1284+5, x
+    lda EpicUnknownNMITable+5, x
     @B30_127c:
     sta $93
     jmp B30_12c4
@@ -5306,7 +5306,7 @@ RECONFIGURE_PARTY:
     ldx #0
     stx UNK_37
 @CountLivingPartyMembersLoop:
-    jsr GetXCharacter
+    jsr GET_XTH_PLAYER_IN_PARTY
     bcs @B30_1906
     txa
     jsr B30_18ba
@@ -5356,7 +5356,7 @@ GAME_OVER:
     sta UNK_37
     lda #0
     sta is_scripted
-    sta is_tank
+    sta vehicle
     ldx $47
     ldy B30_196b, x
     .ifdef VER_JP
@@ -5459,7 +5459,7 @@ B30_19de:
     rts
 
 ; $D9f1 - Get Xth player character. Return carry set on failure
-GetXCharacter:
+GET_XTH_PLAYER_IN_PARTY:
     sec
     lda party_members, x
     beq @is_zero
@@ -5468,9 +5468,9 @@ GetXCharacter:
     @is_zero:
     rts
 
-B30_19fa:
+NEW_CHAR_COORDINATES:
     ldx #$00
-    @B30_19fc:
+    @party_loop:
     lda party_members, x
     beq @empty
     jsr GetPartyMemberPtr
@@ -5495,7 +5495,7 @@ B30_1a16:
     jsr Refresh_SpriteObjects
     ldx #0
     @B30_1a1e:
-    jsr GetXCharacter
+    jsr GET_XTH_PLAYER_IN_PARTY
     bcs @B30_1a3c
     txa
     jsr B30_18ba
@@ -5520,7 +5520,7 @@ B30_1a16:
 
     lda #1
     sta nmi_flags
-    jmp PpuSync
+    jmp PPU_SYNC
 
 BattleRewardsRoutine:
     lda UNK_37
@@ -5548,7 +5548,7 @@ BattleRewardsRoutine:
     jsr EnablePRGRam
     ldx #0
     @B30_1a77:
-    jsr GetXCharacter
+    jsr GET_XTH_PLAYER_IN_PARTY
     bcs @B30_1add
     sta UNK_28
     txa
@@ -5612,7 +5612,7 @@ BattleRewardsRoutine:
     inx
     cpx #4
     bcc @B30_1a77
-    jsr B30_043f
+    jsr RefreshPartyUI
     lda $47
     bne @RewardsEnd
     jsr EnablePRGRam
@@ -5651,7 +5651,7 @@ BattleRewardsRoutine:
     jsr B19_1b8c
     ldx #0
     @B30_1b1b:
-    jsr GetXCharacter
+    jsr GET_XTH_PLAYER_IN_PARTY
     bcs @B30_1b2b
     sta UNK_28
     txa
@@ -5686,7 +5686,7 @@ B30_1b40:
     sta UNK_62
     jsr Mult24x8
     jsr Mult24x8
-    jsr B30_1cdf
+    jsr LoadGrowthTable
     ldy #$00
     lda ($68), y
     sta $64
@@ -5709,7 +5709,7 @@ TryLevelUp:
 DoLevelUp:
     adc #$01
     sta ($38), y
-    jsr B30_043f
+    jsr RefreshPartyUI
     jsr EnablePRGRam
     lda #Track_Clear
     jsr PlayMusic
@@ -5717,7 +5717,7 @@ DoLevelUp:
     jsr PlayMusic
     lda #$82                    ; "[Name] leveled up!"
     jsr DisplayText_battle
-    jsr B30_1cdf
+    jsr LoadGrowthTable
     ldy #$03
     @loop:
     jsr RNG_BYTE
@@ -5841,7 +5841,7 @@ SaveTargetVal:
     dey
     txa
     asl a
-    jsr B30_1c71
+    jsr TargetValRNG
     sta $5d
     B30_1c64:
     clc
@@ -5871,16 +5871,16 @@ TargetValRNG:
     lsr a
     rts
 
-B30_1c87:
+DoLearnPSI:
     lda $21
-    bne @B30_1ccc
-    jsr B30_1cdf
+    bne @learnpsi_rts
+    jsr LoadGrowthTable
     ldy #$02
     lda ($68), y
-    beq @B30_1ccc
+    beq @learnpsi_rts
     pha
     ldx #$c0
-    @B30_1c97:
+    @TableStart:
     stx $29
     jsr B30_1ce6
     pla
@@ -6224,7 +6224,7 @@ BankswitchLower_Bank00_3rd:
     lda #0
     jmp BANK_SWAP
 
-AvaliableObjectsFunc:
+AvailableObjectsFunc:
     jsr B30_1e29
     jsr EnablePRGRam
     @B30_1e9f:
@@ -8118,7 +8118,7 @@ B31_08f5:
 
 ; $E905 - TICK object type #12
 B31_0905:
-    lda is_tank
+    lda vehicle
     clc
     bne B31_095b
     lda movement_direction
@@ -8179,7 +8179,7 @@ B31_094c:
 B31_095b:
     lda #0
     sta movement_direction
-    sta is_tank
+    sta vehicle
     lda #$10
     bcs B31_0967
     B31_0965:
@@ -8399,7 +8399,7 @@ OBJTICK_TrainHead:
 B31_0a9b:
     cmp #0
     bne @B31_0aa1
-    sta is_tank
+    sta vehicle
     @B31_0aa1:
     iny
     jsr obj_prep_teleport
@@ -8407,13 +8407,13 @@ B31_0a9b:
     tya
     ldy #object_m_unk2+2
     sta (object_pointer), y
-    lda is_tank
+    lda vehicle
     bne B31_0abb
     lda #$80
     sta $23
-    jsr B30_19fa
+    jsr NEW_CHAR_COORDINATES
     ldx #$00
-    jsr B30_0daf
+    jsr CHANGE_OVERWORLD_TICKSPEED
     B31_0abb:
     lda #$88
     sta movement_direction
@@ -8766,9 +8766,9 @@ IRQ_Routines:
 BTL_SCROLL_UP:
     ldx #$fc
     .byte $2c ; BIT trick
-B31_0cff:
+BTL_SCROLL_DOWN:
     ldx #$04
-    jsr PpuSync
+    jsr PPU_SYNC
     stx shift_y
     ldx #$14
     @B31_0d08:
@@ -8866,7 +8866,7 @@ IRQ_Routine1:
     rts
 
 ; IRQ Routine #3
-B31_0d9b:
+IRQ_Routine3:
     lda $44
     sta $46
     lda #$c8
@@ -8971,9 +8971,9 @@ FillBackgroundColor:
     jmp UpdatePalette
 
 ;lighten
-B31_0e21:
-     pha
-    jsr PpuSync
+LIGHTEN_PALETTES_TRANSITION:
+    pha
+    jsr PPU_SYNC
     pla
 
     ldx #$1f
@@ -9101,11 +9101,11 @@ SetScroll:
     sty scroll_y
     jmp WaitNMI
 
-B31_0ee4:
-    jsr PpuSync
+DoHorizontalShake:
+    jsr PPU_SYNC
     lda #$04
-    eor scroll_y
-    sta scroll_y
+    eor scroll_x
+    sta scroll_x
     jmp WaitNMI
 
 ;invasion effect?
@@ -9122,10 +9122,10 @@ B31_0ef0:
     jsr BackupPalette
     jsr DarkenPalette
     ldx #$0a
-    @B31_0f0c:
-    lda #$07
-    sta $07f0
-    jsr B31_0ee4
+    @loop:
+    lda #Noise_Junk
+    sta soundqueue_noise
+    jsr DoHorizontalShake
     dex
     bne @loop
 
@@ -9182,55 +9182,55 @@ PRINT_CURR_CHOICER:
     sta indir_addr+1
 DO_GENERIC_CHOICER:
     ldy #6
-    lda (UNK_80), y
-    sta UNK_76
+    lda (menu_indir_jmp_addr), y
+    sta ntbl_x
     ldy #7
-    lda (UNK_80), y
-    sta UNK_76+1
-B31_0f4b:
+    lda (menu_indir_jmp_addr), y
+    sta ntbl_x+1
+INIT_CHOICER_MENU:
     ldy #$00
-    lda (UNK_80), y
-    sta $86
+    lda (menu_indir_jmp_addr), y
+    sta menu_col
     tax
     ldy #$01
-    lda (UNK_80), y
+    lda (menu_indir_jmp_addr), y
     jsr Mult8x8
-    sta menucursor_pos
+    sta menu_cursorindex
     ldy #$00
-    sty $87
-    @B31_0f5f:
+    sty menu_row
+    @FindFirstChoice:
     lda ($84), y
-    bne B31_0f6d
+    bne DoingChooser
     iny
-    cpy menucursor_pos
-    bcc @B31_0f5f
-    sta menucursor_pos
-    sta menucursor_pos+1
+    cpy menu_cursorindex
+    bcc @FindFirstChoice
+    sta menu_cursorindex
+    sta menu_controllerinput
     rts
 
-B31_0f6d:
-    sty menucursor_pos
+DoingChooser:
+    sty menu_cursorindex
     tya
-    @B31_0f70:
+    @DivideIndexByWidth:
     cmp $86
-    bcc @B31_0f7a
+    bcc @DivideDone
     sbc $86
     inc $87
-    bcs @B31_0f70
-    @B31_0f7a:
+    bcs @DivideIndexByWidth
+    @DivideDone:
     sta $86
-    B31_0f7c:
-    jsr PpuSync
+    CHOICER_MAINLOOP:
+    jsr PPU_SYNC
     ldy #$18
     sty $65
     lda #$00
     sta shadow_oam+2
-B31_0f88:
+@ChoicerPrompt:
     ldy #$05
-    lda (UNK_80), y
+    lda (menu_indir_jmp_addr), y
     sta shadow_oam+1
     ldy #$02
-    lda (UNK_80), y
+    lda (menu_indir_jmp_addr), y
     ldx $86
     jsr Mult8x8
     clc
@@ -9240,7 +9240,7 @@ B31_0f88:
     asl a
     sta shadow_oam+3
     ldy #$03
-    lda (UNK_80), y
+    lda (menu_indir_jmp_addr), y
     ldx $87
     jsr Mult8x8
     clc
@@ -9266,31 +9266,31 @@ B31_0f88:
     lda pad1_forced
     bne @CheckButtonPressed
     dey
-    bne @B31_0fbc
-    ldy #$05
-    lda (UNK_80), y
+    bne @BlinkingWait
+    ldy #5
+    lda (menu_indir_jmp_addr), y
     eor shadow_oam+1
     sta shadow_oam+1
     lda pad1_hold
     bne @ChoicerInputGet
     ldy #$18
-    sty $65
+    sty zp_frame_counter
     bne @B31_0fb8
-    @B31_0fdd:
+    @ChoicerInputGet:
     ldy #$06
-    sty $65
-    @B31_0fe1:
+    sty zp_frame_counter
+    @CheckButtonPressed:
     ldx #$00
     stx pad1_forced
     tax
     ldy #$04
     and #$f0
-    and (UNK_80), y
-    beq B31_0ffb
-    sta menucursor_pos+1
-    lda #$05
-    sta $07f1
-B31_0ff5:
+    and (menu_indir_jmp_addr), y
+    beq @ProcessDirectionalInput
+    sta menu_controllerinput
+    lda #pulsesfx::MenuBloop
+    sta soundqueue_pulse
+@ExitChoicer:
     lda #$f0
     sta shadow_oam
     rts
@@ -9302,30 +9302,30 @@ B31_0ff5:
     sta menu_controllerinput
     tay
     ldx Cardinal_By_Input, y
-    bmi B31_0f88
+    bmi @ChoicerPrompt
     lda $86
     sta $68
     lda $87
     sta $69
     stx $6b
-B31_1010:
+@MoveCursor:
     clc
     lda Cardinal_XY+1, x
     adc $69
     ldy #$01
-    cmp (UNK_80), y
-    bcs B31_1055
+    cmp (menu_indir_jmp_addr), y
+    bcs @InvalidateMove
     sta $69
     sta UNK_60
     clc
     lda Cardinal_XY, x
     adc $68
     ldy #$00
-    cmp (UNK_80), y
-    bcs B31_1055
+    cmp (menu_indir_jmp_addr), y
+    bcs @InvalidateMove
     sta $68
     sta $6a
-    lda (UNK_80), y
+    lda (menu_indir_jmp_addr), y
     ldx UNK_60
     jsr Mult8x8
 
@@ -9336,33 +9336,33 @@ B31_1010:
     sta UNK_6A
     tay
     lda ($84), y
-    beq B31_1067
+    beq @HandleBoundaryWrapping
     lda $68
     sta $86
     lda $69
     sta $87
     lda $6a
-    sta menucursor_pos
-    lda #$0d
-    sta $07f1
-B31_1052:
-    jmp B31_0f88
+    sta menu_cursorindex
+    lda #pulsesfx::menuscroll
+    sta soundqueue_pulse
+@PromptAgain:
+    jmp @ChoicerPrompt
 
-B31_1055:
+@InvalidateMove:
     ldy #$04
-    lda menucursor_pos+1
-    and (UNK_80), y
-    beq B31_1052
-    sta menucursor_pos+1
-    lda #$0d
-    sta $07f1
-    jmp B31_0ff5
+    lda menu_controllerinput
+    and (menu_indir_jmp_addr), y
+    beq @PromptAgain
+    sta menu_controllerinput
+    lda #pulsesfx::menuscroll
+    sta soundqueue_pulse
+    jmp @ExitChoicer
 
-B31_1067:
+@HandleBoundaryWrapping:
     ldx $6b
     ldy #$01
     lda $d6
-    beq @B31_1071
+    beq @SetupWrapCheck
     inx
     dey
     ; @SetupWrapCheck: Calculate which axis to wrap based on direction and wrap flags
@@ -9373,7 +9373,7 @@ B31_1067:
     sta $6a
     sec
     lda UNK_68, y
-    sbc menu_x_pos, y
+    sbc menu_col, y
     eor #$ff
     bpl @WrapAndOffset
     clc
@@ -9386,13 +9386,13 @@ B31_1067:
     sec
     adc $86, y
     sta $68, y
-    cmp (UNK_80), y
+    cmp (menu_indir_jmp_addr), y
     bcc @B31_10a1
     @B31_1099:
     lda #$00
     cmp $6a
     bne @B31_1076
-    beq B31_1055
+    beq @InvalidateMove
     @B31_10a1:
     tya
     eor #1
@@ -9401,21 +9401,21 @@ B31_1067:
     sta $68, y
     @B31_10ab:
     ldx $6b
-    jmp B31_1010
+    jmp @MoveCursor
 
 ; does some maths to calc the position of the cursor & draws it to the bg layer
 ; input: A = tile to draw (typically, $ff in US as the cursor arrow)
 DRAW_TILE_IN_CURSOR_POS:
     pha
     ldy #$02
-    lda (UNK_80), y
+    lda (menu_indir_jmp_addr), y
     ldx $86
     jsr Mult8x8
     clc
     adc $76
     sta $76
     ldy #$03
-    lda (UNK_80), y
+    lda (menu_indir_jmp_addr), y
     ldx $87
     jsr Mult8x8
     clc
@@ -9522,8 +9522,8 @@ B31_1134:
     ror a
     rts
 
-; B31_113d - Maybe 24x8 division
-B31_113d:
+; DIV24x8 - Maybe 24x8 division
+DIV24x8:
     lda $64
     @B31_113f:
     beq @B31_113f
@@ -9881,7 +9881,7 @@ RNG_WORD:
     pha ; PUSH UNK_60
     lda #$64
     sta $64
-    jsr B31_113d
+    jsr DIV24x8
     jsr RNG_BYTE
     lsr a
     php ; PUSH SIGN
@@ -10001,7 +10001,7 @@ PlayBattleSFX:
     pha
     asl a
     asl a
-    beq @PlaySFX_RTS
+    beq PlaySFX_RTS
     tax
     lda battle_sfx+1, x
     sta UNK_64+1
@@ -10036,7 +10036,7 @@ B31_145b:
     jsr WaitXFrames
     jsr BANKSWAP_L16
     
-    @PlaySFX_RTS:
+    PlaySFX_RTS:
     pla
     rts
 
@@ -10159,7 +10159,7 @@ BTL_PRINT_WINDOW:
     ldx $76
 
     ;check if second entry == $FF
-    ;if so, store tileprinter_ypos to $62
+    ;if so, store ntbl_x to $62
     ;else set $62 to $FF
     lda (UNK_60), y
     cmp #$ff
@@ -10175,7 +10175,7 @@ BTL_PRINT_WINDOW:
     ldx $77
 
     ;check if third entry == $FF
-    ;if so, store tileprinter_xpos to $63
+    ;if so, store ntbl_y to $63
     ;else set $63 to $FF
     lda (UNK_60), y
     cmp #$ff
@@ -10373,9 +10373,9 @@ B31_15c2:
     pha
     jsr CLR_5A
     lda #.LOBYTE(B31_15df)
-    sta UNK_84
+    sta indir_addr
     lda #.HIBYTE(B31_15df)
-    sta UNK_84+1
+    sta indir_addr+1
     lda #.LOBYTE(B31_15df)
     sta menu_indir_jmp_addr
     lda #.HIBYTE(B31_15df)
@@ -10415,7 +10415,7 @@ BTL_REFRESH_PARTY_UI:
     rts
 
 ; $F5F7
-GetPsiDataPointer:
+GET_PSI_TABLEPTR:
     sta $62
     lda #$00
     asl $62
@@ -10451,7 +10451,7 @@ B31_1614:
     lda #0
     sta UNK_66
     @B31_1630:
-    jsr PpuSync
+    jsr PPU_SYNC
     ldy $66
     lda BATTLER, y
     beq @B31_1660
@@ -10661,12 +10661,12 @@ B31_1759:
     sta post_nmi_callback
     jmp WaitNMI
 
-B31_1760:
+LOCK_5A:
     lda #$01
     sta $5a
     rts
 
-B31_1765:
+CLR_5A:
     lda #$00
     sta $5a
     rts
@@ -10747,13 +10747,13 @@ NmiHandler:
     sta UNK_E0
 
 ;y == nmi_queue offset
-NMI_Next:
+NMI_ProcessCommands:
     ;get byte (command?)
     lda nmi_queue, y
     ;if byte == 0, branch
     beq @B31_17e3
     ;else if byte.7, branch
-    bmi @B31_17dc
+    bmi @end_of_this_frames_commands
     ;else
     ;x = a << 1
     asl a
@@ -10768,7 +10768,7 @@ NMI_Next:
     ;mask off the MSB so we can continue with this command next frame
     and #$7f
     sta nmi_queue, y
-    bne B31_17e5
+    bne NMI_Schedule_IRQs
     @B31_17e3:
     sta nmi_flags
 NMI_Schedule_IRQs:
@@ -10938,29 +10938,25 @@ NMI_Schedule_IRQs:
 ; $F8C1
 ; NMI Lut
 NMI_Commands:
-.addr NMI_Next-1 ; 00
-.addr NMI_Command_1-1 ; 01
-.addr NMI_Command_2-1 ; 02
-.addr NMI_Command_3-1 ; 03
-.addr NMI_Command_4-1 ; 04
-.addr NMI_Command_5-1 ; 05
-.addr NMI_Command_6-1 ; 06
-.ifdef VER_JP
-.addr L3FA18-1 ; 07
-.addr NMI_Command_7-1 ; 08
-.addr NMI_Command_9-1 ; 09
-.else
-.addr NMI_Command_7-1 ; 07
-.addr NMI_Command_8-1 ; 08
-.addr NMI_Command_9-1 ; 09
-.addr NMI_Command_A-1 ; 0A
+.addr NMI_ProcessCommands-1 ; 00
+.addr NMI_Nothing-1 ; 01
+.addr NMI_Branch-1 ; 02
+.addr NMI_Goto-1 ; 03
+.addr NMI_UpdatePalette-1 ; 04
+.addr NMI_PPUWrite-1 ; 05
+.addr NMI_PPUWrite32-1 ; 06
+.addr NMI_PPUWriteAddrs-1 ; 07
+.addr NMI_PPUWriteByte-1 ; 08
+.addr NMI_PPURead-1 ; 09
+.ifndef VER_JP
+    .addr NMI_PPUReadText-1 ; 0A
 .endif
 
 ; NMI command 1
 ; args : none
 ; does : nothing
 ; NOP
-NMI_Command_1:
+NMI_Nothing:
     ;y++
     iny
     ;bye
@@ -10970,7 +10966,7 @@ NMI_Command_1:
 ; args : OO (length)
 ; does : branches to OO bytes away
 ; Skip OO bytes in buffer (BRANCH)
-NMI_Command_2:
+NMI_Branch:
     ;y++
     iny
     ;y += nmi_queue[y]
@@ -10985,7 +10981,7 @@ NMI_Command_2:
 ; args : AA (addr)
 ; does : moves to nmi_queue[AA]
 ; Go to address AA in buffer (GOTO)
-NMI_Command_3:
+NMI_Goto:
     ;y++
     iny
     ;y = nmi_queue[y]
@@ -10998,7 +10994,7 @@ NMI_Command_3:
 ; args : none
 ; does : copies palette_queue into ppu palette
 ; UPDATE_PALETTE
-NMI_Command_4:
+NMI_UpdatePalette:
     ;PPUADDR = palette
     lda #.HIBYTE($3f00)
     ldx #.LOBYTE($3f00)
@@ -11032,12 +11028,12 @@ NMI_Command_4:
 ; args : bytecount, ppuaddr, BYTES
 ; does : writes an arbitray amount of bytes to ppu
 ; Write MM bytes into PPU address [AA AA]
-NMI_Command_5:
+NMI_PPUWrite:
     jsr NMI_WritePPUBytes
     ;optimization: jump straight back if next is also cmd 5 (another row of tilemap data?)
     lda nmi_queue, y
     cmp #5
-    beq NMI_Command_5
+    beq NMI_PPUWrite
     ;bye
     jmp NMI_ProcessCommands
 
@@ -11045,7 +11041,7 @@ NMI_Command_5:
 ; args : bytecount, ppuaddr, BYTES
 ; does : writes an arbitray amount of bytes to ppu (but with 32-byte increments)
 ; Same as 05, but with 32-byte address increment
-NMI_Command_6:
+NMI_PPUWrite32:
     ; Increment VRAM address by 32 bytes on read/write
     lda ram_PPUCTRL
     ora #%00000100
@@ -11068,7 +11064,7 @@ NMI_Command_6:
 ; args : loopcount, [ppuaddr, byte]
 ; does : write groups of [ppuaddr, byte] multiple times
 ; Write VV into PPU address [AA AA]. Repeat process CC times (PPU_WRITE)
-NMI_Command_7:
+NMI_PPUWriteAddrs:
     ;y++
     iny
     ;x = nmi_queue[y]++
@@ -11098,7 +11094,7 @@ NMI_Command_7:
 ; args : bytecount, ppuaddr, byte
 ; does : writes a single byte multiple times to ppuaddr
 ; Fill CC bytes at PPU address [AA AA] with VV (PPU_FILL)
-NMI_Command_8:
+NMI_PPUWriteByte:
     ;y++
     iny
     ;x = nmi_queue[y]++
@@ -11129,7 +11125,7 @@ NMI_Command_8:
 ; args : bytecount, ppuaddr, [buffer of bytecount bytes]
 ; does : reads an arbitrary amount of bytes from ppuaddr, writes to a buffer stored after this command
 ; PPU_READ
-NMI_Command_9:
+NMI_PPURead:
     ;y++
     iny
     ;x = nmi_queue[y]++
@@ -11157,7 +11153,7 @@ NMI_Command_9:
 ; args : chr_bank, ppuaddr
 ; does : reads 64 bytes of text from a specified bank and address
 ; Read 64 bytes of text data from address [AA AA] in bank BB (READ_TEXT_DATA)
-NMI_Command_A:
+NMI_PPUReadText:
     ;stash bankswitch_mode
     lda bankswitch_mode
     pha
@@ -12109,8 +12105,8 @@ TempUpperBankswitch:
 
     ;swap the stacked bank and the low current prg bank
     lda current_banks+7
-    ldy UNK_100+5, x
-    sta UNK_100+5, x
+    ldy stack_head+5, x
+    sta stack_head+5, x
     tya
 
     ldx #BANK::PRGA000

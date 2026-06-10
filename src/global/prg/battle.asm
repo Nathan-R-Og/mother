@@ -857,7 +857,7 @@ B23_0479:
         @B23_049d:
         lda #$16
     .endif
-    sta UNK_70
+    sta string_padding_length
     .ifdef VER_JP
         lda #7
     .else
@@ -1750,15 +1750,15 @@ SelectionMenuCheckScenario:
     ldy #.HIBYTE(battle_commands_giegue)
     .endif
     @no_sing:
-    stx UNK_84
-    sty UNK_84+1
+    stx indir_addr
+    sty indir_addr+1
 
     ldx #.LOBYTE(battle_commands_choicer)
     ldy #.HIBYTE(battle_commands_choicer)
-    stx UNK_80
-    sty UNK_80+1
+    stx menu_indir_jmp_addr
+    sty menu_indir_jmp_addr+1
     jsr DO_GENERIC_CHOICER
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs @exit
     lda #9
     jsr B23_0945
@@ -1776,7 +1776,7 @@ B23_0945:
     clc
     adc ntbl_y
     sta ntbl_y
-    lda menucursor_pos
+    lda menu_cursorindex
     and #$01
     beq B23_095d
     clc
@@ -1824,11 +1824,11 @@ B23_0991:
     jsr B23_09b3
 
     lda #.LOBYTE(battle_whichenemy_choicer)
-    sta UNK_80
+    sta menu_indir_jmp_addr
     lda #.HIBYTE(battle_whichenemy_choicer)
-    sta UNK_80+1
+    sta menu_indir_jmp_addr+1
     jsr PRINT_CURR_CHOICER
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs B23_09b1
     bmi B23_09ad
     jmp B23_0991
@@ -2026,15 +2026,15 @@ StoreItemName:
 
 B23_0ae9:
     lda #.LOBYTE(battle_goods_choicer)
-    sta UNK_80
+    sta menu_indir_jmp_addr
     lda #.HIBYTE(battle_goods_choicer)
-    sta UNK_80+1
+    sta menu_indir_jmp_addr+1
     lda ptr_chara
-    sta UNK_84
+    sta indir_addr
     lda ptr_chara+1
-    sta UNK_84+1
+    sta indir_addr+1
     jsr DO_GENERIC_CHOICER
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs @B23_0b0e
     bmi @B23_0b05
     jmp B23_0ae9
@@ -2073,7 +2073,7 @@ BtlOpenPSIMenu:
     beq BtlOpenPSIMenu
     bne @B23_0b12
     @B23_0b39:
-    ldy menucursor_pos
+    ldy menu_cursorindex
     lda BATTLER_1BASED, y
     jsr GET_PSI_TABLEPTR
     jsr BANKSWAP_L00
@@ -2153,17 +2153,17 @@ LoadandDoPSIMenu:
 
 BtlDoPSIPageChoicer:
     lda #.LOBYTE(battle_psipage_choicer)
-    sta UNK_80
+    sta menu_indir_jmp_addr
     lda #.HIBYTE(battle_psipage_choicer)
-    sta UNK_80+1
+    sta menu_indir_jmp_addr+1
     jsr PRINT_CURR_CHOICER
-    lda menucursor_pos+1
+    lda menu_controllerinput
     and #$06
     bne B23_0be6
-    lda menucursor_pos+1
+    lda menu_controllerinput
     and #$81
     bne @load_0
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs @load_2
     jmp BtlDoPSIPageChoicer
     @load_0:
@@ -2175,14 +2175,14 @@ BtlDoPSIPageChoicer:
 
 B23_0be6:
     lda #.LOBYTE(battle_psi_choicer)
-    sta UNK_80
+    sta menu_indir_jmp_addr
     lda #.HIBYTE(battle_psi_choicer)
-    sta UNK_80+1
+    sta menu_indir_jmp_addr+1
     jsr PRINT_CURR_CHOICER
-    lda menucursor_pos+1
+    lda menu_controllerinput
     and #$08
     bne BtlDoPSIPageChoicer
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs @load_2
     bmi @load_1
     jmp BtlDoPSIPageChoicer
@@ -2202,7 +2202,7 @@ DrawSelectionMenu:
     jsr BANKSWAP_L00
 
     lda #0
-    sta UNK_70
+    sta string_padding_length
     .ifdef VER_JP
         lda #.LOBYTE(ui_thing_tiles11)
         sta text_id+1

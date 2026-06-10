@@ -54,7 +54,7 @@ CommandState:
     @B19_0021:
     ldx #0
     @B19_0023:
-    jsr GetXCharacter
+    jsr GET_XTH_PLAYER_IN_PARTY
     ;if failed, jump
     bcs @B19_0084
     ;else,
@@ -306,7 +306,7 @@ OPEN_OVERWORLD_COMMANDS:
         lda #$c5
         jsr DRAW_TILE_IN_CURSOR_POS
     .endif
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bmi B19_0192
     jmp CLEAR_TEXTBOXES_ROUTINE
     B19_0192:
@@ -314,7 +314,7 @@ OPEN_OVERWORLD_COMMANDS:
     lda #$ff
     jsr DRAW_TILE_IN_CURSOR_POS
     .endif
-    lda menucursor_pos
+    lda menu_cursorindex
     asl a
     tax
     lda OverworldCommandLUT+1, x
@@ -469,8 +469,8 @@ SelectedOverworldGood:
     lda #.LOBYTE(EIGHT_OPTIONS_LUT)
     ldx #.HIBYTE(EIGHT_OPTIONS_LUT)
     @B19_0285:
-    sta UNK_84
-    stx UNK_84+1
+    sta indir_addr
+    stx indir_addr+1
     lda #.LOBYTE(ItemUse_Choicer)
     ldx #.HIBYTE(ItemUse_Choicer)
     sta menu_indir_jmp_addr
@@ -480,7 +480,7 @@ SelectedOverworldGood:
     lda #$c5
     jsr DRAW_TILE_IN_CURSOR_POS
     .endif
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bmi B19_02a7
     bpl CommandGoods
 
@@ -513,7 +513,7 @@ B19_02a7:
     jsr DRAW_TILE_IN_CURSOR_POS
     .endif
     jsr OA_End
-    lda menucursor_pos
+    lda menu_cursorindex
     asl a
     tax
     lda ItemSelectionMenuLUT+1, x
@@ -1008,8 +1008,8 @@ OA_CureStatusEffect:
     jsr RevivePlayerEffect
     @no_revive:
     jsr WriteProtectPRGRam
-    lda #PulseG0_Recovery
-    sta soundqueue_pulseg0
+    lda #pulsesfx::Recovery
+    sta soundqueue_pulse
     ldx input_wordvar+1
     jsr DisplayText
     jmp EndText
@@ -1709,7 +1709,7 @@ OpenPresent:
     jsr DisplayText
     ldx #0
     @PresentGivingLoop:
-    jsr GetXCharacter
+    jsr GET_XTH_PLAYER_IN_PARTY
     bcs @PresentItemInvFull
     sta curr_player_id
     txa
@@ -2255,7 +2255,7 @@ O_TextInterpretLine:
     jsr GetTextData
     .ifdef VER_JP
         lda #$12
-        sta UNK_70
+        sta string_padding_length
         ldy #0
         lda (tilepack_ptr), y
         eor #$90
@@ -2265,7 +2265,7 @@ O_TextInterpretLine:
         sta UNK_71
     .else
         lda #$16
-        sta UNK_70
+        sta string_padding_length
         lda #0
         sta UNK_71
     .endif
@@ -2283,7 +2283,7 @@ O_TextInterpretLine:
 OTC_End:
     jsr B19_0b41
     lda #0
-    sta UNK_70
+    sta string_padding_length
     sta UNK_71
     ldy object_script_offset
 SetPrintingState2:  ; ?
@@ -2398,7 +2398,7 @@ OINST_PromptYesNo:
     sty object_script_offset
     jsr DrawYesNoPrompt
     ldy object_script_offset
-    lda menucursor_pos
+    lda menu_cursorindex
     jmp JumpNE
 
 DrawYesNoPrompt:
@@ -2424,8 +2424,8 @@ T_DoBreak:
     sta ntbl_x
     lda #.LOBYTE(EIGHT_OPTIONS_LUT)
     ldx #.HIBYTE(EIGHT_OPTIONS_LUT)
-    sta UNK_84
-    stx UNK_84+1
+    sta indir_addr
+    stx indir_addr+1
     jsr INIT_CHOICER_MENU
     .ifdef VER_JP
         lda #11
@@ -2485,9 +2485,9 @@ OINST_CustomMenu:
     jsr O_TextInterpretString
     jsr B19_0dc1
     ldy object_script_offset
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs @B19_0e20
-    lda menucursor_pos
+    lda menu_cursorindex
     bne @B19_0e1c
     iny
     iny
@@ -2746,7 +2746,7 @@ OINST_JMP_ItemNotInInv:
     jsr LoadGenericItemData
     ldx #0
     @B19_0f93:
-    jsr GetXCharacter
+    jsr GET_XTH_PLAYER_IN_PARTY
     bcs @B19_0fa5
     sta curr_player_id
     txa
@@ -3015,12 +3015,12 @@ OINST_PromptInputNum:
     stx menu_indir_jmp_addr+1
     lda #.LOBYTE(current_input)
     ldx #.HIBYTE(current_input)
-    sta UNK_84
-    stx UNK_84+1
+    sta indir_addr
+    stx indir_addr+1
     lda #0
-    sta menu_x_pos
-    sta menu_y_pos
-    sta menucursor_pos
+    sta menu_col
+    sta menu_row
+    sta menu_cursorindex
     @loop:
     .ifdef VER_JP
         ldx #$10
@@ -3083,7 +3083,7 @@ OINST_PromptInputNum:
     ;write result
     tya
     sta current_input, x
-    jsr B31_10b0
+    jsr DRAW_TILE_IN_CURSOR_POS
     jmp @loop
 
     ;button is a/b
@@ -3101,7 +3101,7 @@ OINST_PromptInputNum:
     stx ntbl_x
     ldy object_script_offset
     lda #$40
-    bit menucursor_pos+1
+    bit menu_controllerinput
     jmp JumpNE
 
 number_input_placeholder:
@@ -3178,7 +3178,7 @@ OINST_JMP_InvEmpty:
     sty object_script_offset
     ldx #0
 B19_11c1:
-    jsr GetXCharacter
+    jsr GET_XTH_PLAYER_IN_PARTY
     bcs B19_11d1
     tay
     txa
@@ -3340,13 +3340,13 @@ B19_129c:
     sty object_script_offset
     jsr EnablePRGRam
     txa
-    eor is_tank
+    eor vehicle
     and #$7f
     bne B19_12aa
     rts
 
 B19_12aa:
-    stx is_tank
+    stx vehicle
     ldy #$1c
     lda object_script_offset
     sta (object_pointer), y
@@ -3758,7 +3758,7 @@ OINST_MultiplyByPartySize:
     sta UNK_64+1
     ldx #1
     @B19_151d:
-    jsr GetXCharacter
+    jsr GET_XTH_PLAYER_IN_PARTY
     bcs @B19_153d
     jsr GetPartyMemberPtr
     ldy #1
@@ -4421,14 +4421,14 @@ B19_1763:
     sta menu_indir_jmp_addr
     stx menu_indir_jmp_addr+1
     jsr PRINT_CURR_CHOICER
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bmi B19_179e
     sec
     rts
     B19_179e:
     lda #'>'
     jsr DRAW_TILE_IN_CURSOR_POS
-    ldx menucursor_pos
+    ldx menu_cursorindex
     lda party_choice_is, x
     sta curr_player_id
     clc
@@ -4454,7 +4454,7 @@ OpenOverworldGoods:
     bcc @GoodsStart
     ldx #0
 @GoodsStart:
-    jsr GetXCharacter
+    jsr GET_XTH_PLAYER_IN_PARTY
     bcs @GoodsIncChar
     sta curr_player_id
     stx UNK_37
@@ -4464,13 +4464,13 @@ OpenOverworldGoods:
     jsr Load8Entry_CharChoicer
     ldx UNK_37
     lda #6
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs @GoodsRTS
     bmi @GoodsIncChar
     beq @GoodsIncChar
     jsr B19_1803
     jsr B19_1b0e
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs @GoodsRTS
     bmi B19_17f6
     ldx UNK_37
@@ -4481,8 +4481,8 @@ OpenOverworldGoods:
     B19_17f6:
     lda #'>'
     jsr DRAW_TILE_IN_CURSOR_POS
-    ldy menucursor_pos
-    lda (UNK_84), y
+    ldy menu_cursorindex
+    lda (indir_addr), y
     sta curr_item_id
     clc
     rts
@@ -4492,10 +4492,10 @@ B19_1803:
     clc
     lda temp_word
     adc #$20
-    sta UNK_84
+    sta indir_addr
     lda temp_word+1
     adc #0
-    sta UNK_84+1
+    sta indir_addr+1
     rts
 
 B19_1814:
@@ -4504,10 +4504,10 @@ B19_1814:
     sec
     lda object_script_offset
     adc object_data
-    sta UNK_84
+    sta indir_addr
     lda #0
     adc object_data+1
-    sta UNK_84+1
+    sta indir_addr+1
     ldy #3
     @B19_1829:
     sty ntbl_y
@@ -4522,13 +4522,13 @@ B19_1814:
     .else
         lda #12
     .endif
-    sta UNK_70
+    sta string_padding_length
     ldx #3
     stx ntbl_x
     jsr LoadItemNameptr
     jsr LOAD_ITEM_PRICE
     lda #0
-    sta UNK_70
+    sta string_padding_length
     .ifdef VER_JP
         ldx #13
     .else
@@ -4549,7 +4549,7 @@ B19_1814:
     sta menu_indir_jmp_addr
     stx menu_indir_jmp_addr+1
     jsr DO_GENERIC_CHOICER
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bmi @B19_186c
     sec
     rts
@@ -4595,13 +4595,13 @@ OpenMenuStorage:
     jsr Load8Entry_CharChoicer
     ldx UNK_37
     lda #6
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs @B19_18c5
     bmi @B19_188b
     beq @B19_188b
     jsr B19_18ca
     jsr B19_1b0e
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs @B19_18c5
     bmi @B19_18c7
     ldx UNK_37
@@ -4616,10 +4616,10 @@ B19_18ca:
     clc
     lda UNK_37
     adc #.LOBYTE(item_storage)
-    sta UNK_84
+    sta indir_addr
     lda #0
     adc #.HIBYTE(item_storage)
-    sta UNK_84+1
+    sta indir_addr+1
     rts
 
 label_thecloset:
@@ -4654,7 +4654,7 @@ OpenOverworldPSI:
     jsr Load8Entry_CharChoicer
     ldx UNK_37
     lda #6
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs @B19_1930
     bmi @IncrementX
     beq @IncrementX
@@ -4664,7 +4664,7 @@ OpenOverworldPSI:
     and #$f0
     bne @skip
     jsr B19_1b0e
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bvs @B19_1930
     bmi @B19_1932
     ; go back to start of loop
@@ -4682,10 +4682,10 @@ B19_1935:
     clc
     lda temp_word
     adc #$30
-    sta UNK_84
+    sta indir_addr
     lda temp_word+1
     adc #0
-    sta UNK_84+1
+    sta indir_addr+1
     ldx #0
     ldy #0
     @B19_1949:
@@ -4699,7 +4699,7 @@ B19_1935:
     lsr a
     lsr a
     tay
-    lda (UNK_84), y
+    lda (indir_addr), y
     and All_Bits, x
     ldx temp_vars+4
     and overworldpsi_mask, y
@@ -4725,8 +4725,8 @@ B19_1935:
     @B19_1982:
     lda #.LOBYTE(UNK_580)
     ldx #.HIBYTE(UNK_580)
-    sta UNK_84
-    stx UNK_84+1
+    sta indir_addr
+    stx indir_addr+1
     rts
 
 overworldpsi_mask:
@@ -4745,7 +4745,7 @@ OpenTeleportMenu:
     lda #.LOBYTE(teleport_choicer)
     ldx #.HIBYTE(teleport_choicer)
     jsr B19_1b12
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bmi @B19_19ac
     sec
     rts
@@ -4770,8 +4770,8 @@ B19_19af:
     bcc @B19_19b6
     lda #.LOBYTE(UNK_580)
     ldx #.HIBYTE(UNK_580)
-    sta UNK_84
-    stx UNK_84+1
+    sta indir_addr
+    stx indir_addr+1
     rts
 
 label_teleportmenu_where:
@@ -4836,7 +4836,7 @@ B19_19e4:
     jsr CHOICER_MAINLOOP
 
     @bb22:
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bmi @B19_1a39
     bvc @B19_1a54
     @B19_1a24:
@@ -4852,7 +4852,7 @@ B19_19e4:
     sta player_name, y
     bne @yump1
     @B19_1a39:
-    ldy menucursor_pos
+    ldy menu_cursorindex
     cpy #$10
     beq @B19_1a24
 
@@ -4910,7 +4910,7 @@ B19_1a18:
     jsr B19_1a8d
     jsr CHOICER_MAINLOOP
 B19_1a1e:
-    bit menucursor_pos+1
+    bit menu_controllerinput
     bmi B19_1a39
     bvc B19_1a54
     B19_1a24:
@@ -4926,7 +4926,7 @@ B19_1a1e:
     sta player_name, y
     bne B19_1a18
     B19_1a39:
-    ldy menucursor_pos
+    ldy menu_cursorindex
     cpy #$10
     beq B19_1a24
     cpy #$26
@@ -5078,7 +5078,7 @@ Draw8Entry_LabelName:
         lda #6                  ; tile qty (name length is 6)
         ldx #23                 ; x-pos
         ldy #3                  ; y-pos
-        sta UNK_70
+        sta string_padding_length
         stx ntbl_x
         sty ntbl_y
         jmp DrawTilepackClear
@@ -5086,7 +5086,7 @@ Draw8Entry_LabelName:
         lda #7                  ; tile qty (name length is 7)
         ldx #9                  ; x-pos
         ldy #3                  ; y-pos
-        sta UNK_70
+        sta string_padding_length
         stx ntbl_x
         sty ntbl_y
         jmp DrawTilepack
@@ -5100,14 +5100,14 @@ B19_1b40:
     .endif
     ldx #7
     ldy #5
-    sta UNK_70
+    sta string_padding_length
     sty ntbl_y
     ldy #0
 ; print 8 entries loop
 B19_1b4c:
     stx ntbl_x
-    sty menucursor_pos
-    lda (UNK_84), y
+    sty menu_cursorindex
+    lda (indir_addr), y
     sta curr_item_id
     jsr LoadItemNameptr
     ldx #$13
@@ -5117,12 +5117,12 @@ B19_1b4c:
     inc ntbl_y
     ldx #7
     B19_1b63:
-    ldy menucursor_pos
+    ldy menu_cursorindex
     iny
     cpy #8
     bcc B19_1b4c
     lda #0
-    sta UNK_70
+    sta string_padding_length
     rts
 
 

@@ -54,9 +54,9 @@ ns_load_ui_element:
 
 ns_load_choicer:
     lda NS_ChoicerPointers, x
-    sta UNK_80
+    sta menu_indir_jmp_addr
     lda NS_ChoicerPointers+1, x
-    sta UNK_80+1
+    sta menu_indir_jmp_addr+1
     rts
 
 rts_4:
@@ -653,7 +653,7 @@ NS_PrepCharIcons:
 B25_1a9b_new:
     lda #0
     sta UNK_50+5
-    sta UNK_70
+    sta string_padding_length
 
     ldx UNK_50+6
     sta UNK_580+1, x

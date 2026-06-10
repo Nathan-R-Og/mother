@@ -51,7 +51,6 @@ UNK_2C: .res 4
 object_pointer: .res 2 ; $30 ; Pointer to object_memory
 object_data: .res 2 ; $32 ; Pointer to ROM object data
 UNK_34: .res 1 ; $34 -> Object script interaction type
-UNK_34: .res 1 ; $34 -> Object script interaction type
 object_script_offset: .res 1 ; $35 ; TODO: APPLY ALL LABELS
 UNK_36: .res 1
 UNK_37: .res 1
@@ -104,8 +103,8 @@ UNK_72: .res 1
 UNK_73: .res 1              ; $73 - text id
 text_id := UNK_73
 tilepack_ptr: .res 2        ; $74
-tileprinter_ypos: .res 1    ; $76
-tileprinter_xpos: .res 1    ; $77
+ntbl_x: .res 1    ; $76
+ntbl_y: .res 1    ; $77
 UNK_78: .res 1
 UNK_79: .res 1
 UNK_7A: .res 1
@@ -194,7 +193,12 @@ shift_x: .res 1 ; $e8
 shift_y: .res 1 ; $e9
 nmi_mode: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running NMI handler ;ignores controller input while set
     .enum NMI_MODE
-        SKIP = 1 << 7
+        ; The NMI handler has run to completion
+        FINISHED = 0
+        ; The NMI handler has not run yet, and WaitNMI has been called and is waiting for NMI to finish
+        WAITING_FOR_NMI = 1
+        ; The NMI handler is running, and it has progressed far enough that calling it again should be a no-op to avoid issues
+        RUNNING = 1 << 7
     .endenum
 irq_latch: .res 1 ; $eb
 irq_count: .res 1 ; $ec ; IRQ Count
@@ -254,16 +258,11 @@ nmi_queue: .res $100
                 UPDATE_PALETTE = 4
                 PPU_WRITE = 5
                 PPU_WRITE_32 = 6
-                .ifdef VER_JP
-                    UNK = 7
-                    PPU_WRITE_ADDRS = 8
-                .else
                 PPU_WRITE_ADDRS = 7
                 PPU_WRITE_BYTE = 8
-                .endif
                 PPU_READ = 9
                 .ifndef VER_JP
-                PPU_READ_TEXT = 10
+                    PPU_READ_TEXT = 10
                 .endif
             .endenum
         nmiheader_offset    := nmiheader+1  ; 01
@@ -564,7 +563,7 @@ Noise_Thunder               = $3
 Noise_Fire                  = $4
 Noise_Crit                  = $5
 Noise_EnemyKilled           = $6
-Noise_7                     = $7
+Noise_Junk                  = $7
 Noise_Stairs                = $8
 Noise_Rocket                = $9
 Noise_RocketLand            = $A

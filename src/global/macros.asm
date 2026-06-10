@@ -69,32 +69,6 @@
     mute = $ff
 .endenum
 
-
-.enum NMI_COMMANDS
-    SKIP = 0
-    NOTHING = 1
-    BRANCH = 2
-    GOTO = 3
-    UPDATE_PALETTE = 4
-    PPU_WRITE = 5
-    PPU_WRITE_32 = 6
-    PPU_WRITE_ADDRS = 7
-    PPU_WRITE_BYTE = 8
-    PPU_READ = 9
-    .ifndef VER_JP
-        PPU_READ_TEXT = 10
-    .endif
-.endenum
-
-.enum NMI_MODE
-    ; The NMI handler has run to completion
-    FINISHED = 0
-    ; The NMI handler has not run yet, and WaitNMI has been called and is waiting for NMI to finish
-    WAITING_FOR_NMI = 1
-    ; The NMI handler is running, and it has progressed far enough that calling it again should be a no-op to avoid issues
-    RUNNING = 1 << 7
-.endenum
-
 ; items
 .struct itemd
     nameptr .addr

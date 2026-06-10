@@ -927,7 +927,7 @@ BattleCircle_Render:
     bcs @no_carry
     lda #0
     @no_carry:
-    sta tileprinter_xpos
+    sta ntbl_y
 
     ;store result
     pha
@@ -936,7 +936,7 @@ BattleCircle_Render:
     lda #15
     sec
     sbc bc_hi
-    sta tileprinter_ypos
+    sta ntbl_x
 
     jsr B20_16b8
 
@@ -947,20 +947,20 @@ BattleCircle_Render:
     bcc @no_carry2
     lda #$1d
     @no_carry2:
-    sta tileprinter_xpos
+    sta ntbl_y
 
     jsr B20_16b8
 
     lda #$10
     clc
     adc bc_hi
-    sta tileprinter_ypos
+    sta ntbl_x
 
     jsr B20_16b8
 
     ;restore result
     pla
-    sta tileprinter_xpos
+    sta ntbl_y
 
     B20_16b8:
     ;if bc_nmicount < 20, jump
@@ -977,7 +977,7 @@ BattleCircle_Render:
     lda #0
     sta bc_nmicount
     @not_20:
-    ;tileprinter_xpos and tileprinter_ypos get sent to UNK_78 and UNK_79 respectively
+    ;ntbl_y and ntbl_x get sent to UNK_78 and UNK_79 respectively
     jsr CalculateNTAddr
 
     ;x = (bc_nmicount << 1) + bc_nmicount
@@ -1806,14 +1806,14 @@ NS_NamingSequence:
 
     .ifdef VER_JP
         lda #4
-        sta tileprinter_ypos
+        sta ntbl_x
     .else
         ;store 2,3 for x,y
         lda #2
-        sta tileprinter_ypos
+        sta ntbl_x
         lda #3
     .endif
-    sta tileprinter_ypos+1
+    sta ntbl_x+1
 
     ;prints each line
     ldx #.LOBYTE(IntroText1)
@@ -1828,13 +1828,13 @@ NS_NamingSequence:
 
     ;store 6,10 for x,y
     lda #6
-    sta tileprinter_ypos
+    sta ntbl_x
     .ifdef VER_JP
         lda #14
     .else
         lda #10
     .endif
-    sta tileprinter_ypos+1
+    sta ntbl_x+1
 
     ;prints each line
     ldx #.LOBYTE(IntroText2)
@@ -1918,8 +1918,8 @@ B20_9bab:
 
     lda #.LOBYTE(@B20_9c20)
     ldx #.HIBYTE(@B20_9c20)
-    sta UNK_80
-    stx UNK_80+1
+    sta menu_indir_jmp_addr
+    stx menu_indir_jmp_addr+1
     jsr PRINT_CURR_CHOICER
     jmp @B20_9bd0
     @B20_9bc4:
@@ -1931,13 +1931,13 @@ B20_9bab:
     sta ntbl_x
     jsr B31_0f7c
     @B20_9bd0:
-    lda menucursor_pos+1
+    lda menu_controllerinput
     and #$80
     bne @B20_9c02
-    lda menucursor_pos+1
+    lda menu_controllerinput
     and #$02
     bne @B20_9be2
-    lda menucursor_pos+1
+    lda menu_controllerinput
     and #$01
     bne @B20_9bf2
     @B20_9be2:
@@ -2280,7 +2280,7 @@ B20_1C1C:
     jsr NS_LoadCursor
 
     B20_1C1F:
-    ;load setup pointer to UNK_80
+    ;load setup pointer to menu_indir_jmp_addr
     lda #.LOBYTE(letterSetup)
     ldx #.HIBYTE(letterSetup)
     sta menu_indir_jmp_addr
