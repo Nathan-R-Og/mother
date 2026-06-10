@@ -36,8 +36,8 @@ TITLE_ANTI_PIRACY:
 
     ;nmi_data_offset = 0
     sta nmi_data_offset
-    ;nmi_flags = NMI_MODE::SKIP
-    lda #NMI_MODE::SKIP
+    ;nmi_flags = 0x80
+    lda #$80
     sta nmi_flags
 
     ;wait for NMI to complete
@@ -124,8 +124,8 @@ TITLE_ANTI_PIRACY:
     ;nmi_data_offset = 0
     lda #0
     sta nmi_data_offset
-    ;nmi_flags = NMI_MODE::SKIP
-    lda #NMI_MODE::SKIP
+    ;nmi_flags = 0x80
+    lda #$80
     sta nmi_flags
 
     jsr PpuSync
@@ -280,7 +280,7 @@ ShowAntipiracy:
     sta nmi_queue+1 ; END
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     @inf_loop:
