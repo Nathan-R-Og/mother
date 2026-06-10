@@ -38,8 +38,8 @@ Credits_Entry:
     ldx #$10
     ldy #8
     sta ram_PPUCTRL
-    stx scroll_y
-    sty scroll_x
+    stx scroll_x
+    sty scroll_y
 
     ;clear music
     lda #$ff
@@ -325,7 +325,7 @@ credits_cmd_set_metatileprops:
     sta nmi_data_offset
 
     ;skip nmi
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     dec height
@@ -383,7 +383,7 @@ credits_cmd_set_palette:
     sta nmi_queue+1 ; END
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     ;set to after command
@@ -591,9 +591,9 @@ credits_cmd_draw_text:
     sta UNK_73
 
     lda #2
-    sta tileprinter_ypos
+    sta ntbl_x
     lda #$13
-    sta tileprinter_ypos+1
+    sta ntbl_x+1
 
     lda #$1c
     sta string_padding_length
@@ -636,7 +636,7 @@ credits_cmd_draw_text:
     lda #0
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     dex
@@ -675,12 +675,12 @@ credits_cmd_draw_text_xy:
     ;get next byte (x pos)
     iny
     lda (UNK_40), y
-    sta tileprinter_ypos
+    sta ntbl_x
 
     ;get next byte (y pos)
     iny
     lda (UNK_40), y
-    sta tileprinter_ypos+1
+    sta ntbl_x+1
 
     lda #0
     sta string_padding_length

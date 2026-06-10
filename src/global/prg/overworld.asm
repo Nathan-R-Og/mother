@@ -1,9 +1,9 @@
 ; zeropage variables
 input_wordvar = global_wordvar ; 16-bit var often used to "input" values for use in upcoming functions
 
-curr_player_id = $28
-curr_item_id   = $29
-printing_state = $2c    ; temp variable name, document more when understood
+curr_player_id = UNK_28
+curr_item_id   = UNK_28+1
+printing_state = UNK_2C    ; temp variable name, document more when understood
 ; 00 = Clear (Initial string prints textbox and gets printed at default spot)
 ; 08 = Continuing (adds break at end -> next string is printed)
 ; 09 = Yes / No Menu
@@ -21,13 +21,13 @@ temp_word               = UNK_60       ; different label when $60 is being used 
     temp_word_lo        = UNK_60
     temp_word_hi        = UNK_60+1
 
-curr_player_dataptr     = $68
+curr_player_dataptr     = UNK_68
 
 .segment        "PRG13": absolute
 
 ; Overworld Engine
 OM_OPEN_FULLSTATS:
-    lda #$05
+    lda #pulsesfx::MenuBloop
     sta soundqueue_pulse
 CommandState:
     ;store learned_melodies
@@ -51,12 +51,12 @@ CommandState:
     lda #0
     sta BATTLER, y
 
-    B19_0021:
+    @B19_0021:
     ldx #0
-    B19_0023:
+    @B19_0023:
     jsr GetXCharacter
     ;if failed, jump
-    bcs B19_0084
+    bcs @B19_0084
     ;else,
     jsr GetPartyMemberPtr
     ;stash x
@@ -94,6 +94,7 @@ CommandState:
     sta UNK_28+1
     jsr B19_00b3
 
+
     ;do choicer
     lda #.LOBYTE(State_Choicer)
     ldx #.HIBYTE(State_Choicer)
@@ -101,35 +102,35 @@ CommandState:
     stx menu_indir_jmp_addr+1
     jsr PRINT_CURR_CHOICER
 
-    B19_0064:
+    @B19_0064:
     ;test bits of menu_controllerinput (the buttons pressed)
     bit menu_controllerinput
-    bvs B19_008b
+    bvs @B19_008b
     lda menu_cursorindex
-    beq B19_0082
+    beq @B19_0082
     jsr B19_00b3
-    bcs B19_0074
+    bcs @B19_0074
     jsr B19_00b3
-    B19_0074:
+    @B19_0074:
 
     ;store 10,3 for x,y
     ldx #10
     ldy #3
-    stx tileprinter_ypos
-    sty tileprinter_ypos+1
+    stx ntbl_x
+    sty ntbl_x+1
     jsr CHOICER_MAINLOOP
 
-    jmp B19_0064
+    jmp @B19_0064
 
-B19_0082:
+    @B19_0082:
     pla
     tax
-B19_0084:
+    @B19_0084:
     inx
     cpx #4
-    bcc B19_0023
-    bcs B19_0021
-B19_008b:
+    bcc @B19_0023
+    bcs @B19_0021
+    @B19_008b:
     pla
     jmp CLEAR_TEXTBOXES_ROUTINE
 
@@ -146,15 +147,15 @@ B19_008f:
     ldy #0
     lda (temp_vars), y
 
-    sta $64
+    sta UNK_64
     iny
     lda (temp_vars), y
-    sta $65
+    sta UNK_64+1
     pla
     tax
-    ldy #$00
+    ldy #0
     B19_00a5:
-    lda ($64), y
+    lda (UNK_64), y
     sta BATTLER, x
     inx
     iny
@@ -167,9 +168,9 @@ B19_008f:
 B19_00b3:
     ldx #$40
 B19_00b5:
-    stx $68
+    stx UNK_68
     jsr B30_1ccd
-    ldx $68
+    ldx UNK_68
     and BATTLER, y
     beq B19_00c4
     jsr B19_008f
@@ -183,7 +184,7 @@ B19_00b5:
     rts
 
 B19_00d1:
-    lda #$00
+    lda #0
     sta BATTLER, x
     clc
     txa
@@ -197,21 +198,21 @@ B19_00e1:
     cpx #$80
     bcc B19_00b5
 B19_00e5:
-    lda #$fe
-    ldx #$a0
-    sta $74
-    stx $75
+    lda #.LOBYTE(State_PSIOverlay)
+    ldx #.HIBYTE(State_PSIOverlay)
+    sta tilepack_ptr
+    stx tilepack_ptr+1
 B19_00ed:
     jsr DrawTilepackClear
-    cmp #$00
+    cmp #0
     bne B19_00ed
     rts
 
 State_TextOverlay:
     .ifdef VER_JP
-    .define US_MOD 0
+        .define US_MOD 0
     .else
-    .define US_MOD 1
+        .define US_MOD 1
     .endif
 
     ;print the name
@@ -219,6 +220,7 @@ State_TextOverlay:
     .byte print_number $0638, 0, 6+US_MOD
     .byte stopText
 
+State_PSIOverlay:
     ;print the psi panel contents
     .byte set_pos 19, 5
     .byte print_number $0640, 0, 10+US_MOD
@@ -242,13 +244,13 @@ Idle_DadPhonecall:
     lda #$80
     bit UNK_D4
     bne @exit
-    ldx frame_counter+2
-    ldy frame_counter+1
+    ldx dad_call_timer+2
+    ldy dad_call_timer+1
     cpx #6
     bcc @exit
     cpy #$90
     bcc @exit
-    ;if framecounter >= 0x069000, get a call from dad
+    ;if dad_call_timer >= 0x069000, get a call from dad
 
     ora UNK_D4
     sta UNK_D4
@@ -278,10 +280,10 @@ Idle_DadPhonecall:
     ldx #$43*2 ;saved, resetting
     jsr DisplayText
     jmp OINST_Reset
-    @exit:
+@exit:
     rts
 
-    @decline:
+@decline:
     ldx #$41*2 ;say no
     jsr DisplayText
     ldx #$42*2 ;good luck
@@ -291,7 +293,7 @@ Idle_DadPhonecall:
     jmp CLEAR_TEXTBOXES_ROUTINE
 
 OPEN_OVERWORLD_COMMANDS:
-    lda #$05
+    lda #pulsesfx::MenuBloop
     sta soundqueue_pulse
     jsr IRQ_DO_COMMANDBOX
     lda #.LOBYTE(Command_Choicer)
@@ -299,11 +301,12 @@ OPEN_OVERWORLD_COMMANDS:
     sta menu_indir_jmp_addr
     stx menu_indir_jmp_addr+1
     jsr PRINT_CURR_CHOICER
+
     .ifdef VER_JP
-    lda #$c5
-    jsr DRAW_TILE_IN_CURSOR_POS
+        lda #$c5
+        jsr DRAW_TILE_IN_CURSOR_POS
     .endif
-    bit $83
+    bit menucursor_pos+1
     bmi B19_0192
     jmp CLEAR_TEXTBOXES_ROUTINE
     B19_0192:
@@ -311,7 +314,7 @@ OPEN_OVERWORLD_COMMANDS:
     lda #$ff
     jsr DRAW_TILE_IN_CURSOR_POS
     .endif
-    lda $82
+    lda menucursor_pos
     asl a
     tax
     lda OverworldCommandLUT+1, x
@@ -320,30 +323,26 @@ OPEN_OVERWORLD_COMMANDS:
     pha
     rts
 
-
-
 OverworldCommandLUT:
     .addr CommandTalk-1 ; 00 - TALK
     .addr CommandCheck-1 ; 01 - CHECK
     .ifdef VER_JP
-    .addr CommandPSI-1 ; 02 - PSI ?
-    .addr CommandGoods-1 ; 03 - GOODS ?
+        .addr CommandPSI-1 ; 02 - PSI ?
+        .addr CommandGoods-1 ; 03 - GOODS ?
     .else
-    .addr CommandGoods-1 ; 02 - GOODS ?
-    .addr CommandState-1 ; 03 - STATE ?
-    .addr CommandPSI-1 ; 04 - PSI ?
-    .addr CommandSetup-1 ; 05 - SETUP
+        .addr CommandGoods-1 ; 02 - GOODS ?
+        .addr CommandState-1 ; 03 - STATE ?
+        .addr CommandPSI-1 ; 04 - PSI ?
+        .addr CommandSetup-1 ; 05 - SETUP
     .endif
-
-
 
 Command_Choicer:
     .ifdef VER_JP
-    .byte 1, 4 ; choicer array size
-    .byte 0, 2 ; X/Y inc
+        .byte 1, 4 ; choicer array size
+        .byte 0, 2 ; X/Y inc
     .else
-    .byte 2, 3 ; choicer array size
-    .byte 6, 2 ; X/Y inc
+        .byte 2, 3 ; choicer array size
+        .byte 6, 2 ; X/Y inc
     .endif
     .byte PAD_A | PAD_B ; Input mask
     .byte $3a ; Tile
@@ -352,7 +351,7 @@ Command_Choicer:
 
 .ifndef VER_JP
 CommandSetup:
-    lda #$19
+    lda #.BANK(SetupMenu)
     ldx #.LOBYTE(SetupMenu-1)
     ldy #.HIBYTE(SetupMenu-1)
     jsr TempUpperBankswitch
@@ -370,7 +369,7 @@ B19_01c6:
     and #$0F<<2
     beq B19_01e9
     lda #$35 ; Interaction type: TOUCH
-    sta $34
+    sta UNK_34
     jsr StartObjectScriptInterpreter
     bcs B19_01e9
     B19_01e1:
@@ -385,23 +384,23 @@ B19_01e9:
 CommandTalk:
     jsr OBJECT_INTERACTION
     asl a
-    bpl B19_0200
+    bpl @B19_0200
     and #$0F<<1
-    beq B19_0204
+    beq @B19_0204
     jsr B31_02a2
     lda #$0a ; Interaction type: TALK
-    sta $34
+    sta UNK_34
     jsr StartObjectScriptInterpreter
-    bcc B19_020c
-    B19_0200:
-    ldx #$02
-    bne B19_0206
-    B19_0204:
-    ldx #$04
-    B19_0206:
+    bcc @B19_020c
+    @B19_0200:
+    ldx #1*2
+    bne @B19_0206
+    @B19_0204:
+    ldx #2*2
+    @B19_0206:
     jsr DisplayText
     jsr OINST_END
-    B19_020c:
+    @B19_020c:
     jmp CLEAR_TEXTBOXES_ROUTINE
 
 CommandCheck:
@@ -412,18 +411,18 @@ CommandCheck:
     jmp CLEAR_TEXTBOXES_ROUTINE
     @not_a_present:
     asl a
-    bpl B19_022d
+    bpl @B19_022d
     and #$0F<<1
-    beq B19_022d
+    beq @B19_022d
     lda #$0b
-    sta $34 ; Interaction type: CHECK
+    sta UNK_34 ; Interaction type: CHECK
     jsr StartObjectScriptInterpreter
-    bcc B19_0235
-    B19_022d:
-    ldx #$06
+    bcc @B19_0235
+    @B19_022d:
+    ldx #3*2
     jsr DisplayText
     jsr OINST_END
-    B19_0235:
+    @B19_0235:
     jmp CLEAR_TEXTBOXES_ROUTINE
 
 CommandPSI:
@@ -433,21 +432,21 @@ CommandPSI:
 
 SelectedOverworldPSI:
     jsr OA_End
-    ldy #$07
+    ldy #7
     lda (temp_vars), y
-    sta $43
+    sta UNK_43
     sec
     ldy #$16
     lda (tableentry_var), y
-    sbc $43
+    sbc UNK_43
     iny
     lda (tableentry_var), y
-    sbc #$00
+    sbc #0
     bcc B19_025d
     jsr OverworldActionInterpreter
     jmp FinishedTextboxRoutine
     B19_025d:
-    ldx #$10
+    ldx #8*2
     jmp DisplayTextAndFinishRoutine
 
 CommandGoods:
@@ -459,19 +458,19 @@ SelectedOverworldGood:
     jsr DRAW_WINDOW_ITEMACTIONS
     jsr MOV_word60_word40
     jsr PlayerStatusCheck
-    beq B19_0281
+    beq @B19_0281
     lda curr_item_id
-    cmp #$03
-    beq B19_0281
+    cmp #3
+    beq @B19_0281
     lda #.LOBYTE(ItemUse_WhateverThisIS)
     ldx #.HIBYTE(ItemUse_WhateverThisIS)
-    bne B19_0285
-    B19_0281:
+    bne @B19_0285
+    @B19_0281:
     lda #.LOBYTE(EIGHT_OPTIONS_LUT)
     ldx #.HIBYTE(EIGHT_OPTIONS_LUT)
-    B19_0285:
-    sta $84
-    stx $85
+    @B19_0285:
+    sta UNK_84
+    stx UNK_84+1
     lda #.LOBYTE(ItemUse_Choicer)
     ldx #.HIBYTE(ItemUse_Choicer)
     sta menu_indir_jmp_addr
@@ -481,7 +480,7 @@ SelectedOverworldGood:
     lda #$c5
     jsr DRAW_TILE_IN_CURSOR_POS
     .endif
-    bit $83
+    bit menucursor_pos+1
     bmi B19_02a7
     bpl CommandGoods
 
@@ -505,7 +504,7 @@ ItemUse_Choicer:
 ItemUse_WhateverThisIS:
     .byte 0,0,3,4
     .ifndef VER_JP
-    .byte 0
+        .byte 0
     .endif
 
 B19_02a7:
@@ -514,7 +513,7 @@ B19_02a7:
     jsr DRAW_TILE_IN_CURSOR_POS
     .endif
     jsr OA_End
-    lda $82
+    lda menucursor_pos
     asl a
     tax
     lda ItemSelectionMenuLUT+1, x
@@ -529,7 +528,7 @@ ItemSelectionMenuLUT:
     .addr SELECTION_GIVE-1
     .addr SELECTION_DROP-1
     .ifndef VER_JP
-    .addr SELECTION_LOOK-1
+        .addr SELECTION_LOOK-1
     .endif
 
 ; temp_vars = $60 = Item data (0x8 len)
@@ -551,13 +550,13 @@ SELECTION_USE:
     jmp FinishedTextboxRoutine
 
 @UselessItemUse:
-    ldx #$16                        ; "[Name] used the [Item]."
+    ldx #$b*2                        ; "[Name] used the [Item]."
     jsr DisplayText
     jsr OA_NothingHappened
     jmp FinishedTextboxRoutine
 
 @CannotUseItem:
-    ldx #$18                        ; "[Name] can't use the [Item]."
+    ldx #$c*2                        ; "[Name] can't use the [Item]."
     jmp DisplayTextAndFinishRoutine
 
 SELECTION_Equip:
@@ -569,13 +568,13 @@ SELECTION_Equip:
     beq @CannotEquipItem
     jsr EquipItemRoutine
     bcs @CannotEquipItem
-    ldx #$1c                        ; "[Name] equipped the [Item]."
+    ldx #$e*2                        ; "[Name] equipped the [Item]."
     jsr DisplayText
     lda #Triangle_Equip
     sta soundqueue_triangle
     jmp FinishedTextboxRoutine
 @CannotEquipItem:
-    ldx #$1e                        ; "[Name] can't equip the [Item]."
+    ldx #$f*2                        ; "[Name] can't equip the [Item]."
     jmp DisplayTextAndFinishRoutine
 
 SELECTION_GIVE:
@@ -602,7 +601,7 @@ SELECTION_GIVE:
     bcs @ReceiverFull
     ;else, remove the item
     jsr RemoveItem
-    cmp $42
+    cmp UNK_42
     beq @ReceiverWeird
     jsr PlayerStatusCheck
     bne @GiverIsDead
@@ -613,11 +612,11 @@ SELECTION_GIVE:
     bne @AliveToDead
 
 ; @AliveToAlive ; (1 person to another)
-    ldx #$24
+    ldx #$12*2
     jmp DisplayTextAndFinishRoutine
 
 @AliveToDead:
-    ldx #$4c
+    ldx #$26*2
     jmp DisplayTextAndFinishRoutine
 
 @GiverIsDead:
@@ -625,7 +624,7 @@ SELECTION_GIVE:
     jsr PlayerStatusCheck
     bne @DeadToDead
 ; @DeadToAlive
-    ldx #$4e
+    ldx #$27*2
     jmp DisplayTextAndFinishRoutine
 
 ; funky logic where this location gets jumped to in 2 different locations
@@ -635,28 +634,28 @@ SELECTION_GIVE:
     jsr PlayerStatusCheck
     bne @DeadToDead
 ; @GiveToSelf
-    ldx #$50
+    ldx #$28*2
     jmp DisplayTextAndFinishRoutine
 
 @DeadToDead:
-    ldx #$52
+    ldx #$29*2
     jmp DisplayTextAndFinishRoutine
 
 ; used by bread crumbs only in vanilla
 @CantGiveItem:
-    ldx #$26
+    ldx #$13*2
     jmp DisplayTextAndFinishRoutine
 
 @ReceiverFull:
     lda curr_player_id
-    cmp $42
+    cmp UNK_42
     beq @ReceiverWeird
 ; @ReceiverFull
-    ldx #$28
+    ldx #$14*2
     jmp DisplayTextAndFinishRoutine
 
 @GiveFail:
-    ldx #$0c                            ; "You don't have any friends to give items to yet."
+    ldx #6*2                            ; "You don't have any friends to give items to yet."
     jmp DisplayTextAndFinishRoutine
 @CancelGive:
     jmp SelectedOverworldGood
@@ -670,7 +669,7 @@ SELECTION_EAT:
     jsr OverworldActionInterpreter
     jmp FinishedTextboxRoutine
 ; @ItemNotEdible
-:   ldx #$1a                            ; item isnt edible msg
+:   ldx #$d*2                            ; item isnt edible msg
     jmp DisplayTextAndFinishRoutine
 
 SELECTION_DROP:
@@ -679,25 +678,25 @@ SELECTION_DROP:
     jsr PlayerStatusCheck
     bne @OwnerDead
 ; @Owner Alive
-    ldx #$20                            ; threw away item msg
+    ldx #$10*2                            ; threw away item msg
     jmp DisplayTextAndFinishRoutine
 @OwnerDead:
-    ldx #$54                            ; Leader threw out someone else's item msg
+    ldx #$2a*2                            ; Leader threw out someone else's item msg
     jmp DisplayTextAndFinishRoutine
 ; when item is a key item
 @DropItemFailed:
-    ldx #$22                            ; item is a key msg
+    ldx #$11*2                            ; item is a key msg
     jmp DisplayTextAndFinishRoutine
 
 .ifndef VER_JP
 SELECTION_LOOK:
     clc
     lda curr_item_id
-    adc #$e8
-    sta $74
-    lda #$00
-    adc #$03
-    sta $73
+    adc #.LOBYTE(UMSG::LOOK_NULLITEM)
+    sta text_id+1
+    lda #0
+    adc #.HIBYTE(UMSG::LOOK_NULLITEM)
+    sta text_id
     jsr O_PrintText
     jmp FinishedTextboxRoutine
 .endif
@@ -781,19 +780,19 @@ OA25_TELEPATHY:
     and #$1E
     beq OA_TriedUselessPSI
     lda #$C
-    sta $34
+    sta UNK_34
     jsr StartObjectScriptInterpreter
     bcs OA_TriedUselessPSI
     rts
 
 ; Probably some vestigial code. Completely unused in vanilla.
 OA_TriedUselessPSI:
-    ldx #$0E                    ; "[Name] tried [PSI]."
+    ldx #7*2                    ; "[Name] tried [PSI]."
     jsr DisplayText
 ;   jmp OA_NothingHappened      ; fallthru
 
 OA_NothingHappened:
-    ldx #$2A                    ; "Nothing happened."
+    ldx #$15*2                    ; "Nothing happened."
 DisplayText:
     jsr ReadOverworldMessageLUT
     jmp O_PrintText
@@ -811,7 +810,7 @@ OA_INTERACT:
     and #$1E
     beq OA_NothingHappened
     lda #$0D
-    sta $34
+    sta UNK_34
     jsr StartObjectScriptInterpreter
     bcs OA_NothingHappened
     rts
@@ -820,54 +819,62 @@ OA_INTERACT:
 OA_REPEL_RING:
     jsr OA_DeleteItemSelf
     jsr EnablePRGRam
-    lda #$A
+    lda #10
     sta repel_counter
     jsr WriteProtectPRGRam
-    ldx #$16
+    ldx #$b*2
     jmp DisplayText
 .endif
 
 OA_CRUMBS:
     jsr OA_DeleteItemSelf
     jsr EnablePRGRam
+
+    ;write 4 bytes
     ldy #$2C
-:   lda (tableentry_var),y
-    sta $73D8,y
+    @loop:
+    lda (tableentry_var), y
+    sta xpos_music-$2c, y
     iny
     cpy #$30
-    bcc :-
+    bcc @loop
+
     jsr WriteProtectPRGRam
     lda #$40
     sta fade_flag
-    lda #$01
+    lda #1
     sta fade_type
-    ldx #$48
+    ldx #$24*2
     jmp DisplayText
 
 OA_BREAD:
     lda menu_cursorindex
     bne @BreadEat
 ; @BreadUse
-    lda #$03
+    lda #3
     jsr GetItemInventorySlot
     bcc @BreadUseFail
 ; @BreadUseSuccess
     lda curr_item_id
     jsr GetItemInventorySlot
     jsr EnablePRGRam
-    lda #$03
-    sta (temp_vars),y
+    lda #3
+    sta (temp_vars), y
+
+    ;load 4 bytes
     ldy #$2C
-:   lda $73D8,y
-    sta (tableentry_var),y
+    @loop:
+    lda xpos_music-$2c, y
+    sta (tableentry_var), y
     iny
     cpy #$30
-    bcc :-
+    bcc @loop
+
     jsr WriteProtectPRGRam
-    ldx #$44                    ; "[Name] used the bread."
+    ldx #$22*2                    ; "[Name] used the bread."
     jmp DisplayText
 @BreadUseFail:
-    ldx #$46                    ; "You need to toss your old crumbs first!"
+    ldx #$23*2                    ; "You need to toss your old crumbs first!"
     jmp DisplayText
 @BreadEat:
     lda #20
@@ -907,41 +914,42 @@ OA_SPORTS_DRINK:
     jmp OA_Drink
 OA_OINTMENT:
     jsr SetInputVar1000
-    ldx #$16
+    ldx #$b*2
     jmp OA_UseHPItem
 OA_BIG_BAG:
-    lda #$1E
+    lda #30
     jsr STA_word60
     jsr PromptWho
     bcs CancelWho
     .ifndef VER_JP
-    jsr MOV_word60_word40
-    jsr PlayerStatusCheck
-    bmi OA_ConsumeItemUseless
+        jsr MOV_word60_word40
+        jsr PlayerStatusCheck
+        bmi OA_ConsumeItemUseless
     .endif
     jsr OA_End
-    ldx #$42
+    ldx #$21*2
     jsr DisplayText
     jsr EnablePRGRam
     dec big_bag_uses
     php
     jsr WriteProtectPRGRam
     plp
-    bne :+
+    bne @exit
     jsr RemoveItem
-    ldx #$56
+    ldx #$2b*2
     jsr DisplayText
-:   jmp RestoreHPEndRoutine
+    @exit:
+    jmp RestoreHPEndRoutine
 
 OA_Drink:
-    ldx #$2E
+    ldx #$17*2
     bne SetVar_InputNum
 OA_Eat:
-    ldx #$2C
+    ldx #$16*2
 SetVar_InputNum:
-    stx $74
+    stx tilepack_ptr
     jsr STA_word60
-    ldx $74
+    ldx tilepack_ptr
 OA_UseHPItem:
     jsr ReadOverworldMessageLUT
     jsr PromptWho
@@ -964,7 +972,7 @@ CancelWho:
 ; JMPed to when item consumption does nothing (like using food on a dead person)
 OA_ConsumeItemUseless:
     jsr RemoveItem
-    ldx #$58
+    ldx #$2c*2
     jsr DisplayText
 OA_JMPNothingHappened:
     jmp OA_NothingHappened
@@ -976,30 +984,32 @@ OA_UseStatusCureItem:
     jsr PromptWho
     bcs CancelWho
     lda input_wordvar
-    bmi :+
+    bmi @end
     jsr MOV_word60_word40
     jsr PlayerStatusCheck
     bmi OA_ConsumeItemUseless
-:   jsr OA_End
+    @end:
+    jsr OA_End
     jsr O_PrintText
     jsr RemoveItem
 OA_CureStatusEffect:
     ldy #1
-    lda (tableentry_var),Y
+    lda (tableentry_var), y
     and input_wordvar
     beq OA_JMPNothingHappened
     jsr EnablePRGRam
     lda input_wordvar
     php
     eor #$FF
-    and (tableentry_var),Y
-    sta (tableentry_var),Y
+    and (tableentry_var), y
+    sta (tableentry_var), y
     plp
-    bpl :+
+    bpl @no_revive
     jsr RevivePlayerEffect
-:   jsr WriteProtectPRGRam
-    lda #7
-    sta $07F1
+    @no_revive:
+    jsr WriteProtectPRGRam
+    lda #PulseG0_Recovery
+    sta soundqueue_pulseg0
     ldx input_wordvar+1
     jsr DisplayText
     jmp EndText
@@ -1024,19 +1034,20 @@ OA_StatBoosterEffect:
     lda #5
     jsr STA_word60
     clc
-    lda (tableentry_var),Y
+    lda (tableentry_var), y
     adc input_wordvar
-    sta $64
-    bcc :+
+    sta UNK_64
+    bcc @no_carry
     clc
     lda input_wordvar
-    sbc $64
+    sbc UNK_64
     sta input_wordvar
-:   jsr EnablePRGRam
+    @no_carry:
+    jsr EnablePRGRam
     clc
-    lda (tableentry_var),Y
+    lda (tableentry_var), y
     adc input_wordvar
-    sta (tableentry_var),Y
+    sta (tableentry_var), y
     jsr WriteProtectPRGRam
     clc
     tya
@@ -1052,7 +1063,7 @@ OA26_TELEPORT:
     jsr OpenTeleportMenu
     bcs PSIWhoBackout
     jsr PromptWhoConfirm
-    ldx #$0e
+    ldx #7*2
     jsr DisplayText
     pla
     pla
@@ -1068,7 +1079,7 @@ TeleportParser:
     beq @exit
     pla
     pla
-    ldx #$12
+    ldx #9*2
     jmp DisplayText
     @exit:
     rts
@@ -1080,7 +1091,7 @@ DoLifeupRoutine:
     jsr PromptWho
     bcs PSIWhoBackout
     jsr PromptWhoConfirm
-    ldx #$0E                        ; "[Name] tried [PSI]."
+    ldx #7*2                        ; "[Name] tried [PSI]."
     jsr DisplayText
     jsr OA_End
     jsr PlayerStatusCheck
@@ -1103,7 +1114,7 @@ OA_TryHealingPSI:
     jsr PromptWho
     bcs PSIWhoBackout
     jsr PromptWhoConfirm
-    ldx #$0e
+    ldx #7*2
     jsr DisplayText
     jsr OA_End
     lda input_wordvar
@@ -1124,7 +1135,7 @@ RestoreHP:
     jsr WriteProtectPRGRam
     lda #pulsesfx::Recovery
     sta soundqueue_pulse
-    ldx #$34
+    ldx #$1a*2
     jsr DisplayText
     ldx #$30
     jmp OA_Print_ByNum
@@ -1135,11 +1146,11 @@ LoadBigStat:
     clc
     lda (tableentry_var), y
     adc input_wordvar
-    sta $64
+    sta UNK_64
     iny
     lda (tableentry_var), y
     adc input_wordvar+1
-    sta $65
+    sta UNK_64+1
     rts
 
 ; Parameters
@@ -1147,18 +1158,18 @@ LoadBigStat:
 SetBigStatCap:
     sec
     lda (tableentry_var), y
-    sbc $64
-    sta $68
+    sbc UNK_64
+    sta UNK_68
     iny
     lda (tableentry_var), y
-    sbc $65
-    sta $69
+    sbc UNK_64+1
+    sta UNK_68+1
     bcs @B19_06d0
     lda input_wordvar
-    adc $68
+    adc UNK_68
     sta input_wordvar
     lda input_wordvar+1
-    adc $69
+    adc UNK_68+1
     sta input_wordvar+1
     @B19_06d0:
     rts
@@ -1201,9 +1212,9 @@ ReconfigurePartyRoutine:
     bcs @SkipRoutine
     txa
     jsr B30_186c
-    lda $f6
+    lda current_banks+6
     pha
-    ldy #$15
+    ldy #object_m_direction
     lda (object_pointer), y
     asl a
     asl a
@@ -1211,7 +1222,7 @@ ReconfigurePartyRoutine:
     tax
     jsr B31_02bf
     pla
-    ldx #$06
+    ldx #BANK::PRG8000
     jsr BANK_SWAP
     lda #$1d
     jsr PLAY_TRACK_SFX
@@ -1227,13 +1238,13 @@ ReconfigurePartyRoutine:
 ; Sets X to what position player ID [$28] is in the party.
 GetPlayerPosInParty:
     lda curr_player_id
-    ldx #$00
+    ldx #0
 @LoopStart:
     cmp party_members, x
     clc
     beq @LoopRTS
     inx
-    cpx #$04
+    cpx #4
     bcc @LoopStart
 @LoopRTS:
     rts
@@ -1253,19 +1264,19 @@ OA_SUPER_HEALING:
 
 OA_ANTIDOTE:
     lda #POISON
-    ldx #$2e
+    ldx #$17*2
     ldy #$5a
     jmp OA_UseStatusCureItem
 OA_MOUTHWASH:
     lda #COLD
-    ldx #$16
+    ldx #$b*2
     ldy #$5c
     jmp OA_UseStatusCureItem
 
 OA_PSI_STONE:
     lda #20                     ; recovery value
     jsr STA_word60
-    ldx #$5e                    ; Used PSI Stone msg
+    ldx #$2f*2                    ; Used PSI Stone msg
     jsr DisplayText
     ldy #CurrPP_Offset
     jsr LoadBigStat
@@ -1275,7 +1286,7 @@ OA_PSI_STONE:
     ldy #CurrPP_Offset
     jsr IncreaseBigStat
     jsr WriteProtectPRGRam
-    ldx #$36                    ; Recovered PP msg
+    ldx #$1b*2                    ; Recovered PP msg
     jsr DisplayText
     ldx #$18*2
     jsr OA_Print_ByNum
@@ -1285,18 +1296,18 @@ OA_PSI_STONE:
     bcs :+
 ; @BreakSuccess
     jsr OA_DeleteItemSelf
-    ldx #$60                    ; PSI Stone broke msg
+    ldx #$30*2                    ; PSI Stone broke msg
     jsr DisplayText
 :   jmp EndText
 
 OA_RIBBON:
-    ldx #$4a
+    ldx #$25*2
     jsr DisplayText
     jsr OA_DeleteItemSelf
     ldy #Fce_Offset
     jmp OA_StatBoosterEffect
 OA_CANDY:
-    ldx #$2c
+    ldx #$16*2
     jsr DisplayText
     jsr OA_DeleteItemSelf
     ldy #Fit_Offset
@@ -1331,15 +1342,15 @@ OA_HOOK:
     .else
         lda event_flags+$1C
     .endif
-    bpl :+
+    bpl @OnyxHookEffect
     jmp OA_NothingHappened
-; @OnyxHookEffect
-:   jsr EnablePRGRam
+    @OnyxHookEffect:
+    jsr EnablePRGRam
     ;copy onyx_hook_warpdata to sram
     ldx #3
     @copy_loop:
-    lda onyx_hook_warpdata,X
-    sta xpos_music,X
+    lda onyx_hook_warpdata, x
+    sta xpos_music, x
     dex
     bpl @copy_loop
 
@@ -1349,27 +1360,30 @@ OA_HOOK:
     sta fade_type
     lda #$40
     sta fade_flag
-    ldx #$16
+    ldx #$b*2
     jmp DisplayText
 
 onyx_hook_warpdata:
     doorArgDef $9, $279, DIRECTIONS::DOWN, $2A1
 
 OA_FINAL_WEAPON:
-    ldx #$62
+    ldx #$31*2
     jmp DisplayText
+
 OA_RULER:
-    ldx #$64
+    ldx #$32*2
     jmp DisplayText
+
 OA_DIARY:
-    ldx #$74
+    ldx #$3a*2
     jmp DisplayText
+
 OA_OCARINA:
-    ldx #$70
+    ldx #$38*2
     jsr DisplayText
-    lda #$01
+    lda #1
     jsr PLAY_TRACK_SFX
-    ldx #$72
+    ldx #$39*2
     jmp DisplayText
 
 ; map item (unused in US version)
@@ -1377,7 +1391,7 @@ OA_MAP:
 .ifndef VER_JP
     pla
     pla
-    ldx #$78
+    ldx #$3c*2
     jsr DisplayText
     jmp OpenMapEffect
 
@@ -1392,15 +1406,15 @@ OpenMapEffect:
     lda map_current_palette
     cmp #1
     beq @OpenMapSuccess
-    cmp #$02
+    cmp #2
     beq @OpenMapSuccess
     ; @OpenMapFail
-    ldx #$7a
+    ldx #$3d*2
     .ifdef VER_JP
         jmp DisplayText
 
     @OpenMapSuccess:
-        ldx #$78
+        ldx #$3c*2
         jsr DisplayText
         jsr OINST_END
         pla
@@ -1419,7 +1433,8 @@ OpenMapEffect:
     ldy #8
     jsr SetScroll
 
-    lda #$06
+    ;enable bg and show sprites in first 8
+    lda #%00000110
     ora ram_PPUMASK
     sta ram_PPUMASK
 
@@ -1435,20 +1450,19 @@ OpenMapEffect:
     lda #$df
     sta shadow_oam+1
     ;load attr
-    lda #$00
+    lda #0
     sta shadow_oam+2
 
-    ;load x pos
-    ldx #$40
+    ;shadow_oam[0].x = .HIBYTE(object_memory[0].object_m_xpos)
+    ldx #%01000000
     lda object_memory+object_m_xpos+1
-    jsr B19_08d4
-    sbc #$08
+    jsr @MapCursorAttr
+    sbc #8
     sta shadow_oam+3
-
-    ;load y pos
-    ldx #$80
+    ;shadow_oam[0].y = .HIBYTE(object_memory[0].object_m_ypos)
+    ldx #%10000000
     lda object_memory+object_m_ypos+1
-    jsr B19_08d4
+    jsr @MapCursorAttr
     sbc #$21
     sta shadow_oam
 
@@ -1456,27 +1470,32 @@ OpenMapEffect:
 
     lda #0
     sta pad1_forced
-:   ldx #$08
+    @loop:
+    ldx #8
     jsr WaitXFrames_Min1
-    lda #$df
-    eor $0201
-    sta $0201
-    bit $da
-    bvc :-
-    lda #$00
-    sta $da
+    lda #%11011111
+    eor shadow_oam+1
+    sta shadow_oam+1
+    bit pad1_forced
+    bvc @loop
+    lda #0
+    sta pad1_forced
     lda #$f0
-    sta $0200
+    sta shadow_oam
     jsr PPU_SYNC
     jsr B31_0ddf
     jsr RestorePalette
-    lda #$f9
+
+    ;no sprites left side, disable bg
+    lda #%11111001
     and ram_PPUMASK
     sta ram_PPUMASK
+
     lda #$7e
-    ldx #$04
+    ldx #BANK::CHR1800
     jsr BANK_SWAP
-    lda #$00
+
+    lda #0
     sta disable_dmc
     .ifdef VER_JP
         jmp B30_0b70
@@ -1485,16 +1504,27 @@ OpenMapEffect:
         jmp DRAW_SCREEN
     .endif
 
-B19_08d4:
+;in:
+;a == position
+;x == attr to apply
+;out:
+;a == new position
+;clobbers:
+;a, x, y, c
+@MapCursorAttr:
     sec
-    bpl @B19_08e2
+    ;if !position & 0x80, exit immediately
+    bpl @exit
+
+    ;y = a
     tay
+    ;a = x
     txa
     ora shadow_oam+2
     sta shadow_oam+2
     tya
-    sbc #$07
-    @B19_08e2:
+    sbc #7
+    @exit:
     rts
 
 ;chr bankswitch table
@@ -1522,7 +1552,7 @@ FinishedTextboxRoutine:
 
 STA_word60:
     sta temp_word
-    lda #$00
+    lda #0
     sta temp_word+1
     jsr RNG_WORD
     lda temp_word
@@ -1539,37 +1569,39 @@ SetInputVar1000:
     rts
 
 .ifdef VER_JP
-.define offsetter $6d90
+    .define offsetter pmb_pad3+$10
 .else
-.define offsetter $6d20
+    .define offsetter WHERE_JP_STRINGS_ARE+$20
 .endif
 
 OA_End:
     jsr EnablePRGRam
     jsr MOV_word60_word40
-    lda #$04
+    lda #4
     sta offsetter
     clc
     lda tableentry_var
     adc #$38
     sta offsetter+1
     lda tableentry_var+1
-    adc #$00
+    adc #0
     sta offsetter+2
     jsr GetItemDataPointer
-    ldy #$00
+    ldy #0
     lda (temp_vars), y
-    sta $64
+    sta UNK_64
     iny
     lda (temp_vars), y
-    sta $65
-    ldy #$00
-    @B19_0957:
-    lda ($64), y
+    sta UNK_64+1
+
+    ldy #0
+    @loop:
+    lda (UNK_64), y
     sta offsetter+4, y
     iny
-    cmp #$00
-    bne @B19_0957
+    cmp #0
+    bne @loop
+
     jmp WriteProtectPRGRam
 
 MOV_word60_word40:
@@ -1582,13 +1614,13 @@ MOV_word60_word40:
     rts
 
 PlayerStatusCheck:
-    ldy #$01
+    ldy #1
     lda (tableentry_var), y
     and #$f0
     rts
 
 TRY_GIVING_ITEM_TO_TARGET:
-    lda #$00
+    lda #0
     jsr GetItemInventorySlot
     bcs OLocal_SEC_RTS
     jsr EnablePRGRam
@@ -1616,7 +1648,7 @@ OLocal_SEC_RTS:
 RemoveItem:
     lda curr_player_id
     pha
-    lda $42
+    lda UNK_42
     sta curr_player_id
     jsr OA_DeleteItemSelf
     pla
@@ -1628,11 +1660,11 @@ PromptWhoConfirm:
     sec
     ldy #$16
     lda (tableentry_var), y
-    sbc $43
+    sbc UNK_43
     sta (tableentry_var), y
     iny
     lda (tableentry_var), y
-    sbc #$00
+    sbc #0
     sta (tableentry_var), y
     jmp WriteProtectPRGRam
 
@@ -1640,7 +1672,7 @@ B19_09c7:
     tay
     beq @B19_09d3
     tax
-    ldy #$00
+    ldy #object_m_type
     lda (object_pointer), y
     and #$3f
     tay
@@ -1656,26 +1688,26 @@ OpenPresent:
     bne @PresentEmpty
     lda #$04
     jsr B31_02c2
-    ldx #$66
+    ldx #$33*2
     jsr DisplayText
-    lda #$0a
+    lda #pulsesfx::PlayerAttack
     sta soundqueue_pulse
-    ldy #$06
+    ldy #6
     lda (object_data), y
     and #$7f
     sta curr_item_id
     bne @PresentHasItem
     jsr OpenedPresentInSRAM
     @PresentEmpty:
-    ldx #$76
+    ldx #$3b*2
     jsr DisplayText
     jmp OINST_END
 
 @PresentHasItem:
     jsr B19_1b8c
-    ldx #$68
+    ldx #$34*2
     jsr DisplayText
-    ldx #$00
+    ldx #0
     @PresentGivingLoop:
     jsr GetXCharacter
     bcs @PresentItemInvFull
@@ -1688,18 +1720,18 @@ OpenPresent:
     bcc @PresentItemGet
     @PresentItemInvFull:
     inx
-    cpx #$04
+    cpx #4
     bcc @PresentGivingLoop
-    ldx #$6e
+    ldx #$37*2
     jsr DisplayText
     jmp OINST_END
 
 @PresentItemGet:
     jsr OpenedPresentInSRAM
     jsr B19_1b6f
-    ldx #$6a
+    ldx #$35*2
     jsr DisplayText
-    lda #$06
+    lda #pulsesfx::ItemDropGet
     sta soundqueue_pulse
     jmp OINST_END
 
@@ -1713,7 +1745,7 @@ OpenedPresentInSRAM:
 PromptWho:
     ;UNK_42 = UNK_28
     lda curr_player_id
-    sta $42
+    sta UNK_42
 
     ;if partycount < 2 (== 1), branch
     lda pc_count
@@ -1721,26 +1753,26 @@ PromptWho:
     bcc @B19_0a6a
     ;else
 
-    lda $74
+    lda tilepack_ptr
     pha
-    lda $73
+    lda UNK_73
     pha
 
     jsr B19_1763
 
     pla
-    sta $73
+    sta UNK_73
     pla
-    sta $74
+    sta tilepack_ptr
 
-    bcs B19_0a6f
+    bcs @B19_0a6f
     @B19_0a6a:
     jsr B19_1b6f
     clc
     rts
 
-B19_0a6f:
-    lda $42
+    @B19_0a6f:
+    lda UNK_42
     sta curr_player_id
     rts
 
@@ -1834,7 +1866,7 @@ OverworldMessageLUT:
 
 StartObjectScriptInterpreter:
     jsr GetObjectDataAndBank
-    ldy #$14
+    ldy #object_m_bitfield1
     lda (object_pointer), y
     and #$0f
     tay
@@ -1845,18 +1877,18 @@ B19_0b19:
     jmp B19_0b19
 
 B19_0b23:
-    lda $21
+    lda is_scripted
     beq OINST_END
     jsr B31_0266
     lda #$40
-    sta $34 ; Interaction type: SIGNAL
+    sta UNK_34 ; Interaction type: SIGNAL
     bne StartObjectScriptInterpreter
 
 ; Instruction 00 - End script
 OINST_END:
     lda printing_state
     beq @B19_0b3c
-    lda #$00
+    lda #0
     sta printing_state
     clc
     jmp WAIT_CLOSE_MENU
@@ -1867,13 +1899,13 @@ OINST_END:
 GetObjectDataAndBank:
     jsr GetObjectData
     B19_0b41:
-    ldy #$01
+    ldy #object_m_area
     lda (object_pointer), y
     jmp SetObjectBank
 
 B19_0b48:
     jsr GetObjectDataAndBank
-    ldy #$1c
+    ldy #object_m_scriptOffset
     lda (object_pointer), y
     tay
     jmp B19_0b19
@@ -1900,14 +1932,14 @@ OverworldScriptLUT:
     .addr OINST_JSR-1 ; 02 - Call subroutine
     .addr OINST_RTS-1 ; 03 - Return from subroutine
     .ifdef VER_JP
-        .addr B19_0d05-1 ; 04 - TODO: delay
-    .else
         .addr OINST_Delay-1 ; 04 - TODO: delay
+    .else
+        .addr OINST_MelodyDelayHook-1 ; 04 - TODO: delay
     .endif
     .addr OINST_SpawnIfFlag-1 ; 05 - Appear if flag clear (only valid at start of script)
     .addr OINST_SpawnIfFlag-1 ; 06 - Appear if flag set (only valid at start of script)
     .addr OINST_InfiniteLoop-1 ; 07 - Infinite loop
-    .addr OINST_PrintObjectText-1 ; 08 - Display text
+    .addr OINST_Dialogue-1 ; 08 - Display text
     .addr OINST_PromptYesNo-1 ; 09 - Ask yes/no, jump if canceled or "no" selected
     .addr OINST_JMP_NotCondition-1 ; 0A - Jump unless TALKing
     .addr OINST_JMP_NotCondition-1 ; 0B - Jump unless CHECKing
@@ -1916,13 +1948,13 @@ OverworldScriptLUT:
     .addr OINST_InfiniteLoop-1 ; 0E - Infinite loop
     .addr OINST_Reset-1 ; 0F - Reset game
     .addr OINST_SetFlag-1 ; 10 - Set flag
-    .addr OINST_ClrFlag-1 ; 11 - Clear flag
-    .addr OINST_JMPFlagClr-1 ; 12 - Jump unless flag set
+    .addr OINST_ClearFlag-1 ; 11 - Clear flag
+    .addr OINST_JMP_FlagClear-1 ; 12 - Jump unless flag set
     .addr OINST_DecCounter-1 ; 13 - Decrement counter
     .addr OINST_IncCounter-1 ; 14 - Increment counter
     .addr OINST_ClrCounter-1 ; 15 - Set counter to zero
     .addr OINST_JMP_LessThan-1 ; 16 - Jump if counter less than
-    .addr OINST_Set7400-1 ; 17 - Set $7400[] value
+    .addr OINST_WriteSaveMeta-1 ; 17 - Set $7400[] value
     .addr OINST_ChooseChara-1 ; 18 - Choose character, jump if canceled
     .addr OINST_LoadChara-1 ; 19 - Select specific character
     .addr OINST_JMP_NotChara-1 ; 1A - Jump unless character selected
@@ -1931,18 +1963,18 @@ OverworldScriptLUT:
     .addr OINST_LoadNum-1 ; 1D
     .addr OINST_JMP_Compare2Inputs-1 ; 1E
     .addr OINST_ShowWallet-1 ; 1F
-    .addr B19_1196-1 ; 20
-    .addr OINST_OpenStorage-1 ; 21
-    .addr B19_1184-1 ; 22
+    .addr OINST_ChooseItem-1 ; 20
+    .addr OINST_ChooseItemCloset-1 ; 21
+    .addr OINST_ShowShop-1 ; 22
     .addr OINST_JMP_ItemNotInCurrentCharaInv-1 ; 23
     .addr OINST_JMP_ItemNotInStorage-1 ; 24
     .addr OINST_LoadItem-1 ; 25
     .addr OINST_JMP_NotItemSelected-1 ; 26
     .addr OINST_JMP_ItemNotInInv-1 ; 27
-    .addr OINST_JMP_WalletOverflows-1 ; 28
-    .addr OINST_JMP_NotEnoughMoney-1 ; 29
+    .addr OINST_JMP_GiveMoney-1 ; 28
+    .addr OINST_JMP_TakeMoney-1 ; 29
     .addr OINST_TryDeposit-1 ; 2A
-    .addr OINST_TryWithdrawal-1 ; 2B
+    .addr OINST_TryWithdrawl-1 ; 2B
     .addr OINST_JMP_CurrItemKey-1 ; 2C
     .addr OINST_TryGiveItem-1 ; 2D
     .addr OINST_TryRemoveItem-1 ; 2E
@@ -1954,15 +1986,15 @@ OverworldScriptLUT:
     .addr OINST_JMP_NotCondition-1 ; 34 - TODO
     .addr OINST_JMP_NotCondition-1 ; 35 - Jump unless touching object
     .addr OINST_JMP_NotFacing-1 ; 36
-    .addr B19_0dfa-1 ; 37
+    .addr OINST_CustomMenu-1 ; 37
     .addr OINST_JMP_InvEmpty-1 ; 38
     .addr OINST_JMP_StorageEmpty-1 ; 39
     .addr OINST_LoadCharaInParty-1 ; 3A
     .addr OINST_SetObjectType-1 ; 3B - Set object type
-    .addr B19_142b-1 ; 3C
+    .addr OINST_SetFadeType-1 ; 3C
     .addr OINST_Teleport-1 ; 3D
     .addr OINST_MoveObject-1 ; 3E - TODO: Move object
-    .addr B19_0c57-1 ; 3F - TODO: Signal another object
+    .addr OINST_Signal-1 ; 3F - TODO: Signal another object
     .addr OINST_JMP_NotCondition-1 ; 40 - TODO: Jump unless signaled
     .addr OINST_WarpToSaveSpot-1 ; 41
     .addr OINST_AddChara-1 ; 42
@@ -1977,8 +2009,8 @@ OverworldScriptLUT:
     .addr OINST_DoElevator-1 ; 4B
     .addr OINST_DismountVehicle-1 ; 4C
     .addr OINST_EndPlane-1 ; 4D
-    .addr B19_1432-1 ; 4E
-    .addr B19_13e8-1 ; 4F
+    .addr OINST_TeleportUpdate-1 ; 4E
+    .addr OINST_JMP_HasMoved-1 ; 4F
     .addr OINST_JMP_CharaHPNotFull-1 ; 50
     .addr OINST_RecoverHP-1 ; 51
     .addr OINST_JMP_CharaHasStatus-1 ; 52
@@ -2004,10 +2036,10 @@ OverworldScriptLUT:
     .addr OINST_RegisterName-1 ; 66
     .addr OINST_DarkenPalettes-1 ; 67 - Darken palette
     .addr OINST_DoLandmine-1 ; 68
-    .addr B19_1735-1 ; 69
+    .addr OINST_ScreenShake-1 ; 69
     .ifndef VER_JP
         .addr OINST_DoTombstone-1 ; 6A
-        .addr B19_1751-1 ; 6B
+        .addr OINST_Useless-1 ; 6B
     .endif
 
 ; Instructions 07, 0E and 5E (infinite loop)
@@ -2038,12 +2070,12 @@ OINST_SpawnIfFlag:
     rts
 
 ; Instruction 3F - Signal another object
-B19_0c57:
+OINST_Signal:
     iny
     lda (object_data), y
     clc
     adc #4
-    sta $21
+    sta is_scripted
     iny
     rts
 
@@ -2066,7 +2098,7 @@ B19_0c6d:
 OINST_JMP_NotCondition:
     txa
     lsr a
-    cmp $34
+    cmp UNK_34
     bne OINST_JMP
 B19_0c77:
     iny
@@ -2132,45 +2164,53 @@ OINST_RTS:
 
 .ifndef VER_JP
 ; Instruction 04 - Delay
-OINST_Delay:
+OINST_MelodyDelayHook:
+    ;if music != melody, jump to generic delay
     lda xpos_music
     and #%00111111
     cmp #$24
-    bcc B19_0d05
+    bcc OINST_Delay
     cmp #$2c
-    bcs B19_0d05
+    bcs OINST_Delay
+
+    ;else, do melody bg
     jsr BackupPalette
+
     iny
     lda (object_data), y
     sta melody_timer
+
     iny
-B19_0cd0:
+    @update_colors:
     lsr a
     lsr a
     lsr a
     and #7
     tax
-    lda B19_0cfd, x
-    sta $0501
-    sta $0505
-    sta $0509
-    sta $050d
+    lda @melody_colors, x
+    sta palette_queue+1
+    sta palette_queue+5
+    sta palette_queue+9
+    sta palette_queue+$d
     jsr UpdatePalette
     lda melody_timer
-    bne B19_0cd0
-    lda $10
-    ldx #2
+    bne @update_colors
+
+    ;change chr back
+    lda map_tileset_1
+    ldx #BANK::CHR1000
     jsr BANK_SWAP
-    lda $12
-    ldx #3
+    lda map_tileset_2
+    ldx #BANK::CHR1400
     jsr BANK_SWAP
+
     jmp RestoreAndUpdatePalette
 
-B19_0cfd:
+    @melody_colors:
     .byte $21,$22,$23,$24,$25,$24,$23,$22
 .endif
 
-B19_0d05:
+OINST_Delay:
     iny
     lda (object_data), y
     tax
@@ -2178,56 +2218,56 @@ B19_0d05:
     jmp WaitXFrames_Min1
 
 ; Instruction 08 - prints the object's text/dialogue
-OINST_PrintObjectText:
+OINST_Dialogue:
     iny
     lda (object_data), y
-    sta $74
+    sta text_id+1
     iny
     lda (object_data), y
-    sta $73
+    sta text_id
     iny
     sty object_script_offset
 ; FALLTHROUGH
 O_PrintText:
     lda printing_state
-    bne B19_0d21
+    bne @B19_0d21
     jsr B19_1c0a
-B19_0d21:
+    @B19_0d21:
     lda #8
     cmp printing_state
     beq O_DoPrintingState8
 O_TextInterpretString:
     sta printing_state
 O_TextInterpretCurrent:
-    ldy $77
+    ldy ntbl_y
     cpy #$1b
     bcc B19_0d36
     jsr B19_0d98
-    dec $2d
+    dec UNK_2C+1
     bmi O_TextBreakRoutine
 B19_0d36:
-    lda $2d
+    lda UNK_2C+1
     bne O_TextInterpretLine
-    ldy $77
+    ldy ntbl_y
     cpy #$19
     bcs O_TextBreakRoutine
 O_TextInterpretLine:
     jsr GetTextData
     .ifdef VER_JP
-    lda #$12
-    sta $70
-    ldy #0
-    lda (tilepack_ptr),y
-    eor #$90
-    beq @yeah
-    lda #1
-    @yeah:
-    sta UNK_71
+        lda #$12
+        sta UNK_70
+        ldy #0
+        lda (tilepack_ptr), y
+        eor #$90
+        beq @yeah
+        lda #1
+        @yeah:
+        sta UNK_71
     .else
-    lda #$16
-    sta $70
-    lda #0
-    sta $71
+        lda #$16
+        sta UNK_70
+        lda #0
+        sta UNK_71
     .endif
     jsr PRINT_STRING
     jsr SHIFT_TILES_FOR_SCROLL
@@ -2243,43 +2283,42 @@ O_TextInterpretLine:
 OTC_End:
     jsr B19_0b41
     lda #0
-    sta $70
-    sta $71
+    sta UNK_70
+    sta UNK_71
     ldy object_script_offset
 SetPrintingState2:  ; ?
     sec
-    lda $77
+    lda ntbl_y
     sbc #$13
     lsr a
-    sta $2d
+    sta UNK_2C+1
     rts
 ; Text Code 03 - Break
 OTC_Brk:
-    inc $74
+    inc tilepack_ptr
     bne O_DoPrintingState8
-    inc $73
+    inc UNK_73
 O_DoPrintingState8:
-    ldy $77
+    ldy ntbl_y
     cpy #$1b
     bcc O_TextBreakRoutine
     jsr B19_0d98
 O_TextBreakRoutine:
     jsr SetPrintingState2
-    .ifdef VER_JP
-    lda #0
-    .else
-    lda #$91
-    .endif
-    ldx #$ad
+    lda #.LOBYTE(string_brk_arrow)
+    ldx #.HIBYTE(string_brk_arrow)
     jsr T_DoBreak
     jmp O_TextInterpretLine
 
 string_brk_arrow:
-    .byte 1,1,0,0,$c0,$3b
+    .byte 1, 1 ; choicer array size
+    .byte 0, 0 ; X/Y inc
+    .byte PAD_A | PAD_B ; Input mask
+    .byte $3b ; Tile
     .ifdef VER_JP
-    .byte $13
+        .byte $13
     .else
-    .byte $12
+        .byte $12
     .endif
 
 B19_0d98:
@@ -2289,34 +2328,34 @@ B19_0d98:
     jsr PPU_SYNC
     sty nmi_data_offset
     @three:
-    lda nmi_queue+0,y
+    lda nmi_queue, y
     beq @one
     sec
-    lda nmi_queue+3,y
+    lda nmi_queue+3, y
     sbc #$40
-    sta nmi_queue+3,y
-    lda nmi_queue+2,y
+    sta nmi_queue+3, y
+    lda nmi_queue+2, y
     sta UNK_72
-    sbc #$00
-    sta nmi_queue+2,y
+    sbc #0
+    sta nmi_queue+2, y
     eor UNK_72
     and #$04
     beq @two
     sec
-    lda nmi_queue+3,y
+    lda nmi_queue+3, y
     sbc #$40
-    sta nmi_queue+3,y
-    lda nmi_queue+2,y
-    sbc #$04
+    sta nmi_queue+3, y
+    lda nmi_queue+2, y
+    sbc #4
     and #$0f
     ora #$20
-    sta nmi_queue+2,y
+    sta nmi_queue+2, y
     @two:
     clc
     tya
-    adc #$04
+    adc #4
     clc
-    adc nmi_queue+1,y
+    adc nmi_queue+1, y
     tay
     bcc @three
     @one:
@@ -2325,32 +2364,32 @@ B19_0d98:
     sbc #$36
     tay
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     cpy #$5e
     bcs @four
-    dec tileprinter_xpos
-    dec tileprinter_xpos
-    lda tilepack_ptr+0
+    dec ntbl_y
+    dec ntbl_y
+    lda tilepack_ptr
     pha
     lda UNK_73
     pha
     lda #$12
     sta string_padding_length
-    lda #$bf
-    ldx #$ad
+    lda #.LOBYTE(string_yesno_2)
+    ldx #.HIBYTE(string_yesno_2)
     jsr O_DrawCurrentTilepack
     pla
     sta UNK_73
     pla
-    sta tilepack_ptr+0
+    sta tilepack_ptr
     rts
 .else
     ldx #4
     jsr DELAY_PRINT_SCROLL
-    dec $77
-    dec $77
+    dec ntbl_y
+    dec ntbl_y
     rts
 .endif
 
@@ -2359,14 +2398,14 @@ OINST_PromptYesNo:
     sty object_script_offset
     jsr DrawYesNoPrompt
     ldy object_script_offset
-    lda $82
+    lda menucursor_pos
     jmp JumpNE
 
 DrawYesNoPrompt:
     lda #.LOBYTE(string_yesno)
     ldx #.HIBYTE(string_yesno)
-    sta $74
-    stx $73
+    sta text_id+1
+    stx text_id
     lda #9
     jsr O_TextInterpretString
     lda #.LOBYTE(string_yesnocursor)
@@ -2382,69 +2421,84 @@ T_DoBreak:
     stx menu_indir_jmp_addr+1
     ldy #6
     lda (menu_indir_jmp_addr), y
-    sta $76
-    .ifdef VER_JP
-    lda #$b5
-    ldx #$f1
-    .else
-    lda #$d1
-    ldx #$f0
-    .endif
-    sta $84
-    stx $85
+    sta ntbl_x
+    lda #.LOBYTE(EIGHT_OPTIONS_LUT)
+    ldx #.HIBYTE(EIGHT_OPTIONS_LUT)
+    sta UNK_84
+    stx UNK_84+1
     jsr INIT_CHOICER_MENU
     .ifdef VER_JP
-    lda #11
+        lda #11
     .else
-    lda #8
+        lda #8
     .endif
-    sta $76
+    sta ntbl_x
     rts
 
 .ifdef VER_JP
     string_yesno:
-        .byte $C0, $C0, $C0, $AA, $92, $C0, $C0, $C0
-        .byte $92, $92, $94, $C0, $C0, $00
+        kanafix "   はい   いいえ "
+    string_yesno_2:
+        .byte " "
+        .byte stopText
     string_yesnocursor:
-        .byte $02, $01, $05, $00, $80, $3A, $0E
+        .byte 2, 1 ; choicer array size
+        .byte 5, 0 ; X/Y inc
+        .byte PAD_A ; Input mask
+        .byte $3A ; Tile
+        .byte $0E
     string_yesnocursor2:
-        .byte $02, $01, $07, $00, $C0, $3A, $0D
+        .byte 2, 1 ; choicer array size
+        .byte 7, 0 ; X/Y inc
+        .byte PAD_A | PAD_B ; Input mask
+        .byte $3A ; Tile
+        .byte $0D
 .else
     string_yesno:
-        .byte "    Yes  No ", 0
+        .byte "    Yes  No "
+        .byte stopText
     string_yesnocursor:
-        .byte $02, $01, $05, $00, $80, $3a, $0b
+        .byte 2, 1 ; choicer array size
+        .byte 5, 0 ; X/Y inc
+        .byte PAD_A ; Input mask
+        .byte $3a ; Tile
+        .byte $0b
     string_yesnocursor2:
-        .byte $02, $01, $09, $00, $c0, $3a, $09
+        .byte 2, 1 ; choicer array size
+        .byte 9, 0 ; X/Y inc
+        .byte PAD_A | PAD_B ; Input mask
+        .byte $3a ; Tile
+        .byte 9
 .endif
 
-B19_0dfa:
+; Instruction 37 - Ask a custom prompt, jump to j1 if option 2, jump to j2 if b pressed
+OINST_CustomMenu:
     iny
     lda (object_data), y
-    sta $74
+    sta text_id+1
     iny
     lda (object_data), y
-    sta $73
+    sta text_id
     iny
     sty object_script_offset
     lda #$37
     jsr O_TextInterpretString
     jsr B19_0dc1
     ldy object_script_offset
-    bit $83
-    bvs B19_0e20
-    lda $82
-    bne B19_0e1c
+    bit menucursor_pos+1
+    bvs @B19_0e20
+    lda menucursor_pos
+    bne @B19_0e1c
     iny
     iny
     rts
 
-B19_0e1c:
+    @B19_0e1c:
     lda (object_data), y
     tay
     rts
 
-B19_0e20:
+    @B19_0e20:
     jmp OINST_JMP
 
 ; Instruction 10 - Set flag
@@ -2458,7 +2512,7 @@ OINST_SetFlag:
     jmp WriteProtectPRGRam
 
 ; Instruction 11 - Clear flag
-OINST_ClrFlag:
+OINST_ClearFlag:
     jsr EnablePRGRam
     jsr B19_0e58
     ora All_Bits, x
@@ -2469,7 +2523,7 @@ OINST_ClrFlag:
     jmp WriteProtectPRGRam
 
 ; Instruction 12 - Jump unless flag set
-OINST_JMPFlagClr:
+OINST_JMP_FlagClear:
     jsr B19_0e58
     ldy object_script_offset
     and All_Bits, x
@@ -2551,7 +2605,7 @@ OINST_LoadWallet:
 
 ; Instruction 25 - Load Item
 OINST_LoadItem:
-    jsr B19_0fc4
+    jsr LoadGenericItemData
     ldy object_script_offset
     iny
     rts
@@ -2582,7 +2636,7 @@ OINST_JMP_NotItemSelected:
     jmp JumpNE
 
 ; Instruction 28 - Jump to J if cant hold money
-OINST_JMP_WalletOverflows:
+OINST_JMP_GiveMoney:
     clc
     lda wallet_money
     adc input_wordvar
@@ -2594,7 +2648,7 @@ OINST_JMP_WalletOverflows:
     bcc B19_0eff
 
 ; Instruction 29 - Jump to J if not enough money
-OINST_JMP_NotEnoughMoney:
+OINST_JMP_TakeMoney:
     sec
     lda wallet_money
     sbc input_wordvar
@@ -2628,12 +2682,12 @@ OINST_TryDeposit:
     sta temp_word+1
     lda bank_money+2
     adc #0
-    sta $62
+    sta UNK_62
     bcs B19_0f12
     bcc B19_0f47
 
 ; Instruction 2B - Take from bank account, Jump to J if not enough
-OINST_TryWithdrawal:
+OINST_TryWithdrawl:
     sec
     lda bank_money
     sbc input_wordvar
@@ -2643,7 +2697,7 @@ OINST_TryWithdrawal:
     sta temp_word+1
     lda bank_money+2
     sbc #0
-    sta $62
+    sta UNK_62
     bcc B19_0f12
 B19_0f47:
     jsr EnablePRGRam
@@ -2689,11 +2743,11 @@ B19_0f87:
 
 ; Instruction 27 - Jump to J if item I not in inventory
 OINST_JMP_ItemNotInInv:
-    jsr B19_0fc4
+    jsr LoadGenericItemData
     ldx #0
-B19_0f93:
+    @B19_0f93:
     jsr GetXCharacter
-    bcs B19_0fa5
+    bcs @B19_0fa5
     sta curr_player_id
     txa
     pha
@@ -2702,15 +2756,15 @@ B19_0f93:
     pla
     tax
     bcc B19_101e
-B19_0fa5:
+    @B19_0fa5:
     inx
     cpx #4
-    bcc B19_0f93
+    bcc @B19_0f93
     bcs B19_1023
 
 ; Instruction 23 - Jump to J if item I not in selected character's inventory
 OINST_JMP_ItemNotInCurrentCharaInv:
-    jsr B19_0fc4
+    jsr LoadGenericItemData
     lda curr_item_id
     jsr GetItemInventorySlot
     bcc B19_101e
@@ -2718,14 +2772,14 @@ OINST_JMP_ItemNotInCurrentCharaInv:
 
 ; Instruction 24 - Jump to J if item I not in closet
 OINST_JMP_ItemNotInStorage:
-    jsr B19_0fc4
+    jsr LoadGenericItemData
     lda curr_item_id
     jsr GetItemStorageSlot
     bcs B19_1023
     bcc B19_101e
 
-;?????????
-B19_0fc4:
+;Loads generic item data from item in next byte
+LoadGenericItemData:
     iny
     lda (object_data), y
     sta curr_item_id
@@ -2895,16 +2949,16 @@ IsKeyItem:
 OINST_ChooseChara:
     lda #$18
     sta printing_state
-    lda $76
+    lda ntbl_x
     pha
-    lda $77
+    lda ntbl_y
     pha
     sty object_script_offset
     jsr B19_1763
     pla
-    sta $77
+    sta ntbl_y
     pla
-    sta $76
+    sta ntbl_x
     bcs B19_10cc
 B19_10c4:
     jsr B19_1b6f
@@ -2931,154 +2985,181 @@ OINST_LoadCharaInParty:
     bne B19_10c4
 
 ; Instruction 1C - Input a number, Jump to J if B pressed
+;current_input is the list of the literal tiles
+.define current_input UNK_6C
+
 OINST_PromptInputNum:
     sty object_script_offset
     jsr B19_1c28
-    ldx #7
-B19_10eb:
-    lda B19_115e, x
-    sta $68, x
+
+    ;load text into UNK_68???
+    ldx #number_input_placeholder_END-number_input_placeholder-1
+    @copy:
+    lda number_input_placeholder, x
+    sta UNK_68, x
     dex
-    bpl B19_10eb
-    lda #.LOBYTE(B19_1166)
-    ldx #.HIBYTE(B19_1166)
-    sta $74
-    stx $73
+    bpl @copy
+
+    ;load that text???
+    lda #.LOBYTE(do_numinput_load)
+    ldx #.HIBYTE(do_numinput_load)
+    sta text_id+1
+    stx text_id
     lda #$1c
     jsr O_TextInterpretString
-    lda #.LOBYTE(B19_116C)
-    ldx #.HIBYTE(B19_116C)
+
+    ;do choicer
+    lda #.LOBYTE(numinput_choicer)
+    ldx #.HIBYTE(numinput_choicer)
     sta menu_indir_jmp_addr
     stx menu_indir_jmp_addr+1
-    lda #$6c
-    ldx #0
-    sta $84
-    stx $85
+    lda #.LOBYTE(current_input)
+    ldx #.HIBYTE(current_input)
+    sta UNK_84
+    stx UNK_84+1
     lda #0
-    sta $86
-    sta $87
-    sta $82
-B19_1118:
+    sta menu_x_pos
+    sta menu_y_pos
+    sta menucursor_pos
+    @loop:
     .ifdef VER_JP
-    ldx #$10
+        ldx #$10
     .else
-    ldx #$c
+        ldx #$c
     .endif
-    stx $76
+    stx ntbl_x
     jsr CHOICER_MAINLOOP
-    lda $83
-    and #$c
-    beq B19_1146
-    ldx $82
-    ldy $6c, x
-    and #8
-    beq B19_1136
+
+    ;if button != Up/Down, branch
+    lda menu_controllerinput
+    and #PAD_DOWN | PAD_UP
+    beq @fire_button
+
+    ldx menu_cursorindex
+    ldy current_input, x
+    ;branch if down. fallthrough if up
+    and #PAD_UP
+    beq @is_down
     iny
     .ifdef VER_JP
-    cpy #$60
-    bne @yeah
-    ldy #$7b
-    @yeah:
-    cpy #$80
-    bne B19_113d
-    ldy #$5b
-    bne B19_113d
+        ;if tile > '4', move to '5'
+        cpy #'4'+1
+        bne @after_4
+        ldy #'5'
+        @after_4:
+
+        ;if tile > '9', move to '0'
+        cpy #'9'+1
+        bne @updown_finish
+        ldy #'0'
+        bne @updown_finish
     .else
-    cpy #$ba
-    bne B19_113d
-    ldy #$b0
-    bne B19_113d
+        ;if tile > '9', move to '0'
+        cpy #'9'+1
+        bne @updown_finish
+        ldy #'0'
+        bne @updown_finish
     .endif
-B19_1136:
+    @is_down:
     dey
     .ifdef VER_JP
-    cpy #$5a
-    bne @yeah
-    ldy #$7f
-    @yeah:
-    cpy #$7a
-    bne B19_113d
-    ldy #$5f
-    .else
-    cpy #$af
-    bne B19_113d
-    ldy #$b9
-    .endif
-B19_113d:
-    tya
-    sta $6c, x
-    jsr DRAW_TILE_IN_CURSOR_POS
-    jmp B19_1118
+        ;if tile < '0', move to '9'
+        cpy #'0'-1
+        bne @before_0
+        ldy #'9'
+        @before_0:
 
-B19_1146:
+        ;if tile < '5', move to '4'
+        cpy #'5'-1
+        bne @updown_finish
+        ldy #'4'
+    .else
+        ;if tile < '0', move to '9'
+        cpy #'0'-1
+        bne @updown_finish
+        ldy #'9'
+    .endif
+    @updown_finish:
+    ;write result
+    tya
+    sta current_input, x
+    jsr B31_10b0
+    jmp @loop
+
+    ;button is a/b
+    @fire_button:
     jsr B31_11a4
     lda temp_word
     sta input_wordvar
     lda temp_word+1
     sta input_wordvar+1
     .ifdef VER_JP
-    ldx #$b
+        ldx #$b
     .else
-    ldx #8
+        ldx #8
     .endif
-    stx $76
+    stx ntbl_x
     ldy object_script_offset
     lda #$40
-    bit $83
+    bit menucursor_pos+1
     jmp JumpNE
 
-B19_115e:
+number_input_placeholder:
     .ifdef VER_JP
-    .byte $C0, $C0, $C2, $C0, $5B, $5B, $5B, $5B
+        .byte "  ? 0000"
     .else
-    .byte $a0, $a0, $a4, $a0, $b0, $b0, $b0, $b0
+        .byte "  $ 0000"
     .endif
-B19_1166:
-    .byte $23,$68,$00,$00,$08,$00
-B19_116C:
-    .byte $04,$01,$01,$00,$cc,$01
+number_input_placeholder_END:
 
-OINST_OpenStorage:
+do_numinput_load:
+    .byte print_number $0068, 0, 8
+    .byte stopText
+
+numinput_choicer:
+    .byte 4, 1 ; choicer array size
+    .byte 1, 0 ; X/Y inc
+    .byte PAD_A | PAD_B | PAD_UP | PAD_DOWN  ; Input mask
+    .byte 1 ; Tile
+
+OINST_ChooseItemCloset:
     lda #$21
-    sta $2C
+    sta UNK_2C
     sty object_script_offset
-
-;???
-B19_1178:
-    lda $76
+    lda ntbl_x
     pha
-    lda $77
+    lda ntbl_y
     pha
     jsr OpenMenuStorage
     jmp B19_11a5
 
 ; Instruction 22 - Jump to J if declined
-B19_1184:
+OINST_ShowShop:
     lda #$22
     sta printing_state
     sty object_script_offset
-    lda $76
+    lda ntbl_x
     pha
-    lda $77
+    lda ntbl_y
     pha
     jsr B19_1814
     jmp B19_11a5
 
 ; Instruction 20 - Jump to J if declined
-B19_1196:
+OINST_ChooseItem:
     lda #$20
     sta printing_state
     sty object_script_offset
-    lda $76
+    lda ntbl_x
     pha
-    lda $77
+    lda ntbl_y
     pha
     jsr OpenOverworldGoods
 B19_11a5:
     pla
-    sta $77
+    sta ntbl_y
     pla
-    sta $76
+    sta ntbl_x
     bcs B19_11b8
     jsr LOAD_ITEM_PRICE
     jsr B19_1b8c
@@ -3127,16 +3208,16 @@ B19_11e8:
     jsr GetItemStoragePointer
     ldy #$50
 B19_11ed:
-    sty $64
+    sty UNK_64
     ldy #0
-B19_11f1:
+    @B19_11f1:
     lda (temp_vars), y
-    bne B19_11fb
+    bne @B19_11fb
     iny
-    cpy $64
-    bcc B19_11f1
+    cpy UNK_64
+    bcc @B19_11f1
     rts
-B19_11fb:
+    @B19_11fb:
     clc
     rts
 
@@ -3149,7 +3230,7 @@ OINST_RemoveWeapon:
     lda (temp_vars), y
     beq B19_121b
     sta confiscated_weapon
-    sty $62
+    sty UNK_62
     jsr EquipItemStart_confiscated
     jsr B19_0b41
 B19_1216:
@@ -3188,33 +3269,48 @@ OINST_SetObjectType:
 ; Instruction 3E - Move
 OINST_MoveObject:
     jsr EnablePRGRam
+
+    ;get ram pointer
     iny
     lda (object_data), y
     pha
     iny
     lda (object_data), y
+
+    ;store offset
     iny
     sty object_script_offset
-    ldy #$1f
+
+    ;object_pointer->1e = ram pointer
+    ldy #object_m_unk2+2
     sta (object_pointer), y
     dey
     pla
     sta (object_pointer), y
-    ldy #0
+
+    ;object_pointer->type = 7
+    ldy #object_m_type
     lda #7
     sta (object_pointer), y
+
+    ;move actual type to object_pointer->1d
     ldy #0
     lda (object_data), y
     and #$3f
-    ldy #$1d
+    ldy #object_m_unk2
     sta (object_pointer), y
-    ldy #$14
+
+    ;make object noninteractable
+    ldy #object_m_bitfield1
     lda (object_pointer), y
-    and #$bf
+    and #~OBJECT_M_BF1_INTERACTABLE
     sta (object_pointer), y
-    ldy #$1c
+
+    ;yeah
+    ldy #object_m_scriptOffset
     lda object_script_offset
     sta (object_pointer), y
+
     lda object_memory+object_m_direction
     asl a
     asl a
@@ -3231,7 +3327,7 @@ OINST_MoveObject:
 
 ; Instruction 46 - Rocket
 OINST_MoveRocket:
-    lda $f1
+    lda current_banks+1
     jsr B19_129c
 B19_1295:
     ldy object_script_offset
@@ -3244,19 +3340,19 @@ B19_129c:
     sty object_script_offset
     jsr EnablePRGRam
     txa
-    eor $23
+    eor is_tank
     and #$7f
     bne B19_12aa
     rts
 
 B19_12aa:
-    stx $23
+    stx is_tank
     ldy #$1c
     lda object_script_offset
     sta (object_pointer), y
     jsr B19_12c3
     ora #$80
-    sta $21
+    sta is_scripted
     jsr WriteProtectPRGRam
     pla
     pla
@@ -3364,18 +3460,17 @@ OINST_DoTrain:
     ;make head of train
     lda #$d
     ldy #0
-    jsr B19_138b
+    jsr MakeTrainObject
 
     ;make tail of train
     lda #$e
     ldy #$20
-    jsr B19_138b
+    jsr MakeTrainObject
 
-    ;get item - $8f
+    ;path = item - $8f
     sec
     lda curr_item_id
     sbc #$8f
-
     sta object_memory+object_m_unk2+1
 
     lda #0
@@ -3395,7 +3490,7 @@ OINST_DoTrain:
 ;a = type
 ;y = offset
 ;set object details at object[y/0x20] using a as reference
-B19_138b:
+MakeTrainObject:
     sta object_memory+object_m_type, y
 
     asl a
@@ -3431,17 +3526,17 @@ OINST_DismountVehicle:
     ora #$80
     sta fade_flag
     ldx #0
-    stx $23
+    stx vehicle
     jsr CHANGE_OVERWORLD_TICKSPEED
-    lda $30
+    lda object_pointer
     pha
-    lda $31
+    lda object_pointer+1
     pha
     jsr InitPartyObjects
     pla
-    sta $31
+    sta object_pointer+1
     pla
-    sta $30
+    sta object_pointer
     ldy object_script_offset
     iny
     rts
@@ -3462,7 +3557,7 @@ OINST_JMP_NotFacing:
     jmp JumpNE
 
 ; Instruction 4F - Unknown Jump 2
-B19_13e8:
+OINST_JMP_HasMoved:
     sty object_script_offset
     ldy #0
     lda (object_data), y
@@ -3504,7 +3599,7 @@ OINST_Teleport:
     jmp WriteProtectPRGRam
 
 ; Instruction 3C - ???
-B19_142b:
+OINST_SetFadeType:
     iny
     lda (object_data), y
     sta fade_type
@@ -3512,7 +3607,7 @@ B19_142b:
     rts
 
 ; Instruction 4E - ???
-B19_1432:
+OINST_TeleportUpdate:
     sty object_script_offset
     jsr EnablePRGRam
     jsr NEW_CHAR_COORDINATES
@@ -3523,42 +3618,45 @@ B19_1432:
 ; Instruction 42 - Add char C from party, Jump to J if full
 OINST_AddChara:
     jsr B19_1032
-    lda $30
+    lda object_pointer
     pha
-    lda $31
+    lda object_pointer+1
     pha
     lda curr_player_id
     jsr B30_1759
     pla
-    sta $31
+    sta object_pointer+1
     pla
-    sta $30
+    sta object_pointer
     ldy object_script_offset
     jmp JumpCC
 
 ; Instruction 43 - Remove char C from party, Jump to J if not in party
 OINST_RemoveChara:
     jsr B19_1032
-    lda $30
+    lda object_pointer
     pha
-    lda $31
+    lda object_pointer+1
     pha
     lda curr_player_id
     jsr REMOVE_PARTY_MEMBER
     pla
-    sta $31
+    sta object_pointer+1
     pla
-    sta $30
+    sta object_pointer
     ldy object_script_offset
     jmp JumpCC
 
 ; Instruction 44 - Start battle B in battles list
 OINST_StartEncounter:
+    ;set battle
     iny
     lda (object_data), y
     sta enemy_group
+
     jsr B19_12c3
-    sta $21
+
+    sta is_scripted
     iny
     sty object_script_offset
     pla
@@ -3574,7 +3672,7 @@ OINST_ShowWallet:
     rts
 
 ; Instruction 17 - Set $7400[] value
-OINST_Set7400:
+OINST_WriteSaveMeta:
     jsr EnablePRGRam
     iny
     lda (object_data), y
@@ -3582,7 +3680,7 @@ OINST_Set7400:
     tax
     iny
     lda (object_data), y
-    sta $7400, x
+    sta starting_sram, x
     iny
     jmp WriteProtectPRGRam
 
@@ -3604,21 +3702,21 @@ OINST_GetCharaNextLv:
     jsr LoadCurrPlayerPtr
     ldy #$11
     sec
-    lda $64
+    lda UNK_64
     sbc (temp_vars), y
     sta input_wordvar
     iny
-    lda $65
+    lda UNK_64+1
     sbc (temp_vars), y
     sta input_wordvar+1
     jsr B19_0b41
     jsr EnablePRGRam
     ldx #3
-B19_14d0:
+    @B19_14d0:
     lda xpos_music, x
     sta save_coordinates, x
     dex
-    bpl B19_14d0
+    bpl @B19_14d0
     lda #0
     sta dad_money
     sta dad_money+1
@@ -3655,30 +3753,30 @@ OINST_JMP_DadMoneyClr:
 OINST_MultiplyByPartySize:
     sty object_script_offset
     lda input_wordvar
-    sta $64
+    sta UNK_64
     lda input_wordvar+1
-    sta $65
+    sta UNK_64+1
     ldx #1
-B19_151d:
+    @B19_151d:
     jsr GetXCharacter
-    bcs B19_153d
+    bcs @B19_153d
     jsr GetPartyMemberPtr
     ldy #1
     lda (temp_vars), y
-    bmi B19_153d
+    bmi @B19_153d
     clc
-    lda $64
+    lda UNK_64
     adc input_wordvar
     sta input_wordvar
-    lda $65
+    lda UNK_64+1
     adc input_wordvar+1
     sta input_wordvar+1
-    bcc B19_153d
+    bcc @B19_153d
     jsr B19_0f87
-B19_153d:
+    @B19_153d:
     inx
     cpx #4
-    bcc B19_151d
+    bcc @B19_151d
     ldy object_script_offset
     iny
     rts
@@ -3701,19 +3799,19 @@ OINST_Sleep:
 B19_1561:
     jsr EnablePRGRam
     ldx #0
-B19_1566:
+    @B19_1566:
     lda party_members, x
-    beq B19_157a
+    beq @B19_157a
     jsr GetPartyMemberPtr
     ldy #1
     lda (temp_vars), y
-    bmi B19_157a
+    bmi @B19_157a
     jsr MaxCurrCharaHP
     jsr MaxCurrCharaPP
-B19_157a:
+    @B19_157a:
     inx
     cpx #4
-    bcc B19_1566
+    bcc @B19_1566
     jsr WriteProtectPRGRam
     lda #$20
     jmp PLAY_TRACK_SFX
@@ -3853,39 +3951,39 @@ OINST_RecoverHP:
     ldx #$14
     ldy #3
 B19_1652:
-    stx $62
-    sty $63
+    stx UNK_62
+    sty UNK_62+1
     clc
     ldy object_script_offset
     lda (object_data), y
-    ldy $62
+    ldy UNK_62
     adc (temp_vars), y
-    sta $64
+    sta UNK_64
     iny
     lda #0
     adc (temp_vars), y
-    sta $65
+    sta UNK_64+1
     sec
-    ldy $63
+    ldy UNK_62+1
     lda (temp_vars), y
-    sbc $64
+    sbc UNK_64
     iny
     lda (temp_vars), y
-    sbc $65
+    sbc UNK_64+1
     bcs B19_1681
-    ldy $63
+    ldy UNK_62+1
     lda (temp_vars), y
-    sta $64
+    sta UNK_64
     iny
     lda (temp_vars), y
-    sta $65
+    sta UNK_64+1
 B19_1681:
     jsr EnablePRGRam
-    ldy $62
-    lda $64
+    ldy UNK_62
+    lda UNK_64
     sta (temp_vars), y
     iny
-    lda $65
+    lda UNK_64+1
     sta (temp_vars), y
     ldy object_script_offset
     iny
@@ -3931,12 +4029,15 @@ OINST_QueueTriangle:
 ; Instruction 5F - Teach Ninten and Ana Teleport
 OINST_TeachTeleport:
     jsr EnablePRGRam
+    ;write to their psi tables
     lda #$20
     ora party_data+$30
     sta party_data+$30
+
     lda #$20
     ora party_data+$70
     sta party_data+$70
+
     iny
     jmp WriteProtectPRGRam
 
@@ -3990,7 +4091,7 @@ OINST_DoLiveHouse:
         ldx #120
         jsr WaitXFrames_Min1
     .else
-        lda #25
+        lda #.BANK(Livehouse_Antipiracy)
         ldx #.LOBYTE(Livehouse_Antipiracy-1)
         ldy #.HIBYTE(Livehouse_Antipiracy-1)
         jsr TempUpperBankswitch
@@ -4062,7 +4163,7 @@ LIVEHOUSE_setupParty:
     @loop:
     jsr LIVEHOUSE_movesprUnk60
 
-    lda #$30
+    lda #48
     sta nmi_flags
 
     jsr LIVEHOUSE_movex8
@@ -4072,7 +4173,7 @@ LIVEHOUSE_setupParty:
 
     jsr PPU_SYNC
 
-    lda #$30
+    lda #48
     sta nmi_flags
 
     rts
@@ -4161,7 +4262,7 @@ LIVEHOUSE_domotionStop:
     jsr LIVEHOUSE_movex8
     bcc @loop_all2
 
-    lda #$16
+    lda #22
     sta nmi_flags
 
     lda #.LOBYTE(-4)
@@ -4175,7 +4276,7 @@ LIVEHOUSE_domotionStop:
     jsr LIVEHOUSE_movex8
     bcc @loop_all3
 
-    lda #$18
+    lda #24
     sta nmi_flags
 
     rts
@@ -4184,44 +4285,44 @@ LIVEHOUSE_domotionStop:
 OINST_JMP_NotHas8Melodies:
     lda learned_melodies
     .ifdef VER_JP
-    cmp #$7f
-    bne @exit
-    sty object_script_offset
-    jsr EnablePRGRam
-    ldx #3
-    @loop:
-    lda HolyLolyCabinCoords,x
-    sta save_file_current+12,x
-    dex
-    bpl @loop
-    lda #$ff
-    sta save_file_fill-$62
-    ldy #$b
-    jsr GAME_OVER_looper
-    lda #2
-    sta fade_type
-    ldy object_script_offset
-    @exit:
+        cmp #$7f
+        bne @exit
+        sty object_script_offset
+        jsr EnablePRGRam
+        ldx #3
+        @loop:
+        lda MtItoiCabinCoords, x
+        sta save_file_current+12, x
+        dex
+        bpl @loop
+        lda #$ff
+        sta save_file_fill-$62
+        ldy #$b
+        jsr GAME_OVER_looper
+        lda #2
+        sta fade_type
+        ldy object_script_offset
+        @exit:
     .else
-    cmp #$ff
-    beq @not_exit
-    jmp OINST_JMP
-    @not_exit:
-    jsr EnablePRGRam
-    ldx #3
-    @loop:
-    lda HolyLolyCabinCoords, x
-    sta save_coordinates, x
-    dex
-    bpl @loop
-    jsr WriteProtectPRGRam
-    iny
+        cmp #$ff
+        beq @not_exit
+        jmp OINST_JMP
+        @not_exit:
+        jsr EnablePRGRam
+        ldx #3
+        @loop:
+        lda MtItoiCabinCoords, x
+        sta save_coordinates, x
+        dex
+        bpl @loop
+        jsr WriteProtectPRGRam
+        iny
     .endif
     iny
     rts
 
 ; Mt. Itoi cabin coordinates
-HolyLolyCabinCoords:
+MtItoiCabinCoords:
     doorArgDef $12, 3, DIRECTIONS::UP, $11e
 
 ; Instruction 66 - Register name
@@ -4229,15 +4330,15 @@ OINST_RegisterName:
     lda #$66
     sta printing_state
     sty object_script_offset
-    lda $76
+    lda ntbl_x
     pha
-    lda $77
+    lda ntbl_y
     pha
     jsr B19_19e4
     pla
-    sta $77
+    sta ntbl_y
     pla
-    sta $76
+    sta ntbl_x
     ldy object_script_offset
     iny
     rts
@@ -4256,13 +4357,13 @@ OINST_DoLandmine:
     iny
     rts
 
-; Instruction 69 - Horizontal shake (?)
-B19_1735:
-    ldx #$10
-B19_1737:
-    jsr B31_0ee4
+; Instruction 69 - Horizontal shake for the EVE explosion
+OINST_ScreenShake:
+    ldx #16
+    @loop:
+    jsr DoHorizontalShake
     dex
-    bne B19_1737
+    bne @loop
     iny
     rts
 
@@ -4280,7 +4381,7 @@ OINST_DoTombstone:
     rts
 
 ; Instruction 6B - do literally nothing
-B19_1751:
+OINST_Useless:
     sty object_script_offset
     lda #.BANK(Rts_Antipiracy)
     ldx #.LOBYTE(Rts_Antipiracy-1)
@@ -4293,30 +4394,26 @@ B19_1751:
 .endif
 
 B19_1763:
-    ldx #$02
-    ldy #$19
-    stx $76
-    sty $77
-    ldx #$02
-    B19_176d:
+    ldx #.HIBYTE($0219)
+    ldy #.LOBYTE($0219)
+    stx ntbl_x
+    sty ntbl_y
+    ldx #2
+    @B19_176d:
     lda party_choice_is, x
-    beq B19_177e
-    .ifdef VER_JP
-    lda #$c0
-    .else
-    lda #$a0
-    .endif
+    beq @B19_177e
+    lda #' '
     jsr AddTileViaNMI
-    dec $77
-    dec $77
+    dec ntbl_y
+    dec ntbl_y
     dex
-    bpl B19_176d
-    B19_177e:
-    dec $76
+    bpl @B19_176d
+    @B19_177e:
+    dec ntbl_x
     sec
-    lda $77
-    sbc #$04
-    sta $77
+    lda ntbl_y
+    sbc #4
+    sta ntbl_y
     jsr DrawWindowWho
     jsr B19_0b41
     lda #.LOBYTE(Who_Choicer)
@@ -4324,18 +4421,14 @@ B19_1763:
     sta menu_indir_jmp_addr
     stx menu_indir_jmp_addr+1
     jsr PRINT_CURR_CHOICER
-    bit $83
+    bit menucursor_pos+1
     bmi B19_179e
     sec
     rts
     B19_179e:
-    .ifdef VER_JP
-    lda #$c5
-    .else
-    lda #$ff
-    .endif
+    lda #'>'
     jsr DRAW_TILE_IN_CURSOR_POS
-    ldx $82
+    ldx menucursor_pos
     lda party_choice_is, x
     sta curr_player_id
     clc
@@ -4356,43 +4449,40 @@ OpenOverworldGoods:
     ldx #$ff
 @GoodsIncChar:
     inx
-    cpx #$03 ;char count (infamous inability to access 4th person inv lol)
+    ;char count (infamous inability to access 4th person inv lol)
+    cpx #3
     bcc @GoodsStart
-    ldx #$00
+    ldx #0
 @GoodsStart:
     jsr GetXCharacter
     bcs @GoodsIncChar
     sta curr_player_id
-    stx $37
+    stx UNK_37
     jsr Draw8Entry_LabelName
     jsr B19_1803
     jsr B19_1b40
     jsr Load8Entry_CharChoicer
-    ldx $37
-    lda #$06
-    bit $83
+    ldx UNK_37
+    lda #6
+    bit menucursor_pos+1
     bvs @GoodsRTS
     bmi @GoodsIncChar
     beq @GoodsIncChar
     jsr B19_1803
     jsr B19_1b0e
-    bit $83
+    bit menucursor_pos+1
     bvs @GoodsRTS
     bmi B19_17f6
-    ldx $37
+    ldx UNK_37
     jmp @GoodsStart
 @GoodsRTS:
     sec
     rts
     B19_17f6:
-    .ifdef VER_JP
-    lda #$c5
-    .else
-    lda #$ff
-    .endif
+    lda #'>'
     jsr DRAW_TILE_IN_CURSOR_POS
-    ldy $82
-    lda ($84), y
+    ldy menucursor_pos
+    lda (UNK_84), y
     sta curr_item_id
     clc
     rts
@@ -4402,10 +4492,10 @@ B19_1803:
     clc
     lda temp_word
     adc #$20
-    sta $84
+    sta UNK_84
     lda temp_word+1
-    adc #$00
-    sta $85
+    adc #0
+    sta UNK_84+1
     rts
 
 B19_1814:
@@ -4414,56 +4504,56 @@ B19_1814:
     sec
     lda object_script_offset
     adc object_data
-    sta $84
-    lda #$00
+    sta UNK_84
+    lda #0
     adc object_data+1
-    sta $85
-    ldy #$03
-    B19_1829:
-    sty $77
+    sta UNK_84+1
+    ldy #3
+    @B19_1829:
+    sty ntbl_y
     ldy object_script_offset
     iny
     sty object_script_offset
     lda (object_data), y
     sta curr_item_id
-    beq B19_1853
+    beq @B19_1853
     .ifdef VER_JP
-    lda #$a
+        lda #10
     .else
-    lda #$c
+        lda #12
     .endif
-    sta $70
-    ldx #$03
-    stx $76
+    sta UNK_70
+    ldx #3
+    stx ntbl_x
     jsr LoadItemNameptr
     jsr LOAD_ITEM_PRICE
-    lda #$00
-    sta $70
+    lda #0
+    sta UNK_70
     .ifdef VER_JP
-    ldx #$d
+        ldx #13
     .else
-    ldx #$f
+        ldx #15
     .endif
-    stx $76
+    stx ntbl_x
     lda #.LOBYTE(label_currmoney)
     ldx #.HIBYTE(label_currmoney)
     jsr O_DrawCurrentTilepack
-    B19_1853:
-    ldy $77
+    @B19_1853:
+    ldy ntbl_y
     iny
     iny
-    cpy #$0b
-    bcc B19_1829
+    cpy #11
+    bcc @B19_1829
     lda #.LOBYTE(ShopChoicer)
     ldx #.HIBYTE(ShopChoicer)
     sta menu_indir_jmp_addr
     stx menu_indir_jmp_addr+1
     jsr DO_GENERIC_CHOICER
-    bit $83
-    bmi B19_186c
+    bit menucursor_pos+1
+    bmi @B19_186c
     sec
     rts
-    B19_186c:
+    @B19_186c:
     jmp B19_17f6
 
 label_currmoney:
@@ -4486,59 +4576,61 @@ OpenMenuStorage:
     ldx #.HIBYTE(label_thecloset)
     jsr O_DrawCurrentTilepack
     ldx #$f8
-    B19_188b:
+    @B19_188b:
     clc
     txa
-    adc #$08
+    adc #8
     tax
     cpx #$50
-    bcc B19_1896
-    ldx #$00
-    B19_1896:
+    bcc @B19_1896
+    ldx #0
+    @B19_1896:
     lda item_storage, x
-    bne B19_189d
-    ldx #$00
-    B19_189d:
-    stx $37
+    bne @B19_189d
+    ldx #0
+    @B19_189d:
+    stx UNK_37
     jsr B19_18ca
     jsr B19_1b40
     jsr Load8Entry_CharChoicer
-    ldx $37
-    lda #$06
-    bit $83
-    bvs B19_18c5
-    bmi B19_188b
-    beq B19_188b
+    ldx UNK_37
+    lda #6
+    bit menucursor_pos+1
+    bvs @B19_18c5
+    bmi @B19_188b
+    beq @B19_188b
     jsr B19_18ca
     jsr B19_1b0e
-    bit $83
-    bvs B19_18c5
-    bmi B19_18c7
-    ldx $37
-    jmp B19_1896
-    B19_18c5:
+    bit menucursor_pos+1
+    bvs @B19_18c5
+    bmi @B19_18c7
+    ldx UNK_37
+    jmp @B19_1896
+    @B19_18c5:
     sec
     rts
-    B19_18c7:
+    @B19_18c7:
     jmp B19_17f6
 
 B19_18ca:
     clc
-    lda $37
+    lda UNK_37
     adc #.LOBYTE(item_storage)
-    sta $84
-    lda #$00
+    sta UNK_84
+    lda #0
     adc #.HIBYTE(item_storage)
-    sta $85
+    sta UNK_84+1
     rts
 
 label_thecloset:
     .ifdef VER_JP
-        .byte $20, $17, $03, $91, $0D, $96, $B8, $B3
-        .byte $A9, $00
+        .byte set_pos 23, 3
+        kanafix "あずかりもの"
+        .byte stopText
     .else
         .byte set_pos 9, 3
-        .byte "The Closet",0
+        .byte "The Closet"
+        .byte stopText
     .endif
 
 OpenOverworldPSI:
@@ -4546,55 +4638,57 @@ OpenOverworldPSI:
     ldx #$ff
 @IncrementX:
     inx
-    cpx #$03     ; wrap to 0 if >3
+    cpx #3     ; wrap to 0 if >3
     bcc @FindPSIsStart
-    ldx #$00
+    ldx #0
 @FindPSIsStart:
     lda party_members, x
     beq @IncrementX
-    cmp #$03
+    cmp #3
     bcs @IncrementX
     sta curr_player_id
-    stx $37
+    stx UNK_37
     jsr Draw8Entry_LabelName
     jsr B19_1935
     jsr B19_1b40
     jsr Load8Entry_CharChoicer
-    ldx $37
-    lda #$06
-    bit $83
-    bvs B19_1930
+    ldx UNK_37
+    lda #6
+    bit menucursor_pos+1
+    bvs @B19_1930
     bmi @IncrementX
     beq @IncrementX
     jsr B19_1935
-    ldy #$01
+    ldy #1
     lda (temp_vars), y
     and #$f0
-    bne :+
+    bne @skip
     jsr B19_1b0e
-    bit $83
-    bvs B19_1930
-    bmi B19_1932
+    bit menucursor_pos+1
+    bvs @B19_1930
+    bmi @B19_1932
     ; go back to start of loop
-:   ldx $37
+    @skip:
+    ldx UNK_37
     jmp @FindPSIsStart
-    B19_1930:
+    @B19_1930:
     sec
     rts
-    B19_1932:
+    @B19_1932:
     jmp B19_17f6
-    B19_1935:
+
+B19_1935:
     jsr LoadCurrPlayerPtr
     clc
     lda temp_word
     adc #$30
-    sta $84
+    sta UNK_84
     lda temp_word+1
-    adc #$00
-    sta $85
-    ldx #$00
-    ldy #$00
-    B19_1949:
+    adc #0
+    sta UNK_84+1
+    ldx #0
+    ldy #0
+    @B19_1949:
     stx temp_vars+4
     sty temp_vars+5
     lda temp_vars+5
@@ -4605,38 +4699,41 @@ OpenOverworldPSI:
     lsr a
     lsr a
     tay
-    lda ($84), y
+    lda (UNK_84), y
     and All_Bits, x
     ldx temp_vars+4
     and overworldpsi_mask, y
-    beq B19_1971
+    beq @B19_1971
     clc
     lda temp_vars+5
     adc #$c0
-    sta $0580, x
+    sta UNK_580, x
     inx
-    cpx #$08
-    bcs B19_1982
-    B19_1971:
+    cpx #8
+    bcs @B19_1982
+    @B19_1971:
     ldy temp_vars+5
     iny
     cpy #$20
-    bcc B19_1949
-    lda #$00
-    B19_197a:
-    sta $0580, x
+    bcc @B19_1949
+    lda #0
+    @B19_197a:
+    sta UNK_580, x
     inx
-    cpx #$08
-    bcc B19_197a
-    B19_1982:
-    lda #$80
-    ldx #$05
-    sta $84
-    stx $85
+    cpx #8
+    bcc @B19_197a
+    @B19_1982:
+    lda #.LOBYTE(UNK_580)
+    ldx #.HIBYTE(UNK_580)
+    sta UNK_84
+    stx UNK_84+1
     rts
 
 overworldpsi_mask:
-    .byte %01100000, %11100000, %10101000, %00000000
+    .byte %01100000
+    .byte %11100000
+    .byte %10101000
+    .byte %00000000
 
 OpenTeleportMenu:
     jsr DRAW_WINDOW_8ENTRY
@@ -4645,49 +4742,56 @@ OpenTeleportMenu:
     jsr O_DrawCurrentTilepack
     jsr B19_19af
     jsr B19_1b40
-    lda #.LOBYTE(B19_19dc)
-    ldx #.HIBYTE(B19_19dc)
+    lda #.LOBYTE(teleport_choicer)
+    ldx #.HIBYTE(teleport_choicer)
     jsr B19_1b12
-    bit $83
-    bmi B19_19ac
+    bit menucursor_pos+1
+    bmi @B19_19ac
     sec
     rts
-    B19_19ac:
+    @B19_19ac:
     jmp B19_17f6
 
 B19_19af:
     lda event_flags+29
-    sta $65
-    ldx #$00
-    B19_19b6:
-    lda #$00
-    asl $65
-    bcc B19_19c0
+    sta UNK_64+1
+    ldx #0
+    @B19_19b6:
+    lda #0
+    asl UNK_64+1
+    bcc @B19_19c0
     clc
     txa
     adc #$80
-    B19_19c0:
-    sta $0580, x
+    @B19_19c0:
+    sta UNK_580, x
     inx
-    cpx #$08
-    bcc B19_19b6
-    lda #$80
-    ldx #$05
-    sta $84
-    stx $85
+    cpx #8
+    bcc @B19_19b6
+    lda #.LOBYTE(UNK_580)
+    ldx #.HIBYTE(UNK_580)
+    sta UNK_84
+    stx UNK_84+1
     rts
 
 label_teleportmenu_where:
     .ifdef VER_JP
-        .byte $20,$15,$03,$81,$81,$14,$9A,$AD
-        .byte $C2,$C0,$00
+        .byte set_pos 21, 3
+        .byte uibox_t,uibox_t
+        kanafix "どこへ? "
+        .byte stopText
     .else
         .byte set_pos 7, 3
-        .byte uibox_tc, "Where?", 0
+        .byte uibox_tc, "Where?"
+        .byte stopText
     .endif
 
-B19_19dc:
-    .byte $02,$04,$0c,$02,$c0,$3a,$06,$05
+teleport_choicer:
+    .byte 2, 4 ; choicer array size
+    .byte 12, 2 ; X/Y inc
+    .byte PAD_A | PAD_B ; Input mask
+    .byte $3a ; Tile
+    .byte 6, 5 ;X/Y start
 
 B19_19e4:
 .ifdef VER_JP
@@ -4698,15 +4802,15 @@ B19_19e4:
     jsr DrawTilepackClear
     ldx #$29
     @loop:
-    lda $bba2,x
+    lda RegName_Alphabet, x
     cmp #$41
     bcc @skiper1
     cmp #$91
     bcc @skiper2
     @skiper1:
-    lda #$00
+    lda #0
     @skiper2:
-    sta UNK_580+0,x
+    sta UNK_580, x
     dex
     bpl @loop
     lda #$c0
@@ -4714,13 +4818,13 @@ B19_19e4:
     sta UNK_D6
 
     jsr EnablePRGRam
-    lda #$00
+    lda #0
     sta save_file_current+49
     sta UNK_37
     ldy #$10
     lda #'?'
     B19_1a07:
-    sta save_file_current+32,y
+    sta save_file_current+32, y
     dey
     bpl B19_1a07
 
@@ -4732,11 +4836,11 @@ B19_19e4:
     jsr CHOICER_MAINLOOP
 
     @bb22:
-    bit $83
+    bit menucursor_pos+1
     bmi @B19_1a39
     bvc @B19_1a54
     @B19_1a24:
-    ldy $37
+    ldy UNK_37
     beq @yump1
     lda player_name, y
     cmp #'?'
@@ -4744,20 +4848,20 @@ B19_19e4:
     dey
     @B19_1a30:
     lda #'?'
-    sty $37
+    sty UNK_37
     sta player_name, y
     bne @yump1
     @B19_1a39:
-    ldy menu_cursorindex+0
+    ldy menucursor_pos
     cpy #$10
     beq @B19_1a24
 
     cpy #$25
     beq @B19_1a54
-    lda UNK_580+0,y
+    lda UNK_580, y
 
     ldy UNK_37
-    sta save_file_current+32,y
+    sta save_file_current+32, y
     cpy #$10
     bcs @yump1
     iny
@@ -4766,13 +4870,13 @@ B19_19e4:
     @B19_1a54:
     ldy UNK_37
     beq @yump1
-    lda save_file_current+32,y
+    lda save_file_current+32, y
     cmp #$c2
     beq @skip
     iny
     @skip:
-    lda #$00
-    sta save_file_current+32,y
+    lda #0
+    sta save_file_current+32, y
     sta UNK_D6
     lda #$f0
     sta shadow_oam+4
@@ -4784,20 +4888,20 @@ B19_19e4:
     ldx #.HIBYTE(B19_1ab6)
     jsr O_DrawCurrentTilepack
     jsr DrawTilepack
-    ldx #$00
+    ldx #0
     jsr B19_1a72
     jsr B19_1a72
     jsr EnablePRGRam
-    lda #$00
+    lda #0
     sta player_name_end
-    sta $37
+    sta UNK_37
     ldy #$10
-    lda #$a2
+    lda #'?'
     B19_1a07:
     sta player_name, y
     dey
     bpl B19_1a07
-    sta $d6
+    sta UNK_D6
     jsr B19_1a8d
     jsr PRINT_CURR_CHOICER
     jmp B19_1a1e
@@ -4806,11 +4910,11 @@ B19_1a18:
     jsr B19_1a8d
     jsr CHOICER_MAINLOOP
 B19_1a1e:
-    bit $83
+    bit menucursor_pos+1
     bmi B19_1a39
     bvc B19_1a54
     B19_1a24:
-    ldy $37
+    ldy UNK_37
     beq B19_1a18
     lda player_name, y
     cmp #$a2
@@ -4818,52 +4922,52 @@ B19_1a1e:
     dey
     B19_1a30:
     lda #$a2
-    sty $37
+    sty UNK_37
     sta player_name, y
     bne B19_1a18
     B19_1a39:
-    ldy $82
+    ldy menucursor_pos
     cpy #$10
     beq B19_1a24
     cpy #$26
     beq B19_1a54
-    lda $0580, y
-    ldy $37
+    lda UNK_580, y
+    ldy UNK_37
     sta player_name, y
     cpy #$10
     bcs B19_1a18
     iny
-    sty $37
+    sty UNK_37
     bne B19_1a18
     B19_1a54:
-    ldy $37
+    ldy UNK_37
     beq B19_1a18
     lda player_name, y
-    cmp #$a2
+    cmp #'?'
     beq B19_1a60
     iny
     B19_1a60:
-    lda #$00
+    lda #0
     sta player_name, y
-    sta $d6
+    sta UNK_D6
     lda #$f0
-    sta $0204
+    sta shadow_oam+4
     jsr WriteProtectPRGRam
     jmp B19_0b41
 
 B19_1a72:
     ldy #$11
     B19_1a74:
-    lda B19_1ab9, x
-    sta $0580, x
+    lda RegName_Alphabet, x
+    sta UNK_580, x
     inx
     dey
     bne B19_1a74
-    lda #$00
-    sta $057e, x
-    ldy #$05
+    lda #0
+    sta irq_pointers+$3e, x
+    ldy #5
     B19_1a85:
-    sta $0580, x
+    sta UNK_580, x
     inx
     dey
     bne B19_1a85
@@ -4876,9 +4980,9 @@ B19_1a8d:
     jsr O_DrawCurrentTilepack
     lda #$32
     sta shadow_oam+4
-    lda #$01
+    lda #1
     sta shadow_oam+5
-    lda #$00
+    lda #0
     sta shadow_oam+6
     lda UNK_37
     asl a
@@ -4893,20 +4997,22 @@ B19_1a8d:
     rts
 
 B19_1ab6:
-    .byte $20,$08,$09
+    .byte set_pos 8, 9
 
-B19_1ab9:
+RegName_Alphabet:
 .ifdef VER_JP
-kanafix "ABCDEFG HIJKLMN *もどる",newLine
-kanafix "OPQRSTU VWXYZ,  *おわり",stopText
+    kanafix "ABCDEFG HIJKLMN *もどる",newLine
+    kanafix "OPQRSTU VWXYZ,  *おわり",stopText
 .else
-.byte "ABCDEFG HIJKLMN *Back",newLine
-.byte "OPQRSTU VWXYZ.' *End ",stopText
+    .byte "ABCDEFG HIJKLMN *Back",newLine
+    .byte "OPQRSTU VWXYZ.' *End ",stopText
 .endif
 
 B19_1ae5:
-    .byte $20,$09,$05,$21,$20,$74,$20,$08
-    .byte $09,$00
+    .byte set_pos 9, 5
+    .byte print_string $7420
+    .byte set_pos 8, 9
+    .byte stopText
 
 RegisterName_Choicer:
     .ifdef VER_JP
@@ -4918,7 +5024,7 @@ RegisterName_Choicer:
     .byte PAD_A | PAD_B | PAD_START ; Input mask
     .byte 1 ; Tile
     .byte 8, 9 ;X/Y start
-    .word $0580 ; choices
+    .word UNK_580 ; choices
 
 Load8Entry_CharChoicer:
     lda #.LOBYTE(Overworld8Entry_Choicer)
@@ -4964,59 +5070,59 @@ Draw8Entry_LabelName:
     clc
     lda temp_word
     adc #$38
-    sta $74
+    sta tilepack_ptr
     lda temp_word+1
     adc #$00
-    sta $75
+    sta tilepack_ptr+1
     .ifdef VER_JP
         lda #6                  ; tile qty (name length is 6)
         ldx #23                 ; x-pos
         ldy #3                  ; y-pos
-        sta $70
-        stx $76
-        sty $77
+        sta UNK_70
+        stx ntbl_x
+        sty ntbl_y
         jmp DrawTilepackClear
     .else
         lda #7                  ; tile qty (name length is 7)
         ldx #9                  ; x-pos
         ldy #3                  ; y-pos
-        sta $70
-        stx $76
-        sty $77
+        sta UNK_70
+        stx ntbl_x
+        sty ntbl_y
         jmp DrawTilepack
     .endif
 
 B19_1b40:
     .ifdef VER_JP
-        lda #$0a
+        lda #10
     .else
-        lda #$0b
+        lda #11
     .endif
-    ldx #$07
-    ldy #$05
-    sta $70
-    sty $77
-    ldy #$00
+    ldx #7
+    ldy #5
+    sta UNK_70
+    sty ntbl_y
+    ldy #0
 ; print 8 entries loop
 B19_1b4c:
-    stx $76
-    sty $82
-    lda ($84), y
+    stx ntbl_x
+    sty menucursor_pos
+    lda (UNK_84), y
     sta curr_item_id
     jsr LoadItemNameptr
     ldx #$13
-    cpx $76
+    cpx ntbl_x
     bne B19_1b63
-    inc $77
-    inc $77
-    ldx #$07
+    inc ntbl_y
+    inc ntbl_y
+    ldx #7
     B19_1b63:
-    ldy $82
+    ldy menucursor_pos
     iny
-    cpy #$08
+    cpy #8
     bcc B19_1b4c
-    lda #$00
-    sta $70
+    lda #0
+    sta UNK_70
     rts
 
 
@@ -5029,44 +5135,44 @@ B19_1b4c:
 B19_1b6f:
     jsr LoadCurrPlayerPtr
     jsr EnablePRGRam
-    lda #$04
+    lda #4
     sta dude
     clc
     lda temp_word
     adc #$38
     sta dude+1
     lda temp_word+1
-    adc #$00
+    adc #0
     sta dude+2
     jmp WriteProtectPRGRam
 
 B19_1b8c:
     jsr GetItemDataPointer
-    ldy #$00
+    ldy #0
     lda (temp_vars), y
-    sta $64
+    sta UNK_64
     iny
     lda (temp_vars), y
-    sta $65
+    sta UNK_64+1
     jsr EnablePRGRam
-    ldy #$00
+    ldy #0
     B19_1b9f:
-    lda ($64), y
+    lda (UNK_64), y
     sta dude+4, y
     iny
-    cmp #$00
+    cmp #0
     bne B19_1b9f
     jsr WriteProtectPRGRam
     jmp B19_0b41
 
 LoadItemNameptr:
     jsr GetItemDataPointer
-    ldy #$00
+    ldy #0
     lda (temp_vars), y
-    sta $74
+    sta tilepack_ptr
     iny
     lda (temp_vars), y
-    sta $75
+    sta tilepack_ptr+1
     .ifdef VER_JP
         jsr DrawTilepackClear
     .else
@@ -5076,7 +5182,7 @@ LoadItemNameptr:
 
 LOAD_ITEM_PRICE:
     jsr GetItemDataPointer
-    ldy #$06
+    ldy #6
     lda (temp_vars), y
     sta input_wordvar
     iny
@@ -5086,7 +5192,7 @@ LOAD_ITEM_PRICE:
 
 B19_1bd4:
     jsr GetItemDataPointer
-    ldy #$02
+    ldy #2
     jsr obj_do_teleport
     jmp B19_0b41
 
@@ -5121,41 +5227,41 @@ EndText:
     jmp B30_03d5
 
 B19_1c0a:
-    lda $74
+    lda text_id+1
     pha
-    lda $73
+    lda text_id
     pha
     jsr DrawWindowMessagebox
     pla
-    sta $73
+    sta text_id
     pla
-    sta $74
-    lda #$00
-    sta $2d
+    sta text_id+1
+    lda #0
+    sta UNK_2C+1
     .ifdef VER_JP
-        ldx #$0b
+        ldx #11
     .else
-        ldx #$08
+        ldx #8
     .endif
     ldy #$13
-    stx $76
-    sty $77
+    stx ntbl_x
+    sty ntbl_y
     jmp B19_0b41
 
 B19_1c28:
-    lda $76
+    lda ntbl_x
     pha
-    lda $77
+    lda ntbl_y
     pha
     jsr B30_03df
     pla
-    sta $77
+    sta ntbl_y
     pla
-    sta $76
+    sta ntbl_x
     jmp B19_0b41
 
 ; get data of item
-equipment_stat_val = $6b
+.define equipment_stat_val UNK_6A+1
 EquipItemRoutine:
     ;UNK_6A+1 = who_can_equip
     lda UNK_62
@@ -5170,17 +5276,18 @@ EquipItemRoutine:
     sta UNK_62
     lda curr_item_id
     jsr GetItemInventorySlot
-    bcs :+
+    bcs @exit
     tya
     adc #$20
-    sta $6a
+    sta UNK_6A
     bcc EquipItemStart
-:   rts
+    @exit:
+    rts
 
-equipitem_currslot = curr_player_id
-UNK_63 = $63
+.define equipitem_currslot curr_player_id
+.define UNK_63 UNK_62+1
 EquipItemStart_confiscated:
-    lda #$00
+    lda #0
     sta equipment_stat_val
 EquipItemStart:
     jsr LoadCurrPlayerPtr
@@ -5192,7 +5299,7 @@ EquipItemStart:
     lda (curr_player_dataptr), y
     jsr GetItemDataOffset_InA
     jsr B19_1be2
-    ldy #$03
+    ldy #3
     lda (temp_vars), y
     and #$3f
     sta UNK_63
@@ -5208,7 +5315,7 @@ EquipItemStart:
     sta (curr_player_dataptr), y
     iny
     lda (curr_player_dataptr), y
-    sbc #$00
+    sbc #0
     sta (curr_player_dataptr), y
     dey
     clc
@@ -5218,14 +5325,14 @@ EquipItemStart:
     sta (curr_player_dataptr), y
     iny
     lda (curr_player_dataptr), y
-    adc #$00
+    adc #0
     sta (curr_player_dataptr), y
     ; done
     jmp B19_1cb8
 
 EquipPendantRoutine:
     ; offset of player's resistances
-    ldy #$02
+    ldy #2
     lda UNK_63
     asl a
     eor #$ff
@@ -5238,13 +5345,13 @@ EquipPendantRoutine:
 B19_1cb8:
     lda equipment_stat_val
     beq B19_1ce0
-    ldy $6a
+    ldy UNK_6A
     lda (curr_player_dataptr), y
     tax
     ldy UNK_62
     lda (curr_player_dataptr), y
     bne B19_1cdb
-    ldy $6a
+    ldy UNK_6A
     bne B19_1cd1
 B19_1ccb:
     lda (curr_player_dataptr), y
@@ -5256,15 +5363,15 @@ B19_1cd1:
     cpy #$28
     bcc B19_1ccb
     dey
-    lda #$00
+    lda #0
     beq B19_1cdd
 B19_1cdb:
-    ldy $6a
+    ldy UNK_6A
 B19_1cdd:
     sta (curr_player_dataptr), y
     txa
 B19_1ce0:
-    ldy $62
+    ldy UNK_62
     sta (curr_player_dataptr), y
     clc
     jmp WriteProtectPRGRam
@@ -5304,13 +5411,13 @@ OverworldTransitionLUT:
 
 ; Screen transition type #1 (Stairs)
 OT1_Stairs:
-    lda #$08
+    lda #Noise_Stairs
     sta soundqueue_noise
     jmp OT0_DefaultTransition
 
 ; Screen transition type #2 (Onyx Hook)
 OT2_OnyxHook:
-    lda #$10
+    lda #pulsesfx::magicantwarp
     sta soundqueue_pulse
     lda #$34
     jsr LIGHTEN_PALETTES_TRANSITION
@@ -5322,7 +5429,7 @@ OT2_OnyxHook:
         ldx #.LOBYTE(ShowAntipiracy-1)
         ldy #.HIBYTE(ShowAntipiracy-1)
         jsr TempUpperBankswitch
-    @return:
+        @return:
     .endif
     ldx #60
     jmp WaitXFrames_Min1
@@ -5337,10 +5444,11 @@ B19_1d34:
 
 B19_1d3b:
     jsr BackupPalette
-    lda #$02
+    lda #Noise_Bomb
     sta soundqueue_noise
     lda #$14
-:   pha
+    @loop:
+    pha
     lda #$34
     jsr FillPalette
     lda #$38
@@ -5349,13 +5457,13 @@ B19_1d3b:
     jsr FillPalette
     pla
     sec
-    sbc #$01
-    bne :-
+    sbc #1
+    bne @loop
     rts
 
 ; Screen transition type #4 (Sucked into whirlpool)
 OT4_Whirlpool:
-    lda #$09
+    lda #Noise_Rocket
     sta soundqueue_noise
     lda #$11
     jsr LIGHTEN_PALETTES_TRANSITION
@@ -5385,42 +5493,44 @@ OT4_Whirlpool:
     LoadPalette_Address DrainAnimation_Palette
 
     ldy #$16
-    B19_1d91:
+    @B19_1d91:
     tya
     pha
-    ldx #$08
-    B19_1d95:
+    ldx #8
+    @B19_1d95:
     jsr PPU_SYNC
-    lda #$01
-    sta $0305, x
-    lda $0303, x
+    lda #1
+    sta SPRITE_OBJECTS+5, x
+    lda SPRITE_OBJECTS+3, x
     and #$1f
-    bne B19_1daa
-    lda #$e8
-    ldy #$ff
-    bne B19_1dae
-    B19_1daa:
-    lda #$08
-    ldy #$00
-    B19_1dae:
+    bne @B19_1daa
+    lda #.LOBYTE($ffe8)
+    ldy #.HIBYTE($ffe8)
+    bne @B19_1dae
+    @B19_1daa:
+    lda #.LOBYTE(8)
+    ldy #.HIBYTE(8)
+    @B19_1dae:
     clc
-    adc $0306, x
-    sta $0306, x
+    adc SPRITE_OBJECTS+6, x
+    sta SPRITE_OBJECTS+6, x
     tya
-    adc $0307, x
-    sta $0307, x
+    adc SPRITE_OBJECTS+7, x
+    sta SPRITE_OBJECTS+7, x
     clc
     txa
-    adc #$08
+    adc #8
     tax
     cpx #$28
-    bcc B19_1d95
-    lda #$08
-    sta $e5
+    bcc @B19_1d95
+
+    lda #8
+    sta nmi_flags
+
     pla
     tay
     dey
-    bne B19_1d91
+    bne @B19_1d91
     jsr CLEAR_OAM_SPRITES
     jsr OT0_DefaultTransition
     ldx #90
@@ -5430,23 +5540,23 @@ OT4_Whirlpool:
 OT5_Flood:
     lda #$11
     jsr FillBackgroundColor
-    lda #$03
+    lda #Noise_Thunder
     sta soundqueue_noise
     jsr Refresh_SpriteObjects
-    ldx #$08
-    ldy #$07
-    B19_1dea:
+    ldx #8
+    ldy #7
+    @B19_1dea:
     lda EVE_Fling, y
-    sta $0305, x
+    sta SPRITE_OBJECTS+5, x
     dey
     lda EVE_Fling, y
-    sta $0304, x
+    sta SPRITE_OBJECTS+4, x
     clc
     txa
-    adc #$08
+    adc #8
     tax
     dey
-    bpl B19_1dea
+    bpl @B19_1dea
     jsr BANKSET_H14
     jsr B20_1641
     lda #$11
@@ -5494,43 +5604,43 @@ Game_Begin:
     jsr B19_1ed3
     jsr EnablePRGRam
     sec
-    ldy #$00
-    lda ($64), y
+    ldy #0
+    lda (UNK_64), y
     sbc temp_word
-    sta ($64), y
+    sta (UNK_64), y
     iny
-    lda ($64), y
+    lda (UNK_64), y
     sbc temp_word+1
-    sta ($64), y
-    ldx #$03
-    B19_1e75:
-    ldy #$00
-    B19_1e77:
-    lda ($64), y
+    sta (UNK_64), y
+    ldx #3
+    @B19_1e75:
+    ldy #0
+    @B19_1e77:
+    lda (UNK_64), y
     sta (curr_player_dataptr), y
     iny
-    bne B19_1e77
-    inc $65
-    inc $69
+    bne @B19_1e77
+    inc UNK_64+1
+    inc UNK_68+1
     dex
-    bne B19_1e75
+    bne @B19_1e75
     jmp WriteProtectPRGRam
 
 B19_1e88:
     jsr B19_1ebb
     jsr EnablePRGRam
-    ldx #$03
-    B19_1e90:
-    ldy #$00
-    B19_1e92:
+    ldx #3
+    @B19_1e90:
+    ldy #0
+    @B19_1e92:
     lda (curr_player_dataptr), y
-    sta ($64), y
+    sta (UNK_64), y
     iny
-    bne B19_1e92
-    inc $69
-    inc $65
+    bne @B19_1e92
+    inc UNK_68+1
+    inc UNK_64+1
     dex
-    bne B19_1e90
+    bne @B19_1e90
     jsr WriteProtectPRGRam
     jsr B19_1ed3
     lda save_slot
@@ -5547,42 +5657,40 @@ B19_1e88:
 
 B19_1ebb:
     and #$07
-    sta $69
+    sta UNK_68+1
     asl a
-    adc $69
+    adc UNK_68+1
     adc #$77
-    sta $69
-    lda #$00
-    sta $68
+    sta UNK_68+1
+    lda #0
+    sta UNK_68
 B19_1eca:
     lda #.LOBYTE(starting_sram)
     ldx #.HIBYTE(starting_sram)
-    sta $64
-    stx $65
+    sta UNK_64
+    stx UNK_64+1
     rts
 
 B19_1ed3:
     jsr B19_1eca
-    lda #$00
+    lda #0
     sta temp_word
     sta temp_word+1
-    ldx #$03
-    B19_1ede:
-    ldy #$00
-    B19_1ee0:
+    ldx #3
+    @B19_1ede:
+    ldy #0
+    @B19_1ee0:
     clc
-    lda ($64), y
+    lda (UNK_64), y
     adc temp_word
     sta temp_word
     iny
-    lda ($64), y
+    lda (UNK_64), y
     adc temp_word+1
     sta temp_word+1
     iny
-    bne B19_1ee0
-    inc $65
+    bne @B19_1ee0
+    inc UNK_64+1
     dex
-    bne B19_1ede
+    bne @B19_1ede
     jmp B19_1eca
-
-;    .incbin "../../split/jp/prg/bank13.bin"

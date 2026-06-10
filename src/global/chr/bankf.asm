@@ -1,6 +1,6 @@
 .segment        "CHRF": absolute
 ;random battle sprite pieces
-.incbin "../../split/global/extra_gfx.bin"
+.incbin "../../split/global/chr/battle_extra.bin"
 
 .ifndef VER_JP
 ;this portion IS leftover from JP
@@ -26,16 +26,16 @@ rts_1:
     rts
 
 ns_load_ui_element:
-    lda B25_1873, x
+    lda NS_UiPointers, x
     sta $74
-    lda B25_1873+1, x
+    lda NS_UiPointers+1, x
     sta $75
     rts
 
-rts_3:
-    lda B25_1885, x
+ns_load_choicer:
+    lda NS_ChoicerPointers, x
     sta $80
-    lda B25_1885+1, x
+    lda NS_ChoicerPointers+1, x
     sta $81
     rts
 
@@ -88,7 +88,7 @@ SetupFreshSaveData:
     sta $7402
     rts
 
-B25_1873:
+NS_UiPointers:
     .word ui_save_slot_1
     .word ui_empty_slot_1
     .word ui_save_slot_2
@@ -99,7 +99,7 @@ B25_1873:
     .word ui_delete_save
     .word ui_copy_save
 
-B25_1885:
+NS_ChoicerPointers:
     .word B25_19f0
     .word B25_19f0
     .word B25_19f0
@@ -569,7 +569,7 @@ finalChoicers:
 .segment        "CHRF_2": absolute
 ;text gfx
 .ifdef VER_JP
-.incbin "../../split/jp/ui_gfx.bin"
+    .incbin "../../split/jp/chr/ui.bin"
 .else
-.incbin "../../split/us/ui_gfx.bin"
+    .incbin "../../split/us/chr/ui.bin"
 .endif

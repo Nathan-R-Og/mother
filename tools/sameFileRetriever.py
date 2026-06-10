@@ -13,8 +13,10 @@ def do():
 
     for us_file in files_us:
         hashes_us.append([us_file, hashlib.md5(open(us_file,'rb').read()).hexdigest()])
+    hashes_us.sort()
     for jp_file in files_jp:
         hashes_jp.append([jp_file, hashlib.md5(open(jp_file,'rb').read()).hexdigest()])
+    hashes_jp.sort()
 
     if len(hashes_us) == 0 or len(hashes_jp) == 0:
         print("Not bothering with globalList.txt regen.")
@@ -24,6 +26,9 @@ def do():
     for us_hash in hashes_us:
         for jp_hash in hashes_jp:
             if us_hash[1] == jp_hash[1]:
-                samers.append(us_hash[0].replace("split/us/", "")+"\n")
+                pathname = us_hash[0].replace("\\\\", "\\")
+                pathname = pathname.replace("\\", "/")
+                pathname = pathname.replace("split/us/", "")
+                samers.append(pathname+"\n")
 
     open("globalList.txt", "w").writelines(samers)

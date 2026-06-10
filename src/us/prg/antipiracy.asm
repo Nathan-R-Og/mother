@@ -3,13 +3,13 @@
 ;anti-piracy
 ;this is ran before transitioning to the save select
 TITLE_ANTI_PIRACY:
-    ;if scroll_x != 0, jump
-    lda scroll_x
+    ;if scroll_y != 0, jump
+    lda scroll_y
     cmp #0
     bne @fail
 
-    ;if scroll_y != 0, jump
-    lda scroll_y
+    ;if scroll_x != 0, jump
+    lda scroll_x
     cmp #0
     bne @fail
 
@@ -36,8 +36,8 @@ TITLE_ANTI_PIRACY:
 
     ;nmi_data_offset = 0
     sta nmi_data_offset
-    ;nmi_flags = NMI_MODE::SKIP
-    lda #NMI_MODE::SKIP
+    ;nmi_flags = 0x80
+    lda #$80
     sta nmi_flags
 
     ;wait for NMI to complete
@@ -124,8 +124,8 @@ TITLE_ANTI_PIRACY:
     ;nmi_data_offset = 0
     lda #0
     sta nmi_data_offset
-    ;nmi_flags = NMI_MODE::SKIP
-    lda #NMI_MODE::SKIP
+    ;nmi_flags = 0x80
+    lda #$80
     sta nmi_flags
 
     jsr PPU_SYNC
@@ -206,12 +206,12 @@ ShowAntipiracy:
     jsr PPU_SYNC
 
     ;irq_count = 0
-    ;scroll_y = 0
     ;scroll_x = 0
+    ;scroll_y = 0
     lda #0
     sta irq_count
-    sta scroll_y
     sta scroll_x
+    sta scroll_y
 
     ;stop music
     lda #$ff
@@ -232,17 +232,17 @@ ShowAntipiracy:
     lda #.HIBYTE(UMSG::ANTIPIRACY)
     sta UNK_73
 
-    ;tileprinter_ypos = 2
+    ;ntbl_x = 2
     lda #2
-    sta tileprinter_ypos
-    ;tileprinter_xpos = 2
+    sta ntbl_x
+    ;ntbl_y = 2
     lda #2
-    sta tileprinter_xpos
+    sta ntbl_y
 
     ;could be
     ;lda #2
-    ;sta tileprinter_ypos
-    ;sta tileprinter_xpos
+    ;sta ntbl_x
+    ;sta ntbl_y
 
     ;string_padding_length = 0
     ;UNK_71 = 0
@@ -280,7 +280,7 @@ ShowAntipiracy:
     sta nmi_queue+1 ; END
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     @inf_loop:
@@ -434,18 +434,18 @@ HideSpritesForMenu:
     sec
     ror oam_and_300_clear_flag
 
-    ;UNK_78 = tileprinter_ypos << 3
+    ;UNK_78 = ntbl_x << 3
     ;;;UNK_78 is now the top left of a panel
-    lda tileprinter_ypos
+    lda ntbl_x
     asl a
     asl a
     asl a
     sta UNK_78
 
-    ;UNK_79 = ((tileprinter_ypos + char_count) << 3) - 4
+    ;UNK_79 = ((ntbl_x + char_count) << 3) - 4
     ;;;UNK_79 is now the top right of a panel
     clc
-    lda tileprinter_ypos
+    lda ntbl_x
     adc char_count
     asl a
     asl a
@@ -454,9 +454,9 @@ HideSpritesForMenu:
     sbc #4
     sta UNK_79
 
-    ;UNK_7C = (tileprinter_xpos & 0x1E) << 3
+    ;UNK_7C = (ntbl_y & 0x1E) << 3
     ;;;UNK_7C is now the bottom left of a panel
-    lda tileprinter_xpos
+    lda ntbl_y
     clc
     and #%00011110
     asl a
@@ -565,17 +565,17 @@ SetupMenu:
     jsr WriteProtectPRGRam
 
     ;re-run the displaying script to add the new choice
-    lda tileprinter_ypos
+    lda ntbl_x
     pha
-    lda tileprinter_ypos+1
+    lda ntbl_x+1
     pha
     jsr Display_SetupMenuChoices
 
-    ;reset tileprinter_ypos
+    ;reset ntbl_x
     pla
-    sta tileprinter_ypos+1
+    sta ntbl_x+1
     pla
-    sta tileprinter_ypos
+    sta ntbl_x
 
     jsr CHOICER_MAINLOOP
     jmp @main_loop
@@ -587,12 +587,12 @@ SetupMenu:
 
 ;y = preference index
 Display_SetupMenuChoices:
-    ;tileprinter_xpos = (y << 2) + 13
+    ;ntbl_y = (y << 2) + 13
     tya
     asl a
     asl a
     adc #13 ;y pos offset?
-    sta tileprinter_xpos
+    sta ntbl_y
 
     ;get preferences[y]
     lda preferences, y
@@ -603,7 +603,7 @@ Display_SetupMenuChoices:
 
     ldx #5
     @loop:
-    stx tileprinter_ypos
+    stx ntbl_x
 
     ;get tile value from `preferences` boolean
     ;radial_empty + 0 or 1
@@ -621,8 +621,8 @@ Display_SetupMenuChoices:
     @no_add:
     clc
 
-    ;x = tileprinter_ypos+4
-    lda tileprinter_ypos
+    ;x = ntbl_x+4
+    lda ntbl_x
     adc #4
     tax
     ;if x == 25, break
@@ -1324,8 +1324,8 @@ ValidateBanks2_Useless:
     jsr PPU_SYNC
     lda #$00
     sta irq_count
-    sta scroll_y
     sta scroll_x
+    sta scroll_y
     lda #$ff
     jsr PlayMusic
     jmp ShowAntipiracy_nomute_useless

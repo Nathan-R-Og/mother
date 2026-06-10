@@ -1,11 +1,10 @@
 .segment        "CHR9": absolute
     ;credits labels
     .ifdef VER_JP
-    .incbin "../../split/jp/chr/9/jp.bin"
+        .incbin "../../split/jp/chr/jp_creditsgfx.bin"
     .else
-    .incbin "../../split/us/chr/9/us.bin"
+        .incbin "../../split/us/chr/credits_labels.bin"
     .endif
-
 
     ;leftover from JP, the tiles needed to construct the credits
     ;you can tell because it uses straight ascii for the (english) names, like JP
@@ -13,7 +12,7 @@
 
     ;force jp
     .ifndef VER_JP
-    .include "../../src/jp/fontmap.asm"
+        .include "../../src/jp/fontmap.asm"
     .endif
 
     .res $288, 0
@@ -176,5 +175,5 @@
 
     ;restore if wasnt jp
     .ifndef VER_JP
-    .include "../../src/us/fontmap.asm"
+        .include "../../src/us/fontmap.asm"
     .endif

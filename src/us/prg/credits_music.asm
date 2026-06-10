@@ -105,11 +105,11 @@ C_B28_0216:
     sta currptr_pulse1_blank
     sta unk_78b
 
-    ;copy Ocarina_Missing_List to unk_76c
+    ;copy Ocarina_Missing_List to ntbl_xc
     tay
     @copy:
     lda C_Ocarina_Missing_List, y
-    sta unk_76c, y
+    sta ntbl_xc, y
     iny
     tya
     cmp #10*2

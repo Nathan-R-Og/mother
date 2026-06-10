@@ -1,5 +1,5 @@
 .segment        "CHRA": absolute
-    incbinRange "../../split/global/chr/a/global.bin", 0, $1000
+    .incbin "../../split/global/chr/giegueship_gfx.bin"
 
     giegue_cliff_tiles:
     .byte $11,$12,$13,$03,$04,$03,$03,$04,$04,$03,$03,$04,$03,$04,$03,$04,$03,$04,$04,$04,$03,$04,$03,$04,$03,$03,$04,$03,$03,$10,$11,$12

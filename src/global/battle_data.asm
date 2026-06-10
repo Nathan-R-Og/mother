@@ -1,5 +1,7 @@
 ;technically this should be under prg/ but i intended that for asms with code. sorry lol
 .segment "PRG16": absolute
+BATTLE_DATA:
+
 .include "../global/enemy_stats.asm"
 
 ;positioning

@@ -241,12 +241,12 @@ commands_irq:
 
     ;unload it
     ;2+4 cycles
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ;2 cycles
     ldy #15
-    @wait:
+@wait:
     ;(2*15) cycles
     dey
     ;(3*14)+2 cycles
@@ -257,13 +257,13 @@ commands_irq:
     ;(4 on 7th)
     cpx #7
     bne @useless_jump
-    @useless_jump:
+@useless_jump:
 
     ;5 cycles
     ;(4 on 4th)
     cpx #4
     bne @useless_jump2
-    @useless_jump2:
+@useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -294,11 +294,11 @@ cashbox_irq:
     nop
 
     ;unload it??? lmao???
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ldy #4
-    @wait1:
+@wait1:
     dey
     bne @wait1
 
@@ -312,18 +312,18 @@ cashbox_irq:
     sta BANKDATA
 
     ldy #3
-    @wait2:
+@wait2:
     dey
     bne @wait2
 
     bit 0
 
     ;unload it??? lmao???
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ldy #2
-    @wait3:
+@wait3:
     dey
     bne @wait3
 
@@ -334,11 +334,11 @@ cashbox_irq:
 
     cpx #6
     bne @useless_jump
-    @useless_jump:
+@useless_jump:
 
     cpx #3
     bne @useless_jump2
-    @useless_jump2:
+@useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -347,25 +347,29 @@ cashbox_irq:
 
     rts
 
-L3C28E:
+;extends from 6 to -2
+eightwindow_irq:
     jsr PreparePerLineEffect
-    jmp L3C32A
+    jmp eightwindow_irq_jmp
 
-L3C294:
+;dialogue irq
+;extends from 11 to -2
+dialogue_irq:
     jsr PreparePerLineEffect
-    jmp L3C354
+    jmp dialogue_irq_jmp
 
-L3C29A:
+;shopitems irq
+shopitems_irq:
     jsr PreparePerLineEffect
 
-    @loop:
+@loop:
 
     ;load the second quarter of ui_gfx
     lda #$7D
     sta BANKDATA
 
     ldy #7
-    @wait:
+@wait:
     dey
     bne @wait
 
@@ -375,11 +379,11 @@ L3C29A:
     nop
 
     ;unload it??? lmao???
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ldy #8
-    @wait2:
+@wait2:
     dey
     bne @wait2
 
@@ -387,11 +391,11 @@ L3C29A:
 
     cpx #6
     bne @useless_jump
-    @useless_jump:
+@useless_jump:
 
     cpx #3
     bne @useless_jump2
-    @useless_jump2:
+@useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -400,27 +404,29 @@ L3C29A:
 
     rts
 
-L3C2C2:
+;8window irq
+;extends from tile 2 to -2
+longwindow_irq:
     jsr PreparePerLineEffect
-    @loop:
+@loop:
 
     ;load the second quarter of ui_gfx
     lda #$7D
     sta BANKDATA
 
     ldy #13
-    @wait1:
+@wait1:
     dey
     bne @wait1
 
     bit UNK_0
 
     ;unload it??? lmao???
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ldy #2
-    @wait2:
+@wait2:
     dey
     bne @wait2
 
@@ -431,11 +437,11 @@ L3C2C2:
 
     cpx #6
     bne @useless_jump
-    @useless_jump:
+@useless_jump:
 
     cpx #3
     bne @useless_jump2
-    @useless_jump2:
+@useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -518,18 +524,18 @@ control_codes:
     .byte $d3 ; 3F ヴ
 
 .ifdef VER_JP
-L3C32A:
+eightwindow_irq_jmp:
     nop
     nop
     nop
     bit 0
-    @loop:
+@loop:
     ;load the second quarter of ui_gfx
     lda #$7D
     sta BANKDATA
 
     ldy #10
-    @wait1:
+@wait1:
     dey
     bne @wait1
 
@@ -539,11 +545,11 @@ L3C32A:
     nop
 
     ;unload it??? lmao???
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ldy #5
-    @wait2:
+@wait2:
     dey
     bne @wait2
 
@@ -552,11 +558,11 @@ L3C32A:
 
     cpx #6
     bne @useless_jump
-    @useless_jump:
+@useless_jump:
 
     cpx #3
     bne @useless_jump2
-    @useless_jump2:
+@useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -565,31 +571,31 @@ L3C32A:
 
     rts
 
-L3C354:
+dialogue_irq_jmp:
     ldy #3
-    @wait1:
+@wait1:
     dey
     bne @wait1
 
     nop
     nop
 
-    @loop:
+@loop:
     ;load the second quarter of ui_gfx
     lda #$7D
     sta BANKDATA
 
     ldy #9
-    @wait2:
+@wait2:
     dey
     bne @wait2
 
     ;unload it??? lmao???
-    lda current_banks+3
+    lda current_banks+BANK::CHR1400
     sta BANKDATA
 
     ldy #7
-    @wait3:
+@wait3:
     dey
     bne @wait3
 
@@ -598,11 +604,11 @@ L3C354:
 
     cpx #6
     bne @useless_jump
-    @useless_jump:
+@useless_jump:
 
     cpx #3
     bne @useless_jump2
-    @useless_jump2:
+@useless_jump2:
 
     ;x--
     ;if x > 0, loop
@@ -752,7 +758,7 @@ B30_0306:
     sta nmi_queue, x
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     ;this is effectively the same call
@@ -775,7 +781,7 @@ BankswitchLower_Bank00:
 
 ; $C329
 .ifdef VER_JP
-    party_irq := L3C2C2
+    party_irq := longwindow_irq
 .else
     party_irq := Waste12Cycles
 .endif
@@ -783,10 +789,10 @@ party_menu_1char:
     .byte set_pos 1, 23
     .byte print_string battle_statbar_top
     .byte newLine
-    .byte .LOBYTE(party_irq-1),$16 ;irqValue, irqIndex
+    .byte .LOBYTE(party_irq-1), $16 ;irqValue, irqIndex
     .byte print_string party_member_1_stats
     .byte stopText
-    .byte .LOBYTE(party_irq-1),$18 ;irqValue, irqIndex
+    .byte .LOBYTE(party_irq-1), $18 ;irqValue, irqIndex
     .byte uibox_bl
     .byte repeatTile uibox_b, 28
     .byte uibox_br
@@ -1042,7 +1048,7 @@ SavePlayerBattlers:
     jsr SetupPartyUi
 
     ;get $8000 bank
-    lda current_banks+6
+    lda current_banks+BANK::PRG8000
     pha
 
     jsr BankswitchLower_Bank00
@@ -1063,7 +1069,7 @@ SavePlayerBattlers:
     cmp #0
     bne @B30_0455
 
-    inc tileprinter_xpos
+    inc UNK_77
     jsr DrawTilepack
 
     ;reload bank & return
@@ -1137,8 +1143,8 @@ SetMenu_ScreenAttr:
 
     ;OVERWORLD_attrbuffer[x] = UNK_A4[y]
     @attrbuffer_loop:
-    lda (UNK_A4),Y
-    sta OVERWORLD_attrbuffer,X
+    lda (UNK_A4), y
+    sta OVERWORLD_attrbuffer, x
     iny
     inx
     inc abs_UNK_7B
@@ -1161,8 +1167,8 @@ SetMenu_ScreenAttr:
     sta abs_UNK_7B
 
     @attrbuffer_loop2:
-    lda (UNK_A4),Y
-    sta OVERWORLD_attrbuffer,X
+    lda (UNK_A4), y
+    sta OVERWORLD_attrbuffer, x
     iny
     inx
     dec abs_UNK_7B
@@ -1195,16 +1201,16 @@ B30_046e:
     adc #0
     tax
 
-    ;UNK_7A = (tileprinter_xpos & %00011110) << 3
-    lda tileprinter_xpos
+    ;UNK_7A = (UNK_77 & %00011110) << 3
+    lda UNK_77
     and #%00011110
     asl a
     asl a
     asl a
     sta abs_UNK_7A
 
-    ;UNK_7A |= (tileprinter_ypos+1) >> 1
-    lda tileprinter_ypos
+    ;UNK_7A |= (UNK_76+1) >> 1
+    lda UNK_76
     adc #1
     lsr a
     ora abs_UNK_7A
@@ -1337,18 +1343,18 @@ HideSpritesForMenu:
     sec
     ror oam_and_300_clear_flag
 
-    ;UNK_78 = tileprinter_ypos << 3
+    ;UNK_78 = UNK_76 << 3
     ;;;UNK_78 is now the top left of a panel
-    lda tileprinter_ypos
+    lda UNK_76
     asl A
     asl A
     asl A
     sta abs_UNK_78
 
-    ;UNK_79 = ((tileprinter_ypos + char_count) << 3) - 4
+    ;UNK_79 = ((UNK_76 + char_count) << 3) - 4
     ;;;UNK_79 is now the top right of a panel
     clc
-    lda tileprinter_ypos
+    lda UNK_76
     adc abs_char_count
     asl A
     asl A
@@ -1357,9 +1363,9 @@ HideSpritesForMenu:
     sbc #4
     sta abs_UNK_79
 
-    ;UNK_7C = (tileprinter_xpos & 0x1E) << 3
+    ;UNK_7C = (UNK_77 & 0x1E) << 3
     ;;;UNK_7C is now the bottom left of a panel
-    lda tileprinter_xpos
+    lda UNK_77
     clc
     and #%00011110
     asl A
@@ -1376,7 +1382,7 @@ HideSpritesForMenu:
     ldx #0
     @loop:
     ;if shadow_oam[x] (sprite y) < UNK_7D, skip
-    lda shadow_oam,X
+    lda shadow_oam, x
     cmp abs_UNK_7D
     bcs @no_match
 
@@ -1386,7 +1392,7 @@ HideSpritesForMenu:
     bcc @no_match
 
     ;if shadow_oam[x]+3 (sprite x) < UNK_79, skip
-    lda shadow_oam+3,X
+    lda shadow_oam+3, x
     cmp abs_UNK_79
     bcs @no_match
 
@@ -1397,7 +1403,7 @@ HideSpritesForMenu:
 
     ;set tile offscreen
     lda #$F0
-    sta shadow_oam,X
+    sta shadow_oam, x
 
     @no_match:
     inx
@@ -1464,14 +1470,14 @@ SetupPartyUi:
     pla
     tya
     pha
-    ; repeat 5 times
     ldy #$00
-:   lda string_longblankline, y
+    @B30_0572:
+    lda B30_0398, y
     sta TEST_anchor, x
     inx
     iny
     cpy #$05
-    bne :-
+    bne @B30_0572
     pla
     tay
     lda battle_status_string_lut, y
@@ -1655,13 +1661,13 @@ GetPartyMemberPtr:
 ;render element(s) stored in tilepack_ptr
 WriteTilesIn74:
     jsr DrawTilepack
-    bne B30_0682
-    B30_067f:
+    bne @B30_0682
+    @B30_067f:
     jsr DrawTilepackClear
     B30_0682:
     cmp #$00
     bne B30_067f
-    inc tileprinter_xpos
+    inc UNK_77
     jmp DrawTilepack
 
 ;a == tile value
@@ -1672,18 +1678,18 @@ AddTileViaNMI:
     ;flush NMI while syncing
     jsr PPU_SYNC
 
-    ;this will modifiy UNK_78 with tileprinter_ypos
+    ;this will modifiy UNK_78 with UNK_76
     jsr CalculateNTAddr
 
     ;add to nmi_queue
-    ;05 01 (UNK_78) a 00
-    lda #5
+    ;PPU_WRITE 01 (UNK_78) a 00
+    lda #NMI_COMMANDS::PPU_WRITE
     sta nmi_queue
     lda #1
     sta nmi_queue+1
     lda UNK_78
     sta nmi_queue+2
-    lda UNK_78+1
+    lda UNK_79
     sta nmi_queue+3
     pla
     sta nmi_queue+4
@@ -1692,28 +1698,28 @@ AddTileViaNMI:
     sta nmi_queue+5 ; END
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     rts
 
 AddSpacesOnScreen:
-    lda $70
+    lda UNK_70
     clc
     sbc char_count
-    bcc B30_06cf
+    bcc @B30_06cf
     tay
-    B30_06be:
+    @B30_06be:
     lda #' '
     jsr AddTile
     dey
-    bpl B30_06be
+    bpl @B30_06be
     ldy nmi_data_offset
     lda nmi_queue+1, y
-    beq B30_06cf
+    beq @B30_06cf
     txa
     tay
-    B30_06cf:
+    @B30_06cf:
     sty nmi_data_offset
     rts
 
@@ -1746,20 +1752,16 @@ TilesTilNMI:
     ;lda #$00
     sta nmi_data_offset
     ; NMI Flags
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
 TilesTilNMI_CheckLastRow:
-    .ifdef VER_JP
-        jsr F3CC41
-    .else
-        jsr GetTextRowPtr
-    .endif
+    jsr GetTextRowPtr
     lda UNK_72              ; UnpackID
     cmp #1
     bne @EndBlock
-    inc tileprinter_xpos              ; Row
-    inc tileprinter_xpos
+    inc UNK_77              ; Row
+    inc UNK_77
 @EndBlock:
     rts
 
@@ -1780,13 +1782,13 @@ PRINT_STRING:
         jsr PrintLine
         jsr AddSpacesOnScreen
         lda #0
-        sta nmi_queue,Y
+        sta nmi_queue, y
         pla
         tay
         pla
         tax
-        lda #5
-        sta nmi_queue ; TODO: UNKNOWN NMI COMMAND
+        lda #NMI_COMMANDS::PPU_WRITE
+        sta nmi_queue
         sta nmi_queue+5
         lda #1
         sta nmi_queue+1
@@ -1798,10 +1800,10 @@ PRINT_STRING:
         pha
         jsr PrintLine
         jsr AddSpacesOnScreen
-        sty $7b                 ; AttributeOffset
+        sty UNK_7B                 ; AttributeOffset
         pla
         tax
-        lda #5                ; put WRITE_ROW into NMIQueue-ID (0)
+        lda #NMI_COMMANDS::PPU_WRITE                ; put WRITE_ROW into NMIQueue-ID (0)
         sta nmi_queue
         lda #1                ; put #1 into NMIQueue-NumofChars (1)
         sta nmi_queue+1
@@ -1809,22 +1811,22 @@ PRINT_STRING:
 
 B30_0723:
     .ifdef VER_JP
-        lda nmi_queue,Y
+        lda nmi_queue, y
         beq TilesTilNMI_CheckLastRow
-        lda nmi_queue+1,Y
+        lda nmi_queue+1, y
         sta char_count
-        lda nmi_queue+2,X
+        lda nmi_queue+2, x
         sta nmi_queue+2
-        lda nmi_queue+3,X
+        lda nmi_queue+3, x
         sta nmi_queue+3
-        lda nmi_queue+2,Y
+        lda nmi_queue+2, y
         sta nmi_queue+7
-        lda nmi_queue+3,Y
+        lda nmi_queue+3, y
         sta nmi_queue+8
     .else
         lda #0
         sta nmi_queue, y
-        cpx $7b
+        cpx UNK_7B
         bcs TilesTilNMI_CheckLastRow
         lda #8
         sta nmi_queue, y
@@ -1861,22 +1863,22 @@ NextChar:
     lda nmi_queue, x
     sta nmi_queue+4
     .ifdef VER_JP
-        lda nmi_queue,Y
+        lda nmi_queue, y
         sta nmi_queue+9
     .endif
     cmp #' '
     beq @PrintSingleChar
     lda sram_mode
     bmi @PrintSingleChar
-    eor #$01
+    eor #%00000001
     sta sram_mode
     lsr a
     bcc @PrintSingleChar
-    lda #pulsesfx::TextPrint
-    sta soundqueue_pulse
+    lda #$0e                        ; infamous blip sfx when chars are printed to the screen
+    sta soundqueue_pulseg0
 
 @PrintSingleChar:
-    lda #$00
+    lda #0
     .ifdef VER_JP
         sta nmi_queue+10
     .else
@@ -1884,7 +1886,7 @@ NextChar:
     .endif
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     jsr PPU_SYNC
@@ -1893,7 +1895,7 @@ NextChar:
     txa
     pha
     .ifdef VER_JP
-        ldx #$05
+        ldx #5
         lda nmi_queue+9
         cmp #$FF
         bne @agoodlabelname
@@ -1933,15 +1935,21 @@ SHIFT_TILES_FOR_SCROLL:
     cmp #$01
     bne @exit
     pha
-    ldx #scrolling_lines_size
-
-@loophead:
-    lda scrolling_line_src, x
-    sta scrolling_line_dst, x
+    .ifdef VER_JP
+    ldx #$a2
+    @loophead:
+    lda nmi_queue+$27, x
+    sta nmi_queue+$5d, x
+    .else
+    ldx #$a4
+    @loophead:
+    lda nmi_queue+$32, x
+    sta nmi_queue+$5b, x
+    .endif
     dex
     bne @loophead
     pla
-@exit:
+    @exit:
     rts
 
 .ifndef VER_JP
@@ -1991,7 +1999,7 @@ PrintScroll:
     sbc #line_qty
     tax
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
     cpx #line_tail
     bcs PrintScroll
@@ -2005,10 +2013,10 @@ AdjustQueuedScrollAddress:
     sbc #$20
     sta nmi_queue+3, x
     lda nmi_queue+2, x
-    sta $7b
+    sta UNK_7B
     sbc #$00
     sta nmi_queue+2, x
-    eor $7b
+    eor UNK_7B
     and #$04
     beq :+
     sec
@@ -2061,7 +2069,7 @@ PrintLine:
 
 
 ClearAreaOnScreen:
-    dec tileprinter_xpos                  ; Row
+    dec UNK_77                  ; Row
     jsr CalculateNTAddr
 
     lda UNK_71
@@ -2080,10 +2088,10 @@ ClearAreaOnScreen:
     jsr ConvertControlCode
     bcs @SaveTile
     ora #$80
-    ldy #.LOBYTE(@B30_0881) ; stuff self into return addr
-    sty UNK_7C
+    ldy #.LOBYTE(@B30_0881)
+    sty $7c
     ldy #.HIBYTE(@B30_0881)
-    sty UNK_7C+1
+    sty $7d
     jmp StringCommandHandler
 
 @BlankTile:
@@ -2138,7 +2146,7 @@ TILES_goto:
 
 TILES_print_string:
     ;get content index
-    ldy $7a
+    ldy UNK_7A
     ;if index == 0, do generic
     beq TILES_restoreptr
     ;else, push content pointer
@@ -2173,12 +2181,12 @@ TILES_restoreptr:
     ;pull a, a -> $75
     pla
     .ifdef VER_JP
-    J30_0a57:
+        J30_0a57:
     .endif
-    sta $75
+    sta tilepack_ptr+1
     ;pull a, a -> $74
     pla
-    sta $74
+    sta tilepack_ptr
     jmp (UNK_7C)
 
     @B30_08f1:
@@ -2187,17 +2195,17 @@ TILES_restoreptr:
     beq @B30_08fa
     txa
     tay
-@B30_08fa:
+    @B30_08fa:
     lda $72
     bpl B30_0901
     ;this is where it does the newLine line height x2
-    inc $77
+    inc ntbl_y
     rts
 
 B30_0901:
-    lda $7a
+    lda UNK_7A
     jsr AddTo_UNK_74
-    lda $72
+    lda UNK_72
     rts
 
 .ifdef VER_JP
@@ -2224,21 +2232,21 @@ TILES_goto:
 
 TILES_set_pos:
     ;get content index
-    ldy $7a
+    ldy UNK_7A
 
     ;get x
     lda (tilepack_ptr), y
-    sta $76
+    sta ntbl_x
     iny
     ;get y
     lda (tilepack_ptr), y
-    sta $77
+    sta ntbl_y
     iny
 
     ;set new content index
-    sty $7a
+    sty UNK_7A
     bcc @B30_091b
-    dec $77
+    dec ntbl_y
     @B30_091b:
     ldy nmi_data_offset
     lda nmi_queue+1, y
@@ -2246,60 +2254,60 @@ TILES_set_pos:
     ldx nmi_data_offset
     B30_0924:
     jsr CalculateNTAddr
-    jsr WriteNMIHeader
+    jsr WriteRowHeader
     ldy $7a
     jmp (UNK_7C)
 
 TILES_repeatTile:
-    ldy $7a
+    ldy UNK_7A
     lda (tilepack_ptr), y
     bcc B30_0937
     lda #' '
     B30_0937:
-    sta $72
+    sta UNK_72
     iny
     lda (tilepack_ptr), y
     iny
-    sty $7a
+    sty UNK_7A
     tay
     B30_0940:
     dey
     bmi @B30_094b
-    lda $72
+    lda UNK_72
     jsr AddTile
     jmp B30_0940
 
     @B30_094b:
-    ldy $7a
+    ldy UNK_7A
     jmp (UNK_7C)
 
 ; $69 - $6f = number (7 tiles)
 TILES_print_number:
-    ldy $7a
+    ldy UNK_7A
     lda (tilepack_ptr), y
-    sta $64
+    sta UNK_64
     iny
     lda (tilepack_ptr), y
-    sta $65
+    sta UNK_64+1
     iny
     lda (tilepack_ptr), y
-    sta $66
+    sta UNK_66
     iny
     lda (tilepack_ptr), y
-    sta $67
+    sta UNK_66+1
     iny
     tya
     pha
-    ldy $66
+    ldy UNK_66
     beq @B30_09a3
-    lda #$00
+    lda #0
     sta UNK_60
     sta UNK_60+1
     sta UNK_62
     dey
     @B30_0975:
-    lda ($64), y
-    sta $0060, y
+    lda (UNK_64), y
+    sta UNK_60, y
     dey
     bpl @B30_0975
     txa
@@ -2307,49 +2315,49 @@ TILES_print_number:
     jsr B31_1161
     pla
     tax
-    lda $67
+    lda UNK_66+1
     bne @B30_0993
     sec
-    lda #$08
-    sbc $63
-    sta $67
-    lda $63
+    lda #8
+    sbc UNK_62+1
+    sta UNK_66+1
+    lda UNK_62+1
     bpl @B30_0998
     @B30_0993:
     sec
-    lda #$08
-    sbc $67
+    lda #8
+    sbc UNK_66+1
     @B30_0998:
     clc
     adc #$68
-    sta $64
-    lda #$00
-    adc #$00
-    sta $65
+    sta UNK_64
+    lda #0
+    adc #0
+    sta UNK_64+1
     @B30_09a3:
-    ldy #$00
+    ldy #0
     @B30_09a5:
-    lda $72
+    lda UNK_72
     bmi @B30_09b2
-    lda ($64), y
+    lda (UNK_64), y
     jsr B30_0a5c
     bcs @B30_09c6
     bcc @B30_09c0
     @B30_09b2:
     lda ($64), y
-    jsr ConvertControlCode
+    jsr B30_0a7c
     bcs @B30_09c6
     bcc @B30_09c0
     @B30_09bb:
     lda #' '
     jsr AddTile
     @B30_09c0:
-    dec $67
+    dec UNK_66+1
     bpl @B30_09bb
     bmi @B30_09cd
     @B30_09c6:
     jsr AddTile
-    dec $67
+    dec UNK_66+1
     bne @B30_09a5
     @B30_09cd:
     pla
@@ -2357,67 +2365,76 @@ TILES_print_number:
     jmp (UNK_7C)
 
 TILES_t_nop:
-    ldy $7a
+    ldy UNK_7A
     jmp (UNK_7C)
 
 ; Calculate Nametable Address
-; Input: CameraX, CameraY, Column, Row
+; Input: ram_PPUCTRL, scroll_y, scroll_x, ntbl_y, ntbl_x
 ; Output: NTAddr for screen tile position (Col, Row+1)
 CalculateNTAddr:
-    ;UNK_79 = ((scroll_x >> 1) | (ram_PPUCTRL.1 << 7)) + 8
+    ;;;do y component
+    ;;;get msb of base ntbl address into carry
+    ;;;relevant for if it should be at $2000 or $2800
+    ;c = ram_PPUCTRL >> 2
     lda ram_PPUCTRL
     lsr a
     lsr a
-    lda scroll_x
+    ;UNK_79 = (scroll_y >> 1 | c) + 8
+    lda scroll_y
     ror a
-    ;clear carry
     clc
     adc #8
     sta UNK_79
 
-    ;a = ((tileprinter_xpos + 1) << 2) + UNK_79
-    lda tileprinter_xpos
+    ;a = ((UNK_77 + 1) << 2) + UNK_79
+    lda UNK_77
     adc #1
     asl a
     asl a
-    ;clear carry
     clc
     adc UNK_79
 
-    ;if a goes over a byte, skip
+    ;if a > $7f, skip
     bvs @skip
     ;a -= 8
     sec
     sbc #8
     @skip:
-
+    ;carry = msb a << 1
     asl a
     and #$f8
     sta UNK_79
+
+    ;4 |= msb
     lda #2
     rol a
+
     asl a
     asl UNK_79
     rol a
     asl UNK_79
     rol a
     sta UNK_78
+
+    ;;;do x component
+    ;c = ram_PPUCTRL.0
     lda ram_PPUCTRL
     lsr a
 
     ;these are nametable calculations
 
-    ;a = (scroll_y >> 3) + tileprinter_ypos
+    ;a = (scroll_y >> 3) + UNK_76
     lda scroll_y
     ror a
     lsr a
     lsr a
     clc
-    adc tileprinter_ypos
+    adc UNK_76
     ;store a in y
     tay
 
-    ;this is like getting y from x/width
+    ;;;this is getting horizontal table from width
+    ;;;if x >= $20, move the table
     ;UNK_78 += (a & %0010000) << 3
     and #$20
     lsr a
@@ -2428,10 +2445,10 @@ CalculateNTAddr:
 
     ;restore a from y
     tya
-    ;UNK_78 += x component of a
+    ;UNK_79 += the rest of a
     and #$1f
-    adc UNK_78+1
-    sta UNK_78+1
+    adc UNK_79
+    sta UNK_79
 
     rts
 
@@ -2471,43 +2488,13 @@ B30_0a31:
     sta nmiheader, x   ; var3
     inx
     ora #$e0
-    sta $7b
+    sta UNK_7B
     rts
 
 B30_0a5c:
     iny
-    sty $7a
-    cmp #$40
-    bcs B30_0a7b
-    tay
-    lda control_codes, y
-    ldy $7a
-    cmp #$80
-    bcs B30_0a7b
-    cmp #$20
-    bcs B30_0a79
-    cmp #$0a
-    bcs B30_0a76
-    rts
-
-B30_0a76:
-    .ifdef VER_JP
-    ora #$30
-    .else
-    ora #$d0
-    rts
-    .endif
-
-B30_0a79:
-    ora #$80
-    B30_0a7b:
-    rts
-
-;convert control codes
-ConvertControlCode:
-    iny
     ;push y
-    sty $7a
+    sty UNK_7A
 
     ;not a control code
     cmp #$40
@@ -2517,7 +2504,50 @@ ConvertControlCode:
     ;load index in control codes
     lda control_codes, y
     ;pop y
-    ldy $7a
+    ldy UNK_7A
+
+    ;kana
+    cmp #$80
+    bcs @normal_tile
+
+    ;output
+    cmp #$20
+    bcs @output_tiles
+
+    ;is ui piece
+    cmp #$a
+    bcs @fix_ui_offset
+    rts
+
+    @fix_ui_offset:
+    .ifdef VER_JP
+        ora #$30
+    .else
+        ora #$d0
+        rts
+    .endif
+
+    @output_tiles:
+    ora #$80
+
+    @normal_tile:
+    rts
+
+;convert control codes
+ConvertControlCode:
+    iny
+    ;push y
+    sty UNK_7A
+
+    ;not a control code
+    cmp #$40
+    bcs @normal_tile
+
+    tay
+    ;load index in control codes
+    lda control_codes, y
+    ;pop y
+    ldy UNK_7A
 
     ;kana
     cmp #$80
@@ -2535,9 +2565,9 @@ ConvertControlCode:
 
     @fix_ui_offset:
     .ifdef VER_JP
-    ora #$b0
+        ora #$b0
     .else
-    ora #$d0
+        ora #$d0
     .endif
     rts
 
@@ -2561,49 +2591,48 @@ ConvertControlCode:
 
 GetTextData:
     .ifdef VER_JP
-    ldx #$18
-    lda text_id
-    bpl L3CC2A
+        ldx #$18
+        lda text_id
+        bpl @L3CC2A
     .else
-    lda text_id
-    bpl B30_0aa9
+        lda text_id
+        bpl @B30_0aa9
     .endif
     sta tilepack_ptr+1
     rts
 
 .ifdef VER_JP
-L3CC2A:
-    asl A
-    bpl L3CC2F
+@L3CC2A:
+    asl a
+    bpl @L3CC2F
     inx
     inx
-L3CC2F:
-    asl A
-    bpl L3CC33
+@L3CC2F:
+    asl a
+    bpl @L3CC33
     inx
-L3CC33:
-    lda $73
+@L3CC33:
+    lda text_id
     and #$1F
     ora #$80
-    sta $75
+    sta tilepack_ptr+1
     txa
-    ldx #$06
+    ldx #BANK::PRG8000
     jmp BANK_SWAP
 
-F3CC41:
+GetTextRowPtr:
     lda #$E0
-    and $73
-    sta $73
+    and text_id
+    sta text_id
     lda #$1F
-    and $75
-    ora $73
-    sta $73
+    and tilepack_ptr+1
+    ora text_id
+    sta text_id
     rts
 .else
-
-B30_0aa9:
+@B30_0aa9:
     cmp #$7f
-    bcs B30_0ae1
+    bcs @B30_0ae1
     tax
     lda text_id+1
     asl text_id+1
@@ -2617,7 +2646,7 @@ B30_0aa9:
     lda #$7f
     sta text_id
 
-    lda current_banks+6
+    lda current_banks+BANK::PRG8000
     pha
 
     ;swap text pointers in
@@ -2639,7 +2668,7 @@ B30_0aa9:
     jsr BANK_SWAP
 
     B30_0ae1:
-    jsr PPU_SYNC
+    jsr PpuSync
 
     lda #NMI_COMMANDS::PPU_READ_TEXT
     sta nmiheader_command ; READ_TEXT_DATA
@@ -2668,7 +2697,8 @@ B30_0aa9:
 
     lda #0
     sta nmi_data_offset
-    lda #NMI_MODE::SKIP
+
+    lda #$80
     sta nmi_flags
 
     lda #.LOBYTE(text_data_buffer)
@@ -2678,24 +2708,24 @@ B30_0aa9:
     jmp PPU_SYNC
 
 GetTextRowPtr:
-    lda $75
-    bpl B30_0b21
-    sta $73
+    lda tilepack_ptr+1
+    bpl @B30_0b21
+    sta text_id
     rts
 
-B30_0b21:
+@B30_0b21:
     sec
-    lda $74
+    lda text_id+1
     sbc #$10
     clc
-    adc $09
-    sta $09
-    lda #$00
-    adc $0a
-    sta $0a
-    lda #$00
-    adc $0b
-    sta $0b
+    adc UNK_9
+    sta UNK_9
+    lda #0
+    adc UNK_9+1
+    sta UNK_9+1
+    lda #0
+    adc UNK_9+2
+    sta UNK_9+2
     rts
 
 .endif
@@ -2728,7 +2758,7 @@ PostInit:
     sta sram_mode
 
     ;fade out
-    B30_0b57:
+B30_0b57:
     jsr BANKSET_H13
     jsr OverworldTransitionIntepreter
 
@@ -2745,32 +2775,32 @@ PostInit:
     sta UNK_d
 
     B30_0b70:
-    jsr CLEAR_OAM_SPRITES
-    jsr DRAW_SCREEN
+    jsr ClearSprites
+    jsr STORE_COORDINATES
 
     B30_0b76:
-    jsr AvaliableObjectsFunc
+    jsr B30_1e99
     jsr B31_0ef0
 
     .ifndef VER_JP
-    ;if UNK_24 != 0, jump
-    lda UNK_24+1
-    bne B30_0b91
+        ;if UNK_24 != 0, jump
+        lda UNK_24+1
+        bne @B30_0b91
 
-    ;if not holding PAD_B | PAD_SELECT | PAD_START, jump
-    lda pad1_hold
-    and #PAD_B | PAD_SELECT | PAD_START
-    beq @B30_0b8f
+        ;if not holding PAD_B | PAD_SELECT | PAD_START, jump
+        lda pad1_hold
+        and #PAD_B | PAD_SELECT | PAD_START
+        beq @B30_0b8f
 
-    jsr GetButtonMode
-    ;if running
-    and #%00001000
-    beq @B30_0b8f
-    lda #1
+        jsr GetButtonMode
+        ;if running
+        and #%00001000
+        beq @B30_0b8f
+        lda #1
     @B30_0b8f:
-    sta overworld_ticking_speed
+    sta UNK_1F
 
-    B30_0b91:
+    @B30_0b91:
     .endif
     jsr PPU_SYNC
 
@@ -2793,9 +2823,9 @@ PostInit:
 
     jsr BANKSET_H13
     jsr B19_01c6
-    bcc TryDoEncounter
+    bcc B30_0beb
 
-    @am_i_scripted:
+@am_i_scripted:
 
     jsr BANKSET_H13
 
@@ -2810,57 +2840,56 @@ PostInit:
     ora vehicle
     ora is_scripted
     ora fade_flag
-    bne TryDoEncounter
+    bne B30_0beb
 
     tya
     .ifdef VER_JP
-    and #PAD_A | PAD_B
+        and #PAD_A | PAD_B
     .else
-    and #PAD_A | PAD_B | PAD_SELECT | PAD_START
+        and #PAD_A | PAD_B | PAD_SELECT | PAD_START
     .endif
     ;if PAD_A, jump
-    bmi OpenCommands
+    bmi @OpenCommands
     ;if anything, jump
     .ifdef VER_JP
-    ;handle remaps
-    bne OpenState
+        ;open state menu
+        bne @OpenState
     .else
-    ;do nothing
-    bne DoButtonRemapCheck
+        ;handle remaps
+        bne @DoButtonRemapCheck
     .endif
 
     jsr Idle_DadPhonecall
 
-    jmp DoNormalFrame
+    jmp @DoNormalFrame
 
 .ifndef VER_JP
-;DoButtonRemapCheck
-DoButtonRemapCheck:
+@DoButtonRemapCheck:
     jsr GetButtonMode
     and #%10100000
     ;if 0 (B pressed), jump
-    beq DoNormalFrame
+    beq @DoNormalFrame
     ;if high bit set (Select Pressed), jump
     bmi @OpenState
     ;else, open map (thats the only other button you coulda pressed!)
     jsr OpenMapWithButton
 
-    jmp DoNormalFrame
+    jmp @DoNormalFrame
 .endif
 
-    @OpenState:
+OpenState:
     jsr OM_OPEN_FULLSTATS
-    jmp DoNormalFrame
+    jmp @DoNormalFrame
 
 OpenCommands:
-    jsr OPEN_OVERWORLD_COMMANDS
+    jsr B19_0178
     DoNormalFrame:
 
     jsr BANKSET_H14
     jsr DoWalkingStep
 
 ;step random
-TryDoEncounter:
+B30_0beb:
     ;get battle
     lda enemy_group
     ;if battle == 0, dont do anything
@@ -2888,16 +2917,16 @@ TryDoEncounter:
     jsr B19_0b53
     lda fade_flag
     bne @whatever_case_this_is
-    @isnt_scripted:
+@isnt_scripted:
     jmp B30_0b70
 
-    @whatever_case_this_is:
+@whatever_case_this_is:
     jmp B30_0b5d
 
-    @no_battle:
+@no_battle:
     jmp B30_0b76
 
-    @giegue_battle:
+@giegue_battle:
     jsr BANKSET_H14
     jsr GiegueIntro
     jsr StartBattle
@@ -2905,39 +2934,39 @@ TryDoEncounter:
     jsr BANKSET_H14
     jmp GiegueOutro
 
-; theorized
-SpawnPlayers_theory:
-    lda overworld_ticking_speed
+B30_0c2b:
+    lda UNK_1F
     cmp #$07
     bcs B30_0c5d
 
     lda #$10
     sta nmi_flags
-    jsr GetNewCoordinates
-    jsr CheckLoadMap
-@WaitLocationDraw:
+
+    jsr B30_105e
+    jsr B30_10b1
+    B30_0c3b:
     lda nmi_flags
-    bne @WaitLocationDraw
-@WaitPlayersDraw:
-    lda UNK_E0
+    bne B30_0c3b
+    B30_0c3f:
+    lda $e0
     cmp #$09
-    bcs @WaitPlayersDraw
+    bcs B30_0c3f
     sec
-    ror oam_and_300_clear_flag
-    jsr CheckTiles
-    asl oam_and_300_clear_flag
+    ror $e2
+    jsr B31_0065
+    asl $e2
     jsr B30_1232
-    lda #$00
+    lda #0
     sta nmi_queue, x
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     bne B30_0c83
     B30_0c5d:
-    jsr GetNewCoordinates
-    jsr CheckLoadMap
+    jsr B30_105e
+    jsr B30_10b1
     jsr B30_1232
 
     lda #0
@@ -2948,36 +2977,41 @@ SpawnPlayers_theory:
     sta nmi_flags
     lda overworld_ticking_speed
     cmp #$0f
-    bcs B30_0c83
-    B30_0c77:
+    bcs @B30_0c83
+
+@B30_0c77:
     lda nmi_flags
-    bne B30_0c77
+    bne @B30_0c77
+
     sec
-    ror oam_and_300_clear_flag
-    jsr CheckTiles
-    asl oam_and_300_clear_flag
+    ror $e2
+    jsr B31_0065
+    asl $e2
     B30_0c83:
     lda UNK_A0
     lsr a
-    bcc B30_0c96
+    bcc @B30_0c96
     jsr B30_121c
     lda #$00
     sta nmi_queue, x
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
-    B30_0c96:
+@B30_0c96:
     bit UNK_A0
-    bmi B30_0c9c
+    bmi @B30_0c9c
     inc step_count
-    B30_0c9c:
+@B30_0c9c:
     rts
 
 .ifndef VER_JP
-;takes pad input and returns saveram???
-;no directionals allowed
+;in:
+;a == button
+
+;out:
+;a == remapped to generic inputs.
 GetButtonMode:
     ;x = a >> 4
     lsr a
@@ -2986,11 +3020,11 @@ GetButtonMode:
     lsr a
     tax
 
-    ldy CmndBtn, x
+    ldy B30_0ca9, x
     lda preferences, y
     rts
 
-CmndBtn:
+B30_0ca9:
     .byte 0 ; how
     .byte 1 ; PAD_START
     .byte 2 ; PAD_SELECT
@@ -3001,64 +3035,70 @@ CmndBtn:
     .byte 0 ; PAD_B | PAD_START | PAD_SELECT
 .endif
 
-PSITeleportFail:
+B30_0cb1:
     lda #$ff
     jsr PlayMusic
+
     jsr B30_1a16
-    lda #Noise_Bomb
-    sta soundqueue_noise
+    lda #$02
+    sta $07f0
     lda #$01
     ora ram_PPUMASK
     sta ram_PPUMASK
     ldx #$08
-:   jsr B31_0ee4
+    @B30_0cc6:
+    jsr B31_0ee4
     dex
-    bne :-
+    bne @B30_0cc6
     lda #$1e
     and ram_PPUMASK
     sta ram_PPUMASK
+
     jsr WAIT_CLOSE_MENU
     jmp B30_0d79
 
 PSITELEPORT_START:
+    ;store the current music
     lda current_music
     pha
 
+    ;mute music
     lda #$ff
-    sta can_enter_doors         ; no doors for you! (while teleporting)
+    sta UNK_f
 
     jsr PlayMusic
+
     jsr CLEAR_TEXTBOXES_ROUTINE
-    lda #PulseG1_DimensionSlip
-    sta soundqueue_doublepulse
+
+    lda #1
+    sta soundqueue_pulseg1
 
     jsr B30_0d9d
     ; do teleport
     ldx #5
-:   jsr DoTeleportTick
+    @B30_0cf0:
+    jsr B30_0d8b
     lda UNK_A0
-    bmi PSITeleportFail
+    bmi B30_0cb1
     lda pad1_hold
-    and #$0f
+    and #%00001111
     tax
     lda Direction_By_Input, x
-    bmi @tp2
+    bmi @B30_0d0c
     ora #$40
     tax
     eor autowalk_direction
     cmp #$04
     beq @tp2
     stx autowalk_direction
-    @tp2:
-    ldx cutscene_counter
+    @B30_0d0c:
+    ldx $25
     inx
-    cpx #TeleportSpeedLUT_size+1
-    bcc :-
-
-;PSITeleportSuccess
-    jsr PPU_SYNC
+    cpx #$2d
+    bcc @B30_0cf0
+    jsr PpuSync
     lda #$20
-    @B30_0d18:
+@B30_0d18:
     tax
     asl SPRITE_OBJECTS+4, x
     asl SPRITE_OBJECTS+5, x
@@ -3066,24 +3106,24 @@ PSITELEPORT_START:
     sbc #$08
     bne @B30_0d18
     lda #$0a
-    @B30_0d26:
+@B30_0d26:
     pha
     jsr SpawnPlayers_theory
     jsr PPU_SYNC
     pla
     sec
-    sbc #$01
+    sbc #1
     bne @B30_0d26
-;TeleportTransitionAnimation:
-    lda #Triangle_Freeze
-    sta soundqueue_triangle
-    lda #$22                    ; color for teleport animation
-DoTeleportTransition:
+    lda #$01
+    sta $07f3
+    lda #$22
     jsr BackupAndFillPalette
+
+    ;do the actual teleport
     jsr BANKSET_H13
     jsr EnablePRGRam
     jsr B19_1bd4
-    jsr NEW_CHAR_COORDINATES
+    jsr B30_19fa
     pla
     lda xpos_music
     tax
@@ -3093,26 +3133,28 @@ DoTeleportTransition:
     and #$c0
     sta xpos_music
     jsr REMOVE_NPCS_FROM_PARTY
+
     ldx #20
     jsr WaitXFrames_Min1
+
     jsr SetupPartyUi
     jsr GetScreenMapData
     jsr CLEAR_OAM_SPRITES
     jsr DRAW_SCREEN
     jsr B30_0d9d
-    ldx #TeleportSpeedLUT_size
+    ldx #$2c
     @B30_0d70:
-    jsr DoTeleportTick
-    ldx cutscene_counter
+    jsr B30_0d8b
+    ldx $25
     dex
     dex
     bpl @B30_0d70
-    B30_0d79:
-    ldx #$00
+B30_0d79:
+    ldx #0
     stx autowalk_direction
     stx pad1_forced
-    stx can_enter_doors
-    jsr CHANGE_OVERWORLD_TICKSPEED
+    stx $0f
+    jsr B30_0daf
     pla
     jsr PlayMusic
     jmp B30_0b76
@@ -3134,23 +3176,27 @@ B30_0d9d:
     sta autowalk_direction
     jmp WriteProtectPRGRam
 
-CHANGE_OVERWORLD_TICKSPEED:
-    stx cutscene_counter
-    lda TeleportSpeedLUT, x
-    sta overworld_ticking_speed
+B30_0daf:
+    stx $25
+    lda B30_0db7, x
+    sta UNK_1F
     rts
 
-TeleportSpeedLUT_size = 44 ;0x2c frames of teleporting
-TeleportSpeedLUT:
-    .byte 0, 0, 0, 0, 0
-    .byte 1, 1, 1, 1, 1
-    .byte 2, 2, 2, 2
-    .byte 3, 3, 3, 3, 3, 3
-    .byte 5, 5, 5, 5, 5, 5, 5, 5
-    .byte 7, 7, 7, 7, 7, 7, 7, 7,  7, 7, 7, 7
-    .byte 15, 15, 15, 15, 15
+B30_0db7:
+    .byte $00, $00, $00, $00
+    .byte $00, $01, $01, $01
+    .byte $01, $01, $02, $02
+    .byte $02, $02, $03, $03
+    .byte $03, $03, $03, $03
+    .byte $05, $05, $05, $05
+    .byte $05, $05, $05, $05
+    .byte $07, $07, $07, $07
+    .byte $07, $07, $07, $07
+    .byte $07, $07, $07, $07
+    .byte $0f, $0f, $0f, $0f
+    .byte $0f
 
-PLAY_TRACK_SFX:
+B30_0de4:
     pha
     lda current_music
     tax
@@ -3158,12 +3204,12 @@ PLAY_TRACK_SFX:
     jsr PlayMusic
     lda #0
     sta pad1_forced
-    @B30_0df1:
+@B30_0df1:
     bit pad1_forced
     bvs @B30_0dfa
     lda current_music
     bne @B30_0df1
-    @B30_0dfa:
+@B30_0dfa:
     lda #0
     sta pad1_forced
     txa
@@ -3206,14 +3252,14 @@ B30_0e08:
     stx nmiheader_lineptr
     sta nmiheader_lineptr+1
     lda #0
-    sta nmi_var4 + 64           ; END
-    ldx #times                  ; Repeat this 32 times (for a total of $800 bytes)
+    sta nmi_queue+4+64 ; END
+    ldx #times ; Repeat this 32 times (for a total of $800 bytes)
     @loop:
 
     lda #0
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     jsr PPU_SYNC
@@ -3221,7 +3267,7 @@ B30_0e08:
     jsr EnablePRGRam
 
     ldy #0
-    @copy:
+@copy:
     lda nmi_queue+4, y
     sta (UNK_60), y
     iny
@@ -3268,25 +3314,26 @@ B30_0e6d:
     ;0x2000
     lda #0
     ldx #$20
-    sta $64
-    stx $65
+    sta UNK_64
+    stx UNK_64+1
 
     lda #$10
-    sta $68
+    sta UNK_68
 
-    @B30_0e81:
+@B30_0e81:
     lda UNK_60
     ldx UNK_60+1
 
     ldy #9
     jsr B30_0eb2
 
-    lda $64
-    ldx $65
+    lda UNK_64
+    ldx UNK_64+1
 
-    ldy #$05
+    ldy #5
     jsr B30_0eb2
 
+    ;UNK_60 += $40
     clc
     lda #$40
     adc UNK_60
@@ -3295,13 +3342,14 @@ B30_0e6d:
     adc UNK_60+1
     sta UNK_60+1
 
+    ;UNK_64 += $40
     clc
     lda #$40
-    adc $64
-    sta $64
-    lda #$00
-    adc $65
-    sta $65
+    adc UNK_64
+    sta UNK_64
+    lda #0
+    adc UNK_64+1
+    sta UNK_64+1
 
     dec $68
     bne @B30_0e81
@@ -3316,31 +3364,33 @@ B30_0eb2:
     stx nmiheader_lineptr
     sty nmiheader_command
     lda #64
-    sta nmiheader_offset
+    sta nmi_queue+1
     lda #$00
-    sta nmi_var4 + 64
+    sta nmi_queue+4+64
 
     lda #0
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     rts
 
-; Sets Upper (Hi) Bank to $13, without preserving current bank on stack
+; Sets Upper (Hi) Bank to $13 (overworld), without preserving current bank on stack
 BANKSET_H13:
-    lda #$13
+    lda #.BANK(OM_OPEN_FULLSTATS)
     ldx #BANK::PRGA000
     jmp BANK_SWAP
 
+; Sets Upper (Hi) Bank to $17 (battle), without preserving current bank on stack
 BANKSET_H17:
-    lda #$17
+    lda #.BANK(BattleMain)
     ldx #BANK::PRGA000
     jmp BANK_SWAP
 
+; Sets Upper (Hi) Bank to $14 (title), without preserving current bank on stack
 BANKSET_H14:
-    lda #$14
+    lda #.BANK(Map_TileProperties)
     ldx #BANK::PRG8000
     jmp BANK_SWAP
 
@@ -3352,12 +3402,12 @@ BankswitchCHRFromTable:
     ldx #5 ;stored for the bank index
     ldy #5 ;stored for the iterator
 
-    @loop:
+@loop:
     ;get chr page
     lda (UNK_60), y
     beq @zeroed_page
     jsr BANK_SWAP
-    @zeroed_page:
+@zeroed_page:
 
     ;if x and y < 0, break
     dex
@@ -3369,7 +3419,7 @@ GetScreenMapData:
     jsr InitPartyObjects
 
     ;swap to bank $14 for map palettes
-    lda #$14
+    lda #.BANK(Map_Palettes)
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 
@@ -3401,7 +3451,7 @@ GetScreenMapData:
     jsr PPU_SYNC
 
     ldy #$f
-    @add_palette_to_queue:
+@add_palette_to_queue:
     lda (map_tmp_ptr), y
     bpl @is_positive
     ;fix???
@@ -3410,7 +3460,7 @@ GetScreenMapData:
     ;this doesnt even work half the time...
     ;youd think this would be for map metadata,,, guess not
     jsr GetMetaSaveA
-    @is_positive:
+@is_positive:
     ;put byte into palette queue (relative)
     sta palette_queue, y
     ;y--, loop if y > 0
@@ -3419,7 +3469,7 @@ GetScreenMapData:
 
     ;standard copy the sprite palette
     ldy #$f
-    @copy_sprite_palette:
+@copy_sprite_palette:
     lda Field_Sprite_Palette, y
     sta palette_queue+$10, y
     dey
@@ -3461,7 +3511,7 @@ GetScreenMapData:
     ;UNK_9B = $10
     lda #$10
     sta UNK_9B
-    @loop:
+@loop:
     sec
 
     ;UNK_AA = (player_x & 0xFFC0) - $40
@@ -3495,10 +3545,10 @@ GetScreenMapData:
 
     jmp @loop
 
-    @B30_0f92:
+@B30_0f92:
     jsr B30_109e
-    ldy #$00
-    sty $1d
+    ldy #0
+    sty UNK_1c+1
     jmp B30_1d72
 
 ;overworld sprites palette
@@ -3513,12 +3563,12 @@ DRAW_SCREEN:
 
     clc
 
-    ;scroll_y = UNK_1c | %00001000
+    ;scroll_x = UNK_1c | %00001000
     lda UNK_1c
     ora #%00001000
     tax
 
-    ;scroll_x, UNK_98+1 = UNK_1c+1
+    ;scroll_y, UNK_98+1 = UNK_1c+1
     ldy UNK_1c+1
 
     ;ram_PPUCTRL = (ram_PPUCTRL & 0xfc) | UNK_1c+2
@@ -3528,8 +3578,8 @@ DRAW_SCREEN:
     sta ram_PPUCTRL
 
     ;see above
-    stx scroll_y
-    sty scroll_x
+    stx scroll_x
+    sty scroll_y
     sty UNK_98+1
 
     clc
@@ -3547,7 +3597,7 @@ DRAW_SCREEN:
 
     lda #$f
     sta UNK_9B
-    @draw_loop:
+@draw_loop:
 
 	clc
     ;UNK_98+1 += $F0
@@ -3555,8 +3605,8 @@ DRAW_SCREEN:
     adc #$f0
     ;if carry, skip
     bcs @skip
-	    ;UNK_98+1 += $F0
-	    adc #$f0
+    ;UNK_98+1 += $F0
+    adc #$f0
     @skip:
     sta UNK_98+1
 
@@ -3567,16 +3617,16 @@ DRAW_SCREEN:
     lda player_x+1
     sta UNK_AA+1
 
-    ;a = (B30_104f-1[x] ^ UNK_98+1) & 0x10
+    ;a = (@B30_104f-1[x] ^ UNK_98+1) & 0x10
     ldx UNK_9B
-    lda B30_104f-1, x
+    lda @B30_104f-1, x
     eor UNK_98+1
     and #%00010000
     ;if a != 0, skip load
     bne @no_load
-    ;a = B30_104f-1[x]
-    lda B30_104f-1, x
-    @no_load:
+    ;a = @B30_104f-1[x]
+    lda @B30_104f-1, x
+@no_load:
     sta UNK_90+3
 
     jsr PPU_SYNC
@@ -3588,7 +3638,7 @@ DRAW_SCREEN:
     sta nmi_queue, x
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     dec UNK_9B
@@ -3617,17 +3667,17 @@ DRAW_SCREEN:
     jmp @draw_loop
 
     @break:
-    jsr PPU_SYNC
+    jsr PpuSync
 
     jsr SwapPatternTables
 
     lda #4
-    sta nmiheader_command ; UPDATE_PALETTE
+    sta nmi_queue ; UPDATE_PALETTE
     lda #0
     sta nmiheader_offset ; END
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     ;UNK_A0 = $88
@@ -3638,10 +3688,12 @@ DRAW_SCREEN:
     lda #0
     sta irq_count
 
+    ;reset controller
     sta pad1_forced
+
     rts
 
-B30_104f:
+@B30_104f:
     .byte $f0, $10
     .byte $10, $10
     .byte $10, $10
@@ -3679,45 +3731,45 @@ GetNewCoordinates:
     lda xy_unknown+2, x
     beq B30_109e
     bmi @B30_1094
-    lda $1d
+    lda UNK_1c+1
     adc #$20
     bcc @B30_109a
     bcs @B30_109c
-    @B30_1094:
-    lda $1d
+@B30_1094:
+    lda UNK_1c+1
     adc #$f0
     bcs @B30_109c
-    @B30_109a:
+@B30_109a:
     adc #$f0
-    @B30_109c:
-    sta $1d
-    B30_109e:
+@B30_109c:
+    sta UNK_1c+1
+B30_109e:
     lda player_x+1
-    and #$07
-    sta $1e
+    and #%00000111
+    sta UNK_1c+2
     lda player_x
-    and #$c0
-    lsr $1e
+    and #%11000000
+    lsr UNK_1c+2
     ror a
-    lsr $1e
+    lsr UNK_1c+2
     ror a
-    sta $1c
-    B30_10b0:
+    sta UNK_1c
+B30_10b0:
     rts
 
 CheckLoadMap:
     jsr SwapPatternTables
-    lda $a0
+    lda UNK_A0
     bmi B30_10c0
     jsr B30_10c4
     lda $a0
     lsr a
     bcs B30_10c1
-    B30_10c0:
+@B30_10c0:
     rts
 
 B30_10c1:
-    adc #$00
+    adc #0
     asl a
 B30_10c4:
     and #$06
@@ -3728,24 +3780,24 @@ B30_10c4:
     lda player_x
     and #$c0
     adc B30_10fd, x
-    sta $aa
+    sta UNK_AA
     lda player_x+1
     adc B30_10fd+1, x
-    sta $ab
+    sta UNK_AA+1
     clc
     lda player_y
     and #$c0
     adc B30_10fd+2, x
-    sta $ac
+    sta UNK_AC
     lda player_y+1
     adc B30_10fd+3, x
-    sta $ad
+    sta UNK_AC+1
     lda B30_10fd+4, x
-    sta $ae
+    sta UNK_AE
     lda B30_10fd+5, x
-    sta $af
+    sta UNK_AE+1
     lda B30_10fd+6, x
-    sta $a8
+    sta UNK_A8
     jmp B30_111d
 
 B30_10fd:
@@ -3756,7 +3808,7 @@ B30_10fd:
 
 B30_111d:
     jsr B30_155d ;setup ram a's??????
-    Draw_NewChunk:
+Draw_NewChunk:
     jsr GetCurrentSector
 
     ;get palette
@@ -3769,7 +3821,7 @@ B30_111d:
     lda map_meta_nullchunk
     jmp @is_null_chunk
 
-    @palettes_match:
+@palettes_match:
     ;get relevant map bank to $8000
     lda UNK_94
     ldx #BANK::PRG8000
@@ -3794,8 +3846,8 @@ B30_111d:
     ;else, return chunk id of save_ram[chunk_id]
     ;MAP EVENT
     jsr GetMetaSaveA
-    @skip_map_event:
-    @is_null_chunk:
+@skip_map_event:
+@is_null_chunk:
     ;store chunk_probably in x
     tax
 
@@ -3816,7 +3868,7 @@ B30_111d:
     ;load tileset 2
     lda map_tileset_2_lobits
     .byte $2c ; BIT trick
-    @is_zero:
+@is_zero:
     ;load tileset 1
     lda map_tileset_1_lobits
 
@@ -3859,7 +3911,7 @@ B30_111d:
     ldx #BANK::PRGA000
     jsr BANK_SWAP
 
-    Draw_CurrentChunk:
+Draw_CurrentChunk:
     ;x, y = ((UNK_AA >> 2) | UNK_AC) >> 4
     lda UNK_AA
     lsr a
@@ -3959,7 +4011,7 @@ B30_111d:
 
     jmp Draw_NewChunk
 
-    @B30_11f9:
+@B30_11f9:
     ;on scroll?
     ldx UNK_AE+1
     beq @exit
@@ -3988,11 +4040,11 @@ B30_111d:
     sta UNK_AC+1
 
     jmp Draw_NewChunk
-    @skiptocurrentchunk:
+@skiptocurrentchunk:
     jmp Draw_CurrentChunk
-    @skiptonewchunk:
+@skiptonewchunk:
     jmp Draw_NewChunk
-    @exit:
+@exit:
     rts
 
 B30_121c:
@@ -4000,15 +4052,15 @@ B30_121c:
     bne B30_121c
     lda $a0
     bmi B30_122f
-    and #$07
+    and #%00000111
     asl a
     asl a
     asl a
     tax
     lda EpicUnknownNMITable+7, x
     bpl B30_123f
-    B30_122f:
-    ldx #$00
+B30_122f:
+    ldx #0
     rts
 
 B30_1232:
@@ -4016,45 +4068,45 @@ B30_1232:
     bne B30_1232
     lda $a0
     bmi B30_122f
-    and #$07
+    and #%00000111
     asl a
     asl a
     asl a
-    B30_123f:
+B30_123f:
     tax
     clc
     lda player_x
     and #$c0
-    adc EpicUnknownNMITable, x
+    adc B30_1284, x
     sta $aa
     lda player_x+1
-    adc EpicUnknownNMITable+1, x
+    adc B30_1284+1, x
     sta $ab
     clc
     lda player_y
     and #$c0
-    adc EpicUnknownNMITable+2, x
+    adc B30_1284+2, x
     sta $ac
     lda player_y+1
-    adc EpicUnknownNMITable+3, x
+    adc B30_1284+3, x
     sta $ad
     clc
-    lda EpicUnknownNMITable+4, x
+    lda B30_1284+4, x
     adc $1d
     bcs @B30_126c
     adc #$f0
     @B30_126c:
     sta $99
-    lda EpicUnknownNMITable+6, x
+    lda B30_1284+6, x
     bmi @B30_1281
-    eor $99
-    and #$10
+    eor UNK_98+1
+    and #%00010000
     bne @B30_127c
-    lda EpicUnknownNMITable+5, x
+    lda B30_1284+5, x
     @B30_127c:
     sta $93
     jmp B30_12c4
-    @B30_1281:
+@B30_1281:
     jmp B30_1398
 
 EpicUnknownNMITable:
@@ -4075,9 +4127,9 @@ B30_12c4:
     sta UNK_90+1
 
     ldx #0
-    @B30_12cd:
+@B30_12cd:
     ;[05 (UNK_90+1 << 1) UNK_8C bytes]
-    lda #5
+    lda #NMI_COMMANDS::PPU_WRITE
     sta nmi_queue, x
     sta nmi_queue+$2a, x
 
@@ -4099,7 +4151,7 @@ B30_12c4:
     sta nmi_queue+$2a, x
 
     inx
-    @B30_12f4:
+@B30_12f4:
     ;setup map_tmp_ptr
     jsr B30_1537
 
@@ -4176,7 +4228,7 @@ B30_12c4:
 
     jmp @B30_12cd
 
-    @B30_1355:
+@B30_1355:
 
     ;UNK_90+1 = 9
     lda #9
@@ -4194,7 +4246,7 @@ B30_12c4:
     sta nmi_queue, x
 
     inx
-    @whatever_this_is:
+@whatever_this_is:
     jsr B30_1480
 
     dec UNK_90+1
@@ -4237,167 +4289,178 @@ B30_12c4:
 
     jmp @whatever_this_is
 
-    @exit:
+@exit:
     rts
 
 B30_1398:
     jsr B30_14b7
     sec
-    lda #$f0
-    sbc $99
+    lda #%11110000
+    sbc UNK_98+1
     clc
-    adc $a1
-    sta $a1
-    lda #$0f
-    sta $91
-    ldx #$00
-    lda #$06
+    adc UNK_A1
+    sta UNK_A1
+    lda #%00001111
+    sta UNK_90+1
+    ldx #0
+    lda #6
     sta nmi_queue, x
     sta nmi_queue+$22, x
     inx
-    lda $91
+    lda UNK_90+1
     asl a
     sta nmi_queue, x
     sta nmi_queue+$22, x
     inx
-    lda $8d
+    lda UNK_8C+1
     and #$fc
     sta nmi_queue, x
     sta nmi_queue+$22, x
     inx
-    lda $8c
+    lda UNK_8C
     and #$1e
     sta nmi_queue, x
-    ora #$01
+    ora #1
     sta nmi_queue+$22, x
     inx
     lda $99
-    sta $8c
-    @B30_13da:
-    lda $8c
+    sta UNK_8C
+@B30_13da:
+    lda UNK_8C
     sec
     sbc #$10
-    sta $8c
+    sta UNK_8C
     bcs @B30_13e9
-    lda $a1
+    lda UNK_A1
     adc #$10
-    sta $a1
-    @B30_13e9:
+    sta UNK_A1
+@B30_13e9:
     jsr B30_1537
-    ldy #$00
-    lda ($88), y
+
+    ldy #0
+    lda (map_tmp_ptr), y
     and #$3f
-    eor $97
+    eor UNK_97
     sta nmi_queue, x
+
     iny
-    lda ($88), y
+    lda (map_tmp_ptr), y
     and #$3f
-    eor $97
+    eor UNK_97
     sta nmi_queue+$22, x
+
     iny
-    lda ($88), y
+    lda (map_tmp_ptr), y
     and #$3f
-    eor $97
+    eor UNK_97
     sta nmi_queue+1, x
+
     iny
-    lda ($88), y
+    lda (map_tmp_ptr), y
     and #$3f
-    eor $97
+    eor UNK_97
     sta nmi_queue+$23, x
+
     inx
     inx
-    dec $91
+    dec UNK_90+1
     beq @B30_1425
     clc
-    lda $a1
+    lda UNK_A1
     adc #$10
-    sta $a1
+    sta UNK_A1
     jmp @B30_13da
 
-    @B30_1425:
-    lda #$08
-    sta $91
+@B30_1425:
+    lda #8
+    sta UNK_90+1
     ldx #$44
     lda #$07
     sta nmi_queue, x
     inx
-    lda $91
+    lda UNK_90+1
     sta nmi_queue, x
     inx
-    lda $99
+    lda UNK_98+1
     and #$10
     beq @B30_1455
     sec
-    lda $92
+    lda UNK_90+2
     pha
     sbc #$10
-    sta $92
+    sta UNK_90+2
     lda #$20
-    sta $93
+    sta UNK_90+3
     jsr B30_1480
     pla
-    sta $92
+    sta UNK_90+2
     lda #$10
-    sta $93
+    sta UNK_90+3
     bne @B30_145c
-    @B30_1455:
+@B30_1455:
     lda #$10
-    sta $93
-    @B30_1459:
+    sta UNK_90+3
+@B30_1459:
     jsr B30_1480
-    @B30_145c:
-    dec $91
+@B30_145c:
+    dec UNK_90+1
     beq @B30_147e
     clc
-    lda $92
+    lda UNK_90+2
     adc #$20
-    sta $92
+    sta UNK_90+2
     clc
-    lda $8e
-    adc #$08
-    sta $8e
+    lda UNK_8C+2
+    adc #8
+    sta UNK_8C+2
     bcc @B30_1459
     sbc #$40
-    sta $8e
+    sta UNK_8C+2
     sec
-    lda $92
+    lda UNK_90+2
     sbc #$10
-    sta $92
+    sta UNK_90+2
     jmp @B30_1459
-    @B30_147e:
+@B30_147e:
     rts
 
 databyte_0F:
     .byte $0f
 B30_1480:
-    lda $8f
+    lda UNK_8C+3
     sta nmi_queue, x
+
     inx
-    lda $8e
+    lda UNK_8C+2
     sta nmi_queue, x
+
     inx
-    ldy $92
-    lda ($a4), y
-    and #$03
-    sta $90
+    ldy UNK_90+2
+    lda (UNK_A4), y
+    and #%00000011
+    sta UNK_90
+
     iny
-    lda ($a4), y
+    lda (UNK_A4), y
     and #$0c
-    ora $90
-    sta $90
+    ora UNK_90
+    sta UNK_90
+
     clc
-    lda $92
-    adc $93
+    lda UNK_90+2
+    adc UNK_90+3
     tay
-    lda ($a4), y
+    lda (UNK_A4), y
     and #$30
-    ora $90
-    sta $90
+    ora UNK_90
+    sta UNK_90
+
     iny
-    lda ($a4), y
+    lda (UNK_A4), y
     and #$c0
-    ora $90
+    ora UNK_90
     sta nmi_queue, x
+
     inx
     rts
 
@@ -4442,49 +4505,49 @@ B30_14b7:
 
     @B30_14ed:
     sec
-    lda $a1
+    lda UNK_A1
     sbc #$10
     ora #$10
     and #$fe
     @B30_14f6:
-    bit $93
+    bit UNK_90+3
     bpl @B30_1501
     ldx #$20
-    stx $93
+    stx UNK_90+3
     sec
     sbc #$10
     @B30_1501:
-    sta $92
-    lda $99
+    sta UNK_90+2
+    lda UNK_98+1
     and #$f0
-    sta $8c
-    lda $9a
-    asl $8c
+    sta UNK_8C
+    lda UNK_98+2
+    asl UNK_8C
     rol a
-    asl $8c
+    asl UNK_8C
     rol a
     ora #$20
-    sta $8d
+    sta UNK_8C+1
     ora #$03
-    sta $8f
-    lda $98
+    sta UNK_8C+3
+    lda UNK_98
     and #$f0
     lsr a
     lsr a
     lsr a
-    ora $8c
-    sta $8c
+    ora UNK_8C
+    sta UNK_8C
     lsr a
     lsr a
     and #$07
-    sta $8e
-    lda $99
+    sta UNK_8C+2
+    lda UNK_98+1
     lsr a
     lsr a
     and #$38
     ora #$c0
-    ora $8e
-    sta $8e
+    ora UNK_8C+2
+    sta UNK_8C+2
     rts
 
 
@@ -4623,7 +4686,6 @@ GetCurrentSector:
     lsr a
     and #%00000111
     sta map_tmp_ptr+1
-
     ;map_tmp_ptr = UNK_AA+1 & 0xFC
     lda UNK_AA+1
     and #%11111100
@@ -4660,7 +4722,7 @@ SwapPatternTables:
 
     ;all the
     ;ldy #X
-    ;lda ($88),Y
+    ;lda ($88), y
     ;'s access map data
     ;this shouldnt start with 0, macro perchance?
 
@@ -4698,13 +4760,13 @@ SwapPatternTables:
 
     ;get area
     ldy #1
-    lda (map_tmp_ptr),Y
+    lda (map_tmp_ptr), y
     and #%00111111
     sta map_area
 
     ;retrieve chr from area
     tax
-    lda AREA_CHR_TABLE,X
+    lda AREA_CHR_TABLE, x
     ;jump if result == 0
     beq @area_chr_zero
     @jump3:
@@ -4716,7 +4778,7 @@ SwapPatternTables:
 
     ;get tileset 1
     ldy #2
-    lda (map_tmp_ptr),Y
+    lda (map_tmp_ptr), y
     and #%00111111
     ldx #BANK::CHR1000
     jsr BANK_SWAP
@@ -4727,7 +4789,7 @@ SwapPatternTables:
 
     ;get tileset 2
     iny
-    lda (map_tmp_ptr),Y
+    lda (map_tmp_ptr), y
     and #%00111111
     ldx #BANK::CHR1400
     jsr BANK_SWAP
@@ -4761,14 +4823,14 @@ InitPartyObjects:
     sta movement_direction
     lda object_memory+$04
     and #%11000000
-    sta $aa
+    sta UNK_AA
     lda object_memory+$05
-    sta $ab
+    sta UNK_AA+1
     lda object_memory+$06
     and #%11000000
-    sta $ac
+    sta UNK_AC
     lda object_memory+$07
-    sta $ad
+    sta UNK_AC+1
     jmp @B30_16cb
 
     @not_80:
@@ -4937,13 +4999,13 @@ InitPartyObjects:
 
 B30_1759:
     pha
-    ldx #$00
-    B30_175c:
+    ldx #0
+    @loop:
     lda party_members+1, x
     beq B30_1769
     inx
-    cpx #$03
-    bcc B30_175c
+    cpx #3
+    bcc @loop
     pla
     rts
 
@@ -4975,51 +5037,53 @@ B30_1768:
     jmp WriteProtectPRGRam
 
 REMOVE_PARTY_MEMBER:
-    ldx #$00
+    ldx #0
     @Loop:
     cmp party_members, x
-    beq B30_179a
+    beq @B30_179a
     inx
-    cpx #$04
+    cpx #4
     bcc @Loop
+
     rts
 
-B30_179a:
+    @B30_179a:
     jsr EnablePRGRam
-    B30_179d:
-    cpx #$03
-    bcs B30_17ac
+    @B30_179d:
+    cpx #3
+    bcs @B30_17ac
     lda party_members+1, x
-    beq B30_17ae
+    beq @B30_17ae
     sta party_members, x
     inx
-    bcc B30_179d
-    B30_17ac:
-    lda #$00
-    B30_17ae:
+    bcc @B30_179d
+
+    @B30_17ac:
+    lda #0
+    @B30_17ae:
     sta party_members, x
     txa
     jsr B30_186c
     jsr B30_1fbf
     jsr BeginPartyObjectIteration
     ldx #$00
-    B30_17bd:
+    @B30_17bd:
     lda party_members, x
-    beq B30_17cf
+    beq @B30_17cf
     jsr SetPartyObjectSprite
     lda #$0c
-    cpx #$00
-    bne B30_17cf
+    cpx #0
+    bne @B30_17cf
     ldy #$1c
-    lda ($38), y
-    B30_17cf:
-    ldy #$00
+    lda (UNK_38), y
+    @B30_17cf:
+    ldy #0
     sta (object_pointer), y
 
     jsr NextEntity
     inx
-    cpx #$04
-    bcc B30_17bd
+    cpx #4
+    bcc @B30_17bd
     clc
     jmp WriteProtectPRGRam
 
@@ -5151,7 +5215,7 @@ SetPartyObjectSprite:
 
 B30_186c:
     sta object_pointer+1
-    lda #$00
+    lda #0
     lsr object_pointer+1
     ror a
     lsr object_pointer+1
@@ -5166,43 +5230,53 @@ B30_186c:
     rts
 
 B30_1884:
-    ldy #$15
+    ldy #object_m_direction
     lda (object_pointer), y
     sta movement_direction
-    eor #$04
+
+    eor #%00000100
     asl a
     asl a
     asl a
     tax
-    ldy #$04
+
+    ;UNK_AA = object_pointer->object_m_xpos + xy_unknown[x]
+    ldy #object_m_xpos
     clc
     lda xy_unknown, x
     adc (object_pointer), y
-    sta $aa
+    sta UNK_AA
     iny
     lda xy_unknown+1, x
     adc (object_pointer), y
-    sta $ab
-    ldy #$06
+    sta UNK_AA+1
+
+    ;UNK_AC = object_pointer->object_m_ypos + xy_unknown+2[x]
+    ;this couldve been an iny
+    ldy #object_m_ypos
     clc
     lda xy_unknown+2, x
     adc (object_pointer), y
-    sta $ac
+    sta UNK_AC
     iny
     lda xy_unknown+3, x
     adc (object_pointer), y
-    sta $ad
+    sta UNK_AC+1
+
     jsr B30_155d
     jmp NextEntity
 
 B30_18ba:
     jsr B30_186c
-    ldy #$02
+
+    ;UNK_38 = object_pointer->object_m_data_pointer
+    ldy #object_m_data_pointer
     lda (object_pointer), y
-    sta $38
+    sta UNK_38
     iny
     lda (object_pointer), y
-    sta $39
+    sta UNK_38+1
+
     rts
 
 REMOVE_NPCS_FROM_PARTY:
@@ -5230,23 +5304,24 @@ RECONFIGURE_PARTY:
     jsr REMOVE_PARTY_MEMBER
     @FlyingManNotDead:
     ldx #0
-    stx $37
+    stx UNK_37
 @CountLivingPartyMembersLoop:
     jsr GetXCharacter
-    bcs B30_1906
+    bcs @B30_1906
     txa
     jsr B30_18ba
     jsr EnablePRGRam
     jsr B30_1840
-    bcs :+
-    inc $37
-:   jsr WriteProtectPRGRam
+    bcs @no_inc
+    inc UNK_37
+    @no_inc:
+    jsr WriteProtectPRGRam
     inx
-    cpx #$04
+    cpx #4
     bcc @CountLivingPartyMembersLoop
-    B30_1906:
-    stx $36
-    lda $37
+    @B30_1906:
+    stx UNK_36
+    lda UNK_37
     beq GAME_OVER
     clc
     rts
@@ -5258,7 +5333,7 @@ GAME_OVER:
     jsr REMOVE_NPCS_FROM_PARTY
     jsr EnablePRGRam
     ; set status to healthy
-    lda #$00
+    lda #0
     sta Ninten_Data + Status_Offset
     ; set power to 0
     sta Ninten_Data + CurrPP_Offset
@@ -5272,22 +5347,22 @@ GAME_OVER:
     lda wallet_money
     lsr wallet_money+1
     ror a
-    adc #$00
+    adc #0
     sta wallet_money
     lda wallet_money+1
-    adc #$00
+    adc #0
     sta wallet_money+1
-    lda #$01
-    sta $37
-    lda #$00
+    lda #1
+    sta UNK_37
+    lda #0
     sta is_scripted
-    sta vehicle
+    sta is_tank
     ldx $47
     ldy B30_196b, x
     .ifdef VER_JP
     GAME_OVER_looper:
     .endif
-    ldx #$03
+    ldx #3
     @loop:
     lda B30_196f, y
     sta xpos_music, x
@@ -5295,7 +5370,7 @@ GAME_OVER:
     dex
     bpl @loop
     lda ypos_direction
-    and #$0f
+    and #%00001111
     ora #$20
     sta fade_flag
     eor #$60
@@ -5307,37 +5382,37 @@ GAME_OVER:
 B30_196b:
     .byte 3, 3, 3, 7
 B30_196f:
-    .word $df5c, $2400
-    .word $df8b, $db40
+    doorArgDef $1C, $37d, DIRECTIONS::UP, $90
+    doorArgDef $B, $37e, DIRECTIONS::UP, $36d
     .ifdef VER_JP
-    .byte $DA,$0C,$86,$87
+    doorArgDef $1a, $33, DIRECTIONS::LEFT, $21e
     .endif
 
 B30_1977:
-    dec $36
+    dec UNK_36
     bmi @B30_1997
     beq @B30_1997
     @B30_197d:
     lda party_members
-    cmp #$01
+    cmp #1
     beq @B30_198c
     jsr B30_1998
     bcs @B30_197d
     @B30_1989:
     jsr B30_1998
     @B30_198c:
-    lda #$00
+    lda #0
     jsr B30_18ba
-    ldy #$01
-    lda ($38), y
+    ldy #1
+    lda (UNK_38), y
     bmi @B30_1989
     @B30_1997:
     rts
 
 B30_1998:
     jsr EnablePRGRam
-    ldx #$00
-    stx $37
+    ldx #0
+    stx UNK_37
     @B30_199f:
     lda party_members, x
     pha
@@ -5345,17 +5420,17 @@ B30_1998:
     sta party_members, x
     pla
     sta party_members+1, x
-    lda #$02
+    lda #2
     jsr B30_19de
-    lda #$03
+    lda #3
     jsr B30_19de
-    lda #$08
+    lda #8
     @B30_19b9:
     pha
     jsr B30_19de
     pla
     clc
-    adc #$01
+    adc #1
     cmp #$11
     bcc @B30_19b9
     lda #$16
@@ -5363,17 +5438,17 @@ B30_1998:
     lda #$17
     jsr B30_19de
     clc
-    lda $37
+    lda UNK_37
     adc #$20
-    sta $37
+    sta UNK_37
     inx
-    cpx $36
+    cpx UNK_36
     bcc @B30_199f
     jmp WriteProtectPRGRam
 
 B30_19de:
     clc
-    adc $37
+    adc UNK_37
     tay
     lda object_memory, y
     pha
@@ -5393,41 +5468,42 @@ GetXCharacter:
     @is_zero:
     rts
 
-NEW_CHAR_COORDINATES:
+B30_19fa:
     ldx #$00
     @B30_19fc:
     lda party_members, x
-    beq @B30_1a10
+    beq @empty
     jsr GetPartyMemberPtr
 
-    ;load 4 bytes
+    ;write all party members to this position
     ldy #$2c
     @B30_1a06:
-    lda xpos_music-$2c,y
-    sta (UNK_60),y
+    lda xpos_music-$2c, y
+    sta (UNK_60), y
     iny
     cpy #$30
     bcc @B30_1a06
 
-    @B30_1a10:
+    @empty:
     inx
-    cpx #$04
-    bcc @B30_19fc
+    cpx #4
+    bcc @party_loop
     rts
 
 B30_1a16:
     jsr PPU_SYNC
     jsr Refresh_SpriteObjects
-    ldx #$00
+    ldx #0
     @B30_1a1e:
     jsr GetXCharacter
     bcs @B30_1a3c
     txa
     jsr B30_18ba
-    ldy #$01
-    lda ($38), y
+    ldy #1
+    lda (UNK_38), y
     bmi @B30_1a3c
-    ldy #$10
+    ;y = object_pointer->object_m_oam2
+    ldy #object_m_oam2
     lda (object_pointer), y
     tay
 
@@ -5439,15 +5515,16 @@ B30_1a16:
 
     @B30_1a3c:
     inx
-    cpx #$04
+    cpx #4
     bcc @B30_1a1e
-    lda #$01
+
+    lda #1
     sta nmi_flags
-    jmp PPU_SYNC
+    jmp PpuSync
 
 BattleRewardsRoutine:
-    lda $37
-    sta $64
+    lda UNK_37
+    sta UNK_64
     lda battle_reward_vars          ; from battle.asm
     sta battle_wordvar60
     lda battle_reward_vars+1
@@ -5456,23 +5533,24 @@ BattleRewardsRoutine:
     sta battle_wordvar60+2
     jsr DIV24x8
     lda battle_wordvar68
-    beq :+
+    beq @no_one
     lda #$01
-:   clc
+    @no_one:
+    clc
     adc battle_wordvar60
     sta battle_reward_vars
-    lda #$00
+    lda #0
     adc battle_wordvar60+1
     sta battle_reward_vars+1
-    lda #$00
+    lda #0
     adc battle_wordvar60+2
     sta battle_reward_vars+2
     jsr EnablePRGRam
-    ldx #$00
+    ldx #0
     @B30_1a77:
     jsr GetXCharacter
     bcs @B30_1add
-    sta $28
+    sta UNK_28
     txa
     lsr a
     ror a
@@ -5482,46 +5560,46 @@ BattleRewardsRoutine:
     txa
     pha
     jsr B30_18ba
-    ldy #$01
-    lda ($38), y
+    ldy #1
+    lda (UNK_38), y
     bmi @B30_1adb
-    lda $47
+    lda UNK_47
     bne @B30_1ad8
     ldy #$11
     clc
-    lda $49
-    adc ($38), y
-    sta ($38), y
+    lda UNK_49
+    adc (UNK_38), y
+    sta (UNK_38), y
     iny
-    lda $4a
-    adc ($38), y
-    sta ($38), y
+    lda UNK_49+1
+    adc (UNK_38), y
+    sta (UNK_38), y
     iny
-    lda $4b
-    adc ($38), y
-    sta ($38), y
+    lda UNK_49+2
+    adc (UNK_38), y
+    sta (UNK_38), y
     bcc @B30_1ab9
     ldy #$11
     lda #$ff
-    sta ($38), y
+    sta (UNK_38), y
     iny
-    sta ($38), y
+    sta (UNK_38), y
     iny
-    sta ($38), y
+    sta (UNK_38), y
     @B30_1ab9:
     ldy #$10
-    lda ($38), y
+    lda (UNK_38), y
     jsr B30_1b40
     ldy #$11
     sec
-    lda ($38), y
-    sbc $64
+    lda (UNK_38), y
+    sbc UNK_64
     iny
-    lda ($38), y
-    sbc $65
+    lda (UNK_38), y
+    sbc UNK_64+1
     iny
-    lda ($38), y
-    sbc $66
+    lda (UNK_38), y
+    sbc UNK_66
     bcc @B30_1ad8
     jsr TryLevelUp
     bcc @B30_1ab9
@@ -5532,10 +5610,9 @@ BattleRewardsRoutine:
     tax
     @B30_1add:
     inx
-    cpx #$04
+    cpx #4
     bcc @B30_1a77
-    jsr RefreshPartyUI
-    ; no rewards for you if you run away!
+    jsr B30_043f
     lda $47
     bne @RewardsEnd
     jsr EnablePRGRam
@@ -5572,11 +5649,11 @@ BattleRewardsRoutine:
     bne @RewardsEnd
 ; @ItemDropSuccess
     jsr B19_1b8c
-    ldx #$00
+    ldx #0
     @B30_1b1b:
     jsr GetXCharacter
     bcs @B30_1b2b
-    sta $28
+    sta UNK_28
     txa
     pha
     jsr TRY_GIVING_ITEM_TO_TARGET
@@ -5585,7 +5662,7 @@ BattleRewardsRoutine:
     bcc ItemDropGetFX
     @B30_1b2b:
     inx
-    cpx #$04
+    cpx #4
     bcc @B30_1b1b
     @RewardsEnd:
     jmp WriteProtectPRGRam
@@ -5601,38 +5678,38 @@ ItemDropGetFX:
 B30_1b40:
     tax
     inx
-    stx $64
+    stx UNK_64
     inx
     stx UNK_60
-    lda #$00
+    lda #0
     sta UNK_60+1
-    sta $62
+    sta UNK_62
     jsr Mult24x8
     jsr Mult24x8
-    jsr LoadGrowthTable
+    jsr B30_1cdf
     ldy #$00
     lda ($68), y
     sta $64
     jsr Mult24x8
     lda UNK_60+1
-    sta $64
-    lda $62
-    sta $65
-    lda $63
-    sta $66
+    sta UNK_64
+    lda UNK_62
+    sta UNK_64+1
+    lda UNK_62+1
+    sta UNK_66
     rts
 
 TryLevelUp:
     ldy #$10
     lda ($38), y
-    cmp #99                     ; max level 99
+    cmp #$63
     bcc DoLevelUp
     rts
 
 DoLevelUp:
     adc #$01
     sta ($38), y
-    jsr RefreshPartyUI          ; (to show the new level lol)
+    jsr B30_043f
     jsr EnablePRGRam
     lda #Track_Clear
     jsr PlayMusic
@@ -5640,7 +5717,7 @@ DoLevelUp:
     jsr PlayMusic
     lda #$82                    ; "[Name] leveled up!"
     jsr DisplayText_battle
-    jsr LoadGrowthTable
+    jsr B30_1cdf
     ldy #$03
     @loop:
     jsr RNG_BYTE
@@ -5651,26 +5728,25 @@ DoLevelUp:
     lsr a
     lsr a
     clc
-    ; add random to stat increase (from growth table)
     adc ($68), y
     lsr a
-    sta $55, y
+    sta UNK_50+5, y
     iny
-    cpy #$08                     ; force
+    cpy #$08
     bcc @loop
-    ldy #$0b
+    ldy #$b
 @CoreStatsLoop:
     clc
-    lda ($38), y
-    adc $4D, y
+    lda (UNK_38), y
+    adc UNK_49+4, y
     bcc @IncCoreStats
-    sbc $4D, y
+    sbc UNK_49+4, y
     eor #$ff
-    sta $4D, y
+    sta UNK_49+4, y
     lda #$ff
 @IncCoreStats:
-    sta ($38), y
-    lda $4D, y
+    sta (UNK_38), y
+    lda UNK_49+4, y
     beq @IncrementLoop
     tya
     pha
@@ -5683,14 +5759,14 @@ DoLevelUp:
     iny
     cpy #Fce_Offset + 1             ; stop when Y is past core stats offset
     bcc @CoreStatsLoop
-    ldy #$07
-    lda $58
+    ldy #7
+    lda UNK_50+8
     jsr B30_1c64
-    ldy #$09
-    lda $59
+    ldy #9
+    lda UNK_50+9
     jsr B30_1c64
-    ldy #$0e
-    lda ($38), y
+    ldy #$e
+    lda (UNK_38), y
     sta UNK_60
     clc
     adc #20                         ; target val for hp = 20 + 2*Str
@@ -5701,15 +5777,15 @@ DoLevelUp:
     jsr SaveTargetVal
     lda #$84                        ; "HP went up [Num]!"
     jsr TryPrintPointsIncrease
-    lda $28
-    cmp #$03
+    lda UNK_28
+    cmp #3
     bcs @B30_1c0f
-    ldy #$0f
-    lda ($38), y
+    ldy #$f
+    lda (UNK_38), y
     sta UNK_60
     lsr a
     clc
-    ldy #$05
+    ldy #5
     jsr SaveTargetVal
     lda #$85                        ; "PP went up [Num]!"
     jsr TryPrintPointsIncrease
@@ -5719,13 +5795,13 @@ DoLevelUp:
 
 StoreRewardMoney:
     clc
-    lda $4c
+    lda UNK_49+3
     adc starting_sram, x
     sta starting_sram, x
-    lda $4d
+    lda UNK_49+4
     adc starting_sram+1, x
     sta starting_sram+1, x
-    lda #$00
+    lda #0
     adc starting_sram+2, x
     sta starting_sram+2, x
     bcc @B30_1c37
@@ -5739,7 +5815,7 @@ StoreRewardMoney:
 ; Try printing HP, PP went up [Num]!
 ; Prints nothing if increase is 0.
 TryPrintPointsIncrease:
-    ldx $5d
+    ldx UNK_50+$d
     beq SaveTargetValRTS
     jmp DisplayText_battle
 
@@ -5747,34 +5823,34 @@ SaveTargetVal:
     clc
     adc UNK_60
     sta UNK_60
-    lda #$00
+    lda #0
     rol a
     sta UNK_60+1
     sec
     lda UNK_60
-    sbc ($38), y
+    sbc (UNK_38), y
     tax
     iny
     lda UNK_60+1
-    sbc ($38), y
+    sbc (UNK_38), y
     beq @skip
-    ldx #$08
+    ldx #8
     bcs @skip
-    ldx #$01
+    ldx #1
     @skip:
     dey
     txa
     asl a
-    jsr TargetValRNG
+    jsr B30_1c71
     sta $5d
     B30_1c64:
     clc
-    adc ($38), y
-    sta ($38), y
+    adc (UNK_38), y
+    sta (UNK_38), y
     iny
-    lda #$00
-    adc ($38), y
-    sta ($38), y
+    lda #0
+    adc (UNK_38), y
+    sta (UNK_38), y
 SaveTargetValRTS:
     rts
 
@@ -5795,40 +5871,39 @@ TargetValRNG:
     lsr a
     rts
 
-DoLearnPSI:
-    lda $21 ; is_cutscene
-    bne @learnpsi_rts
-    jsr LoadGrowthTable
-    ldy #$02        ; psi (ninten/ana)
-    lda ($68), y    ; table_data, y
-    beq @learnpsi_rts
+B30_1c87:
+    lda $21
+    bne @B30_1ccc
+    jsr B30_1cdf
+    ldy #$02
+    lda ($68), y
+    beq @B30_1ccc
     pha
     ldx #$c0
-@TableStart:
+    @B30_1c97:
     stx $29
     jsr B30_1ce6
     pla
     pha
     tay
-    lda ($68), y
+    lda (UNK_68), y
     ldy #$10
     cmp ($38), y
-    bcs @TableIterate
+    bcs @B30_1cc6
     jsr B30_1ccd
     and ($38), y
-    bne @TableIterate
+    bne @B30_1cc6
     jsr RNG_BYTE
-    and #%11000000  ; rng val for learning (25%)
-    bne @TableIterate
-	; @LearnPSI_Success
+    and #%11000000
+    bne @B30_1cc6
     lda ($38), y
     ora All_Bits, x
     sta ($38), y
-    lda #pulsesfx::LearnedPSI
-    sta soundqueue_pulse
-    lda #$83                    ; "[Name] learned a PSI!"
+    lda #$09
+    sta $07f1
+    lda #$83
     jsr DisplayText_battle
-@TableIterate:
+    @B30_1cc6:
     ldx $29
     inx
     bne @TableStart
@@ -5837,67 +5912,74 @@ DoLearnPSI:
     rts
 
 B30_1ccd:
-    lda $29
+    lda UNK_28+1
     clc
     adc #$c0
     ror a
     lsr a
     lsr a
     tay
-    lda $29
-    and #$07
+    lda UNK_28+1
+    and #%00000111
     tax
     lda All_Bits, x
     rts
 
 LoadGrowthTable:
     clc
-    lda $28
-    adc #$b8
+    lda UNK_28
+    ;'item id' into Item_Data to reach CharacterRates
+    adc #.LOBYTE((CharacterRates-Item_Data)>>3)
     bcc B30_1ce8
     B30_1ce6:
-    lda $29
+    lda UNK_28+1
     B30_1ce8:
     asl a
-    rol $69
+    rol UNK_68+1
     asl a
-    rol $69
+    rol UNK_68+1
     asl a
-    rol $69
+    rol UNK_68+1
     clc
-    adc #$00
-    sta $68
-    lda $69
-    and #$07
-    adc #$98
-    sta $69
+    adc #.LOBYTE(Item_Data)
+    sta UNK_68
+    lda UNK_68+1
+    and #%00000111
+    adc #.HIBYTE(Item_Data)
+    sta UNK_68+1
     jmp BANKSET_L00
 
 SetPlayerPosition:
     jsr BeginPartyObjectIteration
     jsr EnablePRGRam
     @B30_1d07:
-    ldy #$00
+    ldy #object_m_type
     lda (object_pointer), y
     asl a
     beq @B30_1d2b
     jsr IsObjectNearPlayer
     bcs @B30_1d1d
-    ldy #$00
+
+    ;object_pointer->object_m_type |= $80
+    ldy #object_m_type
     lda (object_pointer), y
     ora #$80
     sta (object_pointer), y
+
     bmi @B30_1d2b
     @B30_1d1d:
-    ldy #$00
+
+    ;do object tick
+    ldy #object_m_type
     lda (object_pointer), y
     and #$3f
     sta (object_pointer), y
+
     jsr TickObject
     jsr B30_1ef9
     @B30_1d2b:
     jsr NextEntity
-    inc $36
+    inc UNK_36
     bne @B30_1d07
     lda fade_flag
     bne @B30_1d54
@@ -5950,90 +6032,108 @@ B30_1d72:
     jsr B30_1e4b
     jsr InitializeObject
     jsr NextObjectPointer
-    dec $36
+    dec UNK_36
     bne @B30_1d78
     jmp WriteProtectPRGRam
 
 InitializeObject:
-    ldy #$01
+    ldy #1
     lda map_area
     sta (object_pointer), y
-    lda $37
+    lda UNK_37
     bne @B30_1d97
     @B30_1d92:
-    ldy #$00
+    ldy #object_m_type
     sta (object_pointer), y
     rts
     @B30_1d97:
-    ldy #$00
+    ;get object_data->type
+    ldy #0
     lda (object_data), y
     and #$3f
     beq @B30_1d92
     jsr SetObjectType
-    ldy #$02
+
+    ;object_pointer->object_m_direction = object_data->direction
+    ldy #2
     lda (object_data), y
     and #$3f
-    ldy #$15
+    ldy #object_m_direction
     sta (object_pointer), y
-    ldy #$04
+
+    ;object_pointer->object_m_sprite_base = object_data->sprite
+    ldy #4
     lda (object_data), y
-    ldy #$16
+    ldy #object_m_sprite_base
     sta (object_pointer), y
-    ldy #$05
+    ldy #5
     lda (object_data), y
-    ldy #$17
+    ldy #object_m_sprite_base+1
     sta (object_pointer), y
-    ldy #$00
-    lda (object_data), y
-    and #$c0
-    ldy #$04
-    sta (object_pointer), y
-    sta $aa
-    ldy #$01
-    lda (object_data), y
-    ldy #$05
-    sta (object_pointer), y
-    sta $ab
-    ldy #$02
+
+    ;object_pointer->object_m_xpos, UNK_AA = object_data->xpos
+    ldy #0
     lda (object_data), y
     and #$c0
-    ldy #$06
+    ldy #object_m_xpos
     sta (object_pointer), y
-    sta $ac
-    ldy #$03
+    sta UNK_AA
+    ldy #1
     lda (object_data), y
-    ldy #$07
+    ldy #object_m_xpos+1
     sta (object_pointer), y
-    sta $ad
-    ldy #$02
+    sta UNK_AA+1
+
+    ;object_pointer->object_m_ypos, UNK_AC = object_data->ypos
+    ldy #2
+    lda (object_data), y
+    and #$c0
+    ldy #object_m_ypos
+    sta (object_pointer), y
+    sta UNK_AC
+    ldy #3
+    lda (object_data), y
+    ldy #object_m_ypos+1
+    sta (object_pointer), y
+    sta UNK_AC+1
+
+    ;object_pointer->object_m_data_pointer = *object_data
+    ldy #object_m_data_pointer
     lda object_data
     sta (object_pointer), y
     iny
     lda object_data+1
     sta (object_pointer), y
+
     jsr B30_155d
-    ldy #$11
-    lda $a1
+
+    ;object_pointer->object_m_colOffset = UNK_A1
+    ldy #object_m_colOffset
+    lda UNK_A1
+    sta (object_pointer), y
+    ;object_pointer->object_m_colPointer = UNK_A6
+    iny
+    lda UNK_A6
     sta (object_pointer), y
     iny
-    lda $a6
+    lda UNK_A6+1
     sta (object_pointer), y
-    iny
-    lda $a7
-    sta (object_pointer), y
-    ldy #$18
-    ldx #$08
-    lda #$00
-    @B30_1e0c:
+
+    ;clear last 8 bytes
+    ldy #object_m_unk1
+    ldx #8
+    lda #0
+    @clear:
     sta (object_pointer), y
     iny
     dex
-    bne @B30_1e0c
+    bne @clear
+
     rts
 
 ; $DE13 - Set object type
 SetObjectType:
-    ldy #$00
+    ldy #object_m_type
     sta (object_pointer), y
     asl a
     asl a
@@ -6052,41 +6152,41 @@ B30_1e29:
     asl a
     tax
     lda $8000, x
-    sta $38
+    sta UNK_38
     lda $8001, x
-    sta $39
-    lda #$02
-    sta $37
+    sta UNK_38+1
+    lda #2
+    sta UNK_37
 B30_1e3e:
     lda #.LOBYTE(object_memory+$80)
     ldx #.HIBYTE(object_memory+$80)
     sta object_pointer
     stx object_pointer+1
     ldx #$28
-    stx $36
+    stx UNK_36
     rts
 
 B30_1e4b:
-    ldy #$01
-    lda ($38), y
+    ldy #1
+    lda (UNK_38), y
     beq @B30_1e59
     sta object_data+1
     dey
-    lda ($38), y
+    lda (UNK_38), y
     sta object_data
     rts
     @B30_1e59:
-    sta $37
+    sta UNK_37
     rts
 
 NextObjectPointer:
     clc
-    lda $38
-    adc $37
-    sta $38
-    lda $39
-    adc #$00
-    sta $39
+    lda UNK_38
+    adc UNK_37
+    sta UNK_38
+    lda UNK_38+1
+    adc #0
+    sta UNK_38+1
     jmp NextEntity
 
 ; $DE6C - Bankswitch to object bank from given "area"
@@ -6129,11 +6229,11 @@ AvaliableObjectsFunc:
     jsr EnablePRGRam
     @B30_1e9f:
     jsr B30_1e4b
-    ldy #$01
+    ldy #object_m_area
     lda (object_pointer), y
-    cmp $15
+    cmp map_area
     beq @B30_1eb9
-    ldy #$00
+    ldy #object_m_type
     lda (object_pointer), y
     asl a
     beq @B30_1eb6
@@ -6142,29 +6242,29 @@ AvaliableObjectsFunc:
     @B30_1eb6:
     jsr InitializeObject
     @B30_1eb9:
-    ldy #$00
+    ldy #object_m_type
     lda (object_pointer), y
     asl a
     beq @B30_1ed7
     jsr IsObjectNearPlayer
     bcs @B30_1ecf
-    ldy #$00
+    ldy #object_m_type
     lda (object_pointer), y
     ora #$80
     sta (object_pointer), y
     bmi @B30_1ed7
     @B30_1ecf:
-    ldy #$00
+    ldy #object_m_type
     lda (object_pointer), y
     and #$3f
     sta (object_pointer), y
     @B30_1ed7:
     jsr NextObjectPointer
-    dec $36
+    dec UNK_36
     bne @B30_1e9f
     jsr B30_1e3e
     @B30_1ee1:
-    ldy #$00
+    ldy #object_m_type
     lda (object_pointer), y
     beq @B30_1eef
     bmi @B30_1eef
@@ -6172,21 +6272,25 @@ AvaliableObjectsFunc:
     jsr B30_1ef9
     @B30_1eef:
     jsr NextEntity
-    dec $36
+    dec UNK_36
     bne @B30_1ee1
     jmp WriteProtectPRGRam
 
 B30_1ef9:
-    ldy #$11
+    ;UNK_68+1 = object_pointer->object_m_colOffset
+    ldy #object_m_colOffset
     lda (object_pointer), y
-    sta $69
+    sta UNK_68+1
+
+    ;UNK_6A = object_pointer->object_m_colPointer
     iny
     lda (object_pointer), y
-    sta $6a
+    sta UNK_6A
     iny
     lda (object_pointer), y
-    sta $6b
-    ldy #$00
+    sta UNK_6A+1
+
+    ldy #object_m_type
     lda (object_pointer), y
     bpl @B30_1f12
     jmp @B30_1faf
@@ -6196,10 +6300,11 @@ B30_1ef9:
     adc #$60
     sta UNK_60
     lda player_x+1
-    adc #$00
+    adc #0
     sta UNK_60+1
+
     sec
-    ldy #$04
+    ldy #object_m_xpos
     lda (object_pointer), y
     sbc UNK_60
     sta UNK_60
@@ -6210,22 +6315,23 @@ B30_1ef9:
     clc
     lda player_y
     adc #$a4
-    sta $64
+    sta UNK_64
     lda player_y+1
-    adc #$00
-    sta $65
+    adc #0
+    sta UNK_64+1
+
     sec
-    ldy #$06
+    ldy #object_m_ypos
     lda (object_pointer), y
-    sbc $64
-    sta $64
+    sbc UNK_64
+    sta UNK_64
     iny
     lda (object_pointer), y
-    sbc $65
-    sta $65
-    ldy #$08
+    sbc UNK_64+1
+    sta UNK_64+1
+    ldy #object_m_tiles
     lda UNK_60+1
-    and #$04
+    and #%00000100
     asl a
     asl a
     asl a
@@ -6234,8 +6340,8 @@ B30_1ef9:
     ora (object_pointer), y
     sta (object_pointer), y
     iny
-    lda $65
-    and #$04
+    lda UNK_64+1
+    and #%00000100
     asl a
     asl a
     asl a
@@ -6251,65 +6357,65 @@ B30_1ef9:
     ror a
     sta (object_pointer), y
     iny
-    lda $64
-    lsr $65
+    lda UNK_64
+    lsr UNK_64+1
     ror a
-    lsr $65
+    lsr UNK_64+1
     ror a
     sta (object_pointer), y
     lda movement_direction
     bmi @B30_1fb8
-    ldy #$04
+    ldy #object_m_xpos
     lda UNK_3A
     sta (object_pointer), y
     iny
     lda UNK_3A+1
     sta (object_pointer), y
-    ldy #$06
+    ldy #object_m_ypos
     lda UNK_3A+2
     sta (object_pointer), y
     iny
     lda UNK_3A+3
     sta (object_pointer), y
-    ldy #$11
-    lda $a1
+    ldy #object_m_colOffset
+    lda UNK_A1
     sta (object_pointer), y
     iny
-    lda $a6
+    lda UNK_A6
     sta (object_pointer), y
     iny
-    lda $a7
+    lda UNK_A6+1
     sta (object_pointer), y
-    ldy $a1
-    lda $36
-    sta ($a6), y
+    ldy UNK_A1
+    lda UNK_36
+    sta (UNK_A6), y
     @B30_1faf:
-    ldy $69
-    lda $36
-    eor ($6a), y
+    ldy UNK_68+1
+    lda UNK_36
+    eor (UNK_6A), y
     beq @B30_1fbc
     rts
     @B30_1fb8:
-    ldy $69
-    lda $36
+    ldy UNK_68+1
+    lda UNK_36
     @B30_1fbc:
-    sta ($6a), y
+    sta (UNK_6A), y
     rts
 
 B30_1fbf:
-    ldy #$11
+    ldy #object_m_colOffset
     lda (object_pointer), y
-    sta $a1
+    sta UNK_A1
     iny
     lda (object_pointer), y
-    sta $a6
+    sta UNK_A6
     iny
     lda (object_pointer), y
-    sta $a7
-    lda #$00
-    ldy $a1
-    sta ($a6), y
-    ldy #$00
+    sta UNK_A6+1
+    lda #0
+    ldy UNK_A1
+    sta (UNK_A6), y
+    ldy #0
     sta (object_pointer), y
     rts
 
@@ -6326,12 +6432,12 @@ PrepAnim:
     @B30_1fec:
     sta object_pointer
     stx object_pointer+1
-    sty $36
+    sty UNK_36
     lda #$18
-    sta $e3
-    lda #$00
+    sta UNK_E3
+    lda #0
     sta SPRITE_OBJECTS
-    ldx #$08
+    ldx #8
     jsr EnablePRGRam
 
     @B31_0000:
@@ -6383,16 +6489,16 @@ PrepAnim:
     bcc @copy_to_spriteobj
 
     clc
-    lda shadow_oam+$fa, x
+    lda $02fa, x
     and #$40
     beq @B31_0039
-    lda #$04
+    lda #4
     @B31_0039:
     adc (object_pointer), y
     sta SPRITE_OBJECTS, x
     inx
     iny
-    lda #$00
+    lda #0
     adc (object_pointer), y
     sta SPRITE_OBJECTS, x
     inx
@@ -6406,17 +6512,17 @@ PrepAnim:
     bne @B31_0000
 
     @B31_0056:
-    lda #$00
+    lda #0
     sta SPRITE_OBJECTS, x
     clc
     txa
-    adc #$08
+    adc #8
     tax
     bcc @B31_0056
     @B31_0062:
     jmp WriteProtectPRGRam
 
-CheckTiles:
+B31_0065:
     ldx #$00
     @B31_0067:
     lda SPRITE_OBJECTS, x
@@ -6424,28 +6530,28 @@ CheckTiles:
     beq @B31_007f
     sec
     lda SPRITE_OBJECTS+6, x
-    sbc #$04
+    sbc #4
     sta SPRITE_OBJECTS+6, x
     lda SPRITE_OBJECTS+7, x
-    sbc #$00
+    sbc #0
     sta SPRITE_OBJECTS+7, x
     @B31_007f:
     clc
     txa
-    adc #$08
+    adc #8
     tax
     bcc @B31_0067
     rts
 
 ;party animate?
 B31_0087:
-    jsr BeginPartyObjectIteration ; object_pointer = 0x6780, $36 = 0xFC
+    jsr BeginPartyObjectIteration ; object_pointer = 0x6780, UNK_36 = 0xFC
 
     ldx #4
-    stx $36
+    stx UNK_36
 
     lda #0
-    sta $62
+    sta UNK_62
 
     ldx #8
     @B31_0094:
@@ -6454,7 +6560,7 @@ B31_0087:
     beq @B31_00e3
     bmi @B31_00e3
 
-    ldy $62
+    ldy UNK_62
     lda (UNK_60), y
     sta SPRITE_OBJECTS+2, x
     iny
@@ -6462,42 +6568,42 @@ B31_0087:
     sta SPRITE_OBJECTS+3, x
     iny
     lda (UNK_60), y
-    sta $63
+    sta UNK_62+1
     iny
     clc
     lda (UNK_60), y
-    ldy #$16
+    ldy #object_m_sprite_base
     adc (object_pointer), y
     sta SPRITE_OBJECTS+6, x
     iny
-    lda #$00
+    lda #0
     adc (object_pointer), y
     sta SPRITE_OBJECTS+7, x
-    ldy #$08
+    ldy #object_m_tiles
     lda (object_pointer), y
     and #$3f
     asl a
-    asl $63
+    asl UNK_62+1
     ror a
     sta SPRITE_OBJECTS, x
     lda #$70
-    asl $63
+    asl UNK_62+1
     ror a
     sta SPRITE_OBJECTS+1, x
-    lda #$00
+    lda #0
     sta SPRITE_OBJECTS+4, x
     sta SPRITE_OBJECTS+5, x
     clc
     txa
-    adc #$08
+    adc #8
     tax
     @B31_00e3:
     clc
-    lda #$04
-    adc $62
-    sta $62
+    lda #4
+    adc UNK_62
+    sta UNK_62
     jsr NextEntity
-    dec $36
+    dec UNK_36
     bne @B31_0094
     rts
 
@@ -6534,14 +6640,14 @@ Object_Configs:
     OBJECT_CONFIG OBJTICK_Hole, 0, 8, 0, 0, 0, 0 ; 04 - Hole
     OBJECT_CONFIG DummyTick, 0, 0, 0, 0, 0, 0 ; 05 - Dummy
     OBJECT_CONFIG DummyTick, 0, 0, 0, 0, 0, 0 ; 06 - Dummy
-    OBJECT_CONFIG B31_083f, 4, 6, 0, 1, 0, 1 ; 07
+    OBJECT_CONFIG OBJTICK_Moving, 4, 6, 0, 1, 0, 1 ; 07
     OBJECT_CONFIG OBJTICK_Player, 4, 0, 0, 1, 1, 0 ; 08 - Player
     OBJECT_CONFIG B31_0b3a, 9, 0, 0, 1, 0, 0 ; 09
     OBJECT_CONFIG B31_0b92, 9, 0, 0, 1, 0, 0 ; 0A
     OBJECT_CONFIG B31_08de, 9, 0, 0, 1, 0, 0 ; 0B
     OBJECT_CONFIG B31_0905, 4, 0, 0, 1, 1, 0 ; 0C
-    OBJECT_CONFIG B31_0a38, 9, 0, 0, 1, 0, 0 ; 0D
-    OBJECT_CONFIG B31_0ac5, 9, 0, 0, 1, 0, 0 ; 0E
+    OBJECT_CONFIG OBJTICK_TrainHead, 9, 0, 0, 1, 0, 0 ; 0D
+    OBJECT_CONFIG OBJTICK_TrainTail, 9, 0, 0, 1, 0, 0 ; 0E
     OBJECT_CONFIG B31_0bca, 4, 0, 0, 1, 0, 0 ; 0F
     OBJECT_CONFIG OBJTICK_Stationary_NPC, 4, 6, 0, 1, 1, 1 ; 10 - Stationary NPC
     OBJECT_CONFIG OBJTICK_Wandering_NPC, 4, 6, 0, 1, 1, 1 ; 11 - Wandering NPC
@@ -6641,7 +6747,7 @@ IsObjectNearPlayer:
 
 OBJECT_INTERACTION:
     jsr BeginPartyObjectIteration ; object_pointer = 0x6780, $36 = 0xFC
-    ldy #$15
+    ldy #object_m_direction
     lda (object_pointer), y
     asl a
     asl a
@@ -6650,8 +6756,8 @@ OBJECT_INTERACTION:
     lda xy_unknown+4, x ; Flags
     asl a
     tax
-    sta $3f
-    ldy #$11
+    sta movement_direction+1
+    ldy #object_m_colOffset
     lda xy_unknown+7, x ; Y offset
     asl a
     asl a
@@ -6659,32 +6765,32 @@ OBJECT_INTERACTION:
     asl a
     clc
     adc (object_pointer), y
-    sta $a1
+    sta UNK_A1
     iny
     lda (object_pointer), y
-    sta $a6
+    sta UNK_A6
     iny
     lda (object_pointer), y
-    sta $a7
+    sta UNK_A6+1
     clc
-    lda $a1
+    lda UNK_A1
     adc xy_unknown+6, x ; X offset
     tax
-    eor $a1
+    eor UNK_A1
     and #$f0
     beq @B31_0258
-    lda $a1
+    lda UNK_A1
     and #$f0
-    sta $a1
+    sta UNK_A1
     txa
     and #$0f
-    ora $a1
+    ora UNK_A1
     tax
-    lda $a7
+    lda UNK_A6+1
     eor #$01
-    sta $a7
+    sta UNK_A6+1
     @B31_0258:
-    stx $a1
+    stx UNK_A1
     jsr B31_0275
 B31_025d:
     ldx object_data
@@ -6694,28 +6800,28 @@ B31_025d:
     rts
 
 B31_0266:
-    lda $21
+    lda is_scripted
     and #$7f
     jsr B31_0286
-    asl $21
-    ldx #$00
-    stx $21
+    asl is_scripted
+    ldx #0
+    stx is_scripted
     beq B31_025d
     B31_0275:
-    ldy $a1
-    lda ($a6), y
+    ldy UNK_A1
+    lda (UNK_A6), y
     beq B31_02a1
     bmi @B31_0282
     sec
     lda #$28
-    sbc ($a6), y
+    sbc (UNK_A6), y
     @B31_0282:
     clc
-    adc #$04
+    adc #4
     tax
     B31_0286:
     sta object_data+1
-    lda #$00
+    lda #0
     lsr object_data+1
     ror a
     lsr object_data+1
@@ -6727,23 +6833,23 @@ B31_0266:
     lda object_data+1
     adc #.HIBYTE(object_memory)
     sta object_data+1
-    ldy #$14
+    ldy #object_m_bitfield1
     lda (object_data), y
 B31_02a1:
     rts
 
 B31_02a2:
-    ldy #$14
+    ldy #object_m_bitfield1
     lda (object_pointer), y
     and #$20
     beq B31_02a1
     jsr EnablePRGRam
     clc
-    lda $3f
+    lda movement_direction+1
     adc #$20
     and #$38
     tax
-    ldy #$15
+    ldy #object_m_direction
     lsr a
     lsr a
     lsr a
@@ -6753,72 +6859,72 @@ B31_02bf:
     lda xy_unknown+4, x ; Flags
 B31_02c2:
     clc
-    ldy #$16
+    ldy #object_m_sprite_base
     adc (object_pointer), y
     sta UNK_60
-    lda #$00
+    lda #0
     iny
     adc (object_pointer), y
     sta UNK_60+1
 
-    lda #$15
+    lda #.BANK(SPRITES)
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 
-    ldy #$10
+    ldy #object_m_oam2
     lda (object_pointer), y
     tay
     lda SPRITE_OBJECTS, y
     and #$3f
-    sta $3f
+    sta movement_direction+1
     beq B31_02a1
     lda UNK_60
     sta SPRITE_OBJECTS+6, y
     lda UNK_60+1
     sta SPRITE_OBJECTS+7, y
     lda SPRITE_OBJECTS+2, y
-    sta $68
+    sta UNK_68
     lda SPRITE_OBJECTS+3, y
-    sta $69
+    sta UNK_68+1
     lda SPRITE_OBJECTS+1, y
     asl a
     asl a
     tax
-    ldy #$00
+    ldy #0
     lda (UNK_60), y
-    sta $64
+    sta UNK_64
     iny
     lda (UNK_60), y
-    sta $65
+    sta UNK_64+1
     iny
     lda (UNK_60), y
-    sta $6a
+    sta UNK_6A
     iny
     lda (UNK_60), y
-    sta $6b
+    sta UNK_6A+1
     sec
     @B31_0315:
-    bit $e2
+    bit oam_and_300_clear_flag
     bvs @B31_0315
-    ror $e2
-    ldy #$00
+    ror oam_and_300_clear_flag
+    ldy #0
     @B31_031d:
     lda shadow_oam, x
     cmp #$f0
     beq @B31_0365
     clc
-    lda ($64), y
-    adc $68
+    lda (UNK_64), y
+    adc UNK_68
     sta shadow_oam+3, x
     iny
     clc
-    lda ($64), y
-    adc $69
+    lda (UNK_64), y
+    adc UNK_68+1
     sta shadow_oam, x
     iny
-    lda ($64), y
+    lda (UNK_64), y
     sta UNK_60
-    lda $6b
+    lda UNK_6A+1
     lsr UNK_60
     bcc @B31_0342
     lsr a
@@ -6840,9 +6946,9 @@ B31_02c2:
     clc
     and #$10
     beq @B31_035d
-    lda $6a
+    lda UNK_6A
     @B31_035d:
-    adc ($64), y
+    adc (UNK_64), y
     sta shadow_oam+1, x
     iny
     bne @B31_0369
@@ -6857,47 +6963,75 @@ B31_02c2:
     inx
     inx
     beq @B31_0373
-    dec $3f
+    dec movement_direction+1
     bne @B31_031d
     @B31_0373:
-    asl $e2
+    asl oam_and_300_clear_flag
     rts
 
-B31_0376:
-    lda $ad
+;is basically GetCurrentSector using the current object coords
+;checks against its designated area compared to where it is
+;returns carry set if going oob
+CheckWanderingOOB:
+    ;sets up the pointer at map_tmp_ptr
+
+    ;UNK_94 = ((UNK_AC+1) >> 4) & %00001110
+    ;this calculation swaps to the relevant map bank
+    ;basically, ([UNK_AC+1] >> 4) & 0xE, plus one to move past bank 0
+    ;in otherwords, the high nybble of UNK_AC+1 contains the bank number offset.
+    lda UNK_AC+1
     lsr a
     lsr a
     lsr a
     lsr a
-    and #$0e
-    ora #$01
+    and #%00001110
+
+    ;BANK = a | 1
+    ora #1
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 
-    lda $ad
+    ;UNK_68 = pointer
+
+    ;UNK_68+1 = ((UNK_AC+1) >> 2) & 0x7
+    lda UNK_AC+1
     lsr a
     lsr a
-    and #$07
-    sta $69
-    lda $ab
-    and #$fc
+    and #%00000111
+    sta UNK_68+1
+    ;UNK_68 = UNK_AA+1 & 0xFC
+    lda UNK_AA+1
+    and #%11111100
     clc
-    sta $68
-    lda $69
-    adc #$98
-    sta $69
-    ldy #$01
-    lda ($68), y
+    sta UNK_68
+
+    ;UNK_68+1 += $9800
+    lda UNK_68+1
+    adc #.HIBYTE($9800)
+    sta UNK_68+1
+
+    ;current sector is loaded into UNK_68
+
+    ;get area from byte
+    ldy #1
+    lda (UNK_68), y
     and #$3f
-    ldy #$01
+
+    ;return carry set if incorrect area
+    ldy #object_m_area
     cmp (object_pointer), y
-    bne B31_03ad
+    bne @is_not_same_area
+
+;these are the same as
+;Movement_INPLACE
+;B31_0497
+
     lda map_area
     jsr SetObjectBank
     clc
     rts
 
-B31_03ad:
+    @is_not_same_area:
     lda map_area
     jsr SetObjectBank
     sec
@@ -7361,7 +7495,7 @@ B31_05bd:
     jsr B31_05ef
 B31_05c0:
     clc
-    ldy #$04
+    ldy #object_m_xpos
     lda (object_pointer), y
     adc UNK_3A
     sta UNK_3A
@@ -7373,7 +7507,7 @@ B31_05c0:
     sta UNK_3A+1
     sta UNK_AA+1
     clc
-    ldy #$06
+    ldy #object_m_ypos
     lda (object_pointer), y
     adc UNK_3A+2
     sta UNK_3A+2
@@ -7408,20 +7542,20 @@ B31_0607:
 
 CheckObjectNoSpawn:
     jsr GetObjectData
-    ldy #$14
+    ldy #object_m_bitfield1
     lda (object_pointer), y
     and #$0f
     tay
     lda (object_data), y
     iny
-    cmp #$05
+    cmp #5
     beq @B31_0625
-    cmp #$06
+    cmp #6
     beq B31_062f
     bne B31_062d
     @B31_0625:
     jsr get_story_flag_data
-    and All_Bits,x
+    and All_Bits, x
     bne B31_0637
     B31_062d:
     clc
@@ -7433,7 +7567,7 @@ B31_062f:
     and All_Bits, x
     bne B31_062d
 B31_0637:
-    ldy #$00
+    ldy #object_m_type
     lda (object_pointer), y
     ora #$80
     sta (object_pointer), y
@@ -7577,7 +7711,7 @@ obj_do_teleport:
 OBJTICK_Stairs:
     jsr OBJTICK_Door
     bcc @B31_06d8
-    lda #$01
+    lda #1
     sta fade_type
     @B31_06d8:
     rts
@@ -7642,7 +7776,7 @@ B31_0720:
     jsr ResetObjectMScreenVel
     jsr ClampObjectMTileCount
     jsr SetObjectMNotOam
-    lda #$00
+    lda #0
     jsr B31_059b
 B31_072e:
     lda #$88
@@ -7690,7 +7824,7 @@ OBJTICK_Present:
     and All_Bits, x
     ;if flag, add 4 to sprite offset (SPRITEDEF_PRESENT_OPEN)
     beq @dont_add_offset
-    lda #$04
+    lda #4
     @dont_add_offset:
     jsr B31_059b
     jmp B31_072e
@@ -7783,14 +7917,14 @@ OBJTICK_Wandering_NPC:
 B31_07d2:
     lsr a
     lsr a
-    cmp #$08
+    cmp #8
     bcs OBJTICK_Stationary_NPC
     ldy #object_m_direction
     sta (object_pointer), y
 B31_07dc:
     sta movement_direction
     jsr B31_05bd
-    jsr B31_0376
+    jsr CheckWanderingOOB
     bcs OBJTICK_Stationary_NPC
     jsr B31_01d4
     bcc OBJTICK_Stationary_NPC
@@ -7806,7 +7940,7 @@ OBJTICK_Stationary_NPC:
 B31_07f9:
     jmp B31_0567
 B31_07fc:
-    lda $25
+    lda UNK_24+1
     bne @B31_0803
     jmp RNG_BYTE
     @B31_0803:
@@ -7834,7 +7968,7 @@ OBJTICK_Spinning_NPC:
     lsr a
     lsr a
     lsr a
-    cmp #$08
+    cmp #8
     bcs OBJTICK_Stationary_NPC
     ldy #object_m_direction
     sta (object_pointer), y
@@ -7842,7 +7976,7 @@ OBJTICK_Spinning_NPC:
     jmp B31_074d
 
 B31_082b:
-    cmp #$00
+    cmp #0
     bne OBJTICK_Stationary_NPC
     sta autowalk_direction
     ldy #object_m_unk2
@@ -7854,7 +7988,7 @@ B31_082b:
     jmp TickObject
 
 ; $E83F - TICK object type #7
-B31_083f:
+OBJTICK_Moving:
     ldy #object_m_unk3+1
     lda (object_pointer), y
     bne @B31_086b
@@ -7895,10 +8029,10 @@ B31_083f:
     bcs @B31_088f
     sec
     lda #$28
-    sbc $36
+    sbc UNK_36
     clc
     adc #$84
-    sta $21
+    sta is_scripted
     @B31_088f:
     ldy #object_m_unk3
     lda (object_pointer), y
@@ -7984,7 +8118,7 @@ B31_08f5:
 
 ; $E905 - TICK object type #12
 B31_0905:
-    lda $23
+    lda is_tank
     clc
     bne B31_095b
     lda movement_direction
@@ -8010,16 +8144,21 @@ B31_0905:
     @B31_092f:
     jsr B31_0567
     jsr B31_0a24
+    ;if character is comprised of 10 tiles
+    ;branch
     ldy #object_m_tiles
     lda (object_pointer), y
-    and #$0f
-    cmp #$0a
-    beq @B31_0940
+    and #%00001111
+    cmp #10
+    beq @do_eve_step
     rts
-    @B31_0940:
+    @do_eve_step:
+    ;EVE effect
+    ;chr = $70 | (step_count << 1) & 2
+    ;basically & 1 but shifted early
     lda step_count
     asl a
-    and #$02
+    and #%00000010
     ora #$70
     ldx #BANK::CHR0800
     jmp BANK_SWAP
@@ -8038,9 +8177,9 @@ B31_094c:
 
     jsr ResetObjectMScreenVel
 B31_095b:
-    lda #$00
+    lda #0
     sta movement_direction
-    sta $23
+    sta is_tank
     lda #$10
     bcs B31_0967
     B31_0965:
@@ -8079,12 +8218,12 @@ OBJTICK_Player:
     bpl @B31_09ad
     bvs @B31_099f
     lda movement_direction
-    sbc #$00
+    sbc #0
     and #$0f
     bpl @B31_097c
     @B31_099f:
     ldy #object_m_direction
-    lda #$00
+    lda #0
     sta (object_pointer), y
     sta player_direction
     bcc @B31_09ad
@@ -8138,7 +8277,7 @@ B31_09e1:
     lda UNK_d
     bpl @B31_09f3
 
-    and #$0f
+    and #$f
     cmp Direction_By_Input, x
     beq @B31_09f7
     sta UNK_d
@@ -8156,19 +8295,19 @@ B31_09fa:
     beq @B31_0a22
     asl a
     lda movement_direction
-    and #$01
+    and #%00000001
     beq @B31_0a08
     bcs @B31_0a1c
     @B31_0a08:
-    lda can_enter_doors
+    lda $0f
     bne @B31_0a1a
     ldy #object_m_playerTouch
     lda movement_direction
     ora #$40
     sta (object_data), y
-    bit $21
+    bit is_scripted
     bmi @B31_0a1a
-    stx $21
+    stx is_scripted
     @B31_0a1a:
     bcc @B31_0a23
     @B31_0a1c:
@@ -8194,7 +8333,7 @@ B31_0a24:
     rts
 
 ; $EA38 - TICK object type #13
-B31_0a38:
+OBJTICK_TrainHead:
     ldy #object_m_unk3+1
     lda (object_pointer), y
     bne @B31_0a7c
@@ -8202,19 +8341,26 @@ B31_0a38:
     jsr SetObjectBank
     asl a
     tax
+
+    ;UNK_60 = area object list
     lda $8000, x
     sta UNK_60
     lda $8001, x
     sta UNK_60+1
+
+    ;y = object_pointer->object_m_unk2+1 << 1
     ldy #object_m_unk2+1
     lda (object_pointer), y
     asl a
     tay
+
+    ;object_data = UNK_60[y]
     lda (UNK_60), y
     sta object_data
     iny
     lda (UNK_60), y
     sta object_data+1
+
     ldy #object_m_unk2+2
     lda (object_pointer), y
     tay
@@ -8236,7 +8382,7 @@ B31_0a38:
     ldy #object_m_unk3+1
     @B31_0a7c:
     sec
-    sbc #$01
+    sbc #1
     sta (object_pointer), y
     ldy #object_m_unk3
     lda (object_pointer), y
@@ -8251,9 +8397,9 @@ B31_0a38:
     jmp B31_09b3
 
 B31_0a9b:
-    cmp #$00
+    cmp #0
     bne @B31_0aa1
-    sta $23
+    sta is_tank
     @B31_0aa1:
     iny
     jsr obj_prep_teleport
@@ -8261,13 +8407,13 @@ B31_0a9b:
     tya
     ldy #object_m_unk2+2
     sta (object_pointer), y
-    lda $23
+    lda is_tank
     bne B31_0abb
     lda #$80
     sta $23
-    jsr NEW_CHAR_COORDINATES
+    jsr B30_19fa
     ldx #$00
-    jsr CHANGE_OVERWORLD_TICKSPEED
+    jsr B30_0daf
     B31_0abb:
     lda #$88
     sta movement_direction
@@ -8275,7 +8421,7 @@ B31_0a9b:
     jmp B31_09b3
 
 ; $EAC5 - TICK object type #14
-B31_0ac5:
+OBJTICK_TrainTail:
     lda movement_direction
     bmi B31_0b07
     ldy #object_m_unk3
@@ -8308,7 +8454,7 @@ B31_0ac5:
     jsr B31_0b0b
     cpx #$40
     bcc @B31_0b04
-    sbc #$04
+    sbc #4
     @B31_0b04:
     jmp B31_059b
 
@@ -8354,21 +8500,21 @@ B31_0b3a:
     beq @B31_0b68
     bmi @B31_0b5b
     sec
-    sbc #$01
+    sbc #1
     sta (object_pointer), y
-    cmp #$05
+    cmp #5
     bcs @B31_0b68
-    ldx #$07
+    ldx #7
     bcc @B31_0b68
     @B31_0b5b:
     pha
     clc
-    adc #$01
+    adc #1
     sta (object_pointer), y
     pla
     cmp #$fd
     bcs @B31_0b68
-    ldx #$05
+    ldx #5
     @B31_0b68:
     stx movement_direction
     jsr B31_05bd
@@ -8406,16 +8552,16 @@ B31_0b92:
     lda autowalk_direction
     bne @B31_0bc4
 
-    lda #$14
+    lda #.BANK(Map_TileProperties)
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 
-    lda $a6
-    sta $a2
+    lda UNK_A6
+    sta UNK_A2
     jsr GetMapTileImOn
     lda map_area
     jsr SetObjectBank
-    bit $3f
+    bit movement_direction+1
     bvs @B31_0bc4
     @B31_0bc0:
     lda #$88
@@ -8540,25 +8686,28 @@ InitializeBattleIRQs:
 
     BankswitchCHR_Address B31_0cec
 
-    lda #$01
+    ;horizontal mirroring
+    lda #1
     sta MIRROR
+
     lda #$80
     sta sram_mode
+
     lda #$7c
-    sta $40
-    sta $41
-    sta $42
-    sta $43
-    lda #$00
-    sta $46
-    lda #$00
-    sta $45
-    ldx #$09
-    @B31_0c94:
+    sta UNK_40
+    sta UNK_41
+    sta UNK_42
+    sta UNK_43
+    lda #0
+    sta UNK_46
+    lda #0
+    sta UNK_45
+    ldx #9
+    @copy:
     lda IRQ_Routines, x
     sta irq_pointers, x
     dex
-    bpl @B31_0c94
+    bpl @copy
     jsr B31_0d1a
     jmp WaitNMI
 
@@ -8597,7 +8746,7 @@ ReturnFromBattle:
     sta UNK_71
     sta enemy_group
     sta sram_mode
-    sta UNK_D7
+    sta post_nmi_callback
     plp
     jmp WaitNMI
 
@@ -8617,118 +8766,129 @@ IRQ_Routines:
 BTL_SCROLL_UP:
     ldx #$fc
     .byte $2c ; BIT trick
-BTL_SCROLL_DOWN:
+B31_0cff:
     ldx #$04
-    jsr PPU_SYNC
+    jsr PpuSync
     stx shift_y
     ldx #$14
     @B31_0d08:
-    lda #$01
+    lda #1
     sta nmi_flags
     jsr PPU_SYNC
     jsr B31_0d1a
     dex
     bne @B31_0d08
-    lda #$00
+    lda #0
     sta shift_y
     rts
 
 B31_0d1a:
     sec
     lda #$59
-    sbc scroll_x
+    sbc scroll_y
     sta irq_count
     rts
 
 ; IRQ Routine #0 and #2
 IRQ_Routine0:
     clc
-    lda #$02
-    adc $46
+    lda #2
+    adc UNK_46
     jsr SetIRQLatchBankselect
-    bit $45
+    bit UNK_45
     bpl B31_0d6f
 B31_0d2e:
-    lda $40
-    bpl @B31_0d34
+    lda UNK_40
+    bpl @no_default_40
     lda #$7c
-    @B31_0d34:
+    @no_default_40:
     stx BANKSELECT
     sta BANKDATA
     inx
-    lda $41
-    bpl @B31_0d41
+
+    lda UNK_41
+    bpl @no_default_41
     lda #$7c
-    @B31_0d41:
+    @no_default_41:
     stx BANKSELECT
     sta BANKDATA
     inx
-    lda $42
-    bpl @B31_0d4e
+
+    lda UNK_42
+    bpl @no_default_42
     lda #$7c
-    @B31_0d4e:
+    @no_default_42:
     stx BANKSELECT
     sta BANKDATA
     inx
-    lda $43
-    bpl @B31_0d5b
+
+    lda UNK_43
+    bpl @no_default_43
     lda #$7c
-    @B31_0d5b:
+    @no_default_43:
     stx BANKSELECT
     sta BANKDATA
+
     rts
 
 ; IRQ Routine #1
 IRQ_Routine1:
     sec
     lda #$23
-    sbc $46
+    sbc UNK_46
     asl a
     jsr SetIRQLatchBankselect
-    bit $45
+    bit UNK_45
     bvs B31_0d2e
     B31_0d6f:
-    lda $40
+    lda UNK_40
     and #$7f
     stx BANKSELECT
     sta BANKDATA
     inx
-    lda $41
+
+    lda UNK_41
     and #$7f
     stx BANKSELECT
     sta BANKDATA
     inx
-    lda $42
+
+    lda UNK_42
     and #$7f
     stx BANKSELECT
     sta BANKDATA
     inx
-    lda $43
+
+    lda UNK_43
     and #$7f
     stx BANKSELECT
     sta BANKDATA
     rts
 
 ; IRQ Routine #3
-IRQ_Routine3:
+B31_0d9b:
     lda $44
     sta $46
     lda #$c8
     jsr SetIRQLatchBankselect
     sta IRQDISABLE
-    lda $f2
+
+    lda current_banks+BANK::CHR1000
     stx BANKSELECT
     sta BANKDATA
     inx
-    lda $f3
+
+    lda current_banks+BANK::CHR1400
     stx BANKSELECT
     sta BANKDATA
     inx
-    lda $f4
+
+    lda current_banks+BANK::CHR1800
     stx BANKSELECT
     sta BANKDATA
     inx
-    lda $f5
+
+    lda current_banks+BANK::CHR1C00
     stx BANKSELECT
     sta BANKDATA
     rts
@@ -8811,9 +8971,9 @@ FillBackgroundColor:
     jmp UpdatePalette
 
 ;lighten
-LIGHTEN_PALETTES_TRANSITION:
+B31_0e21:
      pha
-    jsr PPU_SYNC
+    jsr PpuSync
     pla
 
     ldx #$1f
@@ -8825,7 +8985,7 @@ LIGHTEN_PALETTES_TRANSITION:
     B31_0e30:
     jsr PPU_SYNC
     B31_0e33:
-    ldy #$05
+    ldy #5
     @B31_0e35:
     ldx #$1f
     @B31_0e37:
@@ -8913,14 +9073,14 @@ B31_0eb5:
     ;04 00
     ;UPDATE PALETTE
     lda #4
-    sta nmiheader_command
+    sta nmi_queue
     lda #0
     sta nmiheader_offset
 
     ;lda #$00
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     jmp WaitXFrames_Min1
@@ -8937,19 +9097,20 @@ SetScroll:
     lda #$fc
     and ram_PPUCTRL
     sta ram_PPUCTRL
-    stx scroll_y
-    sty scroll_x
+    stx scroll_x
+    sty scroll_y
     jmp WaitNMI
 
 B31_0ee4:
-    jsr PPU_SYNC
+    jsr PpuSync
     lda #$04
     eor scroll_y
     sta scroll_y
     jmp WaitNMI
 
+;invasion effect?
 B31_0ef0:
-    lda sram_flags_761f
+    lda $761f
     and #$f0
     beq @B31_0f1a
     sta UNK_60
@@ -8962,11 +9123,12 @@ B31_0ef0:
     jsr DarkenPalette
     ldx #$0a
     @B31_0f0c:
-    lda #Noise_7
-    sta soundqueue_noise
+    lda #$07
+    sta $07f0
     jsr B31_0ee4
     dex
-    bne @B31_0f0c
+    bne @loop
+
     jsr RestoreAndUpdatePalette
     @B31_0f1a:
     rts
@@ -9020,94 +9182,69 @@ PRINT_CURR_CHOICER:
     sta indir_addr+1
 DO_GENERIC_CHOICER:
     ldy #6
-    lda (menu_indir_jmp_addr), y
-    sta tileprinter_ypos
+    lda (UNK_80), y
+    sta UNK_76
     ldy #7
-    lda (menu_indir_jmp_addr), y
-    sta tileprinter_ypos+1
-;  INIT_CHOICER_MENU: Initialize menu width, calculate total choice count, clear Y position
-;   ram used:
-;       menu_cursorindex - initial purpose is as a loop sentinel to calculate chooser's max cols and rows
-    initchoicermenu_sentinel := menu_cursorindex
-INIT_CHOICER_MENU:
+    lda (UNK_80), y
+    sta UNK_76+1
+B31_0f4b:
     ldy #$00
-    lda (menu_indir_jmp_addr), y
-    sta menu_col
+    lda (UNK_80), y
+    sta $86
     tax
     ldy #$01
-    lda (menu_indir_jmp_addr), y
+    lda (UNK_80), y
     jsr Mult8x8
-    sta initchoicermenu_sentinel
+    sta menucursor_pos
     ldy #$00
-    sty menu_row
-    
-    ; @FindFirstChoice: Loop through choices array searching for first non-zero entry
-    @FindFirstChoice:
-    lda (indir_addr), y
-    bne DoingChooser
+    sty $87
+    @B31_0f5f:
+    lda ($84), y
+    bne B31_0f6d
     iny
-    cpy initchoicermenu_sentinel
-    bcc @FindFirstChoice
-    sta initchoicermenu_sentinel
-    sta initchoicermenu_sentinel+1
+    cpy menucursor_pos
+    bcc @B31_0f5f
+    sta menucursor_pos
+    sta menucursor_pos+1
     rts
-    
-    
-;  Input: Y = selected linear index into choices array (0..(w*h)-1)
-;   Output:
-;     menu_cursorindex = linear index
-;     menu_col      = column (index % width)
-;      menu_row      = row    (index / width)
-;   Notes:
-;     - menu_col currently holds width on entry.
-;     - This converts the 1D choice index into 2D grid coordinates used by cursor draw/move.
 
-DoingChooser:
-    sty menu_cursorindex
+B31_0f6d:
+    sty menucursor_pos
     tya
-    ; @DivideIndexByWidth:
-    ;       Repeated subtraction by width.
-    ;       Each subtraction moves one row down (menu_row++).
-    ;       Remaining value in A becomes X/column.
-    @DivideIndexByWidth:
-    cmp menu_col
-    bcc @DivideDone
-    sbc menu_col
-    inc menu_row
-    bcs @DivideIndexByWidth
-    ; @DivideDone:
-    ;   A < width now, so A is the final X/column.
-    ;   Cursor state is now fully initialized for CHOICER_MAINLOOP.
-    @DivideDone:
-    sta menu_col
-    ; CHOICER_MAINLOOP: PPU sync and cursor blink timer reset; main entry point for display loop
-    CHOICER_MAINLOOP:
-    jsr PPU_SYNC
+    @B31_0f70:
+    cmp $86
+    bcc @B31_0f7a
+    sbc $86
+    inc $87
+    bcs @B31_0f70
+    @B31_0f7a:
+    sta $86
+    B31_0f7c:
+    jsr PpuSync
     ldy #$18
-    sty zp_frame_counter
+    sty $65
     lda #$00
     sta shadow_oam+2
-; @ChoicerPrompt: Draw cursor sprite to OAM, then enter input waiting/blinking loop
-@ChoicerPrompt:
+B31_0f88:
     ldy #$05
-    lda (menu_indir_jmp_addr), y
+    lda (UNK_80), y
     sta shadow_oam+1
     ldy #$02
-    lda (menu_indir_jmp_addr), y
-    ldx menu_col
+    lda (UNK_80), y
+    ldx $86
     jsr Mult8x8
     clc
-    adc tileprinter_ypos
+    adc $76
     asl a
     asl a
     asl a
     sta shadow_oam+3
     ldy #$03
-    lda (menu_indir_jmp_addr), y
-    ldx menu_row
+    lda (UNK_80), y
+    ldx $87
     jsr Mult8x8
     clc
-    adc tileprinter_xpos
+    adc $77
     asl a
     asl a
     asl a
@@ -9118,9 +9255,8 @@ DoingChooser:
         adc #7
     .endif
     sta shadow_oam
-    ldy zp_frame_counter
-    ; @BlinkingLoop: Outer loop for cursor blink timing (uses zp_frame_counter as counter)
-    @BlinkingLoop:
+    ldy $65
+    @B31_0fb8:
     ldx #$00
     stx pad1_forced
     ; @BlinkingWait: Inner loop that waits for VBlank, executes RNG, checks if input received
@@ -9130,34 +9266,31 @@ DoingChooser:
     lda pad1_forced
     bne @CheckButtonPressed
     dey
-    bne @BlinkingWait
+    bne @B31_0fbc
     ldy #$05
-    lda (menu_indir_jmp_addr), y
+    lda (UNK_80), y
     eor shadow_oam+1
     sta shadow_oam+1
     lda pad1_hold
     bne @ChoicerInputGet
     ldy #$18
-    sty zp_frame_counter
-    bne @BlinkingLoop
-    ; @ChoicerInputGet: Branch target when input is detected; shortens blink timer to speed up visual feedback
-    @ChoicerInputGet:
+    sty $65
+    bne @B31_0fb8
+    @B31_0fdd:
     ldy #$06
-    sty zp_frame_counter
-    ; @CheckButtonPressed: Checks for action/selection button press (high nibble of input)
-    @CheckButtonPressed:
+    sty $65
+    @B31_0fe1:
     ldx #$00
     stx pad1_forced
     tax
     ldy #$04
-    and #PAD_A | PAD_B | PAD_SELECT | PAD_START
-    and (menu_indir_jmp_addr), y
-    beq @ProcessDirectionalInput
-    sta menu_controllerinput
-    lda #pulsesfx::MenuBloop
-    sta soundqueue_pulse
-; @ExitChoicer: Hide cursor sprite ($F0 = off-screen) and return with selected index
-@ExitChoicer:
+    and #$f0
+    and (UNK_80), y
+    beq B31_0ffb
+    sta menucursor_pos+1
+    lda #$05
+    sta $07f1
+B31_0ff5:
     lda #$f0
     sta shadow_oam
     rts
@@ -9169,131 +9302,125 @@ DoingChooser:
     sta menu_controllerinput
     tay
     ldx Cardinal_By_Input, y
-    bmi @ChoicerPrompt
-    lda menu_col
+    bmi B31_0f88
+    lda $86
     sta $68
-    lda menu_row
+    lda $87
     sta $69
     stx $6b
-; @MoveCursor: Validate new position is within bounds; if valid, update position and check for valid choice
-@MoveCursor:
+B31_1010:
     clc
     lda Cardinal_XY+1, x
     adc $69
     ldy #$01
-    cmp (menu_indir_jmp_addr), y
-    bcs @InvalidateMove
+    cmp (UNK_80), y
+    bcs B31_1055
     sta $69
     sta UNK_60
     clc
     lda Cardinal_XY, x
     adc $68
     ldy #$00
-    cmp (menu_indir_jmp_addr), y
-    bcs @InvalidateMove
+    cmp (UNK_80), y
+    bcs B31_1055
     sta $68
     sta $6a
-    lda (menu_indir_jmp_addr), y
+    lda (UNK_80), y
     ldx UNK_60
     jsr Mult8x8
 
 ; @CheckChoiceAtNewPos: Calculate index into choices array at new position; if non-zero (valid choice), update menu vars
 @CheckChoiceAtNewPos:
     clc
-    adc $6a
-    sta $6a
+    adc UNK_6A
+    sta UNK_6A
     tay
     lda ($84), y
-    beq @HandleBoundaryWrapping
+    beq B31_1067
     lda $68
-    sta menu_col
+    sta $86
     lda $69
-    sta menu_row
+    sta $87
     lda $6a
-    sta menu_cursorindex
-    lda #pulsesfx::menuscroll
-    sta soundqueue_pulse
-; @PromptAgain: Jump back to draw and wait for input again
-@PromptAgain:
-    jmp @ChoicerPrompt
+    sta menucursor_pos
+    lda #$0d
+    sta $07f1
+B31_1052:
+    jmp B31_0f88
 
-@InvalidateMove:
+B31_1055:
     ldy #$04
-    lda menu_controllerinput
-    and (menu_indir_jmp_addr), y
-    beq @PromptAgain
-    sta menu_controllerinput
-    lda #pulsesfx::menuscroll
-    sta soundqueue_pulse
-    jmp @ExitChoicer
+    lda menucursor_pos+1
+    and (UNK_80), y
+    beq B31_1052
+    sta menucursor_pos+1
+    lda #$0d
+    sta $07f1
+    jmp B31_0ff5
 
-; @HandleBoundaryWrapping: Destination is out of bounds or no valid choice; play sound feedback, return cursor
-@HandleBoundaryWrapping:
+B31_1067:
     ldx $6b
     ldy #$01
     lda $d6
-    beq @SetupWrapCheck
+    beq @B31_1071
     inx
     dey
     ; @SetupWrapCheck: Calculate which axis to wrap based on direction and wrap flags
     @SetupWrapCheck:
     lda Cardinal_XY, x
-    beq @WrapComplete
-    ; @WrapPositionLoop: Apply wrapping logic to adjust position when boundary exceeded
-    @WrapPositionLoop:
+    beq @B31_10ab
+    @B31_1076:
     sta $6a
     sec
-    lda $68, y
-    sbc $86, y
+    lda UNK_68, y
+    sbc menu_x_pos, y
     eor #$ff
     bpl @WrapAndOffset
     clc
     adc $86, y
     sta $68, y
-    bpl @WrapClampCheck
+    bpl @B31_10a1
     bmi @B31_1099
     ; @WrapAndOffset: Add offset to position when wrapping is needed
     @WrapAndOffset:
     sec
     adc $86, y
     sta $68, y
-    cmp (menu_indir_jmp_addr), y
-    bcc @WrapClampCheck
+    cmp (UNK_80), y
+    bcc @B31_10a1
     @B31_1099:
     lda #$00
     cmp $6a
-    bne @WrapPositionLoop
-    beq @InvalidateMove
-    ; @WrapClampCheck: Verify wrapped position is still in bounds
-    @WrapClampCheck:
+    bne @B31_1076
+    beq B31_1055
+    @B31_10a1:
     tya
-    eor #$01
+    eor #1
     tay
     lda $86, y
     sta $68, y
-    ; @WrapComplete: Skip wrapping logic and jump back to validate position
-    @WrapComplete:
+    @B31_10ab:
     ldx $6b
-    jmp @MoveCursor
+    jmp B31_1010
 
 ; does some maths to calc the position of the cursor & draws it to the bg layer
 ; input: A = tile to draw (typically, $ff in US as the cursor arrow)
 DRAW_TILE_IN_CURSOR_POS:
     pha
     ldy #$02
-    lda (menu_indir_jmp_addr), y
-    ldx menu_col
+    lda (UNK_80), y
+    ldx $86
     jsr Mult8x8
     clc
-    adc tileprinter_ypos
-    sta tileprinter_ypos
+    adc $76
+    sta $76
     ldy #$03
-    lda (menu_indir_jmp_addr), y
-    ldx menu_row
+    lda (UNK_80), y
+    ldx $87
     jsr Mult8x8
     clc
-    adc tileprinter_xpos
-    sta tileprinter_xpos
+    adc $77
+    sta $77
     pla
     jmp AddTileViaNMI
 
@@ -9301,7 +9428,7 @@ DRAW_TILE_IN_CURSOR_POS:
 ; Generic Choicer LUT
 ; literally only exists for a generic 1-8 choicer. can be sliced
 EIGHT_OPTIONS_LUT:
-     .byte 1, 2, 3, 4, 5, 6, 7, 8
+    .byte 1, 2, 3, 4, 5, 6, 7, 8
 
 ; $F0D9 - D-Pad to direction table (no diagonals)
 Cardinal_By_Input:
@@ -9333,19 +9460,19 @@ Cardinal_XY:
 ;  UNK_60 = 16-bit multiplicand
 ;  $64 = 8-bit multiplier
 Mult16x8:
-    lda #$00
+    lda #0
     ldx #$10
-B31_10f5:
+    @B31_10f5:
     ror UNK_60+1
     ror UNK_60
-    bcc B31_10fe
+    bcc @B31_10fe
     clc
-    adc $64
-B31_10fe:
+    adc UNK_64
+    @B31_10fe:
     ror a
     dex
-    bne B31_10f5
-    sta $62
+    bne @B31_10f5
+    sta UNK_62
     ror UNK_60+1
     ror UNK_60
     rts
@@ -9354,21 +9481,21 @@ B31_10fe:
 ;  UNK_60 = 24-bit multiplicand
 ;  $64 = 8-bit multiplier
 Mult24x8:
-    lda #$00
+    lda #0
     ldx #$18
-B31_110d:
-    ror $62
+    @B31_110d:
+    ror UNK_62
     ror UNK_60+1
     ror UNK_60
-    bcc B31_1118
+    bcc @B31_1118
     clc
-    adc $64
-B31_1118:
+    adc UNK_64
+    @B31_1118:
     ror a
     dex
-    bne B31_110d
-    sta $63
-    ror $62
+    bne @B31_110d
+    sta UNK_62+1
+    ror UNK_62
     ror UNK_60+1
     ror UNK_60
     rts
@@ -9381,56 +9508,56 @@ Mult8x8:
     stx $64
     lda #$00
     ldx #$08
-@Mult8x8_l:
+B31_112d:
     ror UNK_60
-    bcc @mult_skip
+    bcc B31_1134
     clc
     adc $64
-    @mult_skip:
+B31_1134:
     ror a
     dex
-    bne @Mult8x8_l
+    bne B31_112d
     tax
     lda UNK_60
     ror a
     rts
 
-; DIV24x8 - Maybe 24x8 division
-DIV24x8:
+; B31_113d - Maybe 24x8 division
+B31_113d:
     lda $64
     @B31_113f:
     beq @B31_113f
-    lda #$00
+    lda #0
     ldx #$18
     rol UNK_60
     rol UNK_60+1
-    rol $62
+    rol UNK_62
     @B31_114b:
     rol a
     bcs @B31_1152
-    cmp $64
+    cmp UNK_64
     bcc @B31_1155
     @B31_1152:
-    sbc $64
+    sbc UNK_64
     sec
     @B31_1155:
     rol UNK_60
     rol UNK_60+1
-    rol $62
+    rol UNK_62
     dex
     bne @B31_114b
-    sta $68
+    sta UNK_68
     rts
 
 B31_1161:
-    ldy #$08
+    ldy #8
     @B31_1163:
     dey
-    lda #$00
+    lda #0
     ldx #$18
     rol UNK_60
     rol UNK_60+1
-    rol $62
+    rol UNK_62
     @B31_116e:
     rol a
     cmp #$0a
@@ -9439,21 +9566,21 @@ B31_1161:
     @B31_1175:
     rol UNK_60
     rol UNK_60+1
-    rol $62
+    rol UNK_62
     dex
     bne @B31_116e
     tax
     lda BCD_Digits, x
-    sta $68, y
+    sta UNK_68, y
     lda UNK_60
     ora UNK_60+1
-    ora $62
+    ora UNK_62
     bne @B31_1163
-    sty $63
+    sty UNK_62+1
     lda #' '
     bne @B31_1196
     @B31_1193:
-    sta $68, y
+    sta UNK_68, y
     @B31_1196:
     dey
     bpl @B31_1193
@@ -9463,29 +9590,29 @@ BCD_Digits:
     .byte "0123456789"
 
 B31_11a4:
-    ldy #$00
+    ldy #0
     sty UNK_60
     sty UNK_60+1
-    sty $62
+    sty UNK_62
     beq @B31_11c6
     @B31_11ae:
-    lda #$00
+    lda #0
     ldx #$18
     @B31_11b2:
-    ror $62
+    ror UNK_62
     ror UNK_60+1
     ror UNK_60
     bcc @B31_11bc
-    adc #$09
+    adc #9
     @B31_11bc:
     ror a
     dex
     bne @B31_11b2
-    ror $62
+    ror UNK_62
     ror UNK_60+1
     ror UNK_60
     @B31_11c6:
-    lda $68,y
+    lda UNK_68, y
     .ifdef VER_JP
     cmp #$80
     bcs @B31_11d4
@@ -9508,21 +9635,21 @@ B31_11a4:
     .endif
     .byte $2c ; BIT trick
     @B31_11d4:
-    lda #$00
+    lda #0
     .ifdef VER_JP
     @B31_11d6:
     .endif
     clc
     adc UNK_60
     sta UNK_60
-    lda #$00
+    lda #0
     adc UNK_60+1
     sta UNK_60+1
-    lda #$00
-    adc $62
-    sta $62
+    lda #0
+    adc UNK_62
+    sta UNK_62
     iny
-    cpy #$08
+    cpy #8
     bcc @B31_11ae
     rts
 
@@ -9547,7 +9674,7 @@ StartBattle:
     jsr GetEnemyGroupPointer
     ldx #$2c
     ldy #$09
-    lda ($5c), y
+    lda (UNK_50+$c), y
     and #$f0
     cmp #$50
     beq @B31_121c
@@ -9571,13 +9698,13 @@ StartBattle:
     jsr ReturnFromBattle
     rts
 
-; Swaps Lower Bank to $16, preserving the current bank in the stack.
+; Swaps Lower Bank to $16 (battle data), preserving the current bank in the stack.
 BANKSWAP_L16:
     pha
     txa
     pha
 
-    lda #$16
+    lda #.BANK(BATTLE_DATA)
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 
@@ -9586,13 +9713,13 @@ BANKSWAP_L16:
     pla
     rts
 
-; Swaps Lower Bank to $00, preserving the current bank in the stack.
+; Swaps Lower Bank to $00 (tiles), preserving the current bank in the stack.
 BANKSWAP_L00:
     pha
     txa
     pha
 
-    lda #0
+    lda #.BANK(TILES)
     ldx #BANK::PRG8000
     jsr BANK_SWAP
 
@@ -9679,22 +9806,22 @@ JSRTable:
     pla
     sta UNK_60+1
     lda (UNK_60), y
-    sta $62
+    sta UNK_62
     iny
     lda (UNK_60), y
-    sta $63
-    ldy #$01
+    sta UNK_62+1
+    ldy #1
     sec
     lda (UNK_60), y
-    sbc #$01
+    sbc #1
     tax
     iny
     lda (UNK_60), y
-    sbc #$00
+    sbc #0
     pha
     txa
     pha
-    jmp ($62)
+    jmp (UNK_62)
 
 ; $12D5
 JMPTable:
@@ -9707,11 +9834,11 @@ JMPTable:
     sta UNK_60+1
     sec
     lda (UNK_60), y
-    sbc #$01
+    sbc #1
     tax
     iny
     lda (UNK_60), y
-    sbc #$00
+    sbc #0
     pha
     txa
     pha
@@ -9724,28 +9851,28 @@ RNG_WORD:
     pha ; PUSH X
     tya
     pha ; PUSH Y
-    lda $63
+    lda UNK_62+1
     pha ; PUSH $63
-    lda $62
+    lda UNK_62
     pha ; PUSH $62
-    lda $65
+    lda UNK_64+1
     pha ; PUSH $65
-    lda $64
+    lda UNK_64
     pha ; PUSH $64
-    lda $69
+    lda UNK_68+1
     pha ; PUSH $69
-    lda $68
+    lda UNK_68
     pha ; PUSH $68
     lda UNK_60+1
     and #$fc
     pha ; PUSH (UNK_60+1) & 0xFC
-    ldx #$06
+    ldx #6
     @B31_130b:
     asl UNK_60
     rol UNK_60+1
     dex
     bne @B31_130b ; UNK_60 =<< 6 (multiply by 64)
-    stx $62 ; $62 = 0
+    stx UNK_62 ; $62 = 0
     txa
     pha ; PUSH $62
     lda UNK_60+1
@@ -9754,13 +9881,13 @@ RNG_WORD:
     pha ; PUSH UNK_60
     lda #$64
     sta $64
-    jsr DIV24x8
+    jsr B31_113d
     jsr RNG_BYTE
     lsr a
     php ; PUSH SIGN
     tax
     lda B31_137d, x
-    sta $64
+    sta UNK_64
     jsr Mult16x8 ; UNK_60 *= $64
     plp ; POP SIGN
     bcs B31_1346
@@ -9771,8 +9898,8 @@ RNG_WORD:
     adc UNK_60+1
     sta UNK_60+1
     pla ; POP $62
-    adc $62
-    sta $62
+    adc UNK_62
+    sta UNK_62
     jmp B31_1355
 
 B31_1346:
@@ -9783,12 +9910,12 @@ B31_1346:
     sbc UNK_60+1
     sta UNK_60+1
     pla ; POP $62
-    sbc $62
-    sta $62
+    sbc UNK_62
+    sta UNK_62
     B31_1355:
-    ldx #$06
+    ldx #6
     @B31_1357:
-    lsr $62
+    lsr UNK_62
     ror UNK_60+1
     ror UNK_60
     dex
@@ -9797,17 +9924,17 @@ B31_1346:
     ora UNK_60+1
     sta UNK_60+1
     pla ; POP $68
-    sta $68
+    sta UNK_68
     pla ; POP $69
-    sta $69
+    sta UNK_68+1
     pla ; POP $64
-    sta $64
+    sta UNK_64
     pla ; POP $65
-    sta $65
+    sta UNK_64+1
     pla ; POP $62
-    sta $62
+    sta UNK_62
     pla ; POP $63
-    sta $63
+    sta UNK_62+1
     pla ; POP Y
     tay
     pla ; POP X
@@ -9854,7 +9981,7 @@ RNGifySpeed:
     lda UNK_60
     pha
     stx UNK_60
-    lda #$00
+    lda #0
     sta UNK_60+1
     jsr RNG_WORD
     lda UNK_60+1
@@ -9877,35 +10004,34 @@ PlayBattleSFX:
     beq @PlaySFX_RTS
     tax
     lda battle_sfx+1, x
-    sta $65
+    sta UNK_64+1
     lda battle_sfx+2, x
-    sta $67
+    sta UNK_66+1
     lda battle_sfx, x
     cmp #$00
-    bne @PlayPulseSFX
+    bne B31_143e
     lda $65
-    sta soundqueue_noise
-    jmp @SFXWait
+    sta $07f0
+    jmp B31_145b
 
-    @PlayPulseSFX:
+B31_143e:
     cmp #$01
-    bne @PlayTriangleSFX
+    bne B31_144a
     lda $65
-    sta soundqueue_pulse
-    jmp @SFXWait
+    sta $07f1
+    jmp B31_145b
 
-    @PlayTriangleSFX:
+B31_144a:
     cmp #$02
-    bne @PlayDoublePulseSFX
+    bne B31_1456
     lda $65
-    sta soundqueue_triangle
-    jmp @SFXWait
+    sta $07f3
+    jmp B31_145b
 
-    @PlayDoublePulseSFX:
+B31_1456:
     lda $65
-    sta soundqueue_doublepulse
-
-    @SFXWait:
+    sta $07f4
+B31_145b:
     ldx $67
     jsr WaitXFrames
     jsr BANKSWAP_L16
@@ -9914,39 +10040,42 @@ PlayBattleSFX:
     pla
     rts
 
-B31_1465:
-    ldx #$0f
-    @B31_1467:
+;buzzer???
+ErrBuzzer:
+    ldx #15
+    @loop:
     txa
     pha
-    lda #pulsesfx::MenuBloop
-    sta soundqueue_pulse
+    lda #$05
+    sta $07f1
     ldx #$02
     jsr WaitXFrames
+
     pla
     tax
     dex
-    bne @B31_1467
+    bne @loop
+
     rts
 
 ; $5C = pointer to enemy group [$48]
 GetEnemyGroupPointer:
     lda enemy_group
     sta UNK_60
-    lda #$00
+    lda #0
     sta UNK_60+1
-    lda #$0a
-    sta $64
+    lda #10
+    sta UNK_64
     jsr Mult16x8 ; UNK_60 *= $64
     clc
 
     ;[$5c] <- BATTLES_START + [UNK_60]
     lda #.LOBYTE(BATTLES_START)
     adc UNK_60
-    sta $5c
+    sta UNK_50+$c
     lda #.HIBYTE(BATTLES_START)
     adc UNK_60+1
-    sta $5d
+    sta UNK_50+$d
 
     rts
 
@@ -9967,14 +10096,14 @@ QueuePaletteUpdate:
     ;04 00
     ;UPDATE_PALETTE
     lda #4
-    sta nmiheader_command
+    sta nmi_queue
     lda #0
     sta nmiheader_offset
 
     lda #0
     sta nmi_data_offset
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
     rts
 
@@ -10021,13 +10150,13 @@ BTL_PRINT_WINDOW:
     ;get first entry to $66
     ldy #0
     lda (UNK_60), y
-    sta $66
+    sta UNK_66
 
     ;y++
     iny
 
-    ; tileprinter_ypos -> x
-    ldx tileprinter_ypos
+    ; $76 -> x
+    ldx $76
 
     ;check if second entry == $FF
     ;if so, store tileprinter_ypos to $62
@@ -10037,13 +10166,13 @@ BTL_PRINT_WINDOW:
     beq @B31_14f4
     tax
     @B31_14f4:
-    stx $62
+    stx UNK_62
 
     ;y++
     iny
 
-    ; tileprinter_xpos -> x
-    ldx tileprinter_xpos
+    ; $77 -> x
+    ldx $77
 
     ;check if third entry == $FF
     ;if so, store tileprinter_xpos to $63
@@ -10053,7 +10182,7 @@ BTL_PRINT_WINDOW:
     beq @B31_1500
     tax
     @B31_1500:
-    stx $63
+    stx UNK_62+1
 
     @store_x_ctrl_loop:
     ;y++
@@ -10086,7 +10215,7 @@ BTL_PRINT_WINDOW:
 
     ;store x to $67
     @store_x_ctrl:
-    stx $67
+    stx UNK_66+1
     jmp @store_x_ctrl_loop
 
     @exit:
@@ -10109,10 +10238,10 @@ BTL_PRINT_WINDOW:
 
     ;get pointer to $65-$64
     lda (UNK_60), y
-    sta $64
+    sta UNK_64
     iny
     lda (UNK_60), y
-    sta $65
+    sta UNK_64+1
 
     @copy_loop:
     ;x is the 'amount', the entry behind the pointer
@@ -10126,28 +10255,28 @@ BTL_PRINT_WINDOW:
     jsr PPU_SYNC
 
     lda #0
-    sta string_padding_length
+    sta $70
 
     lda $62
-    sta tileprinter_ypos
+    sta $76
 
-    lda $64
-    sta $74
+    lda UNK_64
+    sta tilepack_ptr
 
-    lda $65
+    lda UNK_64+1
     .ifdef VER_JP
-    sta $73
-    jsr GetTextData
+        sta UNK_73
+        jsr GetTextData
     .else
-    sta $75
+        sta tilepack_ptr+1
     .endif
     jsr @draw
 
     clc
 
-    lda $63
-    adc $66
-    sta $63
+    lda UNK_62+1
+    adc UNK_66
+    sta UNK_62+1
 
     ;pull a, a -> y
     pla
@@ -10170,69 +10299,69 @@ BTL_PRINT_WINDOW:
     pha
 
     ;push $62
-    lda $62
+    lda UNK_62
     pha
 
     ;push $65
-    lda $65
+    lda UNK_64+1
     pha
 
     ;push $64
-    lda $64
+    lda UNK_64
     pha
 
     ;push $67
-    lda $67
+    lda UNK_66+1
     pha
 
     ;push $66
-    lda $66
+    lda UNK_66
     pha
 
-    lda $67
+    lda UNK_66+1
     beq @ui_do_fc
-    cmp #$01
+    cmp #1
     beq @ui_do_fd
     ;else, do fe
     lda $63
-    sta tileprinter_xpos
+    sta $77
     pha
     jsr DrawTilepack
     pla
-    sta $63
+    sta UNK_62+1
     jmp @ui_do_finish
 
     @ui_do_fc:
     clc
     lda $63
     adc $66
-    sta tileprinter_xpos
+    sta $77
     pha
     jsr PRINT_STRING
     pla
-    sta $63
+    sta UNK_62+1
     jmp @ui_do_finish
 
     @ui_do_fd:
     clc
     lda $63
     adc $66
-    sta tileprinter_xpos
+    sta $77
     pha
     jsr DrawTilepackClear
     pla
-    sta $63
+    sta UNK_62+1
     @ui_do_finish:
     pla
-    sta $66
+    sta UNK_66
     pla
-    sta $67
+    sta UNK_66+1
     pla
-    sta $64
+    sta UNK_64
     pla
-    sta $65
+    sta UNK_64+1
     pla
-    sta $62
+    sta UNK_62
     pla
     sta UNK_60
     pla
@@ -10240,20 +10369,20 @@ BTL_PRINT_WINDOW:
     rts
 
 B31_15c2:
-    lda $5a
+    lda UNK_50+$a
     pha
     jsr CLR_5A
     lda #.LOBYTE(B31_15df)
-    sta $84
+    sta UNK_84
     lda #.HIBYTE(B31_15df)
-    sta $85
+    sta UNK_84+1
     lda #.LOBYTE(B31_15df)
     sta menu_indir_jmp_addr
     lda #.HIBYTE(B31_15df)
     sta menu_indir_jmp_addr+1
     jsr INIT_CHOICER_MENU
     pla
-    sta $5a
+    sta UNK_50+$a
     rts
 
 ; $F5DF - UNKNOWN
@@ -10286,43 +10415,43 @@ BTL_REFRESH_PARTY_UI:
     rts
 
 ; $F5F7
-GET_PSI_TABLEPTR:
+GetPsiDataPointer:
     sta $62
     lda #$00
     asl $62
     rol a
-    asl $62
+    asl UNK_62
     rol a
-    asl $62
+    asl UNK_62
     rol a
-    sta $63
+    sta UNK_62+1
     clc
-    lda $62
+    lda UNK_62
     adc #.LOBYTE(PSI_Data)
-    sta $62
-    lda $63
+    sta UNK_62
+    lda UNK_62+1
     adc #.HIBYTE(PSI_Data)
-    sta $63
+    sta UNK_62+1
     rts
 
 B31_1614:
     jsr PPU_SYNC
     ldy #$e8
-    sty $68
+    sty UNK_68
     lda #$df
-    sta $69
+    sta UNK_68+1
     ldy pc_count
     @B31_1622:
     sec
-    lda $69
+    lda UNK_68+1
     sbc #$10
-    sta $69
+    sta UNK_68+1
     dey
     bne @B31_1622
-    lda #$00
-    sta $66
+    lda #0
+    sta UNK_66
     @B31_1630:
-    jsr PPU_SYNC
+    jsr PpuSync
     ldy $66
     lda BATTLER, y
     beq @B31_1660
@@ -10330,30 +10459,30 @@ B31_1614:
     and #$06
     eor #$06
     beq @B31_1660
-    ldx #$02
+    ldx #2
     lda BATTLER_STATUS, y
     and #$80
     bne @B31_1655
-    ldx #$01
+    ldx #1
     jsr B31_1673
     bcc @B31_1655
-    ldx #$00
+    ldx #0
     @B31_1655:
     txa
     jsr B31_16aa
     clc
-    lda $68
+    lda UNK_68
     adc #$08
-    sta $68
+    sta UNK_68
     @B31_1660:
     clc
-    lda $69
+    lda UNK_68+1
     adc #$10
-    sta $69
+    sta UNK_68+1
     clc
-    lda $66
+    lda UNK_66
     adc #$20
-    sta $66
+    sta UNK_66
     cmp #$60
     bne @B31_1630
     rts
@@ -10366,27 +10495,27 @@ B31_1673:
     lda BATTLER_FULLDATA_PTR+1, y
     sta UNK_60+1
     lda BATTLER_CURR_HP, y
-    sta $64
+    sta UNK_64
     lda BATTLER_CURR_HP+1, y
-    sta $65
-    ldy #$03
+    sta UNK_64+1
+    ldy #3
     lda (UNK_60), y
-    sta $62
+    sta UNK_62
     iny
     lda (UNK_60), y
     and #$03
-    sta $63 ; HP in $64, max HP in $62
-    lsr $63
-    ror $62
-    lsr $63
-    ror $62
+    sta UNK_62+1 ; HP in $64, max HP in $62
+    lsr UNK_62+1
+    ror UNK_62
+    lsr UNK_62+1
+    ror UNK_62
     pla
     tay
     sec
-    lda $64
-    sbc $62
-    lda $65
-    sbc $63
+    lda UNK_64
+    sbc UNK_62
+    lda UNK_64+1
+    sbc UNK_62+1
     rts
 
 B31_16aa:
@@ -10401,45 +10530,45 @@ B31_16aa:
     .addr B31_16f0
 
 B31_16ba:
-    lda #$01
+    lda #1
     sta nmi_flags
     rts
 
 B31_16bf:
-    lda #$00
+    lda #0
     ldx #.LOBYTE(SPRITEDEF_STAT_WOUNDED)
     ldy #.HIBYTE(SPRITEDEF_STAT_WOUNDED)
     jmp B31_16f9
 
 B31_16c8:
-    ldx $68
+    ldx UNK_68
     lda SPRITE_OBJECTS, x
     pha
     .ifdef VER_JP
-    lda #$06
+        lda #6
     .else
-    lda #$03
+        lda #3
     .endif
     ldx #.LOBYTE(SPRITEDEF_STAT_WOUNDED)
     ldy #.HIBYTE(SPRITEDEF_STAT_WOUNDED)
     jsr B31_16f9
     pla
     .ifdef VER_JP
-    cmp #$06
+        cmp #6
     .else
-    cmp #$03
+        cmp #3
     .endif
     beq @B31_16ef
-    ldx #$04
+    ldx #4
     @B31_16de:
     txa
     pha
-    lda #$00
+    lda #0
     jsr B31_1724
     .ifdef VER_JP
-    lda #$06
+        lda #6
     .else
-    lda #$03
+        lda #3
     .endif
     jsr B31_1724
     pla
@@ -10451,9 +10580,9 @@ B31_16c8:
 
 B31_16f0:
     .ifdef VER_JP
-    lda #$06
+        lda #6
     .else
-    lda #$03
+        lda #3
     .endif
     ldx #.LOBYTE(SPRITEDEF_STAT_UNCON)
     ldy #.HIBYTE(SPRITEDEF_STAT_UNCON)
@@ -10462,19 +10591,19 @@ B31_16f0:
 B31_16f9:
     stx UNK_60
     sty UNK_60+1
-    ldx $68
+    ldx UNK_68
     sta SPRITE_OBJECTS, x
-    lda #$08
+    lda #8
     sta SPRITE_OBJECTS+1, x
     .ifdef VER_JP
-    lda #$18
+        lda #$18
     .else
-    lda #$70
+        lda #$70
     .endif
     sta SPRITE_OBJECTS+2, x
-    lda $69
+    lda UNK_68+1
     sta SPRITE_OBJECTS+3, x
-    lda #$00
+    lda #0
     sta SPRITE_OBJECTS+4, x
     sta SPRITE_OBJECTS+5, x
     lda UNK_60
@@ -10484,14 +10613,14 @@ B31_16f9:
     rts
 
 B31_1724:
-    ldx $68
+    ldx UNK_68
     sta SPRITE_OBJECTS, x
-    lda #$01
+    lda #1
     sta nmi_flags
     .ifdef VER_JP
-    ldx #$0C
+        ldx #12
     .else
-    ldx #$08
+        ldx #8
     .endif
     jmp WaitXFrames
 
@@ -10510,7 +10639,7 @@ fill_nmi_with_pointer_data:
     dey
     bpl @fill
 
-    lda #NMI_MODE::SKIP
+    lda #$80
     sta nmi_flags
 
     lda #0
@@ -10520,49 +10649,49 @@ fill_nmi_with_pointer_data:
 
 B31_174c:
     lda #.LOBYTE(B31_176a)
-    sta UNK_D7+1
+    sta post_nmi_callback+1
     lda #.HIBYTE(B31_176a)
-    sta UNK_D7+2
+    sta post_nmi_callback+2
     lda #$4c ; JMP command
-    sta UNK_D7
+    sta post_nmi_callback
     rts
 
 B31_1759:
     lda #0
-    sta UNK_D7
+    sta post_nmi_callback
     jmp WaitNMI
 
-LOCK_5A:
+B31_1760:
     lda #$01
     sta $5a
     rts
 
-CLR_5A:
+B31_1765:
     lda #$00
     sta $5a
     rts
 
 B31_176a:
-    lda $5a
+    lda UNK_50+$a
     beq @B31_1771
     jsr B31_1772
     @B31_1771:
     rts
 
 B31_1772:
-    lda $59
+    lda UNK_50+9
     beq @B31_179e
-    bit $e2
+    bit oam_and_300_clear_flag
     bvs @B31_179e
-    ldx #$00
+    ldx #0
     lda pad1_forced
     stx pad1_forced
     and #$40
     beq @B31_179e
     txa
     sta $59
-    sta SPRITE_OBJECTS+$e0
-    lda SPRITE_OBJECTS+$e1
+    sta $03e0
+    lda $03e1
     asl a
     asl a
     tay
@@ -10578,128 +10707,139 @@ NmiHandler:
     ; Acknowledge NMI
     bit PPUSTATUS
 
-    ;if nmi_mode & NMI_MODE::SKIP, exit immediately
+    ;if nmi_mode & NMI_MODE::RUNNING, exit immediately, a previous NMI was already running!
     bit nmi_mode
     bpl @do_nmi
     rti
 
     @do_nmi:
-    ;store all registers X, Y, and A
+    ;store all registers
     pha
     txa
     pha
     tya
     pha
 
-    ;OAMADDR = 0 (game uses oamdma instead)
-    ;OAMDMA = shadow_oam
-    ldx #.HIBYTE(0)
+    ;Copy in OAM using OAMDMA
+    ldx #0
     lda #.HIBYTE(shadow_oam)
     stx OAMADDR
     sta OAMDMA
 
-    ; set initial Y!!! (initial position of nmi data iterator)
+    ;y = nmi_data_offset
     ldy nmi_data_offset
 
-    ;if UNK_E0 == 0, branch
+    ; if UNK_E0 and nmi_flags are both nonzero, go to NMI_ProcessCommands
     lda UNK_E0
     beq @e0_is_zero
-    ;else if nmi_flags != 0, branch
     lda nmi_flags
-    bne NMI_Next
-    ;else, branch
-    beq B31_17e5
-    @e0_is_zero:
-    ;if nmi_flags == 0, branch
+    bne NMI_ProcessCommands
+    ; if UNK_E0 is nonzero but nmi_flags is 0, go to NMI_Schedule_IRQs
+    beq NMI_Schedule_IRQs
+@e0_is_zero:
+    ; if UNK_E0 and nmi_flags are both 0, go to NMI_Schedule_IRQs
     lda nmi_flags
-    beq B31_17e5
-    ;else,
-    ;UNK_E0 = nmi_flags & %01111111
+    beq NMI_Schedule_IRQs
+    ; if UNK_E0 is zero but nmi_flags is nonzero,
+    ; update UNK_E0 based on nmi_flags's low 7 bits,
+    ; and go to NMI_ProcessCommands
     and #%01111111
     sta UNK_E0
 
 ;y == nmi_queue offset
 NMI_Next:
-    ; In the 1st few loops, this will read the header
+    ;get byte (command?)
     lda nmi_queue, y
     ;if byte == 0, branch
-    beq @EndOfNMIData
+    beq @B31_17e3
     ;else if byte.7, branch
     bmi @B31_17dc
     ;else
     ;x = a << 1
     asl a
     tax
-    ;jmp to pointer
     lda NMI_Commands+1, x
     pha
     lda NMI_Commands, x
     pha
     rts
 
-    @B31_17dc:
+@end_of_this_frames_commands:
+    ;mask off the MSB so we can continue with this command next frame
     and #$7f
     sta nmi_queue, y
     bne B31_17e5
-@EndOfNMIData:
-    ; do rest of main routine
+    @B31_17e3:
     sta nmi_flags
-B31_17e5:
+NMI_Schedule_IRQs:
     ldx irq_count
-    beq @B31_1827
+    beq @no_irq
+    ; Temporarily set the IRQ counter to 255 scanlines from now, so that it won't fire
     lda #$ff
     sta IRQLATCH
-    sta IRQRELOAD ; Interrupt at scanline 255?
+    sta IRQRELOAD
+    ; Manually clock the PPU address bits that the MMC3 checks for its scanline counter, to reset it...?
+    ; In the *middle* of vblank? After we potentially ran a variable amount of PPU copying code? Why??
+    ; The nesdev wiki suggests that this sort of thing is more suitable for a reset vector to have...
     lda #$00
     sta PPUADDR
-    sta PPUADDR ; PPUADDR = 0x0000
+    sta PPUADDR
     lda #$10
     sta PPUADDR
-    sta PPUADDR ; PPUADDR = 0x1010
+    sta PPUADDR
     lda #$00
     sta PPUADDR
-    sta PPUADDR ; PPUADDR = 0x0000
+    sta PPUADDR
     lda #$10
     sta PPUADDR
-    sta PPUADDR ; PPUADDR = 0x1010
+    sta PPUADDR
     lda #$00
     sta PPUADDR
-    sta PPUADDR  ; PPUADDR = 0x0000
+    sta PPUADDR
+    ; irq_count is the number of scanlines from now that the first IRQ should fire
+    ; (where "now" means the end of the current scanline)
     stx IRQLATCH
-    stx IRQRELOAD ; Interrupt at scanline [$EC]?
-    stx IRQENABLE ; Enable IRQ
+    stx IRQRELOAD
+    ; Enable IRQs on the cartridge side
+    stx IRQENABLE
+    ; update RAM mirror of the IRQ latch value
     stx irq_latch
+    ; reset the IRQ handler to the beginning of irq_pointers again
     sta irq_index
+    ; allow the CPU to respond to interrupt requests
     cli
-    @B31_1827:
-    ;set ppuscroll
-    lda scroll_y
-    ldx scroll_x
+@no_irq:
+    ;set PPUSCROLL
+    lda scroll_x
+    ldx scroll_y
     sta PPUSCROLL
     stx PPUSCROLL
 
-    ;set ppuctrl and ppumask
+    ;set PPUCTRL and PPUMASK
     lda ram_PPUCTRL
     ldx ram_PPUMASK
     sta PPUCTRL
     stx PPUMASK
 
+    ; commit current nmi_queue index
     sty nmi_data_offset
 
-    ;skip next nmi
-    lda #NMI_MODE::SKIP
+    ;make sure that another NMI can't occur while we're doing everything below this point
+    lda #NMI_MODE::RUNNING
     sta nmi_mode
 
-    ;push current cpu state for switching
+    ;push current bank switching state and PRG banks
     lda bankswitch_mode
     pha
-    lda current_banks+6
+    lda current_banks+BANK::PRG8000
     pha
-    lda current_banks+7
+    lda current_banks+BANK::PRGA000
     pha
-    .ifndef VER_JP
+.ifndef VER_JP
+    ; in the US version, do the melody effect if necessary
     lda melody_timer
-    beq @B31_185f
+    beq @skip_melody_lines
+    ; Every 2 frames, in an 8-frame loop, change the first two small CHR banks (for backgrounds) to banks $47/$46/$45/$44
     lsr a
     and #$03
     ora #$44
@@ -10709,49 +10849,54 @@ B31_17e5:
     ldx #BANK::CHR1400
     jsr BANK_SWAP
 
+    ; decrement timer
     dec melody_timer
-    @B31_185f:
-    .endif
+@skip_melody_lines:
+.endif
     ;do music tick
     jsr BankswitchMusic
     jsr Music_Tick
 
-    ;if oam_and_300_clear_flag.7, branch
+    ;if oam_and_300_clear_flag.7 == 0...
     lda oam_and_300_clear_flag
     bmi @B31_188a
-    ;else
 
     ;UNK_E1 = UNK_E7 & 0x3F
     lda UNK_E7
     and #$3f
     sta UNK_E1
 
-    ;if UNK_E0, branch
+    ;if UNK_E0 == 0, handle sprite flickering
     lda UNK_E0
     bne @B31_1879
 
     jsr B31_1c96
     jmp @B31_188a
 
-    @B31_1879:
-    clc
+@B31_1879:
+    ; otherwise, if UNK_E0 is nonzero and if oam_and_300_clear_flag.7 == 1...
 
-    ;if UNK_E1 - UNK_E0 sets carry, branch
-    ;this (probably) usually results in UNK_E0 -= 1
+    ; if UNK_E1 - UNK_E0 - 1 >= 0, then
+    ;     UNK_E1 = UNK_E0 - 1
+    ;     UNK_E0 = 0
+    ; else
+    ;     UNK_E0 = (UNK_E1 - UNK_E0 - 1), and UNK_E1 is unchanged
+    clc
     sbc UNK_E1
     bcs @B31_1885
-    ;else
-    ;UNK_E1 = UNK_E0 - 1
     ldx UNK_E0
     dex
     stx UNK_E1
     lda #0
-    @B31_1885:
-    ;UNK_E0 = result
+@B31_1885:
     sta UNK_E0
-    jsr SpriteObjectsToOam
-    @B31_188a:
 
+    ; Then, after setting UNK_E0 and UNK_E1 properly,
+    ; render out the sprites
+    jsr SpriteObjectsToOam
+
+@B31_188a:
+    ; restore PRG banks and mapper state
     pla
     ldx #BANK::PRGA000
     jsr BANK_SWAP
@@ -10764,6 +10909,7 @@ B31_17e5:
     sta bankswitch_mode
     ora bankswitch_flags
     sta BANKSELECT
+
     jsr ReadPads
     lda pad1_press
     ora pad1_forced
@@ -10771,14 +10917,15 @@ B31_17e5:
     lda pad2_press
     ora pad2_forced
     sta pad2_forced
-    jsr IncrementFramecounter
 
-    lda UNK_D7
+    jsr TickDadCallTimer
+
+    lda post_nmi_callback
     beq @dont_jsr
-    jsr UNK_D7
-    @dont_jsr:
-
-    lda #0
+    jsr post_nmi_callback
+@dont_jsr:
+    ; Allow NMI to run again without returning, and unblock any WaitNMI loops
+    lda #NMI_MODE::FINISHED
     sta nmi_mode
 
     pla
@@ -10791,39 +10938,39 @@ B31_17e5:
 ; $F8C1
 ; NMI Lut
 NMI_Commands:
-	.addr NMI_Next-1 ; 00
-	.addr NMI1_NOP-1 ; 01
-	.addr NMI2_Skip-1 ; 02
-	.addr NMI3_Goto-1 ; 03
-	.addr NMI4_UpdatePalette-1 ; 04
-	.addr NMI5_RepeatWrite-1 ; 05
-	.addr NMI6_RepeatWrite32-1 ; 06
-	.ifdef VER_JP
-	.addr L3FA18-1 ; 07
-	.addr NMI7_RepeatWriteAddr-1 ; 08
-	.addr NMI9_ReadBytes-1 ; 09
-	.else
-	.addr NMI7_RepeatWriteAddr-1 ; 07
-	.addr NMI8_RepeatWriteByte-1 ; 08
-	.addr NMI9_ReadBytes-1 ; 09
-	.addr NMIA_ReadTextData_64bytes-1 ; 0A
-	.endif
+.addr NMI_Next-1 ; 00
+.addr NMI_Command_1-1 ; 01
+.addr NMI_Command_2-1 ; 02
+.addr NMI_Command_3-1 ; 03
+.addr NMI_Command_4-1 ; 04
+.addr NMI_Command_5-1 ; 05
+.addr NMI_Command_6-1 ; 06
+.ifdef VER_JP
+.addr L3FA18-1 ; 07
+.addr NMI_Command_7-1 ; 08
+.addr NMI_Command_9-1 ; 09
+.else
+.addr NMI_Command_7-1 ; 07
+.addr NMI_Command_8-1 ; 08
+.addr NMI_Command_9-1 ; 09
+.addr NMI_Command_A-1 ; 0A
+.endif
 
 ; NMI command 1
 ; args : none
 ; does : nothing
 ; NOP
-NMI1_NOP:
+NMI_Command_1:
     ;y++
     iny
     ;bye
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 ; NMI command 2
 ; args : OO (length)
-; does : skips ahead OO bytes
+; does : branches to OO bytes away
 ; Skip OO bytes in buffer (BRANCH)
-NMI2_Skip:
+NMI_Command_2:
     ;y++
     iny
     ;y += nmi_queue[y]
@@ -10832,34 +10979,34 @@ NMI2_Skip:
     adc nmi_queue, y
     tay
     ;bye
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 ; NMI command 3
 ; args : AA (addr)
 ; does : moves to nmi_queue[AA]
 ; Go to address AA in buffer (GOTO)
-NMI3_Goto:
+NMI_Command_3:
     ;y++
     iny
     ;y = nmi_queue[y]
     lda nmi_queue, y
     tay
     ;bye
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 ; NMI command 4
 ; args : none
 ; does : copies palette_queue into ppu palette
 ; UPDATE_PALETTE
-NMI4_UpdatePalette:
+NMI_Command_4:
     ;PPUADDR = palette
-    lda #.HIBYTE(shadow_palette)
-    ldx #.LOBYTE(shadow_palette)
+    lda #.HIBYTE($3f00)
+    ldx #.LOBYTE($3f00)
     sta PPUADDR
     stx PPUADDR
 
-    ;copy palette_queue to ppu
-    @copy:
+    ; copy palette_queue to PPU
+@copy:
     lda palette_queue, x
     sta PPUDATA
     inx
@@ -10867,8 +11014,8 @@ NMI4_UpdatePalette:
     bne @copy
 
     ;PPUADDR = palette
-    lda #.HIBYTE(shadow_palette)
-    ldx #.LOBYTE(shadow_palette)
+    lda #.HIBYTE($3f00)
+    ldx #.LOBYTE($3f00)
     sta PPUADDR
     stx PPUADDR
 
@@ -10879,81 +11026,56 @@ NMI4_UpdatePalette:
     ;y++
     iny
     ;bye
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 ; NMI command 5
 ; args : bytecount, ppuaddr, BYTES
 ; does : writes an arbitray amount of bytes to ppu
 ; Write MM bytes into PPU address [AA AA]
-NMI5_RepeatWrite:
+NMI_Command_5:
     jsr NMI_WritePPUBytes
-    ;jump straight back if next is cmd 5
-    ;not technically needed but probably good practice
+    ;optimization: jump straight back if next is also cmd 5 (another row of tilemap data?)
     lda nmi_queue, y
     cmp #5
-    beq NMI5_RepeatWrite
+    beq NMI_Command_5
     ;bye
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 ; NMI command 6
 ; args : bytecount, ppuaddr, BYTES
 ; does : writes an arbitray amount of bytes to ppu (but with 32-byte increments)
 ; Same as 05, but with 32-byte address increment
-NMI6_RepeatWrite32:
+NMI_Command_6:
     ; Increment VRAM address by 32 bytes on read/write
     lda ram_PPUCTRL
     ora #%00000100
     sta PPUCTRL
 
-    @loop:
+@loop:
     jsr NMI_WritePPUBytes
-    ;jump straight back if next is cmd 6
-    ;not technically needed but probably good practice
-    ;(more applicable than command 5 at least)
+    ;optimization: jump straight back if next is cmd 6 (another column of tilemap data?)
     lda nmi_queue, y
-    cmp #6
+    cmp #NMI_COMMANDS::PPU_WRITE_32
     beq @loop
 
-    ;reset ppu control
+    ;revert PPUCTRL to normal
     lda ram_PPUCTRL
     sta PPUCTRL
     ;bye
-    jmp NMI_Next
-
-.ifdef VER_JP
-L3FA18:
-    iny
-    ldx nmi_queue,Y
-    iny
-    @L3FA1D:
-    lda nmi_queue,Y
-    sta PPUADDR
-    iny
-    lda nmi_queue,Y
-    sta PPUADDR
-    iny
-    lda nmi_queue,Y
-    sta PPUDATA
-    iny
-    dex
-    bne @L3FA1D
-    jmp NMI_Next
-.endif
+    jmp NMI_ProcessCommands
 
 ; NMI command 7
 ; args : loopcount, [ppuaddr, byte]
 ; does : write groups of [ppuaddr, byte] multiple times
 ; Write VV into PPU address [AA AA]. Repeat process CC times (PPU_WRITE)
-NMI7_RepeatWriteAddr:
+NMI_Command_7:
     ;y++
     iny
     ;x = nmi_queue[y]++
     ldx nmi_queue, y
     iny
 
-    .ifndef VER_JP
-    @loop:
-    .endif
+@loop:
     ;PPUADDR = nmi_queue[y]++, ++
     lda nmi_queue, y
     sta PPUADDR
@@ -10963,26 +11085,20 @@ NMI7_RepeatWriteAddr:
     iny
     ;PPUDATA = nmi_queue[y]++
     lda nmi_queue, y
-    .ifdef VER_JP
-    iny
-    @loop:
-    sta PPUDATA
-    .else
     sta PPUDATA
     iny
-    .endif
 
     dex
     bne @loop
-    ;bye
-    jmp NMI_Next
 
-.ifndef VER_JP
+    ;bye
+    jmp NMI_ProcessCommands
+
 ; NMI command 8
 ; args : bytecount, ppuaddr, byte
 ; does : writes a single byte multiple times to ppuaddr
 ; Fill CC bytes at PPU address [AA AA] with VV (PPU_FILL)
-NMI8_RepeatWriteByte:
+NMI_Command_8:
     ;y++
     iny
     ;x = nmi_queue[y]++
@@ -11000,21 +11116,20 @@ NMI8_RepeatWriteByte:
     ;a = nmi_queue[y]++
     lda nmi_queue, y
     iny
-    @loop:
+@loop:
     ;PPUDATA = a
     sta PPUDATA
     dex
     bne @loop
 
     ;bye
-    jmp NMI_Next
-.endif
+    jmp NMI_ProcessCommands
 
 ; NMI command 9
-; args : bytecount, ppuaddr
-; does : reads an arbitrary amount of bytes from ppuaddr, writes to after this command
+; args : bytecount, ppuaddr, [buffer of bytecount bytes]
+; does : reads an arbitrary amount of bytes from ppuaddr, writes to a buffer stored after this command
 ; PPU_READ
-NMI9_ReadBytes:
+NMI_Command_9:
     ;y++
     iny
     ;x = nmi_queue[y]++
@@ -11029,27 +11144,27 @@ NMI9_ReadBytes:
     iny
 
     lda PPUDATA
-    @loop:
+@loop:
     lda PPUDATA
     sta nmi_queue, y
     iny
     dex
     bne @loop
-    jmp NMI_Next
+    jmp NMI_ProcessCommands
 
 .ifndef VER_JP
 ; NMI command A
 ; args : chr_bank, ppuaddr
 ; does : reads 64 bytes of text from a specified bank and address
 ; Read 64 bytes of text data from address [AA AA] in bank BB (READ_TEXT_DATA)
-NMIA_ReadTextData_64bytes:
+NMI_Command_A:
     ;stash bankswitch_mode
     lda bankswitch_mode
     pha
     ;stash current tileset chr banks
-    lda current_banks+4
+    lda current_banks+BANK::CHR1800
     pha
-    lda current_banks+5
+    lda current_banks+BANK::CHR1C00
     pha
     iny
 
@@ -11075,7 +11190,7 @@ NMIA_ReadTextData_64bytes:
     ;text_data_buffer[x] = PPUDATA
     lda PPUDATA
     ldx #0
-    @write:
+@write:
     lda PPUDATA
     sta text_data_buffer, x
     inx
@@ -11096,21 +11211,18 @@ NMIA_ReadTextData_64bytes:
     ora bankswitch_flags
     sta BANKSELECT
 
-    jmp NMI_Next
-
+    jmp NMI_ProcessCommands
 .endif
 
-;;this could work without all of the bit manip.
-;;besides, this is effectively a loop over x but they skip
-;;the first 3 bits for some reason. ok man
-;;is this optimized for cycles? surely not, right?
-.define byte_count UNK_C0+3
+; Writes bytes from the NMI queue to PPU memory, according to the current PPUCTRL setting.
+; The loop is unrolled, apparently in an attempt to improve performance.
+; TODO: count cycles
+.define ppu_byte_count UNK_C0+3
 NMI_WritePPUBytes:
-    ;byte_count = nmi_queue[y]++
-    ;bytecount
+    ;ppu_byte_count = nmi_queue[y]++
     iny
     ldx nmi_queue, y
-    stx byte_count
+    stx ppu_byte_count
 
     ;PPUADDR = nmi_queue[y]++, ++
     iny
@@ -11120,50 +11232,51 @@ NMI_WritePPUBytes:
     lda nmi_queue, y
     sta PPUADDR
 
-    ;if bytecount.0, copy one byte to ppudata
+    ;if ppu_byte_count.0, copy one byte to PPUDATA
     iny
-    lsr byte_count
+    lsr ppu_byte_count
     bcc @one_byte
     lda nmi_queue, y
     sta PPUDATA
     iny
-    @one_byte:
+@one_byte:
 
-    ;if bytecount.1, copy two bytes to ppudata
-    lsr byte_count
+    ;if ppu_byte_count.1, copy two bytes to PPUDATA
+    lsr ppu_byte_count
     bcc @two_bytes
     .repeat 2
-    lda nmi_queue, y
-    sta PPUDATA
-    iny
+        lda nmi_queue, y
+        sta PPUDATA
+        iny
     .endrepeat
-    @two_bytes:
+@two_bytes:
 
-    ;if bytecount.2, copy four bytes to ppudata
-    lsr byte_count
+    ;if ppu_byte_count.2, copy four bytes to PPUDATA
+    lsr ppu_byte_count
     bcc @four_bytes
     .repeat 4
-    lda nmi_queue, y
-    sta PPUDATA
-    iny
+        lda nmi_queue, y
+        sta PPUDATA
+        iny
     .endrepeat
-    @four_bytes:
+@four_bytes:
 
-    ;if bytecount == 0, exit
-    ldx byte_count
+    ;if ppu_byte_count == 0, exit
+    ldx ppu_byte_count
     beq @exit
-    ;else, write 8 bytes per
-    @loop:
+    ;else, write 8 bytes per loop
+@loop:
     .repeat 8
-    lda nmi_queue, y
-    sta PPUDATA
-    iny
+        lda nmi_queue, y
+        sta PPUDATA
+        iny
     .endrepeat
     dex
     bne @loop
 
-    @exit:
+@exit:
     rts
+.undef ppu_byte_count
 
 .define tile_count UNK_C0
 .define temp_oamslot UNK_C0+1
@@ -11200,7 +11313,7 @@ SpriteObjectsToOam:
     bit UNK_E7
     bvc @B31_1ab8
     ldy #0
-    @B31_1a96:
+@B31_1a96:
     clc
     lda (shift_x), y
     adc UNK_CE
@@ -11223,7 +11336,7 @@ SpriteObjectsToOam:
     jmp @B31_1ac9
 
     ;loop until x < 0
-    @B31_1ab8:
+@B31_1ab8:
     ;UNK_CE += shift_x
     clc
     lda shift_x
@@ -11239,53 +11352,52 @@ SpriteObjectsToOam:
     dex
     bpl @B31_1ab8
 
-    @B31_1ac9:
+@B31_1ac9:
     ;if UNK_CE.7, branch
     clc
     lda UNK_CE
     bmi @msb_UNK_CE
     ;else
-    ;scroll_y += UNK_CE
-    adc scroll_y
-    sta scroll_y
+    ;scroll_x += UNK_CE
+    adc scroll_x
+    sta scroll_x
     ;if no carry, skip all
     bcc @no_scrolly_carry
     bcs @scrolly_carry
-    @msb_UNK_CE:
-    ;scroll_y += UNK_CE
-    adc scroll_y
-    sta scroll_y
-    bcs @no_scrolly_carry
-    @scrolly_carry:
 
+@msb_UNK_CE:
+    ;scroll_x += UNK_CE
+    adc scroll_x
+    sta scroll_x
+    bcs @no_scrolly_carry
+@scrolly_carry:
     ;flip base nametable addr
     ;ram_PPUCTRL ^= 1
     lda ram_PPUCTRL
     eor #1
     sta ram_PPUCTRL
-
-    @no_scrolly_carry:
-
+@no_scrolly_carry:
     ;if UNK_CF.7, branch
     clc
     lda UNK_CF
     bmi @msb_UNK_CF
     ;else
-    ;a += scroll_x + $10
+    ;a += scroll_y + $10
     adc #$10
-    adc scroll_x
+    adc scroll_y
     bcc @no_scrollx_carry
     bcs @scrollx_carry
-    @msb_UNK_CF:
-    adc scroll_x
+
+@msb_UNK_CF:
+    adc scroll_y
     bcs @scrollx_carry
-    @no_scrollx_carry:
+@no_scrollx_carry:
     ;a += $f0
     ;this makes a reset from the +$10
     adc #-$10
-    @scrollx_carry:
-    ;scroll_x = a
-    sta scroll_x
+@scrollx_carry:
+    ;scroll_y = a
+    sta scroll_y
 
     ;oam_and_300_clear_flag &= 0x3f
     ;oam_and_300_clear_flag ^= 0x20
@@ -11364,7 +11476,7 @@ SpriteObjectsToOam:
     sta spritetiles_pointer+1
 
     ldy #0
-    @shake_loop_probably:
+@shake_loop_probably:
     ;wip_velx += spritetiles_pointer[y]
     clc
     lda (spritetiles_pointer), y
@@ -11395,7 +11507,7 @@ SpriteObjectsToOam:
 
     jmp @B31_1b83
 
-    @B31_1b70:
+@B31_1b70:
     ;wip_velx += SPRITE_OBJECTS[y].velx
     clc
     lda SPRITE_OBJECTS+4, y
@@ -11411,7 +11523,7 @@ SpriteObjectsToOam:
     dex
     bpl @B31_1b70
 
-    @B31_1b83:
+@B31_1b83:
     ldx temp_tilecount
 
     ;if wip_velx.7, branch
@@ -11428,7 +11540,7 @@ SpriteObjectsToOam:
     bcc @wip_velx_finish
     ;else, branch
     bcs @wip_velx_carry
-    @msb_wip_velx:
+@msb_wip_velx:
     ;SPRITE_OBJECTS[y].x += wip_velx
     adc SPRITE_OBJECTS+2, y
     sta wip_velx
@@ -11436,13 +11548,13 @@ SpriteObjectsToOam:
 
     ;if carry, branch
     bcs @wip_velx_finish
-    @wip_velx_carry:
+@wip_velx_carry:
     ;SPRITE_OBJECTS[y].tiles ^= $80
     lda SPRITE_OBJECTS, y
     eor #%10000000
     sta SPRITE_OBJECTS, y
 
-    @wip_velx_finish:
+@wip_velx_finish:
 
     ;if wip_vely.7, branch
     clc
@@ -11458,7 +11570,7 @@ SpriteObjectsToOam:
     bcc @wip_vely_finish
     ;else, branch
     bcs @wip_vely_carry
-    @msb_wip_vely:
+@msb_wip_vely:
     ;SPRITE_OBJECTS[y].y += wip_vely
     adc SPRITE_OBJECTS+3, y
     sta wip_vely
@@ -11466,13 +11578,13 @@ SpriteObjectsToOam:
 
     ;if carry, branch
     bcs @wip_vely_finish
-    @wip_vely_carry:
+@wip_vely_carry:
     ;SPRITE_OBJECTS[y].oamslot ^= $80
     lda SPRITE_OBJECTS+1, y
     eor #%10000000
     sta SPRITE_OBJECTS+1, y
 
-    @wip_vely_finish:
+@wip_vely_finish:
 
     ;;;either of these will only be set on carry
     ;;;or whatever the condition is. find out
@@ -11543,17 +11655,17 @@ SpriteObjectsToOam:
     ;else, branch
     bcs @is_offscreen
 
-    @B31_1c1b:
+@B31_1c1b:
     ;if a >= $f9, branch
     cmp #$f9
     bcs @do_normal_spritetile
-    @is_offscreen:
+@is_offscreen:
     iny
     iny
     iny
     jmp @B31_1c58
 
-    @do_normal_spritetile:
+@do_normal_spritetile:
     ;spritetiles_attr = spritetiles_pointer[y]->oam_args
     iny
     lda (spritetiles_pointer), y
@@ -11571,7 +11683,7 @@ SpriteObjectsToOam:
     ;shift args right 2 for spritePointerDef.p2
     lsr a
     lsr a
-    @is_using_palette_1:
+@is_using_palette_1:
     ;;;a's lower two bits is now whatever palette index the sprite is using
     ;;;shift one more (because spriteTile.palette is 2 bits)
     lsr spritetiles_attr
@@ -11581,7 +11693,7 @@ SpriteObjectsToOam:
     lsr a
     lsr a
     lsr a
-    @is_using_palette_3:
+@is_using_palette_3:
     ;;;by now, a is the chosen palette into palette ram
     ;;;and it to isolate
     and #%00000011
@@ -11605,7 +11717,7 @@ SpriteObjectsToOam:
     beq @doesnt_have_attr
     ;a = spritedef_pointer->ppu_offset
     lda spritedef_ppu_offset
-    @doesnt_have_attr:
+@doesnt_have_attr:
     ;shadow_oam[x].tile a + spritetiles_pointer[y].tile_index
     adc (spritetiles_pointer), y
     sta shadow_oam+1, x
@@ -11646,14 +11758,14 @@ SpriteObjectsToOam:
     ;else
     jmp @WriteSPRObjectsToOam
 
-    @B31_1c6e:
+@B31_1c6e:
     adc current_sprite
     sta current_sprite
     cmp UNK_E3
     bcc ClearOam
     jmp @WriteSPRObjectsToOam
 
-    @B31_1c79:
+@B31_1c79:
     stx UNK_E4
     ;if oam_and_300_clear_flag & 0x20, exit
     lda oam_and_300_clear_flag
@@ -11665,7 +11777,7 @@ SpriteObjectsToOam:
     lda #$f8
     sta current_sprite
     sta adder
-    @exit:
+@exit:
     jmp @WriteSPRObjectsToOam
 
 ClearOam:
@@ -11690,10 +11802,10 @@ B31_1c96:
 
     ldy #$fc
     ldx UNK_E4
-    bne B31_1ce7
+    bne @reverse_oam_loop_condition
     rts
-
-B31_1ca3:
+@reverse_oam_loop:
+    ; swap first byte and increment
     lda shadow_oam, x
     pha
     lda shadow_oam, y
@@ -11702,6 +11814,7 @@ B31_1ca3:
     sta shadow_oam, y
     inx
     iny
+    ; swap second byte and increment
     lda shadow_oam, x
     pha
     lda shadow_oam, y
@@ -11710,6 +11823,7 @@ B31_1ca3:
     sta shadow_oam, y
     inx
     iny
+    ; swap third byte and increment
     lda shadow_oam, x
     pha
     lda shadow_oam, y
@@ -11718,21 +11832,23 @@ B31_1ca3:
     sta shadow_oam, y
     inx
     iny
+    ; swap fourth byte
     lda shadow_oam, x
     pha
     lda shadow_oam, y
     sta shadow_oam, x
     pla
     sta shadow_oam, y
+    ; increment X to the next OAM entry, move Y back to the previous OAM entry
     inx
     tya
     sec
-    sbc #$07
+    sbc #7
     tay
-B31_1ce7:
+@reverse_oam_loop_condition:
     sty tile_count
     cpx tile_count
-    bcc B31_1ca3
+    bcc @reverse_oam_loop
     rts
 
 ;Sets up hardware stuff
@@ -11769,9 +11885,9 @@ MemoryInit:
 
 MusicInit:
     .ifndef VER_JP
-    ;set music bank to $1c to be loaded
-    lda #.BANK(Music_Tick)
-    sta music_bank
+        ;set music bank to $1c to be loaded
+        lda #.BANK(Music_Tick)
+        sta music_bank
     .endif
 
     ;clear music ram
@@ -11809,9 +11925,10 @@ WaitXFrames_Min1:
 
 ; waits for NMI interrupt to complete
 WaitNMI:
-    lda #1
+    lda #NMI_MODE::WAITING_FOR_NMI
     sta nmi_mode
-    @loop:
+    ; loop while not equal to NMI_MODE::FINISHED
+@loop:
     lda nmi_mode
     bne @loop
     rts
@@ -11881,11 +11998,7 @@ ClearTilemaps:
     ;clear tilemap???
     ;08, $80, $2000, 0
     ;0
-    .ifdef VER_JP
-        lda #NMI_COMMANDS::PPU_WRITE_ADDRS
-    .else
-        lda #NMI_COMMANDS::PPU_WRITE_BYTE
-    .endif
+    lda #NMI_COMMANDS::PPU_WRITE_BYTE
     ldx #$80
     sta nmiheader_command
     stx nmiheader_offset
@@ -11897,9 +12010,9 @@ ClearTilemaps:
     sta nmi_var4
     sta nmi_var5
 
-    @loop:
+@loop:
     ldx #0
-    lda #NMI_MODE::SKIP
+    lda #$80
     stx nmi_data_offset
     sta nmi_flags
 
@@ -11996,8 +12109,8 @@ TempUpperBankswitch:
 
     ;swap the stacked bank and the low current prg bank
     lda current_banks+7
-    ldy stack_head+5, x
-    sta stack_head+5, x
+    ldy UNK_100+5, x
+    sta UNK_100+5, x
     tya
 
     ldx #BANK::PRGA000
@@ -12012,6 +12125,7 @@ TempUpperBankswitch:
 .endif
 
 IrqHandler:
+    ; save registers and mapper state
     pha
     txa
     pha
@@ -12019,19 +12133,28 @@ IrqHandler:
     pha
     lda bankswitch_mode
     pha
-    jsr GotoIRQPointer ; Handle IRQ
+
+    ; call the handler for the current IRQ
+    jsr GotoIRQPointer
+
+    ; restore mapper state
     pla
     ora bankswitch_flags
     sta BANKSELECT
+
+    ; advance irq_index to refer to the next IRQ handler in the list
     ldx irq_index
     inx
     inx
     stx irq_index
+
+    ; if there are no more IRQ handlers set up to run, disable them for the rest of the frame
     lda irq_pointers+1, x
     bne @B31_1e34
+    ; A = 0 right now
     sta IRQDISABLE ; Disable IRQ
     sta irq_latch
-    @B31_1e34:
+@B31_1e34:
     pla
     tay
     pla
@@ -12041,17 +12164,20 @@ IrqHandler:
 
 ;self explanatory
 GotoIRQPointer:
-    sta IRQDISABLE ; Disable IRQ
+    ; acknowledge the IRQ, and disable further IRQs so that we only run this IRQ once
+    sta IRQDISABLE
 
+    ; push the pointer to the IRQ handler onto the stack
     ldx irq_index
     lda irq_pointers+1, x
     pha
     lda irq_pointers, x
     pha
 
-    sta IRQENABLE ; Enable IRQ
+    ; re-enable IRQs
+    sta IRQENABLE
 
-    ;bye bye
+    ;jump to the IRQ handler
     rts
 
 ReadPads:
@@ -12062,75 +12188,87 @@ ReadPads:
     ;like an array
     ldx #1
 
-    @loop:
+@loop:
     sec
-    @B31_1e4e:
+@poll_controller:
     php
 
     ;start poll
     lda #1
     sta JOY1
-
     ;clear poll
     lda #0
     sta JOY1
 
+    ; read 8 bits of normal controller input
     ldy #8
-    @B31_1e5b:
+@read_bits:
     lda JOY1, x
+    ; read both from the normal controller port (stored in UNK_C0)
+    ; and the Famicom's expansion ports (stored in UNK_C0+1)
     lsr a
     rol UNK_C0
     lsr a
     rol UNK_C0+1
     dey
-    bne @B31_1e5b
+    bne @read_bits
 
+    ; combine the results
     lda UNK_C0
     ora UNK_C0+1
     plp
 
-    bcc @B31_1e73
+    ; If we've only read the controller port once this frame, store our results
+    ; and read them again to account for potential DPCM conflict
+    bcc @second_read
     sta pad1_press, x
     clc
-    bcc @B31_1e4e
-    @B31_1e73:
+    bcc @poll_controller
+
+@second_read:
     cmp pad1_press, x
-    beq @B31_1e79
+    beq @store_inputs
+    ; If the results are different this time, we ran into a DPCM conflict.
+    ; Throw away these inputs and use the inputs from last frame instead
     lda pad1_hold, x
-    @B31_1e79:
+@store_inputs:
     tay
+    ; Set pad_press[x] to only this frame's newly pressed buttons
     eor pad1_hold, x
     and pad1_press, x
     sta pad1_press, x
+    ; Set pad_hold[x] to this frame's raw inputs
     sty pad1_hold, x
     dex
     bpl @loop
     rts
 
-IncrementFramecounter:
-    ;if pad is pressed, branch
+TickDadCallTimer:
     lda pad1_press
     bne @pad_is_pressed
 
-    ;UNK_D3 < 42, branch
-    lda UNK_D3
+    ; if no buttons are being pressed and dad_call_input_timer >= 42 (meaning
+    ; it's been ~42*256 = 10752 frames, just shy of 3 minutes without inputs),
+    ; return and don't increment anything
+    lda dad_call_input_timer
     cmp #42
     bcc @less_than_42
     rts
 
-    @pad_is_pressed:
+@pad_is_pressed:
+    ;otherwise, if a button is being newly pressed, reset dad_call_input_timer to 0
     lda #0
-    sta UNK_D3
-    @less_than_42:
-
-    inc frame_counter
+    sta dad_call_input_timer
+    ; fallthrough
+@less_than_42:
+    inc dad_call_timer
     bne @exit
-    inc UNK_D3
-    inc frame_counter+1
+    inc dad_call_input_timer
+    inc dad_call_timer+1
     bne @exit
-    inc frame_counter+2
-
-    @exit:
+    inc dad_call_timer+2
+    ; fallthrough
+@exit:
     rts
 
 .segment "VECTORS"
@@ -12217,11 +12355,11 @@ Reset_Vector:
 
 BankswitchMusic:
     .ifdef VER_JP
-    ;load bank $1C into $8000
-    lda #.BANK(Music_Tick)
+        ;load bank $1C into $8000
+        lda #.BANK(Music_Tick)
     .else
-    ;load bank music_bank into $8000
-    lda music_bank
+        ;load bank music_bank into $8000
+        lda music_bank
     .endif
     ldx #BANK::PRG8000
     jsr BANK_SWAP
@@ -12235,20 +12373,20 @@ BankswitchMusic:
 ; X = where in ram to place
 BANK_SWAP:
     stx bankswitch_mode
-    sta current_banks,X
+    sta current_banks, x
     txa
     ora bankswitch_flags
     sta BANKSELECT
-    lda current_banks,X
+    lda current_banks, x
     sta BANKDATA
     rts
 
     .ifdef VER_JP
-    .literal "MOTHER-1.00     "
-    .byte $27,$48,$BD,$A2,$03,$00,$01,$0F,$01,$8D
+        .literal "MOTHER-1.00     "
+        .byte $27,$48,$BD,$A2,$03,$00,$01,$0F,$01,$8D
     .else
-    .literal "EARTH BOUND 1.00"
-    .byte $00,$00,$00,$00,$03,$00,$01,$0F,$01,$00
+        .literal "EARTH BOUND 1.00"
+        .byte $00,$00,$00,$00,$03,$00,$01,$0F,$01,$00
     .endif
 
     ;vectors
