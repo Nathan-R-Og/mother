@@ -36,9 +36,9 @@ TITLE_ANTI_PIRACY:
 
     ;nmi_data_offset = 0
     sta nmi_data_offset
-    ;nmi_flags = 0x80
+    ;new_animation_timer = 0x80
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     ;wait for NMI to complete
     jsr PpuSync
@@ -124,9 +124,9 @@ TITLE_ANTI_PIRACY:
     ;nmi_data_offset = 0
     lda #0
     sta nmi_data_offset
-    ;nmi_flags = 0x80
+    ;new_animation_timer = 0x80
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     jsr PpuSync
 
@@ -281,7 +281,7 @@ ShowAntipiracy:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     @inf_loop:
     jmp @inf_loop
@@ -866,17 +866,17 @@ Tombstone_AntiPiracy:
 
     jsr PpuSync
 
-    ;move all sprite objects $20 forward
-    ldx #$df
+    ;move all of sprite objects 4 array indices forward
+    ldx #28*.sizeof(SpriteObject) - 1
     @move:
     lda SPRITE_OBJECTS, x
-    sta SPRITE_OBJECTS+$20, x
+    sta SPRITE_OBJECTS+4*.sizeof(SpriteObject), x
     dex
     cpx #$ff
     bne @move
 
     ;write the sparkles
-    ldx #$1f
+    ldx #4*.sizeof(SpriteObject) - 1
     @write:
     lda tombstone_spritedata, x
     sta SPRITE_OBJECTS, x
@@ -933,22 +933,22 @@ Tombstone_AntiPiracy:
 
     ;first four objects.x = UNK_60
     lda UNK_60
-    sta SPRITE_OBJECTS+(0*8)+2
-    sta SPRITE_OBJECTS+(1*8)+2
-    sta SPRITE_OBJECTS+(2*8)+2
-    sta SPRITE_OBJECTS+(3*8)+2
+    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::x_pos
+    sta SPRITE_OBJECTS+(1*.sizeof(SpriteObject))+SpriteObject::x_pos
+    sta SPRITE_OBJECTS+(2*.sizeof(SpriteObject))+SpriteObject::x_pos
+    sta SPRITE_OBJECTS+(3*.sizeof(SpriteObject))+SpriteObject::x_pos
 
     ;first four objects.y = UNK_64
     lda UNK_64
-    sta SPRITE_OBJECTS+(0*8)+3
-    sta SPRITE_OBJECTS+(1*8)+3
-    sta SPRITE_OBJECTS+(2*8)+3
-    sta SPRITE_OBJECTS+(3*8)+3
+    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::y_pos
+    sta SPRITE_OBJECTS+(1*.sizeof(SpriteObject))+SpriteObject::y_pos
+    sta SPRITE_OBJECTS+(2*.sizeof(SpriteObject))+SpriteObject::y_pos
+    sta SPRITE_OBJECTS+(3*.sizeof(SpriteObject))+SpriteObject::y_pos
 
-    ;nmi_flags = 90
+    ;new_animation_timer = 90
     ;wait for 90 frames
     lda #90
-    sta nmi_flags
+    sta new_animation_timer
 
     ;fill palette with color $30
     lda #$30
@@ -958,25 +958,25 @@ Tombstone_AntiPiracy:
 
     ;remove sparkles
     lda #0
-    sta SPRITE_OBJECTS+4
-    sta SPRITE_OBJECTS+5
-    sta SPRITE_OBJECTS+(1*8)
-    sta SPRITE_OBJECTS+(2*8)
-    sta SPRITE_OBJECTS+(3*8)
+    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::x_vel
+    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::y_vel
+    sta SPRITE_OBJECTS+(1*.sizeof(SpriteObject))+SpriteObject::count_flags
+    sta SPRITE_OBJECTS+(2*.sizeof(SpriteObject))+SpriteObject::count_flags
+    sta SPRITE_OBJECTS+(3*.sizeof(SpriteObject))+SpriteObject::count_flags
 
     ;place crystal
     lda UNK_60
-    sta SPRITE_OBJECTS+2
+    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::x_pos
     lda UNK_64
-    sta SPRITE_OBJECTS+3
+    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::y_pos
     lda #.LOBYTE(SPRITEDEF_TOMBSTONE_CRYSTAL)
-    sta SPRITE_OBJECTS+6
+    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::sprite_def_ptr
     lda #.HIBYTE(SPRITEDEF_TOMBSTONE_CRYSTAL)
-    sta SPRITE_OBJECTS+7
+    sta SPRITE_OBJECTS+(0*.sizeof(SpriteObject))+SpriteObject::sprite_def_ptr+1
 
     ;one frame wait
     lda #1
-    sta nmi_flags
+    sta new_animation_timer
 
     ;then resotre palette
     jsr RestoreAndUpdatePalette
@@ -986,13 +986,25 @@ Tombstone_AntiPiracy:
 
 ;sparkles :)
 tombstone_spritedata:
-    .byte 4, 0, 50, 50,  1,  1
+    .byte 4      ; OBJ count
+    .byte 0      ; OAM slot
+    .byte 50, 50 ; x, y position
+    .byte 1,  1  ; x, y velocity
     .addr SPRITEDEF_TOMBSTONE_SPARKLE
-    .byte 4, 0, 66, 50,  1, -1
+    .byte 4      ; OBJ count
+    .byte 0      ; OAM slot
+    .byte 66, 50 ; x, y position
+    .byte 1, -1  ; x, y velocity
     .addr SPRITEDEF_TOMBSTONE_SPARKLE
-    .byte 4, 0, 50, 66, -1,  1
+    .byte 4      ; OBJ count
+    .byte 0      ; OAM slot
+    .byte 50, 66 ; x, y position
+    .byte -1,  1 ; x, y velocity
     .addr SPRITEDEF_TOMBSTONE_SPARKLE
-    .byte 4, 0, 66, 66, -1, -1
+    .byte 4      ; OBJ count
+    .byte 0      ; OAM slot
+    .byte 66, 66 ; x, y position
+    .byte -1, -1 ; x, y velocity
     .addr SPRITEDEF_TOMBSTONE_SPARKLE
 
 ;yeah man
@@ -1104,65 +1116,86 @@ LIVEHOUSE_setupParty:
     stx UNK_60+1
 
     ;loop over SPRITE_OBJECTS 1-4 exclusive
-    ldx #(1*8)
+    ldx #(1*.sizeof(SpriteObject))
     @loop:
     jsr LIVEHOUSE_movesprUnk60
 
     lda #$30
-    sta nmi_flags
+    sta new_animation_timer
 
-    jsr LIVEHOUSE_movex8
+    jsr LIVEHOUSE_nextSpriteObject
 
-    cpx #$20
+    cpx #4*.sizeof(SpriteObject)
     bcc @loop
 
     jsr PpuSync
 
     lda #$30
-    sta nmi_flags
+    sta new_animation_timer
 
     rts
 
-;move sprite object at SPRITE_OBJECT[x] by UNK_60
+; Offset the pointer of the sprite definition for SPRITE_OBJECT[x] by UNK_60
+; (useful to change the animation frame)
 LIVEHOUSE_movesprUnk60:
     jsr PpuSync
 
     ;SPRITE_OBJECTS[x].spritedef += UNK_60
     clc
     lda UNK_60
-    adc SPRITE_OBJECTS+6, x
-    sta SPRITE_OBJECTS+6, x
+    adc SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
     lda UNK_60+1
-    adc SPRITE_OBJECTS+7, x
-    sta SPRITE_OBJECTS+7, x
+    adc SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
 
     rts
 
-;check if sprite object >= $20, if so zero out the velocity
-;else, set velocity from UNK_64
+; Set the velocity to UNK_64 for the current SpriteObject if it's at an index
+; less than 4 (the party?), and 0 for every other SpriteObject (NPCs?)
+; Inputs:
+;     X: the offset of the current SpriteObject
+;     UNK_64:   the new party x velocity
+;     UNK_64+1: the new party y velocity
+; Effects:
+;     Sets x and y velocity for the current SpriteObject
+; Clobbers:
+;     A
 LIVEHOUSE_checksetvel:
-    cpx #$20
+    cpx #4*.sizeof(SpriteObject)
     bcs LIVEHOUSE_zerovel
 
     lda UNK_64
-    sta SPRITE_OBJECTS+4, x
+    sta SPRITE_OBJECTS+SpriteObject::x_vel, x
     lda UNK_64+1
-    sta SPRITE_OBJECTS+5, x
+    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
 
     rts
 
+; Inputs:
+;     X: the offset of the current SpriteObject
+; Effects:
+;     Sets x and y velocity for the current SpriteObject to 0
+; Clobbers:
+;     A
 LIVEHOUSE_zerovel:
     lda #0
-    sta SPRITE_OBJECTS+4, x
-    sta SPRITE_OBJECTS+5, x
+    sta SPRITE_OBJECTS+SpriteObject::x_vel, x
+    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
 
     rts
 
-;x += 8
-LIVEHOUSE_movex8:
+; Inputs:
+;     X: the offset of the current SpriteObject
+; Outputs:
+;     X: the offset of the next SpriteObject in the array, if any
+;     Carry flag: set if the end of the SPRITE_OBJECTS array has been reached, clear otherwise
+; Clobbers:
+;     A
+LIVEHOUSE_nextSpriteObject:
     clc
     txa
-    adc #8
+    adc #.sizeof(SpriteObject)
     tax
 
     rts
@@ -1190,39 +1223,39 @@ LIVEHOUSE_domotionStop:
     sta UNK_60
     stx UNK_60+1
 
-    ldx #(1*8)
+    ldx #(1*.sizeof(SpriteObject))
     @loop_all:
     jsr LIVEHOUSE_movesprUnk60
     jsr LIVEHOUSE_checksetvel
-    jsr LIVEHOUSE_movex8
+    jsr LIVEHOUSE_nextSpriteObject
     bcc @loop_all
 
     lda #2
-    sta nmi_flags
+    sta new_animation_timer
 
-    ldx #8
+    ldx #1*.sizeof(SpriteObject)
     @loop_all2:
     jsr PpuSync
     jsr LIVEHOUSE_zerovel
-    jsr LIVEHOUSE_movex8
+    jsr LIVEHOUSE_nextSpriteObject
     bcc @loop_all2
 
     lda #$16
-    sta nmi_flags
+    sta new_animation_timer
 
     lda #.LOBYTE(-4)
     ldx #.HIBYTE(-4)
     sta UNK_60
     stx UNK_60+1
 
-    ldx #8
+    ldx #1*.sizeof(SpriteObject)
     @loop_all3:
     jsr LIVEHOUSE_movesprUnk60
-    jsr LIVEHOUSE_movex8
+    jsr LIVEHOUSE_nextSpriteObject
     bcc @loop_all3
 
     lda #$18
-    sta nmi_flags
+    sta new_animation_timer
 
     rts
 

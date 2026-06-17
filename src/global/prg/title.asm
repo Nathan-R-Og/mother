@@ -910,7 +910,7 @@ B20_1630:
     sta nmi_data_offset
 
     lda #1
-    sta nmi_flags
+    sta new_animation_timer
 
     giegue_escape:
     rts
@@ -972,7 +972,7 @@ BattleCircle_Render:
     lda #0
     sta nmi_data_offset
     lda #1
-    sta nmi_flags
+    sta new_animation_timer
 
     jsr PpuSync
 
@@ -1104,24 +1104,24 @@ GiegueOutro:
     ldx #$ef
     jsr WaitXFrames_Min1
 
-    ldx #8
+    ldx #1*.sizeof(SpriteObject)
     @B20_97e5:
     jsr PpuSync
 
     clc
     lda #$10
-    adc SPRITE_OBJECTS+6, x
-    sta SPRITE_OBJECTS+6, x
+    adc SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
     lda #0
-    adc SPRITE_OBJECTS+7, x
-    sta SPRITE_OBJECTS+7, x
+    adc SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
     lda #$78
-    sta nmi_flags
+    sta new_animation_timer
     clc
     txa
-    adc #8
+    adc #.sizeof(SpriteObject)
     tax
-    cpx #$28
+    cpx #5*.sizeof(SpriteObject)
     bcc @B20_97e5
 
     ldx #240
@@ -1167,19 +1167,19 @@ GiegueOutro:
 
     jsr WAIT_CLOSE_MENU
 
-    ldx #$38
+    ldx #7*.sizeof(SpriteObject)
     @B20_9850:
     jsr PpuSync
     lda #0
-    sta SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
     sec
     txa
-    sbc #8
+    sbc #.sizeof(SpriteObject)
     tax
     bcs @B20_9850
 
     lda #$3c
-    sta nmi_flags
+    sta new_animation_timer
 
     ldx #$0a
     ldy #$10
@@ -1379,7 +1379,7 @@ B20_1883:
     stx UNK_6A
     jsr B20_188d
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
     rts
 
 B20_188d:
@@ -1485,10 +1485,10 @@ GiegueGeneric:
     jsr PpuSync
 
     ;copy sprite data
-    ldx #(8*2)-1
+    ldx #(.sizeof(SpriteObject)*2)-1
     @copy:
     lda GiegueCliff_Sprites, x
-    sta SPRITE_OBJECTS+$40, x
+    sta SPRITE_OBJECTS+8*.sizeof(SpriteObject), x
     dex
     bpl @copy
 
@@ -1507,10 +1507,10 @@ GiegueGeneric:
     ;load chr banks
     BankswitchCHR_Address GiegueCliff_CHR
 
-    ;nmi_flags = 1
+    ;new_animation_timer = 1
     ;draws the (rock) sprites
     lda #1
-    sta nmi_flags
+    sta new_animation_timer
 
     ;draws the cliff
     ldy #4
@@ -1521,7 +1521,7 @@ GiegueGeneric:
     jsr B20_188f
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     pla
     tay
@@ -1560,7 +1560,7 @@ B20_198b:
     jsr B20_188d
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     pla
     sec
@@ -1688,16 +1688,16 @@ GiegueCliff_PartyPos:
 ; $9A3D - Unknown
 GiegueCliff_Sprites:
     ;SPRITE_OBJECTS data
-    .byte (%10 << 6) | 6 ;6 tiles
-    .byte 0 ;oam slot (gets written over)
-    .byte $f4, $76 ;x, y
-    .addr 0 ;? pointer
+    .byte SPRITE_OBJECT_OFFSCREEN_X_DIR | 6 ;6 tiles
+    .byte 0        ;oam slot (gets written over)
+    .byte -12, 118 ;x, y position
+    .byte 0, 0     ;x, y velocity
     .addr SPRITEDEF_GIEGUECLIFF1 ;spritedef pointer
 
-    .byte 6 ;6 tiles
-    .byte 0 ;oam slot (gets written over)
-    .byte $e4, $76 ;x, y
-    .addr 0 ;? pointer
+    .byte 6        ;6 tiles
+    .byte 0        ;oam slot (gets written over)
+    .byte 228, 118 ;x, y position
+    .byte 0, 0     ;x, y velocity
     .addr SPRITEDEF_GIEGUECLIFF2 ;spritedef pointer
 
 .define NameLength UNK_50+6
@@ -2736,7 +2736,7 @@ Title_Screen:
     ldx #.HIBYTE(title_screen_tiles)
     jsr load_tilemap_into_queue
 
-    earth_oam = SPRITE_OBJECTS+$e0
+    earth_oam = SPRITE_OBJECTS+28*.sizeof(SpriteObject)
     ;get stuff set up for the earth animation
     lda #0
     sta UNK_60
@@ -2790,7 +2790,7 @@ Title_Screen:
     sta earth_oam+7
 
     lda #10
-    sta nmi_flags
+    sta new_animation_timer
     clc
 
     ;tiles += 4
@@ -2811,8 +2811,8 @@ Title_Screen:
     bne @escape
 
     ;mini ppusync
-    lda nmi_flags
-    ora UNK_E0
+    lda new_animation_timer
+    ora current_animation_timer
     bne @wait_for_start
 
     beq @anim_loop

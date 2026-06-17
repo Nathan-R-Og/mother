@@ -21,9 +21,9 @@ Credits_Entry:
     lda #0
     sta irq_count
 
-    ;UNK_E7 &= 0xBF
+    ; disable camera shaking
     lda UNK_E7
-    and #%10111111
+    and #~$40
     sta UNK_E7
 
     ;shift_x = 0
@@ -131,7 +131,7 @@ credits_cmd_delay:
     @loop:
     jsr PpuSync
     lda #1
-    sta nmi_flags
+    sta new_animation_timer
     dex
     bne @loop
 
@@ -324,9 +324,8 @@ credits_cmd_set_metatileprops:
     sta nmi_queue+4, x
     sta nmi_data_offset
 
-    ;skip nmi
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     dec height
     beq @exit
@@ -384,7 +383,7 @@ credits_cmd_set_palette:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     ;set to after command
     ldy #$11
@@ -404,45 +403,43 @@ credits_cmd_init_sprite:
     ;get next byte (Slot)
     iny
     lda (UNK_40), y
-
-    ;x = a * 8
+    ;x = a * .sizeof(SpriteObject)
     asl a
     asl a
     asl a
     tax
-
-    ;write oam slot
+    ;write Y position 9th bit
     lda (UNK_40), y
-    and #%10000000
-    sta SPRITE_OBJECTS+1, x
+    and #SPRITE_OBJECT_OFFSCREEN_Y_DIR
+    sta SPRITE_OBJECTS+SpriteObject::oam_slot_flags, x
 
-    ;write tile count
+    ;write tile count (incl. X position 9th bit)
     iny
     lda (UNK_40), y
-    sta SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
 
     ;write posX
     iny
     lda (UNK_40), y
-    sta SPRITE_OBJECTS+2, x
+    sta SPRITE_OBJECTS+SpriteObject::x_pos, x
 
     ;write posY
     iny
     lda (UNK_40), y
-    sta SPRITE_OBJECTS+3, x
+    sta SPRITE_OBJECTS+SpriteObject::y_pos, x
 
     ;write sprite pointer
     iny
     lda (UNK_40), y
-    sta SPRITE_OBJECTS+6, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
     iny
     lda (UNK_40), y
-    sta SPRITE_OBJECTS+7, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
 
     ;write velx,vely
     lda #0
-    sta SPRITE_OBJECTS+4, x
-    sta SPRITE_OBJECTS+5, x
+    sta SPRITE_OBJECTS+SpriteObject::x_vel, x
+    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
 
     ;set to after macro
     ldy #7
@@ -462,7 +459,6 @@ credits_cmd_move_sprite:
     ;get next byte (Slot)
     iny
     lda (UNK_40), y
-
     ;x = a * 8
     asl a
     asl a
@@ -475,21 +471,21 @@ credits_cmd_move_sprite:
     ;pointer += UNK_40[y]
     iny
     lda (UNK_40), y
-    adc SPRITE_OBJECTS+6, x
-    sta SPRITE_OBJECTS+6, x
+    adc SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
     iny
     lda (UNK_40), y
-    adc SPRITE_OBJECTS+7, x
-    sta SPRITE_OBJECTS+7, x
+    adc SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
 
     ;velx = UNK_40[y]
     iny
     lda (UNK_40), y
-    sta SPRITE_OBJECTS+4, x
+    sta SPRITE_OBJECTS+SpriteObject::x_vel, x
     ;vely = UNK_40[y]
     iny
     lda (UNK_40), y
-    sta SPRITE_OBJECTS+5, x
+    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
 
     ;bye
     ldy #6
@@ -562,16 +558,14 @@ credits_cmd_clear_sprite:
     ;get byte
     iny
     lda (UNK_40), y
-
-    ;x = a * 8
+    ;x = a * .sizeof(SpriteObject)
     asl a
     asl a
     asl a
     tax
-
     ;set tiles to 0
     lda #0
-    sta SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
 
     iny
     rts
@@ -637,7 +631,7 @@ credits_cmd_draw_text:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     dex
     beq @break2

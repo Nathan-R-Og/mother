@@ -1,17 +1,22 @@
 .segment "SPRITES": absolute
 
 ;sprite
-.macro spritePointerDef pointer, ppu, p1, p2, p3, p4
+.macro spritePointerDef pointer, base_tile_id, p1, p2, p3, p4
     .addr pointer
-    .byte ppu
+    .byte base_tile_id
     .byte (p4 << 6) | (p3 << 4) | (p2 << 2) | p1
 .endmacro
 
-.macro spriteTile posX, posY, palette, has_attr, order, flipX, flipY, index
+.macro spriteTile posX, posY, palette, tile_id_is_relative, priority, flipX, flipY, tile_id
     .byte posX, posY
-    ;this is literally oam attr
-    .byte (flipY << 7) | (flipX << 6) | (order << 5) | ((has_attr << 2) << 2) | palette
-    .byte index
+    ; Mirrors the structure of the OAM "attribute" byte, with two differences:
+    ;  - the palette field is an index into the spritedef's list of up to 4 palettes,
+    ;    not a global palette ID (makes it easier to save data on palette swaps,
+    ;    they can share sprite arrangement data)
+    ;  - an unused flag determines whether a given OAM entry's tile IDs start from 0 or
+    ;    whether they're relative to a spritedef-wide base tile ID
+    .byte (flipY << 7) | (flipX << 6) | (priority << 5) | ((tile_id_is_relative << 2) << 2) | palette
+    .byte tile_id
 .endmacro
 
 SPRITES:
