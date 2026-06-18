@@ -284,7 +284,7 @@ BattleMain:
     lda #0
     sta nmi_queue+8, x
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
     lda #.HIBYTE($23d8)
     sta nmi_queue+2
     lda #.LOBYTE($23d8)
@@ -642,7 +642,7 @@ B23_028a:
     lda #0
     sta nmi_data_offset
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
     dec battle_wordvar62
     bne @B23_0339
     ldx attacker_offset
@@ -670,22 +670,22 @@ B23_028a:
     asl a
     tax
     lda #0
-    sta SPRITE_OBJECTS, x
-    sta SPRITE_OBJECTS+1, x
-    sta SPRITE_OBJECTS+4, x
-    sta SPRITE_OBJECTS+5, x
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
+    sta SPRITE_OBJECTS+SpriteObject::oam_slot_flags, x
+    sta SPRITE_OBJECTS+SpriteObject::x_vel, x
+    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
     lda battle_wordvar68+1
-    sta SPRITE_OBJECTS+2, x
+    sta SPRITE_OBJECTS+SpriteObject::x_pos, x
     lda battle_wordvar68
-    sta SPRITE_OBJECTS+3, x
+    sta SPRITE_OBJECTS+SpriteObject::y_pos, x
 
     ;enemy extra tile pointer -> [$306]
     ldy #1
     lda (battle_wordvar60), y
-    sta SPRITE_OBJECTS+6, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
     iny
     lda (battle_wordvar60), y
-    sta SPRITE_OBJECTS+7, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
 
     @B23_03d1:
     rts
@@ -704,7 +704,7 @@ ClearNametableAttribute:
     lda #0
     sta nmi_queue+5 ; END
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
     lda #0
     sta nmi_data_offset
     rts
@@ -914,7 +914,7 @@ B23_04d6:
     stx nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     rts
 
@@ -1582,23 +1582,23 @@ SelectAuto:
     sta is_auto
 
     lda #.LOBYTE(SPRITEDEF_AUTOBATTLER)
-    sta SPRITE_OBJECTS+(8*$1c)+6
+    sta SPRITE_OBJECTS+(.sizeof(SpriteObject)*$1c)+SpriteObject::sprite_def_ptr
     lda #.HIBYTE(SPRITEDEF_AUTOBATTLER)
-    sta SPRITE_OBJECTS+(8*$1c)+7
+    sta SPRITE_OBJECTS+(.sizeof(SpriteObject)*$1c)+SpriteObject::sprite_def_ptr+1
 
     lda #4
-    sta SPRITE_OBJECTS+(8*$1c)
+    sta SPRITE_OBJECTS+(.sizeof(SpriteObject)*$1c)+SpriteObject::count_flags
     lda #0
-    sta SPRITE_OBJECTS+(8*$1c)+1
-    sta SPRITE_OBJECTS+(8*$1c)+4
-    sta SPRITE_OBJECTS+(8*$1c)+5
+    sta SPRITE_OBJECTS+(.sizeof(SpriteObject)*$1c)+SpriteObject::oam_slot_flags
+    sta SPRITE_OBJECTS+(.sizeof(SpriteObject)*$1c)+SpriteObject::x_vel
+    sta SPRITE_OBJECTS+(.sizeof(SpriteObject)*$1c)+SpriteObject::y_vel
     lda #$d0
-    sta SPRITE_OBJECTS+(8*$1c)+2
+    sta SPRITE_OBJECTS+(.sizeof(SpriteObject)*$1c)+SpriteObject::x_pos
     lda #$47
-    sta SPRITE_OBJECTS+(8*$1c)+3
+    sta SPRITE_OBJECTS+(.sizeof(SpriteObject)*$1c)+SpriteObject::y_pos
 
     lda #1
-    sta nmi_flags
+    sta new_animation_timer
 
     clc
     jmp SelectRTS
@@ -3917,29 +3917,29 @@ EnemyLongFlashing:
     tax
     ldy #$1f
     lda (ptr_chara), y
-    sta $40, x
+    sta UNK_40, x
     pla
     tay
     lda BATTLER_TARGET, y
     ldx battle_wordvar64+1
-    sta SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
     lda #$01
-    sta nmi_flags
+    sta new_animation_timer
     jsr WaitNMI
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
     rts
 
 DoEnemyDeadAnimation:
     jsr LoadEnemyLetterExtrabits
     lda #$00
     ldx battle_wordvar64+1
-    sta SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
     lda #$01
-    sta nmi_flags
+    sta new_animation_timer
     jsr WaitNMI
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
     lda #$00
     sta BATTLER, y
     lda #$00
@@ -4073,24 +4073,24 @@ DoAnimateEnemyHit:
 :   txa                             ; animate loop start
     pha
     ldx battle_wordvar64+1
-    lda SPRITE_OBJECTS, x
+    lda SPRITE_OBJECTS+SpriteObject::count_flags, x
     pha
     lda #$00
-    sta SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
     lda #$01
-    sta nmi_flags
+    sta new_animation_timer
     jsr WaitNMI
     lda #$7c
     ldx battle_wordvar64
-    sta $40, x
+    sta UNK_40, x
     lda battle_wordvar60+1
     jsr SetBGColorA
     jsr WaitNMI
     pla
     ldx battle_wordvar64+1
-    sta SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
     lda #$01
-    sta nmi_flags
+    sta new_animation_timer
     jsr WaitNMI
     ldy #$1f
     lda (ptr_chara), y
@@ -4112,17 +4112,17 @@ ANIMATE_LONG_ENEMY:
     lda BATTLER_TARGET, y
     pha
     ldx battle_wordvar64+1
-    lda SPRITE_OBJECTS, x
+    lda SPRITE_OBJECTS+SpriteObject::count_flags, x
     ldy target_offset
     sta BATTLER_TARGET, y
     lda #$00
     ldx battle_wordvar64+1
-    sta SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
     lda #$01
-    sta nmi_flags
+    sta new_animation_timer
     jsr WaitNMI
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
     ldy target_offset
     jsr EnemyLongFlashing
     pla
@@ -4241,7 +4241,7 @@ DoAnimatePlayerHit:
     iny
 
     lda #1
-    sta nmi_flags
+    sta new_animation_timer
 
     jsr WaitNMI
 

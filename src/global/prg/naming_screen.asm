@@ -594,34 +594,28 @@ naming_screen_palettes:
 ;UNK_60[0:2] == spritedef pointer
 ;y == SPRITE_OBJECTS item
 NS_AddCharacterToOam:
-    ;set tiles
     lda #4
-    sta SPRITE_OBJECTS, y
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, y
 
-    ;set oam slot
     lda UNK_64
-    sta SPRITE_OBJECTS+1, y
+    sta SPRITE_OBJECTS+SpriteObject::oam_slot_flags, y
 
-    ;set x
     lda UNK_62
-    sta SPRITE_OBJECTS+2, y
-    ;set y
+    sta SPRITE_OBJECTS+SpriteObject::x_pos, y
     lda UNK_62+1
-    sta SPRITE_OBJECTS+3, y
+    sta SPRITE_OBJECTS+SpriteObject::y_pos, y
 
-    ;set pointer1
     lda #0
-    sta SPRITE_OBJECTS+4, y
-    sta SPRITE_OBJECTS+5, y
+    sta SPRITE_OBJECTS+SpriteObject::x_vel, y
+    sta SPRITE_OBJECTS+SpriteObject::y_vel, y
 
-    ;set spritedef pointer
     lda UNK_60
-    sta SPRITE_OBJECTS+6, y
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, y
     lda UNK_60+1
-    sta SPRITE_OBJECTS+7, y
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, y
 
     lda #1
-    sta nmi_flags
+    sta new_animation_timer
 
     rts
 

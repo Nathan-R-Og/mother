@@ -759,7 +759,7 @@ B30_0306:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     ;this is effectively the same call
     .ifdef VER_JP
@@ -972,9 +972,9 @@ CLEAR_TEXTBOXES_ROUTINE:
     jsr STORE_COORDINATES
     jsr Refresh_SpriteObjects
 
-    ;nmi_flags = 1
+    ;new_animation_timer = 1
     lda #1
-    sta nmi_flags
+    sta new_animation_timer
 
     lda #0
     sta disable_dmc
@@ -1701,7 +1701,7 @@ AddTileViaNMI:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     rts
 
@@ -1755,7 +1755,7 @@ TilesTilNMI:
     sta nmi_data_offset
     ; NMI Flags
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
 TilesTilNMI_CheckLastRow:
     jsr GetTextRowPtr
@@ -1889,7 +1889,7 @@ NextChar:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     jsr PpuSync
     bit sram_mode
@@ -2003,7 +2003,7 @@ PrintScroll:
     tax
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     cpx #$5c
     bcs PrintScroll
@@ -2700,7 +2700,7 @@ GetTextRowPtr:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     lda #.LOBYTE(text_data_buffer)
     sta tilepack_ptr
@@ -2941,16 +2941,16 @@ B30_0c2b:
     bcs @B30_0c5d
 
     lda #$10
-    sta nmi_flags
+    sta new_animation_timer
 
     jsr B30_105e
     jsr B30_10b1
 @B30_0c3b:
-    lda nmi_flags
+    lda new_animation_timer
     bne @B30_0c3b
 
 @B30_0c3f:
-    lda UNK_E0
+    lda current_animation_timer
     cmp #9
     bcs @B30_0c3f
 
@@ -2964,7 +2964,7 @@ B30_0c2b:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     bne @B30_0c83
 @B30_0c5d:
@@ -2977,20 +2977,20 @@ B30_0c2b:
     sta nmi_data_offset
 
     lda #$10
-    sta nmi_flags
+    sta new_animation_timer
 
     lda UNK_1F
     cmp #$0f
     bcs @B30_0c83
 
 @B30_0c77:
-    lda nmi_flags
+    lda new_animation_timer
     bne @B30_0c77
 
     sec
-    ror $e2
+    ror oam_and_300_clear_flag
     jsr B31_0065
-    asl $e2
+    asl oam_and_300_clear_flag
 @B30_0c83:
     lda UNK_A0
     lsr a
@@ -3001,7 +3001,7 @@ B30_0c2b:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
 @B30_0c96:
     bit UNK_A0
@@ -3115,13 +3115,13 @@ PSITELEPORT_START:
     bcc @B30_0cf0
 
     jsr PpuSync
-    lda #$20
+    lda #4*.sizeof(SpriteObject)
 @B30_0d18:
     tax
-    asl SPRITE_OBJECTS+4, x
-    asl SPRITE_OBJECTS+5, x
+    asl SPRITE_OBJECTS+SpriteObject::x_vel, x
+    asl SPRITE_OBJECTS+SpriteObject::y_vel, x
     sec
-    sbc #$08
+    sbc #.sizeof(SpriteObject)
     bne @B30_0d18
     lda #$0a
 @B30_0d26:
@@ -3276,7 +3276,7 @@ B30_0e08:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     jsr PpuSync
 
@@ -3388,7 +3388,7 @@ B30_0eb2:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     rts
 
@@ -3656,7 +3656,7 @@ STORE_COORDINATES:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     dec UNK_9B
     beq @break
@@ -3695,7 +3695,7 @@ STORE_COORDINATES:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     ;UNK_A0 = $88
     lda #$88
@@ -4065,7 +4065,7 @@ Draw_CurrentChunk:
     rts
 
 B30_121c:
-    lda nmi_flags
+    lda new_animation_timer
     bne B30_121c
     lda UNK_A0
     bmi B30_122f
@@ -4081,7 +4081,7 @@ B30_122f:
     rts
 
 B30_1232:
-    lda nmi_flags
+    lda new_animation_timer
     bne B30_1232
     lda UNK_A0
     bmi B30_122f
@@ -5530,9 +5530,9 @@ B30_1a16:
 
     ;set spritedef to teleport fry
     lda #.LOBYTE(SPRITEDEF_TELEPORT_FRY)
-    sta SPRITE_OBJECTS+6, y
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, y
     lda #.HIBYTE(SPRITEDEF_TELEPORT_FRY)
-    sta SPRITE_OBJECTS+7, y
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, y
 
     @B30_1a3c:
     inx
@@ -5540,7 +5540,7 @@ B30_1a16:
     bcc @B30_1a1e
 
     lda #1
-    sta nmi_flags
+    sta new_animation_timer
 
     jmp PpuSync
 
@@ -6457,10 +6457,10 @@ B30_1fda:
     sta object_pointer
     stx object_pointer+1
     sty UNK_36
-    lda #$18
-    sta UNK_E3
+    lda #3*.sizeof(SpriteObject)
+    sta sprite_object_set2_start
     lda #0
-    sta SPRITE_OBJECTS
+    sta SPRITE_OBJECTS + 0*.sizeof(SpriteObject) + SpriteObject::count_flags
     ldx #8
     jsr EnablePRGRam
 
@@ -6502,22 +6502,24 @@ B30_1fda:
     txa
     sta (object_pointer), y
 
-    ;copy object_m_tiles to object_m_sprite
+    ;copy the SpriteObject part of object memory into the SPRITE_OBJECTS array, minus the spritedef
     ldy #object_m_tiles
     @copy_to_spriteobj:
     lda (object_pointer), y
     sta SPRITE_OBJECTS, x
     inx
     iny
-    cpy #object_m_sprite
+    cpy #object_m_tiles + SpriteObject::sprite_def_ptr
     bcc @copy_to_spriteobj
 
+    ; If count_flags & 0x40 is set, use the object's "walking" frame
     clc
-    lda shadow_oam+($3e*4)+2, x
-    and #$40
+    lda SPRITE_OBJECTS - SpriteObject::sprite_def_ptr + SpriteObject::count_flags, x
+    and #SPRITE_OBJECT_CF_BIT6
     beq @B31_0039
     lda #4
     @B31_0039:
+    ; Add the offset (0 or 4) to the sprite_def_ptr
     adc (object_pointer), y
     sta SPRITE_OBJECTS, x
     inx
@@ -6537,10 +6539,10 @@ B30_1fda:
 
     @B31_0056:
     lda #0
-    sta SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
     clc
     txa
-    adc #8
+    adc #.sizeof(SpriteObject)
     tax
     bcc @B31_0056
     @B31_0062:
@@ -6549,20 +6551,20 @@ B30_1fda:
 B31_0065:
     ldx #0
     @B31_0067:
-    lda SPRITE_OBJECTS, x
-    and #$40
+    lda SPRITE_OBJECTS+SpriteObject::count_flags, x
+    and #SPRITE_OBJECT_CF_BIT6
     beq @B31_007f
     sec
-    lda SPRITE_OBJECTS+6, x
+    lda SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
     sbc #4
-    sta SPRITE_OBJECTS+6, x
-    lda SPRITE_OBJECTS+7, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
+    lda SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
     sbc #0
-    sta SPRITE_OBJECTS+7, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
     @B31_007f:
     clc
     txa
-    adc #8
+    adc #.sizeof(SpriteObject)
     tax
     bcc @B31_0067
     rts
@@ -6577,7 +6579,7 @@ B31_0087:
     lda #0
     sta UNK_62
 
-    ldx #8
+    ldx #1*.sizeof(SpriteObject)
     @B31_0094:
     ldy #0
     lda (object_pointer), y
@@ -6586,10 +6588,10 @@ B31_0087:
 
     ldy UNK_62
     lda (UNK_60), y
-    sta SPRITE_OBJECTS+2, x
+    sta SPRITE_OBJECTS+SpriteObject::x_pos, x
     iny
     lda (UNK_60), y
-    sta SPRITE_OBJECTS+3, x
+    sta SPRITE_OBJECTS+SpriteObject::y_pos, x
     iny
     lda (UNK_60), y
     sta UNK_62+1
@@ -6598,28 +6600,28 @@ B31_0087:
     lda (UNK_60), y
     ldy #object_m_sprite_base
     adc (object_pointer), y
-    sta SPRITE_OBJECTS+6, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
     iny
     lda #0
     adc (object_pointer), y
-    sta SPRITE_OBJECTS+7, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
     ldy #object_m_tiles
     lda (object_pointer), y
     and #$3f
     asl a
     asl UNK_62+1
     ror a
-    sta SPRITE_OBJECTS, x
-    lda #$70
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
+    lda #$38<<1
     asl UNK_62+1
     ror a
-    sta SPRITE_OBJECTS+1, x
+    sta SPRITE_OBJECTS+SpriteObject::oam_slot_flags, x
     lda #0
-    sta SPRITE_OBJECTS+4, x
-    sta SPRITE_OBJECTS+5, x
+    sta SPRITE_OBJECTS+SpriteObject::x_vel, x
+    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
     clc
     txa
-    adc #8
+    adc #.sizeof(SpriteObject)
     tax
     @B31_00e3:
     clc
@@ -6898,19 +6900,19 @@ B31_02c2:
     ldy #object_m_oam2
     lda (object_pointer), y
     tay
-    lda SPRITE_OBJECTS, y
-    and #$3f
+    lda SPRITE_OBJECTS+SpriteObject::count_flags, y
+    and #SPRITE_OBJECT_COUNT_MASK
     sta movement_direction+1
     beq B31_02a1
     lda UNK_60
-    sta SPRITE_OBJECTS+6, y
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, y
     lda UNK_60+1
-    sta SPRITE_OBJECTS+7, y
-    lda SPRITE_OBJECTS+2, y
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, y
+    lda SPRITE_OBJECTS+SpriteObject::x_pos, y
     sta UNK_68
-    lda SPRITE_OBJECTS+3, y
+    lda SPRITE_OBJECTS+SpriteObject::y_pos, y
     sta UNK_68+1
-    lda SPRITE_OBJECTS+1, y
+    lda SPRITE_OBJECTS+SpriteObject::oam_slot_flags, y
     asl a
     asl a
     tax
@@ -6933,18 +6935,18 @@ B31_02c2:
     ror oam_and_300_clear_flag
     ldy #0
     @B31_031d:
-    lda shadow_oam, x
+    lda shadow_oam+OBJ::y_pos, x
     cmp #$f0
     beq @B31_0365
     clc
     lda (UNK_64), y
     adc UNK_68
-    sta shadow_oam+3, x
+    sta shadow_oam+OBJ::x_pos, x
     iny
     clc
     lda (UNK_64), y
     adc UNK_68+1
-    sta shadow_oam, x
+    sta shadow_oam+OBJ::y_pos, x
     iny
     lda (UNK_64), y
     sta UNK_60
@@ -6965,7 +6967,7 @@ B31_02c2:
     asl UNK_60
     asl UNK_60
     ora UNK_60
-    sta shadow_oam+2, x
+    sta shadow_oam+OBJ::attrs, x
     iny
     clc
     and #$10
@@ -6973,7 +6975,7 @@ B31_02c2:
     lda UNK_6A
     @B31_035d:
     adc (UNK_64), y
-    sta shadow_oam+1, x
+    sta shadow_oam+OBJ::tile_index, x
     iny
     bne @B31_0369
     @B31_0365:
@@ -8264,7 +8266,7 @@ OBJTICK_Player:
     ldy #object_m_not_oam
     lda (object_pointer), y
     and #$40
-    ora UNK_1c+3
+    ora UNK_1F
     sta UNK_E7
     ldy #object_m_sxvel
     lda (object_pointer), y
@@ -8797,7 +8799,7 @@ B31_0cff:
     ldx #$14
     @B31_0d08:
     lda #1
-    sta nmi_flags
+    sta new_animation_timer
     jsr PpuSync
     jsr B31_0d1a
     dex
@@ -9104,7 +9106,7 @@ B31_0eb5:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     jmp WaitXFrames_Min1
 
@@ -10101,7 +10103,7 @@ QueuePaletteUpdate:
     sta nmi_data_offset
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
     rts
 
 SetBGColorBlack:
@@ -10467,7 +10469,7 @@ B31_1614:
     jsr B31_16aa
     clc
     lda UNK_68
-    adc #$08
+    adc #.sizeof(SpriteObject)
     sta UNK_68
     @B31_1660:
     clc
@@ -10526,7 +10528,7 @@ B31_16aa:
 
 B31_16ba:
     lda #1
-    sta nmi_flags
+    sta new_animation_timer
     rts
 
 B31_16bf:
@@ -10537,7 +10539,7 @@ B31_16bf:
 
 B31_16c8:
     ldx UNK_68
-    lda SPRITE_OBJECTS, x
+    lda SPRITE_OBJECTS+SpriteObject::count_flags, x
     pha
     .ifdef VER_JP
         lda #6
@@ -10587,31 +10589,31 @@ B31_16f9:
     stx UNK_60
     sty UNK_60+1
     ldx UNK_68
-    sta SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
     lda #8
-    sta SPRITE_OBJECTS+1, x
+    sta SPRITE_OBJECTS+SpriteObject::oam_slot_flags, x
     .ifdef VER_JP
         lda #$18
     .else
         lda #$70
     .endif
-    sta SPRITE_OBJECTS+2, x
+    sta SPRITE_OBJECTS+SpriteObject::x_pos, x
     lda UNK_68+1
-    sta SPRITE_OBJECTS+3, x
+    sta SPRITE_OBJECTS+SpriteObject::y_pos, x
     lda #0
-    sta SPRITE_OBJECTS+4, x
-    sta SPRITE_OBJECTS+5, x
+    sta SPRITE_OBJECTS+SpriteObject::x_vel, x
+    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
     lda UNK_60
-    sta SPRITE_OBJECTS+6, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
     lda UNK_60+1
-    sta SPRITE_OBJECTS+7, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
     rts
 
 B31_1724:
     ldx UNK_68
-    sta SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
     lda #1
-    sta nmi_flags
+    sta new_animation_timer
     .ifdef VER_JP
         ldx #12
     .else
@@ -10635,7 +10637,7 @@ fill_nmi_with_pointer_data:
     bpl @fill
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     lda #0
     sta nmi_data_offset
@@ -10685,8 +10687,8 @@ B31_1772:
     beq @B31_179e
     txa
     sta UNK_50+9
-    sta SPRITE_OBJECTS+($1C*8)
-    lda SPRITE_OBJECTS+($1C*8)+1
+    sta SPRITE_OBJECTS+($1C*.sizeof(SpriteObject))+SpriteObject::count_flags
+    lda SPRITE_OBJECTS+($1C*.sizeof(SpriteObject))+SpriteObject::oam_slot_flags
     asl a
     asl a
     tay
@@ -10724,22 +10726,21 @@ NmiHandler:
     ; y = offset into nmi_queue
     ldy nmi_data_offset
 
-    ; if UNK_E0 and nmi_flags are both nonzero, go to NMI_ProcessCommands
-    lda UNK_E0
-    beq @e0_is_zero
-    lda nmi_flags
+    ; if new_animation_timer is nonzero, that's our cue to process the NMI queue
+    ; if current_animation_timer is not active, then we also want to start a timer
+    ; for (new_animation_timer & 0x7F) frames at normal animation speed
+    lda current_animation_timer
+    beq @no_current_timer
+    lda new_animation_timer
     bne NMI_ProcessCommands
-    ; if UNK_E0 is nonzero but nmi_flags is 0, go to NMI_Schedule_IRQs
     beq NMI_Schedule_IRQs
-@e0_is_zero:
-    ; if UNK_E0 and nmi_flags are both 0, go to NMI_Schedule_IRQs
-    lda nmi_flags
+@no_current_timer:
+    lda new_animation_timer
     beq NMI_Schedule_IRQs
-    ; if UNK_E0 is zero but nmi_flags is nonzero,
-    ; update UNK_E0 based on nmi_flags's low 7 bits,
-    ; and go to NMI_ProcessCommands
+    ; new_animation_timer is set. Start the timer, if any, by copying the number of frames
+    ; from the low 7 bits of new_animation_timer
     and #%01111111
-    sta UNK_E0
+    sta current_animation_timer
     ; fallthrough
 NMI_ProcessCommands:
     ;get command byte
@@ -10764,8 +10765,8 @@ NMI_ProcessCommands:
     sta nmi_queue, y
     bne NMI_Schedule_IRQs
 @end_of_queue:
-    ; Clear nmi_flags to 0 if we hit a 00 command
-    sta nmi_flags
+    ; Clear new_animation_timer to 0 if we hit a 00 command
+    sta new_animation_timer
 NMI_Schedule_IRQs:
     ldx irq_count
     beq @no_irq
@@ -10856,37 +10857,35 @@ NMI_Schedule_IRQs:
     lda oam_and_300_clear_flag
     bmi @B31_188a
 
-    ;UNK_E1 = UNK_E7 & 0x3F
+    ;frameskip_this_frame = UNK_E7 & 0x3F
     lda UNK_E7
     and #$3f
-    sta UNK_E1
+    sta frameskip_this_frame
 
-    ;if UNK_E0 == 0, handle sprite flickering
-    lda UNK_E0
+    ;if current_animation_timer == 0, handle sprite flickering
+    lda current_animation_timer
     bne @B31_1879
 
-    jsr B31_1c96
+    jsr FlickerSpritesInSet2
     jmp @B31_188a
 
 @B31_1879:
-    ; otherwise, if UNK_E0 is nonzero and if oam_and_300_clear_flag.7 == 1...
+    ; otherwise, if current_animation_timer is nonzero and if oam_and_300_clear_flag.7 == 0...
 
-    ; if UNK_E1 - UNK_E0 - 1 >= 0, then
-    ;     UNK_E1 = UNK_E0 - 1
-    ;     UNK_E0 = 0
-    ; else
-    ;     UNK_E0 = (UNK_E1 - UNK_E0 - 1), and UNK_E1 is unchanged
+    ; try to tick the timer: current_animation_timer -= 1 + frameskip_this_frame;
+    ; if this overflows below 0 (carry clear), then instead set frameskip_this_frame
+    ; to the amount of the timer left, and end the current animation timer
     clc
-    sbc UNK_E1
+    sbc frameskip_this_frame
     bcs @B31_1885
-    ldx UNK_E0
+    ldx current_animation_timer
     dex
-    stx UNK_E1
+    stx frameskip_this_frame
     lda #0
 @B31_1885:
-    sta UNK_E0
+    sta current_animation_timer
 
-    ; Then, after setting UNK_E0 and UNK_E1 properly,
+    ; Then, after setting current_animation_timer and frameskip_this_frame properly,
     ; render out the sprites
     jsr SpriteObjectsToOam
 
@@ -11278,11 +11277,11 @@ NMI_WritePPUBytes:
     rts
 .undef ppu_byte_count
 
-.define tile_count UNK_C0
+.define obj_count UNK_C0
 .define temp_oamslot UNK_C0+1
 .define spritetiles_attr UNK_C0+1
-.define temp_tilecount UNK_C0+2
-.define spritedef_ppu_offset UNK_C0+2
+.define oam_offset_scratch UNK_C0+2
+.define spritedef_base_tile UNK_C0+2
 .define spritedef_palettes UNK_C0+3
 .define spritetiles_pointer UNK_C0+4
 .define spritedef_pointer UNK_C0+6
@@ -11306,12 +11305,16 @@ SpriteObjectsToOam:
     sta UNK_CE
     sta UNK_CF
 
-    ;x = UNK_E1
-    ldx UNK_E1
+    ;x = frameskip_this_frame
+    ldx frameskip_this_frame
 
-    ;if !UNK_E7.6, branch
+    ;if UNK_E7 & 0x40, then...
     bit UNK_E7
     bvc @B31_1ab8
+    ; The camera is in shake mode. shift_x and shift_y together form a 16-bit pointer
+    ; to a list of value pairs to add up.
+    ; Iterate through all frameskip_this_frame+1 value pairs of the list and add them up,
+    ; and put the results in UNK_CE and UNK_CF
     ldy #0
 @B31_1a96:
     clc
@@ -11326,6 +11329,7 @@ SpriteObjectsToOam:
     iny
     dex
     bpl @B31_1a96
+    ; update shift_x to point to just after what we read and summed
     clc
     tya
     adc shift_x
@@ -11335,7 +11339,9 @@ SpriteObjectsToOam:
     sta shift_y
     jmp @B31_1ac9
 
-    ;loop until x < 0
+    ; otherwise, if (UNK_E7 & 0x40) == 0, the camera is in plain old velocity mode.
+    ; shift_x and shift_y are 8-bit constants.
+    ; Multiply them by frameskip_this_frame+1, and put the results in UNK_CE and UNK_CF
 @B31_1ab8:
     ;UNK_CE += shift_x
     clc
@@ -11353,54 +11359,63 @@ SpriteObjectsToOam:
     bpl @B31_1ab8
 
 @B31_1ac9:
-    ;if UNK_CE.7, branch
+    ; if UNK_CE is non-negative...
     clc
     lda UNK_CE
-    bmi @msb_UNK_CE
-    ;else
-    ;scroll_x += UNK_CE
+    bmi @scroll_x_left
+    ; then move scroll_x right by that much
     adc scroll_x
     sta scroll_x
-    ;if no carry, skip all
-    bcc @no_scrolly_carry
-    bcs @scrolly_carry
+    ;and update PPUCTRL appropriately if that overflows into the "9th bit" of scrolling position
+    bcc @x_nametable_bit_correct
+    bcs @x_nametable_bit_wrong
 
-@msb_UNK_CE:
-    ;scroll_x += UNK_CE
+    ; Otherwise, if we're scrolling left, the carry conditions are flipped.
+    ; If scroll_x is $ff and we move the scrolling position by -1, that will set carry,
+    ; because the result of the addition is 0xFF + 0xFF == 0x1FE.
+    ; If scroll_x is $00 and we move the scrolling position by -1, that won't set carry,
+    ; because the result of the addition is 0 + 0xFF == 0x0FF.
+    ; So we only change screens when the carry flag is clear
+@scroll_x_left:
     adc scroll_x
     sta scroll_x
-    bcs @no_scrolly_carry
-@scrolly_carry:
+    bcs @x_nametable_bit_correct
+@x_nametable_bit_wrong:
     ;flip base nametable addr
-    ;ram_PPUCTRL ^= 1
     lda ram_PPUCTRL
     eor #1
     sta ram_PPUCTRL
-@no_scrolly_carry:
-    ;if UNK_CF.7, branch
+@x_nametable_bit_correct:
+    ; For scroll_y, we don't care about changing screens, but we do need to handle overflow
+    ; specially, because the height of the screen is 240 and our addition is mod 256.
     clc
     lda UNK_CF
-    bmi @msb_UNK_CF
-    ;else
-    ;a += scroll_y + $10
+    bmi @scroll_y_up
+    ; UNK_CF is non-negative, so we're scrolling downward.
+    ; Set A to the correct value if an overflow past the height of the screen occurred,
+    ; and set carry to whether the overflow occurred.
+    ; (This first addition can never overflow and set the carry bit. UNK_CF is at most 0x7F.)
     adc #$10
     adc scroll_y
-    bcc @no_scrollx_carry
-    bcs @scrollx_carry
+    bcc @scroll_y_wrong
+    bcs @scroll_y_correct
 
-@msb_UNK_CF:
+@scroll_y_up:
+    ; UNK_CF is negative, so we're scrolling upward.
+    ; Set A to the correct value if an overflow past the height of the screen did *not* occur,
+    ; and set carry if no overflow occurred.
+    ; If scroll_y = 0 and UNK_CF = -1, carry will not be set (0 + 0xFF == 0x0FF)
+    ; If scroll_y = 1 and UNK_CF = -1, carry will be set (1 + 0xFF == 0x100)
     adc scroll_y
-    bcs @scrollx_carry
-@no_scrollx_carry:
-    ;a += $f0
-    ;this makes a reset from the +$10
-    adc #-$10
-@scrollx_carry:
-    ;scroll_y = a
+    bcs @scroll_y_correct
+@scroll_y_wrong:
+    ; The correction for both the up and down cases is the same.
+    adc #$f0
+@scroll_y_correct:
     sta scroll_y
 
-    ;oam_and_300_clear_flag &= 0x3f
-    ;oam_and_300_clear_flag ^= 0x20
+    ; Clear oam_and_300_clear_flag.6 and oam_and_300_clear_flag.7 to 0
+    ; Flip oam_and_300_clear_flag.5 too?
     lda oam_and_300_clear_flag
     and #$3f
     eor #$20
@@ -11408,49 +11423,44 @@ SpriteObjectsToOam:
 
     ;current_sprite = 0
     ;this is the current SPRITE_OBJECT
-    ;UNK_E4 = 0
+    ;oam_set2_start = 0
     lda #0
     sta current_sprite
-    sta UNK_E4
+    sta oam_set2_start
 
     ;adder = 8
     ;this is how much current_sprite will increment by
-    lda #8
+    lda #.sizeof(SpriteObject)
     sta adder
 
-    ldx #$10
+    ; Reserve the first 4 sprites in OAM for system stuff
+    ldx #.sizeof(OBJ)*4
 @WriteSPRObjectsToOam:
-    ;a = SPRITE_OBJECTS[y]
-    ;y (starts out) at byte 0
-    ;assuming this is tiles
+    ; Does this object has a nonzero number of sprites?
     ldy current_sprite
-    lda SPRITE_OBJECTS, y
-    ;get actual tile count
-    and #$3f
-    ;if tiles != 0, branch
+    lda SPRITE_OBJECTS+SpriteObject::count_flags, y
+    and #SPRITE_OBJECT_COUNT_MASK
+    ;if it is nonzero, process all of the hardware sprites 
     bne @has_tiles
     ;else, jump
-    jmp @B31_1c5c
+    jmp @spriteobject_handled
 
-    @has_tiles:
-    ;tile_count = tiles
-    sta tile_count
+@has_tiles:
+    ;obj_count = number of OBJs
+    sta obj_count
 
-    ;temp_tilecount = x
-    stx temp_tilecount
+    ;oam_offset_scratch = x
+    stx oam_offset_scratch
 
-    ;is this a sorter???
-    ;probably
-    ;temp_oamslot = SPRITE_OBJECTS[y].oamslot & 0xC0
-    ;SPRITE_OBJECTS[y].oamslot = (x >> 2) | temp_oamslot
-    lda SPRITE_OBJECTS+1, y
+    ; Replace this SpriteObject's OAM slot with the correct index, preserving flags in the upper bytes
+    lda SPRITE_OBJECTS+SpriteObject::oam_slot_flags, y
     and #%11000000
     sta temp_oamslot
     txa
     lsr a
     lsr a
     ora temp_oamslot
-    sta SPRITE_OBJECTS+1, y
+    sta SPRITE_OBJECTS+SpriteObject::oam_slot_flags, y
 
     ;wip_velx = -UNK_CE
     sec
@@ -11464,15 +11474,15 @@ SpriteObjectsToOam:
     sbc UNK_CF
     sta wip_vely
 
-    ldx UNK_E1
-    ;if !oamslot.6, branch
+    ldx frameskip_this_frame
+    ;if oam_slot & SPRITE_OBJECT_SHAKE_ENABLED, handle shaking
     bit temp_oamslot
     bvc @B31_1b70
 
     ;get (shake) pointer to c4
-    lda SPRITE_OBJECTS+4, y
+    lda SPRITE_OBJECTS+SpriteObject::shake_ptr, y
     sta spritetiles_pointer
-    lda SPRITE_OBJECTS+5, y
+    lda SPRITE_OBJECTS+SpriteObject::shake_ptr+1, y
     sta spritetiles_pointer+1
 
     ldy #0
@@ -11491,6 +11501,7 @@ SpriteObjectsToOam:
     sta wip_vely
     iny
 
+    ; Do this frameskip_this_frame+1 times
     dex
     bpl @shake_loop_probably
 
@@ -11500,23 +11511,23 @@ SpriteObjectsToOam:
     tya
     adc spritetiles_pointer
     ldy current_sprite
-    sta SPRITE_OBJECTS+4, y
+    sta SPRITE_OBJECTS+SpriteObject::shake_ptr, y
     lda #0
     adc spritetiles_pointer+1
-    sta SPRITE_OBJECTS+5, y
+    sta SPRITE_OBJECTS+SpriteObject::shake_ptr+1, y
 
     jmp @B31_1b83
 
 @B31_1b70:
     ;wip_velx += SPRITE_OBJECTS[y].velx
     clc
-    lda SPRITE_OBJECTS+4, y
+    lda SPRITE_OBJECTS+SpriteObject::x_vel, y
     adc wip_velx
     sta wip_velx
 
     ;wip_vely += SPRITE_OBJECTS[y].vely
     clc
-    lda SPRITE_OBJECTS+5, y
+    lda SPRITE_OBJECTS+SpriteObject::y_vel, y
     adc wip_vely
     sta wip_vely
 
@@ -11524,87 +11535,90 @@ SpriteObjectsToOam:
     bpl @B31_1b70
 
 @B31_1b83:
-    ldx temp_tilecount
+    ; Restore X to its old value, we're done using it for loop counters
+    ldx oam_offset_scratch
 
-    ;if wip_velx.7, branch
+    ; if the total X velocity is positive or 0...
     clc
     lda wip_velx
-    bmi @msb_wip_velx
-    ;else
-    ;SPRITE_OBJECTS[y].x += wip_velx
-    adc SPRITE_OBJECTS+2, y
+    bmi @wip_velx_negative
+    ; then, after we add this velocity to the sprite's position...
+    ; (and set wip_velx to the sprite's new X position)
+    adc SPRITE_OBJECTS+SpriteObject::x_pos, y
     sta wip_velx
-    sta SPRITE_OBJECTS+2, y
+    sta SPRITE_OBJECTS+SpriteObject::x_pos, y
 
-    ;if no carry, finish
-    bcc @wip_velx_finish
-    ;else, branch
-    bcs @wip_velx_carry
-@msb_wip_velx:
-    ;SPRITE_OBJECTS[y].x += wip_velx
-    adc SPRITE_OBJECTS+2, y
+    ; the carry flag will be set if we overflowed the position out of the [0, 255] range
+    bcc @x_pos_correct
+    bcs @x_pos_wrong
+
+@wip_velx_negative:
+    ; otherwise, if the total X velocity is negative,
+    ; then after we add this velocity to the sprite's position...
+    ; (and set wip_velx to the sprite's new X position)
+    adc SPRITE_OBJECTS+SpriteObject::x_pos, y
     sta wip_velx
-    sta SPRITE_OBJECTS+2, y
+    sta SPRITE_OBJECTS+SpriteObject::x_pos, y
 
-    ;if carry, branch
-    bcs @wip_velx_finish
-@wip_velx_carry:
-    ;SPRITE_OBJECTS[y].tiles ^= $80
-    lda SPRITE_OBJECTS, y
-    eor #%10000000
-    sta SPRITE_OBJECTS, y
+    ; the carry flag will be clear if we overflowed the position out of the [0, 255] range
+    ; (see previous bcc/bcs pairs for a worked example of the math)
+    bcs @x_pos_correct
+    ; fallthrough
+@x_pos_wrong:
+    ; When the X position of the sprite object overflows, that means it's gone
+    ; from off-screen to on-screen, or vice versa.
+    lda SPRITE_OBJECTS+SpriteObject::count_flags, y
+    eor #SPRITE_OBJECT_OFFSCREEN_X_DIR
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, y
+@x_pos_correct:
 
-@wip_velx_finish:
-
-    ;if wip_vely.7, branch
+    ; Handle Y velocity similarly
+    ; wip_vely gets set to the sprite's new Y position
     clc
     lda wip_vely
-    bmi @msb_wip_vely
-    ;else
-    ;SPRITE_OBJECTS[y].y += wip_vely
-    adc SPRITE_OBJECTS+3, y
+    bmi @wip_vely_negative
+
+    ; Y velocity is non-negative
+    adc SPRITE_OBJECTS+SpriteObject::y_pos, y
     sta wip_vely
-    sta SPRITE_OBJECTS+3, y
+    sta SPRITE_OBJECTS+SpriteObject::y_pos, y
 
-    ;if no carry, finish
-    bcc @wip_vely_finish
-    ;else, branch
-    bcs @wip_vely_carry
-@msb_wip_vely:
-    ;SPRITE_OBJECTS[y].y += wip_vely
-    adc SPRITE_OBJECTS+3, y
+    ; Carry clear means no overflow
+    bcc @y_pos_correct
+    bcs @y_pos_wrong
+
+@wip_vely_negative:
+    ; Y velocity is negative
+    adc SPRITE_OBJECTS+SpriteObject::y_pos, y
     sta wip_vely
-    sta SPRITE_OBJECTS+3, y
+    sta SPRITE_OBJECTS+SpriteObject::y_pos, y
 
-    ;if carry, branch
-    bcs @wip_vely_finish
-@wip_vely_carry:
-    ;SPRITE_OBJECTS[y].oamslot ^= $80
-    lda SPRITE_OBJECTS+1, y
-    eor #%10000000
-    sta SPRITE_OBJECTS+1, y
+    ; Carry set means no overflow
+    bcs @y_pos_correct
+    ; fallthrough
+@y_pos_wrong:
+    ; When the Y position of the sprite object overflows, that means it's gone
+    ; from off-screen to on-screen, or vice versa.
+    lda SPRITE_OBJECTS+SpriteObject::oam_slot_flags, y
+    eor #SPRITE_OBJECT_OFFSCREEN_Y_DIR
+    sta SPRITE_OBJECTS+SpriteObject::oam_slot_flags, y
+@y_pos_correct:
 
-@wip_vely_finish:
-
-    ;;;either of these will only be set on carry
-    ;;;or whatever the condition is. find out
-    ;wip_value_x2 = SPRITE_OBJECTS[y].tiles.7
-    lda SPRITE_OBJECTS, y
-    and #%10000000
+    ; Isolate the "off-screen" conditions we just set
+    lda SPRITE_OBJECTS+SpriteObject::count_flags, y
+    and #SPRITE_OBJECT_OFFSCREEN_X_DIR
     sta wip_value_x2
-
-    ;wip_value_y2 = SPRITE_OBJECTS[y].oamslot.7
-    lda SPRITE_OBJECTS+1, y
-    and #%10000000
+    lda SPRITE_OBJECTS+SpriteObject::oam_slot_flags, y
+    and #SPRITE_OBJECT_OFFSCREEN_Y_DIR
     sta wip_value_y2
 
-    ;spritedef_pointer = SPRITE_OBJECTS[y].spritedef
-    lda SPRITE_OBJECTS+6, y
+    ; Copy the sprite definition pointer, so that we can read through the sprite def
+    lda SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, y
     sta spritedef_pointer
-    lda SPRITE_OBJECTS+7, y
+    lda SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, y
     sta spritedef_pointer+1
 
-    ;spritetiles_pointer = spritedef_pointer->pointer
+    ; First in the sprite def is the pointer to the sprite arrangement data
     ldy #0
     lda (spritedef_pointer), y
     sta spritetiles_pointer
@@ -11613,195 +11627,222 @@ SpriteObjectsToOam:
     sta spritetiles_pointer+1
     iny
 
-    ;spritedef_ppu_offset = spritedef_pointer->ppu_offset
+    ; Then the ID of the sprite def's base tile ID, if any
     lda (spritedef_pointer), y
-    sta spritedef_ppu_offset
+    sta spritedef_base_tile
     iny
 
-    ;spritedef_palettes = spritedef_pointer->args
+    ; Then information about palettes
     lda (spritedef_pointer), y
     sta spritedef_palettes
+
+    ; Render out the sprite arrangements/spriteTile info to shadow OAM
     ldy #0
-@B31_1bfa:
-    ;(spriteTile)
-    ;shadow_oam[x].x = spritetiles_pointer->posX + wip_velx
+@render_one_oam_entry:
+    ; First is the X position of the current sprite in the arrangement.
+    ; Set the OAM entry's X position based on the base position of the sprite
+    ; and the relative position in the spriteTile entry
     lda (spritetiles_pointer), y
     iny
     clc
     adc wip_velx
-    sta shadow_oam+3, x
-
-    ;a = (shadow_oam[x].x >> 1) ^ wip_value_x2
+    sta shadow_oam+OBJ::x_pos, x
+    ; The last addition may have overflowed, changing whether or not that OAM entry
+    ; is off-screen or not.
+    ; Combine this with the 9th bit of the X position/previously calculated off-screen info,
+    ; to get off-screen info for this specific OAM entry
     ror a
     eor wip_value_x2
-    ;if a.7, branch
+    ; if the 9th bit of the position of the OAM entry is set, then this OAM entry is off-screen
     bmi @is_offscreen
 
-    ;shadow_oam[x].y = spritetiles_pointer->posY + wip_vely
+    ; Next is the Y position of the current sprite in the arrangement.
+    ; Handle it similar to X position
     lda (spritetiles_pointer), y
     clc
     adc wip_vely
-    sta shadow_oam, x
-
-    ;a = (shadow_oam[x].y >> 1) ^ wip_value_y2
+    sta shadow_oam+OBJ::y_pos, x
+    ; including the overflow/off-screen/9th-position-bit handling... but with an extra twist
     ror a
     eor wip_value_y2
-    ;if a.7, branch
+    ; if the 9th bit of the position of the OAM entry is clear...
     bmi @B31_1c1b
-
-    ;if a < $f0, branch
+    ; ...and the OAM entry's Y position is less than 0x1E0 (???), then the sprite is on-screen
+    ; XXX: Was there supposed to be a ROL after the BMI to restore the original low 8 bits?
+    ; Or, better yet, replacing the BMI with ROL BCS?
+    ; Checking that the OAM Y position is less than 240 makes sense, but I don't get this...
+    ; There are no real consequences to getting this wrong though, just extra CPU time)
     cmp #$f0
     bcc @do_normal_spritetile
-    ;else, branch
+    ; Otherwise, if bit 9 of the Y position is clear and the sprite's Y position is >= 0x1E0,
+    ; then it's off-screen
     bcs @is_offscreen
 
 @B31_1c1b:
-    ;if a >= $f9, branch
+    ; Otherwise, if the 9th bit of the Y position of the OAM entry is set,
+    ; and the Y position is >= 0x1F2 (???), then the sprite is on-screen
+    ; XXX: This branch also seems affected by the "missing ROL"/bad branch condition
+    ; that doesn't restore A's value to be the original low 8 bits of the Y position?
+    ; Checking that the OAM Y position is >= 0x1F9 / -7 would make more conceptual sense... but,
+    ; the NES doesn't have a way to show sprites partially off the top of the screen anyway
     cmp #$f9
     bcs @do_normal_spritetile
+    ; Otherwise, the OAM entry is off-screen
 @is_offscreen:
+    ; If the sprite is off-screen, we don't have to render it,
+    ; so skip the Y position and remaining 2 bytes.
+    ; We don't increment the offset into shadow OAM in this case.
     iny
     iny
     iny
-    jmp @B31_1c58
+    jmp @spritetile_handled
 
 @do_normal_spritetile:
-    ;spritetiles_attr = spritetiles_pointer[y]->oam_args
+    ; We need to use the last two bytes of the spriteTile macro in order to render it.
+    ; First is the byte with sprite attribute info
     iny
     lda (spritetiles_pointer), y
     sta spritetiles_attr
 
-    ;a = spritedef_palettes (spritedef_pointer->args)
+    ; From here, we load all the palettes that this spritedef elected to use into A...
     lda spritedef_palettes
-    ;;;shift spriteTile.palette into carry
-    ;;;if carry set, that means the sprite is using palette 2
-    ;;;else, using palette 1.
-    ;;;adjust accordingly
+    ; ...and select one of the palettes by shifting right by the attr palette * 2,
+    ; We do a form of long multiplication to accomplish that, by modifying spritetiles_attr
+    ; First, the 1's digit. If it's a 1, shift right by 1*2=2
     lsr spritetiles_attr
-    ;if spritetiles_attr carry clear, skip
-    bcc @is_using_palette_1
-    ;shift args right 2 for spritePointerDef.p2
+    bcc @handled_palette_bit_0
     lsr a
     lsr a
-@is_using_palette_1:
-    ;;;a's lower two bits is now whatever palette index the sprite is using
-    ;;;shift one more (because spriteTile.palette is 2 bits)
+@handled_palette_bit_0:
+    ; Then, the 2's digit. If it's a 1, shift right by 2*2=4
     lsr spritetiles_attr
-    ;;;if carry is STILL set, shift spritedef_pointer->args 4 times
-    bcc @is_using_palette_3
+    bcc @handled_palette_bit_1
     lsr a
     lsr a
     lsr a
     lsr a
-@is_using_palette_3:
-    ;;;by now, a is the chosen palette into palette ram
-    ;;;and it to isolate
+@handled_palette_bit_1:
+    ; Isolate the ID of the chosen palette
     and #%00000011
 
-    ;;;now that the palette chosing is done, shift spritetiles_attr
-    ;;;back into place
-    ;spritetiles_attr <<= 2
+    ; now that the palette choosing is done, restore the original value of spritetiles_attr,
+    ; with the palette index cleared out...
     asl spritetiles_attr
     asl spritetiles_attr
 
-    ;;;or with a to make an attr
+    ; and then OR in the actual chosen palette ID
     ora spritetiles_attr
 
-    ;shadow_oam[x].attr = a
-    sta shadow_oam+2, x
+    ; And that's the OAM attribute done... almost. There's only one more thing
+    sta shadow_oam+OBJ::attrs, x
 
     iny
-    ;check msb of unused (has_attr)
+    ; We have two ways of describing tile IDs (global in a CHR page, and relative to a base tile)
+    ; Which method to use is determined by the unused bit 4 of the attribute byte
+    ; If the BEQ here is taken, then a tile ID of 0 is used for the base tile ID.
     and #%00010000
-    ;if not set, skip ppu_offset load
-    beq @doesnt_have_attr
-    ;a = spritedef_pointer->ppu_offset
-    lda spritedef_ppu_offset
-@doesnt_have_attr:
-    ;shadow_oam[x].tile a + spritetiles_pointer[y].tile_index
+    beq @base_tile_id_determined
+    lda spritedef_base_tile
+@base_tile_id_determined:
+    ; Add in the specific tile ID of this OAM entry
     adc (spritetiles_pointer), y
-    sta shadow_oam+1, x
+    sta shadow_oam+OBJ::tile_index, x
 
-    ;next spritetile
+    ; We've gotten through the entire spriteTile / OAM entry
     iny
 
-    ;next oam
+    ; We've put a valid sprite in OAM
     inx
     inx
     inx
     inx
 
-    ;if x == 0, rts
+    ; If we've used every available sprite index in OAM, then our work is done
     beq ClearOam_rts
-    ;else, fallthrough
-@B31_1c58:
-    ;if tilecount-- > 0, branch
-    dec tile_count
-    bne @B31_1bfa
-    ;else
-@B31_1c5c:
-    ;;;iterate over next SPRITE_OBJECT
-    ;if adder.7, branch
+    ; otherwise...
+@spritetile_handled:
+    ; if there are any more OBJs to potentially draw, try drawing them
+    dec obj_count
+    bne @render_one_oam_entry
+    ; otherwise, we're done with this SpriteObject
+@spriteobject_handled:
+    ; Let's move on to the next SpriteObject
+    ; If we're progressing forwards through the SpriteObject array...
     clc
     lda adder
-    bmi @B31_1c6e
-    ;else
-    ;current_sprite += addr (probably 8)
+    bmi @progressing_backwards
+    ; then, after advancing to the next SpriteObject...
     adc current_sprite
     sta current_sprite
-    ;if !current_sprite, branch
+    ; ...end if we've made it to the end of the SpriteObject page
     beq ClearOam
-    ;else
-    ;if current_sprite == UNK_E3, branch
-    cmp UNK_E3
-    beq @B31_1c79
-    ;else
+    .assert <SPRITE_OBJECTS_END = 0, error, "SpriteObject rendering assumes SPRITE_OBJECTS ends at a page boundary"
+    ; Otherwise, if we're progressing forwards through the array and we've hit the
+    ; beginning of the second set of SpriteObjects, begin iterating backwards through them
+    cmp sprite_object_set2_start
+    beq @begin_second_half_of_sprite_objects
+    ; Otherwise, continue the loop
     jmp @WriteSPRObjectsToOam
 
-@B31_1c6e:
+@progressing_backwards:
+    ; If we're progressing backwards, through the second set of SpriteObjects,
+    ; then, after advancing to the "previous" SpriteObject...
     adc current_sprite
     sta current_sprite
-    cmp UNK_E3
+    ; ...end if we've made it to the "beginning" of the second set of SpriteObjects
+    cmp sprite_object_set2_start
     bcc ClearOam
+    ; Otherwise, continue the loop
     jmp @WriteSPRObjectsToOam
 
-@B31_1c79:
-    stx UNK_E4
-    ;if oam_and_300_clear_flag & 0x20, exit
+@begin_second_half_of_sprite_objects:
+    ; Save the OAM offset that marks the dividing line between the two sets of SpriteObjects
+    stx oam_set2_start
+    ; if oam_and_300_clear_flag & 0x20, render this second set of SpriteObjects starting from the beginning
     lda oam_and_300_clear_flag
     and #$20
-    bne @exit
-    ;else
-    ;current_sprite = $f8
-    ;adder = $f8
-    lda #$f8
+    bne @second_half_order_set
+    ; Otherwise, render them starting from the end (to implement sprite flickering)
+    .assert <SPRITE_OBJECTS_END = 0, error, "SpriteObject rendering assumes SPRITE_OBJECTS ends at a page boundary"
+    lda #-.sizeof(SpriteObject)
     sta current_sprite
     sta adder
-@exit:
+@second_half_order_set:
+    ; With everything set up, continue looping and rendering SpriteObjects to OAM
     jmp @WriteSPRObjectsToOam
 
+; Inputs:
+;   X: offset into shadow_oam to begin clearing things.
+;      Must be aligned to a multiple of 4 (.sizeof(OBJ)), to avoid an infinite loop.
+; Effects:
+;   Sets Y position of OAM entries in shadow_oam to 240 (off-screen/disabled).
+; Clobbers:
+;   A: set to 240
+;   X: set to 0
+;   various processor flags
 ClearOam:
     ;put all oam y's out of range
     lda #$f0
     @clear:
-    sta shadow_oam, x
+    sta shadow_oam+OBJ::y_pos, x
+    ; increment by .sizeof(OBJ)
     inx
     inx
     inx
     inx
     bne @clear
 
-    ClearOam_rts:
+ClearOam_rts:
     rts
 
-B31_1c96:
+FlickerSpritesInSet2:
     ;oam_and_300_clear_flag ^= $40
     lda oam_and_300_clear_flag
     eor #$40
     sta oam_and_300_clear_flag
 
     ldy #$fc
-    ldx UNK_E4
+    ldx oam_set2_start
     bne @reverse_oam_loop_condition
     rts
 @reverse_oam_loop:
@@ -11846,8 +11887,8 @@ B31_1c96:
     sbc #7
     tay
 @reverse_oam_loop_condition:
-    sty tile_count
-    cpx tile_count
+    sty obj_count
+    cpx obj_count
     bcc @reverse_oam_loop
     rts
 
@@ -11912,8 +11953,8 @@ PlayMusic:
     jmp WaitNMI
 
 PpuSync: ;wait for NmiHandler
-    lda nmi_flags
-    ora UNK_E0
+    lda new_animation_timer
+    ora current_animation_timer
     bne PpuSync
     rts
 
@@ -11971,16 +12012,16 @@ ClearSprites:
     @loop:
     ;reset SPRITE_OBJECTS tiles
     lda #0
-    sta SPRITE_OBJECTS, x
+    sta SPRITE_OBJECTS+SpriteObject::count_flags, x
 
     ;set ypos to $f0
     lda #$f0
-    sta shadow_oam, x
+    sta shadow_oam+OBJ::y_pos, x
     inx
     inx
     inx
     inx
-    sta shadow_oam, x
+    sta shadow_oam+OBJ::y_pos, x
     inx
     inx
     inx
@@ -12018,7 +12059,7 @@ ClearTilemaps:
     ldx #0
     lda #$80
     stx nmi_data_offset
-    sta nmi_flags
+    sta new_animation_timer
 
     jsr PpuSync
 
@@ -12039,40 +12080,34 @@ ClearTilemaps:
 
     rts
 
-;what do we call this
-;resets shift_x, shift_y
-;sets all sprite objects
-;oam_slot &= $BF
-;velx,vely = 0
+; Makes all sprite objects and the camera/BG viewport stop moving, once NMI uploads
+; and animation timers are complete.
 Refresh_SpriteObjects:
     jsr PpuSync
 
-    ;UNK_E7 &= 0xBF
+    ; disable camera shaking
     lda UNK_E7
-    and #$bf
+    and #~$40
     sta UNK_E7
 
-    ;shift_x = 0
-    ;shift_y = 0
+    ; Set camera velocities to 0
     lda #0
     sta shift_x
     sta shift_y
 
     clc
     @loop:
-    ;store a in x
     tax
-    ;oam_slot &= $BF
-    lda SPRITE_OBJECTS+1, x
-    and #$bf
-    sta SPRITE_OBJECTS+1, x
-    ;set velx,vely to 0
+    ; disable shaking and set the sprite's velocity to 0
+    lda SPRITE_OBJECTS+SpriteObject::oam_slot_flags, x
+    and #~SPRITE_OBJECT_SHAKE_ENABLED
+    sta SPRITE_OBJECTS+SpriteObject::oam_slot_flags, x
     lda #0
-    sta SPRITE_OBJECTS+4, x
-    sta SPRITE_OBJECTS+5, x
-    ;restore a
+    sta SPRITE_OBJECTS+SpriteObject::x_vel, x
+    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
+    ; and then do the same to all the rest of the `SpriteObject`s
     txa
-    adc #8
+    adc #.sizeof(SpriteObject)
     bcc @loop
     rts
 
@@ -12122,7 +12157,7 @@ TempUpperBankswitch:
     jmp BANK_SWAP
 
     ;generic TempUpperBankswitch return
-    @tups_return:
+@tups_return:
     ;go back to normal. NOW!!!
     pla
     ldx #BANK::PRGA000

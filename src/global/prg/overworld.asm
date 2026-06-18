@@ -2367,7 +2367,7 @@ B19_0d98:
     tay
 
     lda #$80
-    sta nmi_flags
+    sta new_animation_timer
 
     cpy #$5e
     bcs @four
@@ -4160,68 +4160,88 @@ LIVEHOUSE_setupParty:
     sta UNK_60
     stx UNK_60+1
 
-    ;loop over SPRITE_OBJECTS 1-4 exclusive
-    ldx #(1*8)
+    ;loop over SPRITE_OBJECTS 1, 2, and 3
+    ldx #(1*.sizeof(SpriteObject))
     @loop:
     jsr LIVEHOUSE_movesprUnk60
 
     lda #48
-    sta nmi_flags
+    sta new_animation_timer
 
-    jsr LIVEHOUSE_movex8
+    jsr LIVEHOUSE_nextSpriteObject
 
-    cpx #$20
+    cpx #4*.sizeof(SpriteObject)
     bcc @loop
 
     jsr PpuSync
 
     lda #48
-    sta nmi_flags
+    sta new_animation_timer
 
     rts
 
-;move sprite object at SPRITE_OBJECT[x] by UNK_60
+; Offset the pointer of the sprite definition for SPRITE_OBJECT[x] by UNK_60
+; (useful to change the animation frame)
 LIVEHOUSE_movesprUnk60:
     jsr PpuSync
 
     ;SPRITE_OBJECTS[x].spritedef += UNK_60
     clc
     lda UNK_60
-    adc SPRITE_OBJECTS+6, x
-    sta SPRITE_OBJECTS+6, x
+    adc SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
     lda UNK_60+1
-    adc SPRITE_OBJECTS+7, x
-    sta SPRITE_OBJECTS+7, x
+    adc SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
 
     rts
 
-;check if sprite object >= $20, if so zero out the velocity
-;else, set velocity from UNK_64
+; Set the velocity to UNK_64 for the current SpriteObject if it's at an index
+; less than 4 (the party?), and 0 for every other SpriteObject (NPCs?)
+; Inputs:
+;     X: the offset of the current SpriteObject
+;     UNK_64:   the new party x velocity
+;     UNK_64+1: the new party y velocity
+; Effects:
+;     Sets x and y velocity for the current SpriteObject
+; Clobbers:
+;     A
 LIVEHOUSE_checksetvel:
-    cpx #$20
+    cpx #4*.sizeof(SpriteObject)
     bcs LIVEHOUSE_zerovel
 
     lda UNK_64
-    sta SPRITE_OBJECTS+4, x
+    sta SPRITE_OBJECTS+SpriteObject::x_vel, x
     lda UNK_64+1
-    sta SPRITE_OBJECTS+5, x
+    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
 
     rts
 
+; Inputs:
+;     X: the offset of the current SpriteObject
+; Effects:
+;     Sets x and y velocity for the current SpriteObject to 0
+; Clobbers:
+;     A
 LIVEHOUSE_zerovel:
     lda #0
-    sta SPRITE_OBJECTS+4, x
-    sta SPRITE_OBJECTS+5, x
+    sta SPRITE_OBJECTS+SpriteObject::x_vel, x
+    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
 
     rts
 
-;x += 8
-LIVEHOUSE_movex8:
+; Inputs:
+;     X: the offset of the current SpriteObject
+; Outputs:
+;     X: the offset of the next SpriteObject in the array, if any
+;     Carry flag: set if the end of the SPRITE_OBJECTS array has been reached, clear otherwise
+; Clobbers:
+;     A
+LIVEHOUSE_nextSpriteObject:
     clc
     txa
-    adc #8
+    adc #.sizeof(SpriteObject)
     tax
-
     rts
 
 ;this is basically an alias for
@@ -4247,39 +4267,39 @@ LIVEHOUSE_domotionStop:
     sta UNK_60
     stx UNK_60+1
 
-    ldx #(1*8)
+    ldx #(1*.sizeof(SpriteObject))
     @loop_all:
     jsr LIVEHOUSE_movesprUnk60
     jsr LIVEHOUSE_checksetvel
-    jsr LIVEHOUSE_movex8
+    jsr LIVEHOUSE_nextSpriteObject
     bcc @loop_all
 
     lda #2
-    sta nmi_flags
+    sta new_animation_timer
 
-    ldx #8
+    ldx #1*.sizeof(SpriteObject)
     @loop_all2:
     jsr PpuSync
     jsr LIVEHOUSE_zerovel
-    jsr LIVEHOUSE_movex8
+    jsr LIVEHOUSE_nextSpriteObject
     bcc @loop_all2
 
     lda #22
-    sta nmi_flags
+    sta new_animation_timer
 
     lda #.LOBYTE(-4)
     ldx #.HIBYTE(-4)
     sta UNK_60
     stx UNK_60+1
 
-    ldx #8
+    ldx #1*.sizeof(SpriteObject)
     @loop_all3:
     jsr LIVEHOUSE_movesprUnk60
-    jsr LIVEHOUSE_movex8
+    jsr LIVEHOUSE_nextSpriteObject
     bcc @loop_all3
 
     lda #24
-    sta nmi_flags
+    sta new_animation_timer
 
     rts
 .endif
@@ -5498,36 +5518,38 @@ OT4_Whirlpool:
     @B19_1d91:
     tya
     pha
-    ldx #8
+    ldx #1*.sizeof(SpriteObject)
     @B19_1d95:
     jsr PpuSync
     lda #1
-    sta SPRITE_OBJECTS+5, x
-    lda SPRITE_OBJECTS+3, x
+    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
+    lda SPRITE_OBJECTS+SpriteObject::y_pos, x
     and #$1f
     bne @B19_1daa
-    lda #.LOBYTE($ffe8)
-    ldy #.HIBYTE($ffe8)
+    ; Cycle back to the up direction for the current character
+    lda #.LOBYTE(-24)
+    ldy #.HIBYTE(-24)
     bne @B19_1dae
     @B19_1daa:
+    ; Rotate character 90 degrees clockwise
     lda #.LOBYTE(8)
     ldy #.HIBYTE(8)
     @B19_1dae:
     clc
-    adc SPRITE_OBJECTS+6, x
-    sta SPRITE_OBJECTS+6, x
+    adc SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr, x
     tya
-    adc SPRITE_OBJECTS+7, x
-    sta SPRITE_OBJECTS+7, x
+    adc SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
+    sta SPRITE_OBJECTS+SpriteObject::sprite_def_ptr+1, x
     clc
     txa
-    adc #8
+    adc #.sizeof(SpriteObject)
     tax
-    cpx #$28
+    cpx #5*.sizeof(SpriteObject)
     bcc @B19_1d95
 
     lda #8
-    sta nmi_flags
+    sta new_animation_timer
 
     pla
     tay
@@ -5545,17 +5567,17 @@ OT5_Flood:
     lda #Noise_Thunder
     sta soundqueue_noise
     jsr Refresh_SpriteObjects
-    ldx #8
+    ldx #1*.sizeof(SpriteObject)
     ldy #7
     @B19_1dea:
     lda EVE_Fling, y
-    sta SPRITE_OBJECTS+5, x
+    sta SPRITE_OBJECTS+SpriteObject::y_vel, x
     dey
     lda EVE_Fling, y
-    sta SPRITE_OBJECTS+4, x
+    sta SPRITE_OBJECTS+SpriteObject::x_vel, x
     clc
     txa
-    adc #8
+    adc #.sizeof(SpriteObject)
     tax
     dey
     bpl @B19_1dea

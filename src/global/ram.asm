@@ -150,14 +150,22 @@ pad1_press: .res 1 ; $dc
 pad2_press: .res 1 ; $dd
 pad1_hold: .res 1 ; $de
 pad2_hold: .res 1 ; $df
-UNK_E0: .res 1
-UNK_E1: .res 1
+; Timer that ticks down during NMI, at a rate influenced by the frame skip setting (UNK_E7)
+current_animation_timer: .res 1
+frameskip_this_frame: .res 1
 oam_and_300_clear_flag: .res 1 ; $e2 ; Set Bit 7 before Clear OAM & $300 are, Free bit after
-UNK_E3: .res 1
-UNK_E4: .res 1
-nmi_flags: .res 1 ; $e5 ; is this a timer????
+sprite_object_set2_start: .res 1
+oam_set2_start: .res 1
+; Set new_animation_timer to something nonzero to trigger the processing of the NMI command queue.
+; You should only write to it after setting up the NMI queue, to avoid race conditions.
+; As the name suggests, the low 7 bits are also used to initialize current_animation_timer, once/if
+; there is no current animation timer running. (If you don't want to start a new timer, write 0x80,
+; which is nonzero but has the low 7 bits all set to 0. That will only process the NMI queue.)
+; Reading it and checking that it's nonzero is a way to tell if the NMI queue has been processed
+; or not.
+new_animation_timer: .res 1 ; $e5
 nmi_data_offset: .res 1 ; $e6
-UNK_E7: .res 1
+UNK_E7: .res 1 ; $e7 - low 6 bits are a frameskip setting; bit 6 seems to be a "camera shake mode" toggle; bit 7 seems unused...?
 shift_x: .res 1 ; $e8
 shift_y: .res 1 ; $e9
 nmi_mode: .res 1 ; $ea ; 01 = waiting for NMI, 80 = is running non-reentrant part of NMI handler
@@ -184,13 +192,15 @@ UNK_100: .res $10
 text_data_buffer: .res $40 ;$0110 ~ $014F
 stack: .res $B0 ; $150
 
-;format
-;literally just normal nes oam
-;y - 0
-;tile index - 1
-;attr - 2
-;x - 3
-shadow_oam: .res $100 ; $200
+.struct OBJ
+    y_pos      .byte ; 0
+    tile_index .byte ; 1
+    attrs      .byte ; 2
+    x_pos      .byte ; 3
+.endstruct
+
+shadow_oam: .res 64*.sizeof(OBJ) ; $200
+shadow_oam_end:
 
 ;format
 ;76tttttt - t=tiles - 0
@@ -198,7 +208,30 @@ shadow_oam: .res $100 ; $200
 ;x,y - 2,3
 ;velx,vely - 4,5 (can also be a shake pointer)
 ;spritedef pointer - 6,7
-SPRITE_OBJECTS: .res $100 ; $300 / SpriteDefs
+.struct SpriteObject
+    count_flags    .byte ; 0
+    oam_slot_flags .byte ; 1
+    x_pos          .byte ; 2
+    y_pos          .byte ; 3
+    .union
+        .struct
+            x_vel  .byte ; 4
+            y_vel  .byte ; 5
+        .endstruct
+        shake_ptr  .addr ; 4
+    .endunion
+    sprite_def_ptr .addr ; 6
+.endstruct
+; SpriteObject::count_flags bit masks
+.define SPRITE_OBJECT_COUNT_MASK $3F
+.define SPRITE_OBJECT_CF_BIT6 $40 ; something related to walking frame?
+.define SPRITE_OBJECT_OFFSCREEN_X_DIR $80
+; SpriteObject::oam_slot_flags bit masks
+.define SPRITE_OBJECT_SHAKE_ENABLED $40
+.define SPRITE_OBJECT_OFFSCREEN_Y_DIR $80
+
+SPRITE_OBJECTS: .res .sizeof(SpriteObject) * 32 ; $300 / SpriteDefs
+SPRITE_OBJECTS_END:
 
 ;just an array of nmi commands
 nmi_queue: .res $100 ;$400 / nmi queue
