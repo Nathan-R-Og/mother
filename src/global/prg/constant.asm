@@ -10870,7 +10870,7 @@ NMI_Schedule_IRQs:
     jmp @B31_188a
 
 @B31_1879:
-    ; otherwise, if current_animation_timer is nonzero and if oam_and_300_clear_flag.7 == 1...
+    ; otherwise, if current_animation_timer is nonzero and if oam_and_300_clear_flag.7 == 0...
 
     ; try to tick the timer: current_animation_timer -= 1 + frameskip_this_frame;
     ; if this overflows below 0 (carry clear), then instead set frameskip_this_frame
