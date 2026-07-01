@@ -1,263 +1,212 @@
-;the main table of items to use
-;the only real differences between jp and us is the name stuff again
-;and the repel ring, obviously
-
-;as defined per PlayerUsableBitfieldLUT
-ITEMUSE_NINTEN = 1
-ITEMUSE_ANA = 1 << 1
-ITEMUSE_LLOYD = 1 << 2
-ITEMUSE_TEDDY = 1 << 3
-ITEMUSE_PIPPI = 1 << 4
-ITEMUSE_EVE = 1 << 5
-;while this is never used (and is shared with EVE anyways),
-;this does work (on equipment at least) on technicality of SELECTION_USE
-;prioritizing Equip over anything else.
-ITEMUSE_FLYINGMAN = 1 << 6 ;error prone due to sharing `edible` flag
-
-;EVE and Flying Man can never equip items in the first place.
-;PlayerUsableBitfieldLUT defines them both to share Bit 5.
-ITEMUSE_NPC = 1 << 5
-
-ITEMUSE_ALL = ITEMUSE_NINTEN | ITEMUSE_ANA | ITEMUSE_LLOYD | ITEMUSE_TEDDY | ITEMUSE_PIPPI | ITEMUSE_NPC
-
-
-.macro itemDef name, usableBy, edible, keyitem, effectValue, armorType, overworldAction, battleAction, msgPrice
-    .addr name
-    .byte (keyitem << 7) | (edible << 6) | usableBy
-    ;armor 0 == null
-    ;armor 1 == coin
-    ;armor 2 == ring
-    ;armor 3 == pendant
-    .byte (armorType << 6) | effectValue
-    .byte overworldAction, battleAction
-    .word msgPrice
+; Item Table
+.macro ItemEntry name, key, food, users, data, oa, ba, cost
+    ; name ptr
+    .ifblank name
+        .word 0
+    .else
+        .addr name
+    .endif
+    .ifblank key
+        .ifblank food
+            .ifblank users
+                .byte 0
+            .else
+                .byte users
+            .endif
+        .else
+            .byte (food << 6) | users
+        .endif
+    .else
+        .ifblank food
+            .byte (key << 7) | users
+        .else
+            .byte (key << 7) | (food << 6) | users
+        .endif
+    .endif
+    ; data
+    .ifblank data
+        .byte 0
+    .else
+        .byte data
+    .endif
+    ; o, b actions
+    .ifblank oa
+        .byte 0
+    .else
+        .byte oa
+    .endif
+    .ifblank ba
+        .byte 0
+    .else
+        .byte ba
+    .endif
+    ; cost
+    .ifblank cost
+        .word 0
+    .else
+        .word cost
+    .endif
 .endmacro
 
-Item_Data:
-itemDef INAME_NULL, 0, 0, 0, 0, 0, 0, 0, 0
-itemDef INAME_BIG_BAG, ITEMUSE_ALL, 0, 0, 0, 0, $10, $75, 0
-itemDef INAME_PHONE_CARD, ITEMUSE_ALL, 0, 0, 0, 0, $07, $00, 50
-itemDef INAME_CRUMBS, ITEMUSE_ALL, 0, 0, 0, 0, $1F, $00, 0
+ItemTable:
+;   ItemEntry name_itemname         , k, f, % users,   data,                oa,                ba,  cost
+    ; 0 - 7
+    ItemEntry INAME_NULL            ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_BIG_BAG         ,  ,  , %111111,       ,               $10,               $75,     0
+    ItemEntry INAME_PHONE_CARD      ,  ,  , %111111,       ,               $07,                  ,    50
+    ItemEntry INAME_CRUMBS          ,  ,  , %111111,       ,               $1F,                  ,     0
 
-.ifdef VER_JP
-itemDef INAME_UNKITEM4, 0, 0, 0, 0, 0, $00, $00, 40
-itemDef INAME_UNKITEM5, 0, 0, 0, 0, 0, $00, $00, 50
-itemDef INAME_UNKITEM6, 0, 0, 0, 0, 0, $00, $00, 60
-itemDef INAME_UNKITEM7, 0, 0, 0, 0, 0, $00, $00, 70
-itemDef INAME_UNKITEM8, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM9, 0, 0, 0, 0, 0, $00, $00, 0
-.else
-itemDef INAME_REPEL_RING, ITEMUSE_ALL, 0, 0, 0, 0, $08, $00, 160
-itemDef INAME_BUTTERKNIFE, 0, 0, 0, 0, 0, $00, $00, 50
-itemDef INAME_BUTTERKNIFE, 0, 0, 0, 0, 0, $00, $00, 60
-itemDef INAME_BUTTERKNIFE, 0, 0, 0, 0, 0, $00, $00, 70
-itemDef INAME_BUTTERKNIFE, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_BUTTERKNIFE, 0, 0, 0, 0, 0, $00, $00, 0
-.endif
+    .ifdef VER_JP
+    ItemEntry INAME_REPEL_RING      ,  ,  ,        ,       ,                  ,                  ,    40
+    .else
+    ItemEntry INAME_REPEL_RING      ,  ,  , %111111,       ,               $08,                  ,   160
+    .endif
 
-itemDef INAME_BUTTERKNIFE, ITEMUSE_TEDDY, 0, 0, 15, 0, $02, $00, 580
-itemDef INAME_SURV_KNIFE, ITEMUSE_TEDDY, 0, 0, 38, 0, $02, $00, 1200
-itemDef INAME_SWORD, ITEMUSE_TEDDY, 0, 0, 46, 0, $02, $00, 1280
-itemDef INAME_KATANA, ITEMUSE_TEDDY, 0, 0, 58, 0, $02, $00, 1360
-itemDef INAME_STUN_GUN, ITEMUSE_LLOYD, 0, 0, 15, 0, $02, $00, 300
-itemDef INAME_AIR_GUN, ITEMUSE_LLOYD, 0, 0, 42, 0, $02, $00, 1400
-itemDef INAME_PLASTIC_BAT, ITEMUSE_NINTEN, 0, 0, 3, 0, $02, $00, 80
-itemDef INAME_WOODEN_BAT, ITEMUSE_NINTEN, 0, 0, 12, 0, $02, $00, 500
-itemDef INAME_ALUMINUMBAT, ITEMUSE_NINTEN, 0, 0, 30, 0, $02, $00, 1000
-itemDef INAME_HANKS_BAT, ITEMUSE_NINTEN, 0, 0, 48, 0, $02, $00, 1400
-itemDef INAME_FRYING_PAN, ITEMUSE_ANA, 0, 0, 8, 0, $02, $00, 300
-itemDef INAME_NONSTICKPAN, ITEMUSE_ANA, 0, 0, 16, 0, $02, $00, 700
-itemDef INAME_IRONSKILLET, ITEMUSE_ANA, 0, 0, 36, 0, $02, $00, 1120
-itemDef INAME_SLINGSHOT, ITEMUSE_ALL, 0, 0, 7, 0, $02, $00, 120
-itemDef INAME_BOOMERANG, ITEMUSE_ALL, 0, 0, 32, 0, $02, $00, 1100
-itemDef INAME_INSECTICIDE, ITEMUSE_ALL, 0, 0, 0, 0, $00, $16, 300
-itemDef INAME_SUPER_SPRAY, ITEMUSE_ALL, 0, 0, 0, 0, $00, $77, 1500
-itemDef INAME_FLEA_BAG, ITEMUSE_ALL, 0, 0, 0, 0, $00, $60, 0
-itemDef INAME_WORDSOLOVE, ITEMUSE_ALL, 0, 0, 0, 0, $00, $78, 0
-itemDef INAME_SWEAR_WORDS, ITEMUSE_ALL, 0, 0, 0, 0, $00, $79, 0
-itemDef INAME_STKYMACHINE, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $6E, 3200
-itemDef INAME_FLASHDARK, ITEMUSE_ALL, 0, 0, 0, 0, $00, $6D, 0
-itemDef INAME_STONEORIGIN, ITEMUSE_ALL, 0, 0, 0, 0, $00, $3E, 0
-itemDef INAME_POISNNEEDLE, ITEMUSE_ALL, 0, 0, 0, 0, $00, $3D, 0
-itemDef INAME_FL_THROWER, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $67, 0
+    ItemEntry INAME_UNKITEM5        ,  ,  ,        ,       ,                  ,                  ,    50
+    ItemEntry INAME_UNKITEM6        ,  ,  ,        ,       ,                  ,                  ,    60
+    ItemEntry INAME_UNKITEM7        ,  ,  ,        ,       ,                  ,                  ,    70
+    ; 8 - f
+    ItemEntry INAME_UNKITEM8        ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM9        ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_BUTTERKNIFE     ,  ,  ,  %01000,     15,               $02,                  ,   580
+    ItemEntry INAME_SURV_KNIFE      ,  ,  ,  %01000,     38,               $02,                  ,  1200
+    ItemEntry INAME_SWORD           ,  ,  ,  %01000,     46,               $02,                  ,  1280
+    ItemEntry INAME_KATANA          ,  ,  ,  %01000,     58,               $02,                  ,  1360
+    ItemEntry INAME_STUN_GUN        ,  ,  ,  %00100,     15,               $02,                  ,   300
+    ItemEntry INAME_AIR_GUN         ,  ,  ,  %00100,     42,               $02,                  ,  1400
+    ; 10 - 17
+    ItemEntry INAME_PLASTIC_BAT     ,  ,  ,  %00001,      3,               $02,                  ,    80
+    ItemEntry INAME_WOODEN_BAT      ,  ,  ,  %00001,     12,               $02,                  ,   500
+    ItemEntry INAME_ALUMINUMBAT     ,  ,  ,  %00001,     30,               $02,                  ,  1000
+    ItemEntry INAME_HANKS_BAT       ,  ,  ,  %00001,     48,               $02,                  ,  1400
+    ItemEntry INAME_FRYING_PAN      ,  ,  ,  %00010,      8,               $02,                  ,   300
+    ItemEntry INAME_NONSTICKPAN     ,  ,  ,  %00010,     16,               $02,                  ,   700
+    ItemEntry INAME_IRONSKILLET     ,  ,  ,  %00010,     36,               $02,                  ,  1120
+    ItemEntry INAME_SLINGSHOT       ,  ,  , %111111,      7,               $02,                  ,   120
+    ; 18 - 1f
+    ItemEntry INAME_BOOMERANG       ,  ,  , %111111,     32,               $02,                  ,  1100
+    ItemEntry INAME_INSECTICIDE     ,  ,  , %111111,       ,                  ,               $16,   300
+    ItemEntry INAME_SUPER_SPRAY     ,  ,  , %111111,       ,                  ,               $77,  1500
+    ItemEntry INAME_FLEA_BAG        ,  ,  , %111111,       ,                  ,               $60,     0
+    ItemEntry INAME_WORDSOLOVE      ,  ,  , %111111,       ,                  ,               $78,     0
+    ItemEntry INAME_SWEAR_WORDS     ,  ,  , %111111,       ,                  ,               $79,     0
+    ItemEntry INAME_STKYMACHINE     ,  ,  ,  %00100,       ,                  ,               $6e,  3200
+    ItemEntry INAME_FLASHDARK       ,  ,  , %111111,       ,                  ,               $6d,     0
+    ; 20 - 27
+    ItemEntry INAME_STONEORIGIN     ,  ,  , %111111,       ,                  ,               $3e,     0
+    ItemEntry INAME_POISNNEEDLE     ,  ,  , %111111,       ,                  ,               $3d,     0
+    ItemEntry INAME_FL_THROWER      ,  ,  ,  %00100,       ,                  ,               $67,     0
 
-;these items had no price originally
-;also might as well include the unused item
-.ifdef VER_JP
-itemDef INAME_BOMB, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $10, 0
-itemDef INAME_SUPER_BOMB, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $11, 0
-itemDef INAME_LASER_BEAM, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $69, 0
-itemDef INAME_PLASMA_BEAM, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $6A, 0
-itemDef INAME_UNKITEM27, 0, 0, 0, 0, 0, $00, $00, 0
-.else
-itemDef INAME_BOMB, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $10, 280
-itemDef INAME_SUPER_BOMB, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $11, 1800
-itemDef INAME_LASER_BEAM, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $69, 760
-itemDef INAME_PLASMA_BEAM, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $6A, 1300
-itemDef INAME_ROPE, 0, 0, 0, 0, 0, $00, $00, 0
-.endif
+    ;these items had no price originally
+    .ifdef VER_JP
+    ItemEntry INAME_BOMB            ,  ,  ,  %00100,       ,                  ,               $10,     0
+    ItemEntry INAME_SUPER_BOMB      ,  ,  ,  %00100,       ,                  ,               $11,     0
+    ItemEntry INAME_LASER_BEAM      ,  ,  ,  %00100,       ,                  ,               $69,     0
+    ItemEntry INAME_PLASMA_BEAM     ,  ,  ,  %00100,       ,                  ,               $6a,     0
+    .else
+    ItemEntry INAME_BOMB            ,  ,  ,  %00100,       ,                  ,               $10,   280
+    ItemEntry INAME_SUPER_BOMB      ,  ,  ,  %00100,       ,                  ,               $11,  1800
+    ItemEntry INAME_LASER_BEAM      ,  ,  ,  %00100,       ,                  ,               $69,   760
+    ItemEntry INAME_PLASMA_BEAM     ,  ,  ,  %00100,       ,                  ,               $6a,  1300
+    .endif
 
-itemDef INAME_ROPE, ITEMUSE_ALL, 0, 0, 0, 0, $00, $47, 600
-
-.ifdef VER_JP
-itemDef INAME_UNKITEM29, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM2A, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM2B, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM2C, 0, 0, 0, 0, 0, $00, $00, 0
-.else
-.repeat 4
-itemDef INAME_PEACE_COIN, 0, 0, 0, 0, 0, $00, $00, 0
-.endrepeat
-.endif
-
-itemDef INAME_PEACE_COIN, ITEMUSE_ALL, 0, 0, 5, 1, $02, $00, 260
-itemDef INAME_PROTECTCOIN, ITEMUSE_ALL, 0, 0, 11, 1, $02, $00, 648
-itemDef INAME_MAGIC_COIN, ITEMUSE_ALL, 0, 0, 20, 1, $02, $00, 1200
-itemDef INAME_BRASS_RING, ITEMUSE_ALL, 0, 0, 8, 2, $02, $00, 460
-itemDef INAME_SILVER_RING, ITEMUSE_ALL, 0, 0, 14, 2, $02, $00, 825
-itemDef INAME_GOLD_RING, ITEMUSE_ALL, 0, 0, 28, 2, $02, $00, 1510
-itemDef INAME_H2O_PENDANT, ITEMUSE_ALL, 0, 0, 32, 3, $02, $00, 700
-itemDef INAME_FIREPENDANT, ITEMUSE_ALL, 0, 0, 16, 3, $02, $00, 700
-itemDef INAME_EARTHPENDNT, ITEMUSE_ALL, 0, 0, 8, 3, $02, $00, 700
-itemDef INAME_SEA_PENDANT, ITEMUSE_ALL, 0, 0, 56, 3, $02, $00, 2860
-
-.ifdef VER_JP
-itemDef INAME_UNKITEM37, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM38, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM39, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM3A, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM3B, 0, 0, 0, 0, 0, $00, $00, 0
-.else
-.repeat 5
-itemDef INAME_ORANGEJUICE, 0, 0, 0, 0, 0, $00, $00, 0
-.endrepeat
-.endif
-
-itemDef INAME_ORANGEJUICE, ITEMUSE_ALL, 1, 0, 0, 0, $0A, $71, 5
-itemDef INAME_FRENCHFRIES, ITEMUSE_ALL, 1, 0, 0, 0, $0B, $72, 15
-itemDef INAME_MAGIC_HERB, ITEMUSE_ALL, 1, 0, 0, 0, $0C, $73, 30
-itemDef INAME_HAMBURGER, ITEMUSE_ALL, 1, 0, 0, 0, $0D, $7A, 25
-itemDef INAME_SPORTSDRINK, ITEMUSE_ALL, 1, 0, 0, 0, $0E, $74, 75
-itemDef INAME_LIFEUPCREAM, ITEMUSE_ALL, 0, 0, 0, 0, $0F, $7B, 194
-itemDef INAME_ASTHMASPRAY, ITEMUSE_NINTEN, 0, 0, 0, 0, $00, $76, 148
-itemDef INAME_ANTIDOTE, ITEMUSE_ALL, 1, 0, 0, 0, $11, $7C, 20
-itemDef INAME_MOUTHWASH, ITEMUSE_ALL, 0, 0, 0, 0, $12, $00, 175
-itemDef INAME_BERRY_TOFU, ITEMUSE_ALL, 1, 0, 0, 0, $06, $00, 975
-
-.ifdef VER_JP
-itemDef INAME_UNKITEM46, 0, 0, 0, 0, 0, $00, $00, 0
-.else
-itemDef INAME_BREAD, 0, 0, 0, 0, 0, $00, $00, 0
-.endif
-
-itemDef INAME_BREAD, ITEMUSE_ALL, 1, 0, 0, 0, $05, $84, 30
-itemDef INAME_NOBLE_SEED, ITEMUSE_ALL, 0, 0, 0, 0, $00, $5F, 0
-itemDef INAME_PSI_STONE, ITEMUSE_NINTEN | ITEMUSE_ANA, 0, 0, 0, 0, $13, $2F, 0
-
-.ifdef VER_JP
-itemDef INAME_UNKITEM4A, 0, 0, 0, 0, 0, $00, $00, 0
-.else
-itemDef INAME_MAGICRIBBON, 0, 0, 0, 0, 0, $00, $00, 0
-.endif
-
-itemDef INAME_MAGICRIBBON, ITEMUSE_ANA, 0, 0, 0, 0, $14, $00, 0
-itemDef INAME_MAGIC_CANDY, ITEMUSE_LLOYD, 1, 0, 0, 0, $15, $00, 0
-
-.ifdef VER_JP
-itemDef INAME_UNKITEM4D, 0, 0, 0, 0, 0, $00, $00, 0
-.else
-itemDef INAME_QUICKCAPSUL, 0, 0, 0, 0, 0, $00, $00, 0
-.endif
-
-itemDef INAME_QUICKCAPSUL, ITEMUSE_ALL, 1, 0, 0, 0, $16, $00, 0
-itemDef INAME_WISDOM_CAPS, ITEMUSE_ALL, 1, 0, 0, 0, $17, $00, 0
-itemDef INAME_PHYSICALCAP, ITEMUSE_ALL, 1, 0, 0, 0, $18, $00, 0
-itemDef INAME_FORCECAPSUL, ITEMUSE_ALL, 1, 0, 0, 0, $19, $00, 0
-itemDef INAME_FIGHTCAPSUL, ITEMUSE_ALL, 1, 0, 0, 0, $1A, $00, 0
-
-.ifdef VER_JP
-itemDef INAME_UNKITEM53, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM54, 0, 0, 0, 0, 0, $00, $00, 0
-.else
-.repeat 2
-itemDef INAME_BASEMENTKEY, 0, 0, 0, 0, 0, $00, $00, 0
-.endrepeat
-.endif
-
-itemDef INAME_BASEMENTKEY, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 0
-itemDef INAME_ZOO_KEY, ITEMUSE_ALL, 0, 0, 0, 0, $01, $00, 0
-itemDef INAME_GHOST_KEY, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 0
-itemDef INAME_GGFS_DIARY, ITEMUSE_ALL, 0, 1, 0, 0, $1B, $00, 0
-itemDef INAME_PASS, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 0
-itemDef INAME_TICKET, ITEMUSE_ALL, 0, 0, 0, 0, $01, $00, 350
-
-.ifdef VER_JP
-itemDef INAME_UNKITEM5B, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM5C, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM5D, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM5E, 0, 0, 0, 0, 0, $00, $00, 0
-.else
-.repeat 4
-itemDef INAME_CANARYCHICK, 0, 0, 0, 0, 0, $00, $00, 0
-.endrepeat
-.endif
-
-itemDef INAME_CANARYCHICK, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 85
-
-.ifdef VER_JP
-itemDef INAME_UNKITEM60, 0, 0, 0, 0, 0, $00, $00, 0
-.else
-itemDef INAME_BOTTLROCKET, 0, 0, 0, 0, 0, $00, $00, 0
-.endif
-
-itemDef INAME_BOTTLROCKET, ITEMUSE_LLOYD, 0, 0, 0, 0, $00, $7D, 0
-itemDef INAME_HAT, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 0
-itemDef INAME_DENTURES, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 0
-itemDef INAME_TICKET_STUB, ITEMUSE_ALL, 0, 0, 0, 0, $01, $00, 0
-itemDef INAME_IC_CHIP, ITEMUSE_LLOYD, 0, 1, 0, 0, $01, $00, 0
-itemDef INAME_OCARINA, ITEMUSE_ALL, 0, 1, 0, 0, $23, $00, 0
-
-.ifdef VER_JP
-itemDef INAME_UNKITEM67, 0, 0, 0, 0, 0, $00, $00, 0
-.else
-itemDef INAME_FRANKLNBDGE, 0, 0, 0, 0, 0, $00, $00, 0
-.endif
-
-itemDef INAME_FRANKLNBDGE, ITEMUSE_ALL, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_FRNDSHPRING, 0, 0, 0, 0, 0, $00, $00, 0
-
-.ifdef VER_JP
-itemDef INAME_UNKITEM6A, 0, 0, 0, 0, 0, $00, $00, 0
-.else
-itemDef INAME_ONYX_HOOK, 0, 0, 0, 0, 0, $00, $00, 0
-.endif
-
-itemDef INAME_ONYX_HOOK, ITEMUSE_ALL, 0, 1, 0, 0, $1E, $00, 0
-itemDef INAME_LAST_WEAPON, ITEMUSE_ALL, 0, 0, 0, 0, $20, $00, 1048
-itemDef INAME_RULER, ITEMUSE_ALL, 0, 0, 0, 0, $21, $00, 22
-itemDef INAME_CASH_CARD, ITEMUSE_ALL, 0, 1, 0, 0, $01, $00, 0
-itemDef INAME_RED_WEED, ITEMUSE_ALL, 0, 0, 0, 0, $01, $00, 0
-itemDef INAME_BULLHORN, ITEMUSE_ALL, 0, 0, 0, 0, $00, $3C, 0
-itemDef INAME_MAP, ITEMUSE_ALL, 0, 1, 0, 0, $22, $00, 0
-
-.ifdef VER_JP
-itemDef INAME_UNKITEM72, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM73, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM74, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM75, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM76, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM77, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM78, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM79, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM7A, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM7B, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM7C, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM7D, 0, 0, 0, 0, 0, $00, $00, 0
-itemDef INAME_UNKITEM7E, 0, 0, 0, 0, 0, $00, $00, 0
-.else
-.repeat 13
-itemDef INAME_DEBUG, 0, 0, 0, 0, 0, $00, $00, 0
-.endrepeat
-.endif
-
-itemDef INAME_DEBUG, ITEMUSE_ALL, 0, 1, 0, 0, $09, $00, 0
+    ItemEntry INAME_UNKITEM27       ,  ,  ,        ,       ,                  ,                  ,      
+    ; 28 - 2f
+    ItemEntry INAME_ROPE            ,  ,  , %111111,       ,                  ,               $47,  600
+    ItemEntry INAME_UNKITEM29       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM2A       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM2B       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM2C       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_PEACE_COIN      ,  ,  , %111111, $40| 5,               $02,                  ,  260
+    ItemEntry INAME_PROTECTCOIN     ,  ,  , %111111, $40|11,               $02,                  ,  648
+    ItemEntry INAME_MAGIC_COIN      ,  ,  , %111111, $40|20,               $02,                  , 1200
+    ; 30 - 37
+    ItemEntry INAME_BRASS_RING      ,  ,  , %111111, $80| 8,               $02,                  ,  460
+    ItemEntry INAME_SILVER_RING     ,  ,  , %111111, $80|14,               $02,                  ,  825
+    ItemEntry INAME_GOLD_RING       ,  ,  , %111111, $80|28,               $02,                  , 1510
+    ItemEntry INAME_H2O_PENDANT     ,  ,  , %111111,    $e0,               $02,                  ,  700
+    ItemEntry INAME_FIREPENDANT     ,  ,  , %111111,    $d0,               $02,                  ,  700
+    ItemEntry INAME_EARTHPENDNT     ,  ,  , %111111,    $c8,               $02,                  ,  700
+    ItemEntry INAME_SEA_PENDANT     ,  ,  , %111111,    $f8,               $02,                  , 2860
+    ItemEntry INAME_UNKITEM37       ,  ,  ,        ,       ,                  ,                  ,      
+    ; 38 - 3f
+    ItemEntry INAME_UNKITEM38       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM39       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM3A       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM3B       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_ORANGEJUICE     ,  , 1, %111111,       ,               $0a,               $71,    5
+    ItemEntry INAME_FRENCHFRIES     ,  , 1, %111111,       ,               $0b,               $72,   15
+    ItemEntry INAME_MAGIC_HERB      ,  , 1, %111111,       ,               $0c,               $73,   30
+    ItemEntry INAME_HAMBURGER       ,  , 1, %111111,       ,               $0d,               $7a,   25
+    ; 40 - 47
+    ItemEntry INAME_SPORTSDRINK     ,  , 1, %111111,       ,               $0e,               $74,   75
+    ItemEntry INAME_LIFEUPCREAM     ,  ,  , %111111,       ,               $0f,               $7b,  194
+    ItemEntry INAME_ASTHMASPRAY     ,  ,  ,  %00001,       ,                  ,               $76,  148
+    ItemEntry INAME_ANTIDOTE        ,  , 1, %111111,       ,               $11,               $7C,   20
+    ItemEntry INAME_MOUTHWASH       ,  ,  , %111111,       ,               $12,                  ,  175
+    ItemEntry INAME_BERRY_TOFU      ,  , 1, %111111,       ,               $06,                  ,  975
+    ItemEntry INAME_UNKITEM46       ,  ,  ,        ,       ,                  ,                  ,     
+    ItemEntry INAME_BREAD           ,  , 1, %111111,       ,               $05,               $84,   30
+    ; 48 - 4f
+    ItemEntry INAME_NOBLE_SEED      ,  ,  , %111111,       ,                  ,               $5F,    0
+    ItemEntry INAME_PSI_STONE       ,  ,  ,  %00011,       ,               $13,               $2F,    0
+    ItemEntry INAME_UNKITEM4A       ,  ,  ,        ,       ,                  ,                  ,     
+    ItemEntry INAME_MAGICRIBBON     ,  ,  ,  %00010,       ,               $14,                  ,    0
+    ItemEntry INAME_MAGIC_CANDY     ,  , 1,  %00100,       ,               $15,                  ,    0
+    ItemEntry INAME_UNKITEM4D       ,  ,  ,        ,       ,                  ,                  ,     
+    ItemEntry INAME_QUICKCAPSUL     ,  , 1, %111111,       ,               $16,                  ,    0
+    ItemEntry INAME_WISDOM_CAPS     ,  , 1, %111111,       ,               $17,                  ,    0
+    ; 50 - 57
+    ItemEntry INAME_PHYSICALCAP     ,  , 1, %111111,       ,               $18,                  ,    0
+    ItemEntry INAME_FORCECAPSUL     ,  , 1, %111111,       ,               $19,                  ,    0
+    ItemEntry INAME_FIGHTCAPSUL     ,  , 1, %111111,       ,               $1a,                  ,    0
+    ItemEntry INAME_UNKITEM53       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM54       ,  ,  ,        ,       ,                  ,                  ,     
+    ItemEntry INAME_BASEMENTKEY     , 1,  , %111111,       ,               $01,                  ,    0
+    ItemEntry INAME_ZOO_KEY         ,  ,  , %111111,       ,               $01,                  ,    0
+    ItemEntry INAME_GHOST_KEY       , 1,  , %111111,       ,               $01,                  ,    0
+    ; 58 - 5f
+    ItemEntry INAME_GGFS_DIARY      , 1,  , %111111,       ,               $1b,                  ,    0
+    ItemEntry INAME_PASS            , 1,  , %111111,       ,               $01,                  ,    0
+    ItemEntry INAME_TICKET          ,  ,  , %111111,       ,               $01,                  ,  350
+    ItemEntry INAME_UNKITEM5B       ,  ,  ,        ,       ,                  ,                  ,     
+    ItemEntry INAME_UNKITEM5C       ,  ,  ,        ,       ,                  ,                  ,     
+    ItemEntry INAME_UNKITEM5D       ,  ,  ,        ,       ,                  ,                  ,     
+    ItemEntry INAME_UNKITEM5E       ,  ,  ,        ,       ,                  ,                  ,     
+    ItemEntry INAME_CANARYCHICK     , 1,  , %111111,       ,               $01,                  ,   85
+    ; 60 - 67
+    ItemEntry INAME_UNKITEM60       ,  ,  ,        ,       ,                  ,                  ,     
+    ItemEntry INAME_BOTTLROCKET     ,  ,  ,  %00100,       ,                  ,               $7d,    0
+    ItemEntry INAME_HAT             , 1,  , %111111,       ,               $01,                  ,    0
+    ItemEntry INAME_DENTURES        , 1,  , %111111,       ,               $01,                  ,    0
+    ItemEntry INAME_TICKET_STUB     ,  ,  , %111111,       ,               $01,                  ,    0
+    ItemEntry INAME_IC_CHIP         , 1,  ,  %00100,       ,               $01,                  ,    0
+    ItemEntry INAME_OCARINA         , 1,  , %111111,       ,               $23,                  ,    0
+    ItemEntry INAME_UNKITEM67       ,  ,  ,        ,       ,                  ,                  ,     
+    ; 68 - 6f
+    ItemEntry INAME_FRANKLNBDGE     ,  ,  , %111111,       ,                  ,                  ,    0
+    ItemEntry INAME_FRNDSHPRING     ,  ,  ,        ,       ,                  ,                  ,     
+    ItemEntry INAME_UNKITEM6A       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_ONYX_HOOK       , 1,  , %111111,       ,               $1e,                  ,    0
+    ItemEntry INAME_LAST_WEAPON     ,  ,  , %111111,       ,               $20,                  , 1048
+    ItemEntry INAME_RULER           ,  ,  , %111111,       ,               $21,                  ,   22
+    ItemEntry INAME_CASH_CARD       , 1,  , %111111,       ,               $01,                  ,    0
+    ItemEntry INAME_RED_WEED        ,  ,  , %111111,       ,               $01,                  ,    0
+    ; 70 - 77
+    ItemEntry INAME_BULLHORN        ,  ,  , %111111,       ,                  ,               $3C,    0
+    ItemEntry INAME_MAP             , 1,  , %111111,       ,               $22,                  ,    0
+    ItemEntry INAME_UNKITEM72       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM73       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM74       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM75       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM76       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM77       ,  ,  ,        ,       ,                  ,                  ,      
+    ; 78 - 7f
+    ItemEntry INAME_UNKITEM78       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM79       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM7A       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM7B       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM7C       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM7D       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_UNKITEM7E       ,  ,  ,        ,       ,                  ,                  ,      
+    ItemEntry INAME_DEBUG           , 1,  , %111111,       ,               $09,                  ,     0

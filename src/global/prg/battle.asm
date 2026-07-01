@@ -1997,10 +1997,10 @@ GetItemPointer:
     dex
     bne @shift
     clc
-    adc #.LOBYTE(Item_Data)
+    adc #.LOBYTE(ItemTable)
     sta battle_wordvar62
     lda battle_wordvar62+1
-    adc #.HIBYTE(Item_Data)
+    adc #.HIBYTE(ItemTable)
     sta battle_wordvar62+1
     rts
 
