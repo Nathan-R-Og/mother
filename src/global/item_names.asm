@@ -10,7 +10,7 @@ INAME_PHONE_CARD:
 kanafix "テレホンカ-ド",stopText
 INAME_CRUMBS:
 kanafix "パンくず",stopText
-INAME_UNKITEM4:
+INAME_REPEL_RING:
 .byte stopText
 INAME_UNKITEM5:
 .byte stopText
@@ -272,6 +272,11 @@ INAME_CRUMBS:
 .byte "Crumbs",stopText
 INAME_REPEL_RING:
 .byte "Repel Ring",stopText
+INAME_UNKITEM5:
+INAME_UNKITEM6:
+INAME_UNKITEM7:
+INAME_UNKITEM8:
+INAME_UNKITEM9:
 INAME_BUTTERKNIFE:
 .byte "ButterKnife",stopText
 INAME_SURV_KNIFE:
@@ -330,8 +335,13 @@ INAME_LASER_BEAM:
 .byte "Laser Beam",stopText
 INAME_PLASMA_BEAM:
 .byte "Plasma Beam",stopText
+INAME_UNKITEM27:
 INAME_ROPE:
 .byte "Rope",stopText
+INAME_UNKITEM29:
+INAME_UNKITEM2A:
+INAME_UNKITEM2B:
+INAME_UNKITEM2C:
 INAME_PEACE_COIN:
 .byte "Peace Coin",stopText
 INAME_PROTECTCOIN:
@@ -353,6 +363,11 @@ INAME_EARTHPENDNT:
 INAME_SEA_PENDANT:
 .byte "Sea Pendant",stopText
 
+INAME_UNKITEM37:
+INAME_UNKITEM38:
+INAME_UNKITEM39:
+INAME_UNKITEM3A:
+INAME_UNKITEM3B:
 INAME_ORANGEJUICE:
 .byte "OrangeJuice",stopText
 INAME_FRENCHFRIES:
@@ -373,16 +388,19 @@ INAME_MOUTHWASH:
 .byte "Mouthwash",stopText
 INAME_BERRY_TOFU:
 .byte "berry Tofu",stopText
+INAME_UNKITEM46:
 INAME_BREAD:
 .byte "Bread",stopText
 INAME_NOBLE_SEED:
 .byte "Noble Seed",stopText
 INAME_PSI_STONE:
 .byte "PSI Stone",stopText
+INAME_UNKITEM4A:
 INAME_MAGICRIBBON:
 .byte "MagicRibbon",stopText
 INAME_MAGIC_CANDY:
 .byte "Magic Candy",stopText
+INAME_UNKITEM4D:
 INAME_QUICKCAPSUL:
 .byte "QuickCapsul",stopText
 INAME_WISDOM_CAPS:
@@ -393,6 +411,8 @@ INAME_FORCECAPSUL:
 .byte "ForceCapsul",stopText
 INAME_FIGHTCAPSUL:
 .byte "FightCapsul",stopText
+INAME_UNKITEM53:
+INAME_UNKITEM54:
 INAME_BASEMENTKEY:
 .byte "BasementKey",stopText
 INAME_ZOO_KEY:
@@ -405,8 +425,13 @@ INAME_PASS:
 .byte "Pass",stopText
 INAME_TICKET:
 .byte "Ticket",stopText
+INAME_UNKITEM5B:
+INAME_UNKITEM5C:
+INAME_UNKITEM5D:
+INAME_UNKITEM5E:
 INAME_CANARYCHICK:
 .byte "CanaryChick",stopText
+INAME_UNKITEM60:
 INAME_BOTTLROCKET:
 .byte "BottlRocket",stopText
 INAME_HAT:
@@ -419,10 +444,12 @@ INAME_IC_CHIP:
 .byte "IC-chip",stopText
 INAME_OCARINA:
 .byte "Ocarina",stopText
+INAME_UNKITEM67:
 INAME_FRANKLNBDGE:
 .byte "FranklnBdge",stopText
 INAME_FRNDSHPRING:
 .byte "FrndshpRing",stopText
+INAME_UNKITEM6A:
 INAME_ONYX_HOOK:
 .byte "Onyx Hook",stopText
 INAME_LAST_WEAPON:
@@ -437,6 +464,19 @@ INAME_BULLHORN:
 .byte "Bullhorn",stopText
 INAME_MAP:
 .byte "Map",stopText
+INAME_UNKITEM72:
+INAME_UNKITEM73:
+INAME_UNKITEM74:
+INAME_UNKITEM75:
+INAME_UNKITEM76:
+INAME_UNKITEM77:
+INAME_UNKITEM78:
+INAME_UNKITEM79:
+INAME_UNKITEM7A:
+INAME_UNKITEM7B:
+INAME_UNKITEM7C:
+INAME_UNKITEM7D:
+INAME_UNKITEM7E:
 INAME_DEBUG:
 .byte "Debug",stopText
 

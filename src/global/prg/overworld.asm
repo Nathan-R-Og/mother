@@ -5223,10 +5223,10 @@ GetItemDataPointer:
 B19_1be2:
     clc
     lda temp_word
-    adc #.LOBYTE(Item_Data)
+    adc #.LOBYTE(ItemTable)
     sta temp_word
     lda temp_word+1
-    adc #.HIBYTE(Item_Data)
+    adc #.HIBYTE(ItemTable)
     sta temp_word+1
     rts
 

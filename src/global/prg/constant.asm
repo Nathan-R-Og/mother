@@ -5953,8 +5953,8 @@ B30_1ccd:
 B30_1cdf:
     clc
     lda UNK_28
-    ;'item id' into Item_Data to reach CharacterRates
-    adc #.LOBYTE((CharacterRates-Item_Data)>>3)
+    ;'item id' into ItemTable to reach CharacterRates
+    adc #.LOBYTE((CharacterRates-ItemTable)>>3)
     bcc B30_1ce8
     B30_1ce6:
     lda UNK_28+1
@@ -5966,11 +5966,11 @@ B30_1cdf:
     asl a
     rol UNK_68+1
     clc
-    adc #.LOBYTE(Item_Data)
+    adc #.LOBYTE(ItemTable)
     sta UNK_68
     lda UNK_68+1
     and #%00000111
-    adc #.HIBYTE(Item_Data)
+    adc #.HIBYTE(ItemTable)
     sta UNK_68+1
     jmp BANKSET_L00
 
