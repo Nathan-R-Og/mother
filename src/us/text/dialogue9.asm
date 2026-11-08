@@ -352,7 +352,7 @@ MSG_LOOK_ORANGE_JUICE:
 .byte   " good for a few HP.",newLine
 .byte   stopText
 
-MSG_LOOK_FRESH_FRIES:
+MSG_LOOK_FRENCH_FRIES:
 .byte   '"French Fries"',newLine
 .byte   "*EATen with or",newLine
 .byte   " without catsup,",newLine

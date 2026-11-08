@@ -3,1279 +3,911 @@
 .byte   0
 
 MSG_ELLAY_BBGANG5:
-kanafix "*おれは つよい。"
-.byte   newLine
-kanafix "くちばっかしだけどな。"
-.byte   newLine
+kanafix "*おれは つよい。",newLine
+kanafix "くちばっかしだけどな。",newLine
 .byte   stopText
 MSG_ELLAY_BBGANG6:
 kanafix "*"
 .byte   teddyName
-kanafix "の あにきがいたら"
-.byte   newLine
-kanafix "おまえなんか ゆびさきで"
-.byte   newLine
-kanafix "ヒョイッ さ。"
-.byte   newLine
+kanafix "の あにきがいたら",newLine
+kanafix "おまえなんか ゆびさきで",newLine
+kanafix "ヒョイッ さ。",newLine
 .byte   stopText
 
 MSG_ELLAY_SIGNGUY:
-kanafix "*カンバンの もじは"
-.byte   newLine
-kanafix "ちゃんと よんどるかね?"
-.byte   newLine
+kanafix "*カンバンの もじは",newLine
+kanafix "ちゃんと よんどるかね?",newLine
 .byte   stopText
 
 MSG_ELLAY_CACTUSGIRL:
-kanafix "*もし どこかのさばくで"
-.byte   newLine
-kanafix "かおのあるサボテンを"
-.byte   newLine
-kanafix "みつけたら‥‥"
-.byte   newLine
+kanafix "*もし どこかのさばくで",newLine
+kanafix "かおのあるサボテンを",newLine
+kanafix "みつけたら‥‥",newLine
 .byte   pauseText
-kanafix "*とても こわいざますわね。"
-.byte   newLine
+kanafix "*とても こわいざますわね。",newLine
 .byte   stopText
 
 MSG_ELLAY_FISHERGUY:
-kanafix "*つりびとに はなしかけると"
-.byte   newLine
-kanafix "はなしが ながくて いけないね。"
-.byte   newLine
+kanafix "*つりびとに はなしかけると",newLine
+kanafix "はなしが ながくて いけないね。",newLine
 .byte   stopText
 
 MSG_TWINKLE_ALLCARTWHEELGIRL:
-kanafix "*しょうがく いちねんせいだったら"
-.byte   newLine
-kanafix "さかあがりくらい"
-.byte   newLine
-kanafix "できるものよねぇ。"
-.byte   newLine
+kanafix "*しょうがく いちねんせいだったら",newLine
+kanafix "さかあがりくらい",newLine
+kanafix "できるものよねぇ。",newLine
 .byte   stopText
 
 MSG_ELLAY_TOWERBELLHOP:
-kanafix "*こちらのエレベ-タ-で"
-.byte   newLine
-kanafix "てんぼうだいまで"
-.byte   newLine
-kanafix "おあがりください。"
-.byte   newLine
+kanafix "*こちらのエレベ-タ-で",newLine
+kanafix "てんぼうだいまで",newLine
+kanafix "おあがりください。",newLine
 .byte   stopText
 
 MSG_ELLAY_TOWER_GUY:
-kanafix "*ここの てんぼうだいから"
-.byte   newLine
-kanafix "みえる しまで けむりがでてたよ。"
-.byte   newLine
-kanafix "だれか すんでいるのかなぁ?"
-.byte   newLine
+kanafix "*ここの てんぼうだいから",newLine
+kanafix "みえる しまで けむりがでてたよ。",newLine
+kanafix "だれか すんでいるのかなぁ?",newLine
 .byte   pauseText
-kanafix "*ぼうえんきょうで みてみれば"
-.byte   newLine
-kanafix "よかったなあ。"
-.byte   newLine
+kanafix "*ぼうえんきょうで みてみれば",newLine
+kanafix "よかったなあ。",newLine
 .byte   stopText
 
 MSG_TWINKLE_CANTCARTWHEELGIRL:
-kanafix "*ぼく さかあがりできないのよ。"
-.byte   newLine
+kanafix "*ぼく さかあがりできないのよ。",newLine
 .byte   stopText
 
 MSG_TWINKLE_SUBTRACTIONGIRL:
-kanafix "*わたしは"
-.byte   newLine
-kanafix "ひきざんの くりさがりが"
-.byte   newLine
-kanafix "まだ よくわからない。"
-.byte   newLine
+kanafix "*わたしは",newLine
+kanafix "ひきざんの くりさがりが",newLine
+kanafix "まだ よくわからない。",newLine
 .byte   stopText
 
 MSG_TWINKLE_TOFUKID:
-kanafix "*いちごあじのとうふって"
-.byte   newLine
-kanafix "とかいのほうで"
-.byte   newLine
-kanafix "はやってるらしいな。"
-.byte   newLine
+kanafix "*いちごあじのとうふって",newLine
+kanafix "とかいのほうで",newLine
+kanafix "はやってるらしいな。",newLine
 .byte   pauseText
-kanafix "*くってみてぇよ。"
-.byte   newLine
+kanafix "*くってみてぇよ。",newLine
 .byte   stopText
 
 MSG_TWINKLE_HUNGRYKID:
-kanafix "*はら へったな。"
-.byte   newLine
+kanafix "*はら へったな。",newLine
 .byte   stopText
 
 MSG_TWINKLE_DADGIRL:
-kanafix "*おれを ただのおじさんと"
-.byte   newLine
-kanafix "おもうなよ。"
-.byte   newLine
+kanafix "*おれを ただのおじさんと",newLine
+kanafix "おもうなよ。",newLine
 .byte   pauseText
-kanafix "*って うちのパパのくちぐせなの。"
-.byte   newLine
+kanafix "*って うちのパパのくちぐせなの。",newLine
 .byte   stopText
 
 MSG_TWINKLE_LATEGIRL:
-kanafix "*あなた ちこくよね!"
-.byte   newLine
+kanafix "*あなた ちこくよね!",newLine
 .byte   stopText
 
 MSG_TWINKLE_STRANGEGIRL:
-kanafix "*りかしつで"
-.byte   newLine
-kanafix "へんなせんせいを みなかったぁ?"
-.byte   newLine
+kanafix "*りかしつで",newLine
+kanafix "へんなせんせいを みなかったぁ?",newLine
 .byte   pauseText
-kanafix "*‥‥わたし みた。"
-.byte   newLine
+kanafix "*‥‥わたし みた。",newLine
 .byte   stopText
 
 MSG_TWINKLE_GAMEKID:
-kanafix "*ドラクエの フォ- やった?"
-.byte   newLine
-kanafix "おれ"
-.byte   newLine
-kanafix "まだスリ-でくろうしてるんだ。"
-.byte   newLine
+kanafix "*ドラクエの フォ- やった?",newLine
+kanafix "おれ",newLine
+kanafix "まだスリ-でくろうしてるんだ。",newLine
 .byte   stopText
 
 MSG_DRUGSVENDOR_WELCOME:
-kanafix "*いらっしゃいませ。"
-.byte   newLine
-kanafix "なにを さしあげましょう?"
-.byte   newLine
+kanafix "*いらっしゃいませ。",newLine
+kanafix "なにを さしあげましょう?",newLine
 .byte   stopText
 
 MSG_VARIETYVENDOR_OUTOFSTOCK:
-kanafix "*もうしわけありません。"
-.byte   newLine
-kanafix "そのしなは"
-.byte   newLine
-kanafix "ただいまうりきれで ございます。"
-.byte   newLine
+kanafix "*もうしわけありません。",newLine
+kanafix "そのしなは",newLine
+kanafix "ただいまうりきれで ございます。",newLine
 .byte   stopText
 
 MSG_BURGERSHOP_NO_BUY:
-kanafix "*あら おやめになるんですか?"
-.byte   newLine
-kanafix "ざんねんですが‥‥"
-.byte   newLine
+kanafix "*あら おやめになるんですか?",newLine
+kanafix "ざんねんですが‥‥",newLine
 .byte   pauseText
-kanafix "*またの ごらいてんを"
-.byte   newLine
-kanafix "おまちしております。"
-.byte   newLine
+kanafix "*またの ごらいてんを",newLine
+kanafix "おまちしております。",newLine
 .byte   stopText
 
 MSG_BURGERSHOP_GOODBYE:
-kanafix "*ありがとうございました。"
-.byte   newLine
-kanafix "また ごりようください。"
-.byte   newLine
+kanafix "*ありがとうございました。",newLine
+kanafix "また ごりようください。",newLine
 .byte   stopText
 
 MSG_MISLAY_MOUTHWASHKID_NOTAKE:
-kanafix "*おや やめるんですか?"
-.byte   newLine
-kanafix "では またきてくださいね。"
-.byte   newLine
+kanafix "*おや やめるんですか?",newLine
+kanafix "では またきてくださいね。",newLine
 .byte   stopText
 
 MSG_HOSPITAL_NURSE_REVIVE:
 kanafix "*"
 .byte   result
-kanafix "さん"
-.byte   newLine
-kanafix "げんきになって よかったわね。"
-.byte   newLine
-kanafix "また いつでもどうぞ!"
-.byte   newLine
+kanafix "さん",newLine
+kanafix "げんきになって よかったわね。",newLine
+kanafix "また いつでもどうぞ!",newLine
 .byte   stopText
 MSG_HOSPITAL_NURSE_NOREVIVE:
-kanafix "*あら あなたのおともだちでしょ?"
-.byte   newLine
-kanafix "ほんとに しんじゃいますよ。"
-.byte   newLine
+kanafix "*あら あなたのおともだちでしょ?",newLine
+kanafix "ほんとに しんじゃいますよ。",newLine
 .byte   stopText
 
 MSG_PODUNK_HOSPITALDOCTOR:
-kanafix "*はいはい"
-.byte   newLine
+kanafix "*はいはい",newLine
 kanafix "ひとり "
 .byte   price
-kanafix "ドルで"
-.byte   newLine
-kanafix "しんさつしてあげましょうね。"
-.byte   newLine
+kanafix "ドルで",newLine
+kanafix "しんさつしてあげましょうね。",newLine
 .byte   stopText
 MSG_PODUNK_HOSPITALDOCTOR_DECLINE:
-kanafix "*ほんとに ちりょうは いらない?"
-.byte   newLine
-kanafix "あっそ。"
-.byte   newLine
+kanafix "*ほんとに ちりょうは いらない?",newLine
+kanafix "あっそ。",newLine
 .byte   stopText
 MSG_PODUNK_HOSPITALDOCTOR_NORMAL:
-kanafix "*わたしのみたてでは"
-.byte   newLine
-kanafix "どこも わるくないようだよ。"
-.byte   newLine
+kanafix "*わたしのみたてでは",newLine
+kanafix "どこも わるくないようだよ。",newLine
 .byte   stopText
 MSG_PODUNK_HOSPITALDOCTOR_ACCEPT:
-kanafix "*はい すっかりよくなったよ。"
-.byte   newLine
+kanafix "*はい すっかりよくなったよ。",newLine
 .byte   stopText
 
 MSG_HEALER:
-kanafix "*しんじようが しんじまいが"
-.byte   newLine
-kanafix "わたしは ヒ-ラ-。"
-.byte   newLine
-kanafix "どうしたい?"
-.byte   newLine
+kanafix "*しんじようが しんじまいが",newLine
+kanafix "わたしは ヒ-ラ-。",newLine
+kanafix "どうしたい?",newLine
 .byte   stopText
 
 MSG_HEALER_NO:
-kanafix "*おお そうか。 そうしなさい。"
-.byte   newLine
+kanafix "*おお そうか。 そうしなさい。",newLine
 .byte   stopText
 
 MSG_HEALER_PRICE:
 kanafix "*"
 .byte   price
-kanafix "ドル"
-.byte   newLine
-kanafix "いただいておこうか。"
-.byte   newLine
+kanafix "ドル",newLine
+kanafix "いただいておこうか。",newLine
 .byte   stopText
 
 MSG_HOTELBELLHOP:
-kanafix "*いらっしゃいませ。"
-.byte   newLine
+kanafix "*いらっしゃいませ。",newLine
 kanafix "ひとばん "
 .byte   price
-kanafix "ドルに"
-.byte   newLine
-kanafix "なりますが おとまりになりますか?"
-.byte   newLine
+kanafix "ドルに",newLine
+kanafix "なりますが おとまりになりますか?",newLine
 .byte   stopText
 MSG_HOTELBELLHOP_DECLINE:
-kanafix "*それは ざんねんです。"
-.byte   newLine
-kanafix "また いらしてくださいね。"
-.byte   newLine
+kanafix "*それは ざんねんです。",newLine
+kanafix "また いらしてくださいね。",newLine
 .byte   stopText
 MSG_HOTELBELLHOP_ACCEPT:
-kanafix "*では ごゆっくり。"
-.byte   newLine
+kanafix "*では ごゆっくり。",newLine
 .byte   stopText
 MSG_HOTELBELLHOP_GOODMORNING:
-kanafix "*おはようございます。"
-.byte   newLine
-kanafix "また おたちよりください。"
-.byte   newLine
-kanafix "おまちしております。"
-.byte   newLine
+kanafix "*おはようございます。",newLine
+kanafix "また おたちよりください。",newLine
+kanafix "おまちしております。",newLine
 .byte   stopText
 
 MSG_HOSPITAL_NURSE_SELECT:
 kanafix "*"
 .byte   result
-kanafix "さんでしたら"
-.byte   newLine
-kanafix "さっき はこびこまれましたよ。"
-.byte   newLine
-kanafix "いしきが もどらないんですが‥‥"
-.byte   newLine
+kanafix "さんでしたら",newLine
+kanafix "さっき はこびこまれましたよ。",newLine
+kanafix "いしきが もどらないんですが‥‥",newLine
 .byte   pauseText
 kanafix "*ちりょうひを "
 .byte   price
-kanafix "ドル"
-.byte   newLine
-kanafix "おしはらい ください。"
-.byte   newLine
+kanafix "ドル",newLine
+kanafix "おしはらい ください。",newLine
 .byte   stopText
 MSG_HOSPITAL_NURSE:
-kanafix "*どなたに ごめんかいですか?"
-.byte   newLine
+kanafix "*どなたに ごめんかいですか?",newLine
 .byte   stopText
 
 MSG_YOUNGTOWN_HOTELBELLHOP:
-kanafix "*パパは るすです。"
-.byte   newLine
-kanafix "だから"
-.byte   newLine
-kanafix "おかねのことは わかんないけど"
-.byte   newLine
+kanafix "*パパは るすです。",newLine
+kanafix "だから",newLine
+kanafix "おかねのことは わかんないけど",newLine
 .byte   pauseText
-kanafix "ほかは"
-.byte   newLine
-kanafix "ぼくが ちゃんとやりますから"
-.byte   newLine
-kanafix "あんしんして とまってください。"
-.byte   newLine
+kanafix "ほかは",newLine
+kanafix "ぼくが ちゃんとやりますから",newLine
+kanafix "あんしんして とまってください。",newLine
 .byte   stopText
 MSG_YOUNGTOWN_HOTELBELLHOP_GOODMORNING:
-kanafix "*おはよう。"
-.byte   newLine
-kanafix "また とまりにきてね。"
-.byte   newLine
-kanafix "ひとりぼっちで さみしいんだ。"
-.byte   newLine
+kanafix "*おはよう。",newLine
+kanafix "また とまりにきてね。",newLine
+kanafix "ひとりぼっちで さみしいんだ。",newLine
 .byte   stopText
 MSG_YOUNGTOWN_HOTELBELLHOP_DECLINE:
-kanafix "*なんだ とまっていかないの‥‥"
-.byte   newLine
+kanafix "*なんだ とまっていかないの‥‥",newLine
 .byte   pauseText
-kanafix "*パパがいなくても ぼくがちゃんと"
-.byte   newLine
-kanafix "かわりをするから"
-.byte   newLine
-kanafix "だいじょうぶなのに‥‥"
-.byte   newLine
+kanafix "*パパがいなくても ぼくがちゃんと",newLine
+kanafix "かわりをするから",newLine
+kanafix "だいじょうぶなのに‥‥",newLine
 .byte   stopText
 
 MSG_ELLAY_LHBOUNCERGIRL_TICKET:
-kanafix "*あらっ チケットがなきゃ"
-.byte   newLine
-kanafix "はいれないわよ。"
-.byte   newLine
+kanafix "*あらっ チケットがなきゃ",newLine
+kanafix "はいれないわよ。",newLine
 .byte   stopText
 
-kanafix "*しかし‥‥‥"
-.byte   newLine
-kanafix "なにもなかった。"
-.byte   newLine
+kanafix "*しかし‥‥‥",newLine
+kanafix "なにもなかった。",newLine
 .byte   stopText
 
 MSG_MYHOME_MINNIE_STORAGE:
 kanafix "  あずける   もちだす"
 .byte   stopText
-
 .byte   newLine
 .byte   stopText
 
 MSG_MYHOME_MINNIE_STORAGE_INVNOTHING:
-kanafix "*なにももってないじゃない。"
-.byte   newLine
+kanafix "*なにももってないじゃない。",newLine
 .byte   stopText
 
 MSG_MYHOME_MINNIE_STORAGE_NOTHING:
-kanafix "*なにも あずかってないわよ。"
-.byte   newLine
+kanafix "*なにも あずかってないわよ。",newLine
 .byte   stopText
 
 MSG_MYHOME_MINNIE_STORAGE_FULL:
-kanafix "*ちょっとまって‥‥‥"
-.byte   newLine
+kanafix "*ちょっとまって‥‥‥",newLine
 .byte   pauseText
-kanafix "*そうこが いっぱいだから"
-.byte   newLine
-kanafix "もうあずかれないよ。"
-.byte   newLine
+kanafix "*そうこが いっぱいだから",newLine
+kanafix "もうあずかれないよ。",newLine
 .byte   stopText
 
 MSG_ATM_INTRO:
-kanafix "*イラッシャイマセ"
-.byte   newLine
+kanafix "*イラッシャイマセ",newLine
 .byte   stopText
 
 MSG_ATM_INSUFFICIENT:
-kanafix "*ザンダカガ タリマセン"
-.byte   newLine
+kanafix "*ザンダカガ タリマセン",newLine
 .byte   stopText
 
 MSG_ATM_NOT_ENOUGH_STORED:
-kanafix "*オカネガ タリマセン"
-.byte   newLine
+kanafix "*オカネガ タリマセン",newLine
 .byte   stopText
 
 MSG_ATM_DEPOSIT_TOO_MUCH:
-kanafix "*モウシワケ アリマセン"
-.byte   newLine
+kanafix "*モウシワケ アリマセン",newLine
 .byte   pauseText
-kanafix "トリヒキ ゲンドガクヲ"
-.byte   newLine
-kanafix "コエマシタノデ"
-.byte   newLine
-kanafix "オアズカリ デキマセン"
-.byte   newLine
+kanafix "トリヒキ ゲンドガクヲ",newLine
+kanafix "コエマシタノデ",newLine
+kanafix "オアズカリ デキマセン",newLine
 .byte   stopText
 
 MSG_SPOOKANE_HOTELBELLHOP_THANKS:
-kanafix "*アリガトウ ゴザイマシタ"
-.byte   newLine
+kanafix "*アリガトウ ゴザイマシタ",newLine
 .byte   stopText
 
 MSG_MYHOME_DOLL:
-kanafix "*にんぎょうの なかには"
-.byte   newLine
-kanafix "ふるい オルゴ-ルが"
-.byte   newLine
-kanafix "かくされていた。"
-.byte   newLine
+kanafix "*にんぎょうの なかには",newLine
+kanafix "ふるい オルゴ-ルが",newLine
+kanafix "かくされていた。",newLine
 .byte   pauseText
 kanafix "*"
 .byte   partyLead
-kanafix "は"
-.byte   newLine
-kanafix "オルゴ-ルをあけた。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "オルゴ-ルをあけた。",newLine
 .byte   pauseText
-kanafix "*とぎれとぎれに"
-.byte   newLine
-kanafix "メロディ-がながれた。"
-.byte   newLine
+kanafix "*とぎれとぎれに",newLine
+kanafix "メロディ-がながれた。",newLine
 .byte   stopText
 
 MSG_CANARY_PILLAR:
-kanafix "* ?"
-.byte   newLine
+kanafix "* ?",newLine
 .byte   stopText
 
-kanafix "*ありがとう ございました。"
-.byte   newLine
+kanafix "*ありがとう ございました。",newLine
 .byte   stopText
 
 MSG_ELLAY_JAILCOP:
-kanafix "*おれ ぶきをてにいれる"
-.byte   newLine
-kanafix "いいル-トを もっているんだ。"
-.byte   newLine
+kanafix "*おれ ぶきをてにいれる",newLine
+kanafix "いいル-トを もっているんだ。",newLine
 .byte   pauseText
-kanafix "*そのうち すごいぶきを"
-.byte   newLine
-kanafix "てにいれられる かもな。"
-.byte   newLine
+kanafix "*そのうち すごいぶきを",newLine
+kanafix "てにいれられる かもな。",newLine
 .byte   stopText
 
 kanafix "*"
 .byte   partyLead
 .byte   unk4
-kanafix "は"
-.byte   newLine
-kanafix "たたかいに かった。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "たたかいに かった。",newLine
 .byte   stopText
 
 MSG_ATM_MENU:
 kanafix "  ヒキダス   アズケル"
 .byte   stopText
-
 .byte   newLine
 .byte   stopText
 
 MSG_ATM_CURRENT_BALANCE:
 kanafix "*ゲンザイ $"
-.byte   currentCash, c00
-.byte   newLine
-kanafix "オアズカリ シテイマス"
-.byte   newLine
+.byte   currentCash, c00,newLine
+kanafix "オアズカリ シテイマス",newLine
 .byte   stopText
 
 MSG_DOOR_LOCKED:
-kanafix "*カギが かかっている。"
-.byte   newLine
+kanafix "*カギが かかっている。",newLine
 .byte   stopText
 
 MSG_DOOR_KEYFAIL:
-kanafix "*カギが あわないようだ。"
-.byte   newLine
+kanafix "*カギが あわないようだ。",newLine
 .byte   stopText
 
 MSG_DOOR_UNLOCKED:
 kanafix "*"
 .byte   partyLead
 .byte   unk4
-kanafix "は"
-.byte   newLine
-kanafix "カギをあけて なかにはいった。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "カギをあけて なかにはいった。",newLine
 .byte   stopText
 
 MSG_MENU_YES_NO:
 kanafix "  きろくする  とくにない"
 .byte   stopText
-
 .byte   newLine
 .byte   stopText
 
 MSG_MENU_CONTINUE_REST:
 kanafix "  つづける   おわる"
 .byte   stopText
-
 .byte   newLine
 .byte   stopText
 
 MSG_PHONE_GRAB:
 kanafix "*"
 .byte   partyLead
-kanafix "は"
-.byte   newLine
-kanafix "じゅわきを とった。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "じゅわきを とった。",newLine
 .byte   stopText
 
 MSG_HOSPITAL_NURSE_NOMONEY:
-kanafix "*しつれいですが‥‥"
-.byte   newLine
-kanafix "おかねが たりないようですよ。"
-.byte   newLine
+kanafix "*しつれいですが‥‥",newLine
+kanafix "おかねが たりないようですよ。",newLine
 .byte   stopText
 
 MSG_BURGERSHOP_NOMONEY:
-kanafix "*まあ おきゃくさま"
-.byte   newLine
-kanafix "おかねが たりませんわ。"
-.byte   newLine
+kanafix "*まあ おきゃくさま",newLine
+kanafix "おかねが たりませんわ。",newLine
 .byte   stopText
 
 MSG_BURGERSHOP_NO_ROOM:
-kanafix "*おきゃくさま"
-.byte   newLine
-kanafix "それいじょうおもちになろうなんて"
-.byte   newLine
+kanafix "*おきゃくさま",newLine
+kanafix "それいじょうおもちになろうなんて",newLine
 .byte   pauseText
-kanafix "おやめになったほうが"
-.byte   newLine
-kanafix "よろしいとおもいます。"
-.byte   newLine
+kanafix "おやめになったほうが",newLine
+kanafix "よろしいとおもいます。",newLine
 .byte   stopText
 
 MSG_HEALER_FIXED:
-kanafix "*っはい! もうなおってる。"
-.byte   newLine
-kanafix "すごいでしょ。"
-.byte   newLine
+kanafix "*っはい! もうなおってる。",newLine
+kanafix "すごいでしょ。",newLine
 .byte   stopText
 
 MSG_RETURNS_CANTSELL:
-kanafix "*もうしわけありません。"
-.byte   newLine
+kanafix "*もうしわけありません。",newLine
 .byte   item
-kanafix "は"
-.byte   newLine
-kanafix "かいとれません。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "かいとれません。",newLine
 .byte   stopText
 
 MSG_CANARY_LAURA_SING:
-kanafix "*うたひめロ-ラは わがこ と"
-.byte   newLine
-kanafix "たいめんして おおよろこびで"
-.byte   newLine
-kanafix "うたを うたいはじめた。"
-.byte   newLine
+kanafix "*うたひめロ-ラは わがこ と",newLine
+kanafix "たいめんして おおよろこびで",newLine
+kanafix "うたを うたいはじめた。",newLine
 .byte   stopText
 
 MSG_REMEMBER_MELODY:
 kanafix "*"
 .byte   partyLead
-kanafix "は"
-.byte   newLine
-kanafix "メロディ-をおぼえた。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "メロディ-をおぼえた。",newLine
 .byte   stopText
 
 MSG_CANARY_SING:
-kanafix "*カナリアが うたっている。"
-.byte   newLine
+kanafix "*カナリアが うたっている。",newLine
 .byte   stopText
 
 MSG_ZOO_GATEMONKEY_KEY:
-kanafix "*サルは"
-.byte   newLine
-kanafix "どうぶつえんのカギをぬすんだ。"
-.byte   newLine
+kanafix "*サルは",newLine
+kanafix "どうぶつえんのカギをぬすんだ。",newLine
 .byte   stopText
 
-kanafix "*ロボットは ふるく"
-.byte   newLine
-kanafix "さびついていた。"
-.byte   newLine
+kanafix "*ロボットは ふるく",newLine
+kanafix "さびついていた。",newLine
 .byte   stopText
 
 MSG_EVE_EVECHECK:
 kanafix "*"
 .byte   nintenName
-kanafix "の けはいを"
-.byte   newLine
-kanafix "かんじた しゅんかん"
-.byte   newLine
+kanafix "の けはいを",newLine
+kanafix "かんじた しゅんかん",newLine
 .byte   pauseText
-kanafix "ロボットは"
-.byte   newLine
-kanafix "いのちを ふきこまれた。"
-.byte   newLine
+kanafix "ロボットは",newLine
+kanafix "いのちを ふきこまれた。",newLine
 .byte   stopText
 
 MSG_PHONE_EXPLVL:
 kanafix "*"
 .byte   result
 kanafix "は "
-.byte   price
-.byte   newLine
+.byte   price,newLine
 .byte   stopText
 
 MSG_ELLAY_FAKEHEALER_GOODBYE:
-kanafix "*がんばりなさい。"
-.byte   newLine
+kanafix "*がんばりなさい。",newLine
 .byte   stopText
 
 MSG_MAGICANT_FOUNTAIN:
-kanafix "*いずみの みずにふれると"
-.byte   newLine
-kanafix "すっごく げんきになりました。"
-.byte   newLine
+kanafix "*いずみの みずにふれると",newLine
+kanafix "すっごく げんきになりました。",newLine
 .byte   stopText
 
 MSG_PODUNK_PIPPIMOM_RETURN:
-kanafix "*ピッピ!"
-.byte   newLine
-kanafix "よかったわ よかったわ。"
-.byte   newLine
-kanafix "ほんとによかった。"
-.byte   newLine
+kanafix "*ピッピ!",newLine
+kanafix "よかったわ よかったわ。",newLine
+kanafix "ほんとによかった。",newLine
 .byte   pauseText
-kanafix "*ちょうちょうさんも"
-.byte   newLine
-kanafix "ピッピを さがしてくれてるはずよ。"
-.byte   newLine
+kanafix "*ちょうちょうさんも",newLine
+kanafix "ピッピを さがしてくれてるはずよ。",newLine
 .byte   pauseText
-kanafix "*ちゃんと ごあいさつに"
-.byte   newLine
-kanafix "いってきてちょうだい。"
-.byte   newLine
+kanafix "*ちゃんと ごあいさつに",newLine
+kanafix "いってきてちょうだい。",newLine
 .byte   stopText
 
 MSG_TWINKLE_F1_ROOM6ENTRANCE_NOJANITOR:
-kanafix "*はいってます!"
-.byte   newLine
-kanafix "って ここはトイレじゃないけどな。"
-.byte   newLine
+kanafix "*はいってます!",newLine
+kanafix "って ここはトイレじゃないけどな。",newLine
 .byte   pauseText
-kanafix "*いま てがはなせないんだ。"
-.byte   newLine
-kanafix "あとでおいで。"
-.byte   newLine
+kanafix "*いま てがはなせないんだ。",newLine
+kanafix "あとでおいで。",newLine
 .byte   stopText
 
 MSG_MAGICANT_BENEVOLENT_CURE:
-kanafix "*だれが どくに やられたんだね?"
-.byte   newLine
+kanafix "*だれが どくに やられたんだね?",newLine
 .byte   stopText
 
 MSG_HEALER_WHO:
-kanafix "*だれを やわらかくしようかね‥‥?"
-.byte   newLine
+kanafix "*だれを やわらかくしようかね‥‥?",newLine
 .byte   stopText
 
-kanafix "*どくなんか ない!"
-.byte   newLine
+kanafix "*どくなんか ない!",newLine
 .byte   stopText
 
 MSG_HEALER_SOFTEN_FAIL:
-kanafix "*かたくなって ないじゃないか。"
-.byte   newLine
+kanafix "*かたくなって ないじゃないか。",newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_SWEETSGUY_YES:
-kanafix "*あそこは むかし"
-.byte   newLine
-kanafix "ペンシルロケットを"
-.byte   newLine
-kanafix "じゃんじゃん つくってたんだよ。"
-.byte   newLine
+kanafix "*あそこは むかし",newLine
+kanafix "ペンシルロケットを",newLine
+kanafix "じゃんじゃん つくってたんだよ。",newLine
 .byte   stopText
 
 MSG_TWINKLE_F2JANITOR:
-kanafix "*うちの にょうぼうは"
-.byte   newLine
-kanafix "しょだいの ミスいなかまち"
-.byte   newLine
-kanafix "だったんだ。"
-.byte   newLine
+kanafix "*うちの にょうぼうは",newLine
+kanafix "しょだいの ミスいなかまち",newLine
+kanafix "だったんだ。",newLine
 .byte   stopText
 MSG_TWINKLE_F2JANITOR2:
-kanafix "*カギは あけたよ。"
-.byte   newLine
-kanafix "おくじょうは けしきがいいぞ。"
-.byte   newLine
+kanafix "*カギは あけたよ。",newLine
+kanafix "おくじょうは けしきがいいぞ。",newLine
 .byte   stopText
 
 MSG_TWINKLE_F2LLOYD:
-kanafix "*あとで ダンカンのだいこうじょうに"
-.byte   newLine
-kanafix "いこう。"
-.byte   newLine
+kanafix "*あとで ダンカンのだいこうじょうに",newLine
+kanafix "いこう。",newLine
 .byte   pauseText
-kanafix "*あそこには すっごいロケットが"
-.byte   newLine
-kanafix "あるらしいんだ。"
-.byte   newLine
+kanafix "*あそこには すっごいロケットが",newLine
+kanafix "あるらしいんだ。",newLine
 .byte   stopText
 MSG_TWINKLE_F1LLOYD:
-kanafix "*みんなが ぼくのことを"
-.byte   newLine
-kanafix "よわむしとか けむしとか"
-.byte   newLine
-kanafix "アホタレとか"
-.byte   newLine
+kanafix "*みんなが ぼくのことを",newLine
+kanafix "よわむしとか けむしとか",newLine
+kanafix "アホタレとか",newLine
 .byte   pauseText
-kanafix "うわさしてなかったかなぁ。"
-.byte   newLine
+kanafix "うわさしてなかったかなぁ。",newLine
 .byte   stopText
 
 MSG_ELLAY_FISHER2:
-kanafix "*いや‥‥あさになってしまったな。"
-.byte   newLine
+kanafix "*いや‥‥あさになってしまったな。",newLine
 .byte   stopText
 
 MSG_ELLAY_HOTELCOLDLADY:
-kanafix "*としよりを たいせつにしなさいね。"
-.byte   newLine
-kanafix "ゴホゴホ。"
-.byte   newLine
+kanafix "*としよりを たいせつにしなさいね。",newLine
+kanafix "ゴホゴホ。",newLine
 .byte   stopText
 
 MSG_REINDEER_HOTELMEANGUY:
-kanafix "*チビ!"
-.byte   newLine
-kanafix "きやすく はなしかけんじゃねぇよ。"
-.byte   newLine
+kanafix "*チビ!",newLine
+kanafix "きやすく はなしかけんじゃねぇよ。",newLine
 .byte   stopText
 
 MSG_ELLAY_HOTELBIGLADY:
-kanafix "*ある"
-.byte   newLine
-kanafix "ファミコンソフトのはなしだけどね。"
-.byte   newLine
+kanafix "*ある",newLine
+kanafix "ファミコンソフトのはなしだけどね。",newLine
 .byte   pauseText
-kanafix "*マザ-って タイトルに"
-.byte   newLine
-kanafix "きまったらしいんだけど"
-.byte   newLine
+kanafix "*マザ-って タイトルに",newLine
+kanafix "きまったらしいんだけど",newLine
 .byte   pauseText
-kanafix "ジョン.レノンの まねだよな。"
-.byte   newLine
+kanafix "ジョン.レノンの まねだよな。",newLine
 .byte   stopText
 
 MSG_SPOOKANE_HINTGIRL_HINT2:
-kanafix "*レインディアの えきにいる"
-.byte   newLine
-kanafix "おばあさんは とっても"
-.byte   newLine
-kanafix "たいせつなものを くれるんだけど"
-.byte   newLine
+kanafix "*レインディアの えきにいる",newLine
+kanafix "おばあさんは とっても",newLine
+kanafix "たいせつなものを くれるんだけど",newLine
 .byte   pauseText
 kanafix "*あなた"
 .byte   unk4
-kanafix "は あったかしら‥‥"
-.byte   newLine
+kanafix "は あったかしら‥‥",newLine
 .byte   stopText
 MSG_SPOOKANE_HINTGIRL_HINT3:
-kanafix "*さいごの ヒントよ。"
-.byte   newLine
-kanafix "マジカントこくの ギタ-ひきの"
-.byte   newLine
-kanafix "うたは ぜひ きいてね。"
-.byte   newLine
+kanafix "*さいごの ヒントよ。",newLine
+kanafix "マジカントこくの ギタ-ひきの",newLine
+kanafix "うたは ぜひ きいてね。",newLine
 .byte   stopText
 
 MSG_MYHOME_DOG_ADVICE:
-kanafix "*なにか あるなとおもったら"
-.byte   newLine
-kanafix "こまめに チェックするといいぞ。"
-.byte   newLine
+kanafix "*なにか あるなとおもったら",newLine
+kanafix "こまめに チェックするといいぞ。",newLine
 .byte   stopText
 
 MSG_ZOO_MONKEY:
-kanafix "*うたうサルは しみじみとうたった。"
-.byte   newLine
+kanafix "*うたうサルは しみじみとうたった。",newLine
 .byte   stopText
 
 MSG_YUCCA_SINGINGCACTUS:
-kanafix "*サボテンは うたう。"
-.byte   newLine
-kanafix "なぜか うたう。"
-.byte   newLine
-kanafix "せつせつと うたいつづけた。"
-.byte   newLine
+kanafix "*サボテンは うたう。",newLine
+kanafix "なぜか うたう。",newLine
+kanafix "せつせつと うたいつづけた。",newLine
 .byte   stopText
 
 MSG_ROSEMARYHOUSE_PIANO_MELODY:
-kanafix "*ピアノは ひとりでに"
-.byte   newLine
-kanafix "けんばんが うごいて"
-.byte   newLine
-kanafix "えんそうを はじめた。"
-.byte   newLine
+kanafix "*ピアノは ひとりでに",newLine
+kanafix "けんばんが うごいて",newLine
+kanafix "えんそうを はじめた。",newLine
 .byte   stopText
 
 MSG_MAGICANT_DRAGON_MELODY:
-kanafix "*ドラゴンは いがいと すなおに"
-.byte   newLine
-kanafix "ふるい がくふを みせてくれた。"
-.byte   newLine
+kanafix "*ドラゴンは いがいと すなおに",newLine
+kanafix "ふるい がくふを みせてくれた。",newLine
 .byte   pauseText
-kanafix "*こんな うただった。"
-.byte   newLine
+kanafix "*こんな うただった。",newLine
 .byte   stopText
 
 MSG_MTITOI_EVE_MELODY:
-kanafix "*ロボット イヴは"
-.byte   newLine
-kanafix "はかいされ うごかなくなった。"
-.byte   newLine
+kanafix "*ロボット イヴは",newLine
+kanafix "はかいされ うごかなくなった。",newLine
 .byte   pauseText
-kanafix "*イヴの むねのあたりから"
-.byte   newLine
-kanafix "おんがくが ながれてきた。"
-.byte   newLine
+kanafix "*イヴの むねのあたりから",newLine
+kanafix "おんがくが ながれてきた。",newLine
 .byte   stopText
 
 MSG_ZOO_MONKEYSIGN:
-kanafix "「よにも めずらしい うたうさるは"
-.byte   newLine
-kanafix "とう シュ-クリ-ムどうぶつえんに"
-.byte   newLine
-kanafix "しか おりません。」"
-.byte   newLine
+kanafix "「よにも めずらしい うたうさるは",newLine
+kanafix "とう シュ-クリ-ムどうぶつえんに",newLine
+kanafix "しか おりません。」",newLine
 .byte   stopText
 
 MSG_TWINKLE_F2_UPSTAIRS_PADLOCK:
-kanafix "*かいだんの うえの とびらには"
-.byte   newLine
-kanafix "おおきな じょうまえが"
-.byte   newLine
-kanafix "かかっている。"
-.byte   newLine
+kanafix "*かいだんの うえの とびらには",newLine
+kanafix "おおきな じょうまえが",newLine
+kanafix "かかっている。",newLine
 .byte   stopText
 
 MSG_SNOWMAN_PRIEST_GOODBYE:
-kanafix "*わたしは スノ-マンのまちの"
-.byte   newLine
-kanafix "ひとたちのために ここにのこるが"
-.byte   newLine
-kanafix "どうか‥‥きをつけて‥‥いって。"
-.byte   newLine
+kanafix "*わたしは スノ-マンのまちの",newLine
+kanafix "ひとたちのために ここにのこるが",newLine
+kanafix "どうか‥‥きをつけて‥‥いって。",newLine
 .byte   stopText
 
 MSG_PHONE_PAYPHONE:
-kanafix "*おかねが たりません。"
-.byte   newLine
+kanafix "*おかねが たりません。",newLine
 .byte   stopText
 
 MSG_GRAVEYARD_PIPPI_AFRAID:
-kanafix "*やっぱり こわいから"
-.byte   newLine
+kanafix "*やっぱり こわいから",newLine
 .byte   nintenName
-kanafix "ちゃん"
-.byte   newLine
-kanafix "さきに あるいてよ。"
-.byte   newLine
+kanafix "ちゃん",newLine
+kanafix "さきに あるいてよ。",newLine
 .byte   stopText
 
 MSG_ZOO_GATE:
-kanafix "*よくみると とびらの カギは"
-.byte   newLine
-kanafix "こわれていた。"
-.byte   newLine
+kanafix "*よくみると とびらの カギは",newLine
+kanafix "こわれていた。",newLine
 .byte   partyLead
-kanafix "は とびらを あけた。"
-.byte   newLine
+kanafix "は とびらを あけた。",newLine
 .byte   stopText
 
 MSG_ELLAY_BBGANG2_TEDDY:
 kanafix "*あっ "
 .byte   teddyName
-kanafix "さん"
-.byte   newLine
-kanafix "こんにちは ッス。"
-.byte   newLine
+kanafix "さん",newLine
+kanafix "こんにちは ッス。",newLine
 .byte   stopText
 
 MSG_ELLAY_BBGANG1_TEDDY2:
 kanafix "*"
 .byte   teddyName
-kanafix "のアニキを はやく"
-.byte   newLine
-kanafix "カムバックさせてくれよう!"
-.byte   newLine
+kanafix "のアニキを はやく",newLine
+kanafix "カムバックさせてくれよう!",newLine
 .byte   stopText
 
 MSG_MYHOME_MINNIE_STORAGE_CANT:
-kanafix "*あ だめだめ。"
-.byte   newLine
+kanafix "*あ だめだめ。",newLine
 .byte   item
-kanafix "は"
-.byte   newLine
-kanafix "あずかれないのよ。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "あずかれないのよ。",newLine
 .byte   pauseText
-kanafix "*わたし わがままなの。"
-.byte   newLine
+kanafix "*わたし わがままなの。",newLine
 .byte   stopText
 
 MSG_MAGICANT_FLYINGMANGRAVE1:
 kanafix "「"
 .byte   nintenName
-kanafix "の"
-.byte   newLine
-kanafix "えいえんのしもべ。"
-.byte   newLine
+kanafix "の",newLine
+kanafix "えいえんのしもべ。",newLine
 .byte   pauseText
-kanafix "ゆうかんなる フライングマンせんし"
-.byte   newLine
-kanafix "ここに ねむる。」"
-.byte   newLine
+kanafix "ゆうかんなる フライングマンせんし",newLine
+kanafix "ここに ねむる。」",newLine
 .byte   stopText
 
 MSG_MAGICANT_FLYINGMANGRAVE2:
 kanafix "「"
 .byte   nintenName
-kanafix "の"
-.byte   newLine
-kanafix "うちなる ちから。"
-.byte   newLine
+kanafix "の",newLine
+kanafix "うちなる ちから。",newLine
 .byte   pauseText
-kanafix "ゆうかんなる フライングマンせんし"
-.byte   newLine
-kanafix "ここに ねむる。」"
-.byte   newLine
+kanafix "ゆうかんなる フライングマンせんし",newLine
+kanafix "ここに ねむる。」",newLine
 .byte   stopText
 
 MSG_MAGICANT_FLYINGMANGRAVE3:
 kanafix "「"
 .byte   nintenName
-kanafix "の"
-.byte   newLine
-kanafix "ぜんなる こころ。"
-.byte   newLine
+kanafix "の",newLine
+kanafix "ぜんなる こころ。",newLine
 .byte   pauseText
-kanafix "ゆうかんなる フライングマンせんし"
-.byte   newLine
-kanafix "ここに ねむる。」"
-.byte   newLine
+kanafix "ゆうかんなる フライングマンせんし",newLine
+kanafix "ここに ねむる。」",newLine
 .byte   stopText
 
 MSG_MAGICANT_FLYINGMANGRAVE4:
 kanafix "「"
 .byte   nintenName
-kanafix "の"
-.byte   newLine
-kanafix "おおいなる かなしみ。"
-.byte   newLine
+kanafix "の",newLine
+kanafix "おおいなる かなしみ。",newLine
 .byte   pauseText
-kanafix "ゆうかんなる フライングマンせんし"
-.byte   newLine
-kanafix "ここに ねむる。」"
-.byte   newLine
+kanafix "ゆうかんなる フライングマンせんし",newLine
+kanafix "ここに ねむる。」",newLine
 .byte   stopText
 
 MSG_MAGICANT_FLYINGMANGRAVE5:
 kanafix "「"
 .byte   nintenName
-kanafix "の"
-.byte   newLine
-kanafix "ち と にく。"
-.byte   newLine
+kanafix "の",newLine
+kanafix "ち と にく。",newLine
 .byte   pauseText
-kanafix "ゆうかんなる フライングマンせんし"
-.byte   newLine
-kanafix "ここに ねむる。」"
-.byte   newLine
+kanafix "ゆうかんなる フライングマンせんし",newLine
+kanafix "ここに ねむる。」",newLine
 .byte   stopText
 
 MSG_PODUNK_MAGICOP:
-kanafix "*ちょうちょうさんの めいれいで"
-.byte   newLine
+kanafix "*ちょうちょうさんの めいれいで",newLine
 .byte   pauseText
-kanafix "どうぶつえんの じけんが"
-.byte   newLine
-kanafix "かいけつするまで"
-.byte   newLine
-kanafix "ここは とおれないんだぞ。"
-.byte   newLine
+kanafix "どうぶつえんの じけんが",newLine
+kanafix "かいけつするまで",newLine
+kanafix "ここは とおれないんだぞ。",newLine
 .byte   pauseText
-kanafix "*ちょっと ロコツな"
-.byte   newLine
-kanafix "やりかただけどな。"
-.byte   newLine
+kanafix "*ちょっと ロコツな",newLine
+kanafix "やりかただけどな。",newLine
 .byte   stopText
 MSG_PODUNK_MAGICOP_LIFTED:
-kanafix "*このおくの やまのどうくつに"
-.byte   newLine
-kanafix "へんな いわが あるんだぞ。"
-.byte   newLine
+kanafix "*このおくの やまのどうくつに",newLine
+kanafix "へんな いわが あるんだぞ。",newLine
 .byte   pauseText
-kanafix "*あんまりへんだから"
-.byte   newLine
-kanafix "けんぶつすると いいぞ。"
-.byte   newLine
+kanafix "*あんまりへんだから",newLine
+kanafix "けんぶつすると いいぞ。",newLine
 .byte   stopText
 
 MSG_PODUNK_MAGICOP2_LIFTED:
-kanafix "*ところで‥‥"
-.byte   newLine
+kanafix "*ところで‥‥",newLine
 kanafix "おまえ"
 .byte   unk4
-kanafix " テレパシ-とかが"
-.byte   newLine
-kanafix "できるんだってな。"
-.byte   newLine
+kanafix " テレパシ-とかが",newLine
+kanafix "できるんだってな。",newLine
 .byte   pauseText
-kanafix "*だいひょうばんだぞ。"
-.byte   newLine
+kanafix "*だいひょうばんだぞ。",newLine
 .byte   pauseText
-kanafix "*この にんきもの!"
-.byte   newLine
+kanafix "*この にんきもの!",newLine
 .byte   stopText
 
 MSG_ANAHAT_WOMAN1:
 kanafix "*あんた"
-.byte   unk4
-.byte   newLine
-kanafix "スノ-マンに いくのかい?"
-.byte   newLine
+.byte   unk4,newLine
+kanafix "スノ-マンに いくのかい?",newLine
 .byte   stopText
 
 MSG_ANAHAT_WOMAN_YES:
-kanafix "*このぼうしを ひろったんだけど"
-.byte   newLine
-kanafix "スノ-マンにいる おんなのこの"
-.byte   newLine
-kanafix "ものらしいの。"
-.byte   newLine
+kanafix "*このぼうしを ひろったんだけど",newLine
+kanafix "スノ-マンにいる おんなのこの",newLine
+kanafix "ものらしいの。",newLine
 .byte   pauseText
-kanafix "*とどけてあげて ちょうだいな。"
-.byte   newLine
+kanafix "*とどけてあげて ちょうだいな。",newLine
 .byte   stopText
 
 MSG_ANAHAT_WOMAN_NO:
-kanafix "*たのみたいことが あったんだけど"
-.byte   newLine
-kanafix "ざんねんだわ。"
-.byte   newLine
+kanafix "*たのみたいことが あったんだけど",newLine
+kanafix "ざんねんだわ。",newLine
 .byte   stopText
 
 MSG_REINDEER_SINGINGGUY_ACCEPT2:
-kanafix "*かっこいいしょうねんは"
-.byte   newLine
-kanafix "どくとくの うたをうたった。"
-.byte   newLine
+kanafix "*かっこいいしょうねんは",newLine
+kanafix "どくとくの うたをうたった。",newLine
 .byte   pauseText
 kanafix "*"
 .byte   partyLead
-kanafix "は"
-.byte   newLine
-kanafix "このメロディ-は"
-.byte   newLine
-kanafix "さすがに おぼえられなかった。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "このメロディ-は",newLine
+kanafix "さすがに おぼえられなかった。",newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_QUESTIONNAIRE:
-kanafix "*すみません。"
-.byte   newLine
-kanafix "ちょっと アンケ-トに"
-.byte   newLine
-kanafix "こたえていただけますか?"
-.byte   newLine
+kanafix "*すみません。",newLine
+kanafix "ちょっと アンケ-トに",newLine
+kanafix "こたえていただけますか?",newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_QUESTIONNAIRE_Q1:
-kanafix "*あなたは"
-.byte   newLine
-kanafix "きしゃの うんちんを"
-.byte   newLine
-kanafix "たかいと おもいますか?"
-.byte   newLine
+kanafix "*あなたは",newLine
+kanafix "きしゃの うんちんを",newLine
+kanafix "たかいと おもいますか?",newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_QUESTIONNAIRE_Q2:
-kanafix "*あなたは"
-.byte   newLine
-kanafix "ふしぎなメガホンを"
-.byte   newLine
-kanafix "つかいましたか?"
-.byte   newLine
+kanafix "*あなたは",newLine
+kanafix "ふしぎなメガホンを",newLine
+kanafix "つかいましたか?",newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_QUESTIONNAIRE_FINISH:
-kanafix "*ごきょうりょく"
-.byte   newLine
-kanafix "ありがとうございました。"
-.byte   newLine
-kanafix "おれいの テレホンカ-ドです。"
-.byte   newLine
+kanafix "*ごきょうりょく",newLine
+kanafix "ありがとうございました。",newLine
+kanafix "おれいの テレホンカ-ドです。",newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_QUESTIONNAIRE_DONE:
-kanafix "*すいません。 ちょっと‥‥"
-.byte   newLine
-kanafix "アンケ-トに‥‥‥"
-.byte   newLine
+kanafix "*すいません。 ちょっと‥‥",newLine
+kanafix "アンケ-トに‥‥‥",newLine
 .byte   pauseText
-kanafix "*あっ"
-.byte   newLine
-kanafix "まえに おねがいしましたっけね。"
-.byte   newLine
+kanafix "*あっ",newLine
+kanafix "まえに おねがいしましたっけね。",newLine
 .byte   stopText
 
 MSG_MAGICANT_BENEVOLENT_APPEAR:
-kanafix "*こころの さけびを ききつけて"
-.byte   newLine
-kanafix "おたすけじいさんが"
-.byte   newLine
-kanafix "とうじょうした。"
-.byte   newLine
+kanafix "*こころの さけびを ききつけて",newLine
+kanafix "おたすけじいさんが",newLine
+kanafix "とうじょうした。",newLine
 .byte   stopText
 
 MSG_GRAVEYARD_CASKET_GENERIC:
 kanafix "*"
 .byte   partyLead
-kanafix "は"
-.byte   newLine
-kanafix "カンオケを あけた。"
-.byte   newLine
-kanafix "カンオケのなかから‥‥!!"
-.byte   newLine
+kanafix "は",newLine
+kanafix "カンオケを あけた。",newLine
+kanafix "カンオケのなかから‥‥!!",newLine
 .byte   stopText
 
 MSG_ELLAY_TOWER_TELESCOPE:
 kanafix "*"
 .byte   partyLead
-kanafix "は"
-.byte   newLine
-kanafix "ぼうえんきょうを のぞいた。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "ぼうえんきょうを のぞいた。",newLine
 .byte   stopText
 
 MSG_ELLAY_TOWER_TELESCOPE2:
-kanafix "*うみが きれいだった。"
-.byte   newLine
+kanafix "*うみが きれいだった。",newLine
 .byte   stopText
 
 MSG_ELLAY_TOWER_TELESCOPE_ROCKET:
-kanafix "*むこうのしまで"
-.byte   newLine
-kanafix "なにかが ひかった!"
-.byte   newLine
+kanafix "*むこうのしまで",newLine
+kanafix "なにかが ひかった!",newLine
 .byte   stopText
 
 MSG_ZOO_CAPSULE:
-kanafix "*カプセルのなかから"
-.byte   newLine
-kanafix "なにかが とびだした。"
-.byte   newLine
+kanafix "*カプセルのなかから",newLine
+kanafix "なにかが とびだした。",newLine
 .byte   stopText
 
 MSG_SNOWMAN_ANA_GOODBYE:
 kanafix "*"
 .byte   anaName
-kanafix " "
-.byte   newLine
-kanafix "「パパ‥‥いまは‥‥さよなら。"
-.byte   newLine
-kanafix "つぎに あうときは"
-.byte   newLine
-kanafix "きっと ママといっしょよ!"
-.byte   newLine
+kanafix " ",newLine
+kanafix "「パパ‥‥いまは‥‥さよなら。",newLine
+kanafix "つぎに あうときは",newLine
+kanafix "きっと ママといっしょよ!",newLine
 .byte   pauseText
-kanafix "‥‥いのっててください。」"
-.byte   newLine
+kanafix "‥‥いのっててください。」",newLine
 .byte   stopText
 
 .byte   stopText
 
 MSG_TALK_NOONE:
-kanafix "*だれに はなしているのだ。"
-.byte   newLine
+kanafix "*だれに はなしているのだ。",newLine
 .byte   stopText
 
 MSG_TALK_PARTY:
-kanafix "*なに?"
-.byte   newLine
+kanafix "*なに?",newLine
 .byte   stopText
 
 MSG_CHECK_NOTHING:
-kanafix "*もんだいなし。"
-.byte   newLine
+kanafix "*もんだいなし。",newLine
 .byte   stopText
 
 MSG_USE_ITEM:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
+kanafix "は",newLine
 .byte   recipient
-kanafix "を つかった。"
-.byte   newLine
+kanafix "を つかった。",newLine
 .byte   stopText
 
 MSG_CANT_USE_ITEM:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
+kanafix "は",newLine
 .byte   recipient
-kanafix "を"
-.byte   newLine
-kanafix "つかえない。"
-.byte   newLine
+kanafix "を",newLine
+kanafix "つかえない。",newLine
 .byte   stopText
 
 MSG_CANT_EAT:
-kanafix "*やめてください。"
-.byte   newLine
+kanafix "*やめてください。",newLine
 .byte   stopText
 
 MSG_EQUIPPED_ITEM:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
+kanafix "は",newLine
 .byte   recipient
-kanafix "を"
-.byte   newLine
-kanafix "そうびした。"
-.byte   newLine
+kanafix "を",newLine
+kanafix "そうびした。",newLine
 .byte   stopText
 
 MSG_CANT_EQUIP_ITEM:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
+kanafix "は",newLine
 .byte   recipient
-kanafix "を"
-.byte   newLine
-kanafix "そうびできない。"
-.byte   newLine
+kanafix "を",newLine
+kanafix "そうびできない。",newLine
 .byte   stopText
 
 MSG_TOSS_ITEM:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
+kanafix "は",newLine
 .byte   recipient
-kanafix "を"
-.byte   newLine
-kanafix "すててしまった。"
-.byte   newLine
+kanafix "を",newLine
+kanafix "すててしまった。",newLine
 .byte   stopText
 
 MSG_CANT_TOSS_ITEM:
 kanafix "*"
 .byte   recipient
-kanafix "は"
-.byte   newLine
-kanafix "すててはいけない。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "すててはいけない。",newLine
 .byte   stopText
 
 MSG_GIVE_ITEM:
@@ -1283,645 +915,461 @@ kanafix "*"
 .byte   user
 kanafix "は "
 .byte   result
-kanafix "に"
-.byte   newLine
+kanafix "に",newLine
 .byte   recipient
-kanafix "を"
-.byte   newLine
-kanafix "わたした。"
-.byte   newLine
+kanafix "を",newLine
+kanafix "わたした。",newLine
 .byte   stopText
 
 MSG_CANT_GIVE:
 kanafix "*"
 .byte   recipient
-kanafix "は"
-.byte   newLine
-kanafix "わたせない。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "わたせない。",newLine
 .byte   stopText
 
 MSG_CANT_GIVE_FULL:
 kanafix "*"
 .byte   result
-kanafix "は"
-.byte   newLine
-kanafix "これいじょう ものをもてない。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "これいじょう ものをもてない。",newLine
 .byte   stopText
 
 MSG_NOTHING_HAPPENED:
-kanafix "*なにも おこらない。"
-.byte   newLine
+kanafix "*なにも おこらない。",newLine
 .byte   stopText
 
 MSG_OPEN_PRESENT:
 kanafix "*"
 .byte   partyLead
-kanafix "は"
-.byte   newLine
-kanafix "プレゼントのはこを あけた。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "プレゼントのはこを あけた。",newLine
 .byte   stopText
 
 MSG_PRESENT_ITEM:
 kanafix "*"
 .byte   item
-kanafix "が あった。"
-.byte   newLine
+kanafix "が あった。",newLine
 .byte   stopText
 
 MSG_GET_ITEM:
 kanafix "*"
 .byte   partyLead
 .byte   unk4
-kanafix "は"
-.byte   newLine
+kanafix "は",newLine
 .byte   item
-kanafix "を てにいれた。"
-.byte   newLine
+kanafix "を てにいれた。",newLine
 .byte   stopText
 
 MSG_INVENTORY_FULL:
-kanafix "*しかし これいじょう"
-.byte   newLine
-kanafix "ものを もてない。"
-.byte   newLine
+kanafix "*しかし これいじょう",newLine
+kanafix "ものを もてない。",newLine
 .byte   stopText
 
 MSG_PRESENT_EMPTY:
-kanafix "*しかし からっぽだった。"
-.byte   newLine
+kanafix "*しかし からっぽだった。",newLine
 .byte   stopText
 
 MSG_MAGICANT_BENEVOLENT_MENU:
 kanafix "  ドクをけす  やわらかくする"
 .byte   stopText
-
 .byte   newLine
 .byte   stopText
 
 MSG_CANARY_SIGN:
-kanafix "「みなみ.マザ-ズデイ"
-.byte   newLine
-kanafix " きた .シュ-クリ-ム"
-.byte   newLine
-kanafix "        どうぶつえん」"
-.byte   newLine
+kanafix "「みなみ.マザ-ズデイ",newLine
+kanafix " きた .シュ-クリ-ム",newLine
+kanafix "        どうぶつえん」",newLine
 .byte   stopText
 
 MSG_PODUNK_CANARYSIGN:
-kanafix "「このおく カナリアむら。"
-.byte   newLine
-kanafix " しぜんを たいせつにしよう!」"
-.byte   newLine
+kanafix "「このおく カナリアむら。",newLine
+kanafix " しぜんを たいせつにしよう!」",newLine
 .byte   stopText
 
 MSG_PODUNK_CITYHALLSIGN:
-kanafix "「マザ-ズデイ まちやくば」"
-.byte   newLine
+kanafix "「マザ-ズデイ まちやくば」",newLine
 .byte   stopText
 
 MSG_ELLAY_RESIDENTIALSIGN:
-kanafix "「にし.うみのてんぼうだい"
-.byte   newLine
-kanafix " きた.バレンタインみなと"
-.byte   newLine
-kanafix "       うみをきれいに!」"
-.byte   newLine
+kanafix "「にし.うみのてんぼうだい",newLine
+kanafix " きた.バレンタインみなと",newLine
+kanafix "       うみをきれいに!」",newLine
 .byte   stopText
 MSG_ELLAY_RESIDENTIALSIGN2:
-kanafix "「にし .バレンタイン"
-.byte   newLine
-kanafix " ひがし.ホ-リ-ロ-リ-"
-.byte   newLine
-kanafix "          マウンテン」"
-.byte   newLine
+kanafix "「にし .バレンタイン",newLine
+kanafix " ひがし.ホ-リ-ロ-リ-",newLine
+kanafix "          マウンテン」",newLine
 .byte   stopText
 
 MSG_PODUNK_GRAVESIGN:
-kanafix "「にし    .ヒ-ラ-のいえ"
-.byte   newLine
-kanafix " はしのむこう.はかば"
-.byte   newLine
-kanafix "    ひとりあるき きけん!」"
-.byte   newLine
+kanafix "「にし    .ヒ-ラ-のいえ",newLine
+kanafix " はしのむこう.はかば",newLine
+kanafix "    ひとりあるき きけん!」",newLine
 .byte   stopText
 
 MSG_PODUNK_MERRYSIGN:
-kanafix "「にし .マザ-ズデイ"
-.byte   newLine
-kanafix " ひがし.サンクスギビング」"
-.byte   newLine
+kanafix "「にし .マザ-ズデイ",newLine
+kanafix " ひがし.サンクスギビング」",newLine
 .byte   stopText
 
 MSG_PODUNK_ZOOSIGN:
-kanafix "「シュ-クリ-ムどうぶつえんは"
-.byte   newLine
-kanafix "    にしに 700メ-トル」"
-.byte   newLine
+kanafix "「シュ-クリ-ムどうぶつえんは",newLine
+kanafix "    にしに 700メ-トル」",newLine
 .byte   stopText
 
 MSG_SNOWMAN_SIGN:
-kanafix "「スノ-マンきょうかい このおく」"
-.byte   newLine
+kanafix "「スノ-マンきょうかい このおく」",newLine
 .byte   stopText
 
 MSG_ELLAY_INTROSIGN:
-kanafix "「にし .バレンタイン"
-.byte   newLine
-kanafix " みなみ.しっちたい」"
-.byte   newLine
+kanafix "「にし .バレンタイン",newLine
+kanafix " みなみ.しっちたい」",newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_SCHOOLSIGN:
-kanafix "「サンクスギビングおおどおり"
-.byte   newLine
-kanafix " みなみ.ティンクル"
-.byte   newLine
-kanafix "        しょうがっこう」"
-.byte   newLine
+kanafix "「サンクスギビングおおどおり",newLine
+kanafix " みなみ.ティンクル",newLine
+kanafix "        しょうがっこう」",newLine
 .byte   stopText
 
 MSG_MYHOME_SIGN:
 kanafix "「"
 .byte   nintenName
-kanafix " の いえ」"
-.byte   newLine
+kanafix " の いえ」",newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_SIGN:
-kanafix "「サンクスギビングへ ようこそ!"
-.byte   newLine
-kanafix " にし.マザ-ズデイ"
-.byte   newLine
-kanafix " きた.サンタクロ-スえき」"
-.byte   newLine
+kanafix "「サンクスギビングへ ようこそ!",newLine
+kanafix " にし.マザ-ズデイ",newLine
+kanafix " きた.サンタクロ-スえき」",newLine
 .byte   stopText
 
 MSG_REINDEER_SIGN:
-kanafix "「にし .ヒ-ラ-のいえ"
-.byte   newLine
-kanafix " ひがし.レインディアえき"
-.byte   newLine
-kanafix " みなみ.レインディアのまち」"
-.byte   newLine
+kanafix "「にし .ヒ-ラ-のいえ",newLine
+kanafix " ひがし.レインディアえき",newLine
+kanafix " みなみ.レインディアのまち」",newLine
 .byte   stopText
 
 MSG_SPOOKANE_SIGN:
-kanafix "「にし .ハロウィ-ンダウンタウン"
-.byte   newLine
-kanafix " ひがし.ハロウィ-ン"
-.byte   newLine
-kanafix "         じゅうたくち」"
-.byte   newLine
+kanafix "「にし .ハロウィ-ンダウンタウン",newLine
+kanafix " ひがし.ハロウィ-ン",newLine
+kanafix "         じゅうたくち」",newLine
 .byte   stopText
 
 MSG_YOUNGTOWN_SIGN:
-kanafix "「ひがし.しっちたい」"
-.byte   newLine
+kanafix "「ひがし.しっちたい」",newLine
 .byte   stopText
 
 MSG_SPOOKANE_MANSIONSIGN:
-kanafix "「このさき"
-.byte   newLine
-kanafix " ロ-ズマリ-さんの しゆうち」"
-.byte   newLine
+kanafix "「このさき",newLine
+kanafix " ロ-ズマリ-さんの しゆうち」",newLine
 .byte   stopText
 
 MSG_ELLAY_JAILSIGN:
-kanafix "「バレンタイン けいさつしょ」"
-.byte   newLine
+kanafix "「バレンタイン けいさつしょ」",newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_DUNCANSIGN:
-kanafix "「ストリップげきじょう"
-.byte   newLine
-kanafix "      けんせつよていち"
-.byte   newLine
-kanafix "   ダンカンけんせつがいしゃ」"
-.byte   newLine
+kanafix "「ストリップげきじょう",newLine
+kanafix "      けんせつよていち",newLine
+kanafix "   ダンカンけんせつがいしゃ」",newLine
 .byte   stopText
 
 MSG_MAGICANT_FLYINGMAN_REPLACE:
-kanafix "*アニハ ウツクシク"
-.byte   newLine
-kanafix "タオレタト キキマス。"
-.byte   newLine
+kanafix "*アニハ ウツクシク",newLine
+kanafix "タオレタト キキマス。",newLine
 .byte   pauseText
-kanafix "*ハカヲ タテテ"
-.byte   newLine
-kanafix "テアツク トムライマシタ。"
-.byte   newLine
+kanafix "*ハカヲ タテテ",newLine
+kanafix "テアツク トムライマシタ。",newLine
 .byte   pauseText
-kanafix "*ツギハ ワタシノ バンデス。"
-.byte   newLine
+kanafix "*ツギハ ワタシノ バンデス。",newLine
 .byte   stopText
 
 MSG_MAGICANT_FLYINGMAN_SERVE:
-kanafix "*ワタシモ ハヤク"
-.byte   newLine
-kanafix "アナタノ オテツダイガ シタイ。"
-.byte   newLine
+kanafix "*ワタシモ ハヤク",newLine
+kanafix "アナタノ オテツダイガ シタイ。",newLine
 .byte   stopText
 
 MSG_MAGICANT_FLYINGMAN_INTRO:
-kanafix "*ワタシハ ふらいんぐまん。"
-.byte   newLine
-kanafix "アナタノ チカラニナル。"
-.byte   newLine
-kanafix "ソノタメニ ウマレテキタ。"
-.byte   newLine
+kanafix "*ワタシハ ふらいんぐまん。",newLine
+kanafix "アナタノ チカラニナル。",newLine
+kanafix "ソノタメニ ウマレテキタ。",newLine
 .byte   stopText
 
 MSG_PODUNK_MAGICOP2_LIFTED2:
-kanafix "*かいげんれいは とかれた。"
-.byte   newLine
-kanafix "ちょっと おおげさだったけどな。"
-.byte   newLine
+kanafix "*かいげんれいは とかれた。",newLine
+kanafix "ちょっと おおげさだったけどな。",newLine
 .byte   stopText
 
 MSG_ELLAY_TOWER_ROCKETCHECK:
-kanafix "*ふるぼけた ロケットだ。"
-.byte   newLine
+kanafix "*ふるぼけた ロケットだ。",newLine
 .byte   stopText
 
 MSG_PODUNK_PIPPI_GOODS:
-kanafix "*グッズを とりにきたのね。"
-.byte   newLine
-kanafix "はい どうぞ。"
-.byte   newLine
+kanafix "*グッズを とりにきたのね。",newLine
+kanafix "はい どうぞ。",newLine
 .byte   stopText
 MSG_PODUNK_PIPPI_NOGOODS:
-kanafix "*グッズは ぜんぶわたしたわよ。"
-.byte   newLine
-kanafix "でも また あいにきてね。"
-.byte   newLine
+kanafix "*グッズは ぜんぶわたしたわよ。",newLine
+kanafix "でも また あいにきてね。",newLine
 .byte   stopText
 
 MSG_MYHOME_MINNIE:
-kanafix "*わたし ミニ-よ。"
-.byte   newLine
+kanafix "*わたし ミニ-よ。",newLine
 .byte   stopText
 
 
 MSG_HEALER_MENU:
 kanafix "  きをいれる  やわらかくする"
 .byte   stopText
-
 .byte   newLine
 .byte   stopText
 
 MSG_MTITOI_TEDDY_CALL:
 kanafix "*"
 .byte   teddyName
-kanafix " "
-.byte   newLine
-kanafix "「おまえら"
-.byte   newLine
-kanafix "ふたりで いたいんだろう。"
-.byte   newLine
+kanafix " ",newLine
+kanafix "「おまえら",newLine
+kanafix "ふたりで いたいんだろう。",newLine
 .byte   pauseText
-kanafix "おれ ここで ねてるわ。」"
-.byte   newLine
+kanafix "おれ ここで ねてるわ。」",newLine
 .byte   stopText
 
 MSG_MTITOI_LLOYDSAVE:
-kanafix "*しまった! まにあわなかった。"
-.byte   newLine
+kanafix "*しまった! まにあわなかった。",newLine
 .byte   stopText
 
 MSG_MTITOI_ANALOVE_YES:
-kanafix "*‥‥よかった。"
-.byte   newLine
+kanafix "*‥‥よかった。",newLine
 .byte   stopText
 
 MSG_MTITOI_TEDDYLEAVE:
 kanafix "*"
 .byte   teddyName
-kanafix " "
-.byte   newLine
-kanafix "「おい! なんか"
-.byte   newLine
-kanafix "とんでもないおとが したぜ。」"
-.byte   newLine
+kanafix " ",newLine
+kanafix "「おい! なんか",newLine
+kanafix "とんでもないおとが したぜ。」",newLine
 .byte   stopText
 
 MSG_MTITOI_TEDDYLEAVE2:
 kanafix "*"
 .byte   teddyName
-kanafix " "
-.byte   newLine
-kanafix "「ほ-んとかよ!?」"
-.byte   newLine
+kanafix " ",newLine
+kanafix "「ほ-んとかよ!?」",newLine
 .byte   stopText
 
 MSG_MTITOI_BOAT:
-kanafix "*ボ-トは"
-.byte   newLine
-kanafix "エンジンの ちょうしが"
-.byte   newLine
-kanafix "わるいようだ。"
-.byte   newLine
+kanafix "*ボ-トは",newLine
+kanafix "エンジンの ちょうしが",newLine
+kanafix "わるいようだ。",newLine
 .byte   stopText
 
 MSG_MTITOI_BOAT_NOFIX:
 kanafix "*"
 .byte   partyLead
-kanafix "には"
-.byte   newLine
-kanafix "うごかすことが できない。"
-.byte   newLine
+kanafix "には",newLine
+kanafix "うごかすことが できない。",newLine
 .byte   stopText
 
 MSG_MTITOI_BOAT_FIX:
 kanafix "*しかし "
 .byte   lloydName
-kanafix "は"
-.byte   newLine
-kanafix "じょうずに エンジンを"
-.byte   newLine
-kanafix "かけることが できた。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "じょうずに エンジンを",newLine
+kanafix "かけることが できた。",newLine
 .byte   stopText
 
 MSG_MAGICANT_GOODSKEEPER_SEND:
 kanafix "*"
 .byte   item
-kanafix "ですね。"
-.byte   newLine
+kanafix "ですね。",newLine
 kanafix "ちゃんと "
 .byte   nintenName
-kanafix "さんの"
-.byte   newLine
-kanafix "うちへ おくっておきますね。"
-.byte   newLine
+kanafix "さんの",newLine
+kanafix "うちへ おくっておきますね。",newLine
 .byte   pauseText
-kanafix "*ほかに あずかるものは"
-.byte   newLine
-kanafix "ありますか?"
-.byte   newLine
+kanafix "*ほかに あずかるものは",newLine
+kanafix "ありますか?",newLine
 .byte   stopText
 
-kanafix "*こんな せまいなかに"
-.byte   newLine
-kanafix "とじこめられて‥‥"
-.byte   newLine
-kanafix "これから どうなるんだろう。"
-.byte   newLine
+kanafix "*こんな せまいなかに",newLine
+kanafix "とじこめられて‥‥",newLine
+kanafix "これから どうなるんだろう。",newLine
 .byte   stopText
 
 MSG_MERRYSVILLE_SWEETSSIGN:
-kanafix "「スイ-トリトル こうじょう」"
-.byte   newLine
+kanafix "「スイ-トリトル こうじょう」",newLine
 .byte   stopText
 
 MSG_MTITOI_GIEGUEPRISON_GUY2:
-kanafix "*やまのうえの"
-.byte   newLine
-kanafix "マザ-シップに つれていかれて"
-.byte   newLine
-kanafix "きがついたら こんなことに‥‥"
-.byte   newLine
+kanafix "*やまのうえの",newLine
+kanafix "マザ-シップに つれていかれて",newLine
+kanafix "きがついたら こんなことに‥‥",newLine
 .byte   pauseText
-kanafix "*なんとかしてくれ!"
-.byte   newLine
+kanafix "*なんとかしてくれ!",newLine
 .byte   stopText
 
 MSG_SNOWMAN_PHONE_CHECK:
-kanafix "*スペルの まちがいは ないですね?"
-.byte   newLine
+kanafix "*スペルの まちがいは ないですね?",newLine
 .byte   stopText
 
 MSG_ZOO_WIN:
-kanafix "*どうぶつたちを くるわせていた"
-.byte   newLine
-kanafix "あやしいおとは きえた。"
-.byte   newLine
-kanafix "どうぶつえんは あんぜんになった。"
-.byte   newLine
+kanafix "*どうぶつたちを くるわせていた",newLine
+kanafix "あやしいおとは きえた。",newLine
+kanafix "どうぶつえんは あんぜんになった。",newLine
 .byte   stopText
 
 MSG_YUCCA_PILOT_TANKRIDE:
-kanafix "*だいじな せんしゃだからな。"
-.byte   newLine
-kanafix "こわさんようにな。"
-.byte   newLine
+kanafix "*だいじな せんしゃだからな。",newLine
+kanafix "こわさんようにな。",newLine
 .byte   stopText
 
 MSG_MYHOME_DOG_CHECK:
-kanafix "*いぬの くびわには"
-.byte   newLine
-kanafix "ちかしつのカギが さがっていた。"
-.byte   newLine
+kanafix "*いぬの くびわには",newLine
+kanafix "ちかしつのカギが さがっていた。",newLine
 .byte   stopText
 
 MSG_PODUNK_NOISYMOUSE:
-kanafix "*へっへっへ あっしは"
-.byte   newLine
-kanafix "おせっかいな ねずみです。"
-.byte   newLine
+kanafix "*へっへっへ あっしは",newLine
+kanafix "おせっかいな ねずみです。",newLine
 .byte   pauseText
-kanafix "*まちの いえには"
-.byte   newLine
-kanafix "はいれる いえと"
-.byte   newLine
-kanafix "はいれない いえが あります。"
-.byte   newLine
+kanafix "*まちの いえには",newLine
+kanafix "はいれる いえと",newLine
+kanafix "はいれない いえが あります。",newLine
 .byte   pauseText
-kanafix "*まるいドアと かんばんのあるドアは"
-.byte   newLine
-kanafix "はいれる いえ。"
-.byte   newLine
+kanafix "*まるいドアと かんばんのあるドアは",newLine
+kanafix "はいれる いえ。",newLine
 .byte   pauseText
-kanafix "*あとは はいろうとしても"
-.byte   newLine
-kanafix "あたまを ぶつけるだけでさぁ。"
-.byte   newLine
+kanafix "*あとは はいろうとしても",newLine
+kanafix "あたまを ぶつけるだけでさぁ。",newLine
 .byte   pauseText
-kanafix "*さいなら。"
-.byte   newLine
+kanafix "*さいなら。",newLine
 .byte   stopText
 
 MSG_YOUNGTOWN_BABY_AFTER:
-kanafix "*テレポ-テ-ションを"
-.byte   newLine
-kanafix "おもちゃに するんじゃないぞ。"
-.byte   newLine
+kanafix "*テレポ-テ-ションを",newLine
+kanafix "おもちゃに するんじゃないぞ。",newLine
 .byte   stopText
 
 MSG_MAGICANT_MARIA4:
-kanafix "*ほんとうの こどものように"
-.byte   newLine
-kanafix "かわいがったのに‥‥"
-.byte   newLine
+kanafix "*ほんとうの こどものように",newLine
+kanafix "かわいがったのに‥‥",newLine
 .byte   stopText
 
 MSG_MAGICANT_MARIA5:
-kanafix "*しっぽを ふってた"
-.byte   newLine
-kanafix "あかちゃんだった‥‥"
-.byte   newLine
-kanafix "こもりうたを‥‥でも‥‥"
-.byte   newLine
+kanafix "*しっぽを ふってた",newLine
+kanafix "あかちゃんだった‥‥",newLine
+kanafix "こもりうたを‥‥でも‥‥",newLine
 .byte   stopText
 
 MSG_MAGICANT_MARIA6:
-kanafix "*ああ ジョ-ジ!"
-.byte   newLine
-kanafix "あなたの つま マリアです。"
-.byte   newLine
+kanafix "*ああ ジョ-ジ!",newLine
+kanafix "あなたの つま マリアです。",newLine
 .byte   pauseText
-kanafix "*あなたのまつ てんごくに"
-.byte   newLine
-kanafix "わたしも いまから むかいます‥‥"
-.byte   newLine
+kanafix "*あなたのまつ てんごくに",newLine
+kanafix "わたしも いまから むかいます‥‥",newLine
 .byte   stopText
 
 MSG_ATM_INSERT_CASHCARD:
-kanafix "*キャッシュカ-ドヲ イレテクダサイ"
-.byte   newLine
+kanafix "*キャッシュカ-ドヲ イレテクダサイ",newLine
 .byte   stopText
 
 MSG_ATM_TOO_MUCH_CASH:
-kanafix "*そんなに げんきんを"
-.byte   newLine
-kanafix "もちあるいては いけない。"
-.byte   newLine
+kanafix "*そんなに げんきんを",newLine
+kanafix "もちあるいては いけない。",newLine
 .byte   stopText
 
 MSG_GAMEOVER_SAVEDATA:
-kanafix "*このまえの"
-.byte   newLine
-kanafix "セ-ブデ-タまで もどるが"
-.byte   newLine
-kanafix "それで よいのか?"
-.byte   newLine
+kanafix "*このまえの",newLine
+kanafix "セ-ブデ-タまで もどるが",newLine
+kanafix "それで よいのか?",newLine
 .byte   stopText
 
 MSG_MAGICANT_BIGBAGGUY_NOHAVE:
-kanafix "*「はい」って いったのに"
-.byte   newLine
-kanafix "もってないじゃないか。"
-.byte   newLine
-kanafix "アハハハハ。"
-.byte   newLine
+kanafix "*「はい」って いったのに",newLine
+kanafix "もってないじゃないか。",newLine
+kanafix "アハハハハ。",newLine
 .byte   stopText
 
 MSG_ELLAY_TEDDY_TEDDYBED:
-kanafix "*こきゅうが みだれて"
-.byte   newLine
-kanafix "くるしそうだ。"
-.byte   newLine
+kanafix "*こきゅうが みだれて",newLine
+kanafix "くるしそうだ。",newLine
 .byte   stopText
 
 MSG_GIVE_CANT:
-kanafix "*まだ グッズをわたせる"
-.byte   newLine
-kanafix "なかまが いない。"
-.byte   newLine
+kanafix "*まだ グッズをわたせる",newLine
+kanafix "なかまが いない。",newLine
 .byte   stopText
 
 MSG_MAGICANT_GOODSKEEPER_GIVE:
 kanafix "*"
 .byte   item
-kanafix "ですね。"
-.byte   newLine
-kanafix "たしかに おわたししましたよ。"
-.byte   newLine
+kanafix "ですね。",newLine
+kanafix "たしかに おわたししましたよ。",newLine
 .byte   pauseText
-kanafix "*ほかに もっていくものは"
-.byte   newLine
-kanafix "ありますか?"
-.byte   newLine
+kanafix "*ほかに もっていくものは",newLine
+kanafix "ありますか?",newLine
 .byte   stopText
 
 MSG_MAGICANT_GOODSKEEPER_SOMEONEELSE:
-kanafix "*もちきれない みたいだけど"
-.byte   newLine
-kanafix "ほかのひとに わたしますか?"
-.byte   newLine
+kanafix "*もちきれない みたいだけど",newLine
+kanafix "ほかのひとに わたしますか?",newLine
 .byte   stopText
 
 MSG_MAGICANT_GOODSKEEPER_FULL:
-kanafix "*そうこが いっぱいです。"
-.byte   newLine
+kanafix "*そうこが いっぱいです。",newLine
 .byte   stopText
 
 MSG_MAGICANT_MARIAFADE:
-kanafix "*クイ-ンマリ-は"
-.byte   newLine
+kanafix "*クイ-ンマリ-は",newLine
 .byte   nintenName
-kanafix "に かたりおえると"
-.byte   newLine
-kanafix "かぜのなかに きえていった。"
-.byte   newLine
+kanafix "に かたりおえると",newLine
+kanafix "かぜのなかに きえていった。",newLine
 .byte   pauseText
-kanafix "*そして マジカントのくにも"
-.byte   newLine
-kanafix "また あとかたもなく"
-.byte   newLine
-kanafix "かききえた。"
-.byte   newLine
+kanafix "*そして マジカントのくにも",newLine
+kanafix "また あとかたもなく",newLine
+kanafix "かききえた。",newLine
 .byte   pauseText
-kanafix "*マジカントのくに とは"
-.byte   newLine
-kanafix "マリ-のいしきが うみだした"
-.byte   newLine
-kanafix "まぼろしだったのだ。"
-.byte   newLine
+kanafix "*マジカントのくに とは",newLine
+kanafix "マリ-のいしきが うみだした",newLine
+kanafix "まぼろしだったのだ。",newLine
 .byte   stopText
 
 MSG_MAGICANT_MARIA_INTRO:
-kanafix "*わたしが"
-.byte   newLine
+kanafix "*わたしが",newLine
 kanafix "あなた"
 .byte   unk4
-kanafix "を よんだのです。"
-.byte   newLine
+kanafix "を よんだのです。",newLine
 .byte   pauseText
 kanafix "*"
 .byte   nintenName
-kanafix "!"
-.byte   newLine
+kanafix "!",newLine
 .byte   anaName
-kanafix "!"
-.byte   newLine
+kanafix "!",newLine
 .byte   lloydName
-kanafix "!"
-.byte   newLine
+kanafix "!",newLine
 .byte   teddyName
-kanafix "!"
-.byte   newLine
+kanafix "!",newLine
 .byte   pauseText
-kanafix "*そして すべての"
-.byte   newLine
-kanafix "ゆうきある こどもたち。"
-.byte   newLine
+kanafix "*そして すべての",newLine
+kanafix "ゆうきある こどもたち。",newLine
 .byte   pauseText
-kanafix "*いまが そのときです!"
-.byte   newLine
+kanafix "*いまが そのときです!",newLine
 .byte   stopText
 
 MSG_MAGICANT_VENDORINTRO:
-kanafix "*し-っ! わたくしどもも"
-.byte   newLine
+kanafix "*し-っ! わたくしどもも",newLine
 kanafix "あなた"
 .byte   unk4
-kanafix "と おなじように"
-.byte   newLine
-kanafix "あっちの せかいの にんげんです。"
-.byte   newLine
+kanafix "と おなじように",newLine
+kanafix "あっちの せかいの にんげんです。",newLine
 .byte   pauseText
-kanafix "*おかねさえ いただければ"
-.byte   newLine
-kanafix "マジカントの すばらしいおみやげを"
-.byte   newLine
-kanafix "わけて さしあげますよ。"
-.byte   newLine
+kanafix "*おかねさえ いただければ",newLine
+kanafix "マジカントの すばらしいおみやげを",newLine
+kanafix "わけて さしあげますよ。",newLine
 .byte   pauseText
-kanafix "*ヒッヒッヒ。"
-.byte   newLine
+kanafix "*ヒッヒッヒ。",newLine
 .byte   stopText
 
 .byte   stopText
@@ -1931,10 +1379,8 @@ kanafix "*ヒッヒッヒ。"
 MSG_GOODS_GIVESELF:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
-kanafix "わたすのを やめた。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "わたすのを やめた。",newLine
 .byte   stopText
 
 MSG_GOODS_GIVE:
@@ -1942,345 +1388,267 @@ kanafix "*"
 .byte   user
 kanafix "は "
 .byte   result
-kanafix "に"
-.byte   newLine
+kanafix "に",newLine
 .byte   recipient
-kanafix "を あたえた。"
-.byte   newLine
+kanafix "を あたえた。",newLine
 .byte   stopText
 
 MSG_GOODS_HANDOFF:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
+kanafix "は",newLine
 .byte   result
-kanafix "の バッグに"
-.byte   newLine
+kanafix "の バッグに",newLine
 .byte   recipient
-kanafix "を いれた。"
-.byte   newLine
+kanafix "を いれた。",newLine
 .byte   stopText
 
 MSG_GOODS_TAKEFROM:
 kanafix "*"
 .byte   result
-kanafix "は"
-.byte   newLine
+kanafix "は",newLine
 .byte   user
-kanafix "の バッグから"
-.byte   newLine
+kanafix "の バッグから",newLine
 .byte   recipient
-kanafix "を だした。"
-.byte   newLine
+kanafix "を だした。",newLine
 .byte   stopText
 
 MSG_GOODS_TAKENTHROW:
 kanafix "*"
 .byte   partyLead
-kanafix "は"
-.byte   newLine
+kanafix "は",newLine
 .byte   user
-kanafix "の バッグから"
-.byte   newLine
+kanafix "の バッグから",newLine
 .byte   recipient
-kanafix "を すてた。"
-.byte   newLine
+kanafix "を すてた。",newLine
 .byte   stopText
 
 MSG_GOODS_MOVE:
 kanafix "*"
 .byte   partyLead
-kanafix "は"
-.byte   newLine
+kanafix "は",newLine
 .byte   user
-kanafix "の バッグから"
-.byte   newLine
+kanafix "の バッグから",newLine
 .byte   recipient
-kanafix "を だして"
-.byte   newLine
+kanafix "を だして",newLine
 .byte   pauseText
 .byte   result
-kanafix "の バッグに いれた。"
-.byte   newLine
+kanafix "の バッグに いれた。",newLine
 .byte   stopText
 
 MSG_ITEM_EAT:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
+kanafix "は",newLine
 .byte   recipient
-kanafix "を たべた。"
-.byte   newLine
+kanafix "を たべた。",newLine
 .byte   stopText
 
 MSG_ITEM_DRINK:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
+kanafix "は",newLine
 .byte   recipient
-kanafix "を のんだ。"
-.byte   newLine
+kanafix "を のんだ。",newLine
 .byte   stopText
 
 MSG_ITEM_RECOVER:
 .byte   price
-kanafix " かいふくした。"
-.byte   newLine
+kanafix " かいふくした。",newLine
 .byte   stopText
 
 MSG_ITEM_INCREASE:
 .byte   price
-kanafix " あがった。"
-.byte   newLine
+kanafix " あがった。",newLine
 .byte   stopText
 
 MSG_HP_IS:
 kanafix "*"
 .byte   user
-kanafix "の HPは"
-.byte   newLine
+kanafix "の HPは",newLine
 .byte   stopText
 
 MSG_PP_IS:
 kanafix "*"
 .byte   user
-kanafix "の PPは"
-.byte   newLine
+kanafix "の PPは",newLine
 .byte   stopText
 
 MSG_FIGHT_IS:
 kanafix "*"
 .byte   user
-kanafix "の ファイトは"
-.byte   newLine
+kanafix "の ファイトは",newLine
 .byte   stopText
 
 MSG_SPEED_IS:
 kanafix "*"
 .byte   user
-kanafix "の スピ-ドは"
-.byte   newLine
+kanafix "の スピ-ドは",newLine
 .byte   stopText
 
 MSG_WISDOM_IS:
 kanafix "*"
 .byte   user
-kanafix "の かしこさは"
-.byte   newLine
+kanafix "の かしこさは",newLine
 .byte   stopText
 
 MSG_STRENGTH_IS:
 kanafix "*"
 .byte   user
-kanafix "の たいりょくは"
-.byte   newLine
+kanafix "の たいりょくは",newLine
 .byte   stopText
 
 MSG_FORCE_IS:
 kanafix "*"
 .byte   user
-kanafix "の フォ-スは"
-.byte   newLine
+kanafix "の フォ-スは",newLine
 .byte   stopText
 
 MSG_USEBIGBAG:
 kanafix "*"
 .byte   user
-kanafix "は でかぶくろから"
-.byte   newLine
-kanafix "マジックハ-ブを とりだして"
-.byte   newLine
-kanafix "つかった。"
-.byte   newLine
+kanafix "は でかぶくろから",newLine
+kanafix "マジックハ-ブを とりだして",newLine
+kanafix "つかった。",newLine
 .byte   stopText
 
 MSG_USEBREAD:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
-kanafix "パンを ちぎって"
-.byte   newLine
-kanafix "まきながら あるきだした。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "パンを ちぎって",newLine
+kanafix "まきながら あるきだした。",newLine
 .byte   stopText
 
 MSG_USEBREAD_FAIL:
-kanafix "*ふるいパンくずを"
-.byte   newLine
-kanafix "すててからでないと"
-.byte   newLine
-kanafix "パンは つかえない。"
-.byte   newLine
+kanafix "*ふるいパンくずを",newLine
+kanafix "すててからでないと",newLine
+kanafix "パンは つかえない。",newLine
 .byte   stopText
 
 MSG_USECRUMBS:
 kanafix "*"
 .byte   partyLead
 .byte   unk4
-kanafix "は"
-.byte   newLine
-kanafix "パンくずを たどりながら"
-.byte   newLine
-kanafix "もとのばしょに もどった。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "パンくずを たどりながら",newLine
+kanafix "もとのばしょに もどった。",newLine
 .byte   stopText
 
 MSG_USERIBBON:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
-kanafix "かみに リボンを つけた。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "かみに リボンを つけた。",newLine
 .byte   stopText
 
 MSG_USEFINALWEAPON:
-kanafix "*「でんげんを きってしまえ!」"
-.byte   newLine
+kanafix "*「でんげんを きってしまえ!」",newLine
 .byte   stopText
 
 MSG_USERULER:
-kanafix "*いろいろなものの"
-.byte   newLine
-kanafix "ながさが わかった。"
-.byte   newLine
+kanafix "*いろいろなものの",newLine
+kanafix "ながさが わかった。",newLine
 .byte   stopText
 
 MSG_BIGBAG_EMPTY:
-kanafix "*でかぶくろは からになって"
-.byte   newLine
-kanafix "かききえてしまった。"
-.byte   newLine
+kanafix "*でかぶくろは からになって",newLine
+kanafix "かききえてしまった。",newLine
 .byte   stopText
 
 MSG_PAYPHONE_CARDEXPIRE:
-kanafix "*テレホンカ-ドを"
-.byte   newLine
-kanafix "つかいきってしまった。"
-.byte   newLine
+kanafix "*テレホンカ-ドを",newLine
+kanafix "つかいきってしまった。",newLine
 .byte   stopText
 
 MSG_CURE_POISON:
 kanafix "*"
 .byte   user
-kanafix "の からだから"
-.byte   newLine
-kanafix "どくが ぬけた。"
-.byte   newLine
+kanafix "の からだから",newLine
+kanafix "どくが ぬけた。",newLine
 .byte   stopText
 
 MSG_CURE_COLD:
 kanafix "*"
 .byte   user
-kanafix "のカゼが なおった。"
-.byte   newLine
+kanafix "のカゼが なおった。",newLine
 .byte   stopText
 
 MSG_ITEM_PSISTONE:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
-kanafix "サイパワ-スト-ンをにぎりしめた。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "サイパワ-スト-ンをにぎりしめた。",newLine
 .byte   stopText
 
 MSG_ITEM_PSISTONE_USEDUP:
-kanafix "*サイパワ-スト-ンは"
-.byte   newLine
-kanafix "ただの いしころに なった。"
-.byte   newLine
+kanafix "*サイパワ-スト-ンは",newLine
+kanafix "ただの いしころに なった。",newLine
 .byte   stopText
 
 MSG_PSI_TRIED:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
+kanafix "は",newLine
 .byte   recipient
-kanafix "をこころみた。"
-.byte   newLine
+kanafix "をこころみた。",newLine
 .byte   stopText
 
 MSG_PSI_NOPP:
-kanafix "*それを こころみるだけの"
-.byte   newLine
-kanafix "パワ-は のこっていない。"
-.byte   newLine
+kanafix "*それを こころみるだけの",newLine
+kanafix "パワ-は のこっていない。",newLine
 .byte   stopText
 
 MSG_PSI_REVIVE:
 kanafix "*"
 .byte   user
-kanafix "は カムバックした。"
-.byte   newLine
+kanafix "は カムバックした。",newLine
 .byte   stopText
 
 MSG_USEDIARY:
-kanafix "*にっきは ほとんど"
-.byte   newLine
-kanafix "よみとれなかったが かろうじて"
-.byte   newLine
+kanafix "*にっきは ほとんど",newLine
+kanafix "よみとれなかったが かろうじて",newLine
 .byte   pauseText
-kanafix "*「あいことば‥‥"
-.byte   newLine
-kanafix "かみのしっぽは どこにある。"
-.byte   newLine
-kanafix "あまかけるふねの わすれもの」"
-.byte   newLine
+kanafix "*「あいことば‥‥",newLine
+kanafix "かみのしっぽは どこにある。",newLine
+kanafix "あまかけるふねの わすれもの」",newLine
 .byte   pauseText
-kanafix "と よめた。"
-.byte   newLine
+kanafix "と よめた。",newLine
 .byte   stopText
 
 MSG_CURE_PETRIFY:
 kanafix "*"
 .byte   result
-kanafix "は"
-.byte   newLine
-kanafix "すっかり やわらかくなった。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "すっかり やわらかくなった。",newLine
 .byte   stopText
 
 MSG_USEOCARINA:
-kanafix "*きぼうのオカリナを ふいた。"
-.byte   newLine
+kanafix "*きぼうのオカリナを ふいた。",newLine
 .byte   stopText
 MSG_USEOCARINA2:
-kanafix "*「きこえたかい?」"
-.byte   newLine
+kanafix "*「きこえたかい?」",newLine
 .byte   stopText
 
 MSG_USEMAP_FAIL:
-kanafix "*このばしょは"
-.byte   newLine
-kanafix "ちずに のっていない。"
-.byte   newLine
+kanafix "*このばしょは",newLine
+kanafix "ちずに のっていない。",newLine
 .byte   stopText
 
 MSG_USEMAP:
 kanafix "*"
 .byte   user
-kanafix "は"
-.byte   newLine
-kanafix "ちずを しらべた。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "ちずを しらべた。",newLine
 .byte   stopText
 
 MSG_PSI_NOTELEPORT:
 kanafix "*"
 .byte   partyLead
 .byte   unk4
-kanafix "は"
-.byte   newLine
-kanafix "なにかの ちからに"
-.byte   newLine
-kanafix "おしとどめられて しまった。"
-.byte   newLine
+kanafix "は",newLine
+kanafix "なにかの ちからに",newLine
+kanafix "おしとどめられて しまった。",newLine
 .byte   stopText
 
 .byte   stopText

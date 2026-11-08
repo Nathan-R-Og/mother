@@ -419,7 +419,7 @@ MSG_B_CHECK_WEAKSPRAYS:
 .byte   "  Sprays."
 .byte   stopText
 
-MSG_B_CHECK_OFEENSE:
+MSG_B_CHECK_OFFENSE:
 .byte   "> OFFENSE ",damageAmount,"."
 .byte   stopText
 

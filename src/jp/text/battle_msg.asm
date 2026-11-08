@@ -23,11 +23,8 @@ kanafix "せんしゃほうを うった!"
 .byte   stopText
 
 MSG_B_BITE:
-.byte   attacker
-kanafix "は"
-.byte   newLine
-.byte   beingAttacked
-kanafix "に かみついた!"
+kanafix   attacker,"は",newLine
+kanafix   beingAttacked,"に かみついた!"
 .byte   stopText
 
 MSG_B_SCRATCH:
@@ -402,7 +399,7 @@ MSG_B_CHECK_WEAKSPRAYS:
 kanafix "> スプレ-によわい"
 .byte   stopText
 
-MSG_B_CHECK_OFEENSE:
+MSG_B_CHECK_OFFENSE:
 kanafix "> オフェンス  "
 .byte   damageAmount
 .byte   stopText

@@ -1340,7 +1340,7 @@ OA_HOOK:
     jsr TeleportParser
 ; Hook Fails when Warp-Disable is active (EVE)
     .ifdef VER_JP
-        lda event_flags+$1E
+        lda learned_melodies
     .else
         lda event_flags+$1C
     .endif
@@ -4318,7 +4318,7 @@ OINST_JMP_NotHas8Melodies:
         dex
         bpl @loop
         lda #$ff
-        sta save_file_fill-$62
+        sta learned_melodies
         ldy #$b
         jsr GAME_OVER_looper
         lda #2

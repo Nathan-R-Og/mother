@@ -3668,8 +3668,8 @@ STORE_COORDINATES:
 
     jsr SUPRESS_INPUT
 
-    lda #$25
-    sta palette_backup+$1e, x
+    lda #.LOBYTE(Waste12Cycles-1)
+    sta irq_pointers-2, x
 
     sec
 
@@ -5402,6 +5402,7 @@ B30_196f:
     doorArgDef $1C, $37d, DIRECTIONS::UP, $90
     doorArgDef $B, $37e, DIRECTIONS::UP, $36d
     .ifdef VER_JP
+    ;magicant maria teleport
     doorArgDef $1a, $33, DIRECTIONS::LEFT, $21e
     .endif
 
@@ -11440,7 +11441,7 @@ SpriteObjectsToOam:
     ldy current_sprite
     lda SPRITE_OBJECTS+SpriteObject::count_flags, y
     and #SPRITE_OBJECT_COUNT_MASK
-    ;if it is nonzero, process all of the hardware sprites 
+    ;if it is nonzero, process all of the hardware sprites
     bne @has_tiles
     ;else, jump
     jmp @spriteobject_handled

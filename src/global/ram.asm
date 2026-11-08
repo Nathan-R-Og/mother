@@ -140,7 +140,7 @@ unk_bf: .res 1 ; $bf
 UNK_C0: .res $10
 dad_call_timer: .res 3 ; $d0 ; 24 bit
 dad_call_input_timer: .res 1 ; How many multiples of 256 frames the controller hasn't been touched. Stops counting at 42 (about 3 minutes). When 42, the dad call timer also stops counting.
-UNK_D4: .res 1 
+UNK_D4: .res 1
 step_count: .res 1 ; $d5 ; used for poison / cold. every 8 steps inflicts damage
 UNK_D6: .res 1 ;seems to copy UNK_D4, but UNK_D4 can continue???
 post_nmi_callback: .res 3 ;either a valid JMP instruction, or the first byte is 00 (if zero, then don't jump)
@@ -760,6 +760,11 @@ WHERE_JP_STRINGS_ARE: .res $700 ;$6d00
     story_flags .res $20
     present_flags .res $40
     counters .res $20 ;?
+    confiscated_weapon .byte
+    pad1 .res 8
+    fav_food .res 12
+    unk_95 .res $1B
+    item_storage .res 80
 .endstruct ;sizeof $300
 
 save_file_current: .tag save_file_structure ; $7400
@@ -775,22 +780,20 @@ present_flags := save_file_current+save_file_structure::present_flags ; $7620
 ; Counter 5 -> Ticket Stubs
 ; Counter 6 -> ???
 ;;;; TODO: COUNTERS
-script_counters  = $7660
+script_counters := save_file_current+save_file_structure::counters ; $7660
 
 ;may not be entirely accurate
-confiscated_weapon = $7680
+confiscated_weapon := save_file_current+save_file_structure::confiscated_weapon ; $7680
 ; $7680 -> Labeled as "Weapon" in Normmatt's decomp
 
-fav_food = $7689
+fav_food := save_file_current+save_file_structure::fav_food ; $7689
 ; $7689 -> Favorite Food name
 
 item_storage = $76B0
 
-save_file_fill: .res $80
-
-save_file_1: .res $300
-save_file_2: .res $300
-save_file_3: .res $300
+save_file_1: .tag save_file_structure
+save_file_2: .tag save_file_structure
+save_file_3: .tag save_file_structure
 
 
 ;;;; TODO: AREAS

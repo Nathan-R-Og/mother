@@ -341,6 +341,7 @@ obj_incs = 0
 .define OBJ_MOVE_PARTY .byte SCRIPTS::MOVE_PARTY
 .define OBJ_REGISTER_NAME .byte SCRIPTS::REGNAME
 .define OBJ_DARKEN .byte SCRIPTS::DARKEN
+.define OBJ_GET_CASH .byte SCRIPTS::GETCASH
 
 .ifndef VER_JP
     .define OBJ_TOMBSTONE .byte SCRIPTS::TOMBSTONE

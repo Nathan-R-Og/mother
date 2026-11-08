@@ -743,34 +743,36 @@ ValidateBanks:
     jmp ShowAntipiracy_noclear_useless
 
 ; $A48F
-; ANTI-TAMPERING MEASURE?
+; ANTI-TAMPERING MEASURE
 ;  00 -> bank
 ;  01 -> checksum (16-bit)
 Bank_Checksum:
+    ;these are big endian
     .byte $13
-    .word $952C
+    .byte $2C,$95
 
     .byte $14
-    .word $820B
+    .byte $0B,$82
 
     .byte $17
-    .word $EBED
+    .byte $ED,$EB
 
     .byte $19
-    .word $A8C7
+    .byte $C7,$A8
 
     .byte $1C
-    .word $D5AC
+    .byte $AC,$D5
 
     .byte $1E
-    .word $CF1C
+    .byte $1C,$CF
 
     .byte $1F
-    .word $FA36
+    .byte $36,$FA
 
-    ;null entry
+    ;null entry, this is little endian
+    ;also a compliment to bank 19's checksum
     .byte $FF
-    .word $3857 ; wtf lol
+    .word $3857
 
 
 
@@ -1364,31 +1366,33 @@ ValidateBanks2_Useless:
     jmp ShowAntipiracy_nomute_useless
 
 ; $A88C
-; ANTI-TAMPERING MEASURE?
+; ANTI-TAMPERING MEASURE
 ;  00 -> bank
-;  01 -> checksum? (16-bit)
+;  01 -> checksum (16-bit)
 Bank_Checksum_2:
+    ;these are big endian
     .byte $13
-    .word $952C
+    .byte $2C,$95
 
     .byte $14
-    .word $820B
+    .byte $0B,$82
 
     .byte $17
-    .word $EBED
+    .byte $ED,$EB
 
     .byte $19
-    .word $A8C7
+    .byte $C7,$A8
 
     .byte $1C
-    .word $D5AC
+    .byte $AC,$D5
 
     .byte $1E
-    .word $CF1C
+    .byte $1C,$CF
 
     .byte $1F
-    .word $FA36
+    .byte $36,$FA
 
-    ;null entry???
+    ;null entry, this is little endian
+    ;also a compliment to bank 19's checksum
     .byte $FF
-    .word $3857 ; wtf lol
+    .word $3857
